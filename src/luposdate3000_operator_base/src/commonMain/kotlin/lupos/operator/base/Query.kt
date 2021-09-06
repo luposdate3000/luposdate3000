@@ -69,7 +69,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var generatedNameByBase: MutableMap<String, String> = mutableMapOf()
 
     @JvmField
-    internal val partitions = mutableMapOf<Long, PartitionHelper>()
+    internal val partitions = mutableMapOf<Long, PartitionHelper2>()
 
     @JvmField
     internal val partitionsLock = MyLock()
@@ -202,12 +202,12 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     public fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
     public fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
-    public /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
-        var res: PartitionHelper? = null
+    public /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper2 {
+        var res: PartitionHelper2? = null
         partitionsLock.withLock {
             res = partitions[uuid]
             if (res == null) {
-                res = PartitionHelper()
+                res = PartitionHelper2()
                 partitions[uuid] = res!!
             }
         }

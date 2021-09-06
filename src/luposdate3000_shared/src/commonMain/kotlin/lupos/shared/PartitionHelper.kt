@@ -15,46 +15,54 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-public class PartitionHelper(
-    public var partition: Map<String, Int>, // variableName->partition
-) {
-    public constructor() : this(mapOf())
-    internal var keys = mutableListOf<PartitionHelper2>()
-    public fun getKeysFor(uuid: Int, partition: Map<String, Int>, query: IQuery, count: Int, ignoreVariable: String): IntArray {
+public class PartitionHelper() {
+    public var partition: MutableMap<Long, Int> = mutableMapOf<Long, Int>() // uuid->partition
+    internal var keys = mutableListOf<PartitionHelper3>()
+
+    public fun getKeysFor(uuid: Long, query: IQuery, count: Int, isSender: Boolean): IntArray {
         loop@for (key in keys) {
             if (key.uuid != uuid) {
                 continue@loop
             }
-            for ((k, v) in partition) {
-                if (k != ignoreVariable && key.partition[k] != v) {
-                    continue@loop
+            if (isSender) { // partition-list does DOES contain its own
+                if (key.partition.size != partition.size) {
+                    continue
+                }
+                for ((k, v) in partition) {
+                    if (key.partition[k] != v) {
+                        continue@loop
+                    }
+                }
+            } else { // partition-list DOES NOT contain its own uuid
+                if (key.partition.size != partition.size + 1) {
+                    continue
+                }
+                for ((k, v) in partition) {
+                    if (key.partition[k] != v) {
+                        continue@loop
+                    }
                 }
             }
             return key.keys
         }
-        val m = mutableMapOf<String, Int>()
+        val m = mutableMapOf<Long, Int>()
         m.putAll(partition)
-        val res = PartitionHelper2(uuid, m, IntArray(count) { query.createPartitionKey() })
+        val res = PartitionHelper3(uuid, m, IntArray(count) { query.createPartitionKey() })
         keys.add(res)
         return res.keys
     }
-    public fun getKeysFor(uuid: Int, partition: Map<String, Int>, query: IQuery, count: Int): IntArray {
-        loop@for (key in keys) {
-            if (key.uuid != uuid) {
-                continue@loop
+    public fun getKeyFor(uuid: Long, query: IQuery, count: Int, isSender: Boolean): Int {
+        val res = getKeysFor(uuid, query, count, isSender)
+        val p = partition[uuid]
+        if (p == null) {
+            if (res.size == 1) {
+                return res[0]
+            } else {
+                TODO("error here")
             }
-            for ((k, v) in partition) {
-                if (key.partition[k] != v) {
-                    continue@loop
-                }
-            }
-            return key.keys
+        } else {
+            return res[p]
         }
-        val m = mutableMapOf<String, Int>()
-        m.putAll(partition)
-        val res = PartitionHelper2(uuid, m, IntArray(count) { query.createPartitionKey() })
-        keys.add(res)
-        return res.keys
     }
 }
-internal class PartitionHelper2(internal val uuid: Int, internal var partition: Map<String, Int>, internal val keys: IntArray)
+internal class PartitionHelper3(internal val uuid: Long, internal var partition: Map<Long, Int>, internal val keys: IntArray)

@@ -22,7 +22,7 @@ import lupos.shared.Partition
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class PartitionHelper public constructor() {
+public class PartitionHelper2 public constructor() {
     @JvmField
     public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
 

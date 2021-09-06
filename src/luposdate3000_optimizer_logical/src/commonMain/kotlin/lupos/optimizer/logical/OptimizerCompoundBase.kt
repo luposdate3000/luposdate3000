@@ -24,6 +24,7 @@ import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
+import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 
@@ -38,7 +39,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPMergePartitionCount -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:40"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:41"/*SOURCE_FILE_END*/ },
                         { !currentPartitions.contains(node.partitionVariable) }
                     )
                     currentPartitions[node.partitionVariable] = node.partitionCount
@@ -48,7 +49,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPMergePartition -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:50"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:51"/*SOURCE_FILE_END*/ },
                         { !currentPartitions.contains(node.partitionVariable) },
                         { "$root" }
                     )
@@ -59,7 +60,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPMergePartitionOrderedByIntId -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:61"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:62"/*SOURCE_FILE_END*/ },
                         { !currentPartitions.contains(node.partitionVariable) }
                     )
                     currentPartitions[node.partitionVariable] = node.partitionCount
@@ -69,9 +70,9 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPSplitPartitionFromStore -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:71"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:72"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, mapOf()).toPrettyString() }
+                        { root.toXMLElement(false, PartitionHelper()).toPrettyString() }
                     )
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
@@ -80,9 +81,9 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPSplitPartitionFromStoreCount -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:82"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:83"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, mapOf()).toPrettyString() }
+                        { root.toXMLElement(false, PartitionHelper()).toPrettyString() }
                     )
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
@@ -91,7 +92,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             is POPSplitPartition -> {
                 if (node.partitionCount != 1) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:93"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:94"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
                         { "$root" }
                     )
@@ -101,7 +102,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
             }
             is POPChangePartitionOrderedByIntId -> {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:103"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:104"/*SOURCE_FILE_END*/ },
                     { currentPartitions[node.partitionVariable] == node.partitionCountTo },
                     { "$root" }
                 )
@@ -150,17 +151,17 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     }
                 }
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:152"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:153"/*SOURCE_FILE_END*/ },
                     {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                         verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
                         for ((k, v1) in allPartitionOperators) {
                             val v2 = query.partitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:158"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:159"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
                         }
                         for ((k, v1) in query.partitionOperators) {
                             val v2 = allPartitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:162"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:163"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
                         }
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)

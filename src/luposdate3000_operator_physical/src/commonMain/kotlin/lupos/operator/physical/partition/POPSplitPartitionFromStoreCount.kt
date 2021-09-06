@@ -41,7 +41,6 @@ public class POPSplitPartitionFromStoreCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-    private var keys = intArrayOf()
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -58,16 +57,15 @@ public class POPSplitPartitionFromStoreCount public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
-            if (keys.size == 0 || keys.size != partitionCount) {
-                keys = IntArray(partitionCount) { query.createPartitionKey() }
-            }
             if (isRoot) {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!], query.getPartitionedBy()))
+                val key = partition.getKeyFor(uuid, query, partitionCount, true)
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
             } else {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!] to ""))
+                val key = partition.getKeyFor(uuid, query, partitionCount, false)
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
             }
         } else {
-            super.toXMLElementHelper(partial, false, mapOf())
+            super.toXMLElementHelper(partial, false, partition)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+import lupos.operator.base.PartitionHelper2
 import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -47,7 +48,6 @@ public class POPSplitPartition public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-    private var keys = intArrayOf()
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:51"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
@@ -68,20 +68,20 @@ public class POPSplitPartition public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
-            if (keys.size == 0 || keys.size != partitionCount) {
-                keys = IntArray(partitionCount) { query.createPartitionKey() }
-            }
             if (isRoot) {
                 if (partitionCount > 1) {
+                    val keys = partition.getKeysFor(uuid, query, partitionCount, true)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionID, partial, isRoot, keys.toList(), query.getPartitionedBy(), partitionVariable!!, partitionCount))
                 } else {
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[0], query.getPartitionedBy()))
+                    val key = partition.getKeyFor(uuid, query, partitionCount, true)
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
                 }
             } else {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!] to ""))
+                val key = partition.getKeyFor(uuid, query, partitionCount, false)
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
             }
         } else {
-            super.toXMLElementHelper(partial, false, mapOf())
+            super.toXMLElementHelper(partial, false, partition)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -109,7 +109,7 @@ public class POPSplitPartition public constructor(
         } else {
             var iterators: Array<IteratorBundle>? = null
             val childPartition = Partition(parent, partitionVariable!!)
-            val partitionHelper: PartitionHelper?
+            val partitionHelper: PartitionHelper2?
             partitionHelper = (query as Query).getPartitionHelper(uuid)
             partitionHelper.lock.lock()
             if (partitionHelper.iterators != null) {

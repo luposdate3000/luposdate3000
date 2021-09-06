@@ -43,7 +43,6 @@ public class POPMergePartitionCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-    private var keys = intArrayOf()
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
@@ -60,20 +59,20 @@ public class POPMergePartitionCount public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelper2(partial, false, partition)
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
-            if (keys.size == 0 || keys.size != partitionCount) {
-                keys = IntArray(partitionCount) { query.createPartitionKey() }
-            }
             if (isRoot) {
-                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!], query.getPartitionedBy()))
+                val key = partition.getKeyFor(uuid, query, partitionCount, true)
+                return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingleCount.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
             } else {
                 if (partitionCount > 1) {
+                    val keys = partition.getKeysFor(uuid, query, partitionCount, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiCount.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap()))
                 } else {
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, keys[partition[partitionVariable]!!] to ""))
+                    val key = partition.getKeyFor(uuid, query, partitionCount, false)
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingleCount.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
                 }
             }
         } else {
-            super.toXMLElementHelper(partial, false, mapOf())
+            super.toXMLElementHelper(partial, false, partition)
         }
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
@@ -97,8 +96,8 @@ public class POPMergePartitionCount public constructor(
         } else {
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:99"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:100"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:98"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionCount.kt:99"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
             // partitionVariable as any other variable is not included in the result of the child operator
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
