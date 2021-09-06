@@ -21,13 +21,13 @@ public class PartitionHelper() {
     internal var keys = mutableListOf<PartitionHelper3>()
 
     public fun startUp() {
-        println("PartitionHelper.startUp")
+        // println("PartitionHelper.startUp")
         keys = mutableListOf()
         partition = mutableMapOf()
     }
 
     public fun tearDown() {
-        println("PartitionHelper.tearDown")
+        // println("PartitionHelper.tearDown")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:31"/*SOURCE_FILE_END*/ },
             {
@@ -78,7 +78,7 @@ public class PartitionHelper() {
 
     public fun getKeysFor(uuid: Long, query: IQuery, count: Int, isSender: Boolean): IntArray {
         val res = getKeysForInternal(uuid, query, count, isSender)
-        println("PartitionHelper $uuid ${res.keys.toList()} $isSender")
+        // println("PartitionHelper $uuid ${res.keys.toList()} $isSender")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:82"/*SOURCE_FILE_END*/ },
             {
@@ -95,15 +95,24 @@ public class PartitionHelper() {
             if (key.uuid != uuid) {
                 continue@loop
             }
-            if (key.partition.size != partition.size) {
-                println("PartitionHelper $uuid can not use it A ${key.partition} $partition")
-                continue@loop
-            }
-            for ((k, v) in partition) {
-                if (key.partition[k] != v || k == uuid) {
-                    println("PartitionHelper $uuid can not use it B ${key.partition} $partition")
+            var skipA = 0
+            var skipB = 0
+            loop2@ for ((k, v) in partition) {
+                if (k == uuid) {
+                    skipA = 1
+                    continue@loop2
+                }
+                if (key.partition[k] != v) {
+                    // println("PartitionHelper $uuid can not use it B ${key.partition} $partition")
                     continue@loop
                 }
+            }
+            if (key.partition.contains(uuid)) {
+                skipB = 1
+            }
+            if (key.partition.size - skipB != partition.size - skipA) {
+                // println("PartitionHelper $uuid can not use it A ${key.partition} $partition")
+                continue@loop
             }
             return key
         }
@@ -120,9 +129,9 @@ public class PartitionHelper() {
         val p = partition[uuid]
         if (p == null) {
             if (res.size == 1) {
-                println("PartitionHelper $uuid ${res[0]} $isSender")
+                // println("PartitionHelper $uuid ${res[0]} $isSender")
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:124"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:133"/*SOURCE_FILE_END*/ },
                     {
                         checkDebugMarker(r.debugMarker, 0, isSender)
                     }
@@ -132,9 +141,9 @@ public class PartitionHelper() {
                 TODO("error here")
             }
         } else {
-            println("PartitionHelper $uuid ${res[p]} $isSender")
+            // println("PartitionHelper $uuid ${res[p]} $isSender")
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:136"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:145"/*SOURCE_FILE_END*/ },
                 {
                     checkDebugMarker(r.debugMarker, p, isSender)
                 }
