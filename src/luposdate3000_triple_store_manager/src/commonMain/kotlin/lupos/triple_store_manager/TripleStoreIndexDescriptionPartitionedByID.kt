@@ -39,6 +39,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
 ) : TripleStoreIndexDescription(instance) {
     internal val hostnames = Array(partitionCount) { "" }
     internal val keys = Array(partitionCount) { "" }
+    internal val fixedPartitionName = "?PartitionedByID"
 
     @JvmField
     internal var byteArray: ByteArray? = null
@@ -102,6 +103,18 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     }
 
     init {
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:105"/*SOURCE_FILE_END*/ },
+            { partitionCount> 1 },
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:109"/*SOURCE_FILE_END*/ },
+            { partitionColumn >= 0 },
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:113"/*SOURCE_FILE_END*/ },
+            { partitionColumn <3 },
+        )
         idx_set = when (idx) {
             EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O -> intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O)
             EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P -> intArrayOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P)
@@ -116,14 +129,15 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:118"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:119"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:130"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:131"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }
     }
 
     public override fun getPartitionCount(params: Array<IOPBase>): Int {
+        println("TripleStoreIndexDescriptionPartitionedByID returning the count $partitionCount")
         return partitionCount
     }
 
@@ -151,5 +165,5 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return res
     }
     override fun requireSplitFromStore(): Boolean = false
-    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = null
+    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = fixedPartitionName to partitionCount
 }

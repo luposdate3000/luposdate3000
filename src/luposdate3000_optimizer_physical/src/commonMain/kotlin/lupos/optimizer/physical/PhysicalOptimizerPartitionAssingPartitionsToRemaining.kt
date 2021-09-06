@@ -38,6 +38,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {
+                        println("PhysicalOptimizerPartitionAssingPartitionsToRemaining detected !node.hasSplitFromStore")
                         var partitionVariableMax = ""
                         var new_countMax = -1
                         for (c in node.children) {
@@ -78,6 +79,19 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             } else {
                                 POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                             }
+                            query.addPartitionOperator(res.getUUID(), partitionID)
+                            node.hasSplitFromStore = true
+                            onChange()
+                        } else {
+// there is NONE useful partitioning - choose any of then and use it
+                            println("there is no useful partitioning ... using the current randomly selected index")
+                            val variable = "?TripleStoreDummyVariable" // not existing variable name with the prefix "?"
+                            val count = 128 // arbitray number, will be fixed later by PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator
+                            val partitionID = query.getNextPartitionOperatorID()
+                            println("$variable $count as partitionID $partitionID")
+                            res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), variable, count, partitionID, node)
+                            query.addPartitionOperator(res.getUUID(), partitionID)
+                            res = POPMergePartition(query, res.getProvidedVariableNames(), variable, count, partitionID, res)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
                             onChange()

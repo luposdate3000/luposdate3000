@@ -72,10 +72,12 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                     onChange()
                                     // println("PhysicalOptimizerPartitionExpandPartitionTowardsStore has assigned C ${node.uuid} ${c.uuid}")
                                 } else {
-                                    TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign B ${node.uuid} ${c.uuid}")
+//                                    TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign B ${node.uuid} ${c.uuid}")
+// this should be handled by PhysicalOptimizerPartitionAssingPartitionsToRemaining afterwards
                                 }
                             } else {
-                                TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign A ${node.uuid} ${c.uuid}")
+//                                TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign A ${node.uuid} ${c.uuid}")
+// this should be handled by PhysicalOptimizerPartitionAssingPartitionsToRemaining afterwards
                             }
                         }
                     }
