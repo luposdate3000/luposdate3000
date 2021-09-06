@@ -21,13 +21,13 @@ public class PartitionHelper() {
     internal var keys = mutableListOf<PartitionHelper3>()
 
     public fun startUp() {
-        println("PartitionHelper.startUp")
+        // println("PartitionHelper.startUp")
         keys = mutableListOf()
         partition = mutableMapOf()
     }
 
     public fun tearDown() {
-        println("PartitionHelper.tearDown")
+        // println("PartitionHelper.tearDown")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:31"/*SOURCE_FILE_END*/ },
             {
@@ -80,7 +80,7 @@ public class PartitionHelper() {
         val filterIndicees = filterIndiceesFunc(partition[partitionid]!!)
         val res = getKeysForInternal(uuid, partitionid, query, count, isSender,)
         val myList = IntArray(filterIndicees.size) { res.keys[filterIndicees[it]] }
-        println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
+        // println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:84"/*SOURCE_FILE_END*/ },
             {
@@ -93,7 +93,7 @@ public class PartitionHelper() {
     }
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): IntArray {
         val res = getKeysForInternal(uuid, partitionid, query, count, isSender,)
-        println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
+        // println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:97"/*SOURCE_FILE_END*/ },
             {
@@ -118,7 +118,7 @@ public class PartitionHelper() {
                     continue@loop2
                 }
                 if (key.partition[k] != v) {
-                    println("PartitionHelper $uuid can not use it B ${key.partition} $partition")
+                    // println("PartitionHelper $uuid can not use it B ${key.partition} $partition")
                     continue@loop
                 }
             }
@@ -126,7 +126,7 @@ public class PartitionHelper() {
                 skipB++
             }
             if (key.partition.size - skipB != partition.size - skipA) {
-                println("PartitionHelper $partitionid can not use it A ${key.partition} $partition")
+                // println("PartitionHelper $partitionid can not use it A ${key.partition} $partition")
                 continue@loop
             }
             return key
@@ -144,7 +144,7 @@ public class PartitionHelper() {
         val p = partition[partitionid]
         if (p == null) {
             if (res.size == 1) {
-                println("PartitionHelper $partitionid 0 -> ${res[0]} $isSender $partition")
+                // println("PartitionHelper $partitionid 0 -> ${res[0]} $isSender $partition")
                 SanityCheck(
                     { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:148"/*SOURCE_FILE_END*/ },
                     {
@@ -156,7 +156,7 @@ public class PartitionHelper() {
                 TODO("error here")
             }
         } else {
-            println("PartitionHelper $partitionid $p -> ${res[p]} $isSender $partition")
+            // println("PartitionHelper $partitionid $p -> ${res[p]} $isSender $partition")
             SanityCheck(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:160"/*SOURCE_FILE_END*/ },
                 {

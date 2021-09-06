@@ -56,7 +56,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
     private val partitionHelper = PartitionHelper()
     private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, allPartitionID: IntArray, offset: Int) {
         if (offset == allNames.size) {
-            println("DistributedOptimizerQuery.head ${node.getUUID()} ${allNames.toList()} ${allPartitionID.toList()}")
+            // println("DistributedOptimizerQuery.head ${node.getUUID()} ${allNames.toList()} ${allPartitionID.toList()}")
             partitionHelper.partition.clear()
             query.partitionedBy.clear()
             for (i in 0 until allNames.size) {
@@ -278,7 +278,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             query.operatorgraphParts.clear()
 // assign host to root node
             partitionHelper.startUp()
-            println(root.toXMLElement(false, partitionHelper))
+            // println(root.toXMLElement(false, partitionHelper))
             query.operatorgraphParts[-1] = root.toXMLElement(true, partitionHelper)
             query.operatorgraphPartsToHostMap[-1] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts

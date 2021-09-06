@@ -205,15 +205,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [
-        {
-            "maxNumberOfQueries": 1,
-            "name": "Q1",
-            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 1;\n  parking:spotInArea ?x.\n}",
-            "sendRateInSeconds": 1,
-            "sendStartClockInSec": 600,
-        },
-    ],
+    "querySender": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [
         {
