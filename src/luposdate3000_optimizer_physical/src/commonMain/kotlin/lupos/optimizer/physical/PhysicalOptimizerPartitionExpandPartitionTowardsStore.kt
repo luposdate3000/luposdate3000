@@ -70,7 +70,12 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
                                     onChange()
+                                   // println("PhysicalOptimizerPartitionExpandPartitionTowardsStore has assigned C ${node.uuid} ${c.uuid}")
+                                } else {
+TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign B ${node.uuid} ${c.uuid}")
                                 }
+                            } else {
+TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign A ${node.uuid} ${c.uuid}")
                             }
                         }
                     }

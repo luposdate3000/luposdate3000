@@ -160,7 +160,7 @@ public class VisualisationOperatorGraph {
                         }
                         "\u2191" + key2
                     }
-                    "POPDistributedReceiveSingle", "POPDistributedReceiveMulti" -> {
+                    "POPDistributedReceiveSingle", "POPDistributedReceiveMulti", "POPDistributedReceiveMultiOrdered" -> {
                         for (k in n.key) {
                             mapOfReceivers[k] = n.x to n.y
                         }

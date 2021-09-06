@@ -93,4 +93,30 @@ public object EIndexPatternHelper {
             else -> throw UnreachableException()
         }
     }
+
+    @JvmField
+    public val tripleIndiceesInverse: Array<IntArray> = Array(EIndexPatternExt.values_size) {
+        when (it) {
+            EIndexPatternExt.S_PO -> intArrayOf(0, 1, 2)
+            EIndexPatternExt.SP_O -> intArrayOf(0, 1, 2)
+            EIndexPatternExt.SPO -> intArrayOf(0, 1, 2)
+            EIndexPatternExt.S_OP -> intArrayOf(0, 2, 1)
+            EIndexPatternExt.SO_P -> intArrayOf(0, 2, 1)
+            EIndexPatternExt.SOP -> intArrayOf(0, 2, 1)
+            EIndexPatternExt.P_OS -> intArrayOf(2, 1, 0) // ATTENTION swapped with OPS
+            EIndexPatternExt.PO_S -> intArrayOf(2, 1, 0) // ATTENTION swapped with OPS
+            EIndexPatternExt.POS -> intArrayOf(2, 1, 0) // ATTENTION swapped with OPS
+            EIndexPatternExt.P_SO -> intArrayOf(1, 0, 2)
+            EIndexPatternExt.PS_O -> intArrayOf(1, 0, 2)
+            EIndexPatternExt.PSO -> intArrayOf(1, 0, 2)
+            EIndexPatternExt.O_SP -> intArrayOf(2, 0, 1)
+            EIndexPatternExt.OS_P -> intArrayOf(2, 0, 1)
+            EIndexPatternExt.OSP -> intArrayOf(2, 0, 1)
+            EIndexPatternExt.O_PS -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS
+            EIndexPatternExt.OP_S -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS
+            EIndexPatternExt.OPS -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS
+
+            else -> throw UnreachableException()
+        }
+    }
 }
