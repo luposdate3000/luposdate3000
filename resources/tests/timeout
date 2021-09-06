@@ -1,3 +1,5 @@
+resourcessp2bq7sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+resourcessp2bq7sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
 resourcessp2bq72sparql700 - Thread - Simple - true
 ABS - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 ABS - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
