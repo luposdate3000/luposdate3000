@@ -270,10 +270,13 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             }
             query.operatorgraphParts.clear()
 // assign host to root node
+            partitionHelper.startUp()
+            println(root.toXMLElement(false, partitionHelper))
             query.operatorgraphParts[-1] = root.toXMLElement(true, partitionHelper)
             query.operatorgraphPartsToHostMap[-1] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts
             splitPartitions(query, root, mutableMapOf())
+            partitionHelper.tearDown()
 // calculate dependencies
             for ((k, v) in query.operatorgraphParts) {
                 query.dependenciesMapTopDown[k] = calculateDependenciesTopDown(v, "")
