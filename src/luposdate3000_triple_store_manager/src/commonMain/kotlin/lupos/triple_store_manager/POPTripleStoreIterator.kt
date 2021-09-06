@@ -22,7 +22,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
-import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -131,7 +130,7 @@ public class POPTripleStoreIterator(
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:138"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:133"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {
@@ -157,7 +156,7 @@ public class POPTripleStoreIterator(
         val target = getTarget(parent)
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:164"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:159"/*SOURCE_FILE_END*/ },
             { target.first == manager.localhost },
             { "${target.first} ${manager.localhost } ${parent.data} ${parent.limit}" }
         )
@@ -168,7 +167,7 @@ public class POPTripleStoreIterator(
             val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
             when (val param = children[i]) {
                 is IAOPConstant -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:175"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:170"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                     val v = param.getValue()
                     if (query.getDictionary().isLocalValue(v)) {
                         filter2.add(DictionaryValueHelper.nullValue)
