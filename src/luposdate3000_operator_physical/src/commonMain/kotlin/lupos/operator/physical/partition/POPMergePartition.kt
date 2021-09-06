@@ -68,14 +68,14 @@ public class POPMergePartition public constructor(
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                val key = partition.getKeyFor(uuid, query, partitionCount, true)
+                val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, true)
                 return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
             } else {
                 if (partitionCount > 1) {
-                    val keys = partition.getKeysFor(uuid, query, partitionCount, false)
+                    val keys = partition.getKeysFor(uuid, partitionID, query, partitionCount, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMulti.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap()))
                 } else {
-                    val key = partition.getKeyFor(uuid, query, partitionCount, false)
+                    val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
                 }
             }

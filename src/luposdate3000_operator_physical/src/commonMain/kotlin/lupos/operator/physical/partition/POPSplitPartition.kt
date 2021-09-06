@@ -70,14 +70,14 @@ public class POPSplitPartition public constructor(
         val res = if (partial) {
             if (isRoot) {
                 if (partitionCount > 1) {
-                    val keys = partition.getKeysFor(uuid, query, partitionCount, true)
+                    val keys = partition.getKeysFor(uuid, partitionID, query, partitionCount, true)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionID, partial, isRoot, keys.toList(), query.getPartitionedBy(), partitionVariable!!, partitionCount))
                 } else {
-                    val key = partition.getKeyFor(uuid, query, partitionCount, true)
+                    val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, true)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
                 }
             } else {
-                val key = partition.getKeyFor(uuid, query, partitionCount, false)
+                val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, false)
                 return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
             }
         } else {

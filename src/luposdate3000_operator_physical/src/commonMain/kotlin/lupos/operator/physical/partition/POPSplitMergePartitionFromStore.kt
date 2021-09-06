@@ -54,10 +54,10 @@ public class POPSplitMergePartitionFromStore public constructor(
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                val key = partition.getKeyFor(uuid, query, 1, true)
+                val key = partition.getKeyFor(uuid, partitionID, query, 1, true)
                 return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
             } else {
-                val key = partition.getKeyFor(uuid, query, 1, false)
+                val key = partition.getKeyFor(uuid, partitionID, query, 1, false)
                 return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
             }
         } else {

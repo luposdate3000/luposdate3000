@@ -54,14 +54,14 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         arrayOf(DistributedOptimizerAssignLocalhost())
     )
     private val partitionHelper = PartitionHelper()
-    private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, allUUID: LongArray, offset: Int) {
+    private fun splitPartitionsVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, allPartitionID: IntArray, offset: Int) {
         if (offset == allNames.size) {
-            // println("DistributedOptimizerQuery.head ${node.getUUID()} ${allNames.toList()} ${allUUID.toList()}")
+            println("DistributedOptimizerQuery.head ${node.getUUID()} ${allNames.toList()} ${allPartitionID.toList()}")
             partitionHelper.partition.clear()
             query.partitionedBy.clear()
             for (i in 0 until allNames.size) {
                 query.partitionedBy[allNames[i]] = allIdx[i]
-                partitionHelper.partition[allUUID[i]] = allIdx[i]
+                partitionHelper.partition[allPartitionID[i]] = allIdx[i]
             }
             val xml = node.toXMLElementRoot(true, partitionHelper)
             val keys = mutableSetOf<Int>()
@@ -116,14 +116,14 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
         } else {
             for (i in 0 until allSize[offset]) {
                 allIdx[offset] = i
-                splitPartitionsVariations(query, node, allNames, allSize, allIdx, allUUID, offset + 1)
+                splitPartitionsVariations(query, node, allNames, allSize, allIdx, allPartitionID, offset + 1)
             }
         }
     }
 
-    private fun splitPartitions(query: Query, node: IOPBase, currentPartitions: Map<String, Pair<Long, Int>>) {
+    private fun splitPartitions(query: Query, node: IOPBase, currentPartitions: Map<String, Pair<Int, Int>>) {
         if ((node is POPBase) || (node is OPBaseCompound)) {
-            val currentPartitionsCopy = mutableMapOf<String, Pair<Long, Int>>()
+            val currentPartitionsCopy = mutableMapOf<String, Pair<Int, Int>>()
             currentPartitionsCopy.putAll(currentPartitions)
             when (node) {
                 is POPMergePartition -> {
@@ -132,7 +132,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:131"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] == null }
                         )
-                        currentPartitionsCopy[node.partitionVariable!!] = node.uuid to node.partitionCount
+                        currentPartitionsCopy[node.partitionVariable!!] = node.partitionID to node.partitionCount
                     }
                 }
                 is POPMergePartitionCount -> {
@@ -141,7 +141,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:140"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] == null }
                         )
-                        currentPartitionsCopy[node.partitionVariable] = node.uuid to node.partitionCount
+                        currentPartitionsCopy[node.partitionVariable] = node.partitionID to node.partitionCount
                     }
                 }
                 is POPMergePartitionOrderedByIntId -> {
@@ -150,7 +150,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:149"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] == null }
                         )
-                        currentPartitionsCopy[node.partitionVariable] = node.uuid to node.partitionCount
+                        currentPartitionsCopy[node.partitionVariable] = node.partitionID to node.partitionCount
                     }
                 }
                 is POPChangePartitionOrderedByIntId -> {
@@ -158,12 +158,16 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:157"/*SOURCE_FILE_END*/ },
                         { currentPartitionsCopy[node.partitionVariable] ?.second == node.partitionCountTo }
                     )
-                    currentPartitionsCopy[node.partitionVariable] = node.uuid to node.partitionCountFrom
+                    if (node.partitionCountFrom> node.partitionCountTo) {
+                        currentPartitionsCopy[node.partitionVariable] = node.partitionIDFrom to node.partitionCountFrom
+                    } else {
+                        currentPartitionsCopy[node.partitionVariable] = node.partitionIDTo to node.partitionCountTo
+                    }
                 }
                 is POPSplitPartition -> {
                     if (node.partitionCount> 1) {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:165"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:169"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] != null }
                         )
                         currentPartitionsCopy.remove(node.partitionVariable!!)
@@ -172,7 +176,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                 is POPSplitPartitionFromStore -> {
                     if (node.partitionCount> 1) {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:174"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:178"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] ?.second == node.partitionCount }
                         )
                     }
@@ -180,7 +184,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                 is POPSplitPartitionFromStoreCount -> {
                     if (node.partitionCount> 1) {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:182"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:186"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] ?.second == node.partitionCount }
                         )
                     }
@@ -202,15 +206,15 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                 -> {
                     val allNames = Array(currentPartitionsCopy.size) { "" }
                     val allSize = IntArray(currentPartitionsCopy.size)
-                    val allUUID = LongArray(currentPartitionsCopy.size)
+                    val allPartitionID = IntArray(currentPartitionsCopy.size)
                     var i = 0
                     for ((k, v) in currentPartitionsCopy) {
                         allNames[i] = k
-                        allUUID[i] = v.first
+                        allPartitionID[i] = v.first
                         allSize[i] = v.second
                         i++
                     }
-                    splitPartitionsVariations(query, node, allNames, allSize, IntArray(currentPartitionsCopy.size), allUUID, 0)
+                    splitPartitionsVariations(query, node, allNames, allSize, IntArray(currentPartitionsCopy.size), allPartitionID, 0)
                 }
             }
         } else {
@@ -274,7 +278,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             query.operatorgraphParts.clear()
 // assign host to root node
             partitionHelper.startUp()
-            // println(root.toXMLElement(false, partitionHelper))
+            println(root.toXMLElement(false, partitionHelper))
             query.operatorgraphParts[-1] = root.toXMLElement(true, partitionHelper)
             query.operatorgraphPartsToHostMap[-1] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts

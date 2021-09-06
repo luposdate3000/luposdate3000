@@ -83,21 +83,23 @@ public class POPChangePartitionOrderedByIntId public constructor(
             }
             if (isRoot) {
                 if (partitionCountTo > partitionCountFrom) {
-                    val keys = partition.getKeysFor(uuid, query, partitionCountTo, true)
-                    val localKeys = List(partitionCountTo / partitionCountFrom) { keys[it * partitionCountFrom] }
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionIDFrom, partial, isRoot, localKeys, query.getPartitionedBy(), partitionVariable, partitionCountTo))
+// use from id, because it is the smaller one
+// add the current partition for the from id as offset to the filter
+                    val keys = partition.getKeysFor(uuid, partitionIDFrom, query, partitionCountTo, true, { IntArray(partitionCountTo / partitionCountFrom) { it2 -> it + it2 * partitionCountFrom } }).toList()
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendMulti.toXMLElementInternal(partitionIDFrom, partial, isRoot, keys, query.getPartitionedBy(), partitionVariable, partitionCountTo))
                 } else {
-                    val key = partition.getKeyFor(uuid, query, partitionCountTo, true)
+// because the sender is the smaller one - there must be a partition from id on the stack
+                    val key = partition.getKeyFor(uuid, partitionIDFrom, query, partitionCountFrom, true)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionIDFrom, partial, isRoot, key, query.getPartitionedBy()))
                 }
             } else {
-                if (partitionCountTo < partitionCountFrom) {
-                    val keys = partition.getKeysFor(uuid, query, partitionCountFrom, false)
-                    val localKeys = List(partitionCountFrom / partitionCountTo) { keys[it * partitionCountTo] }
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionIDTo, partial, isRoot, localKeys.map { it to "" }.toMap(), partitionVariable))
-                } else {
-                    val key = partition.getKeyFor(uuid, query, partitionCountFrom, false)
+                if (partitionCountTo > partitionCountFrom) {
+                    val key = partition.getKeyFor(uuid, partitionIDTo, query, partitionCountTo, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionIDTo, partial, isRoot, key to ""))
+                } else {
+// inverse case to sendmulti
+                    val keys = partition.getKeysFor(uuid, partitionIDTo, query, partitionCountFrom, false, { IntArray(partitionCountFrom / partitionCountTo) { it2 -> it + it2 * partitionCountTo } }).toList()
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionIDTo, partial, isRoot, keys.map { it to "" }.toMap(), partitionVariable))
                 }
             }
         } else {
@@ -121,14 +123,14 @@ public class POPChangePartitionOrderedByIntId public constructor(
     override fun cloneOP(): IOPBase = POPChangePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCountFrom, partitionCountTo, partitionIDFrom, partitionIDTo, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:123"/*SOURCE_FILE_END*/ }, { partitionCountTo < partitionCountFrom })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:125"/*SOURCE_FILE_END*/ }, { partitionCountTo < partitionCountFrom })
         val partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null
         val variables = getProvidedVariableNames()
         val variables0 = children[0].getProvidedVariableNames()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:128"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:129"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-        // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:130"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:130"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:131"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+        // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:132"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
         var queue_size = query.getInstance().queue_size
         var elementsPerRing = queue_size * variables.size
         var buffersize = elementsPerRing * partitionCountSrc
@@ -255,11 +257,11 @@ public class POPChangePartitionOrderedByIntId public constructor(
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:257"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:259"/*SOURCE_FILE_END*/ },
             {
                 for (x in sortColumns.indices) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:260"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:261"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:262"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:263"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
                 }
             }
         )
