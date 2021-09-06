@@ -80,17 +80,25 @@ without minify mode only the passing tests will be added
     }
     init {
         prefixDirectory = "$resource_folder/"
-        File("resources/tests/failed").forEachLine {
-            listOfFailed.add(it)
+        if (File("resources/tests/failed").exists()) {
+            File("resources/tests/failed").forEachLine {
+                listOfFailed.add(it)
+            }
         }
-        File("resources/tests/blacklist").forEachLine {
-            listOfBlacklist.add(it)
+        if (File("resources/tests/blacklist").exists()) {
+            File("resources/tests/blacklist").forEachLine {
+                listOfBlacklist.add(it)
+            }
         }
-        File("resources/tests/passed").forEachLine {
-            listOfPassed.add(it)
+        if (File("resources/tests/passed").exists()) {
+            File("resources/tests/passed").forEachLine {
+                listOfPassed.add(it)
+            }
         }
-        File("resources/tests/timeout").forEachLine {
-            listOfTimeout.add(it)
+        if (File("resources/tests/timeout").exists()) {
+            File("resources/tests/timeout").forEachLine {
+                listOfTimeout.add(it)
+            }
         }
         if (minifyMode) {
             listOfRemoved.addAll(listOfFailed)

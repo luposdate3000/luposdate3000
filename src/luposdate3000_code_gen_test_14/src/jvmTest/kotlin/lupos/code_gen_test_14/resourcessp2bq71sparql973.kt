@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_gen_test_15
+package lupos.code_gen_test_14
 import lupos.operator.base.Query
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
