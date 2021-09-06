@@ -2,9 +2,9 @@
 
 rm -rf simulator_output
 #git clean -xdf
-./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+#./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
-./gradlew assemble
+#./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 declare -A baselineValues
 
@@ -33,11 +33,21 @@ JSON_MULTICAST="${BASE_PATH}/luposdate3000Multicast${m}.json"
 for dist in luposdate3000_distribution_routing luposdate3000_distribution_centralized
 do
 JSON_DIST="${BASE_PATH}/$dist.json"
+if [[($t == "central" && $q != "Q0")]]
+then
+#centralized has only traffic during initialization, afterwards all zero
+continue
+fi
+if [[($m == "Enabled" && $q != "Q0")]]
+then
+#multicast is only relevant for insert, everything else is the same
+continue
+fi
 measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
 echo $measurementFile
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-headerLine="topology,database,query,dist,multicast,readwrite"
+headerLine="topology,database,query,multicast,dist,readwrite"
 contentLine="${t},${d},${q},${m},${dist}"
 if [ "$q" = "Q0" ]
 then
