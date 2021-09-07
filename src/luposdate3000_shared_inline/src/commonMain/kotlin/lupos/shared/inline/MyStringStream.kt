@@ -46,7 +46,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
 
     override fun read(buf: ByteArray, len: Int): Int {
         var s = pos + len
-        var res = buf.size
+        var res = len
         if (s > data.size) {
             s = data.size
             res = s - pos
@@ -58,7 +58,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
 
     override fun read(buf: ByteArray, off: Int, len: Int): Int {
         var s = pos + len
-        var res = buf.size
+        var res = len
         if (s > data.size) {
             s = data.size
             res = s - pos

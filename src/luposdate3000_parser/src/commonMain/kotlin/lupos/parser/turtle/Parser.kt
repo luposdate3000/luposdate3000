@@ -9,9 +9,9 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyStringExt
 import lupos.shared.inline.MyStringStream
 
-public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpInputstream: IMyInputStream) {
-    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc:String):this(consume_triple,File(kpFileLoc).openInputStream())
-    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, data:String):this(consume_triple,MyStringStream(data))
+public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, internal val kpInputstream: IMyInputStream) {
+    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc: String) : this(consume_triple, File(kpFileLoc).openInputStream())
+    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, data: String, unusedParam: Boolean) : this(consume_triple, MyStringStream(data))
     internal companion object {
 
         internal const val kpBufferSize = 16384 * 2

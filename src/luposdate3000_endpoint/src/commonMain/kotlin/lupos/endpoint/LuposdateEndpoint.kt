@@ -31,7 +31,7 @@ import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
-import lupos.parser.turtle.TurtleParserWithStringTriples
+import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
@@ -95,20 +95,31 @@ public object LuposdateEndpoint {
         } else {
             cache2
         }
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val x = object : TurtleParserWithStringTriples() {
-            /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                val buffer = ByteArrayWrapper()
-                for (v in listOf(s, p, o)) {
-                    DictionaryHelper.sparqlToByteArray(buffer, InputToIntermediate.helperCleanString(v))
-                    if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
-                        cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                    }
+        val buffer = ByteArrayWrapper()
+        val parserObject = TurtleParserWithDictionaryValueTypeTriples(
+            consume_triple = { s, p, o ->
+                dict.getValue(buffer, s)
+                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
+                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
                 }
-            }
+                dict.getValue(buffer, p)
+                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
+                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                }
+                dict.getValue(buffer, o)
+                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
+                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                }
+            },
+            data = data,
+            unusedParam = false,
+        )
+        parserObject.convertByteArrayWrapperToID = {
+            dict.createValue(buffer)
         }
-        x.ltit = ltit
-        x.parse()
+        parserObject.initializeCache()
+        parserObject.turtleDoc()
+
         var data2 = ByteArrayWrapper()
         cache.forEach { value, key ->
             var c1 = ByteArrayWrapperExt.getSize(data2)

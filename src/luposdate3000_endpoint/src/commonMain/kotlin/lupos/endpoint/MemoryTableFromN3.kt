@@ -20,8 +20,6 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
-import lupos.shared.inline.File
-import lupos.shared.inline.FileExt
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))
@@ -36,15 +34,20 @@ public class MemoryTableFromN3 : MemoryTableParser {
                 res.data.add(row)
             },
             data = data,
+            unusedParam = false,
         )
         parserObject.convertByteArrayWrapperToID = {
             dictionary.createValue(it)
         }
+        parserObject.initializeCache()
         try {
-            parserObject.initializeCache()
             parserObject.turtleDoc()
         } catch (e: Throwable) {
-            throw Exception(inputFileName, e)
+            println(">>>>")
+            println(data)
+            println("<<<<")
+            e.printStackTrace()
+            throw e
         }
         return res
     }
