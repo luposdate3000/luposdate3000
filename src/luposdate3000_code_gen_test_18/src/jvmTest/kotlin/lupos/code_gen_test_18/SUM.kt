@@ -241,6 +241,21 @@ public class SUM {
     }
 
     @Test(timeout = 2000)
+    public fun `SUM - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Test(timeout = 2000)
     public fun `SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
