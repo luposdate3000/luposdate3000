@@ -24,8 +24,9 @@ import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-internal class TripleStoreDescriptionModifyCacheLocalInputStream(key: String, val mode: EModifyType, val idx: EIndexPattern, instance: Luposdate3000Instance, val isSorted: Boolean) : IMyOutputStream {
+internal class TripleStoreDescriptionModifyCacheLocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance, val isSorted: Boolean, val partition: Int) : IMyOutputStream {
     var off = 0
+    var debugcounter = 0
     val buf = DictionaryValueTypeArray(instance.LUPOS_BUFFER_SIZE / 4)
     val limit = buf.size - (buf.size % 3)
     val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
@@ -58,6 +59,7 @@ internal class TripleStoreDescriptionModifyCacheLocalInputStream(key: String, va
     override fun writeInt(value: Int) {}
     override fun writeLong(value: Long) {}
     override fun writeDictionaryValueType(value: DictionaryValueType) {
+        debugcounter++
         if (value != DictionaryValueHelper.nullValue) {
             if (off >= limit) {
                 if (mode == EModifyTypeExt.INSERT) {

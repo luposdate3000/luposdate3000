@@ -64,13 +64,19 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                     if (filteredBy == null) {
                         flag = true
                     } else {
+                        flag = false
                         for (it in filteredBy) {
-                            if (it.host == host2 && it.key == key && it.idx == idx) {
+                            val h: String = it.host
+                            val k: String = it.key
+                            val i: Int = it.idx
+                            if (h == host2 &&
+                                k == key &&
+                                i == idx
+                            ) {
                                 flag = true
                                 break
                             }
                         }
-                        flag = false
                     }
                     if (flag) {
                         val filter = FilterFunc(
@@ -81,7 +87,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             }
                         )
                         if (host == localH) {
-                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted), mutableListOf(filter)))
+                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter)))
                         } else {
                             var conn = allConnMap[host2]
                             if (conn == null) {
@@ -98,8 +104,8 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             conn.output.write(bytes2)
                             conn.output.writeInt(idx)
                         }
-                        j++
                     }
+                    j++
                 }
             }
         }
@@ -111,10 +117,12 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:113"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:114"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:115"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:119"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:120"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:121"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        var i = 0
         loop@ for (c in allConn) {
+            i++
             row[0] = s
             row[1] = p
             row[2] = o

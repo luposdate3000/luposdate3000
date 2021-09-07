@@ -485,12 +485,12 @@ public class TripleStoreManagerImpl public constructor(
             }
             val buf = ByteArray(l1)
             stream.read(buf, l1)
-            val host = buf.toString()
+            val host = buf.decodeToString()
 
             val l2 = stream.readInt()
             val buf2 = ByteArray(l2)
             stream.read(buf2, l2)
-            val key = buf2.toString()
+            val key = buf2.decodeToString()
 
             val idx = stream.readInt()
             filterList.add(TripleStoreDescriptionModifyCacheFilterEntry(host, key, idx))
@@ -506,6 +506,7 @@ public class TripleStoreManagerImpl public constructor(
             val c = stream.readDictionaryValueType()
             cache.writeRow(a, b, c, query)
         }
+        cache.close()
     }
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
         if (origin) {
@@ -522,7 +523,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:524"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:525"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)

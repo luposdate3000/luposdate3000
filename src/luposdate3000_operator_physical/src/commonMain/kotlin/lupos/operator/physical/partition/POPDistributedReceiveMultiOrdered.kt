@@ -71,8 +71,9 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             return POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts, partitionVariable)
         }
     }
+
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:74"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:75"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int = 1
@@ -86,34 +87,38 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         variables.addAll(projectedVariables)
         if (partitionVariable != "_" && variables.contains(partitionVariable)) {
             variables.remove(partitionVariable)
-            variables.add(0, partitionVariable)
+            variables.add(0, partitionVariable) // damit beim vergleichen später einfach index[0] genommen werden kann
         }
+        val openInputs = Array<IMyInputStream?>(inputs.size) { inputs[it] }
+        val openOutputs = Array<IMyOutputStream?>(inputs.size) { outputs[it] }
+        var openConnections = BooleanArray(inputs.size) { true }
+        val openInputMappings = IntArray(inputs.size * variables.size)
         val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
-        val connections = Array<MyConnection?>(inputs.size) { null }
-        var openConnections = 0
         for (kk in 0 until inputs.size) {
-            val mapping = IntArray(variables.size)
-            val cnt = inputs[kk].readInt()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:96"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
+            val off = kk * variables.size
+            val cnt = openInputs[kk]!!.readInt()
+            SanityCheck.check(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:100"/*SOURCE_FILE_END*/ },
+                { cnt == variables.size },
+                { "$cnt vs ${variables.size}" }
+            )
             for (i in 0 until variables.size) {
-                val len = inputs[kk].readInt()
+                val len = openInputs[kk]!!.readInt()
                 val buf = ByteArray(len)
-                inputs[kk].read(buf, len)
+                openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:103"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
-                mapping[i] = j
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:110"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                openInputMappings[off + i] = off + j
             }
-            val off = openConnections * variables.size
             for (i in 0 until variables.size) {
-                buffer[off + mapping[i]] = inputs[kk].readDictionaryValueType()
+                buffer[ openInputMappings[off + i]] = inputs[kk].readDictionaryValueType()
             }
             if (buffer[off] == DictionaryValueHelper.nullValue) {
-                inputs[kk].close()
-                outputs[kk]?.close()
-            } else {
-                connections[openConnections] = MyConnection(inputs[kk], outputs[kk], mapping)
-                openConnections++
+                openInputs[kk]!!.close()
+                openOutputs[kk]?.close()
+                openInputs[kk] = null
+                openOutputs[kk] = null
             }
         }
         val iterator = RowIterator()
@@ -121,41 +126,39 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
-            if (openConnections > 0) {
-                res = 0
-                var min = 0
-                for (i in 1 until openConnections) {
-                    if (buffer[i * variables.size] < buffer[min * variables.size]) {
-                        min = i
-                    }
-                }
-                val off = min * variables.size
-                val connMin = connections[min]!!
-                buffer.copyInto(iterator.buf, 0, off, off + variables.size)
-                for (i in 0 until variables.size) {
-                    buffer[off + connMin.mapping[i]] = connMin.input.readDictionaryValueType()
-                }
-                if (buffer[off] == DictionaryValueHelper.nullValue) {
-                    connMin.input.close()
-                    connMin.output?.close()
-                    val off2 = (openConnections - 1) * variables.size
-                    if (off != off2) {
-                        val connOther = connections[openConnections - 1]!!
-                        for (i in 0 until variables.size) {
-                            buffer[off + connMin.mapping[i]] = buffer[off2 + connOther.mapping[i]]
+            for (ii in 0 until openInputs.size) {
+                if (openInputs[ii] != null) {
+                    res = 0
+                    var min = ii
+                    for (i in min + 1 until openInputs.size) {
+                        if (openInputs[i] != null && buffer[i * variables.size] < buffer[min * variables.size]) {
+                            min = i
                         }
-                        connections[min] = connections[openConnections - 1]
                     }
-                    connections[openConnections - 1] = null
-                    openConnections--
+                    val off = min * variables.size
+                    for (i in 0 until variables.size) {
+                        iterator.buf[i] = buffer[off + i]
+                    }
+                    for (i in 0 until variables.size) {
+                        buffer[ openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
+                    }
+                    if (buffer[off] == DictionaryValueHelper.nullValue) {
+                        openInputs[min]!!.close()
+                        openOutputs[min]?.close()
+                        openInputs[min] = null
+                        openOutputs[min] = null
+                    }
+                    break
                 }
             }
             res
         }
         iterator.close = {
-            for (i in 0 until openConnections) {
-                connections[i]?.input?.close()
-                connections[i]?.output?.close()
+            for (i in 0 until inputs.size) {
+                openInputs[i]?.close()
+                openOutputs[i]?.close()
+                openInputs[i] = null
+                openOutputs[i] = null
             }
         }
         return IteratorBundle(iterator)

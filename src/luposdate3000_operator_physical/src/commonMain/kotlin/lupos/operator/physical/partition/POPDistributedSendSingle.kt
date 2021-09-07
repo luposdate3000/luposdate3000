@@ -74,11 +74,15 @@ public class POPDistributedSendSingle public constructor(
         }
         val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = DictionaryValueHelper.nullValue + 1
-        while (buf != DictionaryValueHelper.nullValue) {
+        var flag = true
+        while (true) {
             for (j in 0 until variables.size) {
-                buf = columns[j].next()
+                val buf = columns[j].next()
+                flag = buf != DictionaryValueHelper.nullValue
                 connectionOut.writeDictionaryValueType(buf)
+            }
+            if (!flag) {
+                break
             }
         }
         connectionOut.flush()

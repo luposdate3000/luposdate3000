@@ -28,13 +28,6 @@ internal class MySimulatorOutputStreamToPackage(val queryID: Int, val target: In
     val buffer = ByteArrayWrapper()
     override fun flush() {}
     override fun close() {
-        if (path == "/distributed/graph/modify") {
-            if (ByteArrayWrapperExt.getSize(buffer) == DictionaryValueHelper.getSize()) {
-// sending only the terminate symbol is useless because this is an empty message
-                return
-            }
-        }
-//        kotlinprintln("router should send $target MySimulatorAbstractPackage $path $params")
         router.send(target, MySimulatorAbstractPackage(queryID, path, params, buffer))
     }
 
