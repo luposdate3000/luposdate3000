@@ -6,6 +6,6 @@ select   (max(?d) AS ?latestDate)
 where {
   ?b a parking:Observation;
   parking:area 7;
-  parking:spotInArea 55;
+  parking:spotInArea 71;
   parking:resultTime ?d.
 }

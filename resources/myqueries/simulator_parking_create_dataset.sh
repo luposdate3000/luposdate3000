@@ -11,6 +11,12 @@ for sensorIDHelper in $(seq 0 9)
 do
 sensorID=$((area*10 + sensorIDHelper))
 isOccupied=false
+if [ "$(($RANDOM % 3))" -eq "0" ]
+then
+isOccupied=false
+else
+isOccupied=true
+fi
 sampleTime="2021-09-07T06:22:27.$clock"
 echo "  _:b${bnodeCounter} a parking:Observation;"
 echo "  parking:area \"$area\"^^xsd:integer ;"

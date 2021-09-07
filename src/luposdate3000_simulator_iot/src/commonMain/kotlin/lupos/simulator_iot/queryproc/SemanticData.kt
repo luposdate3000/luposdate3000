@@ -165,7 +165,7 @@ internal object SemanticData {
             "  parking:isOccupied ?isOccupied;\n" +
             "  parking:resultTime ?lastObservedAt.\n" +
             "  {\n" +
-            "    SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot ?f WHERE{\n" +
+            "    SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot WHERE{\n" +
             "      ?o2 a parking:Observation;\n" +
             "      parking:area ?area;\n" +
             "      parking:spotInArea ?spot;\n" +

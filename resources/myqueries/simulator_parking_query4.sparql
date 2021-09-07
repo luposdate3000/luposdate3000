@@ -5,6 +5,6 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
 select  (count(?b) as ?count)
 where {
   ?b a parking:Observation;
-  parking:area 9;
+  parking:area 6;
   parking:spotInArea 67.
 }

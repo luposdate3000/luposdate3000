@@ -49,9 +49,9 @@ import java.io.File
 // configure databases
 val allDatabases = mutableListOf(
     DatabaseHandleBlazegraph("/data/benchmark/"),//out of memory during load
-//    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
-//    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
-//    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
+    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
+    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
+    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
 //    DatabaseHandleJena(port = 8080),
 //    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080).setBufferManager("Inmemory"),
 //    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080).setBufferManager("Persistent_Cached"),

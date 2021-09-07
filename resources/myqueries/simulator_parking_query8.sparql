@@ -7,7 +7,7 @@ WHERE {
   ?o a parking:Observation;
   parking:spotInArea ?spot;
   parking:area 9;
-  parking:isOccupied \"false\"^^xsd:boolean;
+  parking:isOccupied "false"^^xsd:boolean;
   parking:resultTime ?lastObservedAt.
   {
     SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{
