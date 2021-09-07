@@ -89,6 +89,8 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable) // damit beim vergleichen später einfach index[0] genommen werden kann
         }
+//val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
+TODO("nicht nach der partition-variable sortieren, sondern so wie es vorher sortiert war !!! nicht eine Variable sondern die komplette sort order muss hier hin")
         val openInputs = Array<IMyInputStream?>(inputs.size) { inputs[it] }
         val openOutputs = Array<IMyOutputStream?>(inputs.size) { outputs[it] }
         var openConnections = BooleanArray(inputs.size) { true }
