@@ -26,7 +26,7 @@ public class syntaxupdate24ru {
     internal val query = "INSERT DATA { GRAPH <G> { <s> <p> 'o1', 'o2', 'o3' } } \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -41,7 +41,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -56,7 +56,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -71,7 +71,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -86,7 +86,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -101,7 +101,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -116,7 +116,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -131,7 +131,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -146,7 +146,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -161,7 +161,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -176,7 +176,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -191,7 +191,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -206,7 +206,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -221,7 +221,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -236,7 +236,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -251,7 +251,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -266,7 +266,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -281,7 +281,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -296,7 +296,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -311,7 +311,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -326,7 +326,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -341,7 +341,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -356,7 +356,7 @@ public class syntaxupdate24ru {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxupdate24ru - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

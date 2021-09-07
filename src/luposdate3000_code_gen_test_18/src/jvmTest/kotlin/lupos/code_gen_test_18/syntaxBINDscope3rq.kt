@@ -34,7 +34,7 @@ public class syntaxBINDscope3rq {
         " } \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -49,7 +49,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -64,7 +64,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -79,7 +79,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -94,7 +94,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -109,7 +109,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -124,7 +124,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -139,7 +139,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -154,7 +154,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -169,7 +169,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -184,7 +184,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -199,7 +199,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -214,7 +214,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -229,7 +229,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -244,7 +244,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -259,7 +259,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -274,7 +274,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -289,7 +289,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -304,7 +304,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -319,7 +319,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -334,7 +334,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -349,7 +349,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -364,7 +364,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -379,7 +379,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -394,7 +394,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -409,7 +409,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -424,7 +424,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -439,7 +439,7 @@ public class syntaxBINDscope3rq {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `syntaxBINDscope3rq - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

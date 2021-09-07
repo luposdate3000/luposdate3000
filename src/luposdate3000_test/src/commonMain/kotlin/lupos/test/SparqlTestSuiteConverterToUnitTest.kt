@@ -427,7 +427,11 @@ without minify mode only the passing tests will be added
                     if (isIgnored(finalTestName)) {
                         fileBufferTest.println("    @Ignore")
                     }
-                    fileBufferTest.println("    @Test(timeout = 2000)")
+                    if (minifyMode) {
+                        fileBufferTest.println("    @Test(timeout = 2000)")
+                    } else {
+                        fileBufferTest.println("    @Test")
+                    }
                     fileBufferTest.println("    public fun `$finalTestName`() {")
                     fileBufferTest.println("      var instance = Luposdate3000Instance()")
                     fileBufferTest.println("      try{")
@@ -464,7 +468,11 @@ without minify mode only the passing tests will be added
                             if (isIgnored(finalTestName) || !withSimulator) {
                                 fileBufferTest.println("    @Ignore")
                             }
-                            fileBufferTest.println("    @Test(timeout = 2000)")
+                            if (minifyMode) {
+                                fileBufferTest.println("    @Test(timeout = 2000)")
+                            } else {
+                                fileBufferTest.println("    @Test")
+                            }
                             fileBufferTest.println("    public fun `$finalTestName`() {")
                             fileBufferTest.println("        simulatorHelper(")
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {

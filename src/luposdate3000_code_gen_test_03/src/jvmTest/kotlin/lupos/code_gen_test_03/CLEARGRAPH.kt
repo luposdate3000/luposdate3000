@@ -64,7 +64,7 @@ public class CLEARGRAPH {
         "CLEAR GRAPH :g1 \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -79,7 +79,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -94,7 +94,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -109,7 +109,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -124,7 +124,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -139,7 +139,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -154,7 +154,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -169,7 +169,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -184,7 +184,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -199,7 +199,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -214,7 +214,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -229,7 +229,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -244,7 +244,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -259,7 +259,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -274,7 +274,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CLEAR GRAPH - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

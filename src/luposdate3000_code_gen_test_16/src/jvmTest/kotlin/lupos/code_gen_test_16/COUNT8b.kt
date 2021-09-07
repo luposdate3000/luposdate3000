@@ -52,7 +52,7 @@ public class COUNT8b {
         "   ORDER BY ?O12 \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -127,7 +127,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -142,7 +142,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -157,7 +157,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -172,7 +172,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -187,7 +187,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -202,7 +202,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -217,7 +217,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -232,7 +232,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -247,7 +247,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -262,7 +262,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -277,7 +277,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -292,7 +292,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -307,7 +307,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -322,7 +322,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -337,7 +337,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -352,7 +352,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -367,7 +367,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `COUNT 8b - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

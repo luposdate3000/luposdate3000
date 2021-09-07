@@ -63,7 +63,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         "} \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -78,7 +78,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -93,7 +93,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -108,7 +108,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -123,7 +123,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -138,7 +138,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -153,7 +153,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -168,7 +168,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -183,7 +183,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -198,7 +198,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -213,7 +213,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -228,7 +228,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -243,7 +243,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -258,7 +258,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -273,7 +273,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -288,7 +288,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -303,7 +303,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -318,7 +318,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -333,7 +333,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -348,7 +348,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -363,7 +363,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -378,7 +378,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -393,7 +393,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -408,7 +408,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -423,7 +423,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -438,7 +438,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -453,7 +453,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -468,7 +468,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -483,7 +483,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -498,7 +498,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -513,7 +513,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -528,7 +528,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -543,7 +543,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -558,7 +558,7 @@ public class resourcesmyqueriesoptional57sparql5 {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `resourcesmyqueriesoptional57sparql5 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

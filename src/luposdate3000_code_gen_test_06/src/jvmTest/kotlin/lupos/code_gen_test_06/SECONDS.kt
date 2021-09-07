@@ -52,7 +52,7 @@ public class SECONDS {
         "} \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -127,7 +127,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -142,7 +142,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -157,7 +157,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -172,7 +172,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -187,7 +187,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -202,7 +202,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -217,7 +217,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -232,7 +232,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -247,7 +247,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -262,7 +262,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -277,7 +277,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -292,7 +292,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `SECONDS - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

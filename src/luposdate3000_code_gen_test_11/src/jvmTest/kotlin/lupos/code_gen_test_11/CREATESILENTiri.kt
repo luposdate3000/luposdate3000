@@ -57,7 +57,7 @@ public class CREATESILENTiri {
     internal val query = "CREATE SILENT GRAPH <http://example.org/g1> \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -72,7 +72,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -87,7 +87,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -102,7 +102,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -117,7 +117,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -132,7 +132,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -147,7 +147,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -162,7 +162,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -177,7 +177,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -192,7 +192,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -207,7 +207,7 @@ public class CREATESILENTiri {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -222,7 +222,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -237,7 +237,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_1_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -252,7 +252,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -267,7 +267,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -282,7 +282,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -297,7 +297,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -312,7 +312,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -327,7 +327,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -342,7 +342,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -357,7 +357,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -372,7 +372,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -387,7 +387,7 @@ public class CREATESILENTiri {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `CREATE SILENT iri - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

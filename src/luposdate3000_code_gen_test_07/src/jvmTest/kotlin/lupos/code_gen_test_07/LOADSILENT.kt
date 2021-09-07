@@ -25,7 +25,7 @@ import kotlin.test.Test
 public class LOADSILENT {
     internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/>"
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -40,7 +40,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -55,7 +55,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -70,7 +70,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -85,7 +85,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,7 +100,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -115,7 +115,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -130,7 +130,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -145,7 +145,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -160,7 +160,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -175,7 +175,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -190,7 +190,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -205,7 +205,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -220,7 +220,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -235,7 +235,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -250,7 +250,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -265,7 +265,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -280,7 +280,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -295,7 +295,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -310,7 +310,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -325,7 +325,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -340,7 +340,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -355,7 +355,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -370,7 +370,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -385,7 +385,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -400,7 +400,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -415,7 +415,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -430,7 +430,7 @@ public class LOADSILENT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `LOAD SILENT - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

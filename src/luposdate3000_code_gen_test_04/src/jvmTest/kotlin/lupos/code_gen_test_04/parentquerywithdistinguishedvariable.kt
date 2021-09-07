@@ -42,7 +42,7 @@ public class parentquerywithdistinguishedvariable {
         "SELECT ?parent \n" +
         "WHERE { ?parent :hasChild ?child }"
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -57,7 +57,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_S_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -72,7 +72,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -87,7 +87,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -102,7 +102,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -117,7 +117,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -132,7 +132,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -147,7 +147,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -162,7 +162,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -177,7 +177,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -192,7 +192,7 @@ public class parentquerywithdistinguishedvariable {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `parent query with distinguished variable - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

@@ -53,7 +53,7 @@ public class MIN {
         "} \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -113,7 +113,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -128,7 +128,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -143,7 +143,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -158,7 +158,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -173,7 +173,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -188,7 +188,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -203,7 +203,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -218,7 +218,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -233,7 +233,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -248,7 +248,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -263,7 +263,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -278,7 +278,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -293,7 +293,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -308,7 +308,7 @@ public class MIN {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - in simulator - PartitionByID_S_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -323,7 +323,7 @@ public class MIN {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `MIN - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

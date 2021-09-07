@@ -26,7 +26,7 @@ public class ADDSILENTTODEFAULT {
     internal val query = "ADD SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
         ""
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -41,7 +41,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -56,7 +56,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -71,7 +71,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -86,7 +86,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -101,7 +101,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -116,7 +116,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -131,7 +131,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -146,7 +146,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -161,7 +161,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -176,7 +176,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -191,7 +191,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -206,7 +206,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -221,7 +221,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -236,7 +236,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -251,7 +251,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -266,7 +266,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -281,7 +281,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -296,7 +296,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -311,7 +311,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -326,7 +326,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -341,7 +341,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -356,7 +356,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -371,7 +371,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -386,7 +386,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -401,7 +401,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -416,7 +416,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -431,7 +431,7 @@ public class ADDSILENTTODEFAULT {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `ADD SILENT TO DEFAULT - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

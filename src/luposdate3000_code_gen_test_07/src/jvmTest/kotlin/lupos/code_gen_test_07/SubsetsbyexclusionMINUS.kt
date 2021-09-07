@@ -54,7 +54,7 @@ public class SubsetsbyexclusionMINUS {
         "  }  \n" +
         "}"
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -84,7 +84,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -99,7 +99,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -114,7 +114,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -129,7 +129,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -144,7 +144,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -159,7 +159,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -174,7 +174,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -189,7 +189,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -204,7 +204,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -219,7 +219,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -234,7 +234,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_2_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -249,7 +249,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -264,7 +264,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_S_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -279,7 +279,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -294,7 +294,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -309,7 +309,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -324,7 +324,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -339,7 +339,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -354,7 +354,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 2000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
