@@ -99,23 +99,21 @@ public object LuposdateEndpoint {
         val parserObject = TurtleParserWithDictionaryValueTypeTriples(
             consume_triple = { s, p, o ->
                 dict.getValue(buffer, s)
-                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
-                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                }
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
                 dict.getValue(buffer, p)
-                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
-                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                }
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
                 dict.getValue(buffer, o)
-                if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
-                    cache.insertValuePairExtend(buffer, dict.createValue(buffer))
-                }
+                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
             },
             data = data,
             unusedParam = false,
         )
         parserObject.convertByteArrayWrapperToID = {
-            dict.createValue(buffer)
+            if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
+                dict.createValue(buffer)
+            } else {
+                DictionaryValueHelper.booleanTrueValue
+            }
         }
         parserObject.initializeCache()
         parserObject.turtleDoc()

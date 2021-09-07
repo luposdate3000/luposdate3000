@@ -413,6 +413,9 @@ without minify mode only the passing tests will be added
                     if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
                         continue
                     }
+                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                        continue
+                    }
                     if (onlyFirstTest) {
                         if (first) {
                             first = false
@@ -459,6 +462,9 @@ without minify mode only the passing tests will be added
                                 continue
                             }
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                                continue
+                            }
+                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
                                 continue
                             }
                             val finalTestName = "$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
