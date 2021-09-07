@@ -1,0 +1,34 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="o"/>
+  <variable name="spot"/>
+  <variable name="lastObservedAt"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="o"><bnode>nodeID://b10096</bnode></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">93</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.930</literal></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10101</bnode></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">98</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.980</literal></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10102</bnode></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">99</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.990</literal></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10098</bnode></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">95</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.950</literal></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10100</bnode></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">97</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.970</literal></binding>
+  </result>
+ </results>
+</sparql>

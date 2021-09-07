@@ -27,11 +27,6 @@ public class MemoryTableFromN3 : MemoryTableParser {
         var res = MemoryTable(arrayOf("s", "p", "o"))
         res.query = query
         var dictionary = res.query!!.getDictionary()
-        val inputFileName = FileExt.createTempDirectory() + "a.n3"
-        val f = File(inputFileName)
-        f.withOutputStream {
-            it.println(data)
-        }
         val parserObject = TurtleParserWithDictionaryValueTypeTriples(
             consume_triple = { s, p, o ->
                 val row = DictionaryValueTypeArray(3)
@@ -40,7 +35,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
                 row[2] = o
                 res.data.add(row)
             },
-            kpFileLoc = inputFileName,
+            data = data,
         )
         parserObject.convertByteArrayWrapperToID = {
             dictionary.createValue(it)

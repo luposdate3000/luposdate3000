@@ -7,8 +7,11 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyStringExt
+import lupos.shared.inline.MyStringStream
 
-public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc: String) {
+public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpInputstream: IMyInputStream) {
+    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc:String):this(consume_triple,File(kpFileLoc).openInputStream())
+    public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, data:String):this(consume_triple,MyStringStream(data))
     internal companion object {
 
         internal const val kpBufferSize = 16384 * 2
@@ -62,8 +65,6 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
     private var kpUnmarkedIndex: Long = 0
     private var kpUnmarkedLineNumber: Long = 0
     private var kpUnmarkedColumnNumber: Long = 1
-
-    private val kpInputstream: IMyInputStream = File(kpFileLoc).openInputStream()
 
     private var kpBufMark = 0
     private var kpBufHead = 0
