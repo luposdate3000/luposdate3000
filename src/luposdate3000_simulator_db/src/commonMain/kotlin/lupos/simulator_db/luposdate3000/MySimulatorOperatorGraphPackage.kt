@@ -34,37 +34,19 @@ public class MySimulatorOperatorGraphPackage(
     override fun getPackageID(): Long = pckID
 
     override fun getSizeInBytes(): Int {
-        return getOperatorGraphSizeInBytes() +
-            getDestinationsSizeInBytes() +
-            getPartsToHostMapSizeInBytes()
+        val addressSizeIPv6 = 16
+        var size = 0
+        for ((key, value) in operatorGraph)
+            size += 4 + value.toString().encodeToByteArray().size
+        size += (4 + addressSizeIPv6) * destinations.size
+        size += 8 * operatorGraphPartsToHostMap.size
+        return size
     }
 
     override fun getContentLogString(): String {
         return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap)"
     }
-
-    private fun getOperatorGraphSizeInBytes(): Int {
-        var size = 0
-        for ((key, value) in operatorGraph)
-            size += 4 + value.toString().encodeToByteArray().size
-        return size
-    }
-
-    private fun getDestinationsSizeInBytes(): Int {
-        val addressSizeIPv6 = 16
-        var size = (4 + addressSizeIPv6) * destinations.size
-        return size
-    }
-
-    private fun getPartsToHostMapSizeInBytes(): Int {
-        var size = 8 * operatorGraphPartsToHostMap.size
-        return size
-    }
-
-    private fun getStringSetSizeInBytes(set: Set<String>): Int {
-        var size = 0
-        for (str in set)
-            size += str.encodeToByteArray().size
-        return size
+    override fun toString(): String {
+        return "MySimulatorOperatorGraphPackage($queryID $operatorGraphPartsToHostMap $operatorGraph)"
     }
 }
