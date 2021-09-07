@@ -1,0 +1,23 @@
+{
+    "database": {},
+    "deterministic": true,
+    "fixedDevice": {},
+    "fixedLink": [],
+    "linkType": {},
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "simulator_output/",
+    "querySender": [],
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "rootRouter": "",
+}
