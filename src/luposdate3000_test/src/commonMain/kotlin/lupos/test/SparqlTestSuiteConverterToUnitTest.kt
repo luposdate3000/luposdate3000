@@ -309,7 +309,6 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
-        fileBufferPrefix.println("import lupos.simulator_iot.log.Logger")
         fileBufferPrefix.println("import lupos.simulator_iot.SimulationRun")
         fileBufferPrefix.println("")
         fileBufferPrefix.println("import kotlin.test.Ignore")

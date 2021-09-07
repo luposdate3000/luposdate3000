@@ -18,20 +18,26 @@ package lupos.code_gen_test_00
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPartitionModeExt
-import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.SimulationRun
+
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -69,244 +75,228 @@ public class SimpleDELETE3 {
 
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByIDTwiceAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByIDTwiceAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_1_AllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_1_AllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_2_AllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_2_AllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_O_AllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_O_AllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_S_AllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByID_S_AllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByKeyAllCollations - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - PartitionByKeyAllCollations - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -321,7 +311,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -336,7 +325,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -351,7 +339,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -366,7 +353,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -381,7 +367,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -396,7 +381,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -411,7 +395,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -426,7 +409,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -441,7 +423,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -456,7 +437,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
@@ -471,7 +451,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
@@ -486,7 +465,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -501,7 +479,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -516,7 +493,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -531,7 +507,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -546,7 +521,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -561,7 +535,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -576,7 +549,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -591,7 +563,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -606,22 +577,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
-    @Test(timeout = 2000)
-    public fun `Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Thread",
-            )
-        )
-    }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -636,7 +591,6 @@ public class SimpleDELETE3 {
             )
         )
     }
-
     @Test(timeout = 2000)
     public fun `Simple DELETE 3 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
@@ -651,35 +605,35 @@ public class SimpleDELETE3 {
             )
         )
     }
-    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
+    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false)
+        val config=simRun.parseConfig(fileName,false)
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
+        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ })
+        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted1++})
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingExecute(query)
         pkg1.onFinish = pkg2
         var verifyExecuted3 = 0
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted3++ })
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, {verifyExecuted3++})
         pkg2.onFinish = pkg3
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()
-        if (verifyExecuted1 == 0) {
+        if (verifyExecuted1==0) {
             fail("pck1 not verified")
         }
-        if (verifyExecuted3 == 0) {
+        if (verifyExecuted3==0) {
             fail("pck3 not verified")
         }
     }
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

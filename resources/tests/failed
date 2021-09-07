@@ -1,11 +1,20 @@
+[31;1m> Task :src:luposdate3000_code_gen_test_00:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_01:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_02:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_02:compileTestKotlinJvm[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_03:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_03:compileTestKotlinJvm[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_03:loadKtlintReporters[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_05:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_05:compileTestKotlinJvm[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_06:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_08:compileTestKotlinJvm[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_09:compileTestKotlinJvm[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_11:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_11:compileTestKotlinJvm[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_13:loadKtlintReporters[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_16:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_18:compileTestKotlinJvm[0;39m FAILED
 [5A<[0;32;1m=[0;39;1m------------> 10% EXECUTING [11s][35D[1B> :src:luposdate3000_code_gen_test_18:runKtlintFormatOverKotlinScripts[70D[1B> :src:luposdate3000_code_gen_test_13:runKtlintFormatOverKotlinScripts[70D[1B> :src:luposdate3000_code_gen_test_04:runKtlintFormatOverKotlinScripts[70D[1B> :src:luposdate3000_code_gen_test_03:runKtlintFormatOverKotlinScripts[70D[1B[5A[31;1m> Task :src:luposdate3000_code_gen_test_01:compileKotlinMetadata[0;39m FAILED
 ABS - Thread - PartitionByID_1_AllCollations - false
 ABS - Thread - PartitionByID_1_AllCollations - true
@@ -286,6 +295,7 @@ bind01  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollati
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - None
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - None
+bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
 bind01  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None
 bind01  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - Thread
 bind01  BIND fixed data for OWL DL - in simulator - Simple - Centralized - true - None
@@ -2223,10 +2233,12 @@ DELETE INSERT 5 - Thread - PartitionByKeyAllCollations - false
 DELETE INSERT 5 - Thread - PartitionByKeyAllCollations - true
 DELETE INSERT 5 - Thread - Simple - false
 DELETE INSERT 5 - Thread - Simple - true
+DELETE INSERT 6b - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 DELETE INSERT 6b - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 DELETE INSERT 6b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
 DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Centralized - true - None
@@ -8477,6 +8489,7 @@ resourcesmyqueriesoptional26sparql4 - Thread - PartitionByIDTwiceAllCollations -
 resourcesmyqueriesoptional26sparql4 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional26sparql4 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional26sparql4 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional26sparql5 - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional26sparql5 - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional26sparql5 - Thread - PartitionByID_2_AllCollations - false
@@ -8708,6 +8721,7 @@ resourcesmyqueriesoptional33sparql4 - Thread - PartitionByIDTwiceAllCollations -
 resourcesmyqueriesoptional33sparql4 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional33sparql4 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional33sparql4 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional33sparql5 - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional33sparql5 - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional33sparql5 - Thread - PartitionByID_2_AllCollations - false
@@ -10118,6 +10132,7 @@ resourcessp2bq10sparql21 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq10sparql21 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq10sparql21 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq10sparql21 - Thread - PartitionByKeyAllCollations - true
+resourcessp2bq10sparql247 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcessp2bq10sparql247 - in simulator - Simple - Centralized - true - Thread
 resourcessp2bq10sparql247 - None - PartitionByID_1_AllCollations - false
 resourcessp2bq10sparql247 - None - PartitionByID_1_AllCollations - true
@@ -12191,6 +12206,7 @@ Simple DELETE 2 WITH - Thread - PartitionByKeyAllCollations - false
 Simple DELETE 2 WITH - Thread - PartitionByKeyAllCollations - true
 Simple DELETE 2 WITH - Thread - Simple - false
 Simple DELETE 2 WITH - Thread - Simple - true
+Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
 Simple DELETE 3 - Thread - PartitionByID_1_AllCollations - false
 Simple DELETE 3 - Thread - PartitionByID_1_AllCollations - true
 Simple DELETE 3 - Thread - PartitionByID_2_AllCollations - false

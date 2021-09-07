@@ -359,7 +359,6 @@ all entities are called at the beginning
 all entities are called at the end
 An entity responds to an event with an event
 -- a/resources/tests/passed
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
@@ -1879,11 +1878,9 @@ DAY - None - PartitionByKeyAllCollations - true
 DAY - None - Simple - false
 DAY - None - Simple - true
 DAY - Thread - Simple - true
-DELETE INSERT 6b - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 DELETE INSERT 6b - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
-DELETE INSERT 6b - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 DELETE INSERT 6b - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 DELETE INSERT 6b - in simulator - Simple - Centralized - false - None
 DELETE INSERT 6b - in simulator - Simple - Centralized - false - Thread
@@ -4710,7 +4707,6 @@ resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_2_AllCollatio
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
-resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional26sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
@@ -5219,7 +5215,6 @@ resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_O_AllCollatio
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
-resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional33sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - None
@@ -7675,7 +7670,6 @@ resourcessp2bq10sparql21 - None - Simple - true
 resourcessp2bq10sparql21 - Thread - Simple - false
 resourcessp2bq10sparql21 - Thread - Simple - true
 resourcessp2bq10sparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
-resourcessp2bq10sparql247 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcessp2bq10sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
 resourcessp2bq10sparql247 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
 resourcessp2bq10sparql247 - in simulator - Simple - Centralized - false - None
@@ -9275,7 +9269,6 @@ Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized -
 Simple DELETE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - None
 Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
-Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread
 Simple DELETE 3 - in simulator - Simple - Centralized - false - None
 Simple DELETE 3 - in simulator - Simple - Centralized - false - Thread
 Simple DELETE 3 - in simulator - Simple - Centralized - true - None
