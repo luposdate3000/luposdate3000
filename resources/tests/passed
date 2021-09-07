@@ -8707,7 +8707,6 @@ resourcessp2bq67sparql247 - None - Simple - true
 resourcessp2bq67sparql247 - Thread - Simple - true
 resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 resourcessp2bq68sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
-resourcessp2bq68sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 resourcessp2bq68sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcessp2bq68sparql21 - None - PartitionByID_1_AllCollations - false
 resourcessp2bq68sparql21 - None - PartitionByID_1_AllCollations - true

@@ -10947,6 +10947,7 @@ resourcessp2bq67sparql32978 - Thread - PartitionByID_O_AllCollations - true
 resourcessp2bq67sparql32978 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq67sparql32978 - Thread - Simple - false
 resourcessp2bq67sparql973 - Thread - PartitionByID_S_AllCollations - false
+resourcessp2bq68sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 resourcessp2bq68sparql21 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq68sparql21 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq68sparql21 - Thread - PartitionByID_2_AllCollations - false
