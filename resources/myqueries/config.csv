@@ -133,3 +133,11 @@
 5,optional9.sparql,optional1.ttl,optional1-9.srx
 5,x1.sparql,x1.ttl,x1.srx
 10,x2.sparql,x2.ttl,x2.srx
+2502 simulator_parking_input.ttl,simulator_parking_query1.sparql,simulator_parking_input.ttl,simulator_parking_result1.srx
+2502 simulator_parking_input.ttl,simulator_parking_query2.sparql,simulator_parking_input.ttl,simulator_parking_result2.srx
+2502 simulator_parking_input.ttl,simulator_parking_query3.sparql,simulator_parking_input.ttl,simulator_parking_result3.srx
+2502 simulator_parking_input.ttl,simulator_parking_query4.sparql,simulator_parking_input.ttl,simulator_parking_result4.srx
+2502 simulator_parking_input.ttl,simulator_parking_query5.sparql,simulator_parking_input.ttl,simulator_parking_result5.srx
+2502 simulator_parking_input.ttl,simulator_parking_query6.sparql,simulator_parking_input.ttl,simulator_parking_result6.srx
+2502 simulator_parking_input.ttl,simulator_parking_query7.sparql,simulator_parking_input.ttl,simulator_parking_result7.srx
+2502 simulator_parking_input.ttl,simulator_parking_query8.sparql,simulator_parking_input.ttl,simulator_parking_result8.srx

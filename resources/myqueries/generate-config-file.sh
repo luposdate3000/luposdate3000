@@ -29,6 +29,10 @@ echo $(wc -l optional${j}.ttl | sed "s/ .*//g"),optional${i}.sparql,optional${j}
 done
 done
 
+for i in $(seq 1 8)
+do
+echo $(wc -l simulator_parking_input.ttl),simulator_parking_query$i.sparql,simulator_parking_input.ttl,simulator_parking_result$i.srx >> config.csv2
+done
 
 cat config.csv2 | sort -n | uniq > config.csv
 rm config.csv2
