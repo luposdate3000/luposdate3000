@@ -1,0 +1,21 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX parking: <https://github.com/luposdate3000/parking#>
+SELECT ?area ?spot ?isOccupied ?lastObservedAt
+WHERE {
+  ?o a parking:Observation;
+  parking:area ?area;
+  parking:spotInArea ?spot;
+  parking:isOccupied ?isOccupied;
+  parking:resultTime ?lastObservedAt.
+  {
+    SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot ?f WHERE{
+      ?o2 a parking:Observation;
+      parking:area ?area;
+      parking:spotInArea ?spot;
+      parking:resultTime ?d.
+      FILTER (?area IN (9, 8, 2))
+    }
+    GROUP BY ?area ?spot
+  }
+}

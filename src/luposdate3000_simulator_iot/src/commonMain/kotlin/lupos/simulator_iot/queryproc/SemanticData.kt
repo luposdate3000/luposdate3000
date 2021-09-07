@@ -54,10 +54,10 @@ internal object SemanticData {
             "\n" +
             "INSERT DATA {\n" +
             "  _:b0 a parking:Observation;\n" +
-            "  parking:area \"${s.area}\"^^xsd:integer ;" +
-            "  parking:spotInArea \"${s.sensorID}\"^^xsd:integer ;" +
-            "  parking:isOccupied \"${s.isOccupied}\"^^xsd:boolean ;" +
-            "  parking:resultTime \"${s.sampleTime}\"^^xsd:dateTime ." +
+            "  parking:area \"${s.area}\"^^xsd:integer ;\n" +
+            "  parking:spotInArea \"${s.sensorID}\"^^xsd:integer ;\n" +
+            "  parking:isOccupied \"${s.isOccupied}\"^^xsd:boolean ;\n" +
+            "  parking:resultTime \"${s.sampleTime}\"^^xsd:dateTime .\n" +
             "}\n"
     }
 

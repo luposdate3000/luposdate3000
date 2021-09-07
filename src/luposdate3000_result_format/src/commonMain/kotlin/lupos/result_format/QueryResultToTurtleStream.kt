@@ -71,7 +71,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                         line[i] = "\"$content\""
                     },
                     onTypedLiteral = { content, type ->
-                        line[i] = "$content^^$type"
+                        line[i] = "\"$content\"^^<$type>"
                     },
                     onDecimal = { value ->
                         line[i] = value
