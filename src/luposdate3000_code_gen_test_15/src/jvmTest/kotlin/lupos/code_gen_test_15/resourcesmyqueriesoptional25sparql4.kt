@@ -58,7 +58,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -73,7 +73,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -88,7 +88,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -103,7 +103,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -118,7 +118,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -133,7 +133,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -148,7 +148,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -163,7 +163,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -178,7 +178,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -193,7 +193,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -208,7 +208,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -223,7 +223,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -238,7 +238,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -253,7 +253,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -268,7 +268,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -283,7 +283,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -298,7 +298,7 @@ public class resourcesmyqueriesoptional25sparql4 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `resourcesmyqueriesoptional25sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

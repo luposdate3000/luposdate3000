@@ -54,7 +54,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -84,7 +84,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -99,7 +99,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -114,7 +114,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -129,7 +129,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -144,7 +144,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -159,7 +159,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -174,7 +174,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -189,7 +189,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -204,7 +204,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -219,7 +219,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -234,7 +234,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -249,7 +249,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -264,7 +264,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -279,7 +279,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -294,7 +294,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `sq12  Subquery in CONSTRUCT with builtins - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

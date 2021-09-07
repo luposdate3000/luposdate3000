@@ -48,9 +48,9 @@ import java.io.File
 
 // configure databases
 val allDatabases = mutableListOf(
-    DatabaseHandleBlazegraph("/data/benchmark/"),//out of memory during load
-    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
-    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
+//    DatabaseHandleBlazegraph("/data/benchmark/"),//out of memory during load
+//    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
+//    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
     DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
 //    DatabaseHandleJena(port = 8080),
 //    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080).setBufferManager("Inmemory"),
@@ -81,7 +81,7 @@ val datasetName="simulator_parking"
                                 val importTime = DateHelperRelative.elapsedSeconds(startTime)
                                 logger.println("import,$datasetName,${database.getName()},_,$importTime")
                                 logger.flush()
-                                for (queryID in 1 until 9){ 
+                                for (queryID in 1 until 12){ 
 val queryname="Q$queryID"
 val query=File("/src/luposdate3000/resources/myqueries/simulator_parking_query$queryID.sparql").readText()
                                     println("use $queryname")

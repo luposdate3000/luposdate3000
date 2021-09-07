@@ -53,7 +53,7 @@ public class BNODEstr {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -113,7 +113,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -128,7 +128,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -143,7 +143,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -158,7 +158,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -173,7 +173,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -188,7 +188,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -203,7 +203,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -218,7 +218,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -233,7 +233,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -248,7 +248,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -263,7 +263,7 @@ public class BNODEstr {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `BNODEstr - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

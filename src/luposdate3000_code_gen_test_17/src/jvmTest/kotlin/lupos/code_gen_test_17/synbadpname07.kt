@@ -27,7 +27,7 @@ public class synbadpname07 {
     internal val query = "PREFIX 1: <http://example/> \n" +
         "ASK{}"
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -42,7 +42,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -57,7 +57,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -72,7 +72,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -87,7 +87,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -102,7 +102,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -117,7 +117,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -132,7 +132,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -147,7 +147,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -162,7 +162,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -177,7 +177,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -192,7 +192,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -207,7 +207,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -222,7 +222,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -237,7 +237,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -252,7 +252,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -267,7 +267,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -282,7 +282,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -297,7 +297,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -312,7 +312,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -327,7 +327,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -342,7 +342,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -357,7 +357,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -372,7 +372,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -387,7 +387,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -402,7 +402,7 @@ public class synbadpname07 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `synbadpname07 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

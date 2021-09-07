@@ -52,7 +52,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         "WHERE { ?x foaf:name \"name\"@en . \n" +
         "      } "
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -127,7 +127,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -142,7 +142,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -157,7 +157,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -172,7 +172,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -187,7 +187,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -202,7 +202,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -217,7 +217,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -232,7 +232,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -247,7 +247,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -262,7 +262,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -277,7 +277,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -292,7 +292,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -307,7 +307,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -322,7 +322,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -337,7 +337,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -352,7 +352,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -367,7 +367,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -382,7 +382,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -397,7 +397,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -412,7 +412,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -427,7 +427,7 @@ public class Plainliteralswithlanguagetagarenotthesameasthesameliteralwithout {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `Plain literals with language tag are not the same as the same literal without - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

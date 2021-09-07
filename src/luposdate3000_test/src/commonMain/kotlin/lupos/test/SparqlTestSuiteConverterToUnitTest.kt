@@ -430,7 +430,7 @@ without minify mode only the passing tests will be added
                     if (minifyMode) {
                         fileBufferTest.println("    @Test(timeout = 2000)")
                     } else {
-                        fileBufferTest.println("    @Test")
+                        fileBufferTest.println("    @Test(timeout = 10000)")
                     }
                     fileBufferTest.println("    public fun `$finalTestName`() {")
                     fileBufferTest.println("      var instance = Luposdate3000Instance()")
@@ -471,7 +471,7 @@ without minify mode only the passing tests will be added
                             if (minifyMode) {
                                 fileBufferTest.println("    @Test(timeout = 2000)")
                             } else {
-                                fileBufferTest.println("    @Test")
+                                fileBufferTest.println("    @Test(timeout = 10000)")
                             }
                             fileBufferTest.println("    public fun `$finalTestName`() {")
                             fileBufferTest.println("        simulatorHelper(")

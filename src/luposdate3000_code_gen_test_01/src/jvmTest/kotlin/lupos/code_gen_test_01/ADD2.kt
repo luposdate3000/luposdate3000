@@ -60,7 +60,7 @@ public class ADD2 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ADD DEFAULT TO :g1"
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -75,7 +75,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -90,7 +90,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -105,7 +105,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -120,7 +120,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -135,7 +135,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -150,7 +150,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -165,7 +165,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -180,7 +180,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -195,7 +195,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -210,7 +210,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -225,7 +225,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -240,7 +240,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -255,7 +255,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -270,7 +270,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -285,7 +285,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -300,7 +300,7 @@ public class ADD2 {
         }
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -315,7 +315,7 @@ public class ADD2 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -330,7 +330,7 @@ public class ADD2 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -345,7 +345,7 @@ public class ADD2 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `ADD 2 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

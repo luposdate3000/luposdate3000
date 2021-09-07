@@ -49,7 +49,7 @@ public class papersparqldlQ5 {
         "} \n" +
         ""
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -64,7 +64,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -79,7 +79,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -94,7 +94,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -109,7 +109,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByKeyAllCollations - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -124,7 +124,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByKeyAllCollations - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -139,7 +139,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -154,7 +154,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -169,7 +169,7 @@ public class papersparqldlQ5 {
         )
     }
 
-    @Test
+    @Test(timeout = 10000)
     public fun `papersparqldlQ5 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
