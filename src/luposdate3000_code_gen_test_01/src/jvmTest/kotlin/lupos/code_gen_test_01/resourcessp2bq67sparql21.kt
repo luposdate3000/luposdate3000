@@ -18,14 +18,26 @@ package lupos.code_gen_test_01
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPartitionModeExt
-import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.simulator_core.Simulation
+import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_iot.SimulationRun
+
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -65,49 +77,47 @@ public class resourcessp2bq67sparql21 {
 
     @Test(timeout = 10000)
     public fun `resourcessp2bq67sparql21 - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `resourcessp2bq67sparql21 - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `resourcessp2bq67sparql21 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

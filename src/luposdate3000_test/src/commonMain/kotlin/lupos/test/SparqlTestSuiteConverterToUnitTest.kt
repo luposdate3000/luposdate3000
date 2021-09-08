@@ -234,7 +234,7 @@ without minify mode only the passing tests will be added
                 distributedTest.appendLine("        val pkg$distributedTestCtr = $s")
                 distributedTestCtr++
                 if (distributedTestCtr> 1) {
-                    distributedTest.appendLine("        pkg${distributedTestCtr - 2}.onFinish = pkg${distributedTestCtr - 1}")
+                    distributedTest.appendLine("        pkg${distributedTestCtr - 2}.setOnFinish(pkg${distributedTestCtr - 1})")
                 }
             }
         }
@@ -257,20 +257,14 @@ without minify mode only the passing tests will be added
             out.println("            fail($s)")
             out.println("        }")
         }
-        fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String?, isDefaultGraph: Boolean, out: IMyOutputStream) {
-            if (query == null) {
+        fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String, isDefaultGraph: Boolean, out: IMyOutputStream) {
+            if (query == "null") {
                 myActualDataOperatorGraph(counter, graph, out)
             }
             myActualDataEvaluate(counter, out)
             myExpectedData(counter, data, type, out)
             myCompareData(counter, out)
-            val q: String = query
-                ?: if (isDefaultGraph) {
-                    "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
-                } else {
-                    "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
-                }
-            appendDistributedTest("MySimulatorTestingCompareGraphPackage($q,MemoryTable.parseFromAny($data, $type, Query(instance))!!, {verifyExecuted$distributedTestCtr++})", true)
+            appendDistributedTest("MySimulatorTestingCompareGraphPackage($query,MemoryTable.parseFromAny($data, $type, Query(instance))!!, {verifyExecuted$distributedTestCtr++},$graph,instance)", true)
         }
         fileBufferPrefix.println("/*")
         fileBufferPrefix.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
@@ -376,14 +370,14 @@ without minify mode only the passing tests will be added
         }
         for (i in 0 until inputGraphs.size) {
             val c = localCounter++
-            myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", null, inputGraphIsDefaultGraph[i], fileBufferNormalHelper)
+            myVerifyGraph(c, "inputData[$i]", "inputType[$i]", "inputGraph[$i]", "null", inputGraphIsDefaultGraph[i], fileBufferNormalHelper)
         }
         val counter = localCounter++
         val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
         if (evaluateIt || expectedResult) {
             fileBufferNormalHelper.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                myVerifyGraph(counter, "targetData", "targetType", "", "query", false, fileBufferNormalHelper)
+                myVerifyGraph(counter, "targetData", "targetType", "\"\"", "query", false, fileBufferNormalHelper)
             } else {
                 if (evaluateIt) {
                     appendDistributedTest("MySimulatorTestingExecute(query)", false)
@@ -403,7 +397,7 @@ without minify mode only the passing tests will be added
         }
         for (i in 0 until outputGraphs.size) {
             val c = localCounter++
-            myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", null, outputGraphIsDefaultGraph[i], fileBufferNormalHelper)
+            myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", "null", outputGraphIsDefaultGraph[i], fileBufferNormalHelper)
         }
         fileBufferNormalHelper.println("    }")
 

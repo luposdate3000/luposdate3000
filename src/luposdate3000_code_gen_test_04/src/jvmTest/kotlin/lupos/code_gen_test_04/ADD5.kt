@@ -161,29 +161,29 @@ public class ADD5 {
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
-        pkg0.onFinish = pkg1
+        pkg0.setOnFinish(pkg1)
         val pkg2 = MySimulatorTestingImportPackage(inputData[2], inputGraph[2], inputType[2])
-        pkg1.onFinish = pkg2
+        pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ })
-        pkg2.onFinish = pkg3
+        val pkg3 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ }, inputGraph[0], instance)
+        pkg2.setOnFinish(pkg3)
         var verifyExecuted4 = 0
-        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ })
-        pkg3.onFinish = pkg4
+        val pkg4 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ }, inputGraph[1], instance)
+        pkg3.setOnFinish(pkg4)
         var verifyExecuted5 = 0
-        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[2]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ })
-        pkg4.onFinish = pkg5
+        val pkg5 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
+        pkg4.setOnFinish(pkg5)
         val pkg6 = MySimulatorTestingExecute(query)
-        pkg5.onFinish = pkg6
+        pkg5.setOnFinish(pkg6)
         var verifyExecuted7 = 0
-        val pkg7 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ })
-        pkg6.onFinish = pkg7
+        val pkg7 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ }, outputGraph[0], instance)
+        pkg6.setOnFinish(pkg7)
         var verifyExecuted8 = 0
-        val pkg8 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ })
-        pkg7.onFinish = pkg8
+        val pkg8 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ }, outputGraph[1], instance)
+        pkg7.setOnFinish(pkg8)
         var verifyExecuted9 = 0
-        val pkg9 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[2]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ })
-        pkg8.onFinish = pkg9
+        val pkg9 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ }, outputGraph[2], instance)
+        pkg8.setOnFinish(pkg9)
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()

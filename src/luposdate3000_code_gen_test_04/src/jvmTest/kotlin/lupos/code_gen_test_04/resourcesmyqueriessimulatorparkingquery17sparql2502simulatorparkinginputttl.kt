@@ -485,11 +485,11 @@ public class resourcesmyqueriessimulatorparkingquery17sparql2502simulatorparking
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ })
-        pkg0.onFinish = pkg1
+        val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
+        pkg0.setOnFinish(pkg1)
         var verifyExecuted2 = 0
-        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ })
-        pkg1.onFinish = pkg2
+        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ }, "", instance)
+        pkg1.setOnFinish(pkg2)
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()

@@ -26,6 +26,7 @@ import lupos.shared.EModifyType
 import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescription
 import lupos.shared.ITripleStoreDescriptionModifyCache
+import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
@@ -41,6 +42,7 @@ public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>,
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
+    override fun getIndices(): List<ITripleStoreIndexDescription> = indices.map { it as ITripleStoreIndexDescription }
     public override fun toMetaString(): String {
         val res = StringBuilder()
         res.append(graph)
@@ -151,7 +153,7 @@ public class TripleStoreDescription(
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:153"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:155"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {

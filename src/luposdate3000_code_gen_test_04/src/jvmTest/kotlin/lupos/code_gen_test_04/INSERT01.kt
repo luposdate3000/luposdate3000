@@ -372,13 +372,13 @@ public class INSERT01 {
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
-        val pkg1 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ })
-        pkg0.onFinish = pkg1
+        val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
+        pkg0.setOnFinish(pkg1)
         val pkg2 = MySimulatorTestingExecute(query)
-        pkg1.onFinish = pkg2
+        pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted3++ })
-        pkg2.onFinish = pkg3
+        val pkg3 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted3++ }, outputGraph[0], instance)
+        pkg2.setOnFinish(pkg3)
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()

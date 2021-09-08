@@ -23,4 +23,5 @@ public interface ITripleStoreIndexDescription {
     public fun getDistributionCount(): Int
     public fun toXMLElement(): XMLElement
     public fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey>
+    public fun getGraphName(): String
 }

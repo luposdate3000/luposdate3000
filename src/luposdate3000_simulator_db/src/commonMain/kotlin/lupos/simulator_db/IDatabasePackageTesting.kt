@@ -14,15 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared
 
-import lupos.shared.operator.IAOPBase
-import lupos.shared.operator.IOPBase
+package lupos.simulator_db
 
-public interface ITripleStoreDescription {
-    public fun modify_create_cache(query: IQuery, type: EModifyType, sortedBy: EIndexPattern, isSorted: Boolean): ITripleStoreDescriptionModifyCache
-    public fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase
-    public fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
-    public fun toMetaString(): String
-    public fun getIndices(): List<ITripleStoreIndexDescription>
+public interface IDatabasePackageTesting : IDatabasePackage {
+    public fun setOnFinish(pck: IDatabasePackageTesting)
+    public fun getOnFinish(): IDatabasePackageTesting?
 }
