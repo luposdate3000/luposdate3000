@@ -52,8 +52,8 @@ public class resourcesmyqueriessimulatorparkingquery10sparql2502simulatorparking
         "select * \n" +
         "where { \n" +
         "  ?b a parking:Observation; \n" +
-        "  parking:area 6; \n" +
-        "  parking:spotInArea 67. \n" +
+        "  parking:area 6 ; \n" +
+        "  parking:spotInArea 67 . \n" +
         "} \n" +
         ""
 

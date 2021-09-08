@@ -122,6 +122,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                 openOutputs[kk]?.close()
                 openInputs[kk] = null
                 openOutputs[kk] = null
+            } else {
             }
         }
         val iterator = RowIterator()
@@ -161,6 +162,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                         openOutputs[min]?.close()
                         openInputs[min] = null
                         openOutputs[min] = null
+                    } else {
                     }
                     break
                 }

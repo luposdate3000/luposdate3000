@@ -76,13 +76,18 @@ public class POPDistributedSendSingle public constructor(
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var flag = true
         while (true) {
+            var debugBuf = ""
             for (j in 0 until variables.size) {
                 val buf = columns[j].next()
-                flag = buf != DictionaryValueHelper.nullValue
+                debugBuf += ",$buf"
+                flag = flag && buf != DictionaryValueHelper.nullValue
                 connectionOut.writeDictionaryValueType(buf)
             }
             if (!flag) {
+                println("POPDistributedSendSingle $uuid writing end")
                 break
+            } else {
+                println("POPDistributedSendSingle $uuid writing row $debugBuf")
             }
         }
         connectionOut.flush()

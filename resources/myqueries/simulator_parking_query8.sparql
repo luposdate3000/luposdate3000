@@ -4,17 +4,17 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
 
 SELECT (count(?spot) as ?numberOfFreeSpaces)
 WHERE {
-  ?o a parking:Observation;
-  parking:spotInArea ?spot;
-  parking:area 9;
-  parking:isOccupied "false"^^xsd:boolean;
-  parking:resultTime ?lastObservedAt.
+  ?o a parking:Observation ;
+  parking:spotInArea ?spot ;
+  parking:area 9 ;
+  parking:isOccupied "false"^^xsd:boolean ;
+  parking:resultTime ?lastObservedAt .
   {
     SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{
-      ?o2 a parking:Observation;
-      parking:spotInArea ?spot;
-      parking:area 9;
-      parking:resultTime ?d.
+      ?o2 a parking:Observation ;
+      parking:spotInArea ?spot ;
+      parking:area 9 ;
+      parking:resultTime ?d .
     }
     GROUP BY ?spot
   }

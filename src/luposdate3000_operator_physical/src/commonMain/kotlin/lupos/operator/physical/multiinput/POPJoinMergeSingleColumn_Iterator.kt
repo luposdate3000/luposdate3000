@@ -38,8 +38,6 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
     @JvmField
     internal var sipbufValue = DictionaryValueTypeArray(1)
     init {
-        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $head0")
-        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $head1")
     }
     override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
@@ -49,10 +47,9 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (change) {
                         change = false
                         while (head0 < head1) {
-//                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
-//                            val c = sipbufValue[0]
-                            val c = child0.next() // TODO reenable sip
-                            println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $c")
+                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
+//                            val c = child0.next() // TODO reenable sip
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -62,10 +59,9 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                         }
                         while (head1 < head0) {
                             change = true
-                            //                          child1.nextSIP(head0, sipbufValue, sipbufSkip)
-//                            val c = sipbufValue[0]
-                            val c = child1.next() // TODO reenable sip
-                            println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $c")
+                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
+                            val c = sipbufValue[0]
+//                            val c = child1.next() // TODO reenable sip
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -80,7 +76,6 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
-                        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $d")
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
@@ -92,7 +87,6 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
-                        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $d")
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
