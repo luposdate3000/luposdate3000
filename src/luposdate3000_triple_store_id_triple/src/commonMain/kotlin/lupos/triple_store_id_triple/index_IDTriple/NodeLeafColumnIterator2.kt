@@ -22,9 +22,22 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
+
 internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager) {
     @JvmField
     var value: DictionaryValueType = 0
+
+    @JvmField
+    var debugvalue0: DictionaryValueType = 0
+
+    @JvmField
+    var debugvalue1: DictionaryValueType = 0
+
+    @JvmField
+    var debugvalue2: DictionaryValueType = 0
+
+    @JvmField
+    var debugEnable = true
     override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 1
@@ -34,10 +47,53 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
             if (needsReset) {
                 needsReset = false
                 value = 0
+                SanityCheck(
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:49"/*SOURCE_FILE_END*/ },
+                    {
+                        debugvalue0 = 0
+                        debugvalue1 = 0
+                        debugvalue2 = 0
+                    }
+                )
             }
-            offset += NodeShared.readTriple001(node, offset, value) { v ->
+            val len = NodeShared.readTriple001(node, offset, value) { v ->
+                println("NodeLeafColumnIterator2 nodeid=$nodeid off=$offset $v")
                 value = v
             }
+            SanityCheck(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:60"/*SOURCE_FILE_END*/ },
+                {
+                    if (debugEnable) {
+                        // otherwise add this code to SIP too .... this is intended to verify the graph comparison only anyway, because otherwise there is nearly never a triple pattern without constants
+                        val len1 = NodeShared.readTriple111(node, offset, debugvalue0, debugvalue1, debugvalue2) { v0, v1, v2 ->
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:65"/*SOURCE_FILE_END*/ },
+                                { debugvalue0 <= v0 }
+                            )
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:68"/*SOURCE_FILE_END*/ },
+                                { debugvalue1 <= v1 || debugvalue0 != v0 }
+                            )
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:71"/*SOURCE_FILE_END*/ },
+                                { debugvalue2 < v2 || debugvalue0 != v0 || debugvalue1 != v1 }
+                            )
+                            debugvalue0 = v0
+                            debugvalue1 = v1
+                            debugvalue2 = v2
+                        }
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:78"/*SOURCE_FILE_END*/ },
+                            { debugvalue2 == value }
+                        )
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:81"/*SOURCE_FILE_END*/ },
+                            { len == len1 }
+                        )
+                    }
+                }
+            )
+            offset += len
             updateRemaining()
             value
         } else {
@@ -46,6 +102,8 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
     }
 
     override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+        debugEnable = false
+        println("NodeLeafColumnIterator2.nextSIP !!!!!")
         if (label == 3) {
             label = 1
             __init()
@@ -77,22 +135,22 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:79"/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:80"/*SOURCE_FILE_END*/ }, { node != it })
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:129"/*SOURCE_FILE_END*/, nodeidTmp) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:130"/*SOURCE_FILE_END*/ }, { node != it })
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:84"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:134"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple001(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:91"/*SOURCE_FILE_END*/, nodeidTmp)
+                    nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:141"/*SOURCE_FILE_END*/, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:94"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:144"/*SOURCE_FILE_END*/, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
@@ -135,6 +193,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
     }
 
     override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
+        debugEnable = false
         if (label == 3) {
             label = 1
             __init()

@@ -196,7 +196,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
-            val o = POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))
+            val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
             PhysicalOptimizer(q).optimizeCall(o)
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
@@ -340,7 +340,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // remove unnecessary query parts, which just receive and send from and to single locations <<<---
 
-//        println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap")
+        println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap")
         for (k in parts.keys) {
             if (!hostMap.keys.contains(k)) {
                 // println("not assigned $k $v")

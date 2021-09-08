@@ -25,7 +25,11 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
-public class OPBaseCompound public constructor(query: IQuery, children: Array<IOPBase>, @JvmField public val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
+public class OPBaseCompound public constructor(
+    query: IQuery,
+    children: Array<IOPBase>,
+    @JvmField public val columnProjectionOrder: List<List<String>>
+) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override fun cloneOP(): IOPBase = OPBaseCompound(query, getChildren().map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
