@@ -18,20 +18,26 @@ package lupos.code_gen_test_12
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
+import lupos.parser.JsonParser
+import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPartitionModeExt
-import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
 import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
+import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.SimulationRun
+
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -71,64 +77,60 @@ public class COPY3 {
 
     @Test(timeout = 10000)
     public fun `COPY 3 - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - Thread - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
@@ -143,7 +145,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
@@ -158,7 +159,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -173,7 +173,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -188,7 +187,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -203,7 +201,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -218,7 +215,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -233,7 +229,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -248,7 +243,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -263,7 +257,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -278,7 +271,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -293,7 +285,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -308,7 +299,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
@@ -323,7 +313,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
@@ -338,7 +327,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
@@ -353,7 +341,6 @@ public class COPY3 {
             )
         )
     }
-
     @Test(timeout = 10000)
     public fun `COPY 3 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
@@ -368,63 +355,63 @@ public class COPY3 {
             )
         )
     }
-    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
+    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false)
+        val config=simRun.parseConfig(fileName,false)
         config.jsonObjects.database.putAll(cfg)
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
+        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance
         val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
         val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
         pkg0.onFinish = pkg1
         val pkg2 = MySimulatorTestingImportPackage(inputData[2], inputGraph[2], inputType[2])
         pkg1.onFinish = pkg2
         var verifyExecuted3 = 0
-        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ })
+        val pkg3 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted3++})
         pkg2.onFinish = pkg3
         var verifyExecuted4 = 0
-        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ })
+        val pkg4 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[1]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, {verifyExecuted4++})
         pkg3.onFinish = pkg4
         var verifyExecuted5 = 0
-        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[2]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ })
+        val pkg5 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${inputGraph[2]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, {verifyExecuted5++})
         pkg4.onFinish = pkg5
         val pkg6 = MySimulatorTestingExecute(query)
         pkg5.onFinish = pkg6
         var verifyExecuted7 = 0
-        val pkg7 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ })
+        val pkg7 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { ?s ?p ?o . }",MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, {verifyExecuted7++})
         pkg6.onFinish = pkg7
         var verifyExecuted8 = 0
-        val pkg8 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ })
+        val pkg8 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[1]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, {verifyExecuted8++})
         pkg7.onFinish = pkg8
         var verifyExecuted9 = 0
-        val pkg9 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[2]}> { ?s ?p ?o . }}", MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ })
+        val pkg9 = MySimulatorTestingCompareGraphPackage("SELECT ?s ?p ?o WHERE { GRAPH <${outputGraph[2]}> { ?s ?p ?o . }}",MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, {verifyExecuted9++})
         pkg8.onFinish = pkg9
         config.querySenders[0].queryPck = pkg0
         simRun.sim.run()
         simRun.sim.shutDown()
-        if (verifyExecuted3 == 0) {
+        if (verifyExecuted3==0) {
             fail("pck3 not verified")
         }
-        if (verifyExecuted4 == 0) {
+        if (verifyExecuted4==0) {
             fail("pck4 not verified")
         }
-        if (verifyExecuted5 == 0) {
+        if (verifyExecuted5==0) {
             fail("pck5 not verified")
         }
-        if (verifyExecuted7 == 0) {
+        if (verifyExecuted7==0) {
             fail("pck7 not verified")
         }
-        if (verifyExecuted8 == 0) {
+        if (verifyExecuted8==0) {
             fail("pck8 not verified")
         }
-        if (verifyExecuted9 == 0) {
+        if (verifyExecuted9==0) {
             fail("pck9 not verified")
         }
     }
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])

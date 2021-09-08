@@ -19,6 +19,7 @@ package lupos.operator.physical.multiinput
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
@@ -37,8 +38,18 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
 
     @JvmField
     internal var sipbufValue = DictionaryValueTypeArray(1)
+
+    @JvmField
+    internal var debugHead0 = head0
+
+    @JvmField
+    internal var debugHead1 = head1
+
     init {
+        println("POPJoinMergeSingleColumn_Iterator $uuid 0 $head0")
+        println("POPJoinMergeSingleColumn_Iterator $uuid 1 $head1")
     }
+
     override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
             1 -> {
@@ -47,9 +58,20 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (change) {
                         change = false
                         while (head0 < head1) {
-                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
-                            val c = sipbufValue[0]
-//                            val c = child0.next() // TODO reenable sip
+                            //                          child0.nextSIP(head1, sipbufValue, sipbufSkip)
+//                            val c = sipbufValue[0]
+                            val c = child0.next() // TODO reenable sip
+                            SanityCheck(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:64"/*SOURCE_FILE_END*/ },
+                                {
+                                    println("POPJoinMergeSingleColumn_Iterator $uuid 0 $c")
+                                    SanityCheck.check(
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:68"/*SOURCE_FILE_END*/ },
+                                        { c >= debugHead0 || c == DictionaryValueHelper.nullValue }
+                                    )
+                                    debugHead0 = c
+                                }
+                            )
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -59,9 +81,20 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                         }
                         while (head1 < head0) {
                             change = true
-                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
-                            val c = sipbufValue[0]
-//                            val c = child1.next() // TODO reenable sip
+//                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
+//                            val c = sipbufValue[0]
+                            val c = child1.next() // TODO reenable sip
+                            SanityCheck(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:87"/*SOURCE_FILE_END*/ },
+                                {
+                                    println("POPJoinMergeSingleColumn_Iterator $uuid 1 $c")
+                                    SanityCheck.check(
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:91"/*SOURCE_FILE_END*/ },
+                                        { c >= debugHead1 || c == DictionaryValueHelper.nullValue }
+                                    )
+                                    debugHead1 = c
+                                }
+                            )
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -76,6 +109,17 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
+                        SanityCheck(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:112"/*SOURCE_FILE_END*/ },
+                            {
+                                println("POPJoinMergeSingleColumn_Iterator $uuid 0 $d")
+                                SanityCheck.check(
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:116"/*SOURCE_FILE_END*/ },
+                                    { d >= debugHead0 || d == DictionaryValueHelper.nullValue }
+                                )
+                                debugHead0 = d
+                            }
+                        )
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
@@ -87,6 +131,17 @@ internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmFi
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
+                        SanityCheck(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:134"/*SOURCE_FILE_END*/ },
+                            {
+                                println("POPJoinMergeSingleColumn_Iterator $uuid 1 $d")
+                                SanityCheck.check(
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeSingleColumn_Iterator.kt:138"/*SOURCE_FILE_END*/ },
+                                    { d >= debugHead1 || d == DictionaryValueHelper.nullValue }
+                                )
+                                debugHead1 = d
+                            }
+                        )
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break

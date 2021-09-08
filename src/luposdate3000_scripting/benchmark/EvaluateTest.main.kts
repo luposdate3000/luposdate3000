@@ -81,7 +81,7 @@ val datasetName="simulator_parking"
                                 val importTime = DateHelperRelative.elapsedSeconds(startTime)
                                 logger.println("import,$datasetName,${database.getName()},_,$importTime")
                                 logger.flush()
-                                for (queryID in 1 until 12){ 
+                                for (queryID in 1 until 18){ 
 val queryname="Q$queryID"
 val query=File("/src/luposdate3000/resources/myqueries/simulator_parking_query$queryID.sparql").readText()
                                     println("use $queryname")
