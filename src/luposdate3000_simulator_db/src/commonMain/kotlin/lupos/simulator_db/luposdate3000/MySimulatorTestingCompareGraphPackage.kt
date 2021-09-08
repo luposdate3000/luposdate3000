@@ -27,6 +27,34 @@ public class MySimulatorTestingCompareGraphPackage(
     public val verifyAction: () -> Unit,
     public val idx: ITripleStoreIndexDescription?,
 ) : IDatabasePackageTesting {
+
+    private var needsPrepare = false
+    private var graph: String? = null
+    private var instance: Luposdate3000Instance? = null
+    public fun prepare(): MySimulatorTestingCompareGraphPackage {
+        if (needsPrepare) {
+            val q: String = if (graph == "") {
+                "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+            } else {
+                "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
+            }
+            var res: MySimulatorTestingCompareGraphPackage? = null
+            for (idx in instance!!.tripleStoreManager!!.getGraph(graph!!).getIndices()) {
+                if (res == null) {
+                    res = MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx)
+                } else {
+                    res.setOnFinish(MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx))
+                }
+            }
+            if (_onFinish != null) {
+                res!!.setOnFinish(_onFinish!!)
+            }
+            return res!!
+        } else {
+            return this
+        }
+    }
+
     public companion object {
         public operator fun invoke(
             query: String?,
@@ -38,20 +66,11 @@ public class MySimulatorTestingCompareGraphPackage(
             if (query != null) {
                 return MySimulatorTestingCompareGraphPackage(query, expectedResult, verifyAction, null)
             } else {
-                val q: String = if (graph == "") {
-                    "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
-                } else {
-                    "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
-                }
-                var res: MySimulatorTestingCompareGraphPackage? = null
-                for (idx in instance.tripleStoreManager!!.getGraph(graph!!).getIndices()) {
-                    if (res == null) {
-                        res = MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx)
-                    } else {
-                        res.setOnFinish(MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx))
-                    }
-                }
-                return res!!
+                val res = MySimulatorTestingCompareGraphPackage("", expectedResult, verifyAction, null)
+                res.needsPrepare = true
+                res.graph = graph
+                res.instance = instance
+                return res
             }
         }
     }
