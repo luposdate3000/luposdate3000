@@ -24,26 +24,26 @@ internal object SemanticData {
     internal fun get_SHACL_OntolotgyString(): String {
         return "" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sh: <http://www.w3.org/ns/shacl#>\n" +
+            "PREFIX sh: <http://www.w3.org\ns/shacl#>\n" +
             "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
-            "_:b0 a sh:NodeShape ./n" +
-            "_:b0 sh:targetClass parking:Observation ./n" +
-            "_:b0 sh:property _:b1 ./n" +
-            "_:b0 sh:property _:b2 ./n" +
-            "_:b0 sh:property _:b3 ./n" +
-            "_:b0 sh:property _:b4 ./n" +
+            "_:b0 a sh:NodeShape .\n" +
+            "_:b0 sh:targetClass parking:Observation .\n" +
+            "_:b0 sh:property _:b1 .\n" +
+            "_:b0 sh:property _:b2 .\n" +
+            "_:b0 sh:property _:b3 .\n" +
+            "_:b0 sh:property _:b4 .\n" +
 
-            "_:b1 sh:path parking:area ./n" +
-            "_:b1 sh:datatype xsd:integer ./n" +
+            "_:b1 sh:path parking:area .\n" +
+            "_:b1 sh:datatype xsd:integer .\n" +
 
-            "_:b2 sh:path parking:spotInArea ./n" +
-            "_:b2 sh:datatype xsd:integer ./n" +
+            "_:b2 sh:path parking:spotInArea .\n" +
+            "_:b2 sh:datatype xsd:integer .\n" +
 
-            "_:b3 sh:path parking:isOccupied ./n" +
-            "_:b3 sh:datatype xsd:boolean ./n" +
+            "_:b3 sh:path parking:isOccupied .\n" +
+            "_:b3 sh:datatype xsd:boolean .\n" +
 
-            "_:b4 sh:path parking:resultTime ./n" +
-            "_:b4 sh:datatype xsd:dateTime ./n" +
+            "_:b4 sh:path parking:resultTime .\n" +
+            "_:b4 sh:datatype xsd:dateTime .\n" +
 
             "\n"
     }
@@ -53,11 +53,11 @@ internal object SemanticData {
             "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "\n" +
             "INSERT DATA {\n" +
-            " _:b0 a parking:Observation ;/n" +
-            " parking:area \"${s.area}\"^^xsd:integer ;/n" +
-            " parking:spotInArea \"${s.sensorID}\"^^xsd:integer ;/n" +
-            " parking:isOccupied \"${s.isOccupied}\"^^xsd:boolean ;/n" +
-            " parking:resultTime \"${s.sampleTime}\"^^xsd:dateTime ./n" +
+            " _:b0 a parking:Observation ;\n" +
+            " parking:area \"${s.area}\"^^xsd:integer ;\n" +
+            " parking:spotInArea \"${s.sensorID}\"^^xsd:integer ;\n" +
+            " parking:isOccupied \"${s.isOccupied}\"^^xsd:boolean ;\n" +
+            " parking:resultTime \"${s.sampleTime}\"^^xsd:dateTime .\n" +
             "}\n"
     }
 
@@ -72,7 +72,7 @@ internal object SemanticData {
             "\n" +
             "select (count(distinct ?x) as ?count)\n" +
             "where {\n" +
-            " ?s parking:area ?x ./n" +
+            " ?s parking:area ?x .\n" +
             "}"
     }
 
@@ -83,8 +83,8 @@ internal object SemanticData {
             "\n" +
             "select distinct ?x\n" +
             "where {\n" +
-            " ?b a parking:Observation ;/n" +
-            " parking:area ?x ./n" +
+            " ?b a parking:Observation ;\n" +
+            " parking:area ?x .\n" +
             "}"
     }
 
@@ -95,9 +95,9 @@ internal object SemanticData {
             "\n" +
             "select (count(distinct ?x) as ?count)\n" +
             "where {\n" +
-            " ?b a parking:Observation ;/n" +
-            " parking:area $area ;/n" +
-            " parking:spotInArea ?x ./n" +
+            " ?b a parking:Observation ;\n" +
+            " parking:area $area ;\n" +
+            " parking:spotInArea ?x .\n" +
             "}"
     }
 
@@ -108,9 +108,9 @@ internal object SemanticData {
             "\n" +
             "select (count(?b) as ?count)\n" +
             "where {\n" +
-            " ?b a parking:Observation ;/n" +
-            " parking:area $area ;/n" +
-            " parking:spotInArea $spot ./n" +
+            " ?b a parking:Observation ;\n" +
+            " parking:area $area ;\n" +
+            " parking:spotInArea $spot .\n" +
             "}"
     }
 
@@ -121,10 +121,10 @@ internal object SemanticData {
             "\n" +
             "select (max(?d) AS ?latestDate)\n" +
             "where {\n" +
-            " ?b a parking:Observation ;/n" +
-            " parking:area $area ;/n" +
-            " parking:spotInArea $spot ;/n" +
-            " parking:resultTime ?d ./n" +
+            " ?b a parking:Observation ;\n" +
+            " parking:area $area ;\n" +
+            " parking:spotInArea $spot ;\n" +
+            " parking:resultTime ?d .\n" +
             "}"
     }
 
@@ -135,17 +135,17 @@ internal object SemanticData {
             "\n" +
             "SELECT ?spot ?isOccupied ?lastObservedAt\n" +
             "WHERE {\n" +
-            " ?o a parking:Observation ;/n" +
-            " parking:spotInArea ?spot ;/n" +
-            " parking:area $area ;/n" +
-            " parking:isOccupied ?isOccupied ;/n" +
-            " parking:resultTime ?lastObservedAt ./n" +
+            " ?o a parking:Observation ;\n" +
+            " parking:spotInArea ?spot ;\n" +
+            " parking:area $area ;\n" +
+            " parking:isOccupied ?isOccupied ;\n" +
+            " parking:resultTime ?lastObservedAt .\n" +
             " {\n" +
             " SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{\n" +
-            "  ?o2 a parking:Observation ;/n" +
-            "  parking:spotInArea ?spot ;/n" +
-            "  parking:area $area ;/n" +
-            "  parking:resultTime ?d ./n" +
+            "  ?o2 a parking:Observation ;\n" +
+            "  parking:spotInArea ?spot ;\n" +
+            "  parking:area $area ;\n" +
+            "  parking:resultTime ?d .\n" +
             " }\n" +
             " GROUP BY ?spot\n" +
             " }\n" +
@@ -159,17 +159,17 @@ internal object SemanticData {
             "\n" +
             "SELECT ?area ?spot ?isOccupied ?lastObservedAt\n" +
             "WHERE {\n" +
-            " ?o a parking:Observation ;/n" +
-            " parking:area ?area ;/n" +
-            " parking:spotInArea ?spot ;/n" +
-            " parking:isOccupied ?isOccupied ;/n" +
-            " parking:resultTime ?lastObservedAt ./n" +
+            " ?o a parking:Observation ;\n" +
+            " parking:area ?area ;\n" +
+            " parking:spotInArea ?spot ;\n" +
+            " parking:isOccupied ?isOccupied ;\n" +
+            " parking:resultTime ?lastObservedAt .\n" +
             " {\n" +
             " SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot WHERE{\n" +
-            "  ?o2 a parking:Observation ;/n" +
-            "  parking:area ?area ;/n" +
-            "  parking:spotInArea ?spot ;/n" +
-            "  parking:resultTime ?d ./n" +
+            "  ?o2 a parking:Observation ;\n" +
+            "  parking:area ?area ;\n" +
+            "  parking:spotInArea ?spot ;\n" +
+            "  parking:resultTime ?d .\n" +
             "  FILTER (?area IN (${areas.joinToString()}))\n" +
             " }\n" +
             " GROUP BY ?area ?spot\n" +
@@ -184,17 +184,17 @@ internal object SemanticData {
             "\n" +
             "SELECT (count(?spot) as ?numberOfFreeSpaces)\n" +
             "WHERE {\n" +
-            " ?o a parking:Observation ;/n" +
-            " parking:spotInArea ?spot ;/n" +
-            " parking:area $area ;/n" +
-            " parking:isOccupied \"false\"^^xsd:boolean ;/n" +
-            " parking:resultTime ?lastObservedAt ./n" +
+            " ?o a parking:Observation ;\n" +
+            " parking:spotInArea ?spot ;\n" +
+            " parking:area $area ;\n" +
+            " parking:isOccupied \"false\"^^xsd:boolean ;\n" +
+            " parking:resultTime ?lastObservedAt .\n" +
             " {\n" +
             " SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{\n" +
-            "  ?o2 a parking:Observation ;/n" +
-            "  parking:spotInArea ?spot ;/n" +
-            "  parking:area $area ;/n" +
-            "  parking:resultTime ?d ./n" +
+            "  ?o2 a parking:Observation ;\n" +
+            "  parking:spotInArea ?spot ;\n" +
+            "  parking:area $area ;\n" +
+            "  parking:resultTime ?d .\n" +
             " }\n" +
             " GROUP BY ?spot\n" +
             " }\n" +

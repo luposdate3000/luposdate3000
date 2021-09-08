@@ -329,35 +329,40 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
-        val q = Query(instance)
-        SanityCheck.println { "----------String Query" }
-        SanityCheck.println { query }
-        SanityCheck.println { "----------Abstract Syntax Tree" }
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
-        SanityCheck.println { astNode }
-        SanityCheck.println { "----------Logical Operator Graph" }
-        val lopNode = astNode.visit(OperatorGraphVisitor(q))
-        SanityCheck.println { lopNode }
-        SanityCheck.println { "----------Logical Operator Graph optimized" }
-        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-        SanityCheck.println { lopNode2 }
-        SanityCheck.println { "----------Physical Operator Graph" }
-        val popOptimizer = PhysicalOptimizer(q)
-        val popNode = popOptimizer.optimizeCall(lopNode2)
-        SanityCheck.println { popNode }
-        if (logOperatorGraph) {
-            println("----------")
+        try {
+            val q = Query(instance)
+            SanityCheck.println { "----------String Query" }
+            SanityCheck.println { query }
+            SanityCheck.println { "----------Abstract Syntax Tree" }
+            val lcit = LexerCharIterator(query)
+            val tit = TokenIteratorSPARQLParser(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val parser = SPARQLParser(ltit)
+            val astNode = parser.expr()
+            SanityCheck.println { astNode }
+            SanityCheck.println { "----------Logical Operator Graph" }
+            val lopNode = astNode.visit(OperatorGraphVisitor(q))
+            SanityCheck.println { lopNode }
+            SanityCheck.println { "----------Logical Operator Graph optimized" }
+            val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
+            SanityCheck.println { lopNode2 }
+            SanityCheck.println { "----------Physical Operator Graph" }
+            val popOptimizer = PhysicalOptimizer(q)
+            val popNode = popOptimizer.optimizeCall(lopNode2)
+            SanityCheck.println { popNode }
+            if (logOperatorGraph) {
+                println("----------")
+                println(query)
+                println(">>>>>>>>>>")
+                println(popNode.toString())
+                println("<<<<<<<<<<")
+                println(OperatorGraphToLatex(popNode.toString(), ""))
+            }
+            return popNode
+        } catch (e: Throwable) {
             println(query)
-            println(">>>>>>>>>>")
-            println(popNode.toString())
-            println("<<<<<<<<<<")
-            println(OperatorGraphToLatex(popNode.toString(), ""))
+            throw e
         }
-        return popNode
     }
 
     public fun evaluateOperatorgraphToVisual(instance: Luposdate3000Instance, node: IOPBase, output: OPVisualGraph): Int {
