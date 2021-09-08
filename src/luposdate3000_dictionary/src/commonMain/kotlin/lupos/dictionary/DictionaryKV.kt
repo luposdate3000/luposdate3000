@@ -239,7 +239,7 @@ public class DictionaryKV internal constructor(
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         var mymapping = DictionaryValueTypeArray(0)
-        val lastId: DictionaryValueType = -1
+        var lastid = DictionaryValueHelper.NULL
         lock.withWriteLock {
             val buffer = ByteArrayWrapper()
             val reader = DictionaryIntermediateReader(filename)
@@ -249,6 +249,9 @@ public class DictionaryKV internal constructor(
                 hasNext = {
                     loop@ while (!ready && reader.hasNext()) {
                         reader.next(buffer) { id ->
+                            if (id> lastid) {
+                                lastid = id
+                            }
                             originalID = id
                             ready = true
                             val type = DictionaryHelper.byteArrayToType(buffer)
@@ -270,7 +273,7 @@ public class DictionaryKV internal constructor(
                 },
                 next = {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:272"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:275"/*SOURCE_FILE_END*/ },
                         { ready }
                     )
                     ready = false
@@ -286,12 +289,12 @@ public class DictionaryKV internal constructor(
                 }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:288"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:291"/*SOURCE_FILE_END*/ },
                 { !ready }
             )
-            println("imported $lastId dictionaryItems")
+            println("imported $lastid dictionaryItems")
         }
-        return Pair(mymapping, DictionaryValueHelper.toInt(lastId + 1))
+        return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
@@ -299,19 +302,19 @@ public class DictionaryKV internal constructor(
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:301"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:304"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.BLANK_NODE }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:305"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:308"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.BOOLEAN }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:309"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:312"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.ERROR }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:313"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:316"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.UNDEF }
             )
             val res = vk.hasValue(buffer)

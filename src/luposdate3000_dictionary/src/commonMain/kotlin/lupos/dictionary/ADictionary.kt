@@ -108,7 +108,9 @@ public abstract class ADictionary(
         var lastid = DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            lastid = id
+            if (id> lastid) {
+                lastid = id
+            }
             if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
                 println("imported $id dictionaryItems")
             }

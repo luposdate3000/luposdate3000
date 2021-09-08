@@ -625,6 +625,34 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
     override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
         if (isSorted) {
+            SanityCheck(
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:628"/*SOURCE_FILE_END*/ },
+                {
+                    for (i in 1 until dataSize / 3) {
+                        val oldA = data[(i - 1) * 3 + order[0]]
+                        val newA = data[i * 3 + order[0]]
+                        val oldB = data[(i - 1) * 3 + order[1]]
+                        val newB = data[i * 3 + order[1]]
+                        val oldC = data[(i - 1) * 3 + order[2]]
+                        val newC = data[i * 3 + order[2]]
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:638"/*SOURCE_FILE_END*/ },
+                            { newA >= oldA },
+                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${order.map{it}}" }
+                        )
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:643"/*SOURCE_FILE_END*/ },
+                            { newB >= oldB || newA > oldA },
+                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${order.map{it}}" }
+                        )
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:648"/*SOURCE_FILE_END*/ },
+                            { newC> oldC || newA > oldA || newB > oldB },
+                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${order.map{it}}" }
+                        )
+                    }
+                }
+            )
             insertAsBulkSorted(data, order, dataSize)
         } else {
             val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
@@ -646,13 +674,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:648"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:676"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:654"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:682"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -662,7 +690,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             pendingImport.add(importHelper(BulkImportIterator(data, dataSize, order)))
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:664"/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:692"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -673,13 +701,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize> 0) {
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:675"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:703"/*SOURCE_FILE_END*/ },
                 {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:681"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:709"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
                     }
                 }
             )
@@ -687,12 +715,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:689"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:717"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size> 0 && pendingImport.size > 0) })
             if (pendingImport.size> 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }
             if (root_ != NodeManager.nodeNullPointer) {
-                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:694"/*SOURCE_FILE_END*/, root_)
+                nodeManager.freeAllInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:722"/*SOURCE_FILE_END*/, root_)
             }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -704,7 +732,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun clear() {
         flushContinueWithWriteLock()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:706"/*SOURCE_FILE_END*/, root_)
+            nodeManager.freeNodeAndAllRelated(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:734"/*SOURCE_FILE_END*/, root_)
             setRoot(NodeManager.nodeNullPointer)
         }
         setFirstLeaf(NodeManager.nodeNullPointer)
@@ -715,14 +743,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
-        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:717"/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:718"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:745"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:746"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     override fun close() {
         flush()
         if (root_ != NodeManager.nodeNullPointer) {
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:724"/*SOURCE_FILE_END*/, root_)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:752"/*SOURCE_FILE_END*/, root_)
         }
     }
 }
