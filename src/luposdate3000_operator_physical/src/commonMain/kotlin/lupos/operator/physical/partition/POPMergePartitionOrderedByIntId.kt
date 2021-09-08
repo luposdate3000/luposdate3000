@@ -237,8 +237,15 @@ public class POPMergePartitionOrderedByIntId public constructor(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:236"/*SOURCE_FILE_END*/ },
                 {
                     for (x in sortColumns.indices) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:239"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ },
+                            { sortColumns[x] >= 0 },
+                            { "${variables.map{it}} .. ${mySortPriority.map{it.variableName}}" }
+                        )
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:245"/*SOURCE_FILE_END*/ },
+                            { mySortPriority[x].sortType == ESortTypeExt.FAST }
+                        )
                     }
                 }
             )
@@ -294,6 +301,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
                     if (finishedWriters == partitionCount) {
                         break@loop
                     }
+                }
+                if (res == -1) {
+                    iterator.close()
                 }
                 if (error != null) {
                     iterator.close()

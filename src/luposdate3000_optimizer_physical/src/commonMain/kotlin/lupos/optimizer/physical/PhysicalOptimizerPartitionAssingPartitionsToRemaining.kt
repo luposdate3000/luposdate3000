@@ -73,10 +73,12 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
-                            res = if (node.projectedVariables.isNotEmpty()) {
-                                POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                            if (node.projectedVariables.isNotEmpty()) {
+                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
                             } else {
-                                POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                                res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
@@ -92,10 +94,12 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, variable, count, partitionID, node)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
-                            res = if (node.projectedVariables.isNotEmpty()) {
-                                POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
+                            if (node.projectedVariables.isNotEmpty()) {
+                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
+                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
                             } else {
-                                POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)
+                                res = POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)
+                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
