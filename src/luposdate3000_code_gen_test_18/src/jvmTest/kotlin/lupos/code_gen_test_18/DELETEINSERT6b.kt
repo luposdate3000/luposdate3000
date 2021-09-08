@@ -71,7 +71,7 @@ public class DELETEINSERT6b {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -86,7 +86,7 @@ public class DELETEINSERT6b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -101,7 +101,7 @@ public class DELETEINSERT6b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -116,7 +116,7 @@ public class DELETEINSERT6b {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -131,7 +131,7 @@ public class DELETEINSERT6b {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -146,7 +146,7 @@ public class DELETEINSERT6b {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -161,7 +161,7 @@ public class DELETEINSERT6b {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DELETE INSERT 6b - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

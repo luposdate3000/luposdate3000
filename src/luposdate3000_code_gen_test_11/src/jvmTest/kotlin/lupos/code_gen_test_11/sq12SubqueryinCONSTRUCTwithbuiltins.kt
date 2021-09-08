@@ -54,7 +54,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -84,7 +84,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -99,7 +99,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -114,7 +114,7 @@ public class sq12SubqueryinCONSTRUCTwithbuiltins {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq12  Subquery in CONSTRUCT with builtins - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

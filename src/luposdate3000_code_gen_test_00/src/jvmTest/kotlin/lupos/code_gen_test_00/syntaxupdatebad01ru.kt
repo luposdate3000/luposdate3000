@@ -28,7 +28,7 @@ public class syntaxupdatebad01ru {
         "LOAD ; \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -43,7 +43,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -58,7 +58,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -73,7 +73,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -88,7 +88,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -103,7 +103,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -118,7 +118,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -133,7 +133,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -148,7 +148,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -163,7 +163,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -178,7 +178,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -193,7 +193,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -208,7 +208,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -223,7 +223,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -238,7 +238,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -253,7 +253,7 @@ public class syntaxupdatebad01ru {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxupdatebad01ru - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

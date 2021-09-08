@@ -49,7 +49,7 @@ public class resourcessp2bq3bsparql247 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3bsparql247 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

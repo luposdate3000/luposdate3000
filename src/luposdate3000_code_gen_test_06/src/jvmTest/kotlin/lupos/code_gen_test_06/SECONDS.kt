@@ -47,7 +47,7 @@ public class SECONDS {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SECONDS - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -62,7 +62,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SECONDS - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -77,7 +77,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SECONDS - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -92,7 +92,7 @@ public class SECONDS {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SECONDS - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

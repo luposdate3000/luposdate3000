@@ -49,7 +49,7 @@ public class constructwhere01CONSTRUCTWHERE {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "CONSTRUCT WHERE { ?s ?p ?o}"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -64,7 +64,7 @@ public class constructwhere01CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -79,7 +79,7 @@ public class constructwhere01CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -94,7 +94,7 @@ public class constructwhere01CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -109,7 +109,7 @@ public class constructwhere01CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -124,7 +124,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -139,7 +139,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -154,7 +154,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -169,7 +169,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -184,7 +184,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -199,7 +199,7 @@ public class constructwhere01CONSTRUCTWHERE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

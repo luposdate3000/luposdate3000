@@ -32,7 +32,7 @@ public class syntaxBINDscope4rq {
         "  } \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -47,7 +47,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -62,7 +62,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -77,7 +77,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -92,7 +92,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -107,7 +107,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -122,7 +122,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -137,7 +137,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -152,7 +152,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -167,7 +167,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -182,7 +182,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -197,7 +197,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -212,7 +212,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -227,7 +227,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -242,7 +242,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -257,7 +257,7 @@ public class syntaxBINDscope4rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxBINDscope4rq - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

@@ -59,7 +59,7 @@ public class PostqueryVALUESwithsubjvar1row {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -74,7 +74,7 @@ public class PostqueryVALUESwithsubjvar1row {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -89,7 +89,7 @@ public class PostqueryVALUESwithsubjvar1row {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -104,7 +104,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -119,7 +119,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -134,7 +134,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -149,7 +149,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -164,7 +164,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -179,7 +179,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -194,7 +194,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -209,7 +209,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -224,7 +224,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -239,7 +239,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -254,7 +254,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -269,7 +269,7 @@ public class PostqueryVALUESwithsubjvar1row {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Postquery VALUES with subjvar 1 row - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

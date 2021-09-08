@@ -49,7 +49,7 @@ public class bind07BINDfixeddataforOWLDL {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind07  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

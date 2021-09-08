@@ -51,7 +51,7 @@ public class COUNT1 {
         "WHERE { ?S ?P ?O } \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -66,7 +66,7 @@ public class COUNT1 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -81,7 +81,7 @@ public class COUNT1 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -96,7 +96,7 @@ public class COUNT1 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -111,7 +111,7 @@ public class COUNT1 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -126,7 +126,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -141,7 +141,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -156,7 +156,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -171,7 +171,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -186,7 +186,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -201,7 +201,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -216,7 +216,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -231,7 +231,7 @@ public class COUNT1 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 1 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

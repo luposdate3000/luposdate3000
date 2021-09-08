@@ -53,7 +53,7 @@ public class bind06BIND {
         "  BIND(?o+10 AS ?z) \n" +
         "}"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind06  BIND - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class bind06BIND {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind06  BIND - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class bind06BIND {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind06  BIND - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class bind06BIND {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind06  BIND - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -113,7 +113,7 @@ public class bind06BIND {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind06  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

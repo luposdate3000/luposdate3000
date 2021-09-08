@@ -52,7 +52,7 @@ public class SHA256 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SHA256 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class SHA256 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SHA256 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class SHA256 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SHA256 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class SHA256 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SHA256 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class SHA256 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SHA256 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

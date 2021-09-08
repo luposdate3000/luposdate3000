@@ -55,7 +55,7 @@ public class Group3 {
         "GROUP BY ?w \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Group3 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -70,7 +70,7 @@ public class Group3 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Group3 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -85,7 +85,7 @@ public class Group3 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Group3 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,7 +100,7 @@ public class Group3 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Group3 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

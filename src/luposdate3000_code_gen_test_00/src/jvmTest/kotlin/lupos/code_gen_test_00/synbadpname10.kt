@@ -31,7 +31,7 @@ public class synbadpname10 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -46,7 +46,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -61,7 +61,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -76,7 +76,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -91,7 +91,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -106,7 +106,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -121,7 +121,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -136,7 +136,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -151,7 +151,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -166,7 +166,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -181,7 +181,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -196,7 +196,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -211,7 +211,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -226,7 +226,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -241,7 +241,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -256,7 +256,7 @@ public class synbadpname10 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `synbadpname10 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

@@ -53,7 +53,7 @@ public class RDFtestforblanknodecardinalities {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class RDFtestforblanknodecardinalities {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class RDFtestforblanknodecardinalities {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class RDFtestforblanknodecardinalities {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -113,7 +113,7 @@ public class RDFtestforblanknodecardinalities {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -128,7 +128,7 @@ public class RDFtestforblanknodecardinalities {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -143,7 +143,7 @@ public class RDFtestforblanknodecardinalities {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `RDF test for blank node cardinalities - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

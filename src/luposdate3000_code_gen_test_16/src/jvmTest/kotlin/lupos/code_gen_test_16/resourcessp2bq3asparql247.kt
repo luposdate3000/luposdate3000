@@ -49,7 +49,7 @@ public class resourcessp2bq3asparql247 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3asparql247 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -64,7 +64,7 @@ public class resourcessp2bq3asparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3asparql247 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -79,7 +79,7 @@ public class resourcessp2bq3asparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3asparql247 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -94,7 +94,7 @@ public class resourcessp2bq3asparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3asparql247 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -109,7 +109,7 @@ public class resourcessp2bq3asparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq3asparql247 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

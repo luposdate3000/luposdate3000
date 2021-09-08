@@ -67,7 +67,7 @@ public class resourcessp2bq71sparql247 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq71sparql247 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class resourcessp2bq71sparql247 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq71sparql247 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -97,7 +97,7 @@ public class resourcessp2bq71sparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq71sparql247 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -112,7 +112,7 @@ public class resourcessp2bq71sparql247 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq71sparql247 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

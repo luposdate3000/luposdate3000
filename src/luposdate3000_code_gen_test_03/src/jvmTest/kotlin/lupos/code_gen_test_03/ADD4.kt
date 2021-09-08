@@ -66,7 +66,7 @@ public class ADD4 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ADD :g1 TO :g2"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -81,7 +81,7 @@ public class ADD4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -96,7 +96,7 @@ public class ADD4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -111,7 +111,7 @@ public class ADD4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -126,7 +126,7 @@ public class ADD4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -141,7 +141,7 @@ public class ADD4 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -156,7 +156,7 @@ public class ADD4 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

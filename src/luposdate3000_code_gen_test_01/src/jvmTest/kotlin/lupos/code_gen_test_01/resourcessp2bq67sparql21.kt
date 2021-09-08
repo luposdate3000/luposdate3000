@@ -63,7 +63,7 @@ public class resourcessp2bq67sparql21 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq67sparql21 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -78,7 +78,7 @@ public class resourcessp2bq67sparql21 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq67sparql21 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -93,7 +93,7 @@ public class resourcessp2bq67sparql21 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq67sparql21 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {

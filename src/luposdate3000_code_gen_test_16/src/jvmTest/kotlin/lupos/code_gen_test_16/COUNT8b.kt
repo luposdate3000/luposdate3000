@@ -52,7 +52,7 @@ public class COUNT8b {
         "   ORDER BY ?O12 \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class COUNT8b {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -127,7 +127,7 @@ public class COUNT8b {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 8b - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

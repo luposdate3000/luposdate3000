@@ -57,7 +57,7 @@ public class DROPSILENTGRAPHiri {
     internal val query = "DROP SILENT GRAPH <http://www.example.org> \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -72,7 +72,7 @@ public class DROPSILENTGRAPHiri {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -87,7 +87,7 @@ public class DROPSILENTGRAPHiri {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -102,7 +102,7 @@ public class DROPSILENTGRAPHiri {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -117,7 +117,7 @@ public class DROPSILENTGRAPHiri {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -132,7 +132,7 @@ public class DROPSILENTGRAPHiri {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -147,7 +147,7 @@ public class DROPSILENTGRAPHiri {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `DROP SILENT GRAPH iri - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

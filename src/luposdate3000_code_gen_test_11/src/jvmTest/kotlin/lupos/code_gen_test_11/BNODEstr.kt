@@ -53,7 +53,7 @@ public class BNODEstr {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `BNODEstr - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class BNODEstr {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `BNODEstr - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class BNODEstr {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `BNODEstr - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class BNODEstr {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `BNODEstr - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

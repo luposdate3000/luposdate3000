@@ -53,7 +53,7 @@ public class MIN {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MIN - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -68,7 +68,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MIN - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -83,7 +83,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MIN - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -98,7 +98,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MIN - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -113,7 +113,7 @@ public class MIN {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MIN - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

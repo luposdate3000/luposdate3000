@@ -26,7 +26,7 @@ public class syntaxservice02rq {
     internal val query = "SELECT * { ?s ?p ?o SERVICE <g> { ?s ?p ?o } ?s ?p ?o } \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -41,7 +41,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -56,7 +56,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -71,7 +71,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -86,7 +86,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -101,7 +101,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -116,7 +116,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -131,7 +131,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -146,7 +146,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -161,7 +161,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -176,7 +176,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -191,7 +191,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -206,7 +206,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -221,7 +221,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -236,7 +236,7 @@ public class syntaxservice02rq {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `syntaxservice02rq - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

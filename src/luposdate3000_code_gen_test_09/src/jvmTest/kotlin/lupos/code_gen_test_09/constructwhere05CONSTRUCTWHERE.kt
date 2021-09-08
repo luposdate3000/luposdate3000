@@ -28,7 +28,7 @@ public class constructwhere05CONSTRUCTWHERE {
         "CONSTRUCT  \n" +
         "WHERE { ?s ?p ?o FILTER ( ?o = :o1) }"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -43,7 +43,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -58,7 +58,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -73,7 +73,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -88,7 +88,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -103,7 +103,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -118,7 +118,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -133,7 +133,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -148,7 +148,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -163,7 +163,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -178,7 +178,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -193,7 +193,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -208,7 +208,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -223,7 +223,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -238,7 +238,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -253,7 +253,7 @@ public class constructwhere05CONSTRUCTWHERE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `constructwhere05  CONSTRUCT WHERE - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

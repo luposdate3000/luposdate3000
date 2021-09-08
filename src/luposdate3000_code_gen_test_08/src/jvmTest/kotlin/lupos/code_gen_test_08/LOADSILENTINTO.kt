@@ -26,7 +26,7 @@ public class LOADSILENTINTO {
     internal val query = "LOAD SILENT <somescheme://www.example.com/THIS-GRAPH-DOES-NOT-EXIST/> INTO GRAPH <http://www.example.org/> \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -41,7 +41,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -56,7 +56,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -71,7 +71,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByIDTwiceAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -86,7 +86,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_1_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -101,7 +101,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_1_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -116,7 +116,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_2_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -131,7 +131,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_2_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -146,7 +146,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_O_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -161,7 +161,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_O_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -176,7 +176,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_S_AllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -191,7 +191,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByID_S_AllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -206,7 +206,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByKeyAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -221,7 +221,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - PartitionByKeyAllCollations - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -236,7 +236,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -251,7 +251,7 @@ public class LOADSILENTINTO {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `LOAD SILENT INTO - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

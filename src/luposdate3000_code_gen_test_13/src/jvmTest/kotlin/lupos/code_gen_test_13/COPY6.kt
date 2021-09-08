@@ -63,7 +63,7 @@ public class COPY6 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "COPY :g1 TO DEFAULT"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COPY 6 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -78,7 +78,7 @@ public class COPY6 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COPY 6 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -93,7 +93,7 @@ public class COPY6 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COPY 6 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -108,7 +108,7 @@ public class COPY6 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COPY 6 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -123,7 +123,7 @@ public class COPY6 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COPY 6 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

@@ -60,7 +60,7 @@ public class ADD2 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ADD DEFAULT TO :g1"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -75,7 +75,7 @@ public class ADD2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -90,7 +90,7 @@ public class ADD2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -105,7 +105,7 @@ public class ADD2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -120,7 +120,7 @@ public class ADD2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -135,7 +135,7 @@ public class ADD2 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `ADD 2 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

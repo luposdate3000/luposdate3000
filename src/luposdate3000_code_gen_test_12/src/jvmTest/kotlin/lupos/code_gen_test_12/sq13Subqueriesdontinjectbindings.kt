@@ -53,7 +53,7 @@ public class sq13Subqueriesdontinjectbindings {
         "} ORDER BY ?L \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq13  Subqueries dont inject bindings - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -68,7 +68,7 @@ public class sq13Subqueriesdontinjectbindings {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq13  Subqueries dont inject bindings - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -83,7 +83,7 @@ public class sq13Subqueriesdontinjectbindings {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq13  Subqueries dont inject bindings - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -98,7 +98,7 @@ public class sq13Subqueriesdontinjectbindings {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sq13  Subqueries dont inject bindings - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

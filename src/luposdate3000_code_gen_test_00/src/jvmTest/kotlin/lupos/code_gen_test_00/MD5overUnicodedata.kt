@@ -52,7 +52,7 @@ public class MD5overUnicodedata {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class MD5overUnicodedata {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class MD5overUnicodedata {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class MD5overUnicodedata {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class MD5overUnicodedata {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -127,7 +127,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -142,7 +142,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -157,7 +157,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -172,7 +172,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -187,7 +187,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -202,7 +202,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -217,7 +217,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -232,7 +232,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -247,7 +247,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -262,7 +262,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -277,7 +277,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -292,7 +292,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -307,7 +307,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -322,7 +322,7 @@ public class MD5overUnicodedata {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `MD5 over Unicode data - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

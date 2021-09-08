@@ -67,7 +67,7 @@ public class resourcessp2bq2sparql247 {
         "ORDER BY ?yr \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq2sparql247 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

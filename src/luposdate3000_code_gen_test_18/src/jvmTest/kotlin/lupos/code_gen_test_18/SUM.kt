@@ -45,7 +45,7 @@ public class SUM {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -60,7 +60,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -75,7 +75,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -90,7 +90,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -105,7 +105,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -120,7 +120,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -135,7 +135,7 @@ public class SUM {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

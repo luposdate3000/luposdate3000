@@ -57,7 +57,7 @@ public class InlineVALUESgraphpattern {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -72,7 +72,7 @@ public class InlineVALUESgraphpattern {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -87,7 +87,7 @@ public class InlineVALUESgraphpattern {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -102,7 +102,7 @@ public class InlineVALUESgraphpattern {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -117,7 +117,7 @@ public class InlineVALUESgraphpattern {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -132,7 +132,7 @@ public class InlineVALUESgraphpattern {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -147,7 +147,7 @@ public class InlineVALUESgraphpattern {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -162,7 +162,7 @@ public class InlineVALUESgraphpattern {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -177,7 +177,7 @@ public class InlineVALUESgraphpattern {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

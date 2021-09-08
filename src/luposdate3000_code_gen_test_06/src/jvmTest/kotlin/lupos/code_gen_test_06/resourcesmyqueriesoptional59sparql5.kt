@@ -60,7 +60,7 @@ public class resourcesmyqueriesoptional59sparql5 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional59sparql5 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -75,7 +75,7 @@ public class resourcesmyqueriesoptional59sparql5 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional59sparql5 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -90,7 +90,7 @@ public class resourcesmyqueriesoptional59sparql5 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional59sparql5 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -105,7 +105,7 @@ public class resourcesmyqueriesoptional59sparql5 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional59sparql5 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

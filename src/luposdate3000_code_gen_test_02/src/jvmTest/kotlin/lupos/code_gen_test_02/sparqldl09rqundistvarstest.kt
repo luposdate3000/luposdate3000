@@ -56,7 +56,7 @@ public class sparqldl09rqundistvarstest {
         "#  _:a owl:someValuesFrom owl:Thing. \n" +
         "}"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -71,7 +71,7 @@ public class sparqldl09rqundistvarstest {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -86,7 +86,7 @@ public class sparqldl09rqundistvarstest {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -101,7 +101,7 @@ public class sparqldl09rqundistvarstest {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -116,7 +116,7 @@ public class sparqldl09rqundistvarstest {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -131,7 +131,7 @@ public class sparqldl09rqundistvarstest {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl09rq undist vars test - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

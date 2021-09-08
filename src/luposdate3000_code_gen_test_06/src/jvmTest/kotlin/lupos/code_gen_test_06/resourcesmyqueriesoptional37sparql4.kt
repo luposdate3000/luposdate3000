@@ -61,7 +61,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -76,7 +76,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -91,7 +91,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -106,7 +106,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -121,7 +121,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -136,7 +136,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -151,7 +151,7 @@ public class resourcesmyqueriesoptional37sparql4 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional37sparql4 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

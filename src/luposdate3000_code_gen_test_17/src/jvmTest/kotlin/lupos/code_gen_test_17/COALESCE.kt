@@ -61,7 +61,7 @@ public class COALESCE {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -76,7 +76,7 @@ public class COALESCE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -91,7 +91,7 @@ public class COALESCE {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -106,7 +106,7 @@ public class COALESCE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -121,7 +121,7 @@ public class COALESCE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -136,7 +136,7 @@ public class COALESCE {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COALESCE - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

@@ -70,7 +70,7 @@ public class CLEARALL {
         "CLEAR ALL \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -85,7 +85,7 @@ public class CLEARALL {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,7 +100,7 @@ public class CLEARALL {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -115,7 +115,7 @@ public class CLEARALL {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -130,7 +130,7 @@ public class CLEARALL {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -145,7 +145,7 @@ public class CLEARALL {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -160,7 +160,7 @@ public class CLEARALL {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR ALL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

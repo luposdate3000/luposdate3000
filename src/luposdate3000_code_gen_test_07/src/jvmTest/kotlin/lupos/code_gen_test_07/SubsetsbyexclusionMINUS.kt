@@ -54,7 +54,7 @@ public class SubsetsbyexclusionMINUS {
         "  }  \n" +
         "}"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Subsets by exclusion MINUS - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class SubsetsbyexclusionMINUS {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -84,7 +84,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -99,7 +99,7 @@ public class SubsetsbyexclusionMINUS {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `Subsets by exclusion MINUS - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

@@ -55,7 +55,7 @@ public class resourcessp2bq5bsparql247 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq5bsparql247 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -70,7 +70,7 @@ public class resourcessp2bq5bsparql247 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq5bsparql247 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -85,7 +85,7 @@ public class resourcessp2bq5bsparql247 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq5bsparql247 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,7 +100,7 @@ public class resourcessp2bq5bsparql247 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq5bsparql247 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

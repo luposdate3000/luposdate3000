@@ -61,7 +61,7 @@ public class resourcessp2bq12asparql21 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq12asparql21 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -76,7 +76,7 @@ public class resourcessp2bq12asparql21 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq12asparql21 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -91,7 +91,7 @@ public class resourcessp2bq12asparql21 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq12asparql21 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

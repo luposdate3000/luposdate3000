@@ -54,7 +54,7 @@ public class SUMwithGROUPBY {
         "GROUP BY ?s \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class SUMwithGROUPBY {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -84,7 +84,7 @@ public class SUMwithGROUPBY {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -99,7 +99,7 @@ public class SUMwithGROUPBY {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -114,7 +114,7 @@ public class SUMwithGROUPBY {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -129,7 +129,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -144,7 +144,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -159,7 +159,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -174,7 +174,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -189,7 +189,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -204,7 +204,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -219,7 +219,7 @@ public class SUMwithGROUPBY {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `SUM with GROUP BY - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

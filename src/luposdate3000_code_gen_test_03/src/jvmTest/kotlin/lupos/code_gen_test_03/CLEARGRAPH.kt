@@ -64,7 +64,7 @@ public class CLEARGRAPH {
         "CLEAR GRAPH :g1 \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR GRAPH - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -79,7 +79,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR GRAPH - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -94,7 +94,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR GRAPH - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -109,7 +109,7 @@ public class CLEARGRAPH {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `CLEAR GRAPH - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

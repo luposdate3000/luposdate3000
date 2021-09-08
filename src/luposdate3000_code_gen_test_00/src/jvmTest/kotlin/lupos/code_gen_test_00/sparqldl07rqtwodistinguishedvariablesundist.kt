@@ -48,7 +48,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         " ?Y :s _:aa. \n" +
         " _:aa :r ?Z.}"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -63,7 +63,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -78,7 +78,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -93,7 +93,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -108,7 +108,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -123,7 +123,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -138,7 +138,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -153,7 +153,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -168,7 +168,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -183,7 +183,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -198,7 +198,7 @@ public class sparqldl07rqtwodistinguishedvariablesundist {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `sparqldl07rq two distinguished variables  undist - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

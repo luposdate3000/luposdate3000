@@ -52,7 +52,7 @@ public class COUNT2 {
         "GROUP BY ?P \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -67,7 +67,7 @@ public class COUNT2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -82,7 +82,7 @@ public class COUNT2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -97,7 +97,7 @@ public class COUNT2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -112,7 +112,7 @@ public class COUNT2 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -127,7 +127,7 @@ public class COUNT2 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -142,7 +142,7 @@ public class COUNT2 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -157,7 +157,7 @@ public class COUNT2 {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `COUNT 2 - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

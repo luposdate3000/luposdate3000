@@ -57,7 +57,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -72,7 +72,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -87,7 +87,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -102,7 +102,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -117,7 +117,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -132,7 +132,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -147,7 +147,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -162,7 +162,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -177,7 +177,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -192,7 +192,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -207,7 +207,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -222,7 +222,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -237,7 +237,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -252,7 +252,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -267,7 +267,7 @@ public class bind11BINDscopingVariableinfilterinscope {
         )
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `bind11  BIND scoping  Variable in filter in scope - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

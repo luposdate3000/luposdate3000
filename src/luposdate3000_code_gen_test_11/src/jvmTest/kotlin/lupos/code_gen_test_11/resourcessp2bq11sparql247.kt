@@ -56,7 +56,7 @@ public class resourcessp2bq11sparql247 {
         "OFFSET 50 \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq11sparql247 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -71,7 +71,7 @@ public class resourcessp2bq11sparql247 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcessp2bq11sparql247 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

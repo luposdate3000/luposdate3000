@@ -54,7 +54,7 @@ public class resourcesmyqueriesoptional58sparql4 {
         "} \n" +
         ""
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional58sparql4 - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -69,7 +69,7 @@ public class resourcesmyqueriesoptional58sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional58sparql4 - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -84,7 +84,7 @@ public class resourcesmyqueriesoptional58sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional58sparql4 - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -99,7 +99,7 @@ public class resourcesmyqueriesoptional58sparql4 {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `resourcesmyqueriesoptional58sparql4 - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {

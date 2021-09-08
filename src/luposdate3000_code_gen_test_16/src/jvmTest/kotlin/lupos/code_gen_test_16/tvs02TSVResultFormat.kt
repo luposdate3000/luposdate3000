@@ -49,7 +49,7 @@ public class tvs02TSVResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2"
 
-    @Test(timeout = 10000)
+    @Test
     public fun `tvs02  TSV Result Format - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -64,7 +64,7 @@ public class tvs02TSVResultFormat {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `tvs02  TSV Result Format - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -79,7 +79,7 @@ public class tvs02TSVResultFormat {
         }
     }
 
-    @Test(timeout = 10000)
+    @Test
     public fun `tvs02  TSV Result Format - in simulator - Simple - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
