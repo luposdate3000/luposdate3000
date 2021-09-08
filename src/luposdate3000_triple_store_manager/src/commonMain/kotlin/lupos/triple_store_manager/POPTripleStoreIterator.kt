@@ -184,7 +184,6 @@ public class POPTripleStoreIterator(
             }
         }
         val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
-        println("POPTripleStoreIterator $uuid ${filter.map{it}} .. $projection")
         return store.getIterator(query, filter, projection)
     }
     public override fun usesDictionary(): Boolean {

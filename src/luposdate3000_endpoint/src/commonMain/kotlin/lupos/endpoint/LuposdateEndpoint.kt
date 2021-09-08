@@ -221,12 +221,7 @@ public object LuposdateEndpoint {
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
             val dictTime = DateHelperRelative.elapsedSeconds(startTime)
             var requireSorting = false
-            println("$mappingLength ${mapping.size}")
-            if (mappingLength> 0) {
-                println("mapping[0] = ${mapping[0]}")
-            }
             for (i in 1 until mappingLength) {
-                println("mapping[$i] = ${mapping[i]}")
                 if (mapping[i] < mapping[i - 1]) {
                     requireSorting = true
                     break

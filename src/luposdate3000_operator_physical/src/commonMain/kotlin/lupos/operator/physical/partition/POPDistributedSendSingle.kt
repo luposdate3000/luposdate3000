@@ -74,7 +74,7 @@ public class POPDistributedSendSingle public constructor(
         }
         val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        println("POPDistributedSendSingle $uuid columns ${variables.map{it}}")
+        // println("POPDistributedSendSingle $uuid columns ${variables.map{it}}")
         var flag = true
         while (true) {
             var debugBuf = ""
@@ -85,10 +85,10 @@ public class POPDistributedSendSingle public constructor(
                 connectionOut.writeDictionaryValueType(buf)
             }
             if (!flag) {
-                println("POPDistributedSendSingle $uuid writing end")
+                // println("POPDistributedSendSingle $uuid writing end")
                 break
             } else {
-                println("POPDistributedSendSingle $uuid writing row $debugBuf")
+                // println("POPDistributedSendSingle $uuid writing row $debugBuf")
             }
         }
         connectionOut.flush()

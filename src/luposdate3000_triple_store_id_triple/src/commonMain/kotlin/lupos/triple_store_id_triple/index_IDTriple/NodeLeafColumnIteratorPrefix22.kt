@@ -34,7 +34,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
 
     init {
         label = 3
-        println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid start ${prefix.map{it}}")
+        // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid start ${prefix.map{it}}")
     }
 
     override /*suspend*/ fun next(): DictionaryValueType {
@@ -53,14 +53,14 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                         value2 = 0
                     }
                     offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
-                        println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid off=$offset $v0 $v1 $v2")
+                        // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid off=$offset $v0 $v1 $v2")
                         value0 = v0
                         value1 = v1
                         value2 = v2
                     }
                     if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                         _close()
-                        println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return A ${DictionaryValueHelper.nullValue} ... (${value0 > prefix[0]} || (${value0 == prefix[0]} && ${value1 > prefix[1]})) ... $value0 > ${prefix[0]} || ($value0 == ${prefix[0]} && $value1 > ${prefix[1]})")
+                        // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return A ${DictionaryValueHelper.nullValue} ... (${value0 > prefix[0]} || (${value0 == prefix[0]} && ${value1 > prefix[1]})) ... $value0 > ${prefix[0]} || ($value0 == ${prefix[0]} && $value1 > ${prefix[1]})")
                         return DictionaryValueHelper.nullValue
                     } else {
                         done = value0 == prefix[0] && value1 == prefix[1]
@@ -75,7 +75,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 if (label == 2) {
                     label = 1
                 }
-                println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return B $value2")
+                // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return B $value2")
                 return value2
             }
             1 -> {
@@ -86,19 +86,19 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                     value2 = 0
                 }
                 offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
-                    println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid off=$offset $v0 $v1 $v2")
+                    // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid off=$offset $v0 $v1 $v2")
                     value0 = v0
                     value1 = v1
                     value2 = v2
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
-                    println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return C ${DictionaryValueHelper.nullValue} ... $value0 > ${prefix[0]} || ($value0 == ${prefix[0]} && $value1 > ${prefix[1]})")
+                    // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return C ${DictionaryValueHelper.nullValue} ... $value0 > ${prefix[0]} || ($value0 == ${prefix[0]} && $value1 > ${prefix[1]})")
                     return DictionaryValueHelper.nullValue
                 } else {
                     updateRemaining()
                 }
-                println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return D $value2")
+                // println("NodeLeafColumnIteratorPrefix22 nodeid=$nodeid return D $value2")
                 return value2
             }
             else -> {
@@ -108,7 +108,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
     }
 
     override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
-        println("NodeLeafColumnIteratorPrefix22.nextSIP !!!")
+        // println("NodeLeafColumnIteratorPrefix22.nextSIP !!!")
         if (label == 3) {
             label = 2
             __init()
