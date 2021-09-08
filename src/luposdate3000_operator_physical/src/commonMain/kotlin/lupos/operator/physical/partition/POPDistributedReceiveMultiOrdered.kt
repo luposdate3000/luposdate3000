@@ -41,7 +41,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     private val inputs: Array<IMyInputStream>,
     private val outputs: Array<IMyOutputStream?> = Array(inputs.size) { null },
     private val hosts: Map<Int, String>,
-    @JvmField public val partitionVariable: String,
+    @JvmField public val orderedBy: List<String>,
 ) : APOPDistributed(
     query,
     projectedVariables,
@@ -51,14 +51,14 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, partitionVariable: String) = toXMLElementHelper10("POPDistributedReceiveMultiOrdered", partitionID, partial, isRoot, hosts, partitionVariable)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, orderedBy: List<String>) = toXMLElementHelper10("POPDistributedReceiveMultiOrdered", partitionID, partial, isRoot, hosts, orderedBy)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
             partitionID: Int,
             child: IOPBase,
             hosts: Map<Int, String>,
-            partitionVariable: String,
+            orderedBy: List<String>,
         ): POPDistributedReceiveMultiOrdered {
             val handler = query.getInstance().communicationHandler!!
             val inputs = mutableListOf<IMyInputStream>()
@@ -68,7 +68,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                 inputs.add(conn.first)
                 outputs.add(conn.second)
             }
-            return POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts, partitionVariable)
+            return POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts, orderedBy)
         }
     }
 
@@ -77,20 +77,21 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     }
 
     override fun getPartitionCount(variable: String): Int = 1
-    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, partitionVariable))
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, partitionVariable))
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, partitionVariable)
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts, orderedBy))
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, orderedBy))
+    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, orderedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        if (partitionVariable != "_" && variables.contains(partitionVariable)) {
-            variables.remove(partitionVariable)
-            variables.add(0, partitionVariable) // damit beim vergleichen später einfach index[0] genommen werden kann
+        for (v in orderedBy) {
+            if (variables.contains(v)) {
+                variables.remove(v)
+                variables.add(0, v)
+            }
         }
-//val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
-TODO("nicht nach der partition-variable sortieren, sondern so wie es vorher sortiert war !!! nicht eine Variable sondern die komplette sort order muss hier hin")
+// val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
         val openInputs = Array<IMyInputStream?>(inputs.size) { inputs[it] }
         val openOutputs = Array<IMyOutputStream?>(inputs.size) { outputs[it] }
         var openConnections = BooleanArray(inputs.size) { true }
@@ -100,7 +101,7 @@ TODO("nicht nach der partition-variable sortieren, sondern so wie es vorher sort
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:100"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:103"/*SOURCE_FILE_END*/ },
                 { cnt == variables.size },
                 { "$cnt vs ${variables.size}" }
             )
@@ -110,7 +111,7 @@ TODO("nicht nach der partition-variable sortieren, sondern so wie es vorher sort
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:110"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:113"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {
@@ -132,9 +133,20 @@ TODO("nicht nach der partition-variable sortieren, sondern so wie es vorher sort
                 if (openInputs[ii] != null) {
                     res = 0
                     var min = ii
-                    for (i in min + 1 until openInputs.size) {
-                        if (openInputs[i] != null && buffer[i * variables.size] < buffer[min * variables.size]) {
-                            min = i
+                    loop@ for (i in min + 1 until openInputs.size) {
+                        if (openInputs[i] != null) {
+                            for (idx in 0 until orderedBy.size) {
+                                val a = idx + i * variables.size
+                                val b = idx + min * variables.size
+                                val c = buffer[a]
+                                val d = buffer[b]
+                                if (b <c) {
+                                    min = i
+                                    continue@loop
+                                } else if (b> c) {
+                                    continue@loop
+                                }
+                            }
                         }
                     }
                     val off = min * variables.size

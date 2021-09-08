@@ -49,9 +49,11 @@ public abstract class APOPDistributed public constructor(
             }
             return res
         }
-        internal fun toXMLElementHelper10(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, partitionVariable: String): XMLElement {
+        internal fun toXMLElementHelper10(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, orderedBy: List<String>): XMLElement {
             val res = toXMLElementHelper4(classname, partitionID, partial, isRoot, hosts)
-            res.addAttribute("partitionVariable", partitionVariable)
+            for (o in orderedBy) {
+                res.addContent(XMLElement("orderedBy").addAttribute("name", o))
+            }
             return res
         }
         internal fun toXMLElementHelper5(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>): XMLElement {

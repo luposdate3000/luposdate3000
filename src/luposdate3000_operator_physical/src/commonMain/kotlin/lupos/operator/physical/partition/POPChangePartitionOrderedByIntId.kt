@@ -99,7 +99,7 @@ public class POPChangePartitionOrderedByIntId public constructor(
                 } else {
 // inverse case to sendmulti
                     val keys = partition.getKeysFor(uuid, partitionIDTo, query, partitionCountFrom, false, { IntArray(partitionCountFrom / partitionCountTo) { it2 -> it + it2 * partitionCountTo } }).toList()
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionIDTo, partial, isRoot, keys.map { it to "" }.toMap(), partitionVariable))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionIDTo, partial, isRoot, keys.map { it to "" }.toMap(), mySortPriority.map { it.variableName }))
                 }
             }
         } else {

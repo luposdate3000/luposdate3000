@@ -617,9 +617,15 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         operatorMap["POPDistributedReceiveMultiOrdered"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<Int, String>()
+            val orderedBy = mutableListOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
+                when (c.tag) {
+                    "partitionDistributionKey" -> {
+                        hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
+                    }
+                    "orderedBy" -> {
+                        orderedBy.add(c.attributes["name"]!!)
+                    }
                 }
             }
             val inputs = hosts.keys.map { key ->
@@ -635,7 +641,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 inputs,
                 Array<IMyOutputStream?>(inputs.size) { null },
                 hosts,
-                node.attributes["partitionVariable"]!!,
+                orderedBy,
             )
             query.addPartitionOperator(res.uuid, id)
             res

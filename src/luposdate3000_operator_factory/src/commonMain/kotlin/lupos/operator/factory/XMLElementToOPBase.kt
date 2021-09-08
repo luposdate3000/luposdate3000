@@ -786,18 +786,25 @@ public object XMLElementToOPBase {
         operatorMap["POPDistributedReceiveMultiOrdered"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<Int, String>()
+            val orderedBy = mutableListOf<String>()
             for (c in node.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
+                when (c.tag) {
+                    "partitionDistributionKey" -> {
+                        hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
+                    }
+                    "orderedBy" -> {
+                        orderedBy.add(c.attributes["name"]!!)
+                    }
                 }
             }
+
             val res = POPDistributedReceiveMultiOrdered(
                 query,
                 createProjectedVariables(node),
                 id,
                 POPNothing(query, createProjectedVariables(node)),
                 hosts,
-                node.attributes["partitionVariable"]!!,
+                orderedBy,
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -993,7 +1000,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:995"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1002"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )

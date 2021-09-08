@@ -74,7 +74,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
             } else {
                 if (partitionCount > 1) {
                     val keys = partition.getKeysFor(uuid, partitionID, query, partitionCount, false)
-                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap(), partitionVariable))
+                    return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap(), mySortPriority.map { it.variableName }))
                 } else {
                     val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
