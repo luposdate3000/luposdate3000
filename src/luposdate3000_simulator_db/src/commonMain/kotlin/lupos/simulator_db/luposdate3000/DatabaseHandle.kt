@@ -691,6 +691,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         query = w.query
                     }
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
+                    println(node)
                     when (node) {
                         is POPDistributedSendSingle -> {
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)

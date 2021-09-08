@@ -22,7 +22,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
     @JvmField
     internal var counter: Int = 0
 
@@ -37,6 +37,10 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
 
     @JvmField
     internal var sipbufValue = DictionaryValueTypeArray(1)
+    init {
+        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $head0")
+        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $head1")
+    }
     override /*suspend*/ fun next(): DictionaryValueType {
         when (label) {
             1 -> {
@@ -45,8 +49,10 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (change) {
                         change = false
                         while (head0 < head1) {
-                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
-                            val c = sipbufValue[0]
+//                            child0.nextSIP(head1, sipbufValue, sipbufSkip)
+//                            val c = sipbufValue[0]
+                            val c = child0.next() // TODO reenable sip
+                            println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $c")
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -56,8 +62,10 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                         }
                         while (head1 < head0) {
                             change = true
-                            child1.nextSIP(head0, sipbufValue, sipbufSkip)
-                            val c = sipbufValue[0]
+                            //                          child1.nextSIP(head0, sipbufValue, sipbufSkip)
+//                            val c = sipbufValue[0]
+                            val c = child1.next() // TODO reenable sip
+                            println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $c")
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -72,6 +80,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
+                        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 0 $d")
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
@@ -83,6 +92,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: 
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
+                        println("POPJoinMergeSingleColumn_Iterator $uuid reading from 1 $d")
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break

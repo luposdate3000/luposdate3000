@@ -81,8 +81,9 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         val a = child0.next()
         val b = child1.next()
         if (a != DictionaryValueHelper.nullValue && b != DictionaryValueHelper.nullValue) {
-            outMap[projectedVariables[0]] = POPJoinMergeSingleColumn_Iterator(child0, child1, a, b)
+            outMap[projectedVariables[0]] = POPJoinMergeSingleColumn_Iterator(uuid, child0, child1, a, b)
         } else {
+            println("POPJoinMergeSingleColumn $uuid there is no child value ${a != DictionaryValueHelper.nullValue} ${b != DictionaryValueHelper.nullValue} .. ${children[0].getUUID()} ${children[1].getUUID()}")
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
             child0.close()
             child1.close()
