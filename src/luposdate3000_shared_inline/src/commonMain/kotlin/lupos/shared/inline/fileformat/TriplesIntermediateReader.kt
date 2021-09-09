@@ -36,9 +36,9 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
             throw Exception("incompatible file format version in '$filename'. Expected ${TriplesIntermediate.version}, but found $version")
         }
         writeOrder = streamIn!!.readInt()
-        i0 = EIndexPatternHelper.tripleIndicees[writeOrder][0]
-        i1 = EIndexPatternHelper.tripleIndicees[writeOrder][1]
-        i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
+        i0 = EIndexPatternHelper.tripleIndiceesInverse[writeOrder][0]
+        i1 = EIndexPatternHelper.tripleIndiceesInverse[writeOrder][1]
+        i2 = EIndexPatternHelper.tripleIndiceesInverse[writeOrder][2]
     }
 
     @Suppress("NOTHING_TO_INLINE")

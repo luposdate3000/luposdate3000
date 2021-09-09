@@ -15,17 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline.fileformat
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
-import lupos.shared.EIndexPatternExt
+import lupos.shared.EIndexPatternHelper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
 internal class TriplesIntermediateWriter : TriplesIntermediate {
+    private val i0: Int
+    private val i1: Int
+    private val i2: Int
 
     @JvmField
     internal var count = 0L
@@ -48,52 +51,19 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
         streamOut!!.writeInt(TriplesIntermediate.version)
         streamOut!!.writeInt(writeOrder)
+        i0 = EIndexPatternHelper.tripleIndicees[writeOrder][0]
+        i1 = EIndexPatternHelper.tripleIndicees[writeOrder][1]
+        i2 = EIndexPatternHelper.tripleIndicees[writeOrder][2]
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun getCount(): Long = count
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun write(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType) {
-        val l0: DictionaryValueType
-        val l1: DictionaryValueType
-        val l2: DictionaryValueType
-        when (writeOrder) {
-            EIndexPatternExt.SPO -> {
-                l0 = s
-                l1 = p
-                l2 = o
-            }
-            EIndexPatternExt.SOP -> {
-                l0 = s
-                l1 = o
-                l2 = p
-            }
-            EIndexPatternExt.PSO -> {
-                l0 = p
-                l1 = s
-                l2 = o
-            }
-            EIndexPatternExt.POS -> {
-                l0 = p
-                l1 = o
-                l2 = s
-            }
-            EIndexPatternExt.OSP -> {
-                l0 = o
-                l1 = s
-                l2 = p
-            }
-            EIndexPatternExt.OPS -> {
-                l0 = o
-                l1 = p
-                l2 = s
-            }
-            else -> TODO()
-        }
-        val b0 = last0 xor l0
-        val b1 = last1 xor l1
-        val b2 = last2 xor l2
+    internal inline fun write(row: DictionaryValueTypeArray) {
+        val b0 = last0 xor row[i0]
+        val b1 = last1 xor row[i1]
+        val b2 = last2 xor row[i2]
         var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
         var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
         var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
@@ -114,9 +84,9 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
             DictionaryValueHelper.toByteArrayX(buf, rel0, b1, counter1)
             DictionaryValueHelper.toByteArrayX(buf, rel1, b2, counter2)
             streamOut!!.write(buf, rel2)
-            last0 = l0
-            last1 = l1
-            last2 = l2
+            last0 = row[i0]
+            last1 = row[i1]
+            last2 = row[i2]
         }
     }
 

@@ -41,6 +41,11 @@ public class DROPGRAPH {
         File("src/jvmTest/resources/DROPGRAPH.input1").readAsString(),
         File("src/jvmTest/resources/DROPGRAPH.input2").readAsString(),
     )
+    internal val inputDataFile = arrayOf(
+        "src/jvmTest/resources/DROPGRAPH.input",
+        "src/jvmTest/resources/DROPGRAPH.input1",
+        "src/jvmTest/resources/DROPGRAPH.input2",
+    )
     internal val inputGraph = arrayOf(
         "",
         "http://example.org/g1",
@@ -54,6 +59,10 @@ public class DROPGRAPH {
     internal val outputData = arrayOf(
         File("src/jvmTest/resources/DROPGRAPH.output0").readAsString(),
         File("src/jvmTest/resources/DROPGRAPH.output1").readAsString(),
+    )
+    internal val outputDataFile = arrayOf(
+        "src/jvmTest/resources/DROPGRAPH.output0",
+        "src/jvmTest/resources/DROPGRAPH.output1",
     )
     internal val outputGraph = arrayOf(
         "",
@@ -225,10 +234,10 @@ public class DROPGRAPH {
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
-        val pkg1 = MySimulatorTestingImportPackage(inputData[1], inputGraph[1], inputType[1])
+        val pkg0 = MySimulatorTestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
+        val pkg1 = MySimulatorTestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
-        val pkg2 = MySimulatorTestingImportPackage(inputData[2], inputGraph[2], inputType[2])
+        val pkg2 = MySimulatorTestingImportPackage(inputDataFile[2], inputGraph[2], inputType[2])
         pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
         val pkg3 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ }, inputGraph[0], instance)
@@ -269,17 +278,17 @@ public class DROPGRAPH {
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
         } else {
             TODO()
         }
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[1], inputGraph[1])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[1], inputType[1], inputGraph[1])
         } else {
             TODO()
         }
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[2], inputGraph[2])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[2], inputType[2], inputGraph[2])
         } else {
             TODO()
         }

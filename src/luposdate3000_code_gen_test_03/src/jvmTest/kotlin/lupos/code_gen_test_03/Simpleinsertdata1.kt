@@ -38,6 +38,9 @@ public class Simpleinsertdata1 {
     internal val outputData = arrayOf(
         File("src/jvmTest/resources/Simpleinsertdata1.output0").readAsString(),
     )
+    internal val outputDataFile = arrayOf(
+        "src/jvmTest/resources/Simpleinsertdata1.output0",
+    )
     internal val outputGraph = arrayOf(
         "",
     )

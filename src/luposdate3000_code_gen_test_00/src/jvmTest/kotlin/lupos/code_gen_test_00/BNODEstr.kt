@@ -33,6 +33,9 @@ public class BNODEstr {
     internal val inputData = arrayOf(
         File("src/jvmTest/resources/BNODEstr.input").readAsString(),
     )
+    internal val inputDataFile = arrayOf(
+        "src/jvmTest/resources/BNODEstr.input",
+    )
     internal val inputGraph = arrayOf(
         "",
     )
@@ -115,7 +118,7 @@ public class BNODEstr {
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
         } else {
             TODO()
         }

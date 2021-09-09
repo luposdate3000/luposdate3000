@@ -30,6 +30,9 @@ public class IN2 {
     internal val inputData = arrayOf(
         File("src/jvmTest/resources/IN2.input").readAsString(),
     )
+    internal val inputDataFile = arrayOf(
+        "src/jvmTest/resources/IN2.input",
+    )
     internal val inputGraph = arrayOf(
         "",
     )
@@ -651,7 +654,7 @@ public class IN2 {
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg0 = MySimulatorTestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
         val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
         pkg0.setOnFinish(pkg1)

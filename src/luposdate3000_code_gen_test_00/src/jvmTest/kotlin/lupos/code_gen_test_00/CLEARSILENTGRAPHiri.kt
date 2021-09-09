@@ -39,6 +39,9 @@ public class CLEARSILENTGRAPHiri {
     internal val inputData = arrayOf(
         File("src/jvmTest/resources/CLEARSILENTGRAPHiri.input").readAsString(),
     )
+    internal val inputDataFile = arrayOf(
+        "src/jvmTest/resources/CLEARSILENTGRAPHiri.input",
+    )
     internal val inputGraph = arrayOf(
         "",
     )
@@ -47,6 +50,9 @@ public class CLEARSILENTGRAPHiri {
     )
     internal val outputData = arrayOf(
         File("src/jvmTest/resources/CLEARSILENTGRAPHiri.output0").readAsString(),
+    )
+    internal val outputDataFile = arrayOf(
+        "src/jvmTest/resources/CLEARSILENTGRAPHiri.output0",
     )
     internal val outputGraph = arrayOf(
         "",
@@ -710,7 +716,7 @@ public class CLEARSILENTGRAPHiri {
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
         val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputData[0], inputGraph[0], inputType[0])
+        val pkg0 = MySimulatorTestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
         val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
         pkg0.setOnFinish(pkg1)
@@ -732,7 +738,7 @@ public class CLEARSILENTGRAPHiri {
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTurtleString(instance, inputData[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
         } else {
             TODO()
         }

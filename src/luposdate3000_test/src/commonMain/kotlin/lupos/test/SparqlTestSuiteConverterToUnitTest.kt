@@ -373,7 +373,7 @@ without minify mode only the passing tests will be added
         for (i in 0 until inputGraphs.size) {
             appendDistributedTest("MySimulatorTestingImportPackage(inputDataFile[$i], inputGraph[$i], inputType[$i])", false)
             fileBufferNormalHelper.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
-            fileBufferNormalHelper.println("            LuposdateEndpoint.importTripleFile(instance, inputDataFile[$i],inputType[$i], inputGraph[$i])")
+            fileBufferNormalHelper.println("            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[$i],inputType[$i], inputGraph[$i])")
             fileBufferNormalHelper.println("        } else {")
             fileBufferNormalHelper.println("            TODO()")
             fileBufferNormalHelper.println("        }")
