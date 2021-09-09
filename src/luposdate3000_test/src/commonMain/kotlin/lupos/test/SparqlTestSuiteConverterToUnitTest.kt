@@ -68,6 +68,11 @@ without minify mode only the passing tests will be added
         if (minifyMode) {
             return listOfRemoved.contains(testName)
         } else {
+            if (testName.contains("simulatorparkinginputttl")) {
+                if (!testName.contains("Thread")) {
+                    return false
+                }
+            }
             return !listOfPassed.contains(testName)
         }
     }
