@@ -23,11 +23,12 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IUserApplicationLayer
-// import kotlin.io.println as kotlinprintln
+import kotlin.io.println as kotlinprintln
 internal class MySimulatorOutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IUserApplicationLayer) : IMyOutputStream {
     val buffer = ByteArrayWrapper()
     override fun flush() {}
     override fun close() {
+        kotlinprintln("MySimulatorOutputStreamToPackage.close .. $queryID $target $path $params")
         router.send(target, MySimulatorAbstractPackage(queryID, path, params, buffer))
     }
 
