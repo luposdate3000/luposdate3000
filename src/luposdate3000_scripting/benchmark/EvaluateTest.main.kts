@@ -40,7 +40,7 @@ import lupos.shared.DateHelperRelative
 import java.io.File
 
 /*
- * pretty print xml :: 
+ * pretty print xml ::
  * apt install libxml2-utils
  * cat FILE_IN | sed 's/<?xml version="1.0"?>//g' | sed 's/<sparql [^>]*>/<sparql>/g' | xmllint --format - > FILE_OUT
  * for f in $(find /data/benchmark-results -type f -name "*xml") ; do cat $f | sed 's/<?xml version="1.0"?>//g' | sed 's/<sparql [^>]*>/<sparql>/g' | xmllint --format -  > $f.pretty.xml; done
@@ -61,49 +61,50 @@ val allDatabases = mutableListOf(
 val outputFolder = "/tmp/luposdate3000_output/"
 File(outputFolder).mkdirs()
 File("$outputFolder/log.txt").printWriter().use { logger ->
-val datasetName="simulator_parking"
-        println("use $datasetName")
-        val datasetFile = "/src/luposdate3000/resources/myqueries/simulator_parking_input.ttl"
-        for (databaseIdx in 0 until allDatabases.size) {
-            val database = allDatabases[databaseIdx]
-            println("use ${database.getName()}")
-            try {
-                var abortSignal = false
-                val startTime = DateHelperRelative.markNow()
-                database.launch(
-                    datasetFile,
-                    {
-                        abortSignal = true
-                    },
-                    {
-                        try {
-                            if (!abortSignal) {
-                                val importTime = DateHelperRelative.elapsedSeconds(startTime)
-                                logger.println("import,$datasetName,${database.getName()},_,$importTime")
+    val datasetName = "simulator_parking"
+    println("use $datasetName")
+    val datasetFile = "/src/luposdate3000/resources/myqueries/simulator_parking_input.ttl"
+    for (databaseIdx in 0 until allDatabases.size) {
+        val database = allDatabases[databaseIdx]
+        println("use ${database.getName()}")
+        try {
+            var abortSignal = false
+            val startTime = DateHelperRelative.markNow()
+            database.launch(
+                datasetFile,
+                {
+                    abortSignal = true
+                },
+                {
+                    try {
+                        if (!abortSignal) {
+                            val importTime = DateHelperRelative.elapsedSeconds(startTime)
+                            logger.println("import,$datasetName,${database.getName()},_,$importTime")
+                            logger.flush()
+                            for (queryID in listOf("1", "2", "3", "4", "5", "6", "7", "8", "2_1", "3_1", "3_2", "4_1", "4_2", "5_1", "6_1", "6_2", "7_1", "7_2", "8_1", "8_2",
+                                "2_1_1", "2_1_2", "2_1_3", "3_1_1", "3_1_2", "3_1_3", "3_1_4", "3_1_5", "3_1_6", "3_1_7", "4_1_1", "4_1_2", "4_1_3", "4_1_4", "4_1_5", "4_1_6", "4_1_7", "5_1_1", "5_1_2", "5_1_3", "5_1_4", "6_1_1", "6_1_2", "6_1_3", "6_1_4", "6_1_5", "6_1_6", "6_2_1", "7_1_1", "7_2_1", "7_2_2", "8_1_1", "8_2_1")) {
+                                val queryname = "Q$queryID"
+                                val query = File("/src/luposdate3000/resources/myqueries/simulator_parking_query$queryID.sparql").readText()
+                                println("use $queryname")
+                                val startTime2 = DateHelperRelative.markNow()
+                                val response = database.runQuery(query)
+                                val querytime = DateHelperRelative.elapsedSeconds(startTime2)
+                                logger.println("evaluate,$datasetName,${database.getName()},$queryname,$querytime")
                                 logger.flush()
-                                for (queryID in listOf("1", "2", "3", "4", "5", "6", "7", "8", "2_1", "3_1", "3_2", "4_1", "4_2", "5_1", "6_1", "6_2", "7_1", "7_2", "8_1", "8_2")){ 
-val queryname="Q$queryID"
-val query=File("/src/luposdate3000/resources/myqueries/simulator_parking_query$queryID.sparql").readText()
-                                    println("use $queryname")
-                                        val startTime2 = DateHelperRelative.markNow()
-                                        val response = database.runQuery(query)
-                                        val querytime = DateHelperRelative.elapsedSeconds(startTime2)
-                                        logger.println("evaluate,$datasetName,${database.getName()},$queryname,$querytime")
-                                        logger.flush()
-                                        File("$outputFolder$datasetName/$queryname").mkdirs()
-                                        File("/src/luposdate3000/resources/myqueries/simulator_parking_result$queryID.srx").printWriter().use { out ->
-                                            out.println(response)
-                                        }
-                                    }
+                                File("$outputFolder$datasetName/$queryname").mkdirs()
+                                File("/src/luposdate3000/resources/myqueries/simulator_parking_result$queryID.srx").printWriter().use { out ->
+                                    out.println(response)
+                                }
                             }
-                        } catch (e: Throwable) {
-                            e.printStackTrace()
                         }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
                     }
-                )
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                println("errored import ${database.getName()} $datasetName")
-            }
+                }
+            )
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            println("errored import ${database.getName()} $datasetName")
         }
     }
+}

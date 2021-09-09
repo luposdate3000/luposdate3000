@@ -1,0 +1,157 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="b"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="b"><bnode>nodeID://b10073</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10074</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10075</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10076</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10077</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10078</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10079</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10080</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10081</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10082</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10173</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10174</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10175</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10176</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10177</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10178</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10179</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10180</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10181</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10182</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10273</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10274</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10275</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10276</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10277</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10278</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10279</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10280</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10281</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10282</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10373</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10374</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10375</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10376</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10377</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10378</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10379</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10380</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10381</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10382</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10473</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10474</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10475</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10476</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10477</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10478</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10479</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10480</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10481</bnode></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10482</bnode></binding>
+  </result>
+ </results>
+</sparql>
