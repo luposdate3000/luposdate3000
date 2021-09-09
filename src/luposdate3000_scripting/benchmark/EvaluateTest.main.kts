@@ -81,7 +81,7 @@ val datasetName="simulator_parking"
                                 val importTime = DateHelperRelative.elapsedSeconds(startTime)
                                 logger.println("import,$datasetName,${database.getName()},_,$importTime")
                                 logger.flush()
-                                for (queryID in 1 until 18){ 
+                                for (queryID in listOf("1", "2", "3", "4", "5", "6", "7", "8", "2_1", "3_1", "3_2", "4_1", "4_2", "5_1", "6_1", "6_2", "7_1", "7_2", "8_1", "8_2")){ 
 val queryname="Q$queryID"
 val query=File("/src/luposdate3000/resources/myqueries/simulator_parking_query$queryID.sparql").readText()
                                     println("use $queryname")
@@ -91,7 +91,7 @@ val query=File("/src/luposdate3000/resources/myqueries/simulator_parking_query$q
                                         logger.println("evaluate,$datasetName,${database.getName()},$queryname,$querytime")
                                         logger.flush()
                                         File("$outputFolder$datasetName/$queryname").mkdirs()
-                                        File("$outputFolder$datasetName/$queryname/${database.getName()}.xml").printWriter().use { out ->
+                                        File("/src/luposdate3000/resources/myqueries/simulator_parking_result$queryID.srx").printWriter().use { out ->
                                             out.println(response)
                                         }
                                     }

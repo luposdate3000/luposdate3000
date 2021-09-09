@@ -1,0 +1,1507 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="x"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+  <result>
+   <binding name="x"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+  </result>
+ </results>
+</sparql>

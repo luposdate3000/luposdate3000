@@ -29,7 +29,7 @@ echo $(wc -l optional${j}.ttl | sed "s/ .*//g"),optional${i}.sparql,optional${j}
 done
 done
 
-for i in $(seq 1 17)
+for i in 1 2 3 4 5 6 7 8 2_1 3_1 3_2 4_1 4_2 5_1 6_1 6_2 7_1 7_2 8_1 8_2
 do
 echo $(wc -l simulator_parking_input.ttl),simulator_parking_query$i.sparql,simulator_parking_input.ttl,simulator_parking_result$i.srx >> config.csv2
 done
