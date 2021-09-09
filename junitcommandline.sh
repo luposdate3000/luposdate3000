@@ -47,6 +47,6 @@ echo $classpath | tr ":" "\n"
 mkdir src/tmp
 cp -r /src/luposdate3000/src/luposdate3000_code_gen_test_*/* src/tmp/
 cd src/tmp
-java -cp $classpath org.junit.runner.JUnitCore $(find /src/luposdate3000/src/luposdate3000_code_gen_test_*/src/jvmTest/kotlin/lupos/code_gen_test_*/ -type f | sed "s/.kt$//g" | sed "s/.*code_gen_test/lupos.code_gen_test/g" | sed "s-/-\.-g" | tr "\n" " ")
+java -cp $classpath org.junit.runner.JUnitCore "$1"
 cd ..
 rm -rf tmp

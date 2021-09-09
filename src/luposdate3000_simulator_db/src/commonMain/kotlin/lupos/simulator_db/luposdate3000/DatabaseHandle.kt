@@ -338,7 +338,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // remove unnecessary query parts, which just receive and send from and to single locations <<<---
 
-        //  println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap")
+        println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
         for (k in parts.keys) {
             if (!hostMap.keys.contains(k)) {
                 // println("not assigned $k $v")
@@ -770,7 +770,6 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
             for (w in myPendingWork) {
                 if (myPendingWorkData.keys.containsAll(w.dependencies)) {
                     myPendingWork.remove(w)
-                    // println("$ownAdress ${w.key} executing .. ${w.operatorGraph}")
                     changed = true
                     val query: IQuery
                     if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
@@ -783,17 +782,20 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     //  println(node)
                     when (node) {
                         is POPDistributedSendSingle -> {
+                            println("$ownAdress [${w.key}] executing .. ${w.operatorGraph}")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendSingleCount -> {
+                            println("$ownAdress [${w.key}] executing .. ${w.operatorGraph}")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendMulti -> {
                             val keysList = node.keys.toList()
+                            println("$ownAdress $keysList executing .. ${w.operatorGraph}")
                             val out = Array<IMyOutputStream?>(keysList.size) {
                                 MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to keysList[it].toString()), router!!)
                             }
@@ -803,6 +805,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                             }
                         }
                         is OPBaseCompound -> {
+                            println("$ownAdress root executing .. ${w.operatorGraph}")
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
                                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
@@ -831,6 +834,8 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         else -> TODO(node.toString())
                     }
                     break
+                } else {
+                    println("$ownAdress cannot work at ${w.key}, because ${w.dependencies - myPendingWorkData.keys} is missing")
                 }
             }
         }
