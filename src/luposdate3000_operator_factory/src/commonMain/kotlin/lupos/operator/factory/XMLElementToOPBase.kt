@@ -1001,7 +1001,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1003"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1004"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )

@@ -100,7 +100,7 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                     }
                 }
                 is POPMergePartitionOrderedByIntId -> {
-                    if (node.partitionCount == 1) {
+                    if (node.partitionCount2 == 1) {
                         res = node.children[0]
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()

@@ -145,12 +145,12 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     }
                 }
                 is POPMergePartitionOrderedByIntId -> {
-                    if (node.partitionCount> 1) {
+                    if (node.partitionCount2> 1) {
                         SanityCheck.check(
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_distributed_query/src/commonMain/kotlin/lupos/optimizer/distributed/query/DistributedOptimizerQuery.kt:149"/*SOURCE_FILE_END*/ },
                             { currentPartitionsCopy[node.partitionVariable] == null }
                         )
-                        currentPartitionsCopy[node.partitionVariable] = node.partitionID to node.partitionCount
+                        currentPartitionsCopy[node.partitionVariable] = node.partitionID to node.partitionCount2
                     }
                 }
                 is POPChangePartitionOrderedByIntId -> {

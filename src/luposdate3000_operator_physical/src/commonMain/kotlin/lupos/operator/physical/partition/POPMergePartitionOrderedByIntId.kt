@@ -37,7 +37,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
+    @JvmField public var partitionCount2: Int,
     @JvmField public var partitionID: Int,
     child: IOPBase
 ) : APOPParallel(
@@ -69,14 +69,14 @@ public class POPMergePartitionOrderedByIntId public constructor(
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean, partition: PartitionHelper): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, true)
+                val key = partition.getKeyFor(uuid, partitionID, query, partitionCount2, true)
                 return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedSendSingle.toXMLElementInternal(partitionID, partial, isRoot, key, query.getPartitionedBy()))
             } else {
-                if (partitionCount > 1) {
-                    val keys = partition.getKeysFor(uuid, partitionID, query, partitionCount, false)
+                if (partitionCount2 > 1) {
+                    val keys = partition.getKeysFor(uuid, partitionID, query, partitionCount2, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveMultiOrdered.toXMLElementInternal(partitionID, partial, isRoot, keys.map { it to "" }.toMap(), mySortPriority.map { it.variableName }))
                 } else {
-                    val key = partition.getKeyFor(uuid, partitionID, query, partitionCount, false)
+                    val key = partition.getKeyFor(uuid, partitionID, query, partitionCount2, false)
                     return toXMLElementHelperAddBase(partition, partial, isRoot, POPDistributedReceiveSingle.toXMLElementInternal(partitionID, partial, isRoot, key to ""))
                 }
             }
@@ -86,7 +86,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
         res.addAttribute("uuid", "$uuid")
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", "" + partitionCount)
+        res.addAttribute("partitionCount", "" + partitionCount2)
         res.addAttribute("partitionID", "" + partitionID)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -96,10 +96,10 @@ public class POPMergePartitionOrderedByIntId public constructor(
         return res
     }
 
-    override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCount2, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        if (partitionCount == 1) {
+        if (partitionCount2 == 1) {
             // single partition - just pass through
             return children[0].evaluate(parent)
         } else {
@@ -111,25 +111,25 @@ public class POPMergePartitionOrderedByIntId public constructor(
             // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:110"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
-            var buffersize = elementsPerRing * partitionCount
+            var buffersize = elementsPerRing * partitionCount2
             while (buffersize <= 0 || elementsPerRing <= 0) {
                 queue_size = queue_size / 2
                 elementsPerRing = queue_size * variables.size
-                buffersize = elementsPerRing * partitionCount
+                buffersize = elementsPerRing * partitionCount2
             }
             val ringbuffer = DictionaryValueTypeArray(buffersize) // only modified by writer, reader just modifies its pointer
-            val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
-            val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
-            val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
-            val ringbufferWriterContinuation = Array(partitionCount) { Parallel.createCondition() }
+            val ringbufferStart = IntArray(partitionCount2) { it * elementsPerRing } // constant
+            val ringbufferReadHead = IntArray(partitionCount2) { 0 } // owned by read-thread - no locking required
+            val ringbufferWriteHead = IntArray(partitionCount2) { 0 } // owned by write thread - no locking required
+            val ringbufferWriterContinuation = Array(partitionCount2) { Parallel.createCondition() }
             val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
-            val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
+            val writerFinished = IntArray(partitionCount2) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
-            for (p in 0 until partitionCount) {
+            for (p in 0 until partitionCount2) {
                 Parallel.launch {
                     try {
                         val childEval2: IteratorBundle?
-                        childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount2))
                         if (childEval2.hasColumnMode()) {
                             val child = childEval2.columns
                             if (variables.size == 1) {
@@ -256,7 +256,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
                 var res = -1
                 loop@ while (true) {
                     var partitionToUse = -1
-                    loop2@ for (p in 0 until partitionCount) {
+                    loop2@ for (p in 0 until partitionCount2) {
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             partitionToUse = if (partitionToUse < 0) {
                                 p
@@ -288,7 +288,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
                     var finishedWriters = 0
                     ringbufferReaderContinuation.waitCondition {
                         var flag = true
-                        for (p in 0 until partitionCount) {
+                        for (p in 0 until partitionCount2) {
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 flag = false
                                 break
@@ -296,9 +296,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
                                 finishedWriters++
                             }
                         }
-                        (flag && finishedWriters < partitionCount)
+                        (flag && finishedWriters < partitionCount2)
                     }
-                    if (finishedWriters == partitionCount) {
+                    if (finishedWriters == partitionCount2) {
                         break@loop
                     }
                 }
@@ -313,7 +313,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
             }
             iterator.close = {
                 readerFinished = 1
-                for (p in 0 until partitionCount) {
+                for (p in 0 until partitionCount2) {
                     ringbufferWriterContinuation[p].signal()
                 }
             }

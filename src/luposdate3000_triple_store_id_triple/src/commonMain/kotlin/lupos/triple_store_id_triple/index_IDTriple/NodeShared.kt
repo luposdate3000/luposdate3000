@@ -75,7 +75,6 @@ internal object NodeShared {
             localOff += counter1
             val v2 = d2 xor DictionaryValueHelper.fromByteArrayX(node, localOff, counter2)
             localOff += counter2
-//            println("NodeShared.readTriple111 ... $v0 $v1 $v2")
             action(v0, v1, v2)
         }
         return localOff - offset

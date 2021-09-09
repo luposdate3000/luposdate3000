@@ -85,8 +85,8 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                 }
                 is POPMergePartitionOrderedByIntId -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
-                    if (tmp != null && tmp != node.partitionCount) {
-                        node.partitionCount = tmp
+                    if (tmp != null && tmp != node.partitionCount2) {
+                        node.partitionCount2 = tmp
                         onChange()
                     }
                 }

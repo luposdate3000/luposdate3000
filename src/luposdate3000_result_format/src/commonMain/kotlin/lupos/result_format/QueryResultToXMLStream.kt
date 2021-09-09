@@ -239,14 +239,14 @@ public class QueryResultToXMLStream : IResultFormat {
                         }
                         output.print(" </head>\n <results>\n")
                         val parent = Partition()
-                        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+                        if ((node.getQuery().getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount2 > 1))) {
                             var partitionCount = 0
                             var partitionVariable: String? = null
                             if (node is POPMergePartition) {
                                 partitionCount = node.partitionCount
                                 partitionVariable = node.partitionVariable
                             } else if (node is POPMergePartitionOrderedByIntId) {
-                                partitionCount = node.partitionCount
+                                partitionCount = node.partitionCount2
                                 partitionVariable = node.partitionVariable
                             }
                             val jobs = Array<ParallelJob?>(partitionCount) { null }

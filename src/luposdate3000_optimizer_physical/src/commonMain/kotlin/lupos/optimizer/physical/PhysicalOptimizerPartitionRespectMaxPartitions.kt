@@ -39,13 +39,27 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
             count = tmp
         }
         when (node) {
-            is POPSplitPartitionFromStore -> count *= node.partitionCount
-            is POPSplitPartitionFromStoreCount -> count *= node.partitionCount
-            is POPSplitPartition -> count *= node.partitionCount
-            is POPChangePartitionOrderedByIntId -> count = count * node.partitionCountTo / node.partitionCountFrom
-            is POPMergePartition -> count /= node.partitionCount
-            is POPMergePartitionCount -> count /= node.partitionCount
-            is POPMergePartitionOrderedByIntId -> count /= node.partitionCount
+            is POPSplitPartitionFromStore -> {
+                count *= node.partitionCount
+            }
+            is POPSplitPartitionFromStoreCount -> {
+                count *= node.partitionCount
+            }
+            is POPSplitPartition -> {
+                count *= node.partitionCount
+            }
+            is POPChangePartitionOrderedByIntId -> {
+                count = count * node.partitionCountTo / node.partitionCountFrom
+            }
+            is POPMergePartition -> {
+                count /= node.partitionCount
+            }
+            is POPMergePartitionCount -> {
+                count /= node.partitionCount
+            }
+            is POPMergePartitionOrderedByIntId -> {
+                count /= node.partitionCount2
+            }
         }
         return count
     }
@@ -108,8 +122,8 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                 }
                 is POPMergePartitionOrderedByIntId -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
-                    if (tmp != null && tmp != node.partitionCount) {
-                        node.partitionCount = tmp
+                    if (tmp != null && tmp != node.partitionCount2) {
+                        node.partitionCount2 = tmp
                         onChange()
                     }
                 }

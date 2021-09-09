@@ -42,15 +42,15 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartitionRespectMaxPartitions(query), //
-            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
-        ),
-        arrayOf(
             PhysicalOptimizerPartitionRemoveUselessPartitions(query), //
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
             PhysicalOptimizerPartitionAssingPartitionsToRemaining(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
+        ),
+        arrayOf(
+            PhysicalOptimizerPartitionRespectMaxPartitions(query), //
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(

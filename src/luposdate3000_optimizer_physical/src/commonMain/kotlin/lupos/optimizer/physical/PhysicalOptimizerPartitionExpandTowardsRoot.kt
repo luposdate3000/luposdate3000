@@ -98,7 +98,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             onChange()
                         }
                         is POPMergePartitionOrderedByIntId -> {
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
+                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -135,7 +135,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         is POPMergePartitionOrderedByIntId -> {
                             modeC0 = 2
                             columnNameC0 = c0.partitionVariable
-                            columnCountC0 = c0.partitionCount
+                            columnCountC0 = c0.partitionCount2
                             columnIDC0 = c0.partitionID
                         }
                         is POPMergePartitionCount -> {
@@ -155,7 +155,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         is POPMergePartitionOrderedByIntId -> {
                             modeC1 = 2
                             columnNameC1 = c1.partitionVariable
-                            columnCountC1 = c1.partitionCount
+                            columnCountC1 = c1.partitionCount2
                             columnIDC1 = c1.partitionID
                         }
                         is POPMergePartitionCount -> {
@@ -213,7 +213,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             onChange()
                         }
                         is POPMergePartitionOrderedByIntId -> {
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
+                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -239,7 +239,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             onChange()
                         }
                         is POPMergePartitionOrderedByIntId -> {
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
+                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -265,7 +265,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             onChange()
                         }
                         is POPMergePartitionOrderedByIntId -> {
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable!!, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
+                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable!!, c.partitionCount2, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -305,17 +305,17 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPMergePartitionOrderedByIntId -> {
                             if (node.partitionVariable == c.partitionVariable) {
-                                if (node.partitionCount == c.partitionCount) {
+                                if (node.partitionCount == c.partitionCount2) {
                                     res = c.children[0]
                                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.mergePartitionOperator(node.partitionID, c.partitionID, res)
                                     query.partitionOperatorCount.clear()
                                     onChange()
-                                } else if (node.partitionCount < c.partitionCount) {
+                                } else if (node.partitionCount < c.partitionCount2) {
                                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
-                                    res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable!!, c.partitionCount, node.partitionCount, c.partitionID, node.partitionID, c.children[0])
+                                    res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable!!, c.partitionCount2, node.partitionCount, c.partitionID, node.partitionID, c.children[0])
                                     query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
                                     query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
                                     onChange()

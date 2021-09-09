@@ -58,12 +58,12 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                 ids.add(node.partitionID)
             }
             is POPMergePartitionOrderedByIntId -> {
-                if (node.partitionCount != 1) {
+                if (node.partitionCount2 != 1) {
                     SanityCheck.check(
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:62"/*SOURCE_FILE_END*/ },
                         { !currentPartitions.contains(node.partitionVariable) }
                     )
-                    currentPartitions[node.partitionVariable] = node.partitionCount
+                    currentPartitions[node.partitionVariable] = node.partitionCount2
                 }
                 ids.add(node.partitionID)
             }
@@ -72,7 +72,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     SanityCheck.check(
                         { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:72"/*SOURCE_FILE_END*/ },
                         { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, PartitionHelper()).toPrettyString() }
+                        { "${node.uuid} ${root.toXMLElement(false, PartitionHelper()).toPrettyString()}" }
                     )
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
