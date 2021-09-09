@@ -290,7 +290,7 @@ public object RestEndpoint {
         }
         paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleFile(instance, params["file"]!!))
+            connectionOutMy.print(LuposdateEndpoint.importTripleFile(instance, params["file"]!!))
             true
         }
         paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) { params, _, connectionOutMy ->

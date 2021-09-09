@@ -25,7 +25,7 @@ internal fun mainFunc(): Unit = Parallel.runBlocking {
        val example = ExampleAnnotation()
        println(example.exampleVar_evaluate())*/
     val instance = LuposdateEndpoint.initialize()
-    LuposdateEndpoint.importTurtleFile(instance, "resources/code-generation/example.n3")
+    LuposdateEndpoint.importTripleFile(instance, "resources/code-generation/example.n3")
     println("Init finished")
     // For counting of results set true
     if (false) {

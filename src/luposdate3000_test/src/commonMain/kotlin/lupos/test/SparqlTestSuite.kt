@@ -460,7 +460,7 @@ public open class SparqlTestSuite {
                         val query = Query(instance)
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
-                        LuposdateEndpoint.importTurtleFile(instance, inputDataFileName)
+                        LuposdateEndpoint.importTripleFile(instance, inputDataFileName)
                         val bulkSelect = instance.tripleStoreManager!!.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                         val xmlGraphBulk = QueryResultToMemoryTable()(bulkSelect)
                         if (xmlGraphBulk.first() != xmlQueryInput) {

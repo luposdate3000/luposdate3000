@@ -46,7 +46,7 @@ public fun main() {
     commands["loadTurtle"] = MyCommands(
         params = arrayOf("<TurtleFileName>"),
         action = { args ->
-            LuposdateEndpoint.importTurtleFile(instance, args[1])
+            LuposdateEndpoint.importTripleFile(instance, args[1])
         }
     )
     commands["output"] = MyCommands(

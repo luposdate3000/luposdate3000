@@ -318,6 +318,11 @@ without minify mode only the passing tests will be added
                 fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
+            fileBufferPrefix.println("    internal val inputDataFile = arrayOf(")
+            for (k in inputGraphs.keys) {
+                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
+            }
+            fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
             for (v in inputGraphs.values) {
                 fileBufferPrefix.println("        \"${v.graph}\",")
@@ -334,6 +339,11 @@ without minify mode only the passing tests will be added
             fileBufferPrefix.println("    internal val outputData = arrayOf(")
             for (k in outputGraphs.keys) {
                 fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+            }
+            fileBufferPrefix.println("    )")
+            fileBufferPrefix.println("    internal val outputDataFile = arrayOf(")
+            for (k in outputGraphs.keys) {
+                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
@@ -361,9 +371,9 @@ without minify mode only the passing tests will be added
         fileBufferNormalHelper.println("    internal fun normalHelper(instance:Luposdate3000Instance) {")
         fileBufferNormalHelper.println("        val buf = MyPrintWriter(false)")
         for (i in 0 until inputGraphs.size) {
-            appendDistributedTest("MySimulatorTestingImportPackage(inputData[$i], inputGraph[$i], inputType[$i])", false)
+            appendDistributedTest("MySimulatorTestingImportPackage(inputDataFile[$i], inputGraph[$i], inputType[$i])", false)
             fileBufferNormalHelper.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
-            fileBufferNormalHelper.println("            LuposdateEndpoint.importTurtleString(instance, inputData[$i], inputGraph[$i])")
+            fileBufferNormalHelper.println("            LuposdateEndpoint.importTripleFile(instance, inputDataFile[$i],inputType[$i], inputGraph[$i])")
             fileBufferNormalHelper.println("        } else {")
             fileBufferNormalHelper.println("            TODO()")
             fileBufferNormalHelper.println("        }")

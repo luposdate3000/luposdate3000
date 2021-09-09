@@ -23,7 +23,7 @@ import kotlin.jvm.JvmField
 public class ExampleAnnotation {
     // Importing a turtle file to query on
     init {
-        LuposdateEndpoint.importTurtleFiles(
+        LuposdateEndpoint.importTripleFiles(
             "resources/code-generation/example.n3",
             mutableMapOf()
         )

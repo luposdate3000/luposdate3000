@@ -153,7 +153,7 @@ public object LuposdateEndpoint {
         File(fileName).withOutputStream { out ->
             out.println(data)
         }
-        val res = importTurtleFile(instance, fileName, graphName)
+        val res = importTripleFileB(instance, fileName, graphName)
         File(dir).deleteRecursively()
         return res
     }
@@ -181,15 +181,23 @@ public object LuposdateEndpoint {
         }
     }
 
-    @JsName("import_turtle_file")
-    /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String): String {
-        return importTurtleFile(instance, fileName, TripleStoreManager.DEFAULT_GRAPH_NAME)
+    @JsName("import_triple_file")
+    /*suspend*/ public fun importTripleFile(instance: Luposdate3000Instance, fileName: String): String {
+        return importTripleFileB(instance, fileName, TripleStoreManager.DEFAULT_GRAPH_NAME)
     }
 
-    @JsName("import_turtle_file_b")
-    /*suspend*/ public fun importTurtleFile(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
+    @JsName("import_triple_file_b")
+    /*suspend*/ public fun importTripleFileB(instance: Luposdate3000Instance, fileName: String, graphName: String): String {
         if (!DictionaryIntermediate.fileExists(fileName)) {
             InputToIntermediate.process(fileName, instance)
+        }
+        return importIntermediateFile(instance, fileName, graphName)
+    }
+
+    @JsName("import_triple_file_c")
+    /*suspend*/ public fun importTripleFileC(instance: Luposdate3000Instance, fileName: String, fileType: String, graphName: String): String {
+        if (!DictionaryIntermediate.fileExists(fileName)) {
+            InputToIntermediate.process(fileName, fileType, instance)
         }
         return importIntermediateFile(instance, fileName, graphName)
     }
@@ -264,7 +272,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:266"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:274"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -273,17 +281,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:275"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:283"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map{it}} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:280"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:288"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map{it}} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:285"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:293"/*SOURCE_FILE_END*/ },
                                     { newC> oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC> oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map{it}} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )

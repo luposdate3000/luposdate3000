@@ -44,7 +44,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         OptimizerMode.All
     }
     val timer = DateHelperRelative.markNow()
-    LuposdateEndpoint.importTurtleFile(instance, datasourceFiles)
+    LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples2,0,1,${numberOfTriples2 * 1000.0},${1.0 / time}")
     val groupSize = IntArray(queryFiles2.size) { 1 }

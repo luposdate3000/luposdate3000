@@ -19,7 +19,7 @@ import lupos.shared.UUID_Counter
 import lupos.simulator_db.IDatabasePackageTesting
 
 public class MySimulatorTestingImportPackage(
-    public val data: String,
+    public val filename: String,
     public val graph: String,
     public val type: String,
 ) : IDatabasePackageTesting {
