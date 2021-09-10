@@ -76,10 +76,10 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                                 println("alloc POPMergePartitionOrderedByIntId ${res.uuid} C")
-res.setMySortPriority(node.mySortPriority,node.projectedVariables)
+                                res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
-res.setMySortPriority(node.mySortPriority,node.projectedVariables)
+                                res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
@@ -98,10 +98,10 @@ res.setMySortPriority(node.mySortPriority,node.projectedVariables)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
                                 println("alloc POPMergePartitionOrderedByIntId ${res.uuid} D")
-res.setMySortPriority(node.mySortPriority,node.projectedVariables)
+                                res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)
-res.setMySortPriority(node.mySortPriority,node.projectedVariables)
+                                res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true

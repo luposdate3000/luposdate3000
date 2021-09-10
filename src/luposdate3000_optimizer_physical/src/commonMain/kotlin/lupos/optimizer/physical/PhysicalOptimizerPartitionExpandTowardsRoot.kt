@@ -103,7 +103,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
-res.setMySortPriority(c.mySortPriority,node.projectedVariables)
+                            res.setMySortPriority(c.mySortPriority, node.projectedVariables)
                             onChange()
                         }
                         is POPMergePartitionCount -> {
@@ -185,7 +185,7 @@ res.setMySortPriority(c.mySortPriority,node.projectedVariables)
                                     query.removePartitionOperator(c1.getUUID(), columnID)
                                     query.addPartitionOperator(res.getUUID(), columnID)
                                     query.partitionOperatorCount.clear()
-res.setMySortPriority((c1 as POPMergePartitionOrderedByIntId).mySortPriority,node.projectedVariables)
+                                    res.setMySortPriority((c1 as POPMergePartitionOrderedByIntId).mySortPriority, node.projectedVariables)
                                     onChange()
                                 }
                                 3 -> {
@@ -220,7 +220,7 @@ res.setMySortPriority((c1 as POPMergePartitionOrderedByIntId).mySortPriority,nod
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
-res.setMySortPriority(c.mySortPriority,node.projectedVariables)
+                            res.setMySortPriority(c.mySortPriority, node.projectedVariables)
                             onChange()
                         }
                         is POPMergePartitionCount -> {
@@ -247,7 +247,7 @@ res.setMySortPriority(c.mySortPriority,node.projectedVariables)
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
-res.setMySortPriority(c.mySortPriority,node.projectedVariables)
+                            res.setMySortPriority(c.mySortPriority, node.projectedVariables)
                             onChange()
                         }
                         is POPMergePartitionCount -> {
@@ -274,7 +274,7 @@ res.setMySortPriority(c.mySortPriority,node.projectedVariables)
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
-res.setMySortPriority(c.mySortPriority,node.projectedVariables)
+                            res.setMySortPriority(c.mySortPriority, node.projectedVariables)
                             onChange()
                         }
                         is POPMergePartitionCount -> {

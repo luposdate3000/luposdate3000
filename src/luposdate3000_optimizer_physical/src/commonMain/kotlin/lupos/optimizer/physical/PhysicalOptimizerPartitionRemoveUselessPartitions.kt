@@ -121,7 +121,7 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                     } else if (node.partitionCountTo == 1) {
                         res = POPMergePartitionOrderedByIntId(query, node.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCountFrom, node.partitionIDFrom, node.children[0])
                         println("alloc POPMergePartitionOrderedByIntId ${res.uuid} B")
-res.setMySortPriority(node.mySortPriority,node.children[0].getProvidedVariableNames())
+                        res.setMySortPriority(node.mySortPriority, node.children[0].getProvidedVariableNames())
                         query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
                         query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
                         query.addPartitionOperator(res.getUUID(), res.partitionID)

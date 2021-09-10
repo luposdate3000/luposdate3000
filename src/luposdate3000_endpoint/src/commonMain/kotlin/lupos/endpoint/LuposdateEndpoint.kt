@@ -117,8 +117,12 @@ public object LuposdateEndpoint {
             }
         }
         parserObject.initializeCache()
+try{
         parserObject.turtleDoc()
-
+}catch(e:Throwable){
+println(data)
+throw e
+}
         var data2 = ByteArrayWrapper()
         cache.forEach { value, key ->
             var c1 = ByteArrayWrapperExt.getSize(data2)
