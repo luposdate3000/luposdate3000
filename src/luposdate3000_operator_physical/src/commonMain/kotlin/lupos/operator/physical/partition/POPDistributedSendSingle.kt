@@ -74,24 +74,16 @@ public class POPDistributedSendSingle public constructor(
         }
         val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        println("POPDistributedSendSingle $uuid columns ${variables.map{it}}")
         var flag = true
         while (true) {
-            var debugBuf = ""
             for (j in 0 until variables.size) {
                 val buf = columns[j].next()
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:83"/*SOURCE_FILE_END*/ },
-                    { debugBuf += ",$buf" }
-                )
                 flag = flag && buf != DictionaryValueHelper.nullValue
                 connectionOut.writeDictionaryValueType(buf)
             }
             if (!flag) {
-                println("POPDistributedSendSingle $uuid writing end")
                 break
             } else {
-                println("POPDistributedSendSingle $uuid writing row $debugBuf")
             }
         }
         connectionOut.flush()

@@ -274,7 +274,6 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             }
             PN_CHARS_BASE(c) -> {
                 var image = "" + c
-                var debugCount = 0
                 loopblanknode@ while (this.iterator.hasNext()) {
                     val nextNextChar = this.iterator.nextChar()
                     when {

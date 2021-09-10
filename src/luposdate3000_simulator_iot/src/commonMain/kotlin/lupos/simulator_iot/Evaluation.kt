@@ -44,10 +44,8 @@ public class Evaluation {
     private fun getMeshPerfRanges(): IntArray {
         val arrSize = IntArray(20)
         arrSize[0] = 600
-        println(arrSize[0])
         for (index in 1 until arrSize.size) {
             arrSize[index] = arrSize[index - 1] - 30
-            println(arrSize[index])
         }
         return arrSize
     }
