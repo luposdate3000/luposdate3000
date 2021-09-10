@@ -98,7 +98,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         val openInputMappings = IntArray(inputs.size * variables.size)
         val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
         val debugbuffer = DictionaryValueTypeArray(inputs.size * variables.size)
-        //println("POPDistributedReceiveMultiOrdered $uuid columns $variables")
+        // println("POPDistributedReceiveMultiOrdered $uuid columns $variables")
         for (kk in 0 until inputs.size) {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
@@ -119,11 +119,11 @@ public class POPDistributedReceiveMultiOrdered public constructor(
             for (i in 0 until variables.size) {
                 buffer[openInputMappings[off + i]] = inputs[kk].readDictionaryValueType()
             }
-           // var debugtmp = ""
-           // for (i in 0 until variables.size) {
-           //     debugtmp = debugtmp + ",${buffer[off + i]}"
-           // }
-            //println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
+            // var debugtmp = ""
+            // for (i in 0 until variables.size) {
+            //     debugtmp = debugtmp + ",${buffer[off + i]}"
+            // }
+            // println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
             if (buffer[off] == DictionaryValueHelper.nullValue) {
                 openInputs[kk]!!.close()
                 openOutputs[kk]?.close()
@@ -162,11 +162,11 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                     for (i in 0 until variables.size) {
                         buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
                     }
-                  //  var debugtmp = ""
-                  //  for (i in 0 until variables.size) {
-                   //     debugtmp = debugtmp + ",${buffer[off + i]}"
-                   // }
-                  //  println("POPDistributedReceiveMultiOrdered $uuid row $min $debugtmp")
+                    //  var debugtmp = ""
+                    //  for (i in 0 until variables.size) {
+                    //     debugtmp = debugtmp + ",${buffer[off + i]}"
+                    // }
+                    //  println("POPDistributedReceiveMultiOrdered $uuid row $min $debugtmp")
                     if (buffer[off] != DictionaryValueHelper.nullValue) {
                         for (idx in 0 until orderedBy.size) {
                             val a = buffer[idx + min * variables.size]
