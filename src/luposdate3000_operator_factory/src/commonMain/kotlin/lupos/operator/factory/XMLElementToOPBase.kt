@@ -628,6 +628,7 @@ public object XMLElementToOPBase {
         operatorMap["POPMergePartitionOrderedByIntId"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
             val res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
+            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} J")
 //            TODO("res.mySortPriority=???")
             query.addPartitionOperator(res.uuid, id)
             res
@@ -1001,7 +1002,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1003"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1004"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )

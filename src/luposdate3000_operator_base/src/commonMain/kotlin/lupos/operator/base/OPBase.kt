@@ -93,7 +93,17 @@ public abstract class OPBase public constructor(
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {
         sortPriorities = value
     }
-
+public fun setMySortPriority(value: MutableList<SortHelper>,filteredByName:List<String>){
+val tmp=mutableListOf<SortHelper>()
+for(v in value){
+if(filteredByName.contains(v.name)){
+tmp.add(v)
+}else{
+break
+}
+}
+mySortPriority=tmp
+}
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }

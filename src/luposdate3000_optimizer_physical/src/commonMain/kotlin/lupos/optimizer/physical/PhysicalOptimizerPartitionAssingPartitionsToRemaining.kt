@@ -75,10 +75,11 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
-                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
+                                println("alloc POPMergePartitionOrderedByIntId ${res.uuid} C")
+res.setMySortPriority(node.mySortPriority,node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
-                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
+res.setMySortPriority(node.mySortPriority,node.projectedVariables)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
@@ -96,10 +97,11 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
-                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
+                                println("alloc POPMergePartitionOrderedByIntId ${res.uuid} D")
+res.setMySortPriority(node.mySortPriority,node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)
-                                res.mySortPriority = node.mySortPriority.filter { node.projectedVariables.contains(it.variableName) }.toMutableList()
+res.setMySortPriority(node.mySortPriority,node.projectedVariables)
                             }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
