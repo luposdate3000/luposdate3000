@@ -91,33 +91,27 @@ public class POPDistributedSendMulti public constructor(
                 }
             }
         }
-        println("POPDistributedSendMulti $uuid columns ${variables.map{it}}")
+      // println("POPDistributedSendMulti $uuid columns ${variables.map{it}}")
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:94"/*SOURCE_FILE_END*/ }, { i == variables.size })
         val bundle = children[0].evaluate(partition)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
         while (buf != DictionaryValueHelper.nullValue) {
 // the partition column
-            var debugBuf = ""
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:102"/*SOURCE_FILE_END*/ },
-                { debugBuf += ",$buf" }
-            )
+            //var debugBuf = ""
+//                 debugBuf += ",$buf" 
             val connectionOut = data[DictionaryValueHelper.toInt(buf % partitionCount)]
             connectionOut!!.writeDictionaryValueType(buf)
 // all other columns
             for (j in 1 until variables.size) {
                 buf = columns[j].next()
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:111"/*SOURCE_FILE_END*/ },
-                    { debugBuf += ",$buf" }
-                )
+                    // debugBuf += ",$buf" 
                 connectionOut.writeDictionaryValueType(buf)
             }
-            println("POPDistributedSendMulti $uuid writing row $debugBuf")
+           // println("POPDistributedSendMulti $uuid writing row $debugBuf")
             buf = columns[0].next()
         }
-        println("POPDistributedSendMulti $uuid writing end")
+       // println("POPDistributedSendMulti $uuid writing end")
         for (connectionOut in data) {
             for (j in 0 until variables.size) {
                 connectionOut!!.writeDictionaryValueType(buf)
