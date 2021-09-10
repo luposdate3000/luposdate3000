@@ -251,7 +251,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // calculating all dependencies <<<---
 // assign hostnames where necessary --->>>
-        val destinations = mutableMapOf(-1 to pck.sourceAddress)
+        val destinations = mutableMapOf(-1 to pck.sourceAddress) // not the operatorgraph key, but the connection key
         when (instance.queryDistributionMode) {
             EQueryDistributionModeExt.Routing -> {
                 // only define the explicit triple-store access
@@ -516,11 +516,13 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 if (h != null) {
                     p.operatorGraphPartsToHostMap[k] = h // this allows to keep the final destination, while sending the package only to the next hop
                 }
-                val d = pck.destinations[k]
-                if (d != null) {
-                    p.destinations[k] = d
-                } else {
-                    p.destinations[k] = ownAdress
+                for (i in mapBottomUpThis[k]!!) {
+                    val d = pck.destinations[i]
+                    if (d != null) {
+                        p.destinations[i] = d
+                    } else {
+                        p.destinations[i] = ownAdress
+                    }
                 }
             }
         }
@@ -532,34 +534,29 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 }
             } else {
                 if (instance.mergeLocalOperatorgraphs) {
-                    var containsSendMultiFlag = false
-                    for (k2 in p.operatorGraph.keys) {
-                        if (mapBottomUpThis[k2]!!.size > 1) {
-                            containsSendMultiFlag = true
-                        }
-                    }
-                    if (!containsSendMultiFlag) {
 // try to merge operatorgraphs for local queries
-                        loop@ for (k5 in p.operatorGraph.keys.toSet()) {
-                            for (v in mapBottomUpThis[k5]!!) { // what is provided ... often k5==v
-                                for ((k6, k7) in mapTopDown) { // what is required
-                                    if (k7.contains(v)) {
+                    loop@ for (k5 in p.operatorGraph.keys.toSet()) {
+                        if (mapBottomUpThis[k5]!!.size > 1) {
+                            continue@loop
+                        }
+                        for (v in mapBottomUpThis[k5]!!) { // what is provided ... often k5==v
+                            for ((k6, k7) in mapTopDown) { // what is required
+                                if (k7.contains(v)) {
 // merge now !!
-                                        val kk6 = p.operatorGraph[k6]
-                                        val kk5 = p.operatorGraph[k5]
-                                        if (kk5 != null && kk6 != null) {
-                                            var res = mergeOperatorGraphLocally(kk6, null, 0, kk6, kk5, k5)
-                                            if (res) {
-                                                println("node local merge $k5 into $k6")
-                                                p.operatorGraph.remove(k5) // remove the entire child
-                                                p.destinations.remove(k5) // remove the entire child
-                                                mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
-                                                mapTopDown[k6]!!.addAll(mapTopDown[k5]!!)
-                                                mapTopDown.remove(k5) // remove the entire child
-                                            }
+                                    val kk6 = p.operatorGraph[k6]
+                                    val kk5 = p.operatorGraph[k5]
+                                    if (kk5 != null && kk6 != null) {
+                                        var res = mergeOperatorGraphLocally(kk6, null, 0, kk6, kk5, k5)
+                                        if (res) {
+                                            println("node local merge $k5 into $k6")
+                                            p.operatorGraph.remove(k5) // remove the entire child
+                                            p.destinations.remove(k5) // remove the entire child
+                                            mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
+                                            mapTopDown[k6]!!.addAll(mapTopDown[k5]!!)
+                                            mapTopDown.remove(k5) // remove the entire child
                                         }
-                                        continue@loop
                                     }
+                                    continue@loop
                                 }
                             }
                         }
@@ -568,12 +565,15 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                 for (k2 in p.operatorGraph.keys) {
                     val graph = p.operatorGraph[k2]!!
                     logger.addWork(p.queryID, ownAdress, graph, mapTopDown[k2]!!, mapBottomUpThis[k2]!!)
+                    val dep = mapTopDown[k2]!!.toIntArray()
+                    val keys = mapBottomUpThis[k2]!!.toIntArray()
+                    val dest = IntArray(keys.size) { p.destinations[keys[it]]!! }
                     val w = MySimulatorPendingWork(
                         p.queryID,
                         p.operatorGraph[k2]!!,
-                        p.destinations[k2]!!,
-                        mapTopDown[k2]!!,
-                        k2,
+                        dest,
+                        dep,
+                        keys,
                         pck.onFinish,
                         pck.expectedResult,
                         pck.verifyAction,
@@ -770,7 +770,11 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         while (changed) {
             changed = false
             for (w in myPendingWork) {
-                if (myPendingWorkData.keys.containsAll(w.dependencies)) {
+                var flag = true
+                for (k in w.dependencies) {
+                    flag = flag && myPendingWorkData.keys.contains(k)
+                }
+                if (flag) {
                     myPendingWork.remove(w)
                     changed = true
                     val query: IQuery
@@ -784,23 +788,25 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     //  println(node)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            println("$ownAdress ${w.key} executing .. ${w.operatorGraph}")
-                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)
+                            println("$ownAdress ${w.keys.map{it}} executing .. ${w.operatorGraph}")
+                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendSingleCount -> {
-                            println("$ownAdress ${w.key} executing .. ${w.operatorGraph}")
-                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to "${w.key}"), router!!)
+                            println("$ownAdress ${w.keys.map{it}} executing .. ${w.operatorGraph}")
+                            val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendMulti -> {
-                            val keysList = node.keys.toList()
-                            println("$ownAdress ${w.key}->$keysList executing .. ${w.operatorGraph}")
-                            val out = Array<IMyOutputStream?>(keysList.size) {
-TODO("w.destination is definetly wrong here !!!!")
-                                MySimulatorOutputStreamToPackage(w.queryID, w.destination, "simulator-intermediate-result", mapOf("key" to keysList[it].toString()), router!!)
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:803"/*SOURCE_FILE_END*/ },
+                                { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
+                            )
+                            println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. ${w.operatorGraph}")
+                            val out = Array<IMyOutputStream?>(w.keys.size) {
+                                MySimulatorOutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
                             }
                             node.evaluate(out)
                             for (o in out) {
@@ -820,7 +826,7 @@ TODO("w.destination is definetly wrong here !!!!")
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destination, QueryResponsePackage("success".encodeToByteArray(), w.queryID))
+                                    router!!.send(w.destinations[0], QueryResponsePackage("success".encodeToByteArray(), w.queryID))
                                 }
                             } else {
                                 val buf = MyPrintWriter(true)
@@ -829,7 +835,7 @@ TODO("w.destination is definetly wrong here !!!!")
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destination, QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
+                                    router!!.send(w.destinations[0], QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
                                 }
                             }
                             // println("done executing")
@@ -838,7 +844,7 @@ TODO("w.destination is definetly wrong here !!!!")
                     }
                     break
                 } else {
-                    println("$ownAdress cannot work at ${w.key}, because ${w.dependencies - myPendingWorkData.keys} is missing")
+                    println("$ownAdress cannot work at ${w.keys.map{it}}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                 }
             }
         }

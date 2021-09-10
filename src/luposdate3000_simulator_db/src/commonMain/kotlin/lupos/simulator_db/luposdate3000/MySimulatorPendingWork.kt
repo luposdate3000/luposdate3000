@@ -22,9 +22,9 @@ import lupos.simulator_db.IDatabasePackage
 internal class MySimulatorPendingWork(
     val queryID: Int,
     val operatorGraph: XMLElement,
-    val destination: Int,
-    val dependencies: Set<Int>,
-    val key: Int,
+    val destinations: IntArray,
+    val dependencies: IntArray,
+    val keys: IntArray,
     val onFinish: IDatabasePackage?,
     val expectedResult: MemoryTable?,
     val verifyAction: () -> Unit,
