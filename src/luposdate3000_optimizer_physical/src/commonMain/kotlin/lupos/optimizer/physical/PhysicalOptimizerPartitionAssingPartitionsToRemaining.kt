@@ -75,7 +75,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
-                                println("alloc POPMergePartitionOrderedByIntId ${res.uuid} C")
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
@@ -97,7 +96,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
-                                println("alloc POPMergePartitionOrderedByIntId ${res.uuid} D")
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)

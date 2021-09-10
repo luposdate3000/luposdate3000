@@ -628,7 +628,6 @@ public object XMLElementToOPBase {
         operatorMap["POPMergePartitionOrderedByIntId"] = { query, node, mapping, recursionFunc ->
             val id = node.attributes["partitionID"]!!.toInt()
             val res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(node), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc))
-            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} J")
 //            TODO("res.mySortPriority=???")
             query.addPartitionOperator(res.uuid, id)
             res

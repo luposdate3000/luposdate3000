@@ -86,7 +86,6 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                 for (s in joinColumns) {
                     if (keepOrder) {
                         c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
-                        println("alloc POPMergePartitionOrderedByIntId ${c.uuid} A")
                         c.setMySortPriority(sortPriority, c.getProvidedVariableNames())
                         query.addPartitionOperator(c.uuid, newID[i])
                     } else {

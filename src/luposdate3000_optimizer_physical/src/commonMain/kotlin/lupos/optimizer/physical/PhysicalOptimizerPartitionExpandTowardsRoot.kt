@@ -99,7 +99,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPMergePartitionOrderedByIntId -> {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
-                            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} E")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -180,7 +179,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                                 }
                                 2 -> {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, columnNameC0!!, columnCountC0, columnID, POPUnion(query, node.projectedVariables, c0.getChildren()[0], c1.getChildren()[0]))
-                                    println("alloc POPMergePartitionOrderedByIntId ${res.uuid} F")
                                     query.removePartitionOperator(c0.getUUID(), columnID)
                                     query.removePartitionOperator(c1.getUUID(), columnID)
                                     query.addPartitionOperator(res.getUUID(), columnID)
@@ -216,7 +214,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPMergePartitionOrderedByIntId -> {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
-                            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} G")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -243,7 +240,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPMergePartitionOrderedByIntId -> {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
-                            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} H")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()
@@ -270,7 +266,6 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         }
                         is POPMergePartitionOrderedByIntId -> {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable!!, c.partitionCount2, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
-                            println("alloc POPMergePartitionOrderedByIntId ${res.uuid} I")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.addPartitionOperator(res.getUUID(), c.partitionID)
                             query.partitionOperatorCount.clear()

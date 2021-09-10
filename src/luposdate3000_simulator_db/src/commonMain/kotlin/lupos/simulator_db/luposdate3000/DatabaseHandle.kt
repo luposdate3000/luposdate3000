@@ -319,7 +319,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         val senderKey = k
 // replace senderkey with receiverKey
 // remove the senderkey entirely
-                        println("initial merge $senderKey -> $receiverKey")
+                       // println("initial merge $senderKey -> $receiverKey")
                         val p = parts[mapBottomUpAbove[k]!!.first()]!!
                         replacereceiverKey(p!!, receiverKey, senderKey)
                         val d = destinations[senderKey]
@@ -339,7 +339,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
 // remove unnecessary query parts, which just receive and send from and to single locations <<<---
 
-        println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
+       // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
         for (k in parts.keys) {
             if (!hostMap.keys.contains(k)) {
                 // println("not assigned $k $v")
@@ -548,7 +548,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                                     if (kk5 != null && kk6 != null) {
                                         var res = mergeOperatorGraphLocally(kk6, null, 0, kk6, kk5, k5)
                                         if (res) {
-                                            println("node local merge $k5 into $k6")
+                                           // println("node local merge $k5 into $k6")
                                             p.operatorGraph.remove(k5) // remove the entire child
                                             p.destinations.remove(k5) // remove the entire child
                                             mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
@@ -785,16 +785,16 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                         query = w.query
                     }
                     val node = localXMLElementToOPBase(query, w.operatorGraph)
-                    //  println(node)
+                    // println(node)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            println("$ownAdress ${w.keys.map{it}} executing .. $node")
+                           // println("$ownAdress ${w.keys.map{it}} executing .. $node")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendSingleCount -> {
-                            println("$ownAdress ${w.keys.map{it}} executing .. $node")
+                           // println("$ownAdress ${w.keys.map{it}} executing .. $node")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
@@ -804,7 +804,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:803"/*SOURCE_FILE_END*/ },
                                 { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                             )
-                            println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
+                           // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
                             val out = Array<IMyOutputStream?>(w.keys.size) {
                                 MySimulatorOutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
                             }
@@ -814,7 +814,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                             }
                         }
                         is OPBaseCompound -> {
-                            println("$ownAdress root executing .. $node")
+                           // println("$ownAdress root executing .. $node")
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
                                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
@@ -844,7 +844,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     }
                     break
                 } else {
-                    println("$ownAdress cannot work at ${w.keys.map{it}}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
+                   // println("$ownAdress cannot work at ${w.keys.map{it}}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                 }
             }
         }
