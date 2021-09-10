@@ -788,13 +788,13 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                     //  println(node)
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            println("$ownAdress ${w.keys.map{it}} executing .. ${w.operatorGraph}")
+                            println("$ownAdress ${w.keys.map{it}} executing .. $node")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
                         }
                         is POPDistributedSendSingleCount -> {
-                            println("$ownAdress ${w.keys.map{it}} executing .. ${w.operatorGraph}")
+                            println("$ownAdress ${w.keys.map{it}} executing .. $node")
                             val out = MySimulatorOutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                             node.evaluate(out)
                             out.close()
@@ -804,7 +804,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/DatabaseHandle.kt:803"/*SOURCE_FILE_END*/ },
                                 { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                             )
-                            println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. ${w.operatorGraph}")
+                            println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
                             val out = Array<IMyOutputStream?>(w.keys.size) {
                                 MySimulatorOutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
                             }
@@ -814,7 +814,7 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
                             }
                         }
                         is OPBaseCompound -> {
-                            println("$ownAdress root executing .. ${w.operatorGraph}")
+                            println("$ownAdress root executing .. $node")
                             if (w.expectedResult != null) {
                                 val buf = MyPrintWriter(false)
                                 val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()

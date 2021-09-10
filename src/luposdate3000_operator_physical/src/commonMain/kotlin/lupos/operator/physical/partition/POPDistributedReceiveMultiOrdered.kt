@@ -85,7 +85,8 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        for (v in orderedBy) {
+        for (i in 0 until orderedBy.size) {
+            val v = orderedBy[orderedBy.size - i - 1]
             if (variables.contains(v)) {
                 variables.remove(v)
                 variables.add(0, v)
@@ -97,11 +98,13 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         var openConnections = BooleanArray(inputs.size) { true }
         val openInputMappings = IntArray(inputs.size * variables.size)
         val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
+        val debugbuffer = DictionaryValueTypeArray(inputs.size * variables.size)
+        println("POPDistributedReceiveMultiOrdered $uuid columns $variables")
         for (kk in 0 until inputs.size) {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:103"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:106"/*SOURCE_FILE_END*/ },
                 { cnt == variables.size },
                 { "$cnt vs ${variables.size}" }
             )
@@ -111,12 +114,17 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:113"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:116"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {
-                buffer[ openInputMappings[off + i]] = inputs[kk].readDictionaryValueType()
+                buffer[openInputMappings[off + i]] = inputs[kk].readDictionaryValueType()
             }
+            var debugtmp = ""
+            for (i in 0 until variables.size) {
+                debugtmp = debugtmp + ",${buffer[off + i]}"
+            }
+            println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
             if (buffer[off] == DictionaryValueHelper.nullValue) {
                 openInputs[kk]!!.close()
                 openOutputs[kk]?.close()
@@ -137,14 +145,12 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                     loop@ for (i in min + 1 until openInputs.size) {
                         if (openInputs[i] != null) {
                             for (idx in 0 until orderedBy.size) {
-                                val a = idx + i * variables.size
-                                val b = idx + min * variables.size
-                                val c = buffer[a]
-                                val d = buffer[b]
-                                if (b <c) {
+                                val c = buffer[idx + i * variables.size]
+                                val d = buffer[idx + min * variables.size]
+                                if (d > c) {
                                     min = i
                                     continue@loop
-                                } else if (b> c) {
+                                } else if (d < c) {
                                     continue@loop
                                 }
                             }
@@ -155,14 +161,34 @@ public class POPDistributedReceiveMultiOrdered public constructor(
                         iterator.buf[i] = buffer[off + i]
                     }
                     for (i in 0 until variables.size) {
-                        buffer[ openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
+                        buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
+                    }
+                    var debugtmp = ""
+                    for (i in 0 until variables.size) {
+                        debugtmp = debugtmp + ",${buffer[off + i]}"
+                    }
+                    println("POPDistributedReceiveMultiOrdered $uuid row $min $debugtmp")
+                    if (buffer[off] != DictionaryValueHelper.nullValue) {
+                        for (idx in 0 until orderedBy.size) {
+                            val a = buffer[idx + min * variables.size]
+                            val b = debugbuffer[idx + min * variables.size]
+                            if (a > b) {
+                                break
+                            } else {
+                                if (a < b) {
+                                    TODO("not sorted input can not be fixed here $min")
+                                }
+                            }
+                        }
+                        for (i in 0 until variables.size) {
+                            debugbuffer[off + i] = buffer[off + i]
+                        }
                     }
                     if (buffer[off] == DictionaryValueHelper.nullValue) {
                         openInputs[min]!!.close()
                         openOutputs[min]?.close()
                         openInputs[min] = null
                         openOutputs[min] = null
-                    } else {
                     }
                     break
                 }

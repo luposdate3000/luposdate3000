@@ -73,8 +73,6 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         val dict1 = query!!.getDictionary()
         val dict2 = other.query!!.getDictionary()
 
-/*
-
         println(
             "equalsVerbose left ${data.map{
                 "${it.map{it}} : ${it.map{
@@ -91,8 +89,6 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }}"
             }}"
         )
-
-*/
 
         if (columns.size != other.columns.size) {
             if (verbose) {
