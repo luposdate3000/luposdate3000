@@ -35,7 +35,7 @@ for i in 1 2 3 4 5 6 7 8 \
  8_1_2 8_1_3 8_1_4 8_1_5 8_1_6
 do
 echo $(wc -l simulator_parking_input.ttl),simulator_parking_query$i.sparql,simulator_parking_input.ttl,simulator_parking_result$i.srx >> config.csv2
-echo $(wc -l simulator_parking_input_small.ttl),simulator_parking_query$i.sparql,simulator_parking_input_small.ttl,simulator_parking_result_small$i.srx >> config.csv2
+echo $(wc -l simulator_parking_input_small.ttl),simulator_parking_query$i.sparql,simulator_parking_input_small.ttl,simulator_parking_result${i}_small.srx >> config.csv2
 done
 
 cat config.csv2 | sort -n | uniq > config.csv
