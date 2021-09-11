@@ -6,7 +6,7 @@ SELECT ?spot ?isOccupied ?lastObservedAt
 WHERE {
   ?o a parking:Observation ;
   parking:spotInArea ?spot ;
-  parking:area 9 ;
+  parking:area 1 ;
   parking:isOccupied ?isOccupied ;
   parking:resultTime ?lastObservedAt .
 }

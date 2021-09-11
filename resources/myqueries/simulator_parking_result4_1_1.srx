@@ -4,19 +4,19 @@
  </head>
  <results distinct="false" ordered="true">
   <result>
-   <binding name="b"><bnode>nodeID://b10070</bnode></binding>
+   <binding name="b"><bnode>nodeID://b10014</bnode></binding>
   </result>
   <result>
-   <binding name="b"><bnode>nodeID://b10170</bnode></binding>
+   <binding name="b"><bnode>nodeID://b10114</bnode></binding>
   </result>
   <result>
-   <binding name="b"><bnode>nodeID://b10270</bnode></binding>
+   <binding name="b"><bnode>nodeID://b10214</bnode></binding>
   </result>
   <result>
-   <binding name="b"><bnode>nodeID://b10370</bnode></binding>
+   <binding name="b"><bnode>nodeID://b10314</bnode></binding>
   </result>
   <result>
-   <binding name="b"><bnode>nodeID://b10470</bnode></binding>
+   <binding name="b"><bnode>nodeID://b10414</bnode></binding>
   </result>
  </results>
 </sparql>

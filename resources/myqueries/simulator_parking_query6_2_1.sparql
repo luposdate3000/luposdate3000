@@ -5,6 +5,6 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
     SELECT * WHERE{
       ?o2 a parking:Observation ;
       parking:spotInArea ?spot ;
-      parking:area 9 ;
+      parking:area 1 ;
       parking:resultTime ?d .
     }

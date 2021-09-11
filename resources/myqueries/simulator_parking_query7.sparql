@@ -15,7 +15,7 @@ WHERE {
       parking:area ?area ;
       parking:spotInArea ?spot ;
       parking:resultTime ?d .
-      FILTER (?area IN (9, 8, 2))
+      FILTER (?area IN (1, 2))
     }
     GROUP BY ?area ?spot
   }

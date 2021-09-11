@@ -6,5 +6,5 @@ SELECT *
 WHERE {
   ?o a parking:Observation ;
   parking:spotInArea ?spot ;
-  parking:area 9 .
+  parking:area 1 .
 }

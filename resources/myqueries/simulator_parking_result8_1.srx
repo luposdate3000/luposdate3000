@@ -4,7 +4,7 @@
  </head>
  <results distinct="false" ordered="true">
   <result>
-   <binding name="numberOfFreeSpaces"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
+   <binding name="numberOfFreeSpaces"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
   </result>
  </results>
 </sparql>

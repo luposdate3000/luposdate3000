@@ -7,5 +7,5 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
       parking:area ?area ;
       parking:spotInArea ?spot ;
       parking:resultTime ?d .
-      FILTER (?area IN (9, 8, 2))
+      FILTER (?area IN (1, 2))
     }

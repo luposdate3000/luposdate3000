@@ -4,5 +4,5 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
 
 SELECT *
 WHERE {
-?o  parking:area 9 .
+?o  parking:area 1 .
 }

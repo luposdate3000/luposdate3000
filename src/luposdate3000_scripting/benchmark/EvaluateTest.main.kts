@@ -63,7 +63,9 @@ File(outputFolder).mkdirs()
 File("$outputFolder/log.txt").printWriter().use { logger ->
     val datasetName = "simulator_parking"
     println("use $datasetName")
-    val datasetFile = "/src/luposdate3000/resources/myqueries/simulator_parking_input.ttl"
+for((datasetFile,result_postfix) in mapOf("/src/luposdate3000/resources/myqueries/simulator_parking_input.ttl" to "",
+"/src/luposdate3000/resources/myqueries/simulator_parking_input_small.ttl" to "_small"
+)){
     for (databaseIdx in 0 until allDatabases.size) {
         val database = allDatabases[databaseIdx]
         println("use ${database.getName()}")
@@ -94,7 +96,7 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                                 logger.println("evaluate,$datasetName,${database.getName()},$queryname,$querytime")
                                 logger.flush()
                                 File("$outputFolder$datasetName/$queryname").mkdirs()
-                                File("/src/luposdate3000/resources/myqueries/simulator_parking_result$queryID.srx").printWriter().use { out ->
+                                File("/src/luposdate3000/resources/myqueries/simulator_parking_result$queryID$result_postfix.srx").printWriter().use { out ->
                                     out.println(response)
                                 }
                             }
@@ -109,4 +111,5 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
             println("errored import ${database.getName()} $datasetName")
         }
     }
+}
 }

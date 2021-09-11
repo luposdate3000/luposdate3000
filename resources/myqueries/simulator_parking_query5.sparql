@@ -5,7 +5,7 @@ PREFIX parking: <https://github.com/luposdate3000/parking#>
 select   (max(?d) AS ?latestDate)
 where {
   ?b a parking:Observation ;
-  parking:area 7 ;
-  parking:spotInArea 71 ;
+  parking:area 2 ;
+  parking:spotInArea 22 ;
   parking:resultTime ?d .
 }

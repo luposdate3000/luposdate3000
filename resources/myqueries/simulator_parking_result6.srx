@@ -6,54 +6,54 @@
  </head>
  <results distinct="false" ordered="true">
   <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">93</literal></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
    <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.930</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.413</literal></binding>
   </result>
   <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">97</literal></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
+   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.417</literal></binding>
+  </result>
+  <result>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
    <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.970</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal></binding>
   </result>
   <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">91</literal></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
    <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.910</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.419</literal></binding>
   </result>
   <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">99</literal></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
+   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.415</literal></binding>
+  </result>
+  <result>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
+   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.410</literal></binding>
+  </result>
+  <result>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
+   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.416</literal></binding>
+  </result>
+  <result>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
    <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.990</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.412</literal></binding>
   </result>
   <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">95</literal></binding>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
+   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.418</literal></binding>
+  </result>
+  <result>
+   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
    <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.950</literal></binding>
-  </result>
-  <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">90</literal></binding>
-   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.900</literal></binding>
-  </result>
-  <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">96</literal></binding>
-   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.960</literal></binding>
-  </result>
-  <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">92</literal></binding>
-   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.920</literal></binding>
-  </result>
-  <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">98</literal></binding>
-   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.980</literal></binding>
-  </result>
-  <result>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">94</literal></binding>
-   <binding name="isOccupied"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.940</literal></binding>
+   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.414</literal></binding>
   </result>
  </results>
 </sparql>
