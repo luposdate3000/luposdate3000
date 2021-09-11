@@ -89,6 +89,21 @@ public class Reuseaprojectexpressionvariableinorderby {
     }
 
     @Test
+    public fun `Reuse a project expression variable in order by - Thread - Simple - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `Reuse a project expression variable in order by - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
