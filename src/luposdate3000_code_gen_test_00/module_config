@@ -1,0 +1,5 @@
+package=Luposdate3000_Main
+disableJS=true
+dependencyJvm=org.junit.jupiter:junit-jupiter-api:5.7.2
+dependencyJvm=org.junit.jupiter:junit-jupiter-engine:5.7.2
+dependencyJvm=org.junit.platform:junit-platform-console-standalone:1.7.2

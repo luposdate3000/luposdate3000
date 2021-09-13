@@ -27,7 +27,7 @@ import kotlin.jvm.JvmField
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     private val withSimulator = true
     private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
-    private val minifyMode = true
+    private val minifyMode = false
     private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
@@ -352,12 +352,12 @@ without minify mode only the passing tests will be added
         if (inputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val inputData = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        File(outputFolderTestResourcesJvm(k)).readAsString(),")
+                fileBufferPrefix.println("        File(\"${outputFolderTestResourcesJvm(folderCurrent)}/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputDataFile = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        outputFolderTestResourcesJvm(k),")
+                fileBufferPrefix.println("        \"${outputFolderTestResourcesJvm(folderCurrent)}/$k\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
@@ -375,12 +375,12 @@ without minify mode only the passing tests will be added
         if (outputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val outputData = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        File(outputFolderTestResourcesJvm(k)).readAsString(),")
+                fileBufferPrefix.println("        File(\"${outputFolderTestResourcesJvm(folderCurrent)}/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputDataFile = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        outputFolderTestResourcesJvm(k),")
+                fileBufferPrefix.println("        \"${outputFolderTestResourcesJvm(folderCurrent)}/$k\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
@@ -396,7 +396,7 @@ without minify mode only the passing tests will be added
             fileBufferPrefix.println("    )")
         }
         if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-            fileBufferPrefix.println("    internal val targetData = File(\"src/jvmMain/resources/$testCaseName.output\").readAsString()")
+            fileBufferPrefix.println("    internal val targetData = File(\"${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output\").readAsString()")
             fileBufferPrefix.println("    internal val targetType = \"$targetType\"")
         }
         fileBufferPrefix.println("    internal val query = \"${cleanFileContent(File(queryFile).readAsString())}\"")
@@ -525,9 +525,9 @@ without minify mode only the passing tests will be added
                             fileBufferTest.println("    public fun `$finalTestName`() {")
                             fileBufferTest.println("        simulatorHelper(")
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmMain/resources/autoIntegrationTest/test1.json\",")
+                                fileBufferTest.println("            \"src/luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
                             } else {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmMain/resources/autoIntegrationTest/test2.json\",")
+                                fileBufferTest.println("            \"src/luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
                             }
                             fileBufferTest.println("            mutableMapOf(")
                             fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
