@@ -857,12 +857,15 @@ fun onRun() {
                 if (module.enabledRunFunc()) {
                     jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
                     jars.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
-val name=if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
-"external_jvm_test_dependencies"
-}else{
-"external_jvm_dependencies"
+if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
+val f = File("${module.moduleFolder}/build/external_jvm_test_dependencies")
+                    if (f.exists()) {
+                        f.forEachLine {
+                            jars.add(it)
+                        }
+                    }
 }
-                    val f = File("${module.moduleFolder}/build/$name")
+                    val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
                     if (f.exists()) {
                         f.forEachLine {
                             jars.add(it)
@@ -870,9 +873,15 @@ val name=if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
                     }
                 }
             }
+var junitMain=""
             var classpath = ""
             for (jar in jars.sorted()) {
-                if (classpath == "") {
+if(jar.contains("standalone")){
+println(jar)
+}
+if(jar.contains("junit-platform-console-standalone")){
+junitMain=jar
+}else                if (classpath == "") {
                     classpath = jar
                 } else {
                     if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -908,8 +917,6 @@ val name=if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
                 cmd.add("java")
                 cmd.add("-Xmx${Platform.getAvailableRam()}g")
             }
-            cmd.add("-cp")
-            cmd.add(classpath)
 val a1=LauncherConfig.getConfigValue("--processUrlsStore")
 val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
 val c1=a1.count { it == ',' }
@@ -919,7 +926,11 @@ if(c==0){
 c=1
 }
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable_Test") {
-            cmd.add("org.junit.runner.JUnitCore")
+cmd.add("-jar")
+cmd.add(junitMain)
+            cmd.add("-cp")
+            cmd.add(classpath)
+
                 println("export LUPOS_PROCESS_URLS_STORE=${a1}")
                 println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
                 println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
@@ -927,6 +938,8 @@ c=1
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
+            cmd.add("-cp")
+            cmd.add(classpath)
             cmd.add("MainKt")
             cmd.addAll(runArgs)
                 println("export LUPOS_PROCESS_URLS_STORE=${a1}")
@@ -936,6 +949,8 @@ c=1
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
+            cmd.add("-cp")
+            cmd.add(classpath)
             cmd.add("MainKt")
             cmd.addAll(runArgs)
                 Array(c) {

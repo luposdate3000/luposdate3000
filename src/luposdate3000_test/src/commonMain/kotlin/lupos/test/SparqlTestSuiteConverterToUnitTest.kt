@@ -43,14 +43,13 @@ without minify mode only the passing tests will be added
     @JvmField
     internal var lastFile: String = ""
 
-    internal val folderCount = 20
+    internal val folderCount = 1
     internal var folderCurrent = 0
 
-    internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2,'0')}"
-    internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathCoponent(idx)}/"
-    internal fun outputFolderSrcJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathCoponent(idx)}/"
-    internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/kotlin/lupos/${folderPathCoponent(idx)}/"
-    internal fun outputFolderTestResourcesJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/resources/"
+    internal fun folderPathComponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2,'0')}"
+    internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathComponent(idx)}/"
+    internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathComponent(idx)}/"
+    internal fun outputFolderTestResourcesJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/resources/"
 
     internal val duplicationDetector = mutableMapOf<String, Int>()
 
@@ -63,6 +62,7 @@ without minify mode only the passing tests will be added
     internal val listOfRemoved = mutableSetOf<String>()
     internal val listOfAllTests = mutableSetOf<String>()
     internal val listOfBlacklist = mutableSetOf<String>()
+    internal val classesByPackage = Array(folderCount) { mutableListOf<String>() }
 
     internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
@@ -114,11 +114,14 @@ without minify mode only the passing tests will be added
         for (idx in 0 until folderCount) {
             File(outputFolderRoot(idx)).deleteRecursively()
             File(outputFolderRoot(idx)).mkdirs()
-            File(outputFolderSrcJvm(idx)).mkdirs()
             File(outputFolderTestJvm(idx)).mkdirs()
             File(outputFolderTestResourcesJvm(idx)).mkdirs()
             File("${outputFolderRoot(idx)}/module_config").withOutputStream { out ->
+                out.println("package=Luposdate3000_Main")
                 out.println("disableJS=true")
+                out.println("dependencyJvm=org.junit.jupiter:junit-jupiter-api:5.7.2")
+                out.println("dependencyJvm=org.junit.jupiter:junit-jupiter-engine:5.7.2")
+                out.println("dependencyJvm=org.junit.platform:junit-platform-console-standalone:1.7.2")
                 if (fileModeMany) { // because this yields out of memory during compilation
                     out.println("useKTLint=false")
                 }
@@ -132,6 +135,34 @@ without minify mode only the passing tests will be added
                 out.println(t)
             }
         }
+/*        for (i in 0 until folderCount) {
+            File("${outputFolderTestJvm(i)}/TestSuite.kt").withOutputStream { out ->
+                out.println("/*")
+                out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+                out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+                out.println(" *")
+                out.println(" * This program is free software: you can redistribute it and/or modify")
+                out.println(" * it under the terms of the GNU General Public License as published by")
+                out.println(" * the Free Software Foundation, version 3.")
+                out.println(" *")
+                out.println(" * This program is distributed in the hope that it will be useful, but")
+                out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+                out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+                out.println(" * General Public License for more details.")
+                out.println(" *")
+                out.println(" * You should have received a copy of the GNU General Public License")
+                out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+                out.println(" */")
+                out.println("package lupos.${folderPathComponent(folderCurrent)}")
+                out.println("import org.junit.platform.runner.RunWith")
+                out.println("import org.junit.platform.suite.api.SelectPackages")
+                out.println("import  org.junit.platform.runner.JUnitPlatform")
+                out.println("@RunWith (JUnitPlatform.javaClass)")
+                out.println("@SelectPackages({\"lupos.code_gen_test_15\"})")
+                out.println("public class TestSuite")
+            }
+        }
+*/
     }
 
     private fun cleanFileContent(s: String): String {
@@ -287,7 +318,7 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println(" * You should have received a copy of the GNU General Public License")
         fileBufferPrefix.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
         fileBufferPrefix.println(" */")
-        fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
+        fileBufferPrefix.println("package lupos.${folderPathComponent(folderCurrent)}")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
         fileBufferPrefix.println("import lupos.operator.base.Query")
@@ -310,9 +341,10 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
         fileBufferPrefix.println("import lupos.simulator_iot.SimulationRun")
         fileBufferPrefix.println("")
-        fileBufferPrefix.println("import kotlin.test.Ignore")
-        fileBufferPrefix.println("import kotlin.test.Test")
-        fileBufferPrefix.println("import kotlin.test.fail")
+        fileBufferPrefix.println("import org.junit.jupiter.api.Disabled")
+        fileBufferPrefix.println("import org.junit.jupiter.api.Test")
+        fileBufferPrefix.println("import org.junit.jupiter.api.Timeout")
+        fileBufferPrefix.println("import org.junit.jupiter.api.fail")
         fileBufferPrefix.println("")
         val inputGraphIsDefaultGraph = mutableListOf<Boolean>()
         val outputGraphIsDefaultGraph = mutableListOf<Boolean>()
@@ -320,12 +352,12 @@ without minify mode only the passing tests will be added
         if (inputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val inputData = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                fileBufferPrefix.println("        File(outputFolderTestResourcesJvm(k)).readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputDataFile = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
+                fileBufferPrefix.println("        outputFolderTestResourcesJvm(k),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
@@ -343,12 +375,12 @@ without minify mode only the passing tests will be added
         if (outputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val outputData = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                fileBufferPrefix.println("        File(outputFolderTestResourcesJvm(k)).readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputDataFile = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
+                fileBufferPrefix.println("        outputFolderTestResourcesJvm(k),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
@@ -364,7 +396,7 @@ without minify mode only the passing tests will be added
             fileBufferPrefix.println("    )")
         }
         if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-            fileBufferPrefix.println("    internal val targetData = File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
+            fileBufferPrefix.println("    internal val targetData = File(\"src/jvmMain/resources/$testCaseName.output\").readAsString()")
             fileBufferPrefix.println("    internal val targetType = \"$targetType\"")
         }
         fileBufferPrefix.println("    internal val query = \"${cleanFileContent(File(queryFile).readAsString())}\"")
@@ -437,10 +469,11 @@ without minify mode only the passing tests will be added
                     val fileBufferTest = MyPrintWriter(true)
                     fileBufferTests[finalTestName] = fileBufferTest
                     if (isIgnored(finalTestName)) {
-                        fileBufferTest.println("    @Ignore")
+                        fileBufferTest.println("    @Disabled")
                     }
                     if (minifyMode) {
-                        fileBufferTest.println("    @Test(timeout = 2000)")
+                        fileBufferTest.println("    @Test()")
+                        fileBufferTest.println("    @Timeout(2000)")
                     } else {
                         fileBufferTest.println("    @Test")
                     }
@@ -481,19 +514,20 @@ without minify mode only the passing tests will be added
                             val fileBufferTest = MyPrintWriter(true)
                             fileBufferTests[finalTestName] = fileBufferTest
                             if (isIgnored(finalTestName) || !withSimulator) {
-                                fileBufferTest.println("    @Ignore")
+                                fileBufferTest.println("    @Disabled")
                             }
                             if (minifyMode) {
-                                fileBufferTest.println("    @Test(timeout = 2000)")
+                                fileBufferTest.println("    @Test")
+                                fileBufferTest.println("    @Timeout(2000)")
                             } else {
                                 fileBufferTest.println("    @Test")
                             }
                             fileBufferTest.println("    public fun `$finalTestName`() {")
                             fileBufferTest.println("        simulatorHelper(")
                             if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmMain/resources/autoIntegrationTest/test1.json\",")
                             } else {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmMain/resources/autoIntegrationTest/test2.json\",")
                             }
                             fileBufferTest.println("            mutableMapOf(")
                             fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
@@ -562,6 +596,7 @@ without minify mode only the passing tests will be added
                                     out.print(stringBufferNormalHelper)
                                 }
                                 out.print(postfix)
+                                classesByPackage[folderCurrent].add(finalClassName)
                             }
                         }
                     }
@@ -589,6 +624,7 @@ without minify mode only the passing tests will be added
                             out.print(stringBufferNormalHelper)
                         }
                         out.print(postfix)
+                        classesByPackage[folderCurrent].add(testCaseName)
                     }
                 }
                 if (fileBufferTests.size> 0) {
