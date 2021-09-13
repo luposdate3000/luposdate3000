@@ -35,7 +35,7 @@
 import launcher.CreateModuleArgs 
 import launcher.DryMode
 import launcher.EDictionaryValueMode
-import launcher.ExecMode
+import launcher.ExecMode 
 import launcher.InlineMode
 import launcher.IntellijMode 
 import launcher.ParamClassMode 
@@ -857,7 +857,12 @@ fun onRun() {
                 if (module.enabledRunFunc()) {
                     jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
                     jars.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
-                    val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
+val name=if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
+"external_jvm_test_dependencies"
+}else{
+"external_jvm_dependencies"
+}
+                    val f = File("${module.moduleFolder}/build/$name")
                     if (f.exists()) {
                         f.forEachLine {
                             jars.add(it)
@@ -905,9 +910,6 @@ fun onRun() {
             }
             cmd.add("-cp")
             cmd.add(classpath)
-            cmd.add("MainKt")
-            cmd.addAll(runArgs)
-            println(cmd)
 val a1=LauncherConfig.getConfigValue("--processUrlsStore")
 val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
 val c1=a1.count { it == ',' }
@@ -916,7 +918,17 @@ var c=c1+c2+if(a1.length>0){1}else{0}+if(a2.length>0){1}else{0}
 if(c==0){
 c=1
 }
-            if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
+            if (LauncherConfig.getConfigValue("--dryMode") == "Enable_Test") {
+            cmd.add("org.junit.runner.JUnitCore")
+                println("export LUPOS_PROCESS_URLS_STORE=${a1}")
+                println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
+                println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
+                println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
+                println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
+                println("exec :: " + cmd.joinToString(" "))
+            } else             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
+            cmd.add("MainKt")
+            cmd.addAll(runArgs)
                 println("export LUPOS_PROCESS_URLS_STORE=${a1}")
                 println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
                 println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
@@ -924,6 +936,8 @@ c=1
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
+            cmd.add("MainKt")
+            cmd.addAll(runArgs)
                 Array(c) {
                     val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
