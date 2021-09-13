@@ -712,18 +712,6 @@ if(useKTLint){
                     out.println("        }")
                     out.println("    }")
                     out.println("}")
-                    out.println("tasks.named(\"compileTestKotlinJvm\") {")
-                    out.println("    dependsOn(\"luposSetup\")")
-                    out.println("    doLast {")
-                    out.println("        File(buildDir, \"external_jvm_test_dependencies\").printWriter().use { out ->")
-                    out.println("            for (f in configurations.getByName(\"jvmTestCompileClasspath\").resolve()) {")
-//                    out.println("                if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                    out.println(\"\$f\")")
-  //                  out.println("                }")
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("    }")
-                    out.println("}")
                 }
                 if (enableJS) {
                     out.println("tasks.named(\"compileKotlinJs\") {")

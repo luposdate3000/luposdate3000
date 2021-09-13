@@ -19,7 +19,7 @@ package launcher
 enum class ExecMode { RUN, HELP, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_GRADLE, UNKNOWN, SETUP_SPACLIENT }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 enum class ReleaseMode { Enable, Disable }
-enum class DryMode { Enable, Disable,Enable_Test }
+enum class DryMode { Enable, Disable }
 enum class TargetMode2 { JVM, JS, Native, All, JVM_JS }
 enum class IntellijMode { Enable, Disable }
 enum class SuspendMode { Enable, Disable }
