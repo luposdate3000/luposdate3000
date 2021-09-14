@@ -7750,7 +7750,6 @@ resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_1_AllCollatio
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
-resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
@@ -9720,7 +9719,6 @@ resourcesmyqueriesoptional50sparql5 - None - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional50sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional50sparql5 - None - Simple - false
 resourcesmyqueriesoptional50sparql5 - None - Simple - true
-resourcesmyqueriesoptional51sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional51sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional51sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional51sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
