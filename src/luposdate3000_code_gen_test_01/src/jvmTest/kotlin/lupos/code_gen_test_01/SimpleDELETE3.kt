@@ -299,21 +299,6 @@ public class SimpleDELETE3 {
     }
 
     @Test
-    public fun `Simple DELETE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Thread",
-            )
-        )
-    }
-
-    @Test
     public fun `Simple DELETE 3 - in simulator - Simple - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

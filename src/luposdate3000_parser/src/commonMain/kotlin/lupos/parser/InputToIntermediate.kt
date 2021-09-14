@@ -239,6 +239,16 @@ public object InputToIntermediate {
                         row[1] = p
                         row[2] = o
                         outTriples.write(row)
+println("reading triple ... ${row.map{it}} -> '${row.map{it->
+var res=""
+for((k,v) in dict){
+if(v==it){
+res=byteArrayToSparql(k)
+break
+}
+}
+res
+}}'")
                         cnt++
                         if (cnt % 10000L == 0L) {
                             println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")

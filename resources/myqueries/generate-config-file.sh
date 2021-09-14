@@ -32,7 +32,7 @@ done
 for i in 1 2 3 4 5 6 7 8 \
  2_1 3_1 3_2 4_1 4_2 5_1 6_1 6_2 7_1 7_2 8_1 8_2 \
  2_1_1 2_1_2 2_1_3 3_1_1 3_1_2 3_1_3 3_1_4 3_1_5 3_1_6 3_1_7 4_1_1 4_1_2 4_1_3 4_1_4 4_1_5 4_1_6 4_1_7 5_1_1 5_1_2 5_1_3 5_1_4 6_1_1 6_1_2 6_1_3 6_1_4 6_1_5 6_1_6 6_2_1 7_1_1 7_2_1 7_2_2 8_1_1 8_2_1 \
- 8_1_2 8_1_3 8_1_4 8_1_5 8_1_6
+ 8_1_2 8_1_3 8_1_4 8_1_5 8_1_6 8_1_7
 do
 echo $(wc -l simulator_parking_input.ttl),simulator_parking_query$i.sparql,simulator_parking_input.ttl,simulator_parking_result$i.srx >> config.csv2
 echo $(wc -l simulator_parking_input_small.ttl),simulator_parking_query$i.sparql,simulator_parking_input_small.ttl,simulator_parking_result${i}_small.srx >> config.csv2

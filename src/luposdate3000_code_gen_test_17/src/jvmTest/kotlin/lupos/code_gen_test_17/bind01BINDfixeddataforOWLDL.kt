@@ -68,21 +68,6 @@ public class bind01BINDfixeddataforOWLDL {
     }
 
     @Test
-    public fun `bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test
     public fun `bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",

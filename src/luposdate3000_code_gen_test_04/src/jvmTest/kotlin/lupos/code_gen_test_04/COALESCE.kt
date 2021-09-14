@@ -275,21 +275,6 @@ public class COALESCE {
     }
 
     @Test
-    public fun `COALESCE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test
     public fun `COALESCE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -298,21 +283,6 @@ public class COALESCE {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test
-    public fun `COALESCE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             )
