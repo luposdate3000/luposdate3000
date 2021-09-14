@@ -6,6 +6,7 @@
 [31;1m> Task :src:luposdate3000_code_gen_test_06:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_07:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_08:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_10:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_11:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_12:loadKtlintReporters[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_13:loadKtlintReporters[0;39m FAILED
@@ -7918,6 +7919,7 @@ resourcesmyqueriesoptional12sparql4 - Thread - PartitionByIDTwiceAllCollations -
 resourcesmyqueriesoptional12sparql4 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional12sparql4 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional12sparql4 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesoptional12sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional12sparql5 - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional12sparql5 - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional12sparql5 - Thread - PartitionByID_2_AllCollations - false
@@ -13610,6 +13612,7 @@ resourcessp2bq68sparql21 - Thread - PartitionByKeyAllCollations - true
 resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcessp2bq68sparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+resourcessp2bq68sparql247 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
