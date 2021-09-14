@@ -66,9 +66,9 @@ public class Configuration(private val simRun: SimulationRun) {
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
 
     public fun addQuerySender(
-        startClockInSec: Int = 0,
-        sendRateInSec: Int = 1,
-        maxNumberOfQueries: Int = 1,
+        startClockInSec: Int,
+        sendRateInSec: Int,
+        maxNumberOfQueries: Int,
         query: String,
         receiver: Int = rootRouterAddress
     ) {
@@ -77,9 +77,9 @@ public class Configuration(private val simRun: SimulationRun) {
         device.allApplications.addChild(sender)
     }
     public fun addQuerySender(
-        startClockInSec: Int = 0,
-        sendRateInSec: Int = 1,
-        maxNumberOfQueries: Int = 1,
+        startClockInSec: Int,
+        sendRateInSec: Int,
+        maxNumberOfQueries: Int,
         queryPck: IDatabasePackage,
         receiver: Int = rootRouterAddress
     ) {

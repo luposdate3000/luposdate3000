@@ -40,7 +40,7 @@ public class ApplicationLayerQuerySender(
         parent = router
     }
     override fun startUp() {
-        parent.registerTimer(startClockInSec.toLong() * 1000000L, this)
+        parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
     override fun shutDown() {
     }
@@ -52,7 +52,7 @@ public class ApplicationLayerQuerySender(
             queryCounter++
             parent.send(receiver, queryPck)
             parent.flush()
-            parent.registerTimer(sendRateInSec.toLong() * 1000000L, this)
+            parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
         }
     }
 }

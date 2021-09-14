@@ -173,10 +173,16 @@ class IntegrationTest {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(configFile, false)
         config.addQuerySender(
-            1,
+            60,
             1,
             1,
             MySimulatorAbstractPackage(-1, "/shacl/ontology/import", mapOf("data" to SemanticData.get_SHACL_OntolotgyString())),
+        )
+        config.addQuerySender(
+            600,
+            1,
+            1,
+            queryString
         )
         simRun.startSimulation(config)
     }

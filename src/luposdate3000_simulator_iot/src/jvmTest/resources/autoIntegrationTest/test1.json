@@ -60,7 +60,7 @@
             "enabled": false
         },
         "stdout": {
-            "enabled": true
+            "enabled": false
         },
         "visualize": {
             "enabled": false

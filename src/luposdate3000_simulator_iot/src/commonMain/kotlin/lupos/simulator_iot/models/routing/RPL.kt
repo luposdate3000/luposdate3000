@@ -51,7 +51,8 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         device.sendUnRoutedPackage(destinationAddress, dio)
     }
     private fun hasDatabase(): Boolean {
-        return device.simRun.config.dbDeviceAddressesStore.contains(device.address) || device.simRun.config.dbDeviceAddressesQuery.contains(device.address)
+        val res = device.simRun.config.dbDeviceAddressesStore.contains(device.address) || device.simRun.config.dbDeviceAddressesQuery.contains(device.address)
+        return res
     }
 
     private fun sendDAO(destinationAddress: Int) {
