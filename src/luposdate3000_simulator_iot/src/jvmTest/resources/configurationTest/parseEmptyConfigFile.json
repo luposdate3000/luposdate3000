@@ -1,7 +1,4 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {},
     "fixedDevice": {},

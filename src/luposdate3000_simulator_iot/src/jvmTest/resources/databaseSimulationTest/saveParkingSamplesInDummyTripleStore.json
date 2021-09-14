@@ -1,31 +1,33 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": true,
     "deviceType": {
         "Fog": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
         "FogWithDatabase": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "FogWithDatabase",
             "parkingSensor": "",
             "performance": 40.0,
             "supportedLinkTypes": [],
         },
         "FogWithDatabaseAndSensor": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "FogWithDatabaseAndSensor",
             "parkingSensor": "park1",
             "performance": 3.0,

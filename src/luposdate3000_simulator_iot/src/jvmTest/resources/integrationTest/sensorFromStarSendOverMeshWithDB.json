@@ -1,19 +1,7 @@
 {
-    "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-    },
     "deterministic": true,
     "deviceType": {
         "EdgeGatewayDevice": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "EdgeGatewayDevice",
             "parkingSensor": "",
             "performance": 32.0,
@@ -23,9 +11,24 @@
             ],
         },
         "EdgeGatewayDevice_1": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+
+				"Luposdate3000":{
+ "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+					"databaseQuery": true,
+					"databaseStore": true,
+				}
+				"QueryResponseReceiver":{
+				}
+				"ParkingSampleReceiver":{
+				},
+},
             "name": "EdgeGatewayDevice_1",
             "parkingSensor": "",
             "performance": 32.0,
@@ -35,10 +38,24 @@
             ],
         },
         "EdgeGatewayDevice_2": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "EdgeGatewayDevice_2",
+"applications": {
+
+                                "Luposdate3000":{
+ "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },
+},            "name": "EdgeGatewayDevice_2",
             "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -47,10 +64,24 @@
             ],
         },
         "EdgeGatewayDevice_3": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "EdgeGatewayDevice_3",
+"applications": {
+
+                                "Luposdate3000":{
+ "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },
+},            "name": "EdgeGatewayDevice_3",
             "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -59,10 +90,24 @@
             ],
         },
         "FogTower": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "FogTower",
+"applications": {
+
+                                "Luposdate3000":{
+ "REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },
+},            "name": "FogTower",
             "parkingSensor": "",
             "performance": 110.0,
             "supportedLinkTypes": [
@@ -71,7 +116,6 @@
             ],
         },
         "ParkingSensorDevice": {
-            "database": false,
             "name": "ParkingSensorDevice",
             "parkingSensor": "park1",
             "performance": 1.0,
@@ -80,9 +124,6 @@
             ],
         },
         "ParkingSensorDevice_1": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "ParkingSensorDevice_1",
             "parkingSensor": "park1",
             "performance": 1.0,
@@ -91,9 +132,6 @@
             ],
         },
         "ParkingSensorDevice_2": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "ParkingSensorDevice_2",
             "parkingSensor": "park2",
             "performance": 1.0,
@@ -102,9 +140,6 @@
             ],
         },
         "ParkingSensorDevice_3": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "ParkingSensorDevice_3",
             "parkingSensor": "park3",
             "performance": 1.0,

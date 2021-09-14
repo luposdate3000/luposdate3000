@@ -1,35 +1,36 @@
 {
-    "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
+    "deterministic": true,
+    "deviceType": {
+        "DB": {
+"applications": {
+"Luposdate3000":{
+"REPLACE_STORE_WITH_VALUES": false,
         "SharedMemoryDictionaryCheat": true,
         "mergeLocalOperatorgraphs": true,
         "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-    },
-    "deterministic": true,
-    "deviceType": {
-        "DB": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+					"databaseQuery": true,
+					"databaseStore": true,
+				}
+				"QueryResponseReceiver":{
+				}
+				"ParkingSampleReceiver":{
+				}
+},
             "name": "DB",
             "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": [],
         },
         "Other": {
-            "database": false,
             "name": "Other",
             "parkingSensor": "",
             "performance": 11.0,
             "supportedLinkTypes": [],
         },
         "Sensor": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor",
             "parkingSensor": "park1",
             "performance": 0.9,

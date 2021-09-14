@@ -1,7 +1,4 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
-    },
     "deterministic": true,
     "linkType": [{
         "name": "WIRELESS",
@@ -11,7 +8,6 @@
     "sensorType": [],
     "deviceType": [{
         "name": "Mesh Hop",
-        "database": false,
         "parkingSensor": "",
         "performance": 100.0,
         "supportedLinkTypes": ["WIRELESS"]

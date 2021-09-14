@@ -1,13 +1,14 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "RadioTower": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+"QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},                                "DummyDatabase": {
+                                },
+},
             "name": "RadioTower",
             "parkingSensor": "park1",
             "performance": 20.0,

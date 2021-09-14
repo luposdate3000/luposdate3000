@@ -1,13 +1,7 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "Fog": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,

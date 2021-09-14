@@ -1,11 +1,14 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "Fog": {
-            "database": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [

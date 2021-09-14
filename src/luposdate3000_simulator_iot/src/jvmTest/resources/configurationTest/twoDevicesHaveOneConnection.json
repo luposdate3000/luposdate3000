@@ -1,13 +1,14 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "Fog": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -16,9 +17,13 @@
             ],
         },
         "RadioTower": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "RadioTower",
             "parkingSensor": "park1",
             "performance": 20.0,

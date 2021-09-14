@@ -1,7 +1,4 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
-    },
     "deterministic": true,
     "linkType": [],
     "sensorType": [{
@@ -12,22 +9,28 @@
     }],
     "deviceType": [{
             "name": "Fog",
-            "database": false,
             "parkingSensor": "",
             "performance": 11.0,
             "supportedLinkTypes": []
         },
         {
             "name": "SensorDevice",
-            "database": false,
             "parkingSensor": "park1",
             "performance": 0.9,
             "supportedLinkTypes": []
         },
         {
             "name": "DataStore",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+				"Luposdate3000":{
+					"databaseQuery": true,
+					"databaseStore": true,
+				},
+				"QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},},            "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": []
         }

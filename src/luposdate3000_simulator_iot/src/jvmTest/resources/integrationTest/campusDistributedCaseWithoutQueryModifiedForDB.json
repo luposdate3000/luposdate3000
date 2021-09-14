@@ -1,20 +1,24 @@
 {
-    "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
+    "deterministic": true,
+    "deviceType": {
+        "Edge Gateway WSN 1": {
+"applications": {
+
+				"Luposdate3000":{
+					"databaseQuery": true,
+					"databaseStore": true,
+"REPLACE_STORE_WITH_VALUES": false,
         "SharedMemoryDictionaryCheat": true,
         "mergeLocalOperatorgraphs": true,
         "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-    },
-    "deterministic": true,
-    "deviceType": {
-        "Edge Gateway WSN 1": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "Edge Gateway WSN 1",
+				}
+				"QueryResponseReceiver":{
+				}
+				"ParkingSampleReceiver":{
+				},},            "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -22,10 +26,23 @@
             ],
         },
         "Edge Gateway WSN 2": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "Edge Gateway WSN 2",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+"REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },},             "name": "Edge Gateway WSN 2",
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -33,10 +50,23 @@
             ],
         },
         "Edge Gateway WSN 3": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "Edge Gateway WSN 3",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+"REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },},             "name": "Edge Gateway WSN 3",
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -44,10 +74,23 @@
             ],
         },
         "Edge Gateway WSN 4": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "name": "Edge Gateway WSN 4",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+"REPLACE_STORE_WITH_VALUES": false,
+        "SharedMemoryDictionaryCheat": true,
+        "mergeLocalOperatorgraphs": true,
+        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+        "queryDistributionMode": "Routing",
+        "type": "Luposdate3000",
+        "useDictionaryInlineEncoding": true,
+                                }
+                                "QueryResponseReceiver":{
+                                }
+                                "ParkingSampleReceiver":{
+                                },},             "name": "Edge Gateway WSN 4",
             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -55,9 +98,6 @@
             ],
         },
         "Mesh Hop": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Mesh Hop",
             "parkingSensor": "",
             "performance": 20.0,
@@ -66,9 +106,6 @@
             ],
         },
         "Sensor Device WSN 1": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor Device WSN 1",
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
@@ -77,9 +114,6 @@
             ],
         },
         "Sensor Device WSN 2": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor Device WSN 2",
             "parkingSensor": "Parking Sensor WSN 2",
             "performance": 1.0,
@@ -88,9 +122,6 @@
             ],
         },
         "Sensor Device WSN 3": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor Device WSN 3",
             "parkingSensor": "Parking Sensor WSN 3",
             "performance": 1.0,
@@ -99,9 +130,6 @@
             ],
         },
         "Sensor Device WSN 4": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor Device WSN 4",
             "parkingSensor": "Parking Sensor WSN 4",
             "performance": 1.0,

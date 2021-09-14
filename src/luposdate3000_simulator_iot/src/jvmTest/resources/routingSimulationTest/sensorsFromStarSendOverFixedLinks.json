@@ -1,11 +1,14 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": true,
     "deviceType": {
         "Edge Gateway WSN 1": {
-            "database": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
             "performance": 30.0,
@@ -14,9 +17,13 @@
             ],
         },
         "Mesh Hop": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "Mesh Hop",
             "parkingSensor": "",
             "performance": 20.0,
@@ -25,9 +32,6 @@
             ],
         },
         "Sensor Device WSN 1": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "Sensor Device WSN 1",
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,

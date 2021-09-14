@@ -1,7 +1,4 @@
 {
-    "database" : {
-        "type" : "Luposdate3000"
-    },
     "deterministic": true,
     "linkType": [{
             "name": "WPAN",
@@ -23,91 +20,186 @@
     }],
     "deviceType": [{
             "name": "Central Tower",
-            "database": true,
-            "parkingSensor": "Sensor",
+"applications": {
+
+				"Luposdate3000":{
+					"databaseQuery": true,
+					"databaseStore": true,
+				},
+				"QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},},            "parkingSensor": "Sensor",
             "performance": 100.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 1",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 2",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 3",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 4",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 5",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 6",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 7",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 8",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 9",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Edge Gateway WSN 10",
-            "database": true,
-            "parkingSensor": "",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
         },
         {
             "name": "Sensor Device",
-            "database": true,
-            "parkingSensor": "Sensor",
+"applications": {
+
+                                "Luposdate3000":{
+                                        "databaseQuery": true,
+                                        "databaseStore": true,
+                                },
+                                "QueryResponseReceiver":{
+                                },
+                                "ParkingSampleReceiver":{
+                                },},             "parkingSensor": "Sensor",
             "performance": 1.0,
             "supportedLinkTypes": ["WPAN"]
         },
         {
             "name": "Mesh Hop",
-            "database": false,
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]

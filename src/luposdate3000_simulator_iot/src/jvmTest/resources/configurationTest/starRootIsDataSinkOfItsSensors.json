@@ -1,13 +1,14 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "Fog": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -16,9 +17,6 @@
             ],
         },
         "StandAloneParkingSensor": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "StandAloneParkingSensor",
             "parkingSensor": "park1",
             "performance": 20.0,

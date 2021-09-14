@@ -1,20 +1,24 @@
 {
-    "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
+    "deterministic": true,
+    "deviceType": {
+        "LUPOSDATE_DEVICE": {
+"applications": {
+
+				"Luposdate3000":{
+					"databaseQuery": true,
+ "REPLACE_STORE_WITH_VALUES": false,
         "SharedMemoryDictionaryCheat": true,
         "mergeLocalOperatorgraphs": true,
         "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-    },
-    "deterministic": true,
-    "deviceType": {
-        "LUPOSDATE_DEVICE": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
-            "parkingSensor": "",
+					"databaseStore": true,
+				},
+				"QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},},            "parkingSensor": "",
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WIRE",

@@ -1,13 +1,7 @@
 {
-    "database": {
-        "type": "Dummy",
-    },
     "deterministic": false,
     "deviceType": {
         "EdgeGatewayDevice": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
             "name": "EdgeGatewayDevice",
             "parkingSensor": "",
             "performance": 32.0,
@@ -17,9 +11,13 @@
             ],
         },
         "FogTower": {
-            "database": true,
-            "databaseQuery": true,
-            "databaseStore": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "FogTower",
             "parkingSensor": "",
             "performance": 110.0,
@@ -29,9 +27,13 @@
             ],
         },
         "ParkingSensorDevice": {
-            "database": false,
-            "databaseQuery": false,
-            "databaseStore": false,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
             "name": "ParkingSensorDevice",
             "parkingSensor": "park1",
             "performance": 1.0,

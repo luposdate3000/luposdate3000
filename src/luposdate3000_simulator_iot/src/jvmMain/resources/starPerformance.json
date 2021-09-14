@@ -1,7 +1,4 @@
 {
-    "database" : {
-        "type" : "Dummy"
-    },
     "deterministic": true,
     
     "linkType": [{
@@ -12,7 +9,13 @@
     "sensorType": [],
     "deviceType": [{
         "name": "Fog",
-        "database": true,
+"applications": {
+                                "QueryResponseReceiver":{
+				},
+				"ParkingSampleReceiver":{
+				},"DummyDatabase": {
+                                },
+},
         "parkingSensor": "",
         "performance": 100.0,
         "supportedLinkTypes": ["WPAN"]
