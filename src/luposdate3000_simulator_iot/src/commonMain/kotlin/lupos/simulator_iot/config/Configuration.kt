@@ -28,6 +28,7 @@ import lupos.simulator_db.ApplicationLayerMergeMessages
 import lupos.simulator_db.ApplicationLayerMultipleChilds
 import lupos.simulator_db.ApplicationLayerSequence
 import lupos.simulator_db.DatabaseState
+import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.LoggerMeasure
@@ -113,9 +114,9 @@ public class Configuration(private val simRun: SimulationRun) {
             fixedDevice as JsonParserObject
             val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
             val nameID = addDeviceName(name)
-            val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID)
+            val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:117"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:118"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -188,7 +189,7 @@ public class Configuration(private val simRun: SimulationRun) {
         while (restCoverageEast > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
-            predecessor = createDevice(network.deviceType, location, nameID)
+            predecessor = createDevice(network.deviceType, location, nameID, null)
             column = createSouthernDevices(predecessor, linkType, network, network.deviceType, nameID)
             meshNetwork.mesh.add(column)
 
@@ -206,7 +207,7 @@ public class Configuration(private val simRun: SimulationRun) {
         while (restCoverageSouth > 0) {
             val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceTypeName, location, nameID)
+            predecessor = createDevice(deviceTypeName, location, nameID, null)
             column.add(predecessor)
             restCoverageSouth -= distance
         }
@@ -223,7 +224,7 @@ public class Configuration(private val simRun: SimulationRun) {
     private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
         val location = GeoLocation(network.originLatitude, network.originLongitude)
         val nameID = addDeviceName("${network.networkPrefix}_origin")
-        return createDevice(network.deviceType, location, nameID)
+        return createDevice(network.deviceType, location, nameID, null)
     }
 
     internal fun getDeviceByName(name: String): Device {
@@ -242,7 +243,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val linkType = linker.getLinkByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
-            val leaf = createDevice(network.deviceType, location, childNameID)
+            val leaf = createDevice(network.deviceType, location, childNameID, null)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
             starNetwork.children.add(leaf)
@@ -255,12 +256,21 @@ public class Configuration(private val simRun: SimulationRun) {
         return deviceNames.size - 1
     }
 
-    private fun createDevice(deviceTypeName: String, location: GeoLocation, nameIndex: Int): Device {
+    private fun createDevice(deviceTypeName: String, location: GeoLocation, nameIndex: Int, jsonFixed: JsonParserObject?): Device {
+        val applications = mutableListOf<IUserApplication>()
+
         val deviceTypes = json!!.getOrEmptyObject("deviceType")
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
+
+        val jsonApplicationsEffective = json!!.getOrEmptyObject("applications").cloneJson()
+        jsonApplicationsEffective.mergeWith(deviceType.getOrEmptyObject("applications").cloneJson())
+        if (jsonFixed != null) {
+            jsonApplicationsEffective.mergeWith(jsonFixed.getOrEmptyObject("applications").cloneJson())
+        }
+
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:262"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:272"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -278,62 +288,76 @@ public class Configuration(private val simRun: SimulationRun) {
                 sensorType.getOrDefault("area", 0),
             )
         }
-        val databaseStore = deviceType.getOrDefault("databaseStore", deviceType.getOrDefault("database", false))
-        val databaseQuery = deviceType.getOrDefault("databaseQuery", deviceType.getOrDefault("database", false))
-        if (databaseStore || databaseQuery) {
-            numberOfDatabases++
-            val initialState = {
-                object : DatabaseState(
-                    logger = simRun.logger,
-                    ownAddress = device.address,
-                    allAddressesStore = dbDeviceAddressesStore,
-                    allAddressesQuery = dbDeviceAddressesQuery,
-                    absolutePathToDataDirectory = "$outputDirectory/db_states/device${device.address}",
-                ) {
-                    init {
-                        File(absolutePathToDataDirectory).mkdirs()
+        var databaseStore = false
+        var databaseQuery = false
+        for ((applicationName, applicationJson) in jsonApplicationsEffective) {
+            applicationJson as JsonParserObject
+            when (applicationName) {
+                "DummyDatabase" -> {
+                    databaseStore = true
+                    databaseQuery = true
+                    val initialState = {
+                        object : DatabaseState(
+                            logger = simRun.logger,
+                            ownAddress = device.address,
+                            allAddressesStore = dbDeviceAddressesStore,
+                            allAddressesQuery = dbDeviceAddressesQuery,
+                            absolutePathToDataDirectory = "$outputDirectory/db_states/device${device.address}",
+                        ) {
+                            init {
+                                File(absolutePathToDataDirectory).mkdirs()
+                            }
+                        }
+                    }
+                    applications.add(DatabaseSystemDummy(applicationJson, initialState))
+                }
+                "QueryResponseReceiver" -> applications.add(ApplicationLayerReceiveQueryResonse(outputDirectory + "/"))
+                "ParkingSampleReceiver" -> applications.add(ApplicationLayerReceiveParkingSample(device.address))
+                "Luposdate3000" -> {
+                    databaseStore = applicationJson.getOrDefault("databaseStore", true)
+                    databaseQuery = applicationJson.getOrDefault("databaseQuery", true)
+                    if (databaseStore || databaseQuery) {
+                        numberOfDatabases++
+                        val initialState = {
+                            object : DatabaseState(
+                                logger = simRun.logger,
+                                ownAddress = device.address,
+                                allAddressesStore = dbDeviceAddressesStore,
+                                allAddressesQuery = dbDeviceAddressesQuery,
+                                absolutePathToDataDirectory = "$outputDirectory/db_states/device${device.address}",
+                            ) {
+                                init {
+                                    File(absolutePathToDataDirectory).mkdirs()
+                                }
+                            }
+                        }
+                        applications.add(DatabaseHandle(applicationJson, initialState))
+                        if (databaseStore) {
+                            dbDeviceAddressesStoreList.add(device.address)
+                        }
+                        if (databaseQuery) {
+                            dbDeviceAddressesQueryList.add(device.address)
+                        }
                     }
                 }
+                else -> TODO("unknown application '$applicationName'")
             }
-            val jsonDatabase = json!!.getOrEmptyObject("database")
-            device.userApplication = DatabaseAdapter(
-                device,
-                ApplicationLayerSequence(
-                    device.address,
-                    ApplicationLayerMergeMessages(
-                        ApplicationLayerCatchSelfMessages(
-                            device.address,
-                            ApplicationLayerMultipleChilds(
-                                when (jsonDatabase.getOrDefault("type", "Dummy")) {
-                                    "Dummy" -> {
-                                        arrayOf(
-                                            DatabaseSystemDummy(jsonDatabase, initialState),
-                                            ApplicationLayerReceiveQueryResonse(outputDirectory + "/"),
-                                            ApplicationLayerReceiveParkingSample(device.address),
-                                        )
-                                    }
-                                    "Luposdate3000" -> {
-                                        arrayOf(
-                                            DatabaseHandle(jsonDatabase, initialState),
-                                            ApplicationLayerReceiveQueryResonse(outputDirectory + "/"),
-                                            ApplicationLayerReceiveParkingSample(device.address),
-                                        )
-                                    }
-                                    else -> TODO()
-                                }.map { it -> ApplicationLayerLogger(device.address, simRun.logger, it) }.toTypedArray()
-                            )
+        }
+        simRun.logger.addDevice(device.address, location.longitude, location.latitude, databaseStore, databaseQuery, sensorTypeName.isNotEmpty())
+        device.userApplication = DatabaseAdapter(
+            device,
+            ApplicationLayerSequence(
+                device.address,
+                ApplicationLayerMergeMessages(
+                    ApplicationLayerCatchSelfMessages(
+                        device.address,
+                        ApplicationLayerMultipleChilds(
+                            applications.map { it -> ApplicationLayerLogger(device.address, simRun.logger, it) }.toTypedArray()
                         )
                     )
                 )
             )
-            if (databaseStore) {
-                dbDeviceAddressesStoreList.add(device.address)
-            }
-            if (databaseQuery) {
-                dbDeviceAddressesQueryList.add(device.address)
-            }
-        }
-        simRun.logger.addDevice(device.address, location.longitude, location.latitude, databaseStore, databaseQuery, sensorTypeName.isNotEmpty())
+        )
         devices.add(device)
         return device
     }

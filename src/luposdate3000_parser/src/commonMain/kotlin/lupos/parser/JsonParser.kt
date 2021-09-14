@@ -21,6 +21,7 @@ import lupos.shared.inline.File
 public interface IJsonParserValue {
     public fun setAccessed()
     public fun isAccessed(): Boolean
+    public fun cloneJson(): IJsonParserValue
 }
 public class JsonParserObject(private val map: MutableMap<String, IJsonParserValue>) : Iterable<Pair<String, IJsonParserValue>>, IJsonParserValue {
     private var accessed0 = false
@@ -28,6 +29,13 @@ public class JsonParserObject(private val map: MutableMap<String, IJsonParserVal
         accessed0 = true
     }
     override fun isAccessed(): Boolean = accessed0
+    override fun cloneJson(): JsonParserObject {
+        val res = JsonParserObject(mutableMapOf())
+        for ((k, v) in map) {
+            res.map[k] = v.cloneJson()
+        }
+        return res
+    }
     public fun mergeWith(other: JsonParserObject) {
         for ((k, other_v) in other.map) {
             val my_v = map[k]
@@ -245,6 +253,14 @@ public class JsonParserArray(private val array: MutableList<IJsonParserValue>) :
     override fun setAccessed() {
         accessed0 = true
     }
+    override fun cloneJson(): JsonParserArray {
+        val res = JsonParserArray(mutableListOf())
+        for (a in array) {
+            res.array.add(a.cloneJson())
+        }
+        return res
+    }
+
     override fun isAccessed(): Boolean = accessed0
     public fun mergeWith(other: JsonParserArray) {
         var k = 0
@@ -313,6 +329,7 @@ public class JsonParserInt(public var value: Int) : IJsonParserValue {
         default0 = v
     }
     internal fun getDefault() = default0
+    override fun cloneJson(): JsonParserInt = this
 }
 public class JsonParserLong(public var value: Long) : IJsonParserValue {
     private var accessed0 = false
@@ -325,6 +342,7 @@ public class JsonParserLong(public var value: Long) : IJsonParserValue {
         default0 = v
     }
     internal fun getDefault() = default0
+    override fun cloneJson(): JsonParserLong = this
 }
 public class JsonParserDouble(public var value: Double) : IJsonParserValue {
     private var accessed0 = false
@@ -337,6 +355,7 @@ public class JsonParserDouble(public var value: Double) : IJsonParserValue {
         default0 = v
     }
     internal fun getDefault() = default0
+    override fun cloneJson(): JsonParserDouble = this
 }
 public class JsonParserString(public var value: String) : IJsonParserValue {
     private var accessed0 = false
@@ -349,6 +368,7 @@ public class JsonParserString(public var value: String) : IJsonParserValue {
         default0 = v
     }
     internal fun getDefault() = default0
+    override fun cloneJson(): JsonParserString = this
 }
 public class JsonParserBoolean(public var value: Boolean) : IJsonParserValue {
     private var accessed0 = false
@@ -361,6 +381,7 @@ public class JsonParserBoolean(public var value: Boolean) : IJsonParserValue {
         default0 = v
     }
     internal fun getDefault() = default0
+    override fun cloneJson(): JsonParserBoolean = this
 }
 
 public class JsonParser {
