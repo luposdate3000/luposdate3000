@@ -568,7 +568,6 @@ bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollation
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -11660,6 +11659,34 @@ resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - None - Simple - true
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - None - Simple - false
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery314sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 resourcesmyqueriessimulatorparkingquery314sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
 resourcesmyqueriessimulatorparkingquery314sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
@@ -12192,6 +12219,34 @@ resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - None - Simple - true
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - None - Simple - false
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
 resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
