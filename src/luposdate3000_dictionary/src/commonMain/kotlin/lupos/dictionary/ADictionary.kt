@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -40,7 +41,7 @@ public abstract class ADictionary(
     internal val bnodeMapLocal = mutableMapOf<String, DictionaryValueType>()
 
     public override fun createNewBNode(s: String): DictionaryValueType {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:42"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:43"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var res = bnodeMapLocal[s]
         if (res != null) {
             return res
@@ -55,12 +56,12 @@ public abstract class ADictionary(
     }
 
     public override fun isLocalValue(value: DictionaryValueType): Boolean {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:57"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:58"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:62"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:63"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         val res: DictionaryValueType
         if ((value and DictionaryValueHelper.flagLocal) != DictionaryValueHelper.flagLocal) {
             res = value
@@ -81,6 +82,7 @@ public abstract class ADictionary(
         }
         return res
     }
+
     internal companion object {
         internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType, mymapping2: DictionaryValueTypeArray): DictionaryValueTypeArray {
             var mymapping = mymapping2
@@ -103,26 +105,37 @@ public abstract class ADictionary(
 
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:105"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:107"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var mymapping = DictionaryValueTypeArray(0)
         var lastid = DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (id> lastid) {
+            if (id > lastid) {
                 lastid = id
             }
             if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
                 println("imported $id dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)
-            val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                createNewBNode()
-            } else {
-                var res = createValue(buffer)
-                if (isLocal) {
-                    res = res or DictionaryValueHelper.flagLocal
+            val i = when (type) {
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    val b = DictionaryHelper.byteArrayToBoolean(buffer)
+                    if (b) {
+                        DictionaryValueHelper.booleanTrueValue
+                    } else {
+                        DictionaryValueHelper.booleanFalseValue
+                    }
                 }
-                res
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                    createNewBNode()
+                }
+                else -> {
+                    var res = createValue(buffer)
+                    if (isLocal) {
+                        res = res or DictionaryValueHelper.flagLocal
+                    }
+                    res
+                }
             }
             mymapping = addEntry(id, i, mymapping)
         }

@@ -100,11 +100,11 @@ public object LuposdateEndpoint {
         val parserObject = TurtleParserWithDictionaryValueTypeTriples(
             consume_triple = { s, p, o ->
                 dict.getValue(buffer, s)
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                cache.insertValuePairExtend(buffer, s)
                 dict.getValue(buffer, p)
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                cache.insertValuePairExtend(buffer, p)
                 dict.getValue(buffer, o)
-                cache.insertValuePairExtend(buffer, dict.createValue(buffer))
+                cache.insertValuePairExtend(buffer, o)
             },
             data = data,
             unusedParam = false,
