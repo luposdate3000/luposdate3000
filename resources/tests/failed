@@ -10,6 +10,7 @@
 [31;1m> Task :src:luposdate3000_code_gen_test_12:loadKtlintReporters[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_13:loadKtlintReporters[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_17:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_18:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_simulator_iot:allTests[0;39m FAILED
 ABS - Thread - PartitionByID_1_AllCollations - false
 ABS - Thread - PartitionByID_1_AllCollations - true
@@ -11444,6 +11445,7 @@ resourcesmyqueriesx6sparql4 - Thread - PartitionByIDTwiceAllCollations - false
 resourcesmyqueriesx6sparql4 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesx6sparql4 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesx6sparql4 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
 resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
@@ -13605,8 +13607,10 @@ resourcessp2bq68sparql21 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq68sparql21 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq68sparql21 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq68sparql21 - Thread - PartitionByKeyAllCollations - true
+resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcessp2bq68sparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
+resourcessp2bq68sparql247 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 resourcessp2bq68sparql247 - Thread - PartitionByID_1_AllCollations - false
@@ -14117,7 +14121,9 @@ resourcessp2bq8sparql973 - in simulator - Simple - Centralized - true - Thread
 resourcessp2bq8sparql973 - Thread - PartitionByID_2_AllCollations - false
 resourcessp2bq8sparql973 - Thread - PartitionByID_2_AllCollations - true
 resourcessp2bq8sparql973 - Thread - PartitionByID_S_AllCollations - false
+resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
@@ -14221,7 +14227,9 @@ resourcessp2bq92sparql1640 - Thread - PartitionByID_O_AllCollations - true
 resourcessp2bq92sparql1640 - Thread - PartitionByID_S_AllCollations - false
 resourcessp2bq92sparql1640 - Thread - PartitionByID_S_AllCollations - true
 resourcessp2bq92sparql1640 - Thread - PartitionByKeyAllCollations - false
+resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+resourcessp2bq92sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq92sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq92sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
 resourcessp2bq92sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
@@ -14302,7 +14310,9 @@ resourcessp2bq9sparql1640 - Thread - PartitionByID_O_AllCollations - false
 resourcessp2bq9sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq9sparql1640 - Thread - Simple - true
 resourcessp2bq9sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
+resourcessp2bq9sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq9sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
+resourcessp2bq9sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq9sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq9sparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
 resourcessp2bq9sparql21 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread
@@ -16835,6 +16845,7 @@ sq10  Subquery with exists - Thread - PartitionByKeyAllCollations - false
 sq10  Subquery with exists - Thread - PartitionByKeyAllCollations - true
 sq10  Subquery with exists - Thread - Simple - false
 sq10  Subquery with exists - Thread - Simple - true
+sq11  Subquery limit per resource - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 sq11  Subquery limit per resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
 sq11  Subquery limit per resource - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
 sq11  Subquery limit per resource - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
