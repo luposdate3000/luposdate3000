@@ -25,7 +25,7 @@ import lupos.simulator_iot.models.Device
 public class DatabaseAdapter(
     private val device: Device,
     private val child: IUserApplication,
-) : IUserApplicationLayer {
+) : IUserApplicationLayer, IUserApplication {
     init {
         child.setRouter(this)
     }

@@ -19,7 +19,7 @@ package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplicationLayer
+import lupos.simulator_db.IUserApplication
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
@@ -38,7 +38,7 @@ public class Device(
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
 ) : Entity() {
-    public var userApplication: IUserApplicationLayer? = null
+    public var userApplication: IUserApplication? = null
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false

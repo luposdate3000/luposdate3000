@@ -19,7 +19,7 @@ package lupos.simulator_db
 public class ApplicationLayerSequence(
     private val ownAddress: Int,
     private val child: IUserApplication,
-) : IUserApplicationLayer {
+) : IUserApplicationLayer, IUserApplication {
     private val outgoingNum = mutableListOf<Int>() // index is the dest-address
     private val incomingNum = mutableListOf<Int>() // index is the src-address
     private val caches = mutableListOf<MutableList<ApplicationLayerSequence_Package>>() // index is the src-address

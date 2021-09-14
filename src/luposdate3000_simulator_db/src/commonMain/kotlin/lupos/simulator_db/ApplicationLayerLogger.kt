@@ -20,7 +20,7 @@ public class ApplicationLayerLogger(
     private val ownAddress: Int,
     private val logger: ILogger,
     private val child: IUserApplication,
-) : IUserApplicationLayer {
+) : IUserApplicationLayer, IUserApplication {
     private lateinit var parent: IUserApplicationLayer
     init {
         child.setRouter(this)
