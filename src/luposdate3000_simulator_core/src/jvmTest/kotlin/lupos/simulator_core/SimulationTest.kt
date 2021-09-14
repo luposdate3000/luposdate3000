@@ -445,26 +445,10 @@ class SimulationTest {
         var timer3Result: Long = 0
 
         val entity = object : Entity() {
-            val timer1 = object : ITimer {
-                override fun onExpire() {
-                    timer1Result = simulation.clock
-                }
-            }
-            val timer2 = object : ITimer {
-                override fun onExpire() {
-                    timer2Result = simulation.clock
-                }
-            }
-            val timer3 = object : ITimer {
-                override fun onExpire() {
-                    timer3Result = simulation.clock
-                }
-            }
-
             override fun onStartUp() {
-                this.setTimer(timerDelay1, timer1)
-                this.setTimer(timerDelay2, timer2)
-                this.setTimer(timerDelay3, timer3)
+                this.setTimer(timerDelay1, { timer1Result = simulation.clock })
+                this.setTimer(timerDelay2, { timer2Result = simulation.clock })
+                this.setTimer(timerDelay3, { timer3Result = simulation.clock })
             }
 
             override fun onEvent(source: Entity, data: Any) {}

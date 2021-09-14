@@ -19,7 +19,6 @@ package lupos.simulator_iot.queryproc
 
 import lupos.shared.SanityCheck
 import lupos.simulator_core.Entity
-import lupos.simulator_core.ITimer
 import lupos.simulator_db.IDatabasePackage
 import lupos.simulator_db.QueryPackage
 import lupos.simulator_iot.SimulationRun
@@ -51,11 +50,11 @@ public class QuerySender(
 
     override fun onStartUp() {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/QuerySender.kt:53"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/queryproc/QuerySender.kt:52"/*SOURCE_FILE_END*/ },
             { hasDatabase() },
             { "The query receiver device must have a database" }
         )
-        setTimer(TimeUtils.toNanoSec(startClockInSec), StartUpTimer())
+        setTimer(TimeUtils.toNanoSec(startClockInSec), ::scheduleQuery)
     }
 
     override fun onSteadyState() {
@@ -64,23 +63,11 @@ public class QuerySender(
     override fun onShutDown() {
     }
 
-    private inner class StartUpTimer : ITimer {
-        override fun onExpire() {
-            scheduleQuery()
-        }
-    }
-
     private fun scheduleQuery() {
         if (queryCounter < maxNumberOfQueries) {
             queryCounter++
             triggerQueryProcessing()
-            setTimer(TimeUtils.toNanoSec(sendRateInSec), SendTimer())
-        }
-    }
-
-    private inner class SendTimer : ITimer {
-        override fun onExpire() {
-            scheduleQuery()
+            setTimer(TimeUtils.toNanoSec(sendRateInSec), ::scheduleQuery)
         }
     }
 

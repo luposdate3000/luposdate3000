@@ -14,9 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.simulator_core
-
 public interface ITimer {
-    public fun onExpire()
+    public operator fun invoke()
 }

@@ -29,11 +29,11 @@ public abstract class Entity : ISimulationLifeCycle {
         if (isTerminated) {
             return
         }
-
-        if (event.data is ITimer) {
-            event.data.onExpire()
+        val data = event.data
+        if (data is ITimer) {
+            data()
         } else {
-            onEvent(event.source, event.data)
+            onEvent(event.source, data)
         }
     }
 
@@ -42,12 +42,11 @@ public abstract class Entity : ISimulationLifeCycle {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:41"/*SOURCE_FILE_END*/ },
             { !isTerminated },
         )
-        val sim = simulation
-        sim.addEvent(delay, this, destination, data)
+        simulation.addEvent(delay, this, destination, data)
     }
 
-    public fun setTimer(time: Long, callback: ITimer) {
-        scheduleEvent(this, callback, time)
+    public fun setTimer(time: Long, callback: () -> Unit) {
+        scheduleEvent(this, object : ITimer { override operator fun invoke() { callback() } }, time)
     }
 
     protected fun terminate() {

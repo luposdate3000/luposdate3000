@@ -38,4 +38,5 @@ public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) :
             return pck
         }
     }
+    override fun timerEvent() {}
 }

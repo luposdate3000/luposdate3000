@@ -875,4 +875,5 @@ public class DatabaseHandle public constructor(internal val config: JsonParserOb
         }
         return null
     }
+    public override fun timerEvent() {}
 }

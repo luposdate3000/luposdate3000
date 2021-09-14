@@ -58,4 +58,8 @@ public class ApplicationLayerLogger(
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
     }
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+        parent.registerTimer(durationInNanoSeconds, entity)
+    }
+    public override fun timerEvent() {}
 }

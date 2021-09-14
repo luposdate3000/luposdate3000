@@ -205,4 +205,5 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
                 sendPreprocessingPackage(hop, dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
             }
     }
+    public override fun timerEvent() {}
 }

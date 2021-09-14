@@ -22,4 +22,5 @@ public interface IUserApplication {
     public fun startUp()
     public fun shutDown()
     public fun setRouter(router: IUserApplicationLayer)
+    public fun timerEvent()
 }

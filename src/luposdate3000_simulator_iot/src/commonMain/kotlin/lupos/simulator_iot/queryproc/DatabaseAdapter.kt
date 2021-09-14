@@ -64,4 +64,8 @@ public class DatabaseAdapter(
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return device.router.getNextDatabaseHops(destinationAddresses)
     }
+    override fun timerEvent() {}
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+        device.setTimer(durationInNanoSeconds, entity::timerEvent)
+    }
 }

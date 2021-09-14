@@ -17,7 +17,6 @@
 
 package lupos.simulator_iot.models.sensor
 
-import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.utils.TimeUtils
 
@@ -42,12 +41,6 @@ internal class ParkingSensor(
     private fun hasMaxSamplesReached() =
         maxSamples != infinitySamples && sampleCounter >= maxSamples
 
-    internal inner class SamplingProcessFinished : ITimer {
-        override fun onExpire() {
-            onSampleTaken()
-        }
-    }
-
     override fun setDataSink(sinkAddress: Int) {
         dataSinkAddress = sinkAddress
     }
@@ -67,7 +60,7 @@ internal class ParkingSensor(
         }
 
         isStopped = false
-        device.setTimer(getObservationDuration(), SamplingProcessFinished())
+        device.setTimer(getObservationDuration(), ::onSampleTaken)
     }
 
     private fun getObservationDuration(): Long {

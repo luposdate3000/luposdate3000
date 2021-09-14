@@ -21,4 +21,5 @@ public interface IUserApplicationLayer {
     public fun send(destinationAddress: Int, pck: IPayload)
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
     public fun getAllChildApplications(): Set<IUserApplication>
+    public fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication)
 }
