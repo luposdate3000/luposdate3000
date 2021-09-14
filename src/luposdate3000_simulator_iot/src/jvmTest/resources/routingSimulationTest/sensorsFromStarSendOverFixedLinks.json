@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": true,
     "deviceType": {
         "Edge Gateway WSN 1": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
             "performance": 30.0,
@@ -17,13 +17,11 @@
             ],
         },
         "Mesh Hop": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Mesh Hop",
             "parkingSensor": "",
             "performance": 20.0,
@@ -32,6 +30,7 @@
             ],
         },
         "Sensor Device WSN 1": {
+            "applications": {},
             "name": "Sensor Device WSN 1",
             "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
@@ -42,24 +41,28 @@
     },
     "fixedDevice": {
         "DODAG ROOT": {
+            "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 3.002,
             "longitude": 0.001,
             "name": "DODAG ROOT",
         },
         "Hop 1": {
+            "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
             "longitude": 0.002,
             "name": "Hop 1",
         },
         "Hop 2": {
+            "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
             "longitude": 0.002,
             "name": "Hop 2",
         },
         "star root WSN 1": {
+            "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.002,
             "longitude": 0.0,
@@ -124,4 +127,4 @@
             "rateInSec": 60,
         },
     },
-},
+}

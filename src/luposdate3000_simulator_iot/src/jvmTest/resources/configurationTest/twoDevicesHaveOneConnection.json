@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -17,13 +17,11 @@
             ],
         },
         "RadioTower": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "RadioTower",
             "parkingSensor": "park1",
             "performance": 20.0,
@@ -34,12 +32,14 @@
     },
     "fixedDevice": {
         "Fog1": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.83410604011873,
             "longitude": 10.702721833240291,
             "name": "Fog1",
         },
         "Tower1": {
+            "applications": {},
             "deviceType": "RadioTower",
             "latitude": 53.83490706177371,
             "longitude": 10.692555029863962,
@@ -85,4 +85,4 @@
             "rateInSec": 30,
         },
     },
-},
+}

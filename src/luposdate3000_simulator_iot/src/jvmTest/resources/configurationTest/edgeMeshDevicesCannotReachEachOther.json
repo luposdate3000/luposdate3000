@@ -1,7 +1,10 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
+            "applications": {},
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -46,4 +49,4 @@
     "randomStarNetwork": [],
     "rootRouter": "",
     "sensorType": {},
-},
+}

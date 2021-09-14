@@ -2,13 +2,11 @@
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
@@ -43,4 +41,4 @@
     ],
     "rootRouter": "Tower1",
     "sensorType": {},
-},
+}

@@ -2,13 +2,11 @@
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -63,4 +61,4 @@
             "rateInSec": 30,
         },
     },
-},
+}

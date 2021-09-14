@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -17,6 +17,7 @@
             ],
         },
         "StandAloneParkingSensor": {
+            "applications": {},
             "name": "StandAloneParkingSensor",
             "parkingSensor": "park1",
             "performance": 2.0,
@@ -27,6 +28,7 @@
     },
     "fixedDevice": {
         "Tower1": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.640454118715894,
             "longitude": 10.179179491574411,
@@ -75,4 +77,4 @@
             "rateInSec": 30,
         },
     },
-},
+}

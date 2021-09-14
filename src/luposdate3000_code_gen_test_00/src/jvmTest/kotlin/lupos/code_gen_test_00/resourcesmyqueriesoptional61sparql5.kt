@@ -694,8 +694,7 @@ public class resourcesmyqueriesoptional61sparql5 {
     }
     public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false)
-        config.jsonObjects.database.putAll(cfg)
+        val config = simRun.parseConfig(fileName, false, { it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(cfg) })
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock

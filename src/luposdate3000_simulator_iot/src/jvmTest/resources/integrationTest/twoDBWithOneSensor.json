@@ -1,24 +1,24 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": true,
     "deviceType": {
         "DB": {
-"applications": {
-"Luposdate3000":{
-"REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-					"databaseQuery": true,
-					"databaseStore": true,
-				},
-				"QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},
-},
+            "applications": {
+                "Luposdate3000": {
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "Luposdate3000",
+                    "useDictionaryInlineEncoding": true,
+                },
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "DB",
             "parkingSensor": "",
             "performance": 50.0,
@@ -31,6 +31,7 @@
             "supportedLinkTypes": [],
         },
         "Sensor": {
+            "applications": {},
             "name": "Sensor",
             "parkingSensor": "park1",
             "performance": 0.9,
@@ -39,18 +40,21 @@
     },
     "fixedDevice": {
         "A": {
+            "applications": {},
             "deviceType": "Sensor",
             "latitude": 53.09814632127328,
             "longitude": 8.754628362427354,
             "name": "A",
         },
         "B": {
+            "applications": {},
             "deviceType": "DB",
             "latitude": 53.09278266982357,
             "longitude": 8.747762643839831,
             "name": "B",
         },
         "C": {
+            "applications": {},
             "deviceType": "DB",
             "latitude": 53.09407405925197,
             "longitude": 8.761070144669068,
@@ -95,4 +99,4 @@
             "rateInSec": 30,
         },
     },
-},
+}

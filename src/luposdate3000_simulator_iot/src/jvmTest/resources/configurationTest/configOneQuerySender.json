@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -19,6 +19,7 @@
     },
     "fixedDevice": {
         "Tower1": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 3.0,
             "longitude": 3.0,
@@ -58,4 +59,4 @@
     "randomStarNetwork": [],
     "rootRouter": "Tower1",
     "sensorType": {},
-},
+}

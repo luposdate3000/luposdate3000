@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
-"applications": {
-                                "QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},"DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "Fog",
             "parkingSensor": "",
             "performance": 20.0,
@@ -17,36 +17,42 @@
     },
     "fixedDevice": {
         "A": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.09814632127328,
             "longitude": 8.754628362427354,
             "name": "A",
         },
         "B": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.09278266982357,
             "longitude": 8.747762643839831,
             "name": "B",
         },
         "C": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.09407405925197,
             "longitude": 8.761070144669068,
             "name": "C",
         },
         "D": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.09072134809814,
             "longitude": 8.75265783665239,
             "name": "D",
         },
         "E": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.08345396298265,
             "longitude": 8.772318909617125,
             "name": "E",
         },
         "F": {
+            "applications": {},
             "deviceType": "Fog",
             "latitude": 53.07572006093855,
             "longitude": 8.785879536459793,
@@ -98,4 +104,4 @@
     "randomStarNetwork": [],
     "rootRouter": "A",
     "sensorType": {},
-},
+}

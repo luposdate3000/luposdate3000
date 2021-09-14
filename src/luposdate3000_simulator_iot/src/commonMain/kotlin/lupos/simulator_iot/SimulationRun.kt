@@ -47,9 +47,10 @@ public class SimulationRun {
         config.parse(json, fileName, autocorrect)
         return config
     }
-    public fun parseConfig(fileName: String, autocorrect: Boolean = true): Configuration {
+    public fun parseConfig(fileName: String, autocorrect: Boolean = true, modifyJson: (JsonParserObject) -> Unit = {}): Configuration {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as JsonParserObject
+        modifyJson(json)
         return parseConfig(json, fileName, autocorrect)
     }
 

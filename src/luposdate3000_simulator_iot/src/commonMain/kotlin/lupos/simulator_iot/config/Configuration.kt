@@ -67,8 +67,8 @@ public class Configuration(private val simRun: SimulationRun) {
 
     internal var dbDeviceAddressesStore: IntArray = intArrayOf()
     internal var dbDeviceAddressesQuery: IntArray = intArrayOf()
-    private var dbDeviceAddressesStoreList = mutableListOf<Int>()
-    private var dbDeviceAddressesQueryList = mutableListOf<Int>()
+    private val dbDeviceAddressesStoreList = mutableListOf<Int>()
+    private val dbDeviceAddressesQueryList = mutableListOf<Int>()
 
     private var rootRouterAddress: Int = -1
 
@@ -267,10 +267,9 @@ public class Configuration(private val simRun: SimulationRun) {
         if (jsonFixed != null) {
             jsonApplicationsEffective.mergeWith(jsonFixed.getOrEmptyObject("applications").cloneJson())
         }
-
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:272"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:271"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -294,6 +293,7 @@ public class Configuration(private val simRun: SimulationRun) {
             applicationJson as JsonParserObject
             when (applicationName) {
                 "DummyDatabase" -> {
+                    numberOfDatabases++
                     databaseStore = true
                     databaseQuery = true
                     val initialState = {
@@ -309,36 +309,27 @@ public class Configuration(private val simRun: SimulationRun) {
                             }
                         }
                     }
+                    dbDeviceAddressesStoreList.add(device.address)
+                    dbDeviceAddressesQueryList.add(device.address)
                     applications.add(DatabaseSystemDummy(applicationJson, initialState))
                 }
-                "QueryResponseReceiver" -> applications.add(ApplicationLayerReceiveQueryResonse(outputDirectory + "/"))
-                "ParkingSampleReceiver" -> applications.add(ApplicationLayerReceiveParkingSample(device.address))
+                "QueryResponseReceiver" -> {
+                    applications.add(ApplicationLayerReceiveQueryResonse(outputDirectory + "/"))
+                }
+                "ParkingSampleReceiver" -> {
+                    applications.add(ApplicationLayerReceiveParkingSample(device.address))
+                }
                 "Luposdate3000" -> {
-                    databaseStore = applicationJson.getOrDefault("databaseStore", true)
+                    numberOfDatabases++
                     databaseQuery = applicationJson.getOrDefault("databaseQuery", true)
-                    if (databaseStore || databaseQuery) {
-                        numberOfDatabases++
-                        val initialState = {
-                            object : DatabaseState(
-                                logger = simRun.logger,
-                                ownAddress = device.address,
-                                allAddressesStore = dbDeviceAddressesStore,
-                                allAddressesQuery = dbDeviceAddressesQuery,
-                                absolutePathToDataDirectory = "$outputDirectory/db_states/device${device.address}",
-                            ) {
-                                init {
-                                    File(absolutePathToDataDirectory).mkdirs()
-                                }
-                            }
-                        }
-                        applications.add(DatabaseHandle(applicationJson, initialState))
-                        if (databaseStore) {
-                            dbDeviceAddressesStoreList.add(device.address)
-                        }
-                        if (databaseQuery) {
-                            dbDeviceAddressesQueryList.add(device.address)
-                        }
+                    databaseStore = applicationJson.getOrDefault("databaseStore", true) || !databaseQuery // at least one must be true
+                    if (databaseStore) {
+                        dbDeviceAddressesStoreList.add(device.address)
                     }
+                    if (databaseQuery) {
+                        dbDeviceAddressesQueryList.add(device.address)
+                    }
+                    applications.add(DatabaseHandle(applicationJson, simRun.logger, device.address, "$outputDirectory/db_states/device${device.address}", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
                 }
                 else -> TODO("unknown application '$applicationName'")
             }

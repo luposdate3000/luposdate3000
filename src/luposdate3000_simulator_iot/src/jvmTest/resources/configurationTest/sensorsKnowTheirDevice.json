@@ -1,14 +1,14 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": false,
     "deviceType": {
         "RadioTower": {
-"applications": {
-"QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},                                "DummyDatabase": {
-                                },
-},
+            "applications": {
+                "DummyDatabase": {},
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "RadioTower",
             "parkingSensor": "park1",
             "performance": 20.0,
@@ -17,6 +17,7 @@
     },
     "fixedDevice": {
         "Tower1": {
+            "applications": {},
             "deviceType": "RadioTower",
             "latitude": 3.0,
             "longitude": 3.0,
@@ -50,4 +51,4 @@
             "rateInSec": 30,
         },
     },
-},
+}

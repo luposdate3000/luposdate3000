@@ -1,4 +1,5 @@
 {
+    "database": {},
     "deterministic": false,
     "deviceType": {},
     "fixedDevice": {},
@@ -21,4 +22,4 @@
     "randomStarNetwork": [],
     "rootRouter": "",
     "sensorType": {},
-},
+}

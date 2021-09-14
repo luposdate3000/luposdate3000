@@ -1,7 +1,10 @@
 {
+    "applications": {},
+    "database": {},
     "deterministic": true,
     "deviceType": {
         "EdgeGatewayDevice": {
+            "applications": {},
             "name": "EdgeGatewayDevice",
             "parkingSensor": "",
             "performance": 32.0,
@@ -11,24 +14,21 @@
             ],
         },
         "EdgeGatewayDevice_1": {
-"applications": {
-
-				"Luposdate3000":{
- "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-					"databaseQuery": true,
-					"databaseStore": true,
-				},
-				"QueryResponseReceiver":{
-				},
-				"ParkingSampleReceiver":{
-				},
-},
+            "applications": {
+                "Luposdate3000": {
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "Luposdate3000",
+                    "useDictionaryInlineEncoding": true,
+                },
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
             "name": "EdgeGatewayDevice_1",
             "parkingSensor": "",
             "performance": 32.0,
@@ -38,24 +38,22 @@
             ],
         },
         "EdgeGatewayDevice_2": {
-"applications": {
-
-                                "Luposdate3000":{
- "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-                                        "databaseQuery": true,
-                                        "databaseStore": true,
-                                },
-                                "QueryResponseReceiver":{
-                                },
-                                "ParkingSampleReceiver":{
-                                },
-},            "name": "EdgeGatewayDevice_2",
+            "applications": {
+                "Luposdate3000": {
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "Luposdate3000",
+                    "useDictionaryInlineEncoding": true,
+                },
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
+            "name": "EdgeGatewayDevice_2",
             "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -64,24 +62,22 @@
             ],
         },
         "EdgeGatewayDevice_3": {
-"applications": {
-
-                                "Luposdate3000":{
- "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-                                        "databaseQuery": true,
-                                        "databaseStore": true,
-                                },
-                                "QueryResponseReceiver":{
-                                },
-                                "ParkingSampleReceiver":{
-                                },
-},            "name": "EdgeGatewayDevice_3",
+            "applications": {
+                "Luposdate3000": {
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "Luposdate3000",
+                    "useDictionaryInlineEncoding": true,
+                },
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
+            "name": "EdgeGatewayDevice_3",
             "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -90,24 +86,22 @@
             ],
         },
         "FogTower": {
-"applications": {
-
-                                "Luposdate3000":{
- "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
-        "queryDistributionMode": "Routing",
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-                                        "databaseQuery": true,
-                                        "databaseStore": true,
-                                },
-                                "QueryResponseReceiver":{
-                                },
-                                "ParkingSampleReceiver":{
-                                },
-},            "name": "FogTower",
+            "applications": {
+                "Luposdate3000": {
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "Luposdate3000",
+                    "useDictionaryInlineEncoding": true,
+                },
+                "ParkingSampleReceiver": {},
+                "QueryResponseReceiver": {},
+            },
+            "name": "FogTower",
             "parkingSensor": "",
             "performance": 110.0,
             "supportedLinkTypes": [
@@ -124,6 +118,7 @@
             ],
         },
         "ParkingSensorDevice_1": {
+            "applications": {},
             "name": "ParkingSensorDevice_1",
             "parkingSensor": "park1",
             "performance": 1.0,
@@ -132,6 +127,7 @@
             ],
         },
         "ParkingSensorDevice_2": {
+            "applications": {},
             "name": "ParkingSensorDevice_2",
             "parkingSensor": "park2",
             "performance": 1.0,
@@ -140,6 +136,7 @@
             ],
         },
         "ParkingSensorDevice_3": {
+            "applications": {},
             "name": "ParkingSensorDevice_3",
             "parkingSensor": "park3",
             "performance": 1.0,
@@ -150,66 +147,77 @@
     },
     "fixedDevice": {
         "Fog": {
+            "applications": {},
             "deviceType": "FogTower",
             "latitude": 53.83831534459554,
             "longitude": 10.698774930618905,
             "name": "Fog",
         },
         "Gateway of WSN 1": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice_1",
             "latitude": 53.838474484901376,
             "longitude": 10.695081476709452,
             "name": "Gateway of WSN 1",
         },
         "Gateway of WSN 10": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83582633252526,
             "longitude": 10.701612267614298,
             "name": "Gateway of WSN 10",
         },
         "Gateway of WSN 2": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice_2",
             "latitude": 53.83744253948933,
             "longitude": 10.694834809499191,
             "name": "Gateway of WSN 2",
         },
         "Gateway of WSN 3": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice_3",
             "latitude": 53.836891814222774,
             "longitude": 10.697463417298081,
             "name": "Gateway of WSN 3",
         },
         "Gateway of WSN 4": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83862015297171,
             "longitude": 10.70005982052656,
             "name": "Gateway of WSN 4",
         },
         "Gateway of WSN 5": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.8371134048039,
             "longitude": 10.699351680333246,
             "name": "Gateway of WSN 5",
         },
         "Gateway of WSN 6": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83759450606049,
             "longitude": 10.702377248379614,
             "name": "Gateway of WSN 6",
         },
         "Gateway of WSN 7": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83622460614883,
             "longitude": 10.697405195405576,
             "name": "Gateway of WSN 7",
         },
         "Gateway of WSN 8": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83523539538031,
             "longitude": 10.696438320766976,
             "name": "Gateway of WSN 8",
         },
         "Gateway of WSN 9": {
+            "applications": {},
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83549953176541,
             "longitude": 10.697955598003395,
@@ -359,4 +367,4 @@
             "rateInSec": 111,
         },
     },
-},
+}
