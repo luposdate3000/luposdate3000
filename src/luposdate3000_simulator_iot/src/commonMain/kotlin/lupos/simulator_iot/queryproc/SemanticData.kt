@@ -24,7 +24,7 @@ internal object SemanticData {
     internal fun get_SHACL_OntolotgyString(): String {
         return "" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-            "PREFIX sh: <http://www.w3.org\ns/shacl#>\n" +
+            "PREFIX sh: <http://www.w3.org/shacl#>\n" +
             "PREFIX parking: <https://github.com/luposdate3000/parking#>\n" +
             "_:b0 a sh:NodeShape .\n" +
             "_:b0 sh:targetClass parking:Observation .\n" +
