@@ -28,7 +28,7 @@
             "rangeInMeters": 20,
         },
     },
-    "querySender": [],
+    
     "randomMeshNetwork": [
         {
             "deviceType": "Fog",

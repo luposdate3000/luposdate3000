@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": true,
     "deviceType": {
         "Edge Gateway WSN 1": {
@@ -105,7 +105,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [],
+    
     "randomMeshNetwork": [],
     "randomStarNetwork": [
         {

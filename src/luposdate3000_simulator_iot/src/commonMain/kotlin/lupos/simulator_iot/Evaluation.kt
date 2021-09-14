@@ -181,20 +181,6 @@ public class Evaluation {
         }
     }
 
-    public fun evalCampusDistributedSampling() {
-        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/campusDistributedSampling.json"
-        for (run in 0 until 11) {
-            val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-            val deviceType = json.getOrEmptyArray("deviceType")
-            for (instance in 1 until run + 1) {
-                val dev = deviceType[instance] as JsonParserObject
-                dev["database"] = true
-            }
-            MultipleSimulationRuns(json).startSimulationRuns()
-            println("evalQueryProcessingDistributedCase: Run ${run + 1} finished. ${11 - run - 1 } runs left..")
-        }
-    }
-
     public fun evalMeshPerformance() {
         val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/meshPerformance.json"
         var ranges = getMeshPerfRanges()
@@ -206,63 +192,6 @@ public class Evaluation {
             linkType0["rangeInMeters"] = range
             MultipleSimulationRuns(json).startSimulationRuns()
             println("evalMeshPerformance: Run ${index + 1} finished. ${ranges.size - index - 1 } runs left..")
-        }
-    }
-
-    public fun evalStarPerformanceWithLuposdate() {
-        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
-        var nodeSizes = buildNodeSizesArray(22, 50) // max. 1171 instances are possible.
-        nodeSizes = addInitialBuffer(nodeSizes, 4)
-        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
-            val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-            val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
-            val randomStarNetwork0 = randomStarNetwork.firstOrEmptyObject()
-            val deviceType = json.getOrEmptyArray("deviceType")
-            val deviceType0 = deviceType.firstOrEmptyObject()
-            val database = json.getOrEmptyObject("database")
-            randomStarNetwork0["number"] = numberOfNodes
-            deviceType0["database"] = true
-            database["type"] = "Luposdate3000"
-            MultipleSimulationRuns(json).startSimulationRuns()
-            println("evalStarPerformanceWithLuposdate: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
-        }
-    }
-
-    public fun evalStarPerformanceWithDummy() {
-        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
-        var nodeSizes = buildNodeSizesArray(22, 50)
-        nodeSizes = addInitialBuffer(nodeSizes, 4)
-        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
-            val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-            val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
-            val randomStarNetwork0 = randomStarNetwork.firstOrEmptyObject()
-            val deviceType = json.getOrEmptyArray("deviceType")
-            val deviceType0 = deviceType.firstOrEmptyObject()
-            val database = json.getOrEmptyObject("database")
-            randomStarNetwork0["number"] = numberOfNodes
-            deviceType0["database"] = true
-            database["type"] = "Dummy"
-            MultipleSimulationRuns(json).startSimulationRuns()
-            println("evalStarPerfWithDummy: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
-        }
-    }
-
-    public fun evalStarPerformance() {
-        val configFileName = "src/luposdate3000_simulator_iot/src/jvmMain/resources/starPerformance.json"
-        var nodeSizes = buildNodeSizesArray(21, 1000)
-        nodeSizes = addInitialBuffer(nodeSizes, 4)
-        for ((index, numberOfNodes) in nodeSizes.withIndex()) {
-            val json = JsonParser().fileToJson(configFileName)as JsonParserObject
-            val randomStarNetwork = json.getOrEmptyArray("randomStarNetwork")
-            val randomStarNetwork0 = randomStarNetwork.firstOrEmptyObject()
-            val deviceType = json.getOrEmptyArray("deviceType")
-            val deviceType0 = deviceType.firstOrEmptyObject()
-            val database = json.getOrEmptyObject("database")
-            randomStarNetwork0["number"] = numberOfNodes
-            deviceType0["database"] = false
-            database["type"] = "Dummy"
-            MultipleSimulationRuns(json).startSimulationRuns()
-            println("evalStarPerf: Run ${index + 1} finished. ${nodeSizes.size - index - 1 } runs left..")
         }
     }
 

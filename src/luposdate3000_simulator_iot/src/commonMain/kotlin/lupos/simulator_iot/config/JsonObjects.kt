@@ -20,23 +20,19 @@
 package lupos.simulator_iot.config
 import lupos.parser.JsonParserObject
 public class JsonObjects {
-    public var database: JsonParserObject
     public var deterministic: Boolean
     public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
-    public val querySender: MutableList<QuerySender>
     public val json: JsonParserObject
 
     public constructor() : this(JsonParserObject(mutableMapOf()))
     public constructor(data: JsonParserObject) {
         json = data
-        database = data.getOrEmptyObject("database")
         deterministic = data.getOrDefault("deterministic", true)
         fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
-        querySender = data.getOrEmptyArray("querySender").map { QuerySender(it as JsonParserObject) }
     }
 }
 
@@ -90,20 +86,5 @@ public class RandomMeshNetwork {
         linkType = data.getOrDefault("linkType", "")
         signalCoverageEast = data.getOrDefault("signalCoverageEast", 0)
         signalCoverageSouth = data.getOrDefault("signalCoverageSouth", 0)
-    }
-}
-
-public class QuerySender {
-    public val name: String
-    public val sendRateInSeconds: Int
-    public var maxNumberOfQueries: Int
-    public val sendStartClockInSec: Int
-    public var query: String
-    public constructor(data: JsonParserObject) {
-        name = data.getOrDefault("name", "")
-        sendRateInSeconds = data.getOrDefault("sendRateInSeconds", 0)
-        maxNumberOfQueries = data.getOrDefault("maxNumberOfQueries", 0)
-        sendStartClockInSec = data.getOrDefault("sendStartClockInSec", 0)
-        query = data.getOrDefault("query", "")
     }
 }

@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": true,
     "deviceType": {
         "EdgeGatewayDevice": {
@@ -249,7 +249,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [],
+    
     "randomMeshNetwork": [
         {
             "deviceType": "EdgeGatewayDevice",

@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": true,
     "deviceType": {
         "Fog": {
@@ -129,7 +129,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [],
+    
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",

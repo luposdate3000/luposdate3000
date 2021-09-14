@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": false,
     "deviceType": {
         "RadioTower": {
@@ -38,7 +38,7 @@
         },
     },
     "outputDirectory": "simulator_output",
-    "querySender": [],
+    
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "Tower1",

@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": true,
     "deviceType": {
         "Central Tower": {
@@ -332,7 +332,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [],
+    
     "randomMeshNetwork": [
         {
             "deviceType": "Mesh Hop",

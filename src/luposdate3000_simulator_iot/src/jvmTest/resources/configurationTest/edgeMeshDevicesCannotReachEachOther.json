@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": false,
     "deviceType": {
         "Fog": {
@@ -34,7 +34,7 @@
         },
     },
     "outputDirectory": "simulator_output",
-    "querySender": [],
+    
     "randomMeshNetwork": [
         {
             "deviceType": "Fog",

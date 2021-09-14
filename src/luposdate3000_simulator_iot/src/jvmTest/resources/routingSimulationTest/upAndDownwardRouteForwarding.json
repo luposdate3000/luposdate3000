@@ -1,6 +1,6 @@
 {
     "applications": {},
-    "database": {},
+    
     "deterministic": false,
     "deviceType": {
         "DataStore": {
@@ -113,7 +113,7 @@
         },
     },
     "outputDirectory": "",
-    "querySender": [],
+    
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",

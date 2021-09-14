@@ -1,6 +1,5 @@
 {
     "applications": {},
-    "database": {},
     "deterministic": false,
     "deviceType": {
         "Fog": {
@@ -8,6 +7,12 @@
                 "DummyDatabase": {},
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
+"QuerySender":{
+"maxNumberOfQueries": 1,
+            "query": "Select dummy From dum",
+            "sendRateInSeconds": 30,
+            "sendStartClockInSec": 200,
+},
             },
             "name": "Fog",
             "parkingSensor": "",
@@ -46,15 +51,6 @@
         },
     },
     "outputDirectory": "simulator_output",
-    "querySender": [
-        {
-            "maxNumberOfQueries": 1,
-            "name": "Driver1",
-            "query": "Select dummy From dum",
-            "sendRateInSeconds": 30,
-            "sendStartClockInSec": 200,
-        },
-    ],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "Tower1",
