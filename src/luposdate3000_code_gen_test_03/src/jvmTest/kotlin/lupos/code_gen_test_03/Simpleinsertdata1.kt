@@ -722,7 +722,7 @@ public class Simpleinsertdata1 {
         var verifyExecuted1 = 0
         val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted1++ }, outputGraph[0], instance)
         pkg0.setOnFinish(pkg1)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted1 == 0) {

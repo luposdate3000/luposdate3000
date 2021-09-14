@@ -323,7 +323,7 @@ public class DROPNAMED {
         var verifyExecuted7 = 0
         val pkg7 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ }, outputGraph[0], instance)
         pkg6.setOnFinish(pkg7)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted3 == 0) {

@@ -520,7 +520,7 @@ without minify mode only the passing tests will be added
         fileBufferSimulator.println("        simRun.sim.startUp()")
         fileBufferSimulator.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
         fileBufferSimulator.print(str)
-        fileBufferSimulator.println("        config.querySenders[0].queryPck = pkg0")
+        fileBufferSimulator.println("        config.addQuerySender(10,1,1,pkg0)")
         fileBufferSimulator.println("        simRun.sim.run()")
         fileBufferSimulator.println("        simRun.sim.shutDown()")
         fileBufferSimulator.print(distributedTestAtEnd.toString())

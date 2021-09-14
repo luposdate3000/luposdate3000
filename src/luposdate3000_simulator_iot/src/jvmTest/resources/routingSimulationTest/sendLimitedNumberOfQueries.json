@@ -7,12 +7,12 @@
                 "DummyDatabase": {},
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
-"QuerySender":{
+"QuerySender":[{
 "maxNumberOfQueries": 79,
             "query": "Select dummy From dum",
             "sendRateInSeconds": 2,
             "sendStartClockInSec": 0,
-}
+}]
             },
             "name": "Fog",
             "parkingSensor": "",

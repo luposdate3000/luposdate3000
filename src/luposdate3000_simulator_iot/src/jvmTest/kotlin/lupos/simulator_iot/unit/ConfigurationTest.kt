@@ -204,18 +204,6 @@ class ConfigurationTest {
     }
 
     @Test
-    fun configOneQuerySender() {
-        val config = SimulationRun().config
-        config.parse("$prefix/configOneQuerySender.json")
-        assertEquals(1, config.querySenders.size)
-        val querySender = config.querySenders[0]
-        assertEquals("Driver1", querySender.name)
-        assertEquals(30, querySender.sendRateInSec)
-        assertEquals(config.getDeviceByName("Tower1"), querySender.receiver)
-        assertEquals("Select dummy From dum", querySender.query)
-    }
-
-    @Test
     fun manipulateJsonObjects() {
         val configFile = "$prefix/manipulateJsonObjects.json"
         val config = SimulationRun().config

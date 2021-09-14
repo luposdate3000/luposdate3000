@@ -24,12 +24,18 @@ public class ApplicationLayerQuerySender(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,
     internal val maxNumberOfQueries: Int,
-    internal val query: String,
+    internal val queryPck: IDatabasePackage,
     internal val receiver: Int,
 ) : IUserApplication {
+    public constructor(
+        startClockInSec: Int,
+        sendRateInSec: Int,
+        maxNumberOfQueries: Int,
+        query: String,
+        receiver: Int
+    ) : this(startClockInSec, sendRateInSec, maxNumberOfQueries, QueryPackage(receiver, query.encodeToByteArray()), receiver)
     private lateinit var parent: IUserApplicationLayer
     private var queryCounter = 0
-    public var queryPck: IDatabasePackage = QueryPackage(receiver, query.encodeToByteArray())
     override fun setRouter(router: IUserApplicationLayer) {
         parent = router
     }

@@ -681,7 +681,7 @@ public class resourcesmyqueriesoptional42sparql4 {
         var verifyExecuted2 = 0
         val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ }, "", instance)
         pkg1.setOnFinish(pkg2)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted1 == 0) {

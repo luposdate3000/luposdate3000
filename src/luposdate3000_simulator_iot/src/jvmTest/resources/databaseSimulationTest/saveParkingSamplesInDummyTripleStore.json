@@ -1,6 +1,5 @@
 {
     "applications": {},
-    
     "deterministic": true,
     "deviceType": {
         "Fog": {
@@ -129,7 +128,6 @@
         },
     },
     "outputDirectory": "",
-    
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",

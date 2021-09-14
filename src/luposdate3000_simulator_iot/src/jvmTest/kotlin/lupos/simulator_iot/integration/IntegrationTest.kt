@@ -16,12 +16,9 @@
  */
 
 package lupos.simulator_iot.integration
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
 import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
 import lupos.simulator_iot.Evaluation
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.config.QuerySender
 import lupos.simulator_iot.queryproc.SemanticData
 import kotlin.test.Test
 
@@ -174,21 +171,13 @@ class IntegrationTest {
 
     private fun campusWithQuery(configFile: String, queryString: String) {
         val simRun = SimulationRun()
-        val json = JsonParser().fileToJson(configFile) as JsonParserObject
-        querySenders.add(JsonParser().stringToJson("{\"name\":\"Q1\",\"sendRateInSeconds\":1,\"maxNumberOfQueries\":1,\"sendStartClockInSec\":600,\"query\":\"${JsonParser().encodeString(queryString)}\"}"))
-        val config = simRun.parseConfig(json, configFile, false)
-        config.jsonObjects.database["SharedMemoryDictionaryCheat"] = "false"
-        val ontologySender = lupos.simulator_iot.queryproc.QuerySender(
-            simRun,
-            "Ontology",
+        val config = simRun.parseConfig(configFile, false)
+        config.addQuerySender(
             1,
             1,
-            60,
-            config.devices.filter { config.dbDeviceAddressesStore.contains(it.address) }.first(),
-            "ONTOLOGY-QUERY-OVERRIDES-THE-PACKAGE"
+            1,
+            MySimulatorAbstractPackage(-1, "/shacl/ontology/import", mapOf("data" to SemanticData.get_SHACL_OntolotgyString())),
         )
-        ontologySender.queryPck = MySimulatorAbstractPackage(-1, "/shacl/ontology/import", mapOf("data" to SemanticData.get_SHACL_OntolotgyString()))
-        config.querySenders.add(ontologySender)
         simRun.startSimulation(config)
     }
 

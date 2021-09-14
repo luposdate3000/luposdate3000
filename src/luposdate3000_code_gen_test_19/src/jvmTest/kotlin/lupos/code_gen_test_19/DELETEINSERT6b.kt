@@ -393,7 +393,7 @@ public class DELETEINSERT6b {
         var verifyExecuted3 = 0
         val pkg3 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted3++ }, outputGraph[0], instance)
         pkg2.setOnFinish(pkg3)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted1 == 0) {

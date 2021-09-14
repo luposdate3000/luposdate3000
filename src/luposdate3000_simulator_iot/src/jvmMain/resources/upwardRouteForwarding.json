@@ -31,15 +31,12 @@
 				},
 				"ParkingSampleReceiver":{
 				},
-"QuerySender":{
+"QuerySender":[{
         "sendRateInSeconds": 2,
         "maxNumberOfQueries": 1,
         "sendStartClockInSec": 200,
         "query": "SELECT * WHERE {?s ?p ?o . }"
-    
-}
-
-
+}]
 },            "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": []

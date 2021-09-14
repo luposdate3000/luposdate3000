@@ -24,7 +24,7 @@ import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_iot.models.Device
 
 public class DatabaseAdapter(
-    private val device: Device,
+    internal val device: Device,
     private val child: IUserApplication,
 ) : IUserApplicationBoth {
     init {

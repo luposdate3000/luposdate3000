@@ -695,7 +695,7 @@ public class DROPALL {
         var verifyExecuted5 = 0
         val pkg5 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
         pkg4.setOnFinish(pkg5)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted3 == 0) {

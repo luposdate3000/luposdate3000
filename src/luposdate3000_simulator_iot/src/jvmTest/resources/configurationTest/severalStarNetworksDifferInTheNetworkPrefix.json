@@ -1,6 +1,5 @@
 {
     "applications": {},
-    
     "deterministic": false,
     "deviceType": {
         "Fog": {
@@ -62,7 +61,6 @@
         },
     },
     "outputDirectory": "simulator_output",
-    
     "randomMeshNetwork": [],
     "randomStarNetwork": [
         {

@@ -371,7 +371,7 @@ public class ADD2 {
         var verifyExecuted4 = 0
         val pkg4 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted4++ }, outputGraph[1], instance)
         pkg3.setOnFinish(pkg4)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted1 == 0) {

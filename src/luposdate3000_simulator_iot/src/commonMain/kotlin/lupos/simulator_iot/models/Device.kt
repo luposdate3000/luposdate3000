@@ -18,7 +18,12 @@
 package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
+import lupos.simulator_db.ApplicationLayerCatchSelfMessages
+import lupos.simulator_db.ApplicationLayerMergeMessages
+import lupos.simulator_db.ApplicationLayerMultipleChilds
+import lupos.simulator_db.ApplicationLayerSequence
 import lupos.simulator_db.IPayload
+import lupos.simulator_db.IUserApplication
 import lupos.simulator_db.IUserApplicationBoth
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
@@ -27,6 +32,7 @@ import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.models.sensor.ISensor
+import lupos.simulator_iot.queryproc.DatabaseAdapter
 import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,
@@ -37,8 +43,21 @@ public class Device(
     supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
+    applications: Array<IUserApplication>,
 ) : Entity() {
-    public var userApplication: IUserApplicationBoth? = null
+    public val allApplications: ApplicationLayerMultipleChilds = ApplicationLayerMultipleChilds(applications)
+    public val userApplication: IUserApplicationBoth = DatabaseAdapter(
+        this,
+        ApplicationLayerSequence(
+            address,
+            ApplicationLayerMergeMessages(
+                ApplicationLayerCatchSelfMessages(
+                    address,
+                    allApplications,
+                )
+            )
+        )
+    )
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false

@@ -1,5 +1,4 @@
 {
-    
     "deterministic": false,
     "deviceType": {},
     "fixedDevice": {},
@@ -17,7 +16,6 @@
         },
     },
     "outputDirectory": "simulator_output",
-    
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "",

@@ -16,18 +16,34 @@
  */
 package lupos.simulator_db
 public class ApplicationLayerMultipleChilds(
-    private val childs: Array<IUserApplication>,
+    private var childs: Array<IUserApplication>,
 ) : IUserApplicationBoth {
+    private var hadStartUp = false
     private lateinit var parent: IUserApplicationLayer
     init {
         for (child in childs) {
             child.setRouter(this)
         }
     }
+    public fun addChild(child: IUserApplication) {
+        val res = Array<IUserApplication>(childs.size + 1) {
+            if (it <childs.size) {
+                childs[it]
+            } else {
+                child
+            }
+        }
+        childs = res
+        child.setRouter(this)
+        if (hadStartUp) {
+            child.startUp()
+        }
+    }
     override fun startUp() {
         for (child in childs) {
             child.startUp()
         }
+        hadStartUp = true
     }
     override fun shutDown() {
         for (child in childs) {

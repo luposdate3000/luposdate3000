@@ -255,7 +255,7 @@ public class DROPGRAPH {
         var verifyExecuted8 = 0
         val pkg8 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ }, outputGraph[1], instance)
         pkg7.setOnFinish(pkg8)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted3 == 0) {

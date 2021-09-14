@@ -18,12 +18,6 @@
                 },
                 "ParkingSampleReceiver": {
                 },
-"QuerySender":{
-            "maxNumberOfQueries": 1,
-            "query": "As soon as the root receives this query, it can start the tests.",
-            "sendRateInSeconds": 0,
-            "sendStartClockInSec": 10
-        }
             },
             "parkingSensor": "",
             "performance": 100.0,

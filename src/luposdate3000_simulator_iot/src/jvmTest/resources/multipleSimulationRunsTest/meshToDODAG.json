@@ -28,7 +28,6 @@
             "rangeInMeters": 20,
         },
     },
-    
     "randomMeshNetwork": [
         {
             "deviceType": "Fog",

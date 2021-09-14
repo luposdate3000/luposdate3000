@@ -115,28 +115,6 @@ class RoutingSimulationTest {
     }
 
     @Test
-    fun sendQueries() {
-        val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/sendQueries.json")
-        simRun.simMaxClock = TimeUtils.toNanoSec(800)
-        simRun.startSimulation(config)
-
-        val querySender = config.querySenders[0]
-        val expectedTimeSec = querySender.maxNumberOfQueries * querySender.sendRateInSec + querySender.startClockInSec
-        assertEquals(TimeUtils.toNanoSec(expectedTimeSec), simRun.sim.clock)
-    }
-
-    @Test
-    fun sendLimitedNumberOfQueries() {
-        val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/sendLimitedNumberOfQueries.json")
-        simRun.startSimulation(config)
-
-        val querySender = config.querySenders[0]
-        assertEquals(79, querySender.queryCounter)
-    }
-
-    @Test
     fun sensorFromStarSendOverMesh() {
         // Send data from one Sensor over Mesh to fixed node
         val simRun = SimulationRun()

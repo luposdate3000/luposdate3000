@@ -373,7 +373,7 @@ public class MOVE6 {
         var verifyExecuted5 = 0
         val pkg5 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted5++ }, outputGraph[0], instance)
         pkg4.setOnFinish(pkg5)
-        config.querySenders[0].queryPck = pkg0
+        config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()
         simRun.sim.shutDown()
         if (verifyExecuted2 == 0) {
