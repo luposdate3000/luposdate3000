@@ -59,4 +59,7 @@ public class ApplicationLayerCatchSelfMessages(
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}
+    override fun flush() {
+        parent.flush()
+    }
 }

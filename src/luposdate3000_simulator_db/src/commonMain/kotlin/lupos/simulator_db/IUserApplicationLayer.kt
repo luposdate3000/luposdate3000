@@ -22,4 +22,5 @@ public interface IUserApplicationLayer {
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
     public fun getAllChildApplications(): Set<IUserApplication>
     public fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication)
+    public fun flush()
 }

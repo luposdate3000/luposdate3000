@@ -5,6 +5,7 @@
             "applications": {
                 "Luposdate3000": {
                     "databaseQuery": true,
+                    "databaseStore": true,
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "mergeLocalOperatorgraphs": true,
@@ -12,7 +13,6 @@
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
                     "useDictionaryInlineEncoding": true,
-                    "databaseStore": true
                 },
                 "QueryResponseReceiver": {
                 },
@@ -60,7 +60,7 @@
             "enabled": false
         },
         "stdout": {
-            "enabled": false
+            "enabled": true
         },
         "visualize": {
             "enabled": false

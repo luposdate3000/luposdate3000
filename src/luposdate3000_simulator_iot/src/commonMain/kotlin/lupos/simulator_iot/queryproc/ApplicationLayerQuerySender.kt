@@ -51,6 +51,7 @@ public class ApplicationLayerQuerySender(
         if (queryCounter <maxNumberOfQueries || maxNumberOfQueries == -1) {
             queryCounter++
             parent.send(receiver, queryPck)
+            parent.flush()
             parent.registerTimer(sendRateInSec.toLong() * 1000000L, this)
         }
     }

@@ -95,4 +95,7 @@ public class ApplicationLayerSequence(
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}
+    override fun flush() {
+        parent.flush()
+    }
 }

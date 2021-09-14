@@ -69,4 +69,5 @@ public class DatabaseAdapter(
     override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
         device.setTimer(durationInNanoSeconds, entity::timerEvent)
     }
+    override fun flush() {}
 }

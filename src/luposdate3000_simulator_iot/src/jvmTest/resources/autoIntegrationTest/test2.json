@@ -12,7 +12,7 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true
+                    "useDictionaryInlineEncoding": true,
                 },
                 "QueryResponseReceiver": {
                 },

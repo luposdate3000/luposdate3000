@@ -54,15 +54,7 @@ public class ApplicationLayerMergeMessages(private val child: IUserApplication) 
                 return pp
             }
         }
-        val cacheLocal = cache
-        cache = mutableMapOf()
-        for ((destinationAddress, pckList) in cacheLocal) {
-            if (pckList.size> 1) {
-                parent.send(destinationAddress, ApplicationLayerMergeMessages_Package(pckList))
-            } else {
-                parent.send(destinationAddress, pckList.first())
-            }
-        }
+        flush()
         return null
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
@@ -80,4 +72,16 @@ public class ApplicationLayerMergeMessages(private val child: IUserApplication) 
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}
+    override fun flush() {
+        val cacheLocal = cache
+        cache = mutableMapOf()
+        for ((destinationAddress, pckList) in cacheLocal) {
+            if (pckList.size> 1) {
+                parent.send(destinationAddress, ApplicationLayerMergeMessages_Package(pckList))
+            } else if (pckList.size == 1) {
+                parent.send(destinationAddress, pckList.first())
+            }
+        }
+        parent.flush()
+    }
 }
