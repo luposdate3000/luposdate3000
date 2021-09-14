@@ -19,7 +19,7 @@ package lupos.simulator_db
 public class ApplicationLayerCatchSelfMessages(
     private val ownAddress: Int,
     private val child: IUserApplication,
-) : IUserApplicationLayer, IUserApplication {
+) : IUserApplicationBoth {
     private lateinit var parent: IUserApplicationLayer
     init {
         child.setRouter(this)

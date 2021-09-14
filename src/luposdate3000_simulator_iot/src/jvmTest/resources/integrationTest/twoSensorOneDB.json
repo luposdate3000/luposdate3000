@@ -14,9 +14,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
 				},},
             "name": "DB",
@@ -95,4 +95,4 @@
             "rateInSec": 30,
         },
     },
-}
+},

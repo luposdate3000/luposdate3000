@@ -12,7 +12,7 @@
             "name": "WLAN",
             "rangeInMeters": 200,
             "dataRateInKbps": 25000
-        }
+        },
     ],
     "sensorType": [{
         "name": "Sensor",
@@ -20,7 +20,7 @@
         "dataSink": "Fog",
         "rateInSec": 60,
         "maxSamples": 1
-    }],
+    },],
     "deviceType": [{
             "name": "Central Tower",
             "database": true,
@@ -111,7 +111,7 @@
             "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": ["WPAN", "WLAN"]
-        }
+        },
     ],
     "fixedDevice": [{
             "name": "Fog",
@@ -178,7 +178,7 @@
             "deviceType": "Edge Gateway WSN 10",
             "latitude": 53.83582633252526,
             "longitude": 10.701612267614298
-        }
+        },
     ],
     "fixedLink": [],
     "rootRouter": "Fog",
@@ -190,7 +190,7 @@
             "linkType": "WLAN",
             "signalCoverageEast": 560,
             "signalCoverageSouth": 460
-        }
+        },
 
     ],
     "randomStarNetwork": [{
@@ -262,7 +262,7 @@
             "linkType": "WPAN",
             "deviceType": "Sensor Device",
             "number": 0
-        }
+        },
     ],
     "querySender": [],
-}
+},

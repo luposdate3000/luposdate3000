@@ -23,9 +23,9 @@
         "useDictionaryInlineEncoding": true,
 					"databaseQuery": true,
 					"databaseStore": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
 				},
 },
@@ -50,9 +50,9 @@
         "useDictionaryInlineEncoding": true,
                                         "databaseQuery": true,
                                         "databaseStore": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },
 },            "name": "EdgeGatewayDevice_2",
@@ -76,9 +76,9 @@
         "useDictionaryInlineEncoding": true,
                                         "databaseQuery": true,
                                         "databaseStore": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },
 },            "name": "EdgeGatewayDevice_3",
@@ -102,9 +102,9 @@
         "useDictionaryInlineEncoding": true,
                                         "databaseQuery": true,
                                         "databaseStore": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },
 },            "name": "FogTower",
@@ -359,4 +359,4 @@
             "rateInSec": 111,
         },
     },
-}
+},

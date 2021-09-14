@@ -9,7 +9,7 @@
             "name": "WLAN",
             "rangeInMeters": 50,
             "dataRateInKbps": 25000
-        }
+        },
     ],
     "sensorType": [{
             "name": "park1",
@@ -31,7 +31,7 @@
             "dataSink": "Gateway of WSN 3",
             "rateInSec": 54,
             "maxSamples": 8
-        }
+        },
     ],
     "deviceType": [{
             "name": "FogTower",
@@ -126,7 +126,7 @@
             "parkingSensor": "park3",
             "performance": 1.0,
             "supportedLinkTypes": ["WPAN"]
-        }
+        },
     ],
     "fixedDevice": [{
             "name": "Fog",
@@ -193,7 +193,7 @@
             "deviceType": "EdgeGatewayDevice",
             "latitude": 53.83582633252526,
             "longitude": 10.701612267614298
-        }
+        },
     ],
     "fixedLink": [],
     "rootRouter": "Fog",
@@ -205,7 +205,7 @@
             "linkType": "WLAN",
             "signalCoverageEast": 560,
             "signalCoverageSouth": 460
-        }
+        },
 
     ],
     "randomStarNetwork": [{
@@ -277,6 +277,6 @@
             "linkType": "WPAN",
             "deviceType": "ParkingSensorDevice",
             "number": 0
-        }
+        },
     ]
-}
+},

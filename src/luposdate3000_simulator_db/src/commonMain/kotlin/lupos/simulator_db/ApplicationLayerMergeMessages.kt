@@ -16,7 +16,7 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerMergeMessages(private val child: IUserApplication) : IUserApplicationLayer, IUserApplication {
+public class ApplicationLayerMergeMessages(private val child: IUserApplication) : IUserApplicationBoth {
     private var cache = mutableMapOf<Int, MutableList<IPayload>>()
     private lateinit var parent: IUserApplicationLayer
     init {

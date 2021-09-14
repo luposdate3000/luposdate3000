@@ -2,4 +2,4 @@
     "database": {
         "predefinedPartitionScheme": "PartitionByID_1_AllCollations",
     },
-}
+},

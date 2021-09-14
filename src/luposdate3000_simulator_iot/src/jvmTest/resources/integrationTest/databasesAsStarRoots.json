@@ -22,9 +22,9 @@
         "useDictionaryInlineEncoding": true,
 					"databaseQuery": true,
 					"databaseStore": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
 				},
 },
@@ -48,9 +48,9 @@
         "useDictionaryInlineEncoding": true,
                                         "databaseQuery": true,
                                         "databaseStore": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },
 },
@@ -74,9 +74,9 @@
         "useDictionaryInlineEncoding": true,
                                         "databaseQuery": true,
                                         "databaseStore": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },
 },
@@ -197,4 +197,4 @@
             "rateInSec": 32,
         },
     },
-}
+},

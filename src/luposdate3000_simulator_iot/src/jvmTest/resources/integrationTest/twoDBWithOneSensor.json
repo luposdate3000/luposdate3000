@@ -13,11 +13,11 @@
         "useDictionaryInlineEncoding": true,
 					"databaseQuery": true,
 					"databaseStore": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
-				}
+				},
 },
             "name": "DB",
             "parkingSensor": "",
@@ -95,4 +95,4 @@
             "rateInSec": 30,
         },
     },
-}
+},

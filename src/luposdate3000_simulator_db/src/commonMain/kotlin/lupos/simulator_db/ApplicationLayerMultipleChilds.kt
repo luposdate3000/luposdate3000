@@ -17,7 +17,7 @@
 package lupos.simulator_db
 public class ApplicationLayerMultipleChilds(
     private val childs: Array<IUserApplication>,
-) : IUserApplicationLayer, IUserApplication {
+) : IUserApplicationBoth {
     private lateinit var parent: IUserApplicationLayer
     init {
         for (child in childs) {

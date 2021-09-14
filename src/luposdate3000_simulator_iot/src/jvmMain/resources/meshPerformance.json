@@ -4,20 +4,20 @@
         "name": "WIRELESS",
         "rangeInMeters": 30,
         "dataRateInKbps": 250
-    }],
+    },],
     "sensorType": [],
     "deviceType": [{
         "name": "Mesh Hop",
         "parkingSensor": "",
         "performance": 100.0,
         "supportedLinkTypes": ["WIRELESS"]
-    }],
+    },],
     "fixedDevice": [{
         "name": "DODAG ROOT",
         "deviceType": "Mesh Hop",
         "latitude": 53.83831534459554,
         "longitude": 10.698774930618905
-    }],
+    },],
     "fixedLink": [],
     "rootRouter": "DODAG ROOT",
     "randomMeshNetwork": [{
@@ -28,9 +28,9 @@
             "linkType": "WIRELESS",
             "signalCoverageEast": 600,
             "signalCoverageSouth": 600
-        }
+        },
 
     ],
     "randomStarNetwork": [],
     "querySender": []
-}
+},

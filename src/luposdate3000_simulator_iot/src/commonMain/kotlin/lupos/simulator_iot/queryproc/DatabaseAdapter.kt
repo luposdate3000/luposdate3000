@@ -19,13 +19,14 @@ package lupos.simulator_iot.queryproc
 
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IUserApplicationBoth
 import lupos.simulator_db.IUserApplicationLayer
 import lupos.simulator_iot.models.Device
 
 public class DatabaseAdapter(
     private val device: Device,
     private val child: IUserApplication,
-) : IUserApplicationLayer, IUserApplication {
+) : IUserApplicationBoth {
     init {
         child.setRouter(this)
     }

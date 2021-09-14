@@ -14,9 +14,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
 				},},            "name": "Edge Gateway WSN 1",
             "parkingSensor": "",
@@ -38,9 +38,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },},             "name": "Edge Gateway WSN 2",
             "parkingSensor": "",
@@ -62,9 +62,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },},             "name": "Edge Gateway WSN 3",
             "parkingSensor": "",
@@ -86,9 +86,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-                                }
+                                },
                                 "QueryResponseReceiver":{
-                                }
+                                },
                                 "ParkingSampleReceiver":{
                                 },},             "name": "Edge Gateway WSN 4",
             "parkingSensor": "",
@@ -300,4 +300,4 @@
             "rateInSec": 100,
         },
     },
-}
+},

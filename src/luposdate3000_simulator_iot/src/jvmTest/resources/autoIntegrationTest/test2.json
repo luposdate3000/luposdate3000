@@ -14,9 +14,9 @@
         "queryDistributionMode": "Routing",
         "type": "Luposdate3000",
         "useDictionaryInlineEncoding": true,
-				}
+				},
 				"QueryResponseReceiver":{
-				}
+				},
 				"ParkingSampleReceiver":{
 				},},            "parkingSensor": "",
             "performance": 100.0,
@@ -64,4 +64,4 @@
     "randomStarNetwork": [],
     "rootRouter": "DEVICE_1",
     "sensorType": [],
-}
+},

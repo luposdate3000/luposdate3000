@@ -6,7 +6,7 @@
         "dataSink": "A",
         "rateInSec": 30,
         "maxSamples": 100
-    }],
+    },],
     "deviceType": [{
             "name": "Fog",
             "parkingSensor": "",
@@ -33,7 +33,7 @@
 				},},            "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": []
-        }
+        },
 
     ],
     "fixedDevice": [{
@@ -71,7 +71,7 @@
             "deviceType": "SensorDevice",
             "latitude": 53.07572006093855,
             "longitude": 8.785879536459793
-        }
+        },
     ],
     "fixedLink": [{
             "fixedDeviceA": "A",
@@ -97,7 +97,7 @@
             "fixedDeviceA": "E",
             "fixedDeviceB": "F",
             "dataRateInKbps": 33
-        }
+        },
     ],
     "rootRouter": "A",
     "randomMeshNetwork": [],
@@ -108,5 +108,5 @@
         "maxNumberOfQueries": 1,
         "sendStartClockInSec": 200,
         "query": "SELECT * WHERE {?s ?p ?o . }"
-    }]
-}
+    },]
+},
