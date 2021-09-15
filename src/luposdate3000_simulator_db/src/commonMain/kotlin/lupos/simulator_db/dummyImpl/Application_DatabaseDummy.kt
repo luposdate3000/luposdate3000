@@ -43,6 +43,7 @@ public class Application_DatabaseDummy public constructor(
     init {
         state = Application_DatabaseDummy_State(logger, ownAddress, dbDeviceAddressesStoreList.toIntArray(), dbDeviceAddressesApplication_DatabaseDummy_QueryList.toIntArray(), absolutePathToDataDirectory)
         state.dataFile = "$absolutePathToDataDirectory/file.txt"
+        File(absolutePathToDataDirectory).mkdirs()
     }
     override fun startUp() {
         File(state.dataFile).withOutputStream { }
@@ -213,5 +214,4 @@ public class Application_DatabaseDummy public constructor(
                 sendPackage_DatabaseDummy_Preprocessing(hop, dest.toIntArray(), Application_DatabaseDummy_OperatorGraphPart.encodeToByteArray(parts), queryID)
             }
     }
-    public override fun timerEvent() {}
 }

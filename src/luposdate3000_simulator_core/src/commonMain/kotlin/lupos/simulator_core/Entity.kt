@@ -33,7 +33,7 @@ public abstract class Entity {
         }
         val data = event.data
         if (data is ITimer) {
-            data()
+            data.onTimerExpired(simulation.clock)
         } else {
             onEvent(event.source, data)
         }
@@ -47,8 +47,8 @@ public abstract class Entity {
         simulation.addEvent(delay, this, destination, data)
     }
 
-    public fun setTimer(time: Long, callback: () -> Unit) {
-        scheduleEvent(this, object : ITimer { override operator fun invoke() { callback() } }, time)
+    public fun setTimer(time: Long, callback: ITimer) {
+        scheduleEvent(this, callback, time)
     }
 
     protected fun terminate() {

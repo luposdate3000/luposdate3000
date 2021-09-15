@@ -19,7 +19,6 @@ package lupos.simulator_iot.unit
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.models.sensor.ParkingSensor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -38,25 +37,6 @@ class ConfigurationTest {
         val config = SimulationRun().config
         config.parse("$prefix/parseEmptyConfigFile.json")
         assertEquals(0, config.getNumberOfDevices())
-    }
-
-    @Test
-    fun sensorsKnowTheirDevice() {
-        val config = SimulationRun().config
-        config.parse("$prefix/sensorsKnowTheirDevice.json")
-        val device = config.getDeviceByName("Tower1")
-        val parkingSensor = device.sensor!! as ParkingSensor
-        assertSame(device, parkingSensor.device)
-    }
-
-    @Test
-    fun starRootIsDataSinkOfItsSensors() {
-        val config = SimulationRun().config
-        config.parse("$prefix/starRootIsDataSinkOfItsSensors.json")
-        val root = config.getDeviceByName("Tower1")
-        val starNet = config.randStarNetworks["garageA"]!!
-        val parkingSensor = starNet.children[0].sensor as ParkingSensor
-        assertEquals(root.address, parkingSensor.getSinkAddress())
     }
 
     @Test

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
 import lupos.simulator_db.IApplicationStack_Middleware
@@ -62,10 +63,9 @@ public class ApplicationStack_Logger(
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
     }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer) {
         parent.registerTimer(durationInNanoSeconds, entity)
     }
-    public override fun timerEvent() {}
     override fun flush() {
         parent.flush()
     }

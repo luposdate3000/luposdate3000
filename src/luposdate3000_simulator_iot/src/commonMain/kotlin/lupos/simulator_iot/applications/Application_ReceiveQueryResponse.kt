@@ -41,5 +41,4 @@ public class Application_ReceiveQueryResponse(
             return pck
         }
     }
-    override fun timerEvent() {}
 }

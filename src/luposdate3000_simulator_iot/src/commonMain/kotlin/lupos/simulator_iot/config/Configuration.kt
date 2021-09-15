@@ -31,6 +31,7 @@ import lupos.simulator_iot.LoggerMeasure
 import lupos.simulator_iot.LoggerStdout
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.applications.ApplicationStack_Logger
+import lupos.simulator_iot.applications.Application_ParkingSensor
 import lupos.simulator_iot.applications.Application_QuerySender
 import lupos.simulator_iot.applications.Application_ReceiveParkingSample
 import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
@@ -39,7 +40,6 @@ import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
 import lupos.simulator_iot.models.net.MeshNetwork
 import lupos.simulator_iot.models.net.StarNetwork
-import lupos.simulator_iot.models.sensor.ParkingSensor
 import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
@@ -279,6 +279,7 @@ public class Configuration(private val simRun: SimulationRun) {
         )
         var databaseStore = false
         var databaseQuery = false
+        var hasSensor = false
         for ((applicationName, applicationJson) in jsonApplicationsEffective) {
             when (applicationName) {
                 "DummyDatabase" -> {
@@ -288,7 +289,16 @@ public class Configuration(private val simRun: SimulationRun) {
                     databaseQuery = true
                     dbDeviceAddressesStoreList.add(ownAddress)
                     dbDeviceAddressesQueryList.add(ownAddress)
-                    applications.add(Application_DatabaseDummy(applicationJson, simRun.logger, ownAddress, "$outputDirectory/db_states/device$ownAddress", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
+                    applications.add(
+                        Application_DatabaseDummy(
+                            applicationJson,
+                            simRun.logger,
+                            ownAddress,
+                            "$outputDirectory/db_states/device$ownAddress",
+                            dbDeviceAddressesStoreList,
+                            dbDeviceAddressesQueryList,
+                        )
+                    )
                 }
                 "Luposdate3000" -> {
                     applicationJson as JsonParserObject
@@ -301,7 +311,16 @@ public class Configuration(private val simRun: SimulationRun) {
                     if (databaseQuery) {
                         dbDeviceAddressesQueryList.add(ownAddress)
                     }
-                    applications.add(Application_Luposdate3000(applicationJson, simRun.logger, ownAddress, "$outputDirectory/db_states/device$ownAddress", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
+                    applications.add(
+                        Application_Luposdate3000(
+                            applicationJson,
+                            simRun.logger,
+                            ownAddress,
+                            "$outputDirectory/db_states/device$ownAddress",
+                            dbDeviceAddressesStoreList,
+                            dbDeviceAddressesQueryList,
+                        )
+                    )
                 }
                 "QueryResponseReceiver" -> {
                     applications.add(Application_ReceiveQueryResponse(outputDirectory + "/"))
@@ -324,27 +343,36 @@ public class Configuration(private val simRun: SimulationRun) {
                         )
                     }
                 }
+                "ParkingSensor" -> {
+                    applicationJson as JsonParserObject
+                    hasSensor = true
+                    numberOfSensors++
+                    applications.add(
+                        Application_ParkingSensor(
+                            applicationJson.getOrDefault("sendStartClockInSec", 0),
+                            applicationJson.getOrDefault("rateInSec", 1),
+                            applicationJson.getOrDefault("maxSamples", 1),
+                            getDeviceByName(applicationJson.getOrDefault("dataSink", "")).address,
+                            ownAddress,
+                            simRun.randGenerator,
+                            applicationJson.getOrDefault("area", 0),
+                        )
+                    )
+                }
                 else -> TODO("unknown application '$applicationName'")
             }
         }
         val device = Device(
-            simRun, location, ownAddress, null, deviceType.getOrDefault("performance", 100.0), linkTypes, nameIndex, jsonObjects.deterministic,
+            simRun,
+            location,
+            ownAddress,
+            deviceType.getOrDefault("performance", 100.0),
+            linkTypes,
+            nameIndex,
+            jsonObjects.deterministic,
             applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray(),
         )
-        val sensorTypeName = deviceType.getOrDefault("parkingSensor", "")
-        if (sensorTypeName.isNotEmpty()) {
-            numberOfSensors++
-            val sensorTypes = json!!.getOrEmptyObject("sensorType")
-            val sensorType = sensorTypes.getOrEmptyObject(sensorTypeName)
-            device.sensor = ParkingSensor(
-                device,
-                sensorType.getOrDefault("rateInSec", 0),
-                sensorType.getOrDefault("maxSamples", -1),
-                sensorType.getOrDefault("dataSink", ""),
-                sensorType.getOrDefault("area", 0),
-            )
-        }
-        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude, databaseStore, databaseQuery, sensorTypeName.isNotEmpty())
+        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude, databaseStore, databaseQuery, hasSensor)
         devices.add(device)
         return device
     }

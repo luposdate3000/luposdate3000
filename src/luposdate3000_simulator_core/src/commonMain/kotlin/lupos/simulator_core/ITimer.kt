@@ -16,5 +16,5 @@
  */
 package lupos.simulator_core
 public interface ITimer {
-    public operator fun invoke()
+    public fun onTimerExpired(clock: Long)
 }

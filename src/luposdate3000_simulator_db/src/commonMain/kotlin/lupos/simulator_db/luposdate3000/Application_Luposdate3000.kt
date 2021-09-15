@@ -886,5 +886,4 @@ public class Application_Luposdate3000 public constructor(
         doWork()
         return null
     }
-    public override fun timerEvent() {}
 }

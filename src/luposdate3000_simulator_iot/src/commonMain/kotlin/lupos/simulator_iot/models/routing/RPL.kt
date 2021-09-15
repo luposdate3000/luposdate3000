@@ -17,10 +17,10 @@
 
 package lupos.simulator_iot.models.routing
 
+import lupos.simulator_core.ITimer
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
-
 internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     internal lateinit var routingTable: RoutingTable
@@ -141,9 +141,11 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
         device.setTimer(
             daoDelay,
-            {
-                isDelayDAOTimerRunning = false
-                forwardDAO()
+            object : ITimer {
+                override fun onTimerExpired(clock: Long) {
+                    isDelayDAOTimerRunning = false
+                    forwardDAO()
+                }
             }
         )
         isDelayDAOTimerRunning = true

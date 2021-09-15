@@ -22,15 +22,12 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.measure.TimeMeasurer
 public class SimulationRun {
 
     public lateinit var sim: Simulation
 
     internal val randGenerator = RandomGenerator()
     internal val config = Configuration(this)
-
-    internal val timeMeasurer = TimeMeasurer(this)
 
     public val logger: Loggers = Loggers(mutableListOf())
 
@@ -60,9 +57,7 @@ public class SimulationRun {
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock
         sim.steadyClock = if (simSteadyClock == notInitializedClock) sim.steadyClock else simSteadyClock
         logger.onStartSimulation()
-        timeMeasurer.onStartUp()
         sim.startSimulation()
-        timeMeasurer.onShutDown()
         logger.onStopSimulation()
     }
 }

@@ -48,5 +48,4 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
             return pck
         }
     }
-    override fun timerEvent() {}
 }

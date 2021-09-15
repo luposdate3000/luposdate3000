@@ -32,13 +32,11 @@ import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
-import lupos.simulator_iot.models.sensor.ISensor
 import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
     internal val address: Int,
-    internal var sensor: ISensor?,
     internal val performance: Double,
     supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
@@ -85,7 +83,6 @@ public class Device(
 
     override fun onStartUp() {
         deviceStart = TimeUtils.stamp()
-        sensor?.startSampling()
         userApplication?.startUp()
         router.startRouting()
     }
@@ -131,7 +128,6 @@ public class Device(
             } catch (e: Throwable) {
             }
         }
-        sensor?.stopSampling()
         userApplication?.shutDown()
     }
 
@@ -158,10 +154,6 @@ public class Device(
         val entity = simRun.config.getDeviceByAddress(hop)
         scheduleEvent(entity, pck, delay)
         simRun.logger.onSendNetworkPackage(address, dest, hop, pck.payload, delay)
-    }
-
-    internal fun sendSensorSample(dest: Int, data: IPayload) {
-        sendRoutedPackage(address, dest, data)
     }
 
     override fun equals(other: Any?): Boolean {
