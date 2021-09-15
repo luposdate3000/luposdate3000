@@ -16,13 +16,13 @@
  */
 package lupos.simulator_iot.queryproc
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.Package_Query
 import lupos.simulator_iot.models.sensor.ParkingSample
-public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) : IUserApplication {
-    private lateinit var parent: IUserApplicationLayer
-    override fun setRouter(router: IUserApplicationLayer) {
+public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
+    private lateinit var parent: IApplicationStack_Middleware
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
@@ -32,7 +32,7 @@ public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) :
     override fun receive(pck: IPayload): IPayload? {
         if (pck is ParkingSample) {
             val query = SemanticData.getInsertQueryString(pck)
-            parent.send(ownAddress, QueryPackage(ownAddress, query.encodeToByteArray()))
+            parent.send(ownAddress, Package_Query(ownAddress, query.encodeToByteArray()))
             return null
         } else {
             return pck

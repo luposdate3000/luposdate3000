@@ -22,8 +22,8 @@ import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.QueryPackage
-import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.Package_Query
+import lupos.simulator_db.Package_QueryResponse
 import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
 import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
 import kotlin.math.PI
@@ -572,10 +572,10 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
             is MySimulatorOperatorGraphPackage -> {
                 addMessage(VisualisationMessage(src, dest, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
             }
-            is QueryResponsePackage -> {
+            is Package_QueryResponse -> {
                 addMessage(VisualisationMessage(src, dest, clock, "response ${pck.queryID} .. ${pck.result.size}"))
             }
-            is QueryPackage -> {
+            is Package_Query -> {
                 addMessage(VisualisationMessage(src, dest, clock, "query ${pck.queryID} .. ${pck.query.decodeToString()}"))
             }
             else -> addMessage(VisualisationMessage(src, dest, clock, pck.toString()))

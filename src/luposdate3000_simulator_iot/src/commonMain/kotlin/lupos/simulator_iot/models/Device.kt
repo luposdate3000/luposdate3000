@@ -18,13 +18,13 @@
 package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
-import lupos.simulator_db.ApplicationLayerCatchSelfMessages
-import lupos.simulator_db.ApplicationLayerMergeMessages
-import lupos.simulator_db.ApplicationLayerMultipleChilds
-import lupos.simulator_db.ApplicationLayerSequence
+import lupos.simulator_db.ApplicationStack_CatchSelfMessages
+import lupos.simulator_db.ApplicationStack_MergeMessages
+import lupos.simulator_db.ApplicationStack_MultipleChilds
+import lupos.simulator_db.ApplicationStack_Sequence
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationBoth
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_BothDirections
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
@@ -43,15 +43,15 @@ public class Device(
     supportedLinkTypes: IntArray,
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
-    applications: Array<IUserApplication>,
+    applications: Array<IApplicationStack_Actuator>,
 ) : Entity() {
-    public val allApplications: ApplicationLayerMultipleChilds = ApplicationLayerMultipleChilds(applications)
-    public val userApplication: IUserApplicationBoth = DatabaseAdapter(
+    public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
+    public val userApplication: IApplicationStack_BothDirections = DatabaseAdapter(
         this,
-        ApplicationLayerSequence(
+        ApplicationStack_Sequence(
             address,
-            ApplicationLayerMergeMessages(
-                ApplicationLayerCatchSelfMessages(
+            ApplicationStack_MergeMessages(
+                ApplicationStack_CatchSelfMessages(
                     address,
                     allApplications,
                 )

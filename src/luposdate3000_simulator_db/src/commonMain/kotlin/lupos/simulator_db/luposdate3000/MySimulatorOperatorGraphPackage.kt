@@ -19,17 +19,17 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
 import lupos.shared.XMLElement
-import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPackage_Database
 public class MySimulatorOperatorGraphPackage(
     public val queryID: Int,
     public val operatorGraph: MutableMap<Int, XMLElement>,
     public val destinations: MutableMap<Int, Int>,
     public val operatorGraphPartsToHostMap: MutableMap<Int, Int>,
-    public val onFinish: IDatabasePackage?,
+    public val onFinish: IPackage_Database?,
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,
     public val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
-) : IDatabasePackage {
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 

@@ -17,14 +17,14 @@
 
 package lupos.simulator_db.dummyImpl
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPackage_Database
 
 public class PreprocessingPackage(
     public val destinationAddresses: IntArray, // Richtung triple store
     public val operatorGraphParts: ByteArray,
     public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
-    public val queryID: Int, // die ist immer gleich für alles was zu einem "QueryPackage" gehört
-) : IDatabasePackage {
+    public val queryID: Int, // die ist immer gleich für alles was zu einem "Package_Query" gehört
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {
@@ -44,7 +44,7 @@ public class ChoosenOperatorPackage(
     public val senderAddress: Int,
     public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
     public val queryID: Int,
-) : IDatabasePackage {
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {
@@ -64,7 +64,7 @@ public class ResultPackage(
     public val senderAddress: Int,
     public val queryID: Int,
     public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
-) : IDatabasePackage {
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {

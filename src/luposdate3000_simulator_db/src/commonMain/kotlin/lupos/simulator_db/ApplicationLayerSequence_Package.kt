@@ -16,14 +16,14 @@
  */
 
 package lupos.simulator_db
-internal class ApplicationLayerSequence_Package(
+internal class ApplicationStack_Sequence_Package(
     internal val data: IPayload,
     internal val num: Int,
     internal val src: Int,
 ) : IPayloadLayer {
 
     override fun getSizeInBytes(): Int = data.getSizeInBytes() + 8
-    override fun toString(): String = "ApplicationLayerSequence_Package($data)"
+    override fun toString(): String = "ApplicationStack_Sequence_Package($data)"
     override fun getApplicationPayload(): List<IPayload> {
         if (data is IPayloadLayer) {
             return data.getApplicationPayload()

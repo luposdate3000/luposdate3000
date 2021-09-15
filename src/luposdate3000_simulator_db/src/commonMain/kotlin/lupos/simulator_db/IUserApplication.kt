@@ -17,10 +17,10 @@
 
 package lupos.simulator_db
 
-public interface IUserApplication {
+public interface IApplicationStack_Actuator {
     public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
     public fun startUp()
     public fun shutDown()
-    public fun setRouter(router: IUserApplicationLayer)
+    public fun setRouter(router: IApplicationStack_Middleware)
     public fun timerEvent()
 }

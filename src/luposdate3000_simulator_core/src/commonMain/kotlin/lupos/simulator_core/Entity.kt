@@ -17,12 +17,14 @@
 
 package lupos.simulator_core
 import lupos.shared.SanityCheck
-public abstract class Entity : ISimulationLifeCycle {
-
+public abstract class Entity {
     internal lateinit var simulation: Simulation
 
     private var isTerminated = false
 
+abstract public fun onStartUp()
+abstract    public fun onSteadyState()
+abstract    public fun onShutDown()
     public abstract fun onEvent(source: Entity, data: Any)
 
     internal fun processIncomingEvent(event: Event) {

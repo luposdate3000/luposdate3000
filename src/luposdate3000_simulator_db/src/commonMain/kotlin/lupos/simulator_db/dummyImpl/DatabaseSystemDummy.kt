@@ -20,15 +20,15 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_db.DatabaseState
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.QueryPackage
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.Package_Query
 
-public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val initialState: () -> DatabaseState) : IUserApplication {
+public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val initialState: () -> DatabaseState) : IApplicationStack_Actuator {
     internal lateinit var state: DummyDatabaseState
 
-    internal lateinit var sender: IUserApplicationLayer
-    override fun setRouter(router: IUserApplicationLayer) {
+    internal lateinit var sender: IApplicationStack_Middleware
+    override fun setRouter(router: IApplicationStack_Middleware) {
         sender = router
     }
     override fun shutDown() {
@@ -44,13 +44,13 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
             is PreprocessingPackage -> receive(pck)
             is ResultPackage -> receive(pck)
             is ChoosenOperatorPackage -> receive(pck)
-            is QueryPackage -> receive(pck)
+            is Package_Query -> receive(pck)
             else -> return pck
         }
         return null
     }
 
-    public fun receive(pck: QueryPackage) {
+    public fun receive(pck: Package_Query) {
         state.addressForQueryEndResult = pck.sourceAddress
         val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {

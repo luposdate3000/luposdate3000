@@ -16,16 +16,16 @@
  */
 package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IDatabasePackageTesting
+import lupos.simulator_db.IPackage_DatabaseTesting
 
 public class MySimulatorTestingExecute(
     public val query: String,
-) : IDatabasePackageTesting {
+) : IPackage_DatabaseTesting {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
-    internal var _onFinish: IDatabasePackageTesting? = null
-    override fun getOnFinish(): IDatabasePackageTesting? = _onFinish
-    override fun setOnFinish(pck: IDatabasePackageTesting) {
+    internal var _onFinish: IPackage_DatabaseTesting? = null
+    override fun getOnFinish(): IPackage_DatabaseTesting? = _onFinish
+    override fun setOnFinish(pck: IPackage_DatabaseTesting) {
         var b = getOnFinish()
         if (b != null) {
             b.setOnFinish(pck)

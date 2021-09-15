@@ -16,14 +16,14 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerSequence(
+public class ApplicationStack_Sequence(
     private val ownAddress: Int,
-    private val child: IUserApplication,
-) : IUserApplicationBoth {
+    private val child: IApplicationStack_Actuator,
+) : IApplicationStack_BothDirections {
     private val outgoingNum = mutableListOf<Int>() // index is the dest-address
     private val incomingNum = mutableListOf<Int>() // index is the src-address
-    private val caches = mutableListOf<MutableList<ApplicationLayerSequence_Package>>() // index is the src-address
-    private lateinit var parent: IUserApplicationLayer
+    private val caches = mutableListOf<MutableList<ApplicationStack_Sequence_Package>>() // index is the src-address
+    private lateinit var parent: IApplicationStack_Middleware
     init {
         child.setRouter(this)
     }
@@ -33,20 +33,20 @@ public class ApplicationLayerSequence(
     override fun shutDown() {
         child.shutDown()
     }
-    override fun getAllChildApplications(): Set<IUserApplication> {
-        var res = mutableSetOf<IUserApplication>()
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
         val c = child
-        if (c is IUserApplicationLayer) {
+        if (c is IApplicationStack_Middleware) {
             res.addAll(c.getAllChildApplications())
         }
         return res
     }
-    override fun setRouter(router: IUserApplicationLayer) {
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ApplicationLayerSequence_Package) {
+        if (pck is ApplicationStack_Sequence_Package) {
             while (incomingNum.size <= pck.src) {
                 incomingNum.add(0)
             }
@@ -85,13 +85,13 @@ public class ApplicationLayerSequence(
             outgoingNum.add(0)
         }
         val num = outgoingNum[destinationAddress]++
-        val pck2 = ApplicationLayerSequence_Package(pck, num, ownAddress)
+        val pck2 = ApplicationStack_Sequence_Package(pck, num, ownAddress)
         parent.send(destinationAddress, pck2)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
     }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}

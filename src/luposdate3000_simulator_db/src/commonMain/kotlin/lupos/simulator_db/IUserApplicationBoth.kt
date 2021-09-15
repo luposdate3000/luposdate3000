@@ -17,4 +17,4 @@
 
 package lupos.simulator_db
 
-public interface IUserApplicationBoth : IUserApplication, IUserApplicationLayer
+public interface IApplicationStack_BothDirections : IApplicationStack_Actuator, IApplicationStack_Middleware

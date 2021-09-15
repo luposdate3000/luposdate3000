@@ -16,11 +16,11 @@
  */
 package lupos.simulator_db
 
-public class ApplicationLayerCatchSelfMessages(
+public class ApplicationStack_CatchSelfMessages(
     private val ownAddress: Int,
-    private val child: IUserApplication,
-) : IUserApplicationBoth {
-    private lateinit var parent: IUserApplicationLayer
+    private val child: IApplicationStack_Actuator,
+) : IApplicationStack_BothDirections {
+    private lateinit var parent: IApplicationStack_Middleware
     init {
         child.setRouter(this)
     }
@@ -30,16 +30,16 @@ public class ApplicationLayerCatchSelfMessages(
     override fun shutDown() {
         child.shutDown()
     }
-    override fun getAllChildApplications(): Set<IUserApplication> {
-        var res = mutableSetOf<IUserApplication>()
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
         val c = child
-        if (c is IUserApplicationLayer) {
+        if (c is IApplicationStack_Middleware) {
             res.addAll(c.getAllChildApplications())
         }
         return res
     }
-    override fun setRouter(router: IUserApplicationLayer) {
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
@@ -55,7 +55,7 @@ public class ApplicationLayerCatchSelfMessages(
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
     }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}

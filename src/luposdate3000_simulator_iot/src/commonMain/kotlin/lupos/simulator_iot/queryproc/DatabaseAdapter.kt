@@ -18,26 +18,26 @@
 package lupos.simulator_iot.queryproc
 
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationBoth
-import lupos.simulator_db.IUserApplicationLayer
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_BothDirections
+import lupos.simulator_db.IApplicationStack_Middleware
 import lupos.simulator_iot.models.Device
 
 public class DatabaseAdapter(
     internal val device: Device,
-    private val child: IUserApplication,
-) : IUserApplicationBoth {
+    private val child: IApplicationStack_Actuator,
+) : IApplicationStack_BothDirections {
     init {
         child.setRouter(this)
     }
-    override fun setRouter(router: IUserApplicationLayer) {
+    override fun setRouter(router: IApplicationStack_Middleware) {
         TODO("this must not be called as this is the topmost layer")
     }
-    override fun getAllChildApplications(): Set<IUserApplication> {
-        var res = mutableSetOf<IUserApplication>()
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
         val c = child
-        if (c is IUserApplicationLayer) {
+        if (c is IApplicationStack_Middleware) {
             res.addAll(c.getAllChildApplications())
         }
         return res
@@ -66,7 +66,7 @@ public class DatabaseAdapter(
         return device.router.getNextDatabaseHops(destinationAddresses)
     }
     override fun timerEvent() {}
-    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
         device.setTimer(durationInNanoSeconds, entity::timerEvent)
     }
     override fun flush() {}

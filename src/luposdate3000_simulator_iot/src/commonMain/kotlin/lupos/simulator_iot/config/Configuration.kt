@@ -23,10 +23,10 @@ import lupos.parser.JsonParserString
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
-import lupos.simulator_db.ApplicationLayerLogger
+import lupos.simulator_db.ApplicationStack_Logger
 import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IDatabasePackage
-import lupos.simulator_db.IUserApplication
+import lupos.simulator_db.IPackage_Database
+import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
 import lupos.simulator_db.luposdate3000.DatabaseHandle
 import lupos.simulator_iot.LoggerMeasure
@@ -80,7 +80,7 @@ public class Configuration(private val simRun: SimulationRun) {
         startClockInSec: Int,
         sendRateInSec: Int,
         maxNumberOfQueries: Int,
-        queryPck: IDatabasePackage,
+        queryPck: IPackage_Database,
         receiver: Int = rootRouterAddress
     ) {
         val sender = ApplicationLayerQuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, queryPck, receiver)
@@ -262,7 +262,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createDevice(deviceTypeName: String, location: GeoLocation, nameIndex: Int, jsonFixed: JsonParserObject?): Device {
         val ownAddress = devices.size
-        val applications = mutableListOf<IUserApplication>()
+        val applications = mutableListOf<IApplicationStack_Actuator>()
 
         val deviceTypes = json!!.getOrEmptyObject("deviceType")
         val deviceType = deviceTypes.getOrEmptyObject(deviceTypeName)
@@ -343,7 +343,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val device = Device(
             simRun, location, ownAddress, null, deviceType.getOrDefault("performance", 100.0), linkTypes, nameIndex, jsonObjects.deterministic,
-            applications.map { it -> ApplicationLayerLogger(ownAddress, simRun.logger, it) }.toTypedArray(),
+            applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray(),
         )
         val sensorTypeName = deviceType.getOrDefault("parkingSensor", "")
         if (sensorTypeName.isNotEmpty()) {

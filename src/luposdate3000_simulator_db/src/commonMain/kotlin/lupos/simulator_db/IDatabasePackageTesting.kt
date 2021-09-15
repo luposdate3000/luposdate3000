@@ -17,7 +17,7 @@
 
 package lupos.simulator_db
 
-public interface IDatabasePackageTesting : IDatabasePackage {
-    public fun setOnFinish(pck: IDatabasePackageTesting)
-    public fun getOnFinish(): IDatabasePackageTesting?
+public interface IPackage_DatabaseTesting : IPackage_Database {
+    public fun setOnFinish(pck: IPackage_DatabaseTesting)
+    public fun getOnFinish(): IPackage_DatabaseTesting?
 }

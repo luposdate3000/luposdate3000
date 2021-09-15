@@ -17,10 +17,10 @@
 
 package lupos.simulator_db
 
-public interface IUserApplicationLayer {
+public interface IApplicationStack_Middleware {
     public fun send(destinationAddress: Int, pck: IPayload)
     public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
-    public fun getAllChildApplications(): Set<IUserApplication>
-    public fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication)
+    public fun getAllChildApplications(): Set<IApplicationStack_Actuator>
+    public fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator)
     public fun flush()
 }

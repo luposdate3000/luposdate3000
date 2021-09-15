@@ -18,14 +18,14 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
-import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPackage_Database
 internal class MySimulatorPendingWork(
     val queryID: Int,
     val operatorGraph: XMLElement,
     val destinations: IntArray,
     val dependencies: IntArray,
     val keys: IntArray,
-    val onFinish: IDatabasePackage?,
+    val onFinish: IPackage_Database?,
     val expectedResult: MemoryTable?,
     val verifyAction: () -> Unit,
     val query: IQuery,

@@ -17,14 +17,14 @@
 package lupos.simulator_iot.queryproc
 import lupos.shared.inline.File
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.Package_QueryResponse
 public class ApplicationLayerReceiveQueryResonse(
     private val outputdirectory: String,
-) : IUserApplication {
-    private lateinit var parent: IUserApplicationLayer
-    override fun setRouter(router: IUserApplicationLayer) {
+) : IApplicationStack_Actuator {
+    private lateinit var parent: IApplicationStack_Middleware
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
@@ -32,7 +32,7 @@ public class ApplicationLayerReceiveQueryResonse(
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is QueryResponsePackage) {
+        if (pck is Package_QueryResponse) {
             File(outputdirectory + "result_${pck.queryID}").withOutputStream { out ->
                 out.write(pck.result)
             }

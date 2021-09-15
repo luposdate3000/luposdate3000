@@ -22,5 +22,5 @@ public interface IDatabase {
     public fun activate()
     public fun deactivate()
     public fun end()
-    public fun receive(pck: IDatabasePackage)
+    public fun receive(pck: IPackage_Database)
 }

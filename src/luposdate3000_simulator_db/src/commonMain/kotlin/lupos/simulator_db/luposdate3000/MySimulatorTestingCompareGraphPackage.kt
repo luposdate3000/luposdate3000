@@ -20,13 +20,13 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IDatabasePackageTesting
+import lupos.simulator_db.IPackage_DatabaseTesting
 public class MySimulatorTestingCompareGraphPackage(
     public val query: String,
     public val expectedResult: MemoryTable,
     public val verifyAction: () -> Unit,
     public val idx: ITripleStoreIndexDescription?,
-) : IDatabasePackageTesting {
+) : IPackage_DatabaseTesting {
 
     private var needsPrepare = false
     private var graph: String? = null
@@ -78,9 +78,9 @@ public class MySimulatorTestingCompareGraphPackage(
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 
-    internal var _onFinish: IDatabasePackageTesting? = null
-    override fun getOnFinish(): IDatabasePackageTesting? = _onFinish
-    override fun setOnFinish(pck: IDatabasePackageTesting) {
+    internal var _onFinish: IPackage_DatabaseTesting? = null
+    override fun getOnFinish(): IPackage_DatabaseTesting? = _onFinish
+    override fun setOnFinish(pck: IPackage_DatabaseTesting) {
         var b = getOnFinish()
         if (b != null) {
             b.setOnFinish(pck)

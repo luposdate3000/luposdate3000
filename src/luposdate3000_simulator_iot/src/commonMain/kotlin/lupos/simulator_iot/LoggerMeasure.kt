@@ -25,8 +25,8 @@ import lupos.shared.XMLElement
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.IPayloadLayer
-import lupos.simulator_db.QueryPackage
-import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.Package_Query
+import lupos.simulator_db.Package_QueryResponse
 import lupos.simulator_db.dummyImpl.ChoosenOperatorPackage
 import lupos.simulator_db.dummyImpl.PreprocessingPackage
 import lupos.simulator_db.dummyImpl.ResultPackage
@@ -194,7 +194,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                     data[StatNetworkCounterOperatorGraph]++
                 }
             }
-            is QueryResponsePackage -> {
+            is Package_QueryResponse -> {
                 data[StatNetworkTrafficResponse] += pck.getSizeInBytes().toDouble()
                 if (dest == hop) {
                     data[StatNetworkCounterResponse]++
@@ -206,7 +206,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                     data[StatNetworkCounterParkingSample]++
                 }
             }
-            is QueryPackage -> {
+            is Package_Query -> {
                 data[StatNetworkTrafficQuery] += pck.getSizeInBytes().toDouble()
                 if (dest == hop) {
                     data[StatNetworkCounterQuery]++

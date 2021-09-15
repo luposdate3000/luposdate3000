@@ -62,13 +62,13 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
-import lupos.simulator_db.IDatabasePackageTesting
+import lupos.simulator_db.IPackage_DatabaseTesting
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.IUserApplication
-import lupos.simulator_db.IUserApplicationLayer
-import lupos.simulator_db.QueryPackage
-import lupos.simulator_db.QueryResponsePackage
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.Package_Query
+import lupos.simulator_db.Package_QueryResponse
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
 public class DatabaseHandle public constructor(
@@ -78,13 +78,13 @@ public class DatabaseHandle public constructor(
     private val absolutePathToDataDirectory: String,
     private val dbDeviceAddressesStoreList: MutableList<Int>,
     private val dbDeviceAddressesQueryList: MutableList<Int>,
-) : IUserApplication {
-    private lateinit var parent: IUserApplicationLayer
+) : IApplicationStack_Actuator {
+    private lateinit var parent: IApplicationStack_Middleware
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<MySimulatorPendingWork>()
     private val myPendingWorkData = mutableMapOf<Int, ByteArrayWrapper>()
-    private var router: IUserApplicationLayer? = null
+    private var router: IApplicationStack_Middleware? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
     private var rootAddress = ""
     private var rootAddressInt = -1
@@ -149,7 +149,7 @@ public class DatabaseHandle public constructor(
         }
     }
 
-    override fun setRouter(router: IUserApplicationLayer) {
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
 
@@ -172,7 +172,7 @@ public class DatabaseHandle public constructor(
     private fun receive(pck: MySimulatorTestingCompareGraphPackage) {
         val p = pck.prepare()
         receive(
-            QueryPackage(ownAdress, p.query.encodeToByteArray()),
+            Package_Query(ownAdress, p.query.encodeToByteArray()),
             p.getOnFinish(),
             p.expectedResult,
             p.verifyAction,
@@ -182,7 +182,7 @@ public class DatabaseHandle public constructor(
 
     private fun receive(pck: MySimulatorTestingExecute) {
         receive(
-            QueryPackage(ownAdress, pck.query.encodeToByteArray()),
+            Package_Query(ownAdress, pck.query.encodeToByteArray()),
             pck.getOnFinish(),
             null,
             {},
@@ -190,9 +190,9 @@ public class DatabaseHandle public constructor(
         )
     }
 
-    private fun receive(pck: QueryPackage, onFinish: IDatabasePackageTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
+    private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString")
+        // println("$ownAdress DatabaseHandle.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
@@ -201,7 +201,7 @@ public class DatabaseHandle public constructor(
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
         val q = op.getQuery()
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage ${q.getRoot()}")
+        // println("$ownAdress DatabaseHandle.receivePackage_Query ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         logger.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
@@ -339,7 +339,7 @@ public class DatabaseHandle public constructor(
             }
         }
 // remove unnecessary query parts, which just receive and send from and to single locations <<<---
-        // println("$ownAdress DatabaseHandle.receiveQueryPackage $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
+        // println("$ownAdress DatabaseHandle.receivePackage_Query $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
         for (k in parts.keys) {
             if (!hostMap.keys.contains(k)) {
                 // println("not assigned $k $v")
@@ -826,7 +826,7 @@ public class DatabaseHandle public constructor(
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destinations[0], QueryResponsePackage("success".encodeToByteArray(), w.queryID))
+                                    router!!.send(w.destinations[0], Package_QueryResponse("success".encodeToByteArray(), w.queryID))
                                 }
                             } else {
                                 val buf = MyPrintWriter(true)
@@ -835,7 +835,7 @@ public class DatabaseHandle public constructor(
                                 if (w.onFinish != null) {
                                     receive(w.onFinish)
                                 } else {
-                                    router!!.send(w.destinations[0], QueryResponsePackage(buf.toString().encodeToByteArray(), w.queryID))
+                                    router!!.send(w.destinations[0], Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
                                 }
                             }
                             // println("done executing")
@@ -866,7 +866,7 @@ public class DatabaseHandle public constructor(
                 is MySimulatorTestingImportPackage -> receive(pck)
                 is MySimulatorTestingCompareGraphPackage -> receive(pck)
                 is MySimulatorTestingExecute -> receive(pck)
-                is QueryPackage -> receive(pck, null, null, {}, null)
+                is Package_Query -> receive(pck, null, null, {}, null)
                 is MySimulatorAbstractPackage -> receive(pck)
                 is MySimulatorOperatorGraphPackage -> receive(pck)
                 else -> return pck

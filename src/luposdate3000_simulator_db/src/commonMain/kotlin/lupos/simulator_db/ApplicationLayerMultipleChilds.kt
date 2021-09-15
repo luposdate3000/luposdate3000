@@ -15,18 +15,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db
-public class ApplicationLayerMultipleChilds(
-    private var childs: Array<IUserApplication>,
-) : IUserApplicationBoth {
+public class ApplicationStack_MultipleChilds(
+    private var childs: Array<IApplicationStack_Actuator>,
+) : IApplicationStack_BothDirections {
     private var hadStartUp = false
-    private lateinit var parent: IUserApplicationLayer
+    private lateinit var parent: IApplicationStack_Middleware
     init {
         for (child in childs) {
             child.setRouter(this)
         }
     }
-    public fun addChild(child: IUserApplication) {
-        val res = Array<IUserApplication>(childs.size + 1) {
+    public fun addChild(child: IApplicationStack_Actuator) {
+        val res = Array<IApplicationStack_Actuator>(childs.size + 1) {
             if (it <childs.size) {
                 childs[it]
             } else {
@@ -50,18 +50,18 @@ public class ApplicationLayerMultipleChilds(
             child.shutDown()
         }
     }
-    override fun getAllChildApplications(): Set<IUserApplication> {
-        var res = mutableSetOf<IUserApplication>()
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>()
         for (child in childs) {
             res.add(child)
             val c = child
-            if (c is IUserApplicationLayer) {
+            if (c is IApplicationStack_Middleware) {
                 res.addAll(c.getAllChildApplications())
             }
         }
         return res
     }
-    override fun setRouter(router: IUserApplicationLayer) {
+    override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
@@ -79,7 +79,7 @@ public class ApplicationLayerMultipleChilds(
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
     }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: IUserApplication) {
+    override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
         parent.registerTimer(durationInNanoSeconds, entity)
     }
     public override fun timerEvent() {}

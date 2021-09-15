@@ -17,10 +17,10 @@
 
 package lupos.simulator_db
 import lupos.shared.UUID_Counter
-public class QueryResponsePackage(
+public class Package_QueryResponse(
     public val result: ByteArray,
     public val queryID: Int
-) : IDatabasePackage {
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 
@@ -28,6 +28,6 @@ public class QueryResponsePackage(
         return result.size
     }
     public override fun getContentLogString(): String {
-        return "QueryResponsePackage('${result.decodeToString()}')"
+        return "Package_QueryResponse('${result.decodeToString()}')"
     }
 }

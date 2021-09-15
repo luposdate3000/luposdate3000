@@ -18,14 +18,14 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.simulator_db.IDatabasePackage
+import lupos.simulator_db.IPackage_Database
 
 public class MySimulatorAbstractPackage(
     public val queryID: Int,
     public val path: String,
     public val params: Map<String, String>,
     public val data: ByteArrayWrapper = ByteArrayWrapper()
-) : IDatabasePackage {
+) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 
