@@ -171,24 +171,24 @@ class IntegrationTest {
     private fun campusWithQuery(configFile: String, queryString: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(configFile, false)
-val ontologyQuery=StringBuilder()
-        ontologyQuery.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" )
-        ontologyQuery.appendLine("PREFIX sh: <http://www.w3.org/shacl#>" )
-        ontologyQuery.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>" )
-        ontologyQuery.appendLine("_:b0 a sh:NodeShape ." )
-        ontologyQuery.appendLine("_:b0 sh:targetClass parking:Observation ." )
-        ontologyQuery.appendLine("_:b0 sh:property _:b1 ." )
-        ontologyQuery.appendLine("_:b0 sh:property _:b2 ." )
-        ontologyQuery.appendLine("_:b0 sh:property _:b3 ." )
-        ontologyQuery.appendLine("_:b0 sh:property _:b4 ." )
-        ontologyQuery.appendLine("_:b1 sh:path parking:area ." )
-        ontologyQuery.appendLine("_:b1 sh:datatype xsd:integer ." )
-        ontologyQuery.appendLine("_:b2 sh:path parking:spotInArea ." )
-        ontologyQuery.appendLine("_:b2 sh:datatype xsd:integer ." )
-        ontologyQuery.appendLine("_:b3 sh:path parking:isOccupied ." )
-        ontologyQuery.appendLine("_:b3 sh:datatype xsd:boolean ." )
-        ontologyQuery.appendLine("_:b4 sh:path parking:resultTime ." )
-        ontologyQuery.appendLine("_:b4 sh:datatype xsd:dateTime ." )
+        val ontologyQuery = StringBuilder()
+        ontologyQuery.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
+        ontologyQuery.appendLine("PREFIX sh: <http://www.w3.org/shacl#>")
+        ontologyQuery.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
+        ontologyQuery.appendLine("_:b0 a sh:NodeShape .")
+        ontologyQuery.appendLine("_:b0 sh:targetClass parking:Observation .")
+        ontologyQuery.appendLine("_:b0 sh:property _:b1 .")
+        ontologyQuery.appendLine("_:b0 sh:property _:b2 .")
+        ontologyQuery.appendLine("_:b0 sh:property _:b3 .")
+        ontologyQuery.appendLine("_:b0 sh:property _:b4 .")
+        ontologyQuery.appendLine("_:b1 sh:path parking:area .")
+        ontologyQuery.appendLine("_:b1 sh:datatype xsd:integer .")
+        ontologyQuery.appendLine("_:b2 sh:path parking:spotInArea .")
+        ontologyQuery.appendLine("_:b2 sh:datatype xsd:integer .")
+        ontologyQuery.appendLine("_:b3 sh:path parking:isOccupied .")
+        ontologyQuery.appendLine("_:b3 sh:datatype xsd:boolean .")
+        ontologyQuery.appendLine("_:b4 sh:path parking:resultTime .")
+        ontologyQuery.appendLine("_:b4 sh:datatype xsd:dateTime .")
         config.addQuerySender(
             60,
             1,
@@ -214,7 +214,6 @@ val ontologyQuery=StringBuilder()
         val query = getAllSpacesOfParkingArea(1)
         campusWithQuery("$prefix/campusDistributedCaseWithoutQueryModifiedForDB.json", query)
     }
-
 
     internal fun getAllTriples(): String {
         return "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"

@@ -16,10 +16,15 @@
  */
 
 package lupos.simulator_db.dummyImpl
-public abstract class Application_DatabaseDummy_State(
+import lupos.simulator_db.ILogger
+public class Application_DatabaseDummy_State(
     public val logger: ILogger,
     public val ownAddress: Int,
     public var allAddressesStore: IntArray,
-    public var allAddressesApplication_DatabaseDummy_Query: IntArray,
+    public var allAddressesQuery: IntArray,
     public val absolutePathToDataDirectory: String,
-)
+) {
+    public val queriesInProgress: MutableMap<Int, Application_DatabaseDummy_Query> = mutableMapOf()
+    public var addressForQueryEndResult: Int = -1
+    public lateinit var dataFile: String
+}

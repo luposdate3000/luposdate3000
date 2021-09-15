@@ -20,13 +20,14 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
-import lupos.simulator_db.Package_Application_DatabaseDummy_Query
+import lupos.simulator_db.Package_Query
 
 public class Application_DatabaseDummy public constructor(
     config: JsonParserObject,
     logger: ILogger,
-    ownAdress: Int,
+    ownAddress: Int,
     absolutePathToDataDirectory: String,
     dbDeviceAddressesStoreList: MutableList<Int>,
     dbDeviceAddressesApplication_DatabaseDummy_QueryList: MutableList<Int>,
@@ -40,10 +41,10 @@ public class Application_DatabaseDummy public constructor(
     override fun shutDown() {
     }
     init {
-        state = Application_DatabaseDummy_State(logger, ownAddress, dbDeviceAddressesStoreList, dbDeviceAddressesApplication_DatabaseDummy_QueryList, absolutePathToDataDirectory)
+        state = Application_DatabaseDummy_State(logger, ownAddress, dbDeviceAddressesStoreList.toIntArray(), dbDeviceAddressesApplication_DatabaseDummy_QueryList.toIntArray(), absolutePathToDataDirectory)
+        state.dataFile = "$absolutePathToDataDirectory/file.txt"
     }
     override fun startUp() {
-        state.dataFile = "${initialStateTmp.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }
     override fun receive(pck: IPayload): IPayload ? {
@@ -51,14 +52,14 @@ public class Application_DatabaseDummy public constructor(
             is Package_DatabaseDummy_Preprocessing -> receive(pck)
             is Package_DatabaseDummy_Result -> receive(pck)
             is Package_DatabaseDummy_ChoosenOperator -> receive(pck)
-            is Package_Application_DatabaseDummy_Query -> receive(pck)
+            is Package_Query -> receive(pck)
             else -> return pck
         }
         return null
     }
 
-    public fun receive(pck: Package_Application_DatabaseDummy_Query) {
-        state.addressForApplication_DatabaseDummy_QueryEndResult = pck.sourceAddress
+    public fun receive(pck: Package_Query) {
+        state.addressForQueryEndResult = pck.sourceAddress
         val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {
             saveData(queryString)

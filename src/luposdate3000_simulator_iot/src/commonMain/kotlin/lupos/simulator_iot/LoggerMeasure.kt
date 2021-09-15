@@ -27,9 +27,9 @@ import lupos.simulator_db.IPayload
 import lupos.simulator_db.IPayloadLayer
 import lupos.simulator_db.Package_Query
 import lupos.simulator_db.Package_QueryResponse
-import lupos.simulator_db.dummyImpl.ChoosenOperatorPackage
-import lupos.simulator_db.dummyImpl.PreprocessingPackage
-import lupos.simulator_db.dummyImpl.ResultPackage
+import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_ChoosenOperator
+import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_Preprocessing
+import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_Result
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
@@ -157,7 +157,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             }
             is Package_Luposdate3000_TestingImportPackage, is Package_Luposdate3000_TestingExecute, is Package_Luposdate3000_TestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
             }
-            is PreprocessingPackage, is ResultPackage, is ChoosenOperatorPackage -> { // dummyImpl
+            is Package_DatabaseDummy_Preprocessing, is Package_DatabaseDummy_Result, is Package_DatabaseDummy_ChoosenOperator -> { // dummyImpl
             }
             is Package_Luposdate3000_Abstract -> {
                 when (pck.path) {
