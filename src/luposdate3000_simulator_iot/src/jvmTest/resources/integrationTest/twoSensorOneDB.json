@@ -19,20 +19,26 @@
                 "QueryResponseReceiver": {},
             },
             "name": "DB",
-            "parkingSensor": "",
             "performance": 50.0,
             "supportedLinkTypes": [],
         },
         "Other": {
             "name": "Other",
-            "parkingSensor": "",
             "performance": 11.0,
             "supportedLinkTypes": [],
         },
         "Sensor": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "C",
+                    "maxSamples": 50,
+                    "name": "park1",
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor",
-            "parkingSensor": "park1",
             "performance": 0.9,
             "supportedLinkTypes": [],
         },
@@ -88,13 +94,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "C",
-            "maxSamples": 50,
-            "name": "park1",
-            "rateInSec": 30,
-        },
-    },
 }

@@ -350,9 +350,9 @@ public class Configuration(private val simRun: SimulationRun) {
                     applications.add(
                         Application_ParkingSensor(
                             applicationJson.getOrDefault("sendStartClockInSec", 0),
-                            applicationJson.getOrDefault("rateInSec", 1),
-                            applicationJson.getOrDefault("maxSamples", 1),
-                            getDeviceByName(applicationJson.getOrDefault("dataSink", "")).address,
+                            applicationJson.getOrDefault("rateInSec", 0),
+                            applicationJson.getOrDefault("maxSamples", -1),
+                            applicationJson.getOrDefault("dataSink", ""),
                             ownAddress,
                             simRun.randGenerator,
                             applicationJson.getOrDefault("area", 0),
@@ -371,6 +371,7 @@ public class Configuration(private val simRun: SimulationRun) {
             nameIndex,
             jsonObjects.deterministic,
             applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray(),
+            namedAddresses,
         )
         simRun.logger.addDevice(ownAddress, location.longitude, location.latitude, databaseStore, databaseQuery, hasSensor)
         devices.add(device)

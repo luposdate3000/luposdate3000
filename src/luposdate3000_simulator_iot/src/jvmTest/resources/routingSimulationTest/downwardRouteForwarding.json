@@ -9,21 +9,27 @@
                 "QueryResponseReceiver": {},
             },
             "name": "DataStore",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
         "Fog": {
             "applications": {},
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
         "SensorDevice": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "F",
+                    "maxSamples": 4,
+                    "name": "park1",
+                    "rateInSec": 9,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "SensorDevice",
-            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
@@ -115,13 +121,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "F",
-            "maxSamples": 4,
-            "name": "park1",
-            "rateInSec": 9,
-        },
-    },
 }

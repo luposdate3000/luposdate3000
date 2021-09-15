@@ -7,7 +7,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -39,5 +38,4 @@
         },
     ],
     "rootRouter": "Tower1",
-    "sensorType": {},
 }

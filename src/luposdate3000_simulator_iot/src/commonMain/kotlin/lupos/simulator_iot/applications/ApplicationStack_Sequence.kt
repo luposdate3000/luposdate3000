@@ -31,12 +31,8 @@ public class ApplicationStack_Sequence(
     init {
         child.setRouter(this)
     }
-    override fun startUp() {
-        child.startUp()
-    }
-    override fun shutDown() {
-        child.shutDown()
-    }
+    override fun startUp(): Unit = child.startUp()
+    override fun shutDown(): Unit = child.shutDown()
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
@@ -92,13 +88,8 @@ public class ApplicationStack_Sequence(
         val pck2 = Package_ApplicationStack_Sequence(pck, num, ownAddress)
         parent.send(destinationAddress, pck2)
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        return parent.getNextDatabaseHops(destinationAddresses)
-    }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer) {
-        parent.registerTimer(durationInNanoSeconds, entity)
-    }
-    override fun flush() {
-        parent.flush()
-    }
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = parent.getNextDatabaseHops(destinationAddresses)
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun flush(): Unit = parent.flush()
+    override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
 }

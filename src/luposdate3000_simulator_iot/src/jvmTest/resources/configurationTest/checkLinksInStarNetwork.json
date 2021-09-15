@@ -9,16 +9,23 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "StandAloneParkingSensor": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Fog1",
+                    "maxSamples": -1,
+                    "name": "park1",
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "StandAloneParkingSensor",
-            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -66,13 +73,4 @@
         },
     ],
     "rootRouter": "",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "Fog1",
-            "maxSamples": -1,
-            "name": "park1",
-            "rateInSec": 30,
-        },
-    },
 }

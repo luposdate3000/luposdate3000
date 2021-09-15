@@ -5,7 +5,6 @@
         "EdgeGatewayDevice": {
             "applications": {},
             "name": "EdgeGatewayDevice",
-            "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -29,7 +28,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "EdgeGatewayDevice_1",
-            "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -53,7 +51,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "EdgeGatewayDevice_2",
-            "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -77,7 +74,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "FogTower",
-            "parkingSensor": "",
             "performance": 110.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -85,18 +81,34 @@
             ],
         },
         "ParkingSensorDevice_1": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Gateway of WSN 1",
+                    "maxSamples": 10,
+                    "name": "park1",
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "ParkingSensorDevice_1",
-            "parkingSensor": "park1",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "ParkingSensorDevice_2": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 2,
+                    "dataSink": "Gateway of WSN 2",
+                    "maxSamples": 10,
+                    "name": "park2",
+                    "rateInSec": 32,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "ParkingSensorDevice_2",
-            "parkingSensor": "park2",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -181,20 +193,4 @@
         },
     ],
     "rootRouter": "Fog",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "Gateway of WSN 1",
-            "maxSamples": 10,
-            "name": "park1",
-            "rateInSec": 60,
-        },
-        "park2": {
-            "area": 2,
-            "dataSink": "Gateway of WSN 2",
-            "maxSamples": 10,
-            "name": "park2",
-            "rateInSec": 32,
-        },
-    },
 }

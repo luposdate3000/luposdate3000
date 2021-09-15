@@ -19,7 +19,7 @@
                 "ParkingSampleReceiver": {
                 },
             },
-            "parkingSensor": "",
+            
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WIRE"
@@ -70,5 +70,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "DEVICE_1",
-    "sensorType": []
 },

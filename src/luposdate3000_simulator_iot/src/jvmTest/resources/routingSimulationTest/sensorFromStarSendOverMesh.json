@@ -5,7 +5,6 @@
         "EdgeGatewayDevice": {
             "applications": {},
             "name": "EdgeGatewayDevice",
-            "parkingSensor": "",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -19,7 +18,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "FogTower",
-            "parkingSensor": "",
             "performance": 110.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -30,10 +28,17 @@
             "applications": {
                 "DummyDatabase": {},
                 "ParkingSampleReceiver": {},
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Fog",
+                    "maxSamples": 4,
+                    "name": "park1",
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
                 "QueryResponseReceiver": {},
             },
             "name": "ParkingSensorDevice",
-            "parkingSensor": "park1",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -238,13 +243,4 @@
         },
     ],
     "rootRouter": "Fog",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "Fog",
-            "maxSamples": 4,
-            "name": "park1",
-            "rateInSec": 60,
-        },
-    },
 }

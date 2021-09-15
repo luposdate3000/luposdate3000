@@ -9,7 +9,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -50,5 +49,4 @@
     ],
     "randomStarNetwork": [],
     "rootRouter": "",
-    "sensorType": {},
 }

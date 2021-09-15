@@ -5,7 +5,6 @@
         "Fog": {
             "applications": {},
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
@@ -16,7 +15,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "FogWithDatabase",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
@@ -72,5 +70,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": {},
 }

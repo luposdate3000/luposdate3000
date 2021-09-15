@@ -25,13 +25,12 @@ import lupos.simulator_iot.models.Device
 public class ApplicationStack_Adapter(
     internal val device: Device,
     private val child: IApplicationStack_Actuator,
+    private val hostNameLookUpTable: MutableMap<String, Int>,
 ) : IApplicationStack_BothDirections {
     init {
         child.setRouter(this)
     }
-    override fun setRouter(router: IApplicationStack_Middleware) {
-        TODO("this must not be called as this is the topmost layer")
-    }
+    override fun setRouter(router: IApplicationStack_Middleware): Unit = TODO("this must not be called as this is the topmost layer")
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
@@ -49,23 +48,11 @@ public class ApplicationStack_Adapter(
         return null
     }
 
-    public override fun startUp() {
-        child.startUp()
-    }
-
-    public override fun shutDown() {
-        child.shutDown()
-    }
-
-    override fun send(destinationAddress: Int, pck: IPayload) {
-        device.sendRoutedPackage(device.address, destinationAddress, pck)
-    }
-
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        return device.router.getNextDatabaseHops(destinationAddresses)
-    }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer) {
-        device.setTimer(durationInNanoSeconds, entity)
-    }
+    public override fun startUp(): Unit = child.startUp()
+    public override fun shutDown(): Unit = child.shutDown()
+    override fun send(destinationAddress: Int, pck: IPayload): Unit = device.sendRoutedPackage(device.address, destinationAddress, pck)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = device.router.getNextDatabaseHops(destinationAddresses)
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = device.setTimer(durationInNanoSeconds, entity)
     override fun flush() {}
+    override fun resolveHostName(name: String): Int = hostNameLookUpTable[name]!!
 }

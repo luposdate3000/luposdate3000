@@ -31,30 +31,30 @@ public class Application_ParkingSensor(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,
     internal val maxNumber: Int,
-    internal val receiver: Int,
+    internal val receiverName: String,
     internal val ownAddress: Int,
     internal val random: RandomGenerator,
     internal val area: Int,
 ) : IApplicationStack_Actuator, ITimer {
     private lateinit var parent: IApplicationStack_Middleware
     private lateinit var startUpTimeStamp: Instant
+    private var sendingVarianceInSec = 10
+    internal var receiver: Int = -1
     private var eventCounter = 0
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
         startUpTimeStamp = Clock.System.now()
-        parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
+        parent.registerTimer(startClockInSec.toLong() * 1000000000L + random.getLong(0L, sendingVarianceInSec.toLong() * 1000000000L), this)
+        receiver = parent.resolveHostName(receiverName)
     }
-    override fun shutDown() {
-    }
-    override fun receive(pck: IPayload): IPayload? {
-        return pck
-    }
+    override fun shutDown() { }
+    override fun receive(pck: IPayload): IPayload? = pck
     override fun onTimerExpired(clock: Long) {
         if (eventCounter <maxNumber || maxNumber == -1) {
             val sampleTimeObj = startUpTimeStamp.plus(clock, DateTimeUnit.NANOSECOND, TimeZone.UTC).toLocalDateTime(TimeZone.currentSystemDefault())
-            val sampleTime = "${sampleTimeObj.year}-${sampleTimeObj.month.toString().padStart(2, '0')}-${sampleTimeObj.dayOfMonth.toString().padStart(2, '0')}T${sampleTimeObj.hour.toString().padStart(2, '0')}:${sampleTimeObj.minute.toString().padStart(2, '0')}:${sampleTimeObj.second.toString().padStart(2, '0')}.${(sampleTimeObj.nanosecond / 1000000).toString().padStart(3, '0')}"
+            val sampleTime = "${sampleTimeObj.year}-${sampleTimeObj.monthNumber.toString().padStart(2, '0')}-${sampleTimeObj.dayOfMonth.toString().padStart(2, '0')}T${sampleTimeObj.hour.toString().padStart(2, '0')}:${sampleTimeObj.minute.toString().padStart(2, '0')}:${sampleTimeObj.second.toString().padStart(2, '0')}.${(sampleTimeObj.nanosecond / 1000000).toString().padStart(3, '0')}"
             eventCounter++
             parent.send(
                 receiver,
@@ -66,7 +66,7 @@ public class Application_ParkingSensor(
                 )
             )
             parent.flush()
-            parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
+            parent.registerTimer(sendRateInSec.toLong() * 1000000000L + random.getLong(0L, sendingVarianceInSec.toLong() * 1000000000L), this)
         }
     }
 }

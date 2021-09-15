@@ -6,19 +6,30 @@
             "applications": {
                 "DummyDatabase": {},
                 "ParkingSampleReceiver": {},
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": -1,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
                 "QueryResponseReceiver": {},
             },
-            "name": "Fog",
-            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "StandAloneParkingSensor": {
-            "applications": {},
-            "name": "StandAloneParkingSensor",
-            "parkingSensor": "park1",
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": -1,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -66,13 +77,4 @@
         },
     ],
     "rootRouter": "Tower1",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "Tower1",
-            "maxSamples": -1,
-            "name": "park1",
-            "rateInSec": 30,
-        },
-    },
 }

@@ -9,7 +9,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WIRE",
@@ -19,10 +18,17 @@
             "applications": {
                 "DummyDatabase": {},
                 "ParkingSampleReceiver": {},
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": -1,
+                    "name": "park1",
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
                 "QueryResponseReceiver": {},
             },
             "name": "RadioTower",
-            "parkingSensor": "park1",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WIRE",
@@ -74,13 +80,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "",
-    "sensorType": {
-        "park1": {
-            "area": 1,
-            "dataSink": "Tower1",
-            "maxSamples": -1,
-            "name": "park1",
-            "rateInSec": 30,
-        },
-    },
 }

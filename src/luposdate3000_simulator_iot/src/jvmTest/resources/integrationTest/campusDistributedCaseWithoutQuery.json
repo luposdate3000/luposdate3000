@@ -19,7 +19,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Central Tower",
-            "parkingSensor": "",
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -43,7 +42,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 1",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -67,7 +65,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 10",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -91,7 +88,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 2",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -115,7 +111,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 3",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -139,7 +134,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 4",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -163,7 +157,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 5",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -187,7 +180,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 6",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -211,7 +203,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 7",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -235,7 +226,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 8",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -259,7 +249,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Edge Gateway WSN 9",
-            "parkingSensor": "",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -269,7 +258,6 @@
         "Mesh Hop": {
             "applications": {},
             "name": "Mesh Hop",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -277,90 +265,170 @@
             ],
         },
         "Sensor Device WSN 1": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Root WSN 1",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 1",
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 1",
-            "parkingSensor": "Parking Sensor WSN 1",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 10": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 10,
+                    "dataSink": "Root WSN 10",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 10",
+                    "rateInSec": 110,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 10",
-            "parkingSensor": "Parking Sensor WSN 10",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 2": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 2,
+                    "dataSink": "Root WSN 2",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 2",
+                    "rateInSec": 120,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 2",
-            "parkingSensor": "Parking Sensor WSN 2",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 3": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 3,
+                    "dataSink": "Root WSN 3",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 3",
+                    "rateInSec": 100,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 3",
-            "parkingSensor": "Parking Sensor WSN 3",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 4": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 4,
+                    "dataSink": "Root WSN 4",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 4",
+                    "rateInSec": 140,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 4",
-            "parkingSensor": "Parking Sensor WSN 4",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 5": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 5,
+                    "dataSink": "Root WSN 5",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 5",
+                    "rateInSec": 50,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 5",
-            "parkingSensor": "Parking Sensor WSN 5",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 6": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 6,
+                    "dataSink": "Root WSN 6",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 6",
+                    "rateInSec": 120,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 6",
-            "parkingSensor": "Parking Sensor WSN 6",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 7": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 7,
+                    "dataSink": "Root WSN 7",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 7",
+                    "rateInSec": 59,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 7",
-            "parkingSensor": "Parking Sensor WSN 7",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 8": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 8,
+                    "dataSink": "Root WSN 8",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 8",
+                    "rateInSec": 130,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 8",
-            "parkingSensor": "Parking Sensor WSN 8",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 9": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    "area": 9,
+                    "dataSink": "Root WSN 9",
+                    "maxSamples": 3,
+                    "name": "Parking Sensor WSN 9",
+                    "rateInSec": 61,
+                    "sendStartClockInSec": 15,
+                },
+            },
             "name": "Sensor Device WSN 9",
-            "parkingSensor": "Parking Sensor WSN 9",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -565,76 +633,4 @@
         },
     ],
     "rootRouter": "Fog",
-    "sensorType": {
-        "Parking Sensor WSN 1": {
-            "area": 1,
-            "dataSink": "Root WSN 1",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 1",
-            "rateInSec": 60,
-        },
-        "Parking Sensor WSN 10": {
-            "area": 10,
-            "dataSink": "Root WSN 10",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 10",
-            "rateInSec": 110,
-        },
-        "Parking Sensor WSN 2": {
-            "area": 2,
-            "dataSink": "Root WSN 2",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 2",
-            "rateInSec": 120,
-        },
-        "Parking Sensor WSN 3": {
-            "area": 3,
-            "dataSink": "Root WSN 3",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 3",
-            "rateInSec": 100,
-        },
-        "Parking Sensor WSN 4": {
-            "area": 4,
-            "dataSink": "Root WSN 4",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 4",
-            "rateInSec": 140,
-        },
-        "Parking Sensor WSN 5": {
-            "area": 5,
-            "dataSink": "Root WSN 5",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 5",
-            "rateInSec": 50,
-        },
-        "Parking Sensor WSN 6": {
-            "area": 6,
-            "dataSink": "Root WSN 6",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 6",
-            "rateInSec": 120,
-        },
-        "Parking Sensor WSN 7": {
-            "area": 7,
-            "dataSink": "Root WSN 7",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 7",
-            "rateInSec": 59,
-        },
-        "Parking Sensor WSN 8": {
-            "area": 8,
-            "dataSink": "Root WSN 8",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 8",
-            "rateInSec": 130,
-        },
-        "Parking Sensor WSN 9": {
-            "area": 9,
-            "dataSink": "Root WSN 9",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 9",
-            "rateInSec": 61,
-        },
-    },
 }

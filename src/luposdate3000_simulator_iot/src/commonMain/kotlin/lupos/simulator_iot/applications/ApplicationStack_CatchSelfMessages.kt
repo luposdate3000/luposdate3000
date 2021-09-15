@@ -28,12 +28,8 @@ public class ApplicationStack_CatchSelfMessages(
     init {
         child.setRouter(this)
     }
-    override fun startUp() {
-        child.startUp()
-    }
-    override fun shutDown() {
-        child.shutDown()
-    }
+    override fun startUp(): Unit = child.startUp()
+    override fun shutDown(): Unit = child.shutDown()
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
         res.add(child)
@@ -46,9 +42,7 @@ public class ApplicationStack_CatchSelfMessages(
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
-    override fun receive(pck: IPayload): IPayload? {
-        return child.receive(pck)
-    }
+    override fun receive(pck: IPayload): IPayload? = child.receive(pck)
     override fun send(destinationAddress: Int, pck: IPayload) {
         if (ownAddress == destinationAddress) {
             receive(pck)
@@ -56,13 +50,8 @@ public class ApplicationStack_CatchSelfMessages(
             parent.send(destinationAddress, pck)
         }
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        return parent.getNextDatabaseHops(destinationAddresses)
-    }
-    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer) {
-        parent.registerTimer(durationInNanoSeconds, entity)
-    }
-    override fun flush() {
-        parent.flush()
-    }
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = parent.getNextDatabaseHops(destinationAddresses)
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun flush(): Unit = parent.flush()
+    override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
 }

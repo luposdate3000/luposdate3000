@@ -9,7 +9,6 @@
                 "QueryResponseReceiver": {},
             },
             "name": "Fog",
-            "parkingSensor": "",
             "performance": 20.0,
             "supportedLinkTypes": [],
         },
@@ -101,5 +100,4 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
-    "sensorType": {},
 }

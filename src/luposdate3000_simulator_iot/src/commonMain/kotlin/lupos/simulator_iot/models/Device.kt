@@ -42,6 +42,7 @@ public class Device(
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
     applications: Array<IApplicationStack_Actuator>,
+    hostNameLookUpTable: MutableMap<String, Int>,
 ) : Entity() {
     public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
     public val userApplication: IApplicationStack_BothDirections = ApplicationStack_Adapter(
@@ -54,7 +55,8 @@ public class Device(
                     allApplications,
                 )
             )
-        )
+        ),
+        hostNameLookUpTable,
     )
     internal val router: IRoutingProtocol = RPL(this)
     internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
