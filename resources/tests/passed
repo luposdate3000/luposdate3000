@@ -9936,7 +9936,6 @@ resourcesmyqueriesoptional51sparql5 - None - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional51sparql5 - None - Simple - false
 resourcesmyqueriesoptional51sparql5 - None - Simple - true
 resourcesmyqueriesoptional52sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
-resourcesmyqueriesoptional52sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcesmyqueriesoptional52sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 resourcesmyqueriesoptional52sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional52sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
@@ -12160,7 +12159,6 @@ resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
-resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
@@ -15356,7 +15354,6 @@ resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Centra
 resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
 resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
-resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 resourcessp2bq41sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcessp2bq41sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
