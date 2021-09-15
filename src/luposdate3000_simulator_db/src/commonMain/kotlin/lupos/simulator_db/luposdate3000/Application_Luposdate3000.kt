@@ -89,6 +89,7 @@ public class Application_Luposdate3000 public constructor(
     private var rootAddress = ""
     private var rootAddressInt = -1
     private var hadInitDatabaseHopsWithinLuposdate3000 = false
+    private var doWorkFlag = false
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
         if (dbDeviceAddressesStoreList.isEmpty()) {
@@ -221,17 +222,17 @@ public class Application_Luposdate3000 public constructor(
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:223"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:224"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:228"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:229"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:233"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:234"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -269,7 +270,7 @@ public class Application_Luposdate3000 public constructor(
                     hostMap[k] = v.toInt()
                 }
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:271"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:272"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -375,11 +376,10 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:377"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:378"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
-            doWork()
             true
         }
         val target = paths[pck.path]
@@ -581,7 +581,6 @@ public class Application_Luposdate3000 public constructor(
                     )
                     myPendingWork.add(w)
                 }
-                doWork()
             }
         }
     }
@@ -766,87 +765,97 @@ public class Application_Luposdate3000 public constructor(
     }
 
     private fun doWork() {
-        var changed = true
-        while (changed) {
-            changed = false
-            for (w in myPendingWork) {
-                var flag = true
-                for (k in w.dependencies) {
-                    flag = flag && myPendingWorkData.keys.contains(k)
-                }
-                if (flag) {
-                    myPendingWork.remove(w)
-                    changed = true
-                    val query: IQuery
-                    if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
-                        query = Query(instance)
-                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
-                    } else {
-                        query = w.query
-                    }
-                    val node = localXMLElementToOPBase(query, w.operatorGraph)
-                    // println(node)
-                    when (node) {
-                        is POPDistributedSendSingle -> {
-                            // println("$ownAdress ${w.keys.map{it}} executing .. $node")
-                            val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
-                            node.evaluate(out)
-                            out.close()
+        if (!doWorkFlag) {
+            doWorkFlag = true // only one exeution at a time
+            try {
+                var changed = true
+                while (changed) {
+                    changed = false
+                    for (w in myPendingWork) {
+                        var flag = true
+                        for (k in w.dependencies) {
+                            flag = flag && myPendingWorkData.keys.contains(k)
                         }
-                        is POPDistributedSendSingleCount -> {
-                            // println("$ownAdress ${w.keys.map{it}} executing .. $node")
-                            val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
-                            node.evaluate(out)
-                            out.close()
-                        }
-                        is POPDistributedSendMulti -> {
-                            SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:803"/*SOURCE_FILE_END*/ },
-                                { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
-                            )
-                            // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
-                            val out = Array<IMyOutputStream?>(w.keys.size) {
-                                OutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
-                            }
-                            node.evaluate(out)
-                            for (o in out) {
-                                o?.close()
-                            }
-                        }
-                        is OPBaseCompound -> {
-                            // println("$ownAdress root executing .. $node")
-                            if (w.expectedResult != null) {
-                                val buf = MyPrintWriter(false)
-                                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
-                                val buf_err = MyPrintWriter()
-                                if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
-                                    throw Exception(buf_err.toString())
-                                }
-                                w.verifyAction()
-                                if (w.onFinish != null) {
-                                    receive(w.onFinish)
-                                } else {
-                                    router!!.send(w.destinations[0], Package_QueryResponse("success".encodeToByteArray(), w.queryID))
-                                }
+                        if (flag) {
+                            myPendingWork.remove(w)
+                            changed = true
+                            val query: IQuery
+                            if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
+                                query = Query(instance)
+                                query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
                             } else {
-                                val buf = MyPrintWriter(true)
-                                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                                evaluatorInstance(node, buf, false)
-                                if (w.onFinish != null) {
-                                    receive(w.onFinish)
-                                } else {
-                                    router!!.send(w.destinations[0], Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
-                                }
+                                query = w.query
                             }
-                            // println("done executing")
+                            val node = localXMLElementToOPBase(query, w.operatorGraph)
+                            // println(node)
+                            when (node) {
+                                is POPDistributedSendSingle -> {
+                                    // println("$ownAdress ${w.keys.map{it}} executing .. $node")
+                                    val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
+                                    node.evaluate(out)
+                                    out.close()
+                                }
+                                is POPDistributedSendSingleCount -> {
+                                    // println("$ownAdress ${w.keys.map{it}} executing .. $node")
+                                    val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
+                                    node.evaluate(out)
+                                    out.close()
+                                }
+                                is POPDistributedSendMulti -> {
+                                    SanityCheck.check(
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:805"/*SOURCE_FILE_END*/ },
+                                        { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
+                                    )
+                                    // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
+                                    val out = Array<IMyOutputStream?>(w.keys.size) {
+                                        OutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
+                                    }
+                                    node.evaluate(out)
+                                    for (o in out) {
+                                        o?.close()
+                                    }
+                                }
+                                is OPBaseCompound -> {
+                                    // println("$ownAdress root executing .. $node")
+                                    if (w.expectedResult != null) {
+                                        val buf = MyPrintWriter(false)
+                                        val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
+                                        val buf_err = MyPrintWriter()
+                                        if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
+                                            throw Exception(buf_err.toString())
+                                        }
+                                        w.verifyAction()
+                                        if (w.onFinish != null) {
+                                            receive(w.onFinish)
+                                        } else {
+                                            router!!.send(w.destinations[0], Package_QueryResponse("success".encodeToByteArray(), w.queryID))
+                                        }
+                                    } else {
+                                        val buf = MyPrintWriter(true)
+                                        val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                                        evaluatorInstance(node, buf, false)
+                                        if (w.onFinish != null) {
+                                            receive(w.onFinish)
+                                        } else {
+                                            router!!.send(w.destinations[0], Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
+                                        }
+                                    }
+                                    // println("done executing")
+                                }
+                                else -> TODO(node.toString())
+                            }
+                            break
+                        } else {
+                            // println("$ownAdress cannot work at ${w.keys.map{it}}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                         }
-                        else -> TODO(node.toString())
                     }
-                    break
-                } else {
-                    // println("$ownAdress cannot work at ${w.keys.map{it}}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                 }
+            } catch (e: Throwable) {
+                doWorkFlag = false
+                e.printStackTrace()
+                throw e
             }
+            doWorkFlag = false
         }
     }
 
@@ -874,6 +883,7 @@ public class Application_Luposdate3000 public constructor(
         } catch (e: Throwable) {
             throw e
         }
+        doWork()
         return null
     }
     public override fun timerEvent() {}

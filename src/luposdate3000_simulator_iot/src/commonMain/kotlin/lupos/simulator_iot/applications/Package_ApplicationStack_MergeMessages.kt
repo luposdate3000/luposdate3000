@@ -15,20 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-internal class Package_ApplicationStack_Sequence(
-    internal val data: IPayload,
-    internal val num: Int,
-    internal val src: Int,
+package lupos.simulator_iot.applications
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.IPayloadLayer
+internal class Package_ApplicationStack_MergeMessages(
+    internal val data: MutableList<IPayload>,
 ) : IPayloadLayer {
-
-    override fun getSizeInBytes(): Int = data.getSizeInBytes() + 8
-    override fun toString(): String = "Package_ApplicationStack_Sequence($data)"
+    override fun toString(): String = "Package_ApplicationStack_MergeMessages($data)"
+    override fun getSizeInBytes(): Int = data.map { it.getSizeInBytes() }.sum()
     override fun getApplicationPayload(): List<IPayload> {
-        if (data is IPayloadLayer) {
-            return data.getApplicationPayload()
-        } else {
-            return listOf(data)
+        var res = mutableListOf<IPayload>()
+        for (d in data) {
+            if (d is IPayloadLayer) {
+                res.addAll(d.getApplicationPayload())
+            } else {
+                res.add(d)
+            }
         }
+        return res
     }
 }

@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_db
-
-public class ApplicationStack_Logger(
-    private val ownAddress: Int,
-    private val logger: ILogger,
-    private val child: IApplicationStack_Actuator,
-) : IApplicationStack_BothDirections {
+package lupos.simulator_iot.applications
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_BothDirections
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPayload
+public class ApplicationStack_MergeMessages(private val child: IApplicationStack_Actuator) : IApplicationStack_BothDirections {
+    private var cache = mutableMapOf<Int, MutableList<IPayload>>()
     private lateinit var parent: IApplicationStack_Middleware
     init {
         child.setRouter(this)
@@ -44,16 +44,29 @@ public class ApplicationStack_Logger(
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        val res = child.receive(pck)
-        if (res == null) {
-// only if child consumed the message
-            logger.onReceivePackage(ownAddress, pck)
+        if (pck is Package_ApplicationStack_MergeMessages) {
+            for (p in pck.data) {
+                val pp = child.receive(p)
+                if (pp != null) {
+                    return pp
+                }
+            }
+        } else {
+            val pp = child.receive(pck)
+            if (pp != null) {
+                return pp
+            }
         }
-        return res
+        flush()
+        return null
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        logger.onSendPackage(ownAddress, destinationAddress, pck)
-        parent.send(destinationAddress, pck)
+        var c = cache[destinationAddress]
+        if (c == null) {
+            c = mutableListOf()
+            cache[destinationAddress] = c
+        }
+        c.add(pck)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)
@@ -63,6 +76,15 @@ public class ApplicationStack_Logger(
     }
     public override fun timerEvent() {}
     override fun flush() {
+        val cacheLocal = cache
+        cache = mutableMapOf()
+        for ((destinationAddress, pckList) in cacheLocal) {
+            if (pckList.size> 1) {
+                parent.send(destinationAddress, Package_ApplicationStack_MergeMessages(pckList))
+            } else if (pckList.size == 1) {
+                parent.send(destinationAddress, pckList.first())
+            }
+        }
         parent.flush()
     }
 }

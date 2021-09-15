@@ -102,7 +102,6 @@ public class POPSplitPartition public constructor(
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
-        val partitionCount = parent.limit[partitionVariable]!!
         if (partitionCount == 1) {
             // single partition - just pass through
             return children[0].evaluate(parent)

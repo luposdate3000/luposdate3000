@@ -1355,7 +1355,26 @@ BNODEstr - None - Simple - false
 BNODEstr - None - Simple - true
 BNODEstr - Thread - Simple - false
 BNODEstr - Thread - Simple - true
+campusCentralCase_getAllParkingAreas
+campusCentralCase_getAllSpacesOfParkingArea
+campusCentralCase_getAllTriples
+campusCentralCase_getLastResultsOfEachSensorInArea
+campusCentralCase_getLastResultsOfEachSensorInManyAreas
+campusCentralCase_getLastSampleOfSensor
+campusCentralCase_getNumberOfCurrentlyFreeSpacesInArea
+campusCentralCase_getNumberOfParkingAreas
+campusCentralCase_getSampleNumberOfSensor
 campusCentralCaseWithoutQuery
+campusDistributedCase_getAllParkingAreas
+campusDistributedCase_getAllSpacesOfParkingArea
+campusDistributedCase_getAllSpacesOfParkingArea_modified_for_db
+campusDistributedCase_getAllTriples
+campusDistributedCase_getLastResultsOfEachSensorInArea
+campusDistributedCase_getLastResultsOfEachSensorInManyAreas
+campusDistributedCase_getLastSampleOfSensor
+campusDistributedCase_getNumberOfCurrentlyFreeSpacesInArea
+campusDistributedCase_getNumberOfParkingAreas
+campusDistributedCase_getSampleNumberOfSensor
 campusDistributedCaseWithoutQuery
 cannotLinkWithItself
 CEIL - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
@@ -11979,7 +11998,6 @@ resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
-resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
@@ -15212,7 +15230,6 @@ resourcessp2bq3bsparql21 - None - Simple - false
 resourcessp2bq3bsparql21 - None - Simple - true
 resourcessp2bq3bsparql21 - Thread - Simple - false
 resourcessp2bq3bsparql21 - Thread - Simple - true
-resourcessp2bq3bsparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcessp2bq3bsparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq3bsparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq3bsparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
@@ -15309,7 +15326,6 @@ resourcessp2bq3csparql21 - None - Simple - false
 resourcessp2bq3csparql21 - None - Simple - true
 resourcessp2bq3csparql21 - Thread - Simple - false
 resourcessp2bq3csparql21 - Thread - Simple - true
-resourcessp2bq3csparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcessp2bq3csparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq3csparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcessp2bq3csparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
@@ -16185,7 +16201,6 @@ resourcessp2bq67sparql247 - Thread - Simple - false
 resourcessp2bq67sparql247 - Thread - Simple - true
 resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - None
-resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 resourcessp2bq68sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcessp2bq68sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
@@ -16231,7 +16246,6 @@ resourcessp2bq68sparql21 - None - Simple - true
 resourcessp2bq68sparql21 - Thread - Simple - false
 resourcessp2bq68sparql21 - Thread - Simple - true
 resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
-resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
 resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 resourcessp2bq68sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
@@ -16817,7 +16831,6 @@ ROUND - None - Simple - false
 ROUND - None - Simple - true
 ROUND - Thread - Simple - false
 ROUND - Thread - Simple - true
-runMultipleStarNetworkSimulations
 runSimulationWithoutEntities
 run without entities has no effect on clock
 run without sending events has no effect on clock
@@ -21525,7 +21538,6 @@ syntaxupdateother01 - Thread - Simple - false
 syntaxupdateother01 - Thread - Simple - true
 Terminated entity does not receive a message
 test0
-test_1
 test1
 test10
 test100

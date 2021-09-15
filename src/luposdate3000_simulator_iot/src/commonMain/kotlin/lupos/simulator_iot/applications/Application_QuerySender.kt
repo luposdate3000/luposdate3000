@@ -14,39 +14,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_iot.queryproc
+package lupos.simulator_iot.applications
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPackage_Database
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.Package_Query
-import lupos.simulator_iot.models.sensor.ParkingSample
-public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
+public class Application_QuerySender(
+    internal val startClockInSec: Int,
+    internal val sendRateInSec: Int,
+    internal val maxNumberOfQueries: Int,
+    internal val queryPck: IPackage_Database,
+    internal val receiver: Int,
+) : IApplicationStack_Actuator {
+    public constructor(
+        startClockInSec: Int,
+        sendRateInSec: Int,
+        maxNumberOfQueries: Int,
+        query: String,
+        receiver: Int
+    ) : this(startClockInSec, sendRateInSec, maxNumberOfQueries, Package_Query(receiver, query.encodeToByteArray()), receiver)
     private lateinit var parent: IApplicationStack_Middleware
+    private var queryCounter = 0
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
+        parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ParkingSample) {
-            val query = StringBuilder()
-            query.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
-            query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
-            query.appendLine("")
-            query.appendLine("INSERT DATA {")
-            query.appendLine(" _:b0 a parking:Observation ;")
-            query.appendLine(" parking:area \"${pck.area}\"^^xsd:integer ;")
-            query.appendLine(" parking:spotInArea \"${pck.sensorID}\"^^xsd:integer ;")
-            query.appendLine(" parking:isOccupied \"${pck.isOccupied}\"^^xsd:boolean ;")
-            query.appendLine(" parking:resultTime \"${pck.sampleTime}\"^^xsd:dateTime .")
-            query.appendLine("}")
-            parent.send(ownAddress, Package_Query(ownAddress, query.toString().encodeToByteArray()))
-            return null
-        } else {
-            return pck
+        return pck
+    }
+    override fun timerEvent() {
+        if (queryCounter <maxNumberOfQueries || maxNumberOfQueries == -1) {
+            queryCounter++
+            parent.send(receiver, queryPck)
+            parent.flush()
+            parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
         }
     }
-    override fun timerEvent() {}
 }

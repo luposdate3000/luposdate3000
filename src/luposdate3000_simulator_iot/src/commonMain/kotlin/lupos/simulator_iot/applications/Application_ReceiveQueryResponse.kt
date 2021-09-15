@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_iot.queryproc
+package lupos.simulator_iot.applications
 import lupos.shared.inline.File
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware

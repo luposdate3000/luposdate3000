@@ -14,50 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_db
-public class ApplicationStack_MultipleChilds(
-    private var childs: Array<IApplicationStack_Actuator>,
+package lupos.simulator_iot.applications
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_BothDirections
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPayload
+public class ApplicationStack_CatchSelfMessages(
+    private val ownAddress: Int,
+    private val child: IApplicationStack_Actuator,
 ) : IApplicationStack_BothDirections {
-    private var hadStartUp = false
     private lateinit var parent: IApplicationStack_Middleware
     init {
-        for (child in childs) {
-            child.setRouter(this)
-        }
-    }
-    public fun addChild(child: IApplicationStack_Actuator) {
-        val res = Array<IApplicationStack_Actuator>(childs.size + 1) {
-            if (it <childs.size) {
-                childs[it]
-            } else {
-                child
-            }
-        }
-        childs = res
         child.setRouter(this)
-        if (hadStartUp) {
-            child.startUp()
-        }
     }
     override fun startUp() {
-        for (child in childs) {
-            child.startUp()
-        }
-        hadStartUp = true
+        child.startUp()
     }
     override fun shutDown() {
-        for (child in childs) {
-            child.shutDown()
-        }
+        child.shutDown()
     }
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
-        for (child in childs) {
-            res.add(child)
-            val c = child
-            if (c is IApplicationStack_Middleware) {
-                res.addAll(c.getAllChildApplications())
-            }
+        res.add(child)
+        val c = child
+        if (c is IApplicationStack_Middleware) {
+            res.addAll(c.getAllChildApplications())
         }
         return res
     }
@@ -65,16 +46,14 @@ public class ApplicationStack_MultipleChilds(
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        for (child in childs) {
-            val pp = child.receive(pck)
-            if (pp == null) {
-                return null
-            }
-        }
-        return pck
+        return child.receive(pck)
     }
     override fun send(destinationAddress: Int, pck: IPayload) {
-        parent.send(destinationAddress, pck)
+        if (ownAddress == destinationAddress) {
+            receive(pck)
+        } else {
+            parent.send(destinationAddress, pck)
+        }
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
         return parent.getNextDatabaseHops(destinationAddresses)

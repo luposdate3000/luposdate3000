@@ -18,21 +18,21 @@
 package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
-import lupos.simulator_db.ApplicationStack_CatchSelfMessages
-import lupos.simulator_db.ApplicationStack_MergeMessages
-import lupos.simulator_db.ApplicationStack_MultipleChilds
-import lupos.simulator_db.ApplicationStack_Sequence
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
 import lupos.simulator_db.IPayload
 import lupos.simulator_iot.SimulationRun
+import lupos.simulator_iot.applications.ApplicationStack_Adapter
+import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
+import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
+import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
+import lupos.simulator_iot.applications.ApplicationStack_Sequence
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.models.sensor.ISensor
-import lupos.simulator_iot.queryproc.ApplicationStack_Adapter
 import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,

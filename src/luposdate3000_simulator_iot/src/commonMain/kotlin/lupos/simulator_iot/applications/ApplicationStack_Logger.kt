@@ -14,24 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lupos.simulator_iot.queryproc
-
+package lupos.simulator_iot.applications
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
 import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
-import lupos.simulator_iot.models.Device
-
-public class ApplicationStack_Adapter(
-    internal val device: Device,
+public class ApplicationStack_Logger(
+    private val ownAddress: Int,
+    private val logger: ILogger,
     private val child: IApplicationStack_Actuator,
 ) : IApplicationStack_BothDirections {
+    private lateinit var parent: IApplicationStack_Middleware
     init {
         child.setRouter(this)
     }
-    override fun setRouter(router: IApplicationStack_Middleware) {
-        TODO("this must not be called as this is the topmost layer")
+    override fun startUp() {
+        child.startUp()
+    }
+    override fun shutDown() {
+        child.shutDown()
     }
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
@@ -42,32 +44,29 @@ public class ApplicationStack_Adapter(
         }
         return res
     }
-    public override fun receive(pck: IPayload): IPayload? {
-        var res = child.receive(pck)
-        if (res != null) {
-            TODO("$res")
+    override fun setRouter(router: IApplicationStack_Middleware) {
+        parent = router
+    }
+    override fun receive(pck: IPayload): IPayload? {
+        val res = child.receive(pck)
+        if (res == null) {
+// only if child consumed the message
+            logger.onReceivePackage(ownAddress, pck)
         }
-        return null
+        return res
     }
-
-    public override fun startUp() {
-        child.startUp()
-    }
-
-    public override fun shutDown() {
-        child.shutDown()
-    }
-
     override fun send(destinationAddress: Int, pck: IPayload) {
-        device.sendRoutedPackage(device.address, destinationAddress, pck)
+        logger.onSendPackage(ownAddress, destinationAddress, pck)
+        parent.send(destinationAddress, pck)
     }
-
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
-        return device.router.getNextDatabaseHops(destinationAddresses)
+        return parent.getNextDatabaseHops(destinationAddresses)
     }
-    override fun timerEvent() {}
     override fun registerTimer(durationInNanoSeconds: Long, entity: IApplicationStack_Actuator) {
-        device.setTimer(durationInNanoSeconds, entity::timerEvent)
+        parent.registerTimer(durationInNanoSeconds, entity)
     }
-    override fun flush() {}
+    public override fun timerEvent() {}
+    override fun flush() {
+        parent.flush()
+    }
 }
