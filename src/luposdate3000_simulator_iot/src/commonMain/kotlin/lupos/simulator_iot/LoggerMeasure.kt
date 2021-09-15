@@ -35,9 +35,9 @@ import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
+import lupos.simulator_iot.applications.Package_Application_ParkingSample
 import lupos.simulator_iot.models.routing.DAO
 import lupos.simulator_iot.models.routing.DIO
-import lupos.simulator_iot.models.sensor.ParkingSample
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -200,7 +200,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                     data[StatNetworkCounterResponse]++
                 }
             }
-            is ParkingSample -> {
+            is Package_Application_ParkingSample -> {
                 data[StatNetworkTrafficParkingSample] += pck.getSizeInBytes().toDouble()
                 if (dest == hop) {
                     data[StatNetworkCounterParkingSample]++

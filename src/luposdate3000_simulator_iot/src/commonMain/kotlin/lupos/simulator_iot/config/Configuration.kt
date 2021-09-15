@@ -38,8 +38,6 @@ import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
-import lupos.simulator_iot.models.net.MeshNetwork
-import lupos.simulator_iot.models.net.StarNetwork
 import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
@@ -53,11 +51,6 @@ public class Configuration(private val simRun: SimulationRun) {
     public var jsonObjects: JsonObjects = JsonObjects()
         private set
     public var json: JsonParserObject? = null
-    internal var randStarNetworks: MutableMap<String, StarNetwork> = mutableMapOf()
-        private set
-
-    internal var randMeshNetworks: MutableMap<String, MeshNetwork> = mutableMapOf()
-        private set
 
     internal var dbDeviceAddressesStore: IntArray = intArrayOf()
     internal var dbDeviceAddressesQuery: IntArray = intArrayOf()
@@ -137,7 +130,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:139"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:132"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -189,13 +182,9 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
         val origin = createMeshOriginDevice(network)
-        val meshNetwork = MeshNetwork()
-        meshNetwork.networkPrefix = network.networkPrefix
         val nameID = addDeviceName("${network.networkPrefix}_member")
         val linkType = linker.getLinkByName(network.linkType)
-
         var column = createSouthernDevices(origin, linkType, network, network.deviceType, nameID)
-        meshNetwork.mesh[0] = column
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
         var predecessor = origin
         while (restCoverageEast > 0) {
@@ -203,12 +192,8 @@ public class Configuration(private val simRun: SimulationRun) {
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
             predecessor = createDevice(network.deviceType, location, nameID, null)
             column = createSouthernDevices(predecessor, linkType, network, network.deviceType, nameID)
-            meshNetwork.mesh.add(column)
-
             restCoverageEast -= distance
         }
-
-        randMeshNetworks[network.networkPrefix] = meshNetwork
     }
 
     private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceTypeName: String, nameID: Int): MutableList<Device> {
@@ -249,18 +234,14 @@ public class Configuration(private val simRun: SimulationRun) {
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getDeviceByName(network.starRoot)
-        val starNetwork = StarNetwork(root)
-        starNetwork.networkPrefix = network.networkPrefix
-        val childNameID = addDeviceName("${starNetwork.networkPrefix}_child")
+        val childNameID = addDeviceName("${network.networkPrefix}_child")
         val linkType = linker.getLinkByName(network.linkType)
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
             val leaf = createDevice(network.deviceType, location, childNameID, null)
             linker.linkIfPossible(root, leaf)
             leaf.isStarNetworkChild = true
-            starNetwork.children.add(leaf)
         }
-        randStarNetworks[network.networkPrefix] = starNetwork
     }
 
     private fun addDeviceName(name: String): Int {
@@ -282,7 +263,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:284"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:265"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )

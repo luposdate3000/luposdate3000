@@ -19,7 +19,6 @@ import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.Package_Query
-import lupos.simulator_iot.models.sensor.ParkingSample
 public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
     private lateinit var parent: IApplicationStack_Middleware
     override fun setRouter(router: IApplicationStack_Middleware) {
@@ -30,7 +29,7 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ParkingSample) {
+        if (pck is Package_Application_ParkingSample) {
             val query = StringBuilder()
             query.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
             query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")

@@ -76,27 +76,6 @@ class RoutingTableSimulationTest {
         assertEquals(e.address, fRouter.routingTable.fallbackHop)
     }
 
-    @Test
-    fun starNetworkRoutingTables() {
-        val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/starNetworkRoutingTables.json")
-
-        val starNet = config.randStarNetworks["garageA"]!!
-        val root = starNet.root
-        val rootRouter = root.router as RPL
-        val child1 = starNet.children[0]
-        val child1Router = child1.router as RPL
-
-        simRun.startSimulation(config)
-
-        assertEquals(20, rootRouter.routingTable.getDestinations().size)
-        assertEquals(0, child1Router.routingTable.getDestinations().size)
-        assertEquals(root.address, rootRouter.routingTable.fallbackHop)
-        assertEquals(root.address, child1Router.routingTable.fallbackHop)
-        for (child in starNet.children)
-            assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
-    }
-
     /**
      * DB(A) -> B -> DB(C)
      */

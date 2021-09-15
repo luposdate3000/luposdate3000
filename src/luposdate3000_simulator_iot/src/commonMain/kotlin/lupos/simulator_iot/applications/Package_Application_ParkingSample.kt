@@ -15,11 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.net
+package lupos.simulator_iot.applications
 
-import lupos.simulator_iot.models.Device
+import lupos.simulator_db.IPayload
 
-internal class StarNetwork(internal val root: Device) {
-    internal var networkPrefix: String = ""
-    internal var children: MutableList<Device> = mutableListOf()
+internal class Package_Application_ParkingSample(
+    internal val sensorID: Int,
+    internal val sampleTime: String,
+    internal val isOccupied: Boolean,
+    internal val area: Int
+) : IPayload {
+    override fun getSizeInBytes(): Int = 4 + sampleTime.length + 1 + 4
 }
