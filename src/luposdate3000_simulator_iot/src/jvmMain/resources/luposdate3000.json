@@ -1,9 +1,0 @@
-{
-    "database": {
-        "REPLACE_STORE_WITH_VALUES": false,
-        "SharedMemoryDictionaryCheat": true,
-        "mergeLocalOperatorgraphs": true,
-        "type": "Luposdate3000",
-        "useDictionaryInlineEncoding": true,
-    },
-},
