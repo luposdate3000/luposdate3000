@@ -494,13 +494,9 @@ An entity responds to an event with an event
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 bind01  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -573,13 +569,9 @@ bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollation
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 bind02  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -650,7 +642,6 @@ bind02  BIND - Thread - Simple - false
 bind02  BIND - Thread - Simple - true
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
-bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
@@ -659,7 +650,6 @@ bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollation
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process
 bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
-bind03  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
 bind03  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind03  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 bind03  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -826,9 +816,6 @@ bind05  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollation
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
-bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process
-bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process
-bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process
 bind05  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
 bind05  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 bind05  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
@@ -900,7 +887,6 @@ bind05  BIND - Thread - Simple - true
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
-bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
@@ -909,7 +895,6 @@ bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollation
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
-bind06  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
 bind06  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process
 bind06  BIND - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
@@ -1044,7 +1029,6 @@ bind07  BIND - Thread - Simple - true
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
-bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
@@ -1755,7 +1739,6 @@ CLEAR SILENT GRAPH iri - Thread - Simple - false
 CLEAR SILENT GRAPH iri - Thread - Simple - true
 clock equals to the time of occurrence of the last event
 COALESCE - in simulator - PartitionByID_1_AllCollations - Centralized - false - None
-COALESCE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 COALESCE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread
 COALESCE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
 COALESCE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
@@ -1767,7 +1750,6 @@ COALESCE - in simulator - PartitionByID_2_AllCollations - Routing - true - Proce
 COALESCE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 COALESCE - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
 COALESCE - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
-COALESCE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
 COALESCE - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
 COALESCE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread
 COALESCE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process
@@ -2823,7 +2805,6 @@ COUNT 8b - in simulator - PartitionByID_2_AllCollations - Centralized - true - P
 COUNT 8b - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 COUNT 8b - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - false - None
-COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
 COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
 COUNT 8b - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
@@ -2834,7 +2815,6 @@ COUNT 8b - in simulator - PartitionByID_S_AllCollations - Centralized - true - P
 COUNT 8b - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
 COUNT 8b - in simulator - PartitionByID_S_AllCollations - Routing - true - Process
 COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - None
-COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
 COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread
 COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process
 COUNT 8b - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
@@ -6396,7 +6376,6 @@ resourcesmyqueriesoptional14sparql4 - None - Simple - false
 resourcesmyqueriesoptional14sparql4 - None - Simple - true
 resourcesmyqueriesoptional14sparql4 - Thread - Simple - false
 resourcesmyqueriesoptional14sparql4 - Thread - Simple - true
-resourcesmyqueriesoptional14sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 resourcesmyqueriesoptional14sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread
 resourcesmyqueriesoptional14sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - None
 resourcesmyqueriesoptional14sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
@@ -13732,7 +13711,6 @@ resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Cen
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - None
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
-resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
 resourcesmyqueriesx3sparql4 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process
@@ -16516,7 +16494,6 @@ resourcessp2bq7sparql21 - in simulator - PartitionByID_O_AllCollations - Central
 resourcessp2bq7sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - false - None
 resourcessp2bq7sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - None
 resourcessp2bq7sparql21 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread
-resourcessp2bq7sparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread
 resourcessp2bq7sparql21 - in simulator - PartitionByKeyAllCollations - Centralized - true - None
 resourcessp2bq7sparql21 - in simulator - Simple - Centralized - false - None
 resourcessp2bq7sparql21 - in simulator - Simple - Centralized - false - Thread
@@ -16579,13 +16556,10 @@ resourcessp2bq91sparql21 - in simulator - PartitionByID_1_AllCollations - Routin
 resourcessp2bq91sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
-resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
-resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process
-resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process
 resourcessp2bq91sparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process
@@ -16624,9 +16598,7 @@ resourcessp2bq92sparql21 - in simulator - PartitionByID_1_AllCollations - Centra
 resourcessp2bq92sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 resourcessp2bq92sparql21 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
-resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread
 resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
-resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread
 resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcessp2bq92sparql21 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 resourcessp2bq92sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
