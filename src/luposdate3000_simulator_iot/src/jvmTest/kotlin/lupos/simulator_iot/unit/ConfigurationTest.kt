@@ -22,8 +22,6 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class ConfigurationTest {
@@ -37,35 +35,6 @@ class ConfigurationTest {
         val config = SimulationRun().config
         config.parse("$prefix/parseEmptyConfigFile.json")
         assertEquals(0, config.getNumberOfDevices())
-    }
-
-    @Test
-    fun twoDevicesHaveOneConnection() {
-        val config = SimulationRun().config
-        config.parse("$prefix/twoDevicesHaveOneConnection.json")
-        val deviceAName = config.jsonObjects.fixedLink[0].fixedDeviceA
-        val deviceBName = config.jsonObjects.fixedLink[0].fixedDeviceB
-        val deviceA = config.getDeviceByName(deviceAName)
-        val deviceB = config.getDeviceByName(deviceBName)
-
-        assertNotNull(deviceA.linkManager.getLink(deviceB))
-        assertNotNull(deviceB.linkManager.getLink(deviceA))
-    }
-
-    @Test
-    fun twoLinkedDevicesShareTheirLinkObject() {
-        val config = SimulationRun().config
-        config.parse("$prefix/twoLinkedDevicesShareTheirLinkObject.json")
-        val deviceAName = config.jsonObjects.fixedLink[0].fixedDeviceA
-        val deviceBName = config.jsonObjects.fixedLink[0].fixedDeviceB
-        val deviceA = config.getDeviceByName(deviceAName)
-        val deviceB = config.getDeviceByName(deviceBName)
-        val linkA = deviceA.linkManager.getLink(deviceB)
-        val linkB = deviceB.linkManager.getLink(deviceA)
-
-        assertSame(linkA, linkB)
-        linkA!!.distanceInMeters = -1
-        assertEquals(linkB!!.distanceInMeters, -1)
     }
 
     @Test

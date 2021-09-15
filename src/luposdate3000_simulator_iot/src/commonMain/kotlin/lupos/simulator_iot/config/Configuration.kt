@@ -118,22 +118,26 @@ public class Configuration(private val simRun: SimulationRun) {
         if (jsonLoggers.getOrEmptyObject("measure").getOrDefault("enabled", false)) {
             simRun.logger.loggers.add(LoggerMeasure(simRun))
         }
-        linker.sortedLinkTypes = json.getOrEmptyObject("linkType").iterator().asSequence().map {
-            val v = it.second
-            v as JsonParserObject
-            LinkType(
-                it.first,
-                v.getOrDefault("rangeInMeters", 0),
-                v.getOrDefault("dataRateInKbps", 0),
-            )
-        }.toList<LinkType>().toTypedArray()
+// load all link types --->>>
+        linker.setLinkTypes(
+            json.getOrEmptyObject("linkType").iterator().asSequence().map {
+                val v = it.second
+                v as JsonParserObject
+                LinkType(
+                    it.first,
+                    v.getOrDefault("rangeInMeters", 0),
+                    v.getOrDefault("dataRateInKbps", 0),
+                )
+            }.toList<LinkType>().toTypedArray()
+        )
+// load all link types <<<---
         for ((name, fixedDevice) in json.getOrEmptyObject("fixedDevice")) {
             fixedDevice as JsonParserObject
             val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:135"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:139"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -145,18 +149,23 @@ public class Configuration(private val simRun: SimulationRun) {
             device.router.isRoot = true
             rootRouterAddress = device.address
         }
-        for (l in jsonObjects.fixedLink) {
-            val a = getDeviceByName(l.fixedDeviceA)
-            val b = getDeviceByName(l.fixedDeviceB)
-            linker.link(a, b, l.dataRateInKbps)
+// assign all static links --->>>
+        for (l in json.getOrEmptyArray("fixedLink")) {
+            l as JsonParserObject
+            val a = getDeviceByName(l.getOrDefault("fixedDeviceA", ""))
+            val b = getDeviceByName(l.getOrDefault("fixedDeviceB", ""))
+            linker.link(a, b, l.getOrDefault("dataRateInKbps", 0))
         }
+// assign all static links <<<---
         for (network in jsonObjects.randomMeshNetwork) {
             createRandomMeshNetwork(network)
         }
         for (network in jsonObjects.randomStarNetwork) {
             createRandomStarNetwork(network)
         }
+// assign all dynamic links --->>>
         linker.createAvailableLinks(devices)
+// assign all dynamic links <<<---
         dbDeviceAddressesStore = dbDeviceAddressesStoreList.toIntArray()
         dbDeviceAddressesQuery = dbDeviceAddressesQueryList.toIntArray()
         if (autocorrect) {
@@ -273,7 +282,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:275"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:284"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -369,7 +378,7 @@ public class Configuration(private val simRun: SimulationRun) {
             deviceType.getOrDefault("performance", 100.0),
             linkTypes,
             nameIndex,
-            jsonObjects.deterministic,
+            json!!.getOrDefault("deterministic", true),
             applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray(),
             namedAddresses,
         )

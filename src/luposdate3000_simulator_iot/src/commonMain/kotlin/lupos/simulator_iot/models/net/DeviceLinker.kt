@@ -16,109 +16,57 @@
  */
 
 package lupos.simulator_iot.models.net
-import lupos.shared.SanityCheck
+
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.models.Device
 
 internal class DeviceLinker {
-
     internal var numberOfLinks = 0
-        private set
+    private var sortedLinkTypes: Array<LinkType> = emptyArray()
 
-    internal var sortedLinkTypes: Array<LinkType> = emptyArray()
-        set(value) {
-            field = value
-            field.sortByDescending { it.dataRateInKbps }
-        }
-    internal fun getLinkByName(name: String): LinkType {
-        return sortedLinkTypes.filter { it.name == name }.first()
-    }
-    internal fun getSortedLinkTypeIndices(linkTypeNames: List<String>): IntArray {
-        val result = IntArray(linkTypeNames.size) { -1 }
-        for ((index, name) in linkTypeNames.withIndex()) {
-            val indexOfFirst = this.sortedLinkTypes.indexOfFirst { it.name == name }
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/models/net/DeviceLinker.kt:40"/*SOURCE_FILE_END*/ },
-                { indexOfFirst != -1 },
-                { "The LinkType with name '$name' does not exist in the LinkType configuration." },
-            )
-            result[index] = indexOfFirst
-        }
-        result.sort()
-        return result
+    internal fun getLinkByName(name: String): LinkType = sortedLinkTypes.filter { it.name == name }.first()
+    internal fun getSortedLinkTypeIndices(linkTypeNames: List<String>): IntArray = linkTypeNames.map { getLinkByName(it) }.map { sortedLinkTypes.indexOf(it) }.sorted().toIntArray()
+
+    internal fun setLinkTypes(types: Array<LinkType>) {
+        sortedLinkTypes = types.sortedByDescending { it.dataRateInKbps }.toTypedArray()
     }
 
     internal fun createAvailableLinks(devices: MutableList<Device>) {
-        for (one in devices)
-            for (two in devices)
+        for (one in devices) {
+            for (two in devices) {
                 if (!one.isStarNetworkChild && !two.isStarNetworkChild) {
                     linkIfPossible(one, two)
                 }
+            }
+        }
     }
 
     internal fun linkIfPossible(one: Device, two: Device) {
-        if (one == two) {
-            return
-        }
-
-        if (one.linkManager.hasLink(two)) {
-            return
-        }
-
-        if (two.linkManager.hasLink(one)) {
-            throw IllegalStateException("$one has a link with $two but that is wrongly not the other way around")
-        }
-
-        val link = getBestLink(one, two) ?: return
-        link(one, two, link)
-    }
-
-    internal fun getBestLink(one: Device, two: Device): Link? {
-        val linkIndex = getBestLinkTypeIndex(one, two)
-        if (linkIndex == -1) {
-            return null
-        }
-
-        val distance = getDistanceInMeters(one, two)
-        val dataRate = sortedLinkTypes[linkIndex].dataRateInKbps
-        return Link(distance, linkIndex, dataRate)
-    }
-
-    internal fun getDistanceInMeters(one: Device, two: Device): Int =
-        one.location.getDistanceInMeters(two.location)
-
-    internal fun getBestLinkTypeIndex(one: Device, two: Device): Int {
-        val oneIndices = one.linkManager.supportedLinkTypes
-        val twoIndices = two.linkManager.supportedLinkTypes
-
-        for (i in oneIndices)
-            for (i2 in twoIndices)
-                if (i == i2) {
-                    if (isReachable(sortedLinkTypes[i], one, two)) {
-                        return i
+        if (one != two && !one.linkManager.hasLink(two)) {
+            val distance = getDistanceInMeters(one, two)
+            val oneIndices = one.linkManager.supportedLinkTypes
+            val twoIndices = two.linkManager.supportedLinkTypes
+            loop@ for (i in oneIndices) {
+                for (i2 in twoIndices) {
+                    if (i == i2) {
+                        if (distance <= sortedLinkTypes[i].rangeInMeters) {
+                            link(one, two, Link(distance, i, sortedLinkTypes[i].dataRateInKbps))
+                            return
+                        }
                     }
                 }
-
-        return -1
+            }
+        }
     }
 
-    internal fun isReachable(linkType: LinkType, one: Device, two: Device): Boolean {
-        val distance = getDistanceInMeters(one, two)
-        return distance <= linkType.rangeInMeters
-    }
+    internal fun getDistanceInMeters(one: Device, two: Device): Int = one.location.getDistanceInMeters(two.location)
 
     internal fun link(one: Device, two: Device, dataRate: Int) {
         val distance = getDistanceInMeters(one, two)
-        val link = Link(distance, -1, dataRate)
-        link(one, two, link)
+        link(one, two, Link(distance, -1, dataRate))
     }
 
     internal fun link(one: Device, two: Device, link: Link) {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/models/net/DeviceLinker.kt:117"/*SOURCE_FILE_END*/ },
-            { one != two },
-            { "Self link is not allowed" }
-        )
         one.linkManager.links[two.address] = link
         two.linkManager.links[one.address] = link
         numberOfLinks++

@@ -18,11 +18,12 @@
 package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
+import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
+import lupos.simulator_db.IApplicationStack_Middleware
 import lupos.simulator_db.IPayload
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.applications.ApplicationStack_Adapter
 import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
 import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
 import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
@@ -42,11 +43,10 @@ public class Device(
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
     applications: Array<IApplicationStack_Actuator>,
-    hostNameLookUpTable: MutableMap<String, Int>,
-) : Entity() {
+    internal val hostNameLookUpTable: MutableMap<String, Int>,
+) : Entity(), IApplicationStack_Middleware {
     public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
-    public val userApplication: IApplicationStack_BothDirections = ApplicationStack_Adapter(
-        this,
+    public val userApplication: IApplicationStack_BothDirections =
         ApplicationStack_Sequence(
             address,
             ApplicationStack_MergeMessages(
@@ -55,14 +55,22 @@ public class Device(
                     allApplications,
                 )
             )
-        ),
-        hostNameLookUpTable,
-    )
+        )
     internal val router: IRoutingProtocol = RPL(this)
-    internal val linkManager: LinkManager = LinkManager(this, supportedLinkTypes)
+    internal val linkManager: LinkManager = LinkManager(supportedLinkTypes)
     internal var isStarNetworkChild: Boolean = false
-
     private lateinit var deviceStart: Instant
+
+    init {
+        userApplication.setRouter(this)
+    }
+
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>(userApplication)
+        res.addAll(userApplication.getAllChildApplications())
+        return res
+    }
+
     private fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         return if (destinationAddress == address) {
             getProcessingDelay()
@@ -85,13 +93,12 @@ public class Device(
 
     override fun onStartUp() {
         deviceStart = TimeUtils.stamp()
-        userApplication?.startUp()
+        userApplication.startUp()
         router.startRouting()
     }
 
     override fun onSteadyState() {
     }
-
     override fun onEvent(source: Entity, data: Any) {
         val pck = data as NetworkPackage
         simRun.logger.onReceiveNetworkPackage(address, pck.payload)
@@ -121,16 +128,14 @@ public class Device(
                 if (hop != -1) {
                     simRun.logger.addConnectionTable(address, dest, hop)
                 }
-                if (userApplication != null) {
-                    val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
-                    if (dbhop != -1) {
-                        simRun.logger.addConnectionTableDB(address, dest, dbhop)
-                    }
+                val dbhop = router.getNextDatabaseHops(intArrayOf(dest))[0]
+                if (dbhop != -1) {
+                    simRun.logger.addConnectionTableDB(address, dest, dbhop)
                 }
             } catch (e: Throwable) {
             }
         }
-        userApplication?.shutDown()
+        userApplication.shutDown()
     }
 
     private fun forwardPackage(pck: NetworkPackage) {
@@ -158,26 +163,17 @@ public class Device(
         simRun.logger.onSendNetworkPackage(address, dest, hop, pck.payload, delay)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other === this) {
-            return true
-        }
-
-        if (other !is Device) {
-            return false
-        }
-
-        return address == other.address
-    }
-
-    override fun hashCode(): Int {
-        return address
-    }
+    override fun equals(other: Any?): Boolean = other is Device && address == other.address
+    override fun hashCode(): Int = address
 
     override fun toString(): String {
         return "Device(addr $address, name '${simRun.config.getDeviceName(deviceNameID)}')"
     }
-
+    override fun send(destinationAddress: Int, pck: IPayload): Unit = sendRoutedPackage(address, destinationAddress, pck)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = router.getNextDatabaseHops(destinationAddresses)
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = setTimer(durationInNanoSeconds, entity)
+    override fun flush() {}
+    override fun resolveHostName(name: String): Int = hostNameLookUpTable[name]!!
     internal companion object {
         internal var packageCounter: Int = 0
             private set

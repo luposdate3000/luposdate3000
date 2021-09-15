@@ -25,7 +25,6 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DeviceLinkerTest {
@@ -54,47 +53,11 @@ class DeviceLinkerTest {
     }
 
     @Test
-    fun isReachAble() {
-        val one: Device = Stubs.createEmptyDevice(1)
-        val two: Device = Stubs.createEmptyDevice(2)
-        val distance = 51
-        two.location = GeoLocation.createNorthernLocation(one.location, distance)
-        val linkType = LinkType(rangeInMeters = 52)
-        val actual = DeviceLinker().isReachable(linkType, one, two)
-        assertTrue(actual)
-    }
-
-    @Test
-    fun isNotReachAble() {
-        val one: Device = Stubs.createEmptyDevice(1)
-        val two: Device = Stubs.createEmptyDevice(2)
-        val distance = 51
-        two.location = GeoLocation.createNorthernLocation(one.location, distance)
-        val linkType = LinkType(rangeInMeters = 50)
-        val actual = DeviceLinker().isReachable(linkType, one, two)
-        assertFalse(actual)
-    }
-
-    @Test
     fun cannotLinkWithItself() {
         val deviceLinker = DeviceLinker()
         val device: Device = Stubs.createEmptyDevice(0, intArrayOf(0))
         deviceLinker.linkIfPossible(device, device)
         assertFalse(device.linkManager.hasLink(device))
-    }
-
-    @Test
-    fun sortLinkTypesByDataRate() {
-        val deviceLinker = DeviceLinker()
-        val linkTypeW = LinkType("W", 51, 13)
-        val linkTypeX = LinkType("X", 50, 20)
-        val linkTypeY = LinkType("Y", 50, 1)
-        val linkTypeZ = LinkType("Z", 48, 40)
-        deviceLinker.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
-        assertEquals(linkTypeZ, deviceLinker.sortedLinkTypes[0])
-        assertEquals(linkTypeX, deviceLinker.sortedLinkTypes[1])
-        assertEquals(linkTypeW, deviceLinker.sortedLinkTypes[2])
-        assertEquals(linkTypeY, deviceLinker.sortedLinkTypes[3])
     }
 
     @Test
@@ -104,7 +67,7 @@ class DeviceLinkerTest {
         val linkTypeX = LinkType("X", 50, 20)
         val linkTypeY = LinkType("Y", 50, 1)
         val linkTypeZ = LinkType("Z", 48, 40)
-        deviceLinker.sortedLinkTypes = arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
+        deviceLinker.setLinkTypes(arrayOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ))
         val actual1 = deviceLinker.getSortedLinkTypeIndices(listOf("W"))
         val actual2 = deviceLinker.getSortedLinkTypeIndices(listOf("W", "Z"))
         val actual3 = deviceLinker.getSortedLinkTypeIndices(listOf("Z", "Y", "X"))
@@ -115,42 +78,12 @@ class DeviceLinkerTest {
     }
 
     @Test
-    fun deviceWithoutLinkTypeCanNotLink() {
-        val deviceLinker = DeviceLinker()
-        val linkType = LinkType("X")
-        deviceLinker.sortedLinkTypes = arrayOf(linkType)
-        val one: Device = Stubs.createEmptyDevice(1)
-        val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
-
-        assertEquals(-1, deviceLinker.getBestLinkTypeIndex(one, two))
-        assertNull(deviceLinker.getBestLink(one, two))
-        deviceLinker.linkIfPossible(one, two)
-        assertFalse(one.linkManager.hasLink(two))
-    }
-
-    @Test
-    fun tooFarAwayToLink() {
-        val deviceLinker = DeviceLinker()
-        val linkTypeX = LinkType("X", 50, 7)
-        deviceLinker.sortedLinkTypes = arrayOf(linkTypeX)
-        val one: Device = Stubs.createEmptyDevice(1, intArrayOf(0))
-        val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0))
-        val distance = 51
-        two.location = GeoLocation.createNorthernLocation(one.location, distance)
-
-        assertEquals(-1, deviceLinker.getBestLinkTypeIndex(one, two))
-        assertNull(deviceLinker.getBestLink(one, two))
-        deviceLinker.linkIfPossible(one, two)
-        assertFalse(one.linkManager.hasLink(two))
-    }
-
-    @Test
     fun `two devices link with most suitable linkType`() {
         val deviceLinker = DeviceLinker()
         val linkTypeX = LinkType("X", 50, 7)
         val linkTypeY = LinkType("Y", 50, 8)
         val linkTypeZ = LinkType("Z", 48, 9)
-        deviceLinker.sortedLinkTypes = arrayOf(linkTypeX, linkTypeY, linkTypeZ)
+        deviceLinker.setLinkTypes(arrayOf(linkTypeX, linkTypeY, linkTypeZ))
         val one: Device = Stubs.createEmptyDevice(1, intArrayOf(0, 1, 2))
         val two: Device = Stubs.createEmptyDevice(2, intArrayOf(0, 1, 2))
         two.location = GeoLocation.createNorthernLocation(one.location, 49)
@@ -165,7 +98,7 @@ class DeviceLinkerTest {
         val linkTypeX = LinkType("X", 50, 20)
         val linkTypeY = LinkType("Y", 50, 8)
         val linkTypeZ = LinkType("Z", 50, 400)
-        deviceLinker.sortedLinkTypes = arrayOf(linkTypeX, linkTypeY, linkTypeZ)
+        deviceLinker.setLinkTypes(arrayOf(linkTypeX, linkTypeY, linkTypeZ))
 
         val oneSupportedLTypes = deviceLinker.getSortedLinkTypeIndices(listOf("X", "Y"))
         val one: Device = Stubs.createEmptyDevice(1, oneSupportedLTypes)

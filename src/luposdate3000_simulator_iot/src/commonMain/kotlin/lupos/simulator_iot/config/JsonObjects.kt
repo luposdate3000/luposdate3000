@@ -20,8 +20,6 @@
 package lupos.simulator_iot.config
 import lupos.parser.JsonParserObject
 public class JsonObjects {
-    public var deterministic: Boolean
-    public val fixedLink: MutableList<FixedLink>
     public val randomMeshNetwork: MutableList<RandomMeshNetwork>
     public val randomStarNetwork: MutableList<RandomStarNetwork>
     public val json: JsonParserObject
@@ -29,8 +27,6 @@ public class JsonObjects {
     public constructor() : this(JsonParserObject(mutableMapOf()))
     public constructor(data: JsonParserObject) {
         json = data
-        deterministic = data.getOrDefault("deterministic", true)
-        fixedLink = data.getOrEmptyArray("fixedLink").map { FixedLink(it as JsonParserObject) }
         randomMeshNetwork = data.getOrEmptyArray("randomMeshNetwork").map { RandomMeshNetwork(it as JsonParserObject) }
         randomStarNetwork = data.getOrEmptyArray("randomStarNetwork").map { RandomStarNetwork(it as JsonParserObject) }
     }
@@ -41,17 +37,6 @@ public class LinkType(
     public var rangeInMeters: Int = 0,
     public val dataRateInKbps: Int = 0,
 )
-
-public class FixedLink {
-    public val fixedDeviceA: String
-    public val fixedDeviceB: String
-    public val dataRateInKbps: Int
-    public constructor(data: JsonParserObject) {
-        fixedDeviceA = data.getOrDefault("fixedDeviceA", "")
-        fixedDeviceB = data.getOrDefault("fixedDeviceB", "")
-        dataRateInKbps = data.getOrDefault("dataRateInKbps", 0)
-    }
-}
 
 public class RandomStarNetwork {
     public val networkPrefix: String
