@@ -161,6 +161,21 @@ public class Literalwithlanguagetagtest {
     }
 
     @Test
+    public fun `Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Test
     public fun `Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -499,6 +514,21 @@ public class Literalwithlanguagetagtest {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Test
+    public fun `Literal with language tag test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Thread",
             )

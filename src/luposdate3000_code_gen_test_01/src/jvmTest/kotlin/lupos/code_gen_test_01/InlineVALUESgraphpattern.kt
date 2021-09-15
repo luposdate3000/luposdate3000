@@ -151,6 +151,21 @@ public class InlineVALUESgraphpattern {
     }
 
     @Test
+    public fun `Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Test
     public fun `Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",

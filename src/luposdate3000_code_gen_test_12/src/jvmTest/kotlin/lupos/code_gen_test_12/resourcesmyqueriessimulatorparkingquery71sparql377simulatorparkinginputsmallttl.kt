@@ -93,6 +93,21 @@ public class resourcesmyqueriessimulatorparkingquery71sparql377simulatorparkingi
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - Simple - false`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

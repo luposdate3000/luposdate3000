@@ -236,6 +236,21 @@ public class MONTH {
     }
 
     @Test
+    public fun `MONTH - in simulator - PartitionByID_1_AllCollations - Routing - true - Process`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            )
+        )
+    }
+
+    @Test
     public fun `MONTH - in simulator - PartitionByID_1_AllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",

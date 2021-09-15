@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_gen_test_04
+package lupos.code_gen_test_03
 import lupos.operator.base.Query
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
@@ -26,12 +26,12 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcessp2bq3asparql973 {
+public class resourcessp2bq91sparql700 {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcessp2bq3asparql973.input").readAsString(),
+        File("src/jvmTest/resources/resourcessp2bq91sparql700.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcessp2bq3asparql973.input",
+        "src/jvmTest/resources/resourcessp2bq91sparql700.input",
     )
     internal val inputGraph = arrayOf(
         "",
@@ -39,25 +39,28 @@ public class resourcessp2bq3asparql973 {
     internal val inputType = arrayOf(
         ".n3",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcessp2bq3asparql973.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/resourcessp2bq91sparql700.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX bench: <http://localhost/vocabulary/bench/> \n" +
-        "PREFIX swrc:  <http://swrc.ontoware.org/ontology#> \n" +
-        "SELECT ?article \n" +
+    internal val query = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+        "SELECT ?predicate \n" +
         "WHERE { \n" +
-        "  ?article rdf:type bench:Article . \n" +
-        "  ?article ?property ?value . \n" +
-        "  FILTER (?property=swrc:pages) \n" +
+        "  { \n" +
+        "    ?person rdf:type foaf:Person . \n" +
+        "    ?subject ?predicate ?person \n" +
+        "  } UNION { \n" +
+        "    ?person rdf:type foaf:Person . \n" +
+        "    ?person ?predicate ?object \n" +
+        "  } \n" +
         "} \n" +
         ""
 
     @Test
-    public fun `resourcessp2bq3asparql973 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process`() {
+    public fun `resourcessp2bq91sparql700 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,

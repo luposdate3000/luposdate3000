@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_gen_test_14
+package lupos.code_gen_test_05
 import lupos.operator.base.Query
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
@@ -26,12 +26,12 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcessp2bq12b1sparql700 {
+public class resourcessp2bq12asparql973 {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcessp2bq12b1sparql700.input").readAsString(),
+        File("src/jvmTest/resources/resourcessp2bq12asparql973.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcessp2bq12b1sparql700.input",
+        "src/jvmTest/resources/resourcessp2bq12asparql973.input",
     )
     internal val inputGraph = arrayOf(
         "",
@@ -39,36 +39,32 @@ public class resourcessp2bq12b1sparql700 {
     internal val inputType = arrayOf(
         ".n3",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcessp2bq12b1sparql700.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/resourcessp2bq12asparql973.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  \n" +
-        "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
-        "PREFIX dc:   <http://purl.org/dc/elements/1.1/> \n" +
-        "SELECT * { \n" +
-        "  ?erdoes rdf:type foaf:Person . \n" +
-        "  ?erdoes foaf:name \"Paul Erdoes\"^^xsd:string . \n" +
-        "    ?document dc:creator ?erdoes . \n" +
-        "    ?document dc:creator ?author . \n" +
-        "    ?document2 dc:creator ?author . \n" +
-        "    ?document2 dc:creator ?author2 . \n" +
-        "    ?author2 foaf:name ?name . \n" +
-        "    FILTER (?author!=?erdoes && \n" +
-        "            ?document2!=?document && \n" +
-        "            ?author2!=?erdoes && \n" +
-        "            ?author2!=?author) \n" +
+    internal val query = "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX foaf:  <http://xmlns.com/foaf/0.1/> \n" +
+        "PREFIX bench: <http://localhost/vocabulary/bench/> \n" +
+        "PREFIX dc:    <http://purl.org/dc/elements/1.1/> \n" +
+        "ASK { \n" +
+        "  ?article rdf:type bench:Article . \n" +
+        "  ?article dc:creator ?person1 . \n" +
+        "  ?inproc  rdf:type bench:Inproceedings . \n" +
+        "  ?inproc  dc:creator ?person2 . \n" +
+        "  ?person1 foaf:name ?name1 . \n" +
+        "  ?person2 foaf:name ?name2 . \n" +
+        "  FILTER (?name1=?name2) \n" +
         "} \n" +
         ""
 
     @Test
-    public fun `resourcessp2bq12b1sparql700 - in simulator - Simple - Centralized - true - None`() {
+    public fun `resourcessp2bq12asparql973 - in simulator - Simple - Centralized - false - None`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "None",
             )
@@ -76,37 +72,82 @@ public class resourcessp2bq12b1sparql700 {
     }
 
     @Test
-    public fun `resourcessp2bq12b1sparql700 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process`() {
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Test
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "Thread",
             )
         )
     }
 
     @Test
-    public fun `resourcessp2bq12b1sparql700 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "Thread",
             )
         )
     }
 
     @Test
-    public fun `resourcessp2bq12b1sparql700 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Test
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            )
+        )
+    }
+
+    @Test
+    public fun `resourcessp2bq12asparql973 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(

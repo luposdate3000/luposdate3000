@@ -260,21 +260,6 @@ public class resourcesmyqueriesoptional30sparql4 {
     }
 
     @Test
-    public fun `resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Thread",
-            )
-        )
-    }
-
-    @Test
     public fun `resourcesmyqueriesoptional30sparql4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",

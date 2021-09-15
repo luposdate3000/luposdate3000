@@ -26,12 +26,12 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcessp2bq3csparql1294 {
+public class resourcessp2bq3asparql973 {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcessp2bq3csparql1294.input").readAsString(),
+        File("src/jvmTest/resources/resourcessp2bq3asparql973.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcessp2bq3csparql1294.input",
+        "src/jvmTest/resources/resourcessp2bq3asparql973.input",
     )
     internal val inputGraph = arrayOf(
         "",
@@ -39,90 +39,30 @@ public class resourcessp2bq3csparql1294 {
     internal val inputType = arrayOf(
         ".n3",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcessp2bq3csparql1294.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/resourcessp2bq3asparql973.output").readAsString()
     internal val targetType = ".srx"
     internal val query = "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX swrc:  <http://swrc.ontoware.org/ontology#> \n" +
         "PREFIX bench: <http://localhost/vocabulary/bench/> \n" +
+        "PREFIX swrc:  <http://swrc.ontoware.org/ontology#> \n" +
         "SELECT ?article \n" +
         "WHERE { \n" +
         "  ?article rdf:type bench:Article . \n" +
         "  ?article ?property ?value . \n" +
-        "  FILTER (?property=swrc:isbn) \n" +
+        "  FILTER (?property=swrc:pages) \n" +
         "} \n" +
         ""
 
     @Test
-    public fun `resourcessp2bq3csparql1294 - in simulator - Simple - Centralized - true - None`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            )
-        )
-    }
-
-    @Test
-    public fun `resourcessp2bq3csparql1294 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process`() {
+    public fun `resourcessp2bq3asparql973 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test
-    public fun `resourcessp2bq3csparql1294 - in simulator - PartitionByKeyAllCollations - Routing - false - Process`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
-        )
-    }
-
-    @Test
-    public fun `resourcessp2bq3csparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Thread",
-            )
-        )
-    }
-
-    @Test
-    public fun `resourcessp2bq3csparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Thread",
             )
         )
     }
