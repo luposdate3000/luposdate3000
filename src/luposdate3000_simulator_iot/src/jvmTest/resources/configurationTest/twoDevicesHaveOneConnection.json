@@ -8,7 +8,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "Fog",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WIRE",
@@ -22,13 +21,11 @@
                     "area": 1,
                     "dataSink": "Tower1",
                     "maxSamples": -1,
-                    "name": "park1",
                     "rateInSec": 30,
                     "sendStartClockInSec": 15,
                 },
                 "QueryResponseReceiver": {},
             },
-            "name": "RadioTower",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WIRE",
@@ -41,14 +38,12 @@
             "deviceType": "Fog",
             "latitude": 53.83410604011873,
             "longitude": 10.702721833240291,
-            "name": "Fog1",
         },
         "Tower1": {
             "applications": {},
             "deviceType": "RadioTower",
             "latitude": 53.83490706177371,
             "longitude": 10.692555029863962,
-            "name": "Tower1",
         },
     },
     "fixedLink": [
@@ -61,7 +56,6 @@
     "linkType": {
         "WIRE": {
             "dataRateInKbps": 1000,
-            "name": "WIRE",
             "rangeInMeters": 100000,
         },
     },

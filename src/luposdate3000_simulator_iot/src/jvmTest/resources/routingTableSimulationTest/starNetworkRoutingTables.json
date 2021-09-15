@@ -8,7 +8,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "Fog",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -24,7 +23,6 @@
                     "sendStartClockInSec": 15,
                 },
             },
-            "name": "StandAloneParkingSensor",
             "performance": 2.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -37,14 +35,12 @@
             "deviceType": "Fog",
             "latitude": 53.640454118715894,
             "longitude": 10.179179491574411,
-            "name": "Tower1",
         },
     },
     "fixedLink": [],
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 30,
         },
     },

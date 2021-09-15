@@ -42,14 +42,12 @@
             "deviceType": "Fog",
             "latitude": 3.0,
             "longitude": 3.0,
-            "name": "Tower1",
         },
     },
     "fixedLink": [],
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 30,
         },
     },

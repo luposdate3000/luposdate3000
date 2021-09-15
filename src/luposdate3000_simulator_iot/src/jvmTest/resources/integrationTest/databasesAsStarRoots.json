@@ -4,7 +4,6 @@
     "deviceType": {
         "EdgeGatewayDevice": {
             "applications": {},
-            "name": "EdgeGatewayDevice",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -27,7 +26,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "EdgeGatewayDevice_1",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -50,7 +48,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "EdgeGatewayDevice_2",
             "performance": 32.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -73,7 +70,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "FogTower",
             "performance": 110.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -86,12 +82,10 @@
                     "area": 1,
                     "dataSink": "Gateway of WSN 1",
                     "maxSamples": 10,
-                    "name": "park1",
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,
                 },
             },
-            "name": "ParkingSensorDevice_1",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -103,12 +97,10 @@
                     "area": 2,
                     "dataSink": "Gateway of WSN 2",
                     "maxSamples": 10,
-                    "name": "park2",
                     "rateInSec": 32,
                     "sendStartClockInSec": 15,
                 },
             },
-            "name": "ParkingSensorDevice_2",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -121,33 +113,28 @@
             "deviceType": "FogTower",
             "latitude": 53.83831534459554,
             "longitude": 10.698774930618905,
-            "name": "Fog",
         },
         "Gateway of WSN 1": {
             "applications": {},
             "deviceType": "EdgeGatewayDevice_1",
             "latitude": 53.838474484901376,
             "longitude": 10.695081476709452,
-            "name": "Gateway of WSN 1",
         },
         "Gateway of WSN 2": {
             "applications": {},
             "deviceType": "EdgeGatewayDevice_2",
             "latitude": 53.83744253948933,
             "longitude": 10.694834809499191,
-            "name": "Gateway of WSN 2",
         },
     },
     "fixedLink": [],
     "linkType": {
         "WLAN": {
             "dataRateInKbps": 25000,
-            "name": "WLAN",
             "rangeInMeters": 50,
         },
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 30,
         },
     },

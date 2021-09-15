@@ -4,7 +4,6 @@
     "deviceType": {
         "Fog": {
             "applications": {},
-            "name": "Fog",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -16,7 +15,6 @@
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 10,
         },
     },

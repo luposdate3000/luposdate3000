@@ -12,17 +12,15 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true,
+                    "useDictionaryInlineEncoding": true
                 },
                 "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "QueryResponseReceiver": {}
             },
-            "name": "Edge Gateway WSN 1",
-            
             "performance": 30.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Edge Gateway WSN 2": {
             "applications": {
@@ -35,17 +33,15 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true,
+                    "useDictionaryInlineEncoding": true
                 },
                 "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "QueryResponseReceiver": {}
             },
-            "name": "Edge Gateway WSN 2",
-            
             "performance": 30.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Edge Gateway WSN 3": {
             "applications": {
@@ -58,17 +54,15 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true,
+                    "useDictionaryInlineEncoding": true
                 },
                 "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "QueryResponseReceiver": {}
             },
-            "name": "Edge Gateway WSN 3",
-            
             "performance": 30.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Edge Gateway WSN 4": {
             "applications": {
@@ -81,187 +75,170 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true,
+                    "useDictionaryInlineEncoding": true
                 },
                 "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "QueryResponseReceiver": {}
             },
-            "name": "Edge Gateway WSN 4",
-            
             "performance": 30.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Mesh Hop": {
-            "name": "Mesh Hop",
-            
             "performance": 20.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Sensor Device WSN 1": {
-"applications": {
-"ParkingSensor":{
- "area": 1,
-            "dataSink": "Root WSN 1",
-"sendStartClockInSec": 15,
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 1",
-            "rateInSec": 60,},
-},
-            "name": "Sensor Device WSN 1",
+            "applications": {
+                "ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Root WSN 1",
+                    "sendStartClockInSec": 15,
+                    "maxSamples": 3,
+                    "rateInSec": 60
+                }
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Sensor Device WSN 2": {
-"applications": {
-"ParkingSensor":{
-"area": 2,
-            "dataSink": "Root WSN 2",
-"sendStartClockInSec": 15,
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 2",
-            "rateInSec": 120,},
-},
-            "name": "Sensor Device WSN 2",
+            "applications": {
+                "ParkingSensor": {
+                    "area": 2,
+                    "dataSink": "Root WSN 2",
+                    "sendStartClockInSec": 15,
+                    "maxSamples": 3,
+                    "rateInSec": 120
+                }
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Sensor Device WSN 3": {
-"applications": {
-"ParkingSensor":{
-"area": 3,
-"sendStartClockInSec": 15,
-            "dataSink": "Root WSN 3",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 3",
-            "rateInSec": 100,},
-},
-            "name": "Sensor Device WSN 3",
+            "applications": {
+                "ParkingSensor": {
+                    "area": 3,
+                    "sendStartClockInSec": 15,
+                    "dataSink": "Root WSN 3",
+                    "maxSamples": 3,
+                    "rateInSec": 100
+                }
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
+                "WPAN"
+            ]
         },
         "Sensor Device WSN 4": {
-"applications": {
-"ParkingSensor":{
-"area": 4,
-"sendStartClockInSec": 15,
-            "dataSink": "Root WSN 4",
-            "maxSamples": 3,
-            "name": "Parking Sensor WSN 4",
-            "rateInSec": 100,},
-},
-            "name": "Sensor Device WSN 4",
+            "applications": {
+                "ParkingSensor": {
+                    "area": 4,
+                    "sendStartClockInSec": 15,
+                    "dataSink": "Root WSN 4",
+                    "maxSamples": 3,
+                    "rateInSec": 100
+                }
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
+                "WPAN"
+            ]
+        }
     },
     "fixedDevice": {
         "HOP 12": {
             "deviceType": "Mesh Hop",
             "latitude": 0.002,
-            "longitude": 5.0E-4,
-            "name": "HOP 12",
+            "longitude": 5.0E-4
         },
         "HOP 23": {
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
-            "longitude": 0.0015,
-            "name": "HOP 23",
+            "longitude": 0.0015
         },
         "HOP 24": {
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
-            "longitude": 0.0015,
-            "name": "HOP 24",
+            "longitude": 0.0015
         },
         "Root WSN 1": {
             "deviceType": "Edge Gateway WSN 1",
             "latitude": 0.002,
-            "longitude": 0.0,
-            "name": "Root WSN 1",
+            "longitude": 0.0
         },
         "Root WSN 2": {
             "deviceType": "Edge Gateway WSN 2",
             "latitude": 0.002,
-            "longitude": 0.001,
-            "name": "Root WSN 2",
+            "longitude": 0.001
         },
         "Root WSN 3": {
             "deviceType": "Edge Gateway WSN 3",
             "latitude": 0.001,
-            "longitude": 0.002,
-            "name": "Root WSN 3",
+            "longitude": 0.002
         },
         "Root WSN 4": {
             "deviceType": "Edge Gateway WSN 4",
             "latitude": 0.003,
-            "longitude": 0.002,
-            "name": "Root WSN 4",
-        },
+            "longitude": 0.002
+        }
     },
     "fixedLink": [
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "Root WSN 1",
-            "fixedDeviceB": "HOP 12",
+            "fixedDeviceB": "HOP 12"
         },
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "HOP 12",
-            "fixedDeviceB": "Root WSN 2",
+            "fixedDeviceB": "Root WSN 2"
         },
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "Root WSN 2",
-            "fixedDeviceB": "HOP 23",
+            "fixedDeviceB": "HOP 23"
         },
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "Root WSN 2",
-            "fixedDeviceB": "HOP 24",
+            "fixedDeviceB": "HOP 24"
         },
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "HOP 23",
-            "fixedDeviceB": "Root WSN 3",
+            "fixedDeviceB": "Root WSN 3"
         },
         {
             "dataRateInKbps": 304,
             "fixedDeviceA": "HOP 24",
-            "fixedDeviceB": "Root WSN 4",
-        },
+            "fixedDeviceB": "Root WSN 4"
+        }
     ],
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
-            "rangeInMeters": 1,
-        },
+            "rangeInMeters": 1
+        }
     },
     "logging": {
         "measure": {
-            "enabled": false,
+            "enabled": false
         },
         "stdout": {
-            "enabled": false,
+            "enabled": false
         },
         "visualize": {
-            "enabled": false,
-        },
+            "enabled": false
+        }
     },
     "outputDirectory": "",
-    
     "randomMeshNetwork": [],
     "randomStarNetwork": [
         {
@@ -270,7 +247,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
             "number": 5,
-            "starRoot": "Root WSN 1",
+            "starRoot": "Root WSN 1"
         },
         {
             "dataSink": "",
@@ -278,7 +255,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 2",
             "number": 5,
-            "starRoot": "Root WSN 2",
+            "starRoot": "Root WSN 2"
         },
         {
             "dataSink": "",
@@ -286,7 +263,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 3",
             "number": 5,
-            "starRoot": "Root WSN 3",
+            "starRoot": "Root WSN 3"
         },
         {
             "dataSink": "",
@@ -294,8 +271,8 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 4",
             "number": 5,
-            "starRoot": "Root WSN 4",
-        },
+            "starRoot": "Root WSN 4"
+        }
     ],
-    "rootRouter": "Root WSN 1",
+    "rootRouter": "Root WSN 1"
 }

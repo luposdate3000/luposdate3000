@@ -10,13 +10,11 @@
                     "area": 1,
                     "dataSink": "1",
                     "maxSamples": -1,
-                    "name": "park1",
                     "rateInSec": 30,
                     "sendStartClockInSec": 15,
                 },
                 "QueryResponseReceiver": {},
             },
-            "name": "Fog",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -24,7 +22,6 @@
         },
         "StandAloneParkingSensor": {
             "applications": {},
-            "name": "StandAloneParkingSensor",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -37,21 +34,18 @@
             "deviceType": "Fog",
             "latitude": 49.0,
             "longitude": 49.0,
-            "name": "1",
         },
         "abc": {
             "applications": {},
             "deviceType": "Fog",
             "latitude": 4.0,
             "longitude": 3.0,
-            "name": "abc",
         },
     },
     "fixedLink": [],
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 30,
         },
     },

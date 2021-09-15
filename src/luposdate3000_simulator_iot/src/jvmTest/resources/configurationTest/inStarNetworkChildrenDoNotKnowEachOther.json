@@ -8,7 +8,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "Fog",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -20,7 +19,6 @@
                     "area": 1,
                     "dataSink": "1",
                     "maxSamples": -1,
-                    "name": "park1",
                     "rateInSec": 30,
                     "sendStartClockInSec": 15,
                 },
@@ -37,14 +35,12 @@
             "deviceType": "Fog",
             "latitude": 49.0,
             "longitude": 49.0,
-            "name": "1",
         },
     },
     "fixedLink": [],
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 250,
-            "name": "WPAN",
             "rangeInMeters": 30,
         },
     },

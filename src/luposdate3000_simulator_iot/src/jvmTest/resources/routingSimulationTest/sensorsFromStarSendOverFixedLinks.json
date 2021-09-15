@@ -8,7 +8,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "Edge Gateway WSN 1",
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -20,7 +19,6 @@
                 "ParkingSampleReceiver": {},
                 "QueryResponseReceiver": {},
             },
-            "name": "Mesh Hop",
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -32,12 +30,10 @@
                     "area": 1,
                     "dataSink": "DODAG ROOT",
                     "maxSamples": 5,
-                    "name": "Parking Sensor WSN 1",
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,
                 },
             },
-            "name": "Sensor Device WSN 1",
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
@@ -50,28 +46,24 @@
             "deviceType": "Mesh Hop",
             "latitude": 3.002,
             "longitude": 0.001,
-            "name": "DODAG ROOT",
         },
         "Hop 1": {
             "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.001,
             "longitude": 0.002,
-            "name": "Hop 1",
         },
         "Hop 2": {
             "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.003,
             "longitude": 0.002,
-            "name": "Hop 2",
         },
         "star root WSN 1": {
             "applications": {},
             "deviceType": "Mesh Hop",
             "latitude": 0.002,
             "longitude": 0.0,
-            "name": "star root WSN 1",
         },
     },
     "fixedLink": [
@@ -94,7 +86,6 @@
     "linkType": {
         "WPAN": {
             "dataRateInKbps": 2500,
-            "name": "WPAN",
             "rangeInMeters": 1,
         },
     },

@@ -12,14 +12,13 @@
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
                     "type": "Luposdate3000",
-                    "useDictionaryInlineEncoding": true,
+                    "useDictionaryInlineEncoding": true
                 },
                 "QueryResponseReceiver": {
                 },
                 "ParkingSampleReceiver": {
-                },
+                }
             },
-            
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WIRE"
@@ -69,5 +68,5 @@
     "outputDirectory": "",
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
-    "rootRouter": "DEVICE_1",
+    "rootRouter": "DEVICE_1"
 },
