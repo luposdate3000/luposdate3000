@@ -14,33 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_db.luposdate3000
+
+package lupos.simulator_db.dummyImpl
 import lupos.shared.UUID_Counter
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.IPackage_Database
 
-public class MySimulatorAbstractPackage(
+public class Package_DatabaseDummy_Result(
+    public val result: ByteArray, // die Nutzdaten ... zurzeit alles als ein Block, später besser bidirektionales streaming, wobei primär Richtung root-node gesendet wird.
+    public val destinationAddress: Int, // Richtung root-node
+    public val senderAddress: Int,
     public val queryID: Int,
-    public val path: String,
-    public val params: Map<String, String>,
-    public val data: ByteArrayWrapper = ByteArrayWrapper()
+    public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
 ) : IPackage_Database {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
-
     override fun getSizeInBytes(): Int {
-        return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)
-    }
-    override fun toString(): String = "MySimulatorAbstractPackage $path"
-    override fun getContentLogString(): String {
-        return "AbstractPck(path '$path', params $params, data $data)"
+        @Suppress("UnnecessaryVariable")
+        val dummySize = 20
+        return dummySize
     }
 
-    private fun getParamsSizeInBytes(): Int {
-        var size = 0
-        for ((key, value) in params)
-            size += key.encodeToByteArray().size + value.encodeToByteArray().size
-        return size
+    override fun getContentLogString(): String {
+        return "Package_DatabaseDummy_Result(result=${result.contentToString()}, destinationAddress=$destinationAddress, senderAddress=$senderAddress, queryID=$queryID, operatorID=$operatorID)"
     }
 }

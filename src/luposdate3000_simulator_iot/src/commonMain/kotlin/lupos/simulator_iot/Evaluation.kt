@@ -20,7 +20,6 @@ import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_iot.config.Configuration
-import lupos.simulator_iot.queryproc.SemanticData
 public class Evaluation {
     public constructor() {}
     public fun simulate(configFileName: String) {
@@ -50,19 +49,6 @@ public class Evaluation {
         return arrSize
     }
 
-    private fun getQueriesAsArray(): Array<String> {
-        return arrayOf(
-            "",
-            SemanticData.getAllTriples(),
-            SemanticData.getAllParkingAreas(),
-            SemanticData.getAllSpacesOfParkingArea(10),
-            SemanticData.getSampleNumberOfSensor(9, 67),
-            SemanticData.getLastSampleOfSensor(7, 55),
-            SemanticData.getLastResultsOfEachSensorInArea(9),
-            SemanticData.getLastResultsOfEachSensorInManyAreas(setOf(9, 8, 2)),
-            SemanticData.getNumberOfCurrentlyFreeSpacesInArea(9)
-        )
-    }
 
     public fun evalConfigFile(configFileName: String) {
         val json = JsonParser().fileToJson(configFileName)as JsonParserObject

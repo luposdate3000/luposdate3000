@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.queryproc
+package lupos.simulator_db
 
-internal class SequenceCounter(
-    internal var expectedPackageNumber: Int,
-    internal var expectedSequenceNumber: Int
-)
+public interface IPayloadLayer : IPayload {
+    public fun getApplicationPayload(): List<IPayload>
+}

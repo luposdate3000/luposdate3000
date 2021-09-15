@@ -21,7 +21,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
 import lupos.simulator_db.IPackage_DatabaseTesting
-public class MySimulatorTestingCompareGraphPackage(
+public class Package_Luposdate3000_TestingCompareGraphPackage(
     public val query: String,
     public val expectedResult: MemoryTable,
     public val verifyAction: () -> Unit,
@@ -31,19 +31,19 @@ public class MySimulatorTestingCompareGraphPackage(
     private var needsPrepare = false
     private var graph: String? = null
     private var instance: Luposdate3000Instance? = null
-    public fun prepare(): MySimulatorTestingCompareGraphPackage {
+    public fun prepare(): Package_Luposdate3000_TestingCompareGraphPackage {
         if (needsPrepare) {
             val q: String = if (graph == "") {
                 "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
             } else {
                 "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
             }
-            var res: MySimulatorTestingCompareGraphPackage? = null
+            var res: Package_Luposdate3000_TestingCompareGraphPackage? = null
             for (idx in instance!!.tripleStoreManager!!.getGraph(graph!!).getIndices()) {
                 if (res == null) {
-                    res = MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx)
+                    res = Package_Luposdate3000_TestingCompareGraphPackage(q, expectedResult, verifyAction, idx)
                 } else {
-                    res.setOnFinish(MySimulatorTestingCompareGraphPackage(q, expectedResult, verifyAction, idx))
+                    res.setOnFinish(Package_Luposdate3000_TestingCompareGraphPackage(q, expectedResult, verifyAction, idx))
                 }
             }
             if (_onFinish != null) {
@@ -62,11 +62,11 @@ public class MySimulatorTestingCompareGraphPackage(
             verifyAction: () -> Unit,
             graph: String?,
             instance: Luposdate3000Instance,
-        ): MySimulatorTestingCompareGraphPackage {
+        ): Package_Luposdate3000_TestingCompareGraphPackage {
             if (query != null) {
-                return MySimulatorTestingCompareGraphPackage(query, expectedResult, verifyAction, null)
+                return Package_Luposdate3000_TestingCompareGraphPackage(query, expectedResult, verifyAction, null)
             } else {
-                val res = MySimulatorTestingCompareGraphPackage("", expectedResult, verifyAction, null)
+                val res = Package_Luposdate3000_TestingCompareGraphPackage("", expectedResult, verifyAction, null)
                 res.needsPrepare = true
                 res.graph = graph
                 res.instance = instance
@@ -94,7 +94,7 @@ public class MySimulatorTestingCompareGraphPackage(
     }
 
     override fun getContentLogString(): String {
-        return "MySimulatorTestingCompareGraphPackage($query)"
+        return "Package_Luposdate3000_TestingCompareGraphPackage($query)"
     }
 
     override fun toString(): String {

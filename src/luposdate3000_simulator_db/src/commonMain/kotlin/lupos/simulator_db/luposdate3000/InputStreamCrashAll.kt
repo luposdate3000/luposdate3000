@@ -14,12 +14,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.simulator_db.luposdate3000
 
-package lupos.simulator_db
-public abstract class DatabaseState(
-    public val logger: ILogger,
-    public val ownAddress: Int,
-    public var allAddressesStore: IntArray,
-    public var allAddressesQuery: IntArray,
-    public val absolutePathToDataDirectory: String,
-)
+import lupos.shared.DictionaryValueType
+import lupos.shared.IMyInputStream
+internal class InputStreamCrashAll(val target: Int, val path: String, val params: Map<String, String>) : IMyInputStream {
+    override fun close() {}
+    override fun read(buf: ByteArray): Int {
+        TODO()
+    }
+
+    override fun read(buf: ByteArray, len: Int): Int {
+        TODO()
+    }
+
+    override fun read(buf: ByteArray, off: Int, len: Int): Int {
+        TODO()
+    }
+
+    override fun readByte(): Byte {
+        TODO()
+    }
+
+    override fun readInt(): Int {
+        TODO()
+    }
+    override fun readLong(): Long {
+        TODO()
+    }
+    override fun readDictionaryValueType(): DictionaryValueType {
+        TODO()
+    }
+
+    override fun readLine(): String? {
+        TODO()
+    }
+}

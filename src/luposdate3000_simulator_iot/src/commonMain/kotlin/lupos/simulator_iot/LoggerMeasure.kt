@@ -30,11 +30,11 @@ import lupos.simulator_db.Package_QueryResponse
 import lupos.simulator_db.dummyImpl.ChoosenOperatorPackage
 import lupos.simulator_db.dummyImpl.PreprocessingPackage
 import lupos.simulator_db.dummyImpl.ResultPackage
-import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
-import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import lupos.simulator_iot.models.routing.DAO
 import lupos.simulator_iot.models.routing.DIO
 import lupos.simulator_iot.models.sensor.ParkingSample
@@ -155,11 +155,11 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                     data[StatNetworkCounterRoutingDAO]++
                 }
             }
-            is MySimulatorTestingImportPackage, is MySimulatorTestingExecute, is MySimulatorTestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
+            is Package_Luposdate3000_TestingImportPackage, is Package_Luposdate3000_TestingExecute, is Package_Luposdate3000_TestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
             }
             is PreprocessingPackage, is ResultPackage, is ChoosenOperatorPackage -> { // dummyImpl
             }
-            is MySimulatorAbstractPackage -> {
+            is Package_Luposdate3000_Abstract -> {
                 when (pck.path) {
                     "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
                         data[StatNetworkTrafficDictionary] += pck.getSizeInBytes().toDouble()
@@ -188,7 +188,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                     else -> TODO(pck.path)
                 }
             }
-            is MySimulatorOperatorGraphPackage -> {
+            is Package_Luposdate3000_Operatorgraph -> {
                 data[StatNetworkTrafficOperatorGraph] += pck.getSizeInBytes().toDouble()
                 if (dest == hop) {
                     data[StatNetworkCounterOperatorGraph]++

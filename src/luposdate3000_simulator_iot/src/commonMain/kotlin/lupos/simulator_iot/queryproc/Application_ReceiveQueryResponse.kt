@@ -15,44 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.queryproc
-import lupos.simulator_db.IPackage_Database
-import lupos.simulator_db.IPayload
+import lupos.shared.inline.File
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.Package_Query
-public class ApplicationLayerQuerySender(
-    internal val startClockInSec: Int,
-    internal val sendRateInSec: Int,
-    internal val maxNumberOfQueries: Int,
-    internal val queryPck: IPackage_Database,
-    internal val receiver: Int,
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.Package_QueryResponse
+public class Application_ReceiveQueryResponse(
+    private val outputdirectory: String,
 ) : IApplicationStack_Actuator {
-    public constructor(
-        startClockInSec: Int,
-        sendRateInSec: Int,
-        maxNumberOfQueries: Int,
-        query: String,
-        receiver: Int
-    ) : this(startClockInSec, sendRateInSec, maxNumberOfQueries, Package_Query(receiver, query.encodeToByteArray()), receiver)
     private lateinit var parent: IApplicationStack_Middleware
-    private var queryCounter = 0
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
-        parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        return pck
-    }
-    override fun timerEvent() {
-        if (queryCounter <maxNumberOfQueries || maxNumberOfQueries == -1) {
-            queryCounter++
-            parent.send(receiver, queryPck)
-            parent.flush()
-            parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
+        if (pck is Package_QueryResponse) {
+            File(outputdirectory + "result_${pck.queryID}").withOutputStream { out ->
+                out.write(pck.result)
+            }
+            return null
+        } else {
+            return pck
         }
     }
+    override fun timerEvent() {}
 }

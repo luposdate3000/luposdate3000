@@ -24,8 +24,8 @@ import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
 import lupos.simulator_db.Package_Query
 import lupos.simulator_db.Package_QueryResponse
-import lupos.simulator_db.luposdate3000.MySimulatorAbstractPackage
-import lupos.simulator_db.luposdate3000.MySimulatorOperatorGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -549,7 +549,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
         val clock = getClock()
         when (pck) {
-            is MySimulatorAbstractPackage -> {
+            is Package_Luposdate3000_Abstract -> {
                 when (pck.path) {
                     "/distributed/query/dictionary/remove",
                     "/distributed/query/dictionary/register" -> {
@@ -569,7 +569,7 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
                     else -> addMessage(VisualisationMessage(src, dest, clock, pck.toString()))
                 }
             }
-            is MySimulatorOperatorGraphPackage -> {
+            is Package_Luposdate3000_Operatorgraph -> {
                 addMessage(VisualisationMessage(src, dest, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
             }
             is Package_QueryResponse -> {

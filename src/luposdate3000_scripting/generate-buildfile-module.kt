@@ -105,7 +105,7 @@ class CreateModuleArgs() {
     var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
-var useKTLint=true
+    var useKTLint = true
     var disableJS = false
     var disableJSNode = false
     var disableJSBrowser = false
@@ -147,7 +147,7 @@ var useKTLint=true
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
         res.args = args
-res.useKTLint=useKTLint
+        res.useKTLint = useKTLint
         return res
     }
 
@@ -322,7 +322,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         return
     }
-var useKTLint=moduleArgs.useKTLint && moduleArgs.target==TargetMode2.JVM
+    var useKTLint = moduleArgs.useKTLint && moduleArgs.target == TargetMode2.JVM
     try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
@@ -346,7 +346,7 @@ var useKTLint=moduleArgs.useKTLint && moduleArgs.target==TargetMode2.JVM
             appendix += "_Debug"
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
-        val enableProguard = !onWindows && enableJVM && !buildLibrary && moduleArgs.compilerVersion=="1.5.0"
+        val enableProguard = !onWindows && enableJVM && !buildLibrary && moduleArgs.compilerVersion == "1.5.0"
 
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
@@ -422,9 +422,9 @@ var useKTLint=moduleArgs.useKTLint && moduleArgs.target==TargetMode2.JVM
                 }
                 out.println("plugins {")
                 if (!onWindows) {
-if(useKTLint){
-                    out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
-}
+                    if (useKTLint) {
+                        out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
+                    }
                 }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (moduleArgs.codegenKAPT) {
@@ -653,10 +653,10 @@ if(useKTLint){
                 }
                 out.println("tasks.register(\"luposSetup\") {")
                 if (!onWindows) {
-if(useKTLint){
-                    out.println("    dependsOn(\"ktlintFormat\")")
+                    if (useKTLint) {
+                        out.println("    dependsOn(\"ktlintFormat\")")
+                    }
                 }
-}
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -735,16 +735,16 @@ if(useKTLint){
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
                 if (!onWindows) {
-if(useKTLint){
-                    out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
-                    out.println("    enableExperimentalRules.set(true)")
-                    out.println("    ignoreFailures.set(true)")
-                    out.println("    filter {")
-                    out.println("        exclude(\"**/build/**\")")
-                    out.println("    }")
-                    out.println("}")
+                    if (useKTLint) {
+                        out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
+                        out.println("    enableExperimentalRules.set(true)")
+                        out.println("    ignoreFailures.set(true)")
+                        out.println("    filter {")
+                        out.println("        exclude(\"**/build/**\")")
+                        out.println("    }")
+                        out.println("}")
+                    }
                 }
-}
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")

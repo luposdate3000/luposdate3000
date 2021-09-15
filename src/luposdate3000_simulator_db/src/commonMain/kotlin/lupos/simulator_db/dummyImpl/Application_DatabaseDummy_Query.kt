@@ -14,23 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_db.luposdate3000
 
-import lupos.shared.DictionaryValueType
-import lupos.shared.IMyOutputStream
+package lupos.simulator_db.dummyImpl
 
-internal class MySimulatorOutputStreamToVoid : IMyOutputStream {
-    override fun flush() {}
-    override fun close() { }
-    override fun print(x: Boolean) { }
-    override fun print(x: Double) { }
-    override fun print(x: Int) { }
-    override fun print(x: String) { }
-    override fun println() { }
-    override fun println(x: String) { }
-    override fun write(buf: ByteArray) { }
-    override fun write(buf: ByteArray, len: Int) { }
-    override fun writeDictionaryValueType(value: DictionaryValueType) { }
-    override fun writeLong(value: Long) { }
-    override fun writeInt(value: Int) { }
+public class Application_DatabaseDummy_Query(
+    public val operatorGraphParts: List<Application_DatabaseDummy_OperatorGraphPart>,
+    public val nextHops: IntArray,
+    public val parentAddress: Int,
+) {
+    public val choosenOperators: MutableList<Application_DatabaseDummy_OperatorGraphPart> = mutableListOf()
+    public val answeredByNextHop: BooleanArray = BooleanArray(nextHops.size) { false } // wenn der nächste hop schon geantwortet hat, was er berechnen kann siehe #2, erst wenn alle geantwortet haben, startet die berechnung.
 }

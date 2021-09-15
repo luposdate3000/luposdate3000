@@ -16,9 +16,10 @@
  */
 
 package lupos.simulator_db.dummyImpl
-
-public class OperatorGraph {
-    public fun getTransactionID(): Int {
-        return 0
-    }
-}
+public abstract class Application_DatabaseDummy_State(
+    public val logger: ILogger,
+    public val ownAddress: Int,
+    public var allAddressesStore: IntArray,
+    public var allAddressesApplication_DatabaseDummy_Query: IntArray,
+    public val absolutePathToDataDirectory: String,
+)

@@ -17,18 +17,8 @@
 
 package lupos.simulator_db.dummyImpl
 
-import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.ILogger
-public class DummyDatabaseState(
-    logger: ILogger,
-    ownAddress: Int,
-    allAddressesStore: IntArray,
-    allAddressesQuery: IntArray,
-    absolutePathToDataDirectory: String
-) :
-    DatabaseState(logger, ownAddress, allAddressesStore, allAddressesQuery, absolutePathToDataDirectory) {
-
-    public val queriesInProgress: MutableMap<Int, Query> = mutableMapOf()
-    public var addressForQueryEndResult: Int = -1
-    public lateinit var dataFile: String
+public class Application_DatabaseDummy_OperatorGraph {
+    public fun getTransactionID(): Int {
+        return 0
+    }
 }

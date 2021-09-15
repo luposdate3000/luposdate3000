@@ -22,9 +22,9 @@ public abstract class Entity {
 
     private var isTerminated = false
 
-abstract public fun onStartUp()
-abstract    public fun onSteadyState()
-abstract    public fun onShutDown()
+    public abstract fun onStartUp()
+    public abstract fun onSteadyState()
+    public abstract fun onShutDown()
     public abstract fun onEvent(source: Entity, data: Any)
 
     internal fun processIncomingEvent(event: Event) {
@@ -41,7 +41,7 @@ abstract    public fun onShutDown()
 
     protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:41"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:43"/*SOURCE_FILE_END*/ },
             { !isTerminated },
         )
         simulation.addEvent(delay, this, destination, data)

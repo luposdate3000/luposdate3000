@@ -22,13 +22,13 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.simulator_db.IApplicationStack_Middleware
 
-internal class MySimulatorCommunicationHandler(val instance: Luposdate3000Instance, val router: IApplicationStack_Middleware) : ICommunicationHandler {
+internal class CommunicationHandler_Luposdate3000(val instance: Luposdate3000Instance, val router: IApplicationStack_Middleware) : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
-        router.send(targetHost.toInt(), MySimulatorAbstractPackage(queryID, path, params))
+        router.send(targetHost.toInt(), Package_Luposdate3000_Abstract(queryID, path, params))
     }
 
     override fun openConnection(targetHost: String, path: String, params: Map<String, String>, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
-        return Pair(MySimulatorInputStreamCrashAll(targetHost.toInt(), path, params), MySimulatorOutputStreamToPackage(queryID, targetHost.toInt(), path, params, router))
+        return Pair(InputStreamCrashAll(targetHost.toInt(), path, params), OutputStreamToPackage(queryID, targetHost.toInt(), path, params, router))
     }
 
     override fun openConnection(targetHost: String, header: String, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {

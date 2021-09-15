@@ -15,22 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db.dummyImpl
+package lupos.simulator_db
+internal class Package_ApplicationStack_Sequence(
+    internal val data: IPayload,
+    internal val num: Int,
+    internal val src: Int,
+) : IPayloadLayer {
 
-public object Optimizer {
-    public fun extractTripleStoreAddresses(l: List<OperatorGraphPart>): List<Int> {
-        return listOf()
-    }
-
-    public fun optimize(s: String): OperatorGraph {
-        return OperatorGraph()
-    }
-
-    public fun split(o: OperatorGraph): List<OperatorGraphPart> {
-        return listOf()
-    }
-
-    public fun assignNodesToTripleStroceAccess(l: List<OperatorGraphPart>) {
-// dies passiert zentralisiert, da die DB weiß, welche nodes es gibt, und wo was steht
+    override fun getSizeInBytes(): Int = data.getSizeInBytes() + 8
+    override fun toString(): String = "Package_ApplicationStack_Sequence($data)"
+    override fun getApplicationPayload(): List<IPayload> {
+        if (data is IPayloadLayer) {
+            return data.getApplicationPayload()
+        } else {
+            return listOf(data)
+        }
     }
 }

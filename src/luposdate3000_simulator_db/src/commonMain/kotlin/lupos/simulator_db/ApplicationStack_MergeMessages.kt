@@ -41,7 +41,7 @@ public class ApplicationStack_MergeMessages(private val child: IApplicationStack
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ApplicationStack_MergeMessages_Package) {
+        if (pck is Package_ApplicationStack_MergeMessages) {
             for (p in pck.data) {
                 val pp = child.receive(p)
                 if (pp != null) {
@@ -77,7 +77,7 @@ public class ApplicationStack_MergeMessages(private val child: IApplicationStack
         cache = mutableMapOf()
         for ((destinationAddress, pckList) in cacheLocal) {
             if (pckList.size> 1) {
-                parent.send(destinationAddress, ApplicationStack_MergeMessages_Package(pckList))
+                parent.send(destinationAddress, Package_ApplicationStack_MergeMessages(pckList))
             } else if (pckList.size == 1) {
                 parent.send(destinationAddress, pckList.first())
             }

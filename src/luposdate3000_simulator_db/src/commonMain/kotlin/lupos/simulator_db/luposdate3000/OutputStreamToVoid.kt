@@ -14,13 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.simulator_db.luposdate3000
 
-package lupos.simulator_db
+import lupos.shared.DictionaryValueType
+import lupos.shared.IMyOutputStream
 
-public interface IDatabase {
-    public fun start(initialState: DatabaseState)
-    public fun activate()
-    public fun deactivate()
-    public fun end()
-    public fun receive(pck: IPackage_Database)
+internal class OutputStreamToVoid : IMyOutputStream {
+    override fun flush() {}
+    override fun close() { }
+    override fun print(x: Boolean) { }
+    override fun print(x: Double) { }
+    override fun print(x: Int) { }
+    override fun print(x: String) { }
+    override fun println() { }
+    override fun println(x: String) { }
+    override fun write(buf: ByteArray) { }
+    override fun write(buf: ByteArray, len: Int) { }
+    override fun writeDictionaryValueType(value: DictionaryValueType) { }
+    override fun writeLong(value: Long) { }
+    override fun writeInt(value: Int) { }
 }

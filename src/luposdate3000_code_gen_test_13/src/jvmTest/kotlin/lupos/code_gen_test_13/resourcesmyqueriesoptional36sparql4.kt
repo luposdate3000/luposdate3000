@@ -27,9 +27,9 @@ import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
@@ -400,13 +400,13 @@ public class resourcesmyqueriesoptional36sparql4 {
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
+        val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
-        val pkg1 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
+        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
         pkg0.setOnFinish(pkg1)
         var verifyExecuted2 = 0
-        val pkg2 = MySimulatorTestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ }, "", instance)
+        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ }, "", instance)
         pkg1.setOnFinish(pkg2)
         config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()

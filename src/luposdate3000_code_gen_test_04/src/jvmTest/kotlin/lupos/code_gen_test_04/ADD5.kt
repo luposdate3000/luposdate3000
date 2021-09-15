@@ -27,10 +27,10 @@ import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_core.Simulation
-import lupos.simulator_db.luposdate3000.DatabaseHandle
-import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute
-import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
@@ -355,31 +355,31 @@ public class ADD5 {
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is DatabaseHandle }.first()as DatabaseHandle).instance
-        val pkg0 = MySimulatorTestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
-        val pkg1 = MySimulatorTestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
+        val instance = (config.devices.filter { it.userApplication != null }.map { it.userApplication!!.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
+        val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
+        val pkg1 = Package_Luposdate3000_TestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
-        val pkg2 = MySimulatorTestingImportPackage(inputDataFile[2], inputGraph[2], inputType[2])
+        val pkg2 = Package_Luposdate3000_TestingImportPackage(inputDataFile[2], inputGraph[2], inputType[2])
         pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
-        val pkg3 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ }, inputGraph[0], instance)
+        val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ }, inputGraph[0], instance)
         pkg2.setOnFinish(pkg3)
         var verifyExecuted4 = 0
-        val pkg4 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ }, inputGraph[1], instance)
+        val pkg4 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ }, inputGraph[1], instance)
         pkg3.setOnFinish(pkg4)
         var verifyExecuted5 = 0
-        val pkg5 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
+        val pkg5 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
         pkg4.setOnFinish(pkg5)
-        val pkg6 = MySimulatorTestingExecute(query)
+        val pkg6 = Package_Luposdate3000_TestingExecute(query)
         pkg5.setOnFinish(pkg6)
         var verifyExecuted7 = 0
-        val pkg7 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ }, outputGraph[0], instance)
+        val pkg7 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ }, outputGraph[0], instance)
         pkg6.setOnFinish(pkg7)
         var verifyExecuted8 = 0
-        val pkg8 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ }, outputGraph[1], instance)
+        val pkg8 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ }, outputGraph[1], instance)
         pkg7.setOnFinish(pkg8)
         var verifyExecuted9 = 0
-        val pkg9 = MySimulatorTestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ }, outputGraph[2], instance)
+        val pkg9 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ }, outputGraph[2], instance)
         pkg8.setOnFinish(pkg9)
         config.addQuerySender(10, 1, 1, pkg0)
         simRun.sim.run()

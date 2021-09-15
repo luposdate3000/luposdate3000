@@ -15,28 +15,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.queryproc
-import lupos.simulator_db.IPayload
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPackage_Database
+import lupos.simulator_db.IPayload
 import lupos.simulator_db.Package_Query
-import lupos.simulator_iot.models.sensor.ParkingSample
-public class ApplicationLayerReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
+public class Application_QuerySender(
+    internal val startClockInSec: Int,
+    internal val sendRateInSec: Int,
+    internal val maxNumberOfQueries: Int,
+    internal val queryPck: IPackage_Database,
+    internal val receiver: Int,
+) : IApplicationStack_Actuator {
+    public constructor(
+        startClockInSec: Int,
+        sendRateInSec: Int,
+        maxNumberOfQueries: Int,
+        query: String,
+        receiver: Int
+    ) : this(startClockInSec, sendRateInSec, maxNumberOfQueries, Package_Query(receiver, query.encodeToByteArray()), receiver)
     private lateinit var parent: IApplicationStack_Middleware
+    private var queryCounter = 0
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
     override fun startUp() {
+        parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ParkingSample) {
-            val query = SemanticData.getInsertQueryString(pck)
-            parent.send(ownAddress, Package_Query(ownAddress, query.encodeToByteArray()))
-            return null
-        } else {
-            return pck
+        return pck
+    }
+    override fun timerEvent() {
+        if (queryCounter <maxNumberOfQueries || maxNumberOfQueries == -1) {
+            queryCounter++
+            parent.send(receiver, queryPck)
+            parent.flush()
+            parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
         }
     }
-    override fun timerEvent() {}
 }

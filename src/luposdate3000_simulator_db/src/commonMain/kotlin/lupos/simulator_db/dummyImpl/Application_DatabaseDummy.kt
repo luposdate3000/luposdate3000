@@ -18,14 +18,20 @@
 package lupos.simulator_db.dummyImpl
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
-import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IPayload
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.Package_Query
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.Package_Application_DatabaseDummy_Query
 
-public class DatabaseSystemDummy public constructor(config: JsonParserObject, internal val initialState: () -> DatabaseState) : IApplicationStack_Actuator {
-    internal lateinit var state: DummyDatabaseState
+public class Application_DatabaseDummy public constructor(
+    config: JsonParserObject,
+    logger: ILogger,
+    ownAdress: Int,
+    absolutePathToDataDirectory: String,
+    dbDeviceAddressesStoreList: MutableList<Int>,
+    dbDeviceAddressesApplication_DatabaseDummy_QueryList: MutableList<Int>,
+) : IApplicationStack_Actuator {
+    internal lateinit var state: Application_DatabaseDummy_State
 
     internal lateinit var sender: IApplicationStack_Middleware
     override fun setRouter(router: IApplicationStack_Middleware) {
@@ -33,37 +39,38 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
     }
     override fun shutDown() {
     }
+    init {
+        state = Application_DatabaseDummy_State(logger, ownAddress, dbDeviceAddressesStoreList, dbDeviceAddressesApplication_DatabaseDummy_QueryList, absolutePathToDataDirectory)
+    }
     override fun startUp() {
-        val initialStateTmp = initialState()
-        state = DummyDatabaseState(initialStateTmp.logger, initialStateTmp.ownAddress, initialStateTmp.allAddressesStore, initialStateTmp.allAddressesQuery, initialStateTmp.absolutePathToDataDirectory)
         state.dataFile = "${initialStateTmp.absolutePathToDataDirectory}/file.txt"
         File(state.dataFile).withOutputStream { }
     }
     override fun receive(pck: IPayload): IPayload ? {
         when (pck) {
-            is PreprocessingPackage -> receive(pck)
-            is ResultPackage -> receive(pck)
-            is ChoosenOperatorPackage -> receive(pck)
-            is Package_Query -> receive(pck)
+            is Package_DatabaseDummy_Preprocessing -> receive(pck)
+            is Package_DatabaseDummy_Result -> receive(pck)
+            is Package_DatabaseDummy_ChoosenOperator -> receive(pck)
+            is Package_Application_DatabaseDummy_Query -> receive(pck)
             else -> return pck
         }
         return null
     }
 
-    public fun receive(pck: Package_Query) {
-        state.addressForQueryEndResult = pck.sourceAddress
+    public fun receive(pck: Package_Application_DatabaseDummy_Query) {
+        state.addressForApplication_DatabaseDummy_QueryEndResult = pck.sourceAddress
         val queryString = pck.query.decodeToString()
         if (queryString.contains("INSERT DATA")) {
             saveData(queryString)
             return
         }
 
-        val operatorGraph = Optimizer.optimize(queryString)
-        val operatorGraphParts = Optimizer.split(operatorGraph)
-        Optimizer.assignNodesToTripleStroceAccess(operatorGraphParts)
+        val operatorGraph = Application_DatabaseDummy_Optimizer.optimize(queryString)
+        val operatorGraphParts = Application_DatabaseDummy_Optimizer.split(operatorGraph)
+        Application_DatabaseDummy_Optimizer.assignNodesToTripleStroceAccess(operatorGraphParts)
         val queryID = operatorGraph.getTransactionID()
-        val destinationAddresses = Optimizer.extractTripleStoreAddresses(operatorGraphParts).distinct().toIntArray()
-        setupOperatorGraph(destinationAddresses, operatorGraphParts, state.ownAddress, queryID)
+        val destinationAddresses = Application_DatabaseDummy_Optimizer.extractTripleStoreAddresses(operatorGraphParts).distinct().toIntArray()
+        setupApplication_DatabaseDummy_OperatorGraph(destinationAddresses, operatorGraphParts, state.ownAddress, queryID)
     }
 
     private fun saveData(data: String) {
@@ -72,21 +79,21 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         stream.close()
     }
 
-    private fun receive(pck: PreprocessingPackage) {
-        val operatorGraphParts = OperatorGraphPart.fromByteArray(pck.operatorGraphParts)
-        setupOperatorGraph(pck.destinationAddresses, operatorGraphParts, pck.senderAddress, pck.queryID)
+    private fun receive(pck: Package_DatabaseDummy_Preprocessing) {
+        val operatorGraphParts = Application_DatabaseDummy_OperatorGraphPart.fromByteArray(pck.operatorGraphParts)
+        setupApplication_DatabaseDummy_OperatorGraph(pck.destinationAddresses, operatorGraphParts, pck.senderAddress, pck.queryID)
     }
 
-    private fun receive(pck: ResultPackage) {
+    private fun receive(pck: Package_DatabaseDummy_Result) {
         // if this is not used locally, then simply send it upwards in the operator graph
     }
 
-    private fun receive(pck: ChoosenOperatorPackage) {
+    private fun receive(pck: Package_DatabaseDummy_ChoosenOperator) {
         val query = state.queriesInProgress[pck.queryID]!!
 
         query.answeredByNextHop[query.nextHops.indexOf(pck.senderAddress)] = true
         for (operatorID in pck.operators)
-            query.choosenOperators.add(ReceivedResults(pck.senderAddress, operatorID))
+            query.choosenOperators.add(Application_DatabaseDummy_ReceivedResults(pck.senderAddress, operatorID))
 
         if (allReplied(query.answeredByNextHop)) {
             startEvaluation(query.parentAddress, pck.queryID)
@@ -101,7 +108,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         return true
     }
 
-    private fun mergeChoosenOperators(query: Query) {
+    private fun mergeChoosenOperators(query: Application_DatabaseDummy_Query) {
         for (part in query.operatorGraphParts) {
             if (part.canBeEvaluatedWithTheseDependencies(query.choosenOperators)) {
                 val dep = part.mergeAndGetDependencies(query.choosenOperators)
@@ -118,7 +125,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
 
         sender.send(
             senderAddress,
-            ChoosenOperatorPackage(
+            Package_DatabaseDummy_ChoosenOperator(
                 destinationAddress = senderAddress,
                 senderAddress = state.ownAddress,
                 operators = query.choosenOperators.map { it.getUUID() }.toIntArray(),
@@ -132,12 +139,12 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         // jedoch diese Operatoren nichts miteinander zu tun haben.
         // Bei kleinen Bäumen kommt der Fall nicht vor.
         // z.B wenn das selbe trippelmuster mehrfach auftaucht, aber noch etwas dazwischen liegt,
-        // kann der Optimizer nicht immer diese Operanden fusionieren.
+        // kann der Application_DatabaseDummy_Optimizer nicht immer diese Operanden fusionieren.
         for (op in query.choosenOperators) {
 // ergebnisse senden
             sender.send(
                 senderAddress,
-                ResultPackage(
+                Package_DatabaseDummy_Result(
                     destinationAddress = senderAddress,
                     senderAddress = state.ownAddress,
                     queryID = queryID,
@@ -163,9 +170,9 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         map[hop]!!.add(dest)
     }
 
-    private fun updateQueryInProgress(parts: List<OperatorGraphPart>, nextHops: IntArray, senderAddress: Int, queryID: Int) {
-        val newQuery = Query(parts, nextHops, senderAddress)
-        state.queriesInProgress[queryID] = newQuery
+    private fun updateApplication_DatabaseDummy_QueryInProgress(parts: List<Application_DatabaseDummy_OperatorGraphPart>, nextHops: IntArray, senderAddress: Int, queryID: Int) {
+        val newApplication_DatabaseDummy_Query = Application_DatabaseDummy_Query(parts, nextHops, senderAddress)
+        state.queriesInProgress[queryID] = newApplication_DatabaseDummy_Query
     }
 
     private fun chooseOperators(queryID: Int, isLastHop: Boolean, src: Int) {
@@ -180,10 +187,10 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         }
     }
 
-    private fun sendPreprocessingPackage(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
+    private fun sendPackage_DatabaseDummy_Preprocessing(to: Int, dests: IntArray, parts: ByteArray, queryID: Int) {
         sender.send(
             to,
-            PreprocessingPackage(
+            Package_DatabaseDummy_Preprocessing(
                 destinationAddresses = dests,
                 operatorGraphParts = parts,
                 senderAddress = state.ownAddress,
@@ -192,9 +199,9 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
         )
     }
 
-    private fun setupOperatorGraph(destinationAddresses: IntArray, parts: List<OperatorGraphPart>, senderAddress: Int, queryID: Int) {
+    private fun setupApplication_DatabaseDummy_OperatorGraph(destinationAddresses: IntArray, parts: List<Application_DatabaseDummy_OperatorGraphPart>, senderAddress: Int, queryID: Int) {
         val nextHopToDestsMap = getHopToDestinationsMap(destinationAddresses)
-        updateQueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
+        updateApplication_DatabaseDummy_QueryInProgress(parts, nextHopToDestsMap.keys.toIntArray(), senderAddress, queryID)
 
         for ((hop, dest) in nextHopToDestsMap)
             if (hop == state.ownAddress) {
@@ -202,7 +209,7 @@ public class DatabaseSystemDummy public constructor(config: JsonParserObject, in
             }
             // TODO Bug: Sende immer weiter herunter wenn man nicht der letzte ist.
             else {
-                sendPreprocessingPackage(hop, dest.toIntArray(), OperatorGraphPart.encodeToByteArray(parts), queryID)
+                sendPackage_DatabaseDummy_Preprocessing(hop, dest.toIntArray(), Application_DatabaseDummy_OperatorGraphPart.encodeToByteArray(parts), queryID)
             }
     }
     public override fun timerEvent() {}

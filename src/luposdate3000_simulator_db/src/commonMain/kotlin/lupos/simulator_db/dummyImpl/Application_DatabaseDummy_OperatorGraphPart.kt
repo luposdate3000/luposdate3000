@@ -17,7 +17,7 @@
 
 package lupos.simulator_db.dummyImpl
 
-public open class OperatorGraphPart {
+public open class Application_DatabaseDummy_OperatorGraphPart {
     public fun getUUID(): Int {
         return 0
     }
@@ -30,20 +30,20 @@ public open class OperatorGraphPart {
         return true
     }
 
-    public fun canBeEvaluatedWithTheseDependencies(l: List<OperatorGraphPart>): Boolean {
+    public fun canBeEvaluatedWithTheseDependencies(l: List<Application_DatabaseDummy_OperatorGraphPart>): Boolean {
         return true
     }
 
-    public fun mergeAndGetDependencies(l: List<OperatorGraphPart>): List<OperatorGraphPart> {
+    public fun mergeAndGetDependencies(l: List<Application_DatabaseDummy_OperatorGraphPart>): List<Application_DatabaseDummy_OperatorGraphPart> {
         return listOf()
     }
 
     public companion object {
-        public fun fromByteArray(b: ByteArray): List<OperatorGraphPart> {
+        public fun fromByteArray(b: ByteArray): List<Application_DatabaseDummy_OperatorGraphPart> {
             return listOf()
         }
 
-        public fun encodeToByteArray(l: List<OperatorGraphPart>): ByteArray {
+        public fun encodeToByteArray(l: List<Application_DatabaseDummy_OperatorGraphPart>): ByteArray {
             return ByteArray(0) // DB can filter here to reduce network-amount
         }
     }

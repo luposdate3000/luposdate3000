@@ -19,7 +19,7 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_db.IPackage_Database
-internal class MySimulatorPendingWork(
+internal class PendingWork(
     val queryID: Int,
     val operatorGraph: XMLElement,
     val destinations: IntArray,

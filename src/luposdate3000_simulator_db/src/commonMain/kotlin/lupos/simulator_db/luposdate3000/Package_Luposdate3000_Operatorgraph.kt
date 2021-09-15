@@ -20,7 +20,7 @@ import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
 import lupos.shared.XMLElement
 import lupos.simulator_db.IPackage_Database
-public class MySimulatorOperatorGraphPackage(
+public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
     public val operatorGraph: MutableMap<Int, XMLElement>,
     public val destinations: MutableMap<Int, Int>,
@@ -34,11 +34,10 @@ public class MySimulatorOperatorGraphPackage(
     override fun getPackageID(): Long = pckID
 
     override fun getSizeInBytes(): Int {
-        val addressSizeIPv6 = 16
         var size = 0
         for ((key, value) in operatorGraph)
             size += 4 + value.toString().encodeToByteArray().size
-        size += (4 + addressSizeIPv6) * destinations.size
+        size += 4 * destinations.size
         size += 8 * operatorGraphPartsToHostMap.size
         return size
     }
@@ -47,6 +46,6 @@ public class MySimulatorOperatorGraphPackage(
         return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap)"
     }
     override fun toString(): String {
-        return "MySimulatorOperatorGraphPackage($queryID $operatorGraphPartsToHostMap $operatorGraph)"
+        return "Package_Luposdate3000_Operatorgraph($queryID $operatorGraphPartsToHostMap $operatorGraph)"
     }
 }

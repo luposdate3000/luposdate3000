@@ -17,13 +17,13 @@
 
 package lupos.simulator_iot.queryproc
 
-import lupos.simulator_db.IPayload
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
 import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPayload
 import lupos.simulator_iot.models.Device
 
-public class DatabaseAdapter(
+public class ApplicationStack_Adapter(
     internal val device: Device,
     private val child: IApplicationStack_Actuator,
 ) : IApplicationStack_BothDirections {

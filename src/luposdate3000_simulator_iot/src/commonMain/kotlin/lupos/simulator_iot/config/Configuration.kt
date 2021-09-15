@@ -24,11 +24,10 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_db.ApplicationStack_Logger
-import lupos.simulator_db.DatabaseState
-import lupos.simulator_db.IPackage_Database
 import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.dummyImpl.DatabaseSystemDummy
-import lupos.simulator_db.luposdate3000.DatabaseHandle
+import lupos.simulator_db.IPackage_Database
+import lupos.simulator_db.dummyImpl.Application_DatabaseDummy
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_iot.LoggerMeasure
 import lupos.simulator_iot.LoggerStdout
 import lupos.simulator_iot.SimulationRun
@@ -38,9 +37,9 @@ import lupos.simulator_iot.models.net.DeviceLinker
 import lupos.simulator_iot.models.net.MeshNetwork
 import lupos.simulator_iot.models.net.StarNetwork
 import lupos.simulator_iot.models.sensor.ParkingSensor
-import lupos.simulator_iot.queryproc.ApplicationLayerQuerySender
-import lupos.simulator_iot.queryproc.ApplicationLayerReceiveParkingSample
-import lupos.simulator_iot.queryproc.ApplicationLayerReceiveQueryResonse
+import lupos.simulator_iot.queryproc.Application_QuerySender
+import lupos.simulator_iot.queryproc.Application_ReceiveParkingSample
+import lupos.simulator_iot.queryproc.Application_ReceiveQueryResponse
 import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
@@ -72,7 +71,7 @@ public class Configuration(private val simRun: SimulationRun) {
         query: String,
         receiver: Int = rootRouterAddress
     ) {
-        val sender = ApplicationLayerQuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, query, receiver)
+        val sender = Application_QuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, query, receiver)
         val device = getDeviceByAddress(receiver)
         device.allApplications.addChild(sender)
     }
@@ -83,7 +82,7 @@ public class Configuration(private val simRun: SimulationRun) {
         queryPck: IPackage_Database,
         receiver: Int = rootRouterAddress
     ) {
-        val sender = ApplicationLayerQuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, queryPck, receiver)
+        val sender = Application_QuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, queryPck, receiver)
         val device = getDeviceByAddress(receiver)
         device.allApplications.addChild(sender)
     }
@@ -287,22 +286,9 @@ public class Configuration(private val simRun: SimulationRun) {
                     numberOfDatabases++
                     databaseStore = true
                     databaseQuery = true
-                    val initialState = {
-                        object : DatabaseState(
-                            logger = simRun.logger,
-                            ownAddress = ownAddress,
-                            allAddressesStore = dbDeviceAddressesStore,
-                            allAddressesQuery = dbDeviceAddressesQuery,
-                            absolutePathToDataDirectory = "$outputDirectory/db_states/device$ownAddress",
-                        ) {
-                            init {
-                                File(absolutePathToDataDirectory).mkdirs()
-                            }
-                        }
-                    }
                     dbDeviceAddressesStoreList.add(ownAddress)
                     dbDeviceAddressesQueryList.add(ownAddress)
-                    applications.add(DatabaseSystemDummy(applicationJson, initialState))
+                    applications.add(Application_DatabaseDummy(applicationJson, simRun.logger, ownAddress, "$outputDirectory/db_states/device$ownAddress", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
                 }
                 "Luposdate3000" -> {
                     applicationJson as JsonParserObject
@@ -315,20 +301,20 @@ public class Configuration(private val simRun: SimulationRun) {
                     if (databaseQuery) {
                         dbDeviceAddressesQueryList.add(ownAddress)
                     }
-                    applications.add(DatabaseHandle(applicationJson, simRun.logger, ownAddress, "$outputDirectory/db_states/device$ownAddress", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
+                    applications.add(Application_Luposdate3000(applicationJson, simRun.logger, ownAddress, "$outputDirectory/db_states/device$ownAddress", dbDeviceAddressesStoreList, dbDeviceAddressesQueryList,))
                 }
                 "QueryResponseReceiver" -> {
-                    applications.add(ApplicationLayerReceiveQueryResonse(outputDirectory + "/"))
+                    applications.add(Application_ReceiveQueryResponse(outputDirectory + "/"))
                 }
                 "ParkingSampleReceiver" -> {
-                    applications.add(ApplicationLayerReceiveParkingSample(ownAddress))
+                    applications.add(Application_ReceiveParkingSample(ownAddress))
                 }
                 "QuerySender" -> {
                     applicationJson as JsonParserArray
                     for (it in applicationJson) {
                         it as JsonParserObject
                         applications.add(
-                            ApplicationLayerQuerySender(
+                            Application_QuerySender(
                                 it.getOrDefault("sendStartClockInSec", 0),
                                 it.getOrDefault("sendRateInSec", 1),
                                 it.getOrDefault("maxNumberOfQueries", 1),

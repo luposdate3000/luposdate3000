@@ -15,21 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-internal class ApplicationStack_MergeMessages_Package(
-    internal val data: MutableList<IPayload>,
-) : IPayloadLayer {
-    override fun toString(): String = "ApplicationStack_MergeMessages_Package($data)"
-    override fun getSizeInBytes(): Int = data.map { it.getSizeInBytes() }.sum()
-    override fun getApplicationPayload(): List<IPayload> {
-        var res = mutableListOf<IPayload>()
-        for (d in data) {
-            if (d is IPayloadLayer) {
-                res.addAll(d.getApplicationPayload())
-            } else {
-                res.add(d)
-            }
-        }
-        return res
-    }
-}
+package lupos.simulator_db.dummyImpl
+
+public class Application_DatabaseDummy_ReceivedResults(address: Int, operatorID: Int) : Application_DatabaseDummy_OperatorGraphPart()

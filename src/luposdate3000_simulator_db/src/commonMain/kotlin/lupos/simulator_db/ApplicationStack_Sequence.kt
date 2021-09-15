@@ -22,7 +22,7 @@ public class ApplicationStack_Sequence(
 ) : IApplicationStack_BothDirections {
     private val outgoingNum = mutableListOf<Int>() // index is the dest-address
     private val incomingNum = mutableListOf<Int>() // index is the src-address
-    private val caches = mutableListOf<MutableList<ApplicationStack_Sequence_Package>>() // index is the src-address
+    private val caches = mutableListOf<MutableList<Package_ApplicationStack_Sequence>>() // index is the src-address
     private lateinit var parent: IApplicationStack_Middleware
     init {
         child.setRouter(this)
@@ -46,7 +46,7 @@ public class ApplicationStack_Sequence(
         parent = router
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is ApplicationStack_Sequence_Package) {
+        if (pck is Package_ApplicationStack_Sequence) {
             while (incomingNum.size <= pck.src) {
                 incomingNum.add(0)
             }
@@ -85,7 +85,7 @@ public class ApplicationStack_Sequence(
             outgoingNum.add(0)
         }
         val num = outgoingNum[destinationAddress]++
-        val pck2 = ApplicationStack_Sequence_Package(pck, num, ownAddress)
+        val pck2 = Package_ApplicationStack_Sequence(pck, num, ownAddress)
         parent.send(destinationAddress, pck2)
     }
     override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {

@@ -18,8 +18,10 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
 import lupos.simulator_db.IPackage_DatabaseTesting
 
-public class MySimulatorTestingExecute(
-    public val query: String,
+public class Package_Luposdate3000_TestingImportPackage(
+    public val filename: String,
+    public val graph: String,
+    public val type: String,
 ) : IPackage_DatabaseTesting {
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
@@ -37,7 +39,7 @@ public class MySimulatorTestingExecute(
         return 0
     }
     override fun getContentLogString(): String {
-        return "MySimulatorTestingCompareGraphPackage($query)"
+        return "Package_Luposdate3000_TestingImportPackage($graph, $type)"
     }
     override fun toString(): String {
         return getContentLogString()

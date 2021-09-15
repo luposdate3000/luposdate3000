@@ -22,9 +22,9 @@ import lupos.simulator_db.ApplicationStack_CatchSelfMessages
 import lupos.simulator_db.ApplicationStack_MergeMessages
 import lupos.simulator_db.ApplicationStack_MultipleChilds
 import lupos.simulator_db.ApplicationStack_Sequence
-import lupos.simulator_db.IPayload
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_BothDirections
+import lupos.simulator_db.IPayload
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
@@ -32,7 +32,7 @@ import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.models.routing.IRoutingProtocol
 import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.models.sensor.ISensor
-import lupos.simulator_iot.queryproc.DatabaseAdapter
+import lupos.simulator_iot.queryproc.ApplicationStack_Adapter
 import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,
@@ -46,7 +46,7 @@ public class Device(
     applications: Array<IApplicationStack_Actuator>,
 ) : Entity() {
     public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
-    public val userApplication: IApplicationStack_BothDirections = DatabaseAdapter(
+    public val userApplication: IApplicationStack_BothDirections = ApplicationStack_Adapter(
         this,
         ApplicationStack_Sequence(
             address,

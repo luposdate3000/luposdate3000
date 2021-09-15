@@ -269,7 +269,7 @@ without minify mode only the passing tests will be added
             myActualDataEvaluate(counter, out)
             myExpectedData(counter, data, type, out)
             myCompareData(counter, out)
-            appendDistributedTest("MySimulatorTestingCompareGraphPackage($query,MemoryTable.parseFromAny($data, $type, Query(instance))!!, {verifyExecuted$distributedTestCtr++},$graph,instance)", true)
+            appendDistributedTest("Package_Luposdate3000_TestingCompareGraphPackage($query,MemoryTable.parseFromAny($data, $type, Query(instance))!!, {verifyExecuted$distributedTestCtr++},$graph,instance)", true)
         }
         fileBufferPrefix.println("/*")
         fileBufferPrefix.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
@@ -304,10 +304,10 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos." + "shared.inline.File")
         fileBufferPrefix.println("import lupos." + "shared.inline.MyPrintWriter")
         fileBufferPrefix.println("import lupos.simulator_core.Simulation")
-        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingCompareGraphPackage")
-        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingImportPackage")
-        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.MySimulatorTestingExecute")
-        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.DatabaseHandle")
+        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage")
+        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage")
+        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute")
+        fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Application_Luposdate3000")
         fileBufferPrefix.println("import lupos.simulator_iot.SimulationRun")
         fileBufferPrefix.println("")
         fileBufferPrefix.println("import kotlin.test.Ignore")
@@ -376,7 +376,7 @@ without minify mode only the passing tests will be added
         fileBufferNormalHelper.println("    internal fun normalHelper(instance:Luposdate3000Instance) {")
         fileBufferNormalHelper.println("        val buf = MyPrintWriter(false)")
         for (i in 0 until inputGraphs.size) {
-            appendDistributedTest("MySimulatorTestingImportPackage(inputDataFile[$i], inputGraph[$i], inputType[$i])", false)
+            appendDistributedTest("Package_Luposdate3000_TestingImportPackage(inputDataFile[$i], inputGraph[$i], inputType[$i])", false)
             fileBufferNormalHelper.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
             fileBufferNormalHelper.println("            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[$i],inputType[$i], inputGraph[$i])")
             fileBufferNormalHelper.println("        } else {")
@@ -395,7 +395,7 @@ without minify mode only the passing tests will be added
                 myVerifyGraph(counter, "targetData", "targetType", "\"\"", "query", false, fileBufferNormalHelper)
             } else {
                 if (evaluateIt) {
-                    appendDistributedTest("MySimulatorTestingExecute(query)", false)
+                    appendDistributedTest("Package_Luposdate3000_TestingExecute(query)", false)
                     fileBufferNormalHelper.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                 }
             }
@@ -518,7 +518,7 @@ without minify mode only the passing tests will be added
         fileBufferSimulator.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
         fileBufferSimulator.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")
         fileBufferSimulator.println("        simRun.sim.startUp()")
-        fileBufferSimulator.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is DatabaseHandle}.first()as DatabaseHandle).instance")
+        fileBufferSimulator.println("        val instance = (config.devices.filter {it.userApplication!=null}.map{it.userApplication!!.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance")
         fileBufferSimulator.print(str)
         fileBufferSimulator.println("        config.addQuerySender(10,1,1,pkg0)")
         fileBufferSimulator.println("        simRun.sim.run()")

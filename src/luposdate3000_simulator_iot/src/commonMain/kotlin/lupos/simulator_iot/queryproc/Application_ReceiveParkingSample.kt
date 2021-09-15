@@ -15,14 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.queryproc
-import lupos.shared.inline.File
-import lupos.simulator_db.IPayload
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.Package_QueryResponse
-public class ApplicationLayerReceiveQueryResonse(
-    private val outputdirectory: String,
-) : IApplicationStack_Actuator {
+import lupos.simulator_db.IPayload
+import lupos.simulator_db.Package_Query
+import lupos.simulator_iot.models.sensor.ParkingSample
+public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
     private lateinit var parent: IApplicationStack_Middleware
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
@@ -32,10 +30,19 @@ public class ApplicationLayerReceiveQueryResonse(
     override fun shutDown() {
     }
     override fun receive(pck: IPayload): IPayload? {
-        if (pck is Package_QueryResponse) {
-            File(outputdirectory + "result_${pck.queryID}").withOutputStream { out ->
-                out.write(pck.result)
-            }
+        if (pck is ParkingSample) {
+            val query = StringBuilder()
+            query.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
+            query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
+            query.appendLine("")
+            query.appendLine("INSERT DATA {")
+            query.appendLine(" _:b0 a parking:Observation ;")
+            query.appendLine(" parking:area \"${pck.area}\"^^xsd:integer ;")
+            query.appendLine(" parking:spotInArea \"${pck.sensorID}\"^^xsd:integer ;")
+            query.appendLine(" parking:isOccupied \"${pck.isOccupied}\"^^xsd:boolean ;")
+            query.appendLine(" parking:resultTime \"${pck.sampleTime}\"^^xsd:dateTime .")
+            query.appendLine("}")
+            parent.send(ownAddress, Package_Query(ownAddress, query.toString().encodeToByteArray()))
             return null
         } else {
             return pck
