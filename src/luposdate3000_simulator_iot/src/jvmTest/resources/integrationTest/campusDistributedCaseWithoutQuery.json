@@ -588,4 +588,7 @@
         },
     ],
     "rootRouter": "Fog",
+    "routing": {
+        "protocol": "RPL",
+    },
 }

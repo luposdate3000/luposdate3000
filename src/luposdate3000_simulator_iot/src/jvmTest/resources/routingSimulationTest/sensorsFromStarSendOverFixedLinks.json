@@ -113,4 +113,7 @@
         },
     ],
     "rootRouter": "DODAG ROOT",
+    "routing": {
+        "protocol": "RPL",
+    },
 }

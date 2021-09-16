@@ -125,4 +125,7 @@
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",
+    "routing": {
+        "protocol": "RPL",
+    },
 }

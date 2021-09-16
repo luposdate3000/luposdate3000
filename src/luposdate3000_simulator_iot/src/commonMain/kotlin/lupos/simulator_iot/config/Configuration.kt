@@ -358,19 +358,24 @@ public class Configuration(private val simRun: SimulationRun) {
                 else -> TODO("unknown application '$applicationName'")
             }
         }
-        val router = ApplicationStack_RPL(
-            ApplicationStack_Sequence(
-                ownAddress,
-                ApplicationStack_MergeMessages(
-                    ApplicationStack_CatchSelfMessages(
-                        ownAddress,
-                        ApplicationStack_MultipleChilds(applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray()),
-                    )
+        val applicationStack = ApplicationStack_Sequence(
+            ownAddress,
+            ApplicationStack_MergeMessages(
+                ApplicationStack_CatchSelfMessages(
+                    ownAddress,
+                    ApplicationStack_MultipleChilds(applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray()),
                 )
-            ),
-            simRun.logger,
-            simRun.config,
+            )
         )
+val jsonRouting=json!!.getOrEmptyObject("routing")
+        val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {
+            else -> ApplicationStack_RPL(
+                applicationStack,
+                simRun.logger,
+                simRun.config,
+            )
+        }
+
         val device = Device(
             simRun,
             location,
