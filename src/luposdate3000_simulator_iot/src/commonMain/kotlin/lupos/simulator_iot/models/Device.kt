@@ -20,13 +20,8 @@ import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_Rooter
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
-import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
-import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
-import lupos.simulator_iot.applications.ApplicationStack_RPL
-import lupos.simulator_iot.applications.ApplicationStack_Sequence
+import lupos.simulator_iot.applications.IApplicationStack_Rooter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
@@ -36,33 +31,17 @@ public class Device(
     internal var location: GeoLocation,
     internal val address: Int,
     internal val performance: Double,
-    supportedLinkTypes: IntArray,
+    internal val linkManager: LinkManager,
     internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
-    applications: Array<IApplicationStack_Actuator>,
+    public val applicationStack: IApplicationStack_Rooter,
     internal val hostNameLookUpTable: MutableMap<String, Int>,
 ) : Entity() {
     internal var isStarNetworkChild: Boolean = false
     private lateinit var deviceStart: Instant
-    internal val linkManager: LinkManager = LinkManager(supportedLinkTypes)
-    public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
-    public val applicationStack: IApplicationStack_Rooter =
-        ApplicationStack_RPL(
-            this,
-            ApplicationStack_Sequence(
-                address,
-                ApplicationStack_MergeMessages(
-                    ApplicationStack_CatchSelfMessages(
-                        address,
-                        allApplications,
-                    )
-                )
-            ),
-            linkManager,
-            simRun.logger,
-            simRun.config,
-        )
-
+    init {
+        applicationStack.setDevice(this)
+    }
     internal fun getProcessingDelay(): Long {
         if (isDeterministic) {
             return 1

@@ -20,7 +20,7 @@ package lupos.simulator_iot.models.net
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.utils.TimeUtils
 
-internal class LinkManager(
+public class LinkManager(
     internal val supportedLinkTypes: IntArray
 ) {
 

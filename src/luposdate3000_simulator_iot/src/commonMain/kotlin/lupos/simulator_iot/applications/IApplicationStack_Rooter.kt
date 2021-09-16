@@ -15,10 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot.applications
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IPayload
+import lupos.simulator_iot.models.Device
 public interface IApplicationStack_Rooter : IApplicationStack_Middleware {
     public fun setRoot()
     public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
     public fun startUp()
     public fun shutDown()
+    public fun setDevice(device: Device)
 }

@@ -30,20 +30,6 @@ public class ApplicationStack_MultipleChilds(
             child.setRouter(this)
         }
     }
-    public fun addChild(child: IApplicationStack_Actuator) {
-        val res = Array<IApplicationStack_Actuator>(childs.size + 1) {
-            if (it <childs.size) {
-                childs[it]
-            } else {
-                child
-            }
-        }
-        childs = res
-        child.setRouter(this)
-        if (hadStartUp) {
-            child.startUp()
-        }
-    }
     override fun startUp() {
         for (child in childs) {
             child.startUp()
@@ -83,4 +69,18 @@ public class ApplicationStack_MultipleChilds(
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
+    override fun addChildApplication(child: IApplicationStack_Actuator) {
+        val res = Array<IApplicationStack_Actuator>(childs.size + 1) {
+            if (it <childs.size) {
+                childs[it]
+            } else {
+                child
+            }
+        }
+        childs = res
+        child.setRouter(this)
+        if (hadStartUp) {
+            child.startUp()
+        }
+    }
 }

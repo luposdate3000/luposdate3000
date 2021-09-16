@@ -30,7 +30,12 @@ import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_iot.LoggerMeasure
 import lupos.simulator_iot.LoggerStdout
 import lupos.simulator_iot.SimulationRun
+import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
 import lupos.simulator_iot.applications.ApplicationStack_Logger
+import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
+import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
+import lupos.simulator_iot.applications.ApplicationStack_RPL
+import lupos.simulator_iot.applications.ApplicationStack_Sequence
 import lupos.simulator_iot.applications.Application_ParkingSensor
 import lupos.simulator_iot.applications.Application_QuerySender
 import lupos.simulator_iot.applications.Application_ReceiveParkingSample
@@ -38,6 +43,7 @@ import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
+import lupos.simulator_iot.models.net.LinkManager
 import lupos.visualize.distributed.database.VisualisationNetwork
 import kotlin.math.round
 
@@ -66,7 +72,7 @@ public class Configuration(private val simRun: SimulationRun) {
     ) {
         val sender = Application_QuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, query, receiver)
         val device = getDeviceByAddress(receiver)
-        device.allApplications.addChild(sender)
+        device.applicationStack.addChildApplication(sender)
     }
     public fun addQuerySender(
         startClockInSec: Int,
@@ -77,7 +83,7 @@ public class Configuration(private val simRun: SimulationRun) {
     ) {
         val sender = Application_QuerySender(startClockInSec, sendRateInSec, maxNumberOfQueries, queryPck, receiver)
         val device = getDeviceByAddress(receiver)
-        device.allApplications.addChild(sender)
+        device.applicationStack.addChildApplication(sender)
     }
 
     private var rootRouterAddress: Int = -1
@@ -130,7 +136,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:132"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:138"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -263,7 +269,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:265"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:271"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -352,15 +358,28 @@ public class Configuration(private val simRun: SimulationRun) {
                 else -> TODO("unknown application '$applicationName'")
             }
         }
+        val router = ApplicationStack_RPL(
+            ApplicationStack_Sequence(
+                ownAddress,
+                ApplicationStack_MergeMessages(
+                    ApplicationStack_CatchSelfMessages(
+                        ownAddress,
+                        ApplicationStack_MultipleChilds(applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray()),
+                    )
+                )
+            ),
+            simRun.logger,
+            simRun.config,
+        )
         val device = Device(
             simRun,
             location,
             ownAddress,
             deviceType.getOrDefault("performance", 100.0),
-            linkTypes,
+            LinkManager(linkTypes),
             nameIndex,
             json!!.getOrDefault("deterministic", true),
-            applications.map { it -> ApplicationStack_Logger(ownAddress, simRun.logger, it) }.toTypedArray(),
+            router,
             namedAddresses,
         )
         simRun.logger.addDevice(ownAddress, location.longitude, location.latitude, databaseStore, databaseQuery, hasSensor)

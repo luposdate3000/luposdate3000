@@ -54,4 +54,5 @@ public class ApplicationStack_CatchSelfMessages(
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
+    override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (child as IApplicationStack_Middleware).addChildApplication(child)
 }

@@ -19,24 +19,21 @@ package lupos.simulator_iot.applications
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IApplicationStack_Rooter
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.IPayload
 import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
-import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
 internal class ApplicationStack_RPL(
-    private val parent: Device,
     private val child: IApplicationStack_Actuator,
-    private val linkManager: LinkManager,
     private val logger: ILogger,
     private val config: Configuration,
 ) : IApplicationStack_Rooter {
     init {
         child.setRouter(this)
     }
+    private lateinit var parent: Device
     internal lateinit var routingTable: ApplicationStack_RPL_RoutingTable
     private val notInitializedAddress = -1
     internal var isRoot: Boolean = false
@@ -45,10 +42,12 @@ internal class ApplicationStack_RPL(
     private var isDelayPackage_ApplicationStack_RPL_DAOTimerRunning = false
 
     internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = INFINITE_RANK)
+    override fun setDevice(device: Device) {
+        parent = device
+    }
     override fun setRoot() {
         isRoot = true
     }
-
     internal fun sendUnRoutedPackage(hop: Int, data: IPayload) {
         val pck = NetworkPackage(parent.address, hop, data)
         val delay = parent.getNetworkDelay(hop, pck)
@@ -56,7 +55,7 @@ internal class ApplicationStack_RPL(
     }
 
     private fun broadcastPackage_ApplicationStack_RPL_DIO() {
-        for (potentialChild in linkManager.getNeighbours())
+        for (potentialChild in parent.linkManager.getNeighbours())
             if (potentialChild != preferredParent.address) {
                 sendPackage_ApplicationStack_RPL_DIO(potentialChild)
             }
@@ -67,7 +66,7 @@ internal class ApplicationStack_RPL(
         sendUnRoutedPackage(destinationAddress, dio)
     }
     private fun hasDatabase(): Boolean {
-        val res = parent.simRun.config.dbDeviceAddressesStore.contains(parent.address) || parent.simRun.config.dbDeviceAddressesQuery.contains(parent.address)
+        val res = config.dbDeviceAddressesStore.contains(parent.address) || config.dbDeviceAddressesQuery.contains(parent.address)
         return res
     }
 
@@ -114,7 +113,7 @@ internal class ApplicationStack_RPL(
         preferredParent.address != notInitializedAddress
 
     override fun startUp() {
-        val numberOfDevices = parent.simRun.config.getNumberOfDevices()
+        val numberOfDevices = config.getNumberOfDevices()
         routingTable = ApplicationStack_RPL_RoutingTable(parent.address, numberOfDevices, hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
@@ -180,14 +179,14 @@ internal class ApplicationStack_RPL(
     }
 
     private fun getParentString() =
-        if (hasParent()) "parent ${parent.simRun.config.getDeviceByAddress(preferredParent.address)}" else "root"
+        if (hasParent()) "parent ${config.getDeviceByAddress(preferredParent.address)}" else "root"
 
     private fun getChildrenString(): StringBuilder {
         val strBuilder = StringBuilder()
         val separator = ", "
         for (children in routingTable.getHops()) {
-            val link = linkManager.links[children]!!
-            val device = parent.simRun.config.getDeviceByAddress(children)
+            val link = parent.linkManager.links[children]!!
+            val device = config.getDeviceByAddress(children)
             strBuilder.append("$link to $device").append(separator).append("\n  ")
         }
         if (strBuilder.length >= separator.length) {
@@ -245,4 +244,5 @@ internal class ApplicationStack_RPL(
         }
         child.shutDown()
     }
+    override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (child as IApplicationStack_Middleware).addChildApplication(child)
 }

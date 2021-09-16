@@ -24,4 +24,5 @@ public interface IApplicationStack_Middleware {
     public fun registerTimer(durationInNanoSeconds: Long, entity: ITimer)
     public fun resolveHostName(name: String): Int
     public fun flush()
+    public fun addChildApplication(child: IApplicationStack_Actuator)
 }
