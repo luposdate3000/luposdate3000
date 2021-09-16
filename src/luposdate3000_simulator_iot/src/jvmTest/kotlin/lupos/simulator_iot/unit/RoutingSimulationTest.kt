@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.unit
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.models.routing.RPL
+import lupos.simulator_iot.applications.ApplicationStack_RPL
 import lupos.simulator_iot.utils.TimeUtils
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -42,7 +42,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/meshToDODAG.json")
         val root = config.getRootDevice()
-        val rootRouter = root.userApplication as RPL
+        val rootRouter = root.applicationStack as ApplicationStack_RPL
         simRun.startSimulation(config)
 
         assertEquals(config.getNumberOfDevices() - 1, rootRouter.routingTable.getDestinations().size)

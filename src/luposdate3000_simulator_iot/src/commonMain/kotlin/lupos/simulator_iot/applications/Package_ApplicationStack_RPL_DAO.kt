@@ -15,15 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.routing
+package lupos.simulator_iot.applications
 
-import lupos.simulator_iot.models.net.NetworkPackage
+import lupos.simulator_db.IPayload
 
-public interface IRoutingProtocol {
-    public var isRoot: Boolean
-    public fun startRouting()
-    public fun isControlPackage(pck: NetworkPackage): Boolean
-    public fun processControlPackage(pck: NetworkPackage)
-    public fun getNextHop(destinationAddress: Int): Int
-    public fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray
+internal class Package_ApplicationStack_RPL_DAO(
+    internal val isPath: Boolean,
+    internal val destinations: IntArray,
+    internal val hopHasDatabase: Boolean,
+    internal val existingDatabaseHops: IntArray
+) : IPayload {
+    override fun getSizeInBytes(): Int {
+        val ipv6InBytes = 16
+        val destinationsSize = destinations.size * ipv6InBytes
+        val existingDatabaseHopsSize = existingDatabaseHops.size * ipv6InBytes
+        return destinationsSize + existingDatabaseHopsSize
+    }
+
+    override fun toString(): String {
+        return "Package_ApplicationStack_RPL_DAO(isPath $isPath)"
+    }
 }

@@ -15,16 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.routing
+package lupos.simulator_iot.applications
 
 import lupos.simulator_db.IPayload
 
-internal class DIO(internal val rank: Int) : IPayload {
+internal class Package_ApplicationStack_RPL_DIO(internal val rank: Int) : IPayload {
     override fun getSizeInBytes(): Int {
         return 2
     }
 
     override fun toString(): String {
-        return "DIO(rank $rank)"
+        return "Package_ApplicationStack_RPL_DIO(rank $rank)"
     }
 }

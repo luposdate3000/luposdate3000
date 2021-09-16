@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.routing
+package lupos.simulator_iot.applications
 
-internal class RoutingTable(
+internal class ApplicationStack_RPL_RoutingTable(
     private val ownAddress: Int,
     private val addressSpace: Int,
     private val hasDatabase: Boolean

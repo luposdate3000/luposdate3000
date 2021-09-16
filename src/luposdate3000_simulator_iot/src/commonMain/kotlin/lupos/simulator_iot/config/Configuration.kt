@@ -139,7 +139,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val rootRouterName = json.getOrDefault("rootRouter", "")
         if (rootRouterName.isNotEmpty()) {
             val device = getDeviceByName(rootRouterName)
-            device.userApplication.setRoot()
+            device.applicationStack.setRoot()
             rootRouterAddress = device.address
         }
 // assign all static links --->>>

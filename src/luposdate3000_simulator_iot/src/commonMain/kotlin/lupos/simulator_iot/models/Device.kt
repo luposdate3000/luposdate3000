@@ -25,11 +25,11 @@ import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
 import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
 import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
+import lupos.simulator_iot.applications.ApplicationStack_RPL
 import lupos.simulator_iot.applications.ApplicationStack_Sequence
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
-import lupos.simulator_iot.models.routing.RPL
 import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,
@@ -46,8 +46,8 @@ public class Device(
     private lateinit var deviceStart: Instant
     internal val linkManager: LinkManager = LinkManager(supportedLinkTypes)
     public val allApplications: ApplicationStack_MultipleChilds = ApplicationStack_MultipleChilds(applications)
-    public val userApplication: IApplicationStack_Rooter =
-        RPL(
+    public val applicationStack: IApplicationStack_Rooter =
+        ApplicationStack_RPL(
             this,
             ApplicationStack_Sequence(
                 address,
@@ -83,7 +83,7 @@ public class Device(
     }
     override fun onStartUp() {
         deviceStart = TimeUtils.stamp()
-        userApplication.startUp()
+        applicationStack.startUp()
     }
 
     override fun onSteadyState() {
@@ -92,11 +92,11 @@ public class Device(
         deviceStart = TimeUtils.stamp()
         val pck = data as NetworkPackage
         simRun.logger.onReceiveNetworkPackage(address, pck.payload)
-        userApplication.receive(pck)
+        applicationStack.receive(pck)
     }
 
     override fun onShutDown() {
-        userApplication.shutDown()
+        applicationStack.shutDown()
     }
 
     internal fun assignToSimulation(dest: Int, hop: Int, pck: NetworkPackage, delay: Long) {
@@ -111,5 +111,5 @@ public class Device(
     override fun toString(): String = "Device(addr $address, name '${simRun.config.getDeviceName(deviceNameID)}')"
     internal fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = setTimer(durationInNanoSeconds, entity)
     internal fun resolveHostName(name: String): Int = hostNameLookUpTable[name]!!
-    public fun getAllChildApplications(): Set<IApplicationStack_Actuator> = userApplication.getAllChildApplications()
+    public fun getAllChildApplications(): Set<IApplicationStack_Actuator> = applicationStack.getAllChildApplications()
 }

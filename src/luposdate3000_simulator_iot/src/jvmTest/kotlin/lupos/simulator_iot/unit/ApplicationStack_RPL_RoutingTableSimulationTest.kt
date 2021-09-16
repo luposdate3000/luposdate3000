@@ -18,33 +18,33 @@
 package lupos.simulator_iot.unit
 
 import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.models.routing.RPL
+import lupos.simulator_iot.applications.ApplicationStack_RPL
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RoutingTableSimulationTest {
+class ApplicationStack_RPL_RoutingTableSimulationTest {
 
     companion object {
         private const val prefix = "src/jvmTest/resources/routingTableSimulationTest"
     }
 
     @Test
-    fun multiHopDODAGRoutingTableTest() {
+    fun multiHopDODAGApplicationStack_RPL_RoutingTableTest() {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/multiHopDODAGRoutingTableTest.json")
+        val config = simRun.parseConfig("$prefix/multiHopDODAGApplicationStack_RPL_RoutingTableTest.json")
 
         val a = config.getDeviceByName("A")
-        val aRouter = a.userApplication as RPL
+        val aRouter = a.applicationStack as ApplicationStack_RPL
         val b = config.getDeviceByName("B")
-        val bRouter = b.userApplication as RPL
+        val bRouter = b.applicationStack as ApplicationStack_RPL
         val c = config.getDeviceByName("C")
-        val cRouter = c.userApplication as RPL
+        val cRouter = c.applicationStack as ApplicationStack_RPL
         val d = config.getDeviceByName("D")
-        val dRouter = d.userApplication as RPL
+        val dRouter = d.applicationStack as ApplicationStack_RPL
         val e = config.getDeviceByName("E")
-        val eRouter = e.userApplication as RPL
+        val eRouter = e.applicationStack as ApplicationStack_RPL
         val f = config.getDeviceByName("F")
-        val fRouter = f.userApplication as RPL
+        val fRouter = f.applicationStack as ApplicationStack_RPL
 
         simRun.startSimulation(config)
 
@@ -91,18 +91,18 @@ class RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.userApplication.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address))
+        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address))
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
         // routing table from B
-        actual = b.userApplication.getNextDatabaseHops(intArrayOf(c.address, b.address, a.address, 999))
+        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, b.address, a.address, 999))
         assertEquals(c.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(-1, actual[2])
         assertEquals(-1, actual[3])
         // routing table from C
-        actual = c.userApplication.getNextDatabaseHops(intArrayOf(c.address, 999, a.address))
+        actual = c.applicationStack.getNextDatabaseHops(intArrayOf(c.address, 999, a.address))
         assertEquals(-1, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(-1, actual[2])
@@ -125,13 +125,13 @@ class RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.userApplication.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address))
+        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address))
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
         assertEquals(d.address, actual[3])
         // routing table from B
-        actual = b.userApplication.getNextDatabaseHops(intArrayOf(c.address, d.address, b.address))
+        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, d.address, b.address))
         assertEquals(c.address, actual[0])
         assertEquals(d.address, actual[1])
         assertEquals(-1, actual[2])
@@ -157,7 +157,7 @@ class RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.userApplication.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address, e.address, f.address, g.address))
+        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address, e.address, f.address, g.address))
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
@@ -166,19 +166,19 @@ class RoutingTableSimulationTest {
         assertEquals(c.address, actual[5])
         assertEquals(c.address, actual[6])
         // routing table from B
-        actual = b.userApplication.getNextDatabaseHops(intArrayOf(c.address, d.address, e.address, f.address, g.address))
+        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, d.address, e.address, f.address, g.address))
         assertEquals(c.address, actual[0])
         assertEquals(c.address, actual[1])
         assertEquals(c.address, actual[2])
         assertEquals(c.address, actual[3])
         assertEquals(c.address, actual[4])
         // routing table from D
-        actual = d.userApplication.getNextDatabaseHops(intArrayOf(e.address, f.address, g.address))
+        actual = d.applicationStack.getNextDatabaseHops(intArrayOf(e.address, f.address, g.address))
         assertEquals(-1, actual[0])
         assertEquals(f.address, actual[1])
         assertEquals(g.address, actual[2])
         // routing table from E
-        actual = e.userApplication.getNextDatabaseHops(intArrayOf(e.address, f.address, a.address))
+        actual = e.applicationStack.getNextDatabaseHops(intArrayOf(e.address, f.address, a.address))
         assertEquals(-1, actual[0])
         assertEquals(f.address, actual[1])
         assertEquals(-1, actual[2])

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.routing
+package lupos.simulator_iot.applications
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
@@ -27,7 +27,7 @@ import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
-internal class RPL(
+internal class ApplicationStack_RPL(
     private val parent: Device,
     private val child: IApplicationStack_Actuator,
     private val linkManager: LinkManager,
@@ -37,12 +37,12 @@ internal class RPL(
     init {
         child.setRouter(this)
     }
-    internal lateinit var routingTable: RoutingTable
+    internal lateinit var routingTable: ApplicationStack_RPL_RoutingTable
     private val notInitializedAddress = -1
     internal var isRoot: Boolean = false
     internal var rank: Int = INFINITE_RANK
     internal var preferredParent: Parent = Parent()
-    private var isDelayDAOTimerRunning = false
+    private var isDelayPackage_ApplicationStack_RPL_DAOTimerRunning = false
 
     internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = INFINITE_RANK)
     override fun setRoot() {
@@ -55,15 +55,15 @@ internal class RPL(
         parent.assignToSimulation(hop, hop, pck, delay)
     }
 
-    private fun broadcastDIO() {
+    private fun broadcastPackage_ApplicationStack_RPL_DIO() {
         for (potentialChild in linkManager.getNeighbours())
             if (potentialChild != preferredParent.address) {
-                sendDIO(potentialChild)
+                sendPackage_ApplicationStack_RPL_DIO(potentialChild)
             }
     }
 
-    private fun sendDIO(destinationAddress: Int) {
-        val dio = DIO(rank)
+    private fun sendPackage_ApplicationStack_RPL_DIO(destinationAddress: Int) {
+        val dio = Package_ApplicationStack_RPL_DIO(rank)
         sendUnRoutedPackage(destinationAddress, dio)
     }
     private fun hasDatabase(): Boolean {
@@ -71,10 +71,10 @@ internal class RPL(
         return res
     }
 
-    private fun sendDAO(destinationAddress: Int) {
+    private fun sendPackage_ApplicationStack_RPL_DAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
-        val dao = DAO(true, destinations, hasDatabase(), nextDatabaseHops)
+        val dao = Package_ApplicationStack_RPL_DAO(true, destinations, hasDatabase(), nextDatabaseHops)
         sendUnRoutedPackage(destinationAddress, dao)
     }
 
@@ -85,15 +85,15 @@ internal class RPL(
             }
         }
         if (hasParent()) {
-            val dao = DAO(false, IntArray(0), false, IntArray(0))
+            val dao = Package_ApplicationStack_RPL_DAO(false, IntArray(0), false, IntArray(0))
             sendUnRoutedPackage(preferredParent.address, dao)
         }
         preferredParent = newParent
         routingTable.fallbackHop = preferredParent.address
-        sendDAO(preferredParent.address)
+        sendPackage_ApplicationStack_RPL_DAO(preferredParent.address)
     }
 
-    private fun updateRoutingTable(hopAddress: Int, dao: DAO): Boolean {
+    private fun updateApplicationStack_RPL_RoutingTable(hopAddress: Int, dao: Package_ApplicationStack_RPL_DAO): Boolean {
         return if (dao.isPath) {
             if (dao.hopHasDatabase) {
                 routingTable.setDestinationsByDatabaseHop(hopAddress, dao.destinations)
@@ -106,7 +106,7 @@ internal class RPL(
     }
 
     private fun objectiveFunction(pck: NetworkPackage): Int {
-        val otherRank = (pck.payload as DIO).rank
+        val otherRank = (pck.payload as Package_ApplicationStack_RPL_DIO).rank
         return otherRank + MinHopRankIncrease
     }
 
@@ -115,10 +115,10 @@ internal class RPL(
 
     override fun startUp() {
         val numberOfDevices = parent.simRun.config.getNumberOfDevices()
-        routingTable = RoutingTable(parent.address, numberOfDevices, hasDatabase())
+        routingTable = ApplicationStack_RPL_RoutingTable(parent.address, numberOfDevices, hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
-            broadcastDIO()
+            broadcastPackage_ApplicationStack_RPL_DIO()
         }
         child.startUp()
     }
@@ -127,28 +127,28 @@ internal class RPL(
         val payload = pck.payload
         if (pck.destinationAddress == parent.address) {
             when (payload) {
-                is DIO -> {
+                is Package_ApplicationStack_RPL_DIO -> {
                     if (objectiveFunction(pck) < rank) {
                         rank = objectiveFunction(pck)
                         updateParent(Parent(pck.sourceAddress, payload.rank))
-                        broadcastDIO()
+                        broadcastPackage_ApplicationStack_RPL_DIO()
                     }
                 }
-                is DAO -> {
-                    val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, payload)
-                    if (hasParent() && hasRoutingTableChanged) {
-                        if (!isDelayDAOTimerRunning) {
-                            val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
+                is Package_ApplicationStack_RPL_DAO -> {
+                    val hasApplicationStack_RPL_RoutingTableChanged = updateApplicationStack_RPL_RoutingTable(pck.sourceAddress, payload)
+                    if (hasParent() && hasApplicationStack_RPL_RoutingTableChanged) {
+                        if (!isDelayPackage_ApplicationStack_RPL_DAOTimerRunning) {
+                            val daoDelay = TimeUtils.toNanoSec(DEFAULT_Package_ApplicationStack_RPL_DAO_DELAY)
                             parent.setTimer(
                                 daoDelay,
                                 object : ITimer {
                                     override fun onTimerExpired(clock: Long) {
-                                        isDelayDAOTimerRunning = false
-                                        sendDAO(preferredParent.address)
+                                        isDelayPackage_ApplicationStack_RPL_DAOTimerRunning = false
+                                        sendPackage_ApplicationStack_RPL_DAO(preferredParent.address)
                                     }
                                 }
                             )
-                            isDelayDAOTimerRunning = true
+                            isDelayPackage_ApplicationStack_RPL_DAOTimerRunning = true
                         }
                     }
                 }
@@ -198,11 +198,11 @@ internal class RPL(
 
     internal companion object {
 
-        // RPL Constants (see section 17. of RFC 6550)
+        // ApplicationStack_RPL Constants (see section 17. of RFC 6550)
         // ------------------------
 
-        // This is the default value for the DelayDAO Timer. Default is 1 second.
-        internal const val DEFAULT_DAO_DELAY: Int = 1
+        // This is the default value for the DelayPackage_ApplicationStack_RPL_DAO Timer. Default is 1 second.
+        internal const val DEFAULT_Package_ApplicationStack_RPL_DAO_DELAY: Int = 1
 
         // The minimum increase in Rank between a node and any of its DODAG parents.
         internal const val MinHopRankIncrease: Int = 1
