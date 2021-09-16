@@ -31,7 +31,7 @@ class ApplicationStack_RPL_RoutingTableSimulationTest {
     @Test
     fun multiHopDODAGApplicationStack_RPL_RoutingTableTest() {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/multiHopDODAGApplicationStack_RPL_RoutingTableTest.json")
+        val config = simRun.parseConfig("$prefix/multiHopDODAGRoutingTableTest.json")
 
         val a = config.getDeviceByName("A")
         val aRouter = a.applicationStack as ApplicationStack_RPL

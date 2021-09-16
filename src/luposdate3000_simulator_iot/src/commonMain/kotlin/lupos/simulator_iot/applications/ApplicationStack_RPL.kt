@@ -244,5 +244,5 @@ internal class ApplicationStack_RPL(
         }
         child.shutDown()
     }
-    override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (child as IApplicationStack_Middleware).addChildApplication(child)
+    override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
 }
