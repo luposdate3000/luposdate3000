@@ -111,4 +111,5 @@ public class Device(
     override fun toString(): String = "Device(addr $address, name '${simRun.config.getDeviceName(deviceNameID)}')"
     internal fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = setTimer(durationInNanoSeconds, entity)
     internal fun resolveHostName(name: String): Int = hostNameLookUpTable[name]!!
+    public fun getAllChildApplications(): Set<IApplicationStack_Actuator> = userApplication.getAllChildApplications()
 }

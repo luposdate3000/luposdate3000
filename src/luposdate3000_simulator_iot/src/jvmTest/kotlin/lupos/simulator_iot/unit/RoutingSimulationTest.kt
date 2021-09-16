@@ -42,7 +42,7 @@ class RoutingSimulationTest {
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/meshToDODAG.json")
         val root = config.getRootDevice()
-        val rootRouter = root.router as RPL
+        val rootRouter = root.userApplication as RPL
         simRun.startSimulation(config)
 
         assertEquals(config.getNumberOfDevices() - 1, rootRouter.routingTable.getDestinations().size)

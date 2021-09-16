@@ -124,19 +124,18 @@ internal class RPL(
     }
     override fun receive(pck: IPayload): IPayload? {
         pck as NetworkPackage
+        val payload = pck.payload
         if (pck.destinationAddress == parent.address) {
-            when (pck) {
+            when (payload) {
                 is DIO -> {
-                    val dio = pck.payload as DIO
                     if (objectiveFunction(pck) < rank) {
                         rank = objectiveFunction(pck)
-                        updateParent(Parent(pck.sourceAddress, dio.rank))
+                        updateParent(Parent(pck.sourceAddress, payload.rank))
                         broadcastDIO()
                     }
                 }
                 is DAO -> {
-                    val dao = pck.payload as DAO
-                    val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
+                    val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, payload)
                     if (hasParent() && hasRoutingTableChanged) {
                         if (!isDelayDAOTimerRunning) {
                             val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
@@ -154,7 +153,7 @@ internal class RPL(
                     }
                 }
                 else -> {
-                    child.receive(pck.payload)
+                    child.receive(payload)
                 }
             }
         } else {
