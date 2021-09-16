@@ -15,13 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.models.net
-import lupos.simulator_db.IPayload
-public class NetworkPackage(
-    internal val sourceAddress: Int,
-    internal val destinationAddress: Int,
-    internal val payload: IPayload
-) : IPayload {
-    override fun getSizeInBytes(): Int = 40 + payload.getSizeInBytes()
-    override fun toString(): String = "Pck(src $sourceAddress, dest $destinationAddress, size ${getSizeInBytes()}, payload $payload)"
+package lupos.simulator_db
+public interface IApplicationStack_Rooter : IApplicationStack_Middleware {
+    public fun setRoot()
+    public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
+    public fun startUp()
+    public fun shutDown()
 }

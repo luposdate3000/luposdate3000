@@ -16,31 +16,47 @@
  */
 
 package lupos.simulator_iot.models.routing
-
 import lupos.simulator_core.ITimer
+import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_db.IApplicationStack_Rooter
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.IPayload
+import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
+import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
-internal class RPL(internal val device: Device) : IRoutingProtocol {
-
+internal class RPL(
+    private val parent: Device,
+    private val child: IApplicationStack_Actuator,
+    private val linkManager: LinkManager,
+    private val logger: ILogger,
+    private val config: Configuration,
+) : IApplicationStack_Rooter {
+    init {
+        child.setRouter(this)
+    }
     internal lateinit var routingTable: RoutingTable
-
     private val notInitializedAddress = -1
-
-    override var isRoot: Boolean = false
-
+    internal var isRoot: Boolean = false
     internal var rank: Int = INFINITE_RANK
-        private set
-
     internal var preferredParent: Parent = Parent()
-        private set
-
     private var isDelayDAOTimerRunning = false
 
     internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = INFINITE_RANK)
+    override fun setRoot() {
+        isRoot = true
+    }
+
+    internal fun sendUnRoutedPackage(hop: Int, data: IPayload) {
+        val pck = NetworkPackage(parent.address, hop, data)
+        val delay = parent.getNetworkDelay(hop, pck)
+        parent.assignToSimulation(hop, hop, pck, delay)
+    }
 
     private fun broadcastDIO() {
-        for (potentialChild in device.linkManager.getNeighbours())
+        for (potentialChild in linkManager.getNeighbours())
             if (potentialChild != preferredParent.address) {
                 sendDIO(potentialChild)
             }
@@ -48,10 +64,10 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
     private fun sendDIO(destinationAddress: Int) {
         val dio = DIO(rank)
-        device.sendUnRoutedPackage(destinationAddress, dio)
+        sendUnRoutedPackage(destinationAddress, dio)
     }
     private fun hasDatabase(): Boolean {
-        val res = device.simRun.config.dbDeviceAddressesStore.contains(device.address) || device.simRun.config.dbDeviceAddressesQuery.contains(device.address)
+        val res = parent.simRun.config.dbDeviceAddressesStore.contains(parent.address) || parent.simRun.config.dbDeviceAddressesQuery.contains(parent.address)
         return res
     }
 
@@ -59,22 +75,7 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
         val destinations = routingTable.getDestinations()
         val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
         val dao = DAO(true, destinations, hasDatabase(), nextDatabaseHops)
-        device.sendUnRoutedPackage(destinationAddress, dao)
-    }
-
-    private fun sendDAONoPath(destinationAddress: Int) {
-        val dao = DAO(false, IntArray(0), false, IntArray(0))
-        device.sendUnRoutedPackage(destinationAddress, dao)
-    }
-
-    private fun processDIO(pck: NetworkPackage) {
-        val dio = pck.payload as DIO
-        if (objectiveFunction(pck) >= rank) {
-            return
-        }
-        rank = objectiveFunction(pck)
-        updateParent(Parent(pck.sourceAddress, dio.rank))
-        broadcastDIO()
+        sendUnRoutedPackage(destinationAddress, dao)
     }
 
     private fun updateParent(newParent: Parent) {
@@ -84,21 +85,12 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
             }
         }
         if (hasParent()) {
-            sendDAONoPath(preferredParent.address)
+            val dao = DAO(false, IntArray(0), false, IntArray(0))
+            sendUnRoutedPackage(preferredParent.address, dao)
         }
         preferredParent = newParent
         routingTable.fallbackHop = preferredParent.address
         sendDAO(preferredParent.address)
-    }
-
-    private fun processDAO(pck: NetworkPackage) {
-        val dao = pck.payload as DAO
-        val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
-        if (hasParent() && hasRoutingTableChanged) {
-            if (!isDelayDAOTimerRunning) {
-                startDelayDAOTimer()
-            }
-        }
     }
 
     private fun updateRoutingTable(hopAddress: Int, dao: DAO): Boolean {
@@ -121,54 +113,65 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     internal fun hasParent(): Boolean =
         preferredParent.address != notInitializedAddress
 
-    override fun startRouting() {
-        val numberOfDevices = device.simRun.config.getNumberOfDevices()
-        routingTable = RoutingTable(device.address, numberOfDevices, hasDatabase())
+    override fun startUp() {
+        val numberOfDevices = parent.simRun.config.getNumberOfDevices()
+        routingTable = RoutingTable(parent.address, numberOfDevices, hasDatabase())
         if (isRoot) {
             rank = ROOT_RANK
             broadcastDIO()
         }
+        child.startUp()
     }
-
-    override fun isControlPackage(pck: NetworkPackage): Boolean =
-        pck.payload is DAO || pck.payload is DIO
-
-    private fun forwardDAO() {
-        sendDAO(preferredParent.address)
-    }
-
-    private fun startDelayDAOTimer() {
-        val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
-        device.setTimer(
-            daoDelay,
-            object : ITimer {
-                override fun onTimerExpired(clock: Long) {
-                    isDelayDAOTimerRunning = false
-                    forwardDAO()
+    override fun receive(pck: IPayload): IPayload? {
+        pck as NetworkPackage
+        if (pck.destinationAddress == parent.address) {
+            when (pck) {
+                is DIO -> {
+                    val dio = pck.payload as DIO
+                    if (objectiveFunction(pck) < rank) {
+                        rank = objectiveFunction(pck)
+                        updateParent(Parent(pck.sourceAddress, dio.rank))
+                        broadcastDIO()
+                    }
+                }
+                is DAO -> {
+                    val dao = pck.payload as DAO
+                    val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
+                    if (hasParent() && hasRoutingTableChanged) {
+                        if (!isDelayDAOTimerRunning) {
+                            val daoDelay = TimeUtils.toNanoSec(DEFAULT_DAO_DELAY)
+                            parent.setTimer(
+                                daoDelay,
+                                object : ITimer {
+                                    override fun onTimerExpired(clock: Long) {
+                                        isDelayDAOTimerRunning = false
+                                        sendDAO(preferredParent.address)
+                                    }
+                                }
+                            )
+                            isDelayDAOTimerRunning = true
+                        }
+                    }
+                }
+                else -> {
+                    child.receive(pck.payload)
                 }
             }
-        )
-        isDelayDAOTimerRunning = true
-    }
-
-    override fun processControlPackage(pck: NetworkPackage) {
-        when (pck.payload) {
-            is DIO -> processDIO(pck)
-            is DAO -> processDAO(pck)
-            else -> throw Exception("Wrong Package")
+        } else {
+            val hop = getNextHop(pck.destinationAddress)
+            val delay = parent.getNetworkDelay(hop, pck)
+            parent.assignToSimulation(pck.destinationAddress, hop, pck, delay)
         }
+        return null
     }
 
-    override fun getNextHop(destinationAddress: Int): Int =
-        routingTable.getNextHop(destinationAddress)
-
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
-        routingTable.getNextDatabaseHops(destinationAddresses)
+    private fun getNextHop(destinationAddress: Int): Int = routingTable.getNextHop(destinationAddress)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = routingTable.getNextDatabaseHops(destinationAddresses)
 
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder
-            .append("> $device").append(", ")
+            .append("> $parent").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString())
             .appendLine().append("  ")
@@ -178,14 +181,14 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
     }
 
     private fun getParentString() =
-        if (hasParent()) "parent ${device.simRun.config.getDeviceByAddress(preferredParent.address)}" else "root"
+        if (hasParent()) "parent ${parent.simRun.config.getDeviceByAddress(preferredParent.address)}" else "root"
 
     private fun getChildrenString(): StringBuilder {
         val strBuilder = StringBuilder()
         val separator = ", "
         for (children in routingTable.getHops()) {
-            val link = device.linkManager.links[children]!!
-            val device = device.simRun.config.getDeviceByAddress(children)
+            val link = linkManager.links[children]!!
+            val device = parent.simRun.config.getDeviceByAddress(children)
             strBuilder.append("$link to $device").append(separator).append("\n  ")
         }
         if (strBuilder.length >= separator.length) {
@@ -210,5 +213,37 @@ internal class RPL(internal val device: Device) : IRoutingProtocol {
 
         // This is the constant maximum for the Rank.
         internal const val INFINITE_RANK: Int = Int.MAX_VALUE
+    }
+    override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
+        var res = mutableSetOf<IApplicationStack_Actuator>(child)
+        if (child is IApplicationStack_Middleware) {
+            res.addAll(child.getAllChildApplications())
+        }
+        return res
+    }
+    override fun flush() {}
+    override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
+    override fun send(destinationAddress: Int, pck: IPayload) {
+        val pck2 = NetworkPackage(parent.address, destinationAddress, pck)
+        val hop = getNextHop(destinationAddress)
+        val delay = parent.getNetworkDelay(hop, pck2)
+        parent.assignToSimulation(destinationAddress, hop, pck2, delay)
+    }
+    override fun shutDown() {
+        for (dest in 0 until config.devices.size) {
+            try {
+                val hop = getNextHop(dest)
+                if (hop != -1) {
+                    logger.addConnectionTable(parent.address, dest, hop)
+                }
+                val dbhop = getNextDatabaseHops(intArrayOf(dest))[0]
+                if (dbhop != -1) {
+                    logger.addConnectionTableDB(parent.address, dest, dbhop)
+                }
+            } catch (e: Throwable) {
+            }
+        }
+        child.shutDown()
     }
 }
