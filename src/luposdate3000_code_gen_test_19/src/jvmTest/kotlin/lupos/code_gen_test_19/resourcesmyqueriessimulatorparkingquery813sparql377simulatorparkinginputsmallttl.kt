@@ -107,6 +107,21 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - Thread - Simple - false`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1371,6 +1386,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1399,6 +1430,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1435,6 +1482,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1463,6 +1526,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1499,6 +1578,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1531,6 +1626,22 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1548,8 +1659,7 @@ public class resourcesmyqueriessimulatorparkingquery813sparql377simulatorparking
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))

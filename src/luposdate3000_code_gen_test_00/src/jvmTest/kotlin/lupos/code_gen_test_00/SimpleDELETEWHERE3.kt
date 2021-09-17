@@ -145,6 +145,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -173,6 +189,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "None",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -209,6 +241,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -237,6 +285,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -273,6 +337,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -301,6 +381,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -337,6 +433,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -365,6 +477,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -401,6 +529,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -429,6 +573,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -465,6 +625,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -493,6 +669,22 @@ public class SimpleDELETEWHERE3 {
                 "LUPOS_PARTITION_MODE" to "Thread",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - true - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -529,6 +721,22 @@ public class SimpleDELETEWHERE3 {
     }
 
     @Test
+    public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - false - Thread - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Thread",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `Simple DELETE WHERE 3 - in simulator - Simple - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -546,8 +754,7 @@ public class SimpleDELETEWHERE3 {
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))

@@ -93,6 +93,21 @@ public class resourcesmyqueriessimulatorparkingquery71sparql377simulatorparkingi
     }
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - Simple - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -1357,8 +1372,7 @@ public class resourcesmyqueriessimulatorparkingquery71sparql377simulatorparkingi
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
