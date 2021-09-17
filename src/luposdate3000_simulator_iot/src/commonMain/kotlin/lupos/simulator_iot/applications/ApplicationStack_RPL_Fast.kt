@@ -82,7 +82,7 @@ internal class ApplicationStack_RPL_Fast(
     override fun shutDown() = child.shutDown()
     override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
     private fun generateRoutingTableUsingGlobalParentTable(globalParentTable: IntArray) {
-        val routingTable = IntArray(config.devices.size) { -1 }
+        routingTable = IntArray(config.devices.size) { -1 }
         routingTable[parent.address] = parent.address // myself
         for (i in 0 until config.devices.size) {
             if (globalParentTable[i] == parent.address) {
@@ -93,7 +93,7 @@ internal class ApplicationStack_RPL_Fast(
         while (changed) {
             changed = false
             for (i in 0 until config.devices.size) {
-                if (routingTable[globalParentTable[i]] != -1) {
+                if (routingTable[i] == -1 && routingTable[globalParentTable[i]] != -1) {
                     routingTable[i] = routingTable[globalParentTable[i]] // their next hop is known, so use it
                     changed = true
                 }
@@ -156,6 +156,7 @@ internal class ApplicationStack_RPL_Fast(
                 }
             }
         }
+//        println("local table ${parent.address} .. ${routingTable.map{it}} .. ${routingTableDatabaseHops.map{it}}")
     }
 
     override fun startUp() {
@@ -174,15 +175,18 @@ internal class ApplicationStack_RPL_Fast(
                     } else {
                         b to a
                     }
-                    val oldCost = globalParentCosts[p.second.address]
-                    val newCost = globalParentCosts[p.first.address] + delay
-                    if (globalParentCosts[p.first.address] + delay < globalParentCosts[p.second.address]) {
+                    SanityCheck.check(
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:178"/*SOURCE_FILE_END*/ },
+                        { delay> 0 },
+                    )
+                    if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {
                         globalParentCosts[p.second.address] = globalParentCosts[p.first.address] + delay
                         globalParentTable[p.second.address] = p.first.address
                         queue.add(p.second)
                     }
                 }
             }
+            //           println("global table .. ${globalParentTable.map{it}}")
             for (d in config.devices) {
                 (d.applicationStack as ApplicationStack_RPL_Fast).generateRoutingTableUsingGlobalParentTable(globalParentTable)
             }
