@@ -1,0 +1,13 @@
+{
+    "logging": {
+        "measure": {
+            "enabled": true,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": true,
+        },
+    },
+}

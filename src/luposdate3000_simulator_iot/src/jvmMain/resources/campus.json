@@ -1,7 +1,7 @@
 {
     "applications": {
         "ParkingSampleReceiver": {},
-        "QueryResponseReceiver": {}
+        "QueryResponseReceiver": {},
     },
     "deterministic": true,
     "deviceType": {
@@ -10,96 +10,96 @@
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 1": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 10": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 2": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 3": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 4": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 5": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 6": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 7": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 8": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Edge Gateway WSN 9": {
             "applications": {},
             "performance": 30.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Mesh Hop": {
             "applications": {},
             "performance": 20.0,
             "supportedLinkTypes": [
                 "WPAN",
-                "WLAN"
-            ]
+                "WLAN",
+            ],
         },
         "Sensor Device WSN 1": {
             "applications": {
@@ -108,13 +108,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 60,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 10": {
             "applications": {
@@ -123,13 +123,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 110,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 2": {
             "applications": {
@@ -138,13 +138,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 120,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 3": {
             "applications": {
@@ -153,13 +153,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 100,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 4": {
             "applications": {
@@ -168,13 +168,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 140,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 5": {
             "applications": {
@@ -183,13 +183,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 50,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 6": {
             "applications": {
@@ -198,13 +198,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 120,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 7": {
             "applications": {
@@ -213,13 +213,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 59,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 8": {
             "applications": {
@@ -228,13 +228,13 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 130,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
+                "WPAN",
+            ],
         },
         "Sensor Device WSN 9": {
             "applications": {
@@ -243,104 +243,93 @@
                     "dataSink": "Fog",
                     "maxSamples": 3,
                     "rateInSec": 61,
-                    "sendStartClockInSec": 15
-                }
+                    "sendStartClockInSec": 15,
+                },
             },
             "performance": 1.0,
             "supportedLinkTypes": [
-                "WPAN"
-            ]
-        }
+                "WPAN",
+            ],
+        },
     },
     "fixedDevice": {
         "Fog": {
             "applications": {},
             "deviceType": "Central Tower",
             "latitude": 53.83831534459554,
-            "longitude": 10.698774930618905
+            "longitude": 10.698774930618905,
         },
         "Root WSN 1": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 1",
             "latitude": 53.838474484901376,
-            "longitude": 10.695081476709452
+            "longitude": 10.695081476709452,
         },
         "Root WSN 10": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 10",
             "latitude": 53.83582633252526,
-            "longitude": 10.701612267614298
+            "longitude": 10.701612267614298,
         },
         "Root WSN 2": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 2",
             "latitude": 53.83744253948933,
-            "longitude": 10.694834809499191
+            "longitude": 10.694834809499191,
         },
         "Root WSN 3": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 3",
             "latitude": 53.836891814222774,
-            "longitude": 10.697463417298081
+            "longitude": 10.697463417298081,
         },
         "Root WSN 4": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 4",
             "latitude": 53.83862015297171,
-            "longitude": 10.70005982052656
+            "longitude": 10.70005982052656,
         },
         "Root WSN 5": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 5",
             "latitude": 53.8371134048039,
-            "longitude": 10.699351680333246
+            "longitude": 10.699351680333246,
         },
         "Root WSN 6": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 6",
             "latitude": 53.83759450606049,
-            "longitude": 10.702377248379614
+            "longitude": 10.702377248379614,
         },
         "Root WSN 7": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 7",
             "latitude": 53.83622460614883,
-            "longitude": 10.697405195405576
+            "longitude": 10.697405195405576,
         },
         "Root WSN 8": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 8",
             "latitude": 53.83523539538031,
-            "longitude": 10.696438320766976
+            "longitude": 10.696438320766976,
         },
         "Root WSN 9": {
             "applications": {},
             "deviceType": "Edge Gateway WSN 9",
             "latitude": 53.83549953176541,
-            "longitude": 10.697955598003395
-        }
+            "longitude": 10.697955598003395,
+        },
     },
     "fixedLink": [],
     "linkType": {
         "WLAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 200
+            "rangeInMeters": 200,
         },
         "WPAN": {
             "dataRateInKbps": 250,
-            "rangeInMeters": 30
-        }
-    },
-    "logging": {
-        "measure": {
-            "enabled": false
+            "rangeInMeters": 30,
         },
-        "stdout": {
-            "enabled": false
-        },
-        "visualize": {
-            "enabled": false
-        }
     },
     "outputDirectory": "",
     "randomMeshNetwork": [
@@ -351,8 +340,8 @@
             "originLatitude": 53.83897140331313,
             "originLongitude": 10.694405480987202,
             "signalCoverageEast": 560,
-            "signalCoverageSouth": 460
-        }
+            "signalCoverageSouth": 460,
+        },
     ],
     "randomStarNetwork": [
         {
@@ -361,7 +350,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
             "number": 5,
-            "starRoot": "Root WSN 1"
+            "starRoot": "Root WSN 1",
         },
         {
             "dataSink": "",
@@ -369,7 +358,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 2",
             "number": 5,
-            "starRoot": "Root WSN 2"
+            "starRoot": "Root WSN 2",
         },
         {
             "dataSink": "",
@@ -377,7 +366,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 3",
             "number": 5,
-            "starRoot": "Root WSN 3"
+            "starRoot": "Root WSN 3",
         },
         {
             "dataSink": "",
@@ -385,7 +374,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 4",
             "number": 5,
-            "starRoot": "Root WSN 4"
+            "starRoot": "Root WSN 4",
         },
         {
             "dataSink": "",
@@ -393,7 +382,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 5",
             "number": 5,
-            "starRoot": "Root WSN 5"
+            "starRoot": "Root WSN 5",
         },
         {
             "dataSink": "",
@@ -401,7 +390,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 6",
             "number": 5,
-            "starRoot": "Root WSN 6"
+            "starRoot": "Root WSN 6",
         },
         {
             "dataSink": "",
@@ -409,7 +398,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 7",
             "number": 5,
-            "starRoot": "Root WSN 7"
+            "starRoot": "Root WSN 7",
         },
         {
             "dataSink": "",
@@ -417,7 +406,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 8",
             "number": 5,
-            "starRoot": "Root WSN 8"
+            "starRoot": "Root WSN 8",
         },
         {
             "dataSink": "",
@@ -425,7 +414,7 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 9",
             "number": 5,
-            "starRoot": "Root WSN 9"
+            "starRoot": "Root WSN 9",
         },
         {
             "dataSink": "",
@@ -433,8 +422,8 @@
             "linkType": "WPAN",
             "networkPrefix": "WSN 10",
             "number": 5,
-            "starRoot": "Root WSN 10"
-        }
+            "starRoot": "Root WSN 10",
+        },
     ],
-    "rootRouter": "Fog"
+    "rootRouter": "Fog",
 }

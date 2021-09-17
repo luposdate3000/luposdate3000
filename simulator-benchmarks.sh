@@ -14,6 +14,9 @@ BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
 JSON_LOCATION="${BASE_PATH}/campus.json"
 LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
+for r in RPL_Fast RPL
+do
+JSON_ROUTING="${BASE_PATH}/routing_$r.json"
 for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
 #for q in Q3
 do
@@ -44,23 +47,11 @@ then
 continue
 fi
 measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
-
-
-
-
-
-echo $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-continue
-
-
-
-
-
-echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
+echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
 echo $measurementFile
-eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST
-headerLine="topology,database,query,multicast,dist,readwrite"
-contentLine="${t},${d},${q},${m},${dist}"
+eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
+headerLine="topology,database,query,multicast,routing-protocol,dist,readwrite"
+contentLine="${t},${d},${q},${m},${r},${dist}"
 if [ "$q" = "Q0" ]
 then
 contentLine="$contentLine,w"
@@ -86,6 +77,7 @@ echo $headerLine >> simulator_output/final.csv
 fi
 echo $contentLine >> simulator_output/final.csv
 first=false
+done
 done
 done
 done

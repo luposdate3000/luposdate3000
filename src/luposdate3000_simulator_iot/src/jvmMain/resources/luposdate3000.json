@@ -1,13 +1,13 @@
 {
     "applications": {
         "Luposdate3000": {
-            "enabled": false,
-            "databaseQuery": true,
-            "databaseStore": true,
             "REPLACE_STORE_WITH_VALUES": false,
             "SharedMemoryDictionaryCheat": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "enabled": false,
             "mergeLocalOperatorgraphs": true,
-            "useDictionaryInlineEncoding": true
-        }
-    }
-},
+            "useDictionaryInlineEncoding": true,
+        },
+    },
+}
