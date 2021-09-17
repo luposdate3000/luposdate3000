@@ -30,6 +30,7 @@ import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_iot.LoggerMeasure
 import lupos.simulator_iot.LoggerStdout
 import lupos.simulator_iot.SimulationRun
+import lupos.simulator_iot.applications.ApplicationStack_AllShortestPath
 import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
 import lupos.simulator_iot.applications.ApplicationStack_Logger
 import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
@@ -384,7 +385,7 @@ public class Configuration(private val simRun: SimulationRun) {
         )
         val jsonRouting = json!!.getOrEmptyObject("routing")
         val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {
-            "AllShortestPath" -> AllShortestPath(
+            "AllShortestPath" -> ApplicationStack_AllShortestPath(
                 applicationStack,
                 simRun.logger,
                 simRun.config,

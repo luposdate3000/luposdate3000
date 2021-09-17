@@ -26,7 +26,7 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
 
-internal class ApplicationStack_RPL_AllShortestPath(
+internal class ApplicationStack_AllShortestPath(
     private val child: IApplicationStack_Actuator,
     private val logger: ILogger,
     private val config: Configuration,
