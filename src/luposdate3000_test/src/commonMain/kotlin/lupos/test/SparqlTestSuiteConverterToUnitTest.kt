@@ -64,7 +64,8 @@ without minify mode only the passing tests will be added
     internal val listOfAllTests = mutableSetOf<String>()
     internal val listOfBlacklist = mutableSetOf<String>()
 
-    internal fun isIgnored(testName: String): Boolean {
+    internal fun isIgnored(testName1: String): Boolean {
+        val testName = testName1.replace(" - RPL", "").replace(" - RPL_Fast", "")
         if (minifyMode) {
             return listOfRemoved.contains(testName)
         } else {
@@ -467,53 +468,59 @@ without minify mode only the passing tests will be added
                 for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
                     for (queryDistributionMode in EQueryDistributionModeExt.names) {
                         for (useDictionaryInlineEncoding in listOf("true", "false")) {
-                            if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
-                                continue
+                            for (routingProtocol in listOf("RPL", "RPL_Fast")) {
+                                if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
+                                    continue
+                                }
+                                if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                                    continue
+                                }
+                                if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                                    continue
+                                }
+                                val finalTestName = "$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE - $routingProtocol"
+                                listOfAllTests.add(finalTestName)
+                                val fileBufferTest = MyPrintWriter(true)
+                                fileBufferTests[finalTestName] = fileBufferTest
+                                if (isIgnored(finalTestName) || !withSimulator) {
+                                    fileBufferTest.println("    @Ignore")
+                                }
+                                if (minifyMode) {
+                                    fileBufferTest.println("    @Test(timeout = 2000)")
+                                } else {
+                                    fileBufferTest.println("    @Test")
+                                }
+                                fileBufferTest.println("    public fun `$finalTestName`() {")
+                                fileBufferTest.println("        simulatorHelper(")
+                                if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
+                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                } else {
+                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                }
+                                fileBufferTest.println("            mutableMapOf(")
+                                fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
+                                fileBufferTest.println("                \"mergeLocalOperatorgraphs\" to true,")
+                                fileBufferTest.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
+                                fileBufferTest.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
+                                fileBufferTest.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
+                                fileBufferTest.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
+                                fileBufferTest.println("            ),")
+                                fileBufferTest.println("            \"$routingProtocol\",")
+                                fileBufferTest.println("        )")
+                                fileBufferTest.println("    }")
                             }
-                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process] && predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
-                                continue
-                            }
-                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
-                                continue
-                            }
-                            val finalTestName = "$testCaseName2 - in simulator - $predefinedPartitionScheme - $queryDistributionMode - $useDictionaryInlineEncoding - $LUPOS_PARTITION_MODE"
-                            listOfAllTests.add(finalTestName)
-                            val fileBufferTest = MyPrintWriter(true)
-                            fileBufferTests[finalTestName] = fileBufferTest
-                            if (isIgnored(finalTestName) || !withSimulator) {
-                                fileBufferTest.println("    @Ignore")
-                            }
-                            if (minifyMode) {
-                                fileBufferTest.println("    @Test(timeout = 2000)")
-                            } else {
-                                fileBufferTest.println("    @Test")
-                            }
-                            fileBufferTest.println("    public fun `$finalTestName`() {")
-                            fileBufferTest.println("        simulatorHelper(")
-                            if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
-                            } else {
-                                fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
-                            }
-                            fileBufferTest.println("            mutableMapOf(")
-                            fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
-                            fileBufferTest.println("                \"mergeLocalOperatorgraphs\" to true,")
-                            fileBufferTest.println("                \"queryDistributionMode\" to \"$queryDistributionMode\",")
-                            fileBufferTest.println("                \"useDictionaryInlineEncoding\" to $useDictionaryInlineEncoding,")
-                            fileBufferTest.println("                \"REPLACE_STORE_WITH_VALUES\" to false,") // this does not work in simulator
-                            fileBufferTest.println("                \"LUPOS_PARTITION_MODE\" to \"$LUPOS_PARTITION_MODE\",")
-                            fileBufferTest.println("            )")
-                            fileBufferTest.println("        )")
-                            fileBufferTest.println("    }")
                         }
                     }
                 }
             }
         }
         val fileBufferSimulator = MyPrintWriter(true)
-        fileBufferSimulator.println("    public fun simulatorHelper(fileName:String,cfg:MutableMap<String,Any>) {")
+        fileBufferSimulator.println("    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {")
         fileBufferSimulator.println("        val simRun = SimulationRun()")
-        fileBufferSimulator.println("        val config=simRun.parseConfig(fileName,false,{it.getOrEmptyObject(\"deviceType\").getOrEmptyObject(\"LUPOSDATE_DEVICE\").getOrEmptyObject(\"applications\").getOrEmptyObject(\"Luposdate3000\").putAll(cfg)})")
+        fileBufferSimulator.println("        val config=simRun.parseConfig(fileName,false,{")
+        fileBufferSimulator.println("            it.getOrEmptyObject(\"deviceType\").getOrEmptyObject(\"LUPOSDATE_DEVICE\").getOrEmptyObject(\"applications\").getOrEmptyObject(\"Luposdate3000\").putAll(database_cfg)")
+        fileBufferSimulator.println("            it.getOrEmptyObject(\"routing\").putAll(mapOf(\"protocol\" to routingProtocol))")
+        fileBufferSimulator.println("        })")
         fileBufferSimulator.println("        simRun.sim = Simulation(config.getEntities())")
         fileBufferSimulator.println("        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock")
         fileBufferSimulator.println("        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock")

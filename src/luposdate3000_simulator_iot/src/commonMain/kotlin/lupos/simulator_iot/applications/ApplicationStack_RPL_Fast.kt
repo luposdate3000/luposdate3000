@@ -163,6 +163,7 @@ internal class ApplicationStack_RPL_Fast(
         val globalParentCosts = LongArray(config.devices.size) { Long.MAX_VALUE }
         if (isRoot) {
             globalParentCosts[parent.address] = 0
+            globalParentTable[parent.address] = parent.address
             val queue = mutableListOf<Device>(parent)
             while (queue.size > 0) {
                 val a = queue.removeAt(0)

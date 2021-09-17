@@ -69,7 +69,7 @@ public class resourcessp2bq7sparql247 {
         ""
 
     @Test
-    public fun `resourcessp2bq7sparql247 - in simulator - Simple - Centralized - false - None`() {
+    public fun `resourcessp2bq7sparql247 - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
@@ -79,12 +79,19 @@ public class resourcessp2bq7sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "None",
-            )
+            ),
+            "RPL",
         )
     }
-    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
+    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false, { it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(cfg) })
+        val config = simRun.parseConfig(
+            fileName, false,
+            {
+                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(database_cfg)
+                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+            }
+        )
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock

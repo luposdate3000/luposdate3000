@@ -56,7 +56,7 @@ public class resourcessp2bq91sparql247 {
         ""
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -66,12 +66,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -81,12 +82,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -96,12 +98,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -111,12 +114,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -126,12 +130,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -141,12 +146,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -156,12 +162,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -171,12 +178,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -186,12 +194,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -201,12 +210,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -216,12 +226,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -231,12 +242,13 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
 
     @Test
-    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process`() {
+    public fun `resourcessp2bq91sparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -246,12 +258,19 @@ public class resourcessp2bq91sparql247 {
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
-            )
+            ),
+            "RPL",
         )
     }
-    public fun simulatorHelper(fileName: String, cfg: MutableMap<String, Any>) {
+    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(fileName, false, { it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(cfg) })
+        val config = simRun.parseConfig(
+            fileName, false,
+            {
+                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("Luposdate3000").putAll(database_cfg)
+                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+            }
+        )
         simRun.sim = Simulation(config.getEntities())
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
