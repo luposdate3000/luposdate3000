@@ -9525,6 +9525,7 @@ resourcesmyqueriesoptional44sparql4 - Thread - PartitionByKeyAllCollations - fal
 resourcesmyqueriesoptional44sparql4 - Thread - PartitionByKeyAllCollations - true
 resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process
 resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process
+resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - RPL
 resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process
 resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcesmyqueriesoptional44sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
@@ -10446,6 +10447,7 @@ resourcesmyqueriesoptional60sparql5 - Thread - PartitionByIDTwiceAllCollations -
 resourcesmyqueriesoptional60sparql5 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional60sparql5 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional60sparql5 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesoptional61sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - AllShortestPath
 resourcesmyqueriesoptional61sparql4 - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriesoptional61sparql4 - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriesoptional61sparql4 - Thread - PartitionByID_2_AllCollations - false
@@ -11931,6 +11933,7 @@ resourcesmyqueriesx6sparql4 - Thread - PartitionByIDTwiceAllCollations - false
 resourcesmyqueriesx6sparql4 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesx6sparql4 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesx6sparql4 - Thread - PartitionByKeyAllCollations - true
+resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - AllShortestPath
 resourcesmyqueriesx7sparql4 - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriesx7sparql4 - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriesx7sparql4 - Thread - PartitionByID_2_AllCollations - false
