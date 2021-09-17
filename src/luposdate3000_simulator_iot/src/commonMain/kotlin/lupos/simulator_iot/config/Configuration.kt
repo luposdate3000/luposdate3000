@@ -137,7 +137,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:138"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:139"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -270,7 +270,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:271"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:272"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -281,80 +281,94 @@ public class Configuration(private val simRun: SimulationRun) {
             when (applicationName) {
                 "DummyDatabase" -> {
                     applicationJson as JsonParserObject
-                    numberOfDatabases++
-                    databaseStore = true
-                    databaseQuery = true
-                    dbDeviceAddressesStoreList.add(ownAddress)
-                    dbDeviceAddressesQueryList.add(ownAddress)
-                    applications.add(
-                        Application_DatabaseDummy(
-                            applicationJson,
-                            simRun.logger,
-                            ownAddress,
-                            "$outputDirectory/db_states/device$ownAddress",
-                            dbDeviceAddressesStoreList,
-                            dbDeviceAddressesQueryList,
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        numberOfDatabases++
+                        databaseStore = true
+                        databaseQuery = true
+                        dbDeviceAddressesStoreList.add(ownAddress)
+                        dbDeviceAddressesQueryList.add(ownAddress)
+                        applications.add(
+                            Application_DatabaseDummy(
+                                applicationJson,
+                                simRun.logger,
+                                ownAddress,
+                                "$outputDirectory/db_states/device$ownAddress",
+                                dbDeviceAddressesStoreList,
+                                dbDeviceAddressesQueryList,
+                            )
                         )
-                    )
+                    }
                 }
                 "Luposdate3000" -> {
                     applicationJson as JsonParserObject
-                    numberOfDatabases++
-                    databaseQuery = applicationJson.getOrDefault("databaseQuery", true)
-                    databaseStore = applicationJson.getOrDefault("databaseStore", true) || !databaseQuery // at least one must be true
-                    if (databaseStore) {
-                        dbDeviceAddressesStoreList.add(ownAddress)
-                    }
-                    if (databaseQuery) {
-                        dbDeviceAddressesQueryList.add(ownAddress)
-                    }
-                    applications.add(
-                        Application_Luposdate3000(
-                            applicationJson,
-                            simRun.logger,
-                            ownAddress,
-                            "$outputDirectory/db_states/device$ownAddress",
-                            dbDeviceAddressesStoreList,
-                            dbDeviceAddressesQueryList,
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        numberOfDatabases++
+                        databaseQuery = applicationJson.getOrDefault("databaseQuery", true)
+                        databaseStore = applicationJson.getOrDefault("databaseStore", true) || !databaseQuery // at least one must be true
+                        if (databaseStore) {
+                            dbDeviceAddressesStoreList.add(ownAddress)
+                        }
+                        if (databaseQuery) {
+                            dbDeviceAddressesQueryList.add(ownAddress)
+                        }
+                        applications.add(
+                            Application_Luposdate3000(
+                                applicationJson,
+                                simRun.logger,
+                                ownAddress,
+                                "$outputDirectory/db_states/device$ownAddress",
+                                dbDeviceAddressesStoreList,
+                                dbDeviceAddressesQueryList,
+                            )
                         )
-                    )
+                    }
                 }
                 "QueryResponseReceiver" -> {
-                    applications.add(Application_ReceiveQueryResponse(outputDirectory + "/"))
+                    applicationJson as JsonParserObject
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        applications.add(Application_ReceiveQueryResponse(outputDirectory + "/"))
+                    }
                 }
                 "ParkingSampleReceiver" -> {
-                    applications.add(Application_ReceiveParkingSample(ownAddress))
+                    applicationJson as JsonParserObject
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        applications.add(Application_ReceiveParkingSample(ownAddress))
+                    }
                 }
                 "QuerySender" -> {
                     applicationJson as JsonParserArray
                     for (it in applicationJson) {
                         it as JsonParserObject
-                        applications.add(
-                            Application_QuerySender(
-                                it.getOrDefault("sendStartClockInSec", 0),
-                                it.getOrDefault("sendRateInSec", 1),
-                                it.getOrDefault("maxNumberOfQueries", 1),
-                                it.getOrDefault("query", ""),
-                                ownAddress,
+                        if (it.getOrDefault("enabled", true)) {
+                            applications.add(
+                                Application_QuerySender(
+                                    it.getOrDefault("sendStartClockInSec", 0),
+                                    it.getOrDefault("sendRateInSec", 1),
+                                    it.getOrDefault("maxNumberOfQueries", 1),
+                                    it.getOrDefault("query", ""),
+                                    ownAddress,
+                                )
                             )
-                        )
+                        }
                     }
                 }
                 "ParkingSensor" -> {
                     applicationJson as JsonParserObject
-                    hasSensor = true
-                    numberOfSensors++
-                    applications.add(
-                        Application_ParkingSensor(
-                            applicationJson.getOrDefault("sendStartClockInSec", 0),
-                            applicationJson.getOrDefault("rateInSec", 0),
-                            applicationJson.getOrDefault("maxSamples", -1),
-                            applicationJson.getOrDefault("dataSink", ""),
-                            ownAddress,
-                            simRun.randGenerator,
-                            applicationJson.getOrDefault("area", 0),
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        hasSensor = true
+                        numberOfSensors++
+                        applications.add(
+                            Application_ParkingSensor(
+                                applicationJson.getOrDefault("sendStartClockInSec", 0),
+                                applicationJson.getOrDefault("rateInSec", 0),
+                                applicationJson.getOrDefault("maxSamples", -1),
+                                applicationJson.getOrDefault("dataSink", ""),
+                                ownAddress,
+                                simRun.randGenerator,
+                                applicationJson.getOrDefault("area", 0),
+                            )
                         )
-                    )
+                    }
                 }
                 else -> TODO("unknown application '$applicationName'")
             }
@@ -370,7 +384,7 @@ public class Configuration(private val simRun: SimulationRun) {
         )
         val jsonRouting = json!!.getOrEmptyObject("routing")
         val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {
-"RPL_Fast"->ApplicationStack_RPL_Fast(
+            "RPL_Fast" -> ApplicationStack_RPL_Fast(
                 applicationStack,
                 simRun.logger,
                 simRun.config,
@@ -380,7 +394,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 simRun.logger,
                 simRun.config,
             )
-else->TODO("unknown routing.protocol '$it'")
+            else -> TODO("unknown routing.protocol '${jsonRouting.getOrDefault("protocol", "RPL")}'")
         }
         val device = Device(
             simRun,

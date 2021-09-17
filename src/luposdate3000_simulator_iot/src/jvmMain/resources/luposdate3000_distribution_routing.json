@@ -1,0 +1,7 @@
+{
+    "applications": {
+        "Luposdate3000": {
+            "queryDistributionMode": "Routing"
+        }
+    }
+},
