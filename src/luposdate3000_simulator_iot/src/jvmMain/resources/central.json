@@ -3,82 +3,79 @@
         "Central Tower": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Sensor Device WSN 1": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 10": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 2": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 3": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 4": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 5": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 6": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 7": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 8": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
+                    "dataSink": "Fog",
+                },
+            },
         },
         "Sensor Device WSN 9": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Fog"
-                }
-            }
-        }
-    }
-},
-
-
-
+                    "dataSink": "Fog",
+                },
+            },
+        },
+    },
+}

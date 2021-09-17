@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -rf simulator_output
+mkdir -p simulator_output
 #git clean -xdf
 #./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
@@ -46,7 +47,7 @@ then
 #multicast is only relevant for insert, everything else is the same
 continue
 fi
-measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}/measurement.csv"
+measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}_routing_${r}/measurement.csv"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
 echo $measurementFile
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
