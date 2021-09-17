@@ -3,6 +3,7 @@
 [31;1m> Task :src:luposdate3000_code_gen_test_01:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_02:compileKotlinMetadata[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_13:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_17:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_18:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_19:allTests[0;39m FAILED
 ABS - Thread - PartitionByID_1_AllCollations - false
@@ -314,6 +315,8 @@ AVG with GROUP BY - Thread - Simple - true
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
@@ -352,6 +355,7 @@ bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollation
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 bind02  BIND fixed data for OWL DL - None - Simple - false
 bind02  BIND fixed data for OWL DL - None - Simple - true
@@ -518,6 +522,7 @@ bind06  BIND - Thread - PartitionByKeyAllCollations - false
 bind06  BIND - Thread - PartitionByKeyAllCollations - true
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
 bind07  BIND fixed data for OWL DL - in simulator - Simple - Centralized - true - None - AllShortestPath
 bind07  BIND fixed data for OWL DL - None - Simple - false
 bind07  BIND fixed data for OWL DL - None - Simple - true
@@ -4749,6 +4754,7 @@ Postquery VALUES with predvar 1 row - Thread - Simple - false
 Postquery VALUES with predvar 1 row - Thread - Simple - true
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
 Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
@@ -10124,6 +10130,7 @@ resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
+resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -11027,6 +11034,7 @@ resourcessp2bq12asparql700 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq12asparql700 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq12asparql700 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq12asparql700 - Thread - PartitionByKeyAllCollations - true
+resourcessp2bq12asparql973 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Thread - AllShortestPath
 resourcessp2bq12asparql973 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12asparql973 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12asparql973 - Thread - PartitionByID_2_AllCollations - false
@@ -13215,6 +13223,7 @@ resourcessp2bq65sparql247 - Thread - PartitionByKeyAllCollations - true
 resourcessp2bq65sparql32978 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
 resourcessp2bq65sparql32978 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
 resourcessp2bq65sparql32978 - Thread - PartitionByID_1_AllCollations - false
+resourcessp2bq65sparql32978 - Thread - PartitionByID_2_AllCollations - true
 resourcessp2bq65sparql32978 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq65sparql32978 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq65sparql700 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
@@ -13412,6 +13421,7 @@ resourcessp2bq67sparql1640 - Thread - PartitionByID_S_AllCollations - false
 resourcessp2bq67sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq67sparql1640 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq67sparql1640 - Thread - Simple - false
+resourcessp2bq67sparql21 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread - RPL_Fast
 resourcessp2bq67sparql21 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq67sparql21 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq67sparql21 - Thread - PartitionByID_2_AllCollations - false
@@ -14608,6 +14618,7 @@ resourcessp2bq9sparql700 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq9sparql700 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq9sparql700 - Thread - PartitionByKeyAllCollations - false
 resourcessp2bq9sparql700 - Thread - PartitionByKeyAllCollations - true
+resourcessp2bq9sparql973 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Thread - RPL_Fast
 resourcessp2bq9sparql973 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq9sparql973 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq9sparql973 - Thread - PartitionByID_2_AllCollations - false
