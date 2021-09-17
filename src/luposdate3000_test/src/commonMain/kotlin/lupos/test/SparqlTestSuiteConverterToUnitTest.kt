@@ -64,8 +64,7 @@ without minify mode only the passing tests will be added
     internal val listOfAllTests = mutableSetOf<String>()
     internal val listOfBlacklist = mutableSetOf<String>()
 
-    internal fun isIgnored(testName1: String): Boolean {
-        val testName = testName1.replace(" - RPL", "").replace(" - RPL_Fast", "").replace(" - AllShortestPath", "")
+    internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
             return listOfRemoved.contains(testName)
         } else {
