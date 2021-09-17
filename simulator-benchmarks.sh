@@ -78,6 +78,7 @@ echo $headerLine >> simulator_output/final.csv
 fi
 echo $contentLine >> simulator_output/final.csv
 first=false
+exit
 done
 done
 done

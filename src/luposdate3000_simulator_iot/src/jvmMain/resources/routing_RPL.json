@@ -1,5 +1,5 @@
 {
-"routing":{
-"protocol":"RPL"
-}
+    "routing": {
+        "protocol": "RPL",
+    },
 }
