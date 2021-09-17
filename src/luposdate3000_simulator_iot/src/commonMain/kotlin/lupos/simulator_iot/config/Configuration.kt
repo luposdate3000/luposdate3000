@@ -35,6 +35,7 @@ import lupos.simulator_iot.applications.ApplicationStack_Logger
 import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
 import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
 import lupos.simulator_iot.applications.ApplicationStack_RPL
+import lupos.simulator_iot.applications.ApplicationStack_RPL_Fast
 import lupos.simulator_iot.applications.ApplicationStack_Sequence
 import lupos.simulator_iot.applications.Application_ParkingSensor
 import lupos.simulator_iot.applications.Application_QuerySender
@@ -367,15 +368,20 @@ public class Configuration(private val simRun: SimulationRun) {
                 )
             )
         )
-val jsonRouting=json!!.getOrEmptyObject("routing")
+        val jsonRouting = json!!.getOrEmptyObject("routing")
         val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {
-            else -> ApplicationStack_RPL(
+"RPL_Fast"->ApplicationStack_RPL_Fast(
                 applicationStack,
                 simRun.logger,
                 simRun.config,
             )
+            "RPL" -> ApplicationStack_RPL(
+                applicationStack,
+                simRun.logger,
+                simRun.config,
+            )
+else->TODO("unknown routing.protocol '$it'")
         }
-
         val device = Device(
             simRun,
             location,
