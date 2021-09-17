@@ -43,7 +43,7 @@ without minify mode only the passing tests will be added
     @JvmField
     internal var lastFile: String = ""
 
-    internal val folderCount = 20
+    internal val folderCount = 1
     internal var folderCurrent = 0
 
     internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2,'0')}"
