@@ -9,6 +9,7 @@
 [31;1m> Task :src:luposdate3000_code_gen_test_10:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_11:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_12:allTests[0;39m FAILED
+[31;1m> Task :src:luposdate3000_code_gen_test_14:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_15:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_17:allTests[0;39m FAILED
 [31;1m> Task :src:luposdate3000_code_gen_test_19:allTests[0;39m FAILED
@@ -8128,6 +8129,7 @@ resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_1_AllCollatio
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process
+resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread - RPL
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process
 resourcesmyqueriesoptional17sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process
@@ -12307,6 +12309,7 @@ resourcessp2bq12b2sparql1640 - Thread - PartitionByID_S_AllCollations - false
 resourcessp2bq12b2sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq12b2sparql1640 - Thread - PartitionByKeyAllCollations - true
 resourcessp2bq12b2sparql1640 - Thread - Simple - false
+resourcessp2bq12b2sparql21 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Thread - RPL
 resourcessp2bq12b2sparql21 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12b2sparql21 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b2sparql21 - Thread - PartitionByID_2_AllCollations - false
