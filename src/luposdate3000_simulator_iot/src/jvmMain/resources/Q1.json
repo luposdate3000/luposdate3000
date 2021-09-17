@@ -2,12 +2,12 @@
     "deviceType": {
         "Central Tower": {
             "applications": {
-                "QuerySender": {
+                "QuerySender": [{
                     "maxNumberOfQueries": 1,
                     "sendRateInSeconds": 1,
                     "sendStartClockInSec": 9000,
                     "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"
-                }
+                }]
             }
         }
     }

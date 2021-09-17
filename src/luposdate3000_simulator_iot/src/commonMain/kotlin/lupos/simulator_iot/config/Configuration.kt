@@ -388,6 +388,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 applicationStack,
                 simRun.logger,
                 simRun.config,
+                jsonRouting.getOrDefault("compatibilityMode", false),
             )
             "RPL" -> ApplicationStack_RPL(
                 applicationStack,

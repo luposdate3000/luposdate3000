@@ -30,6 +30,7 @@ internal class ApplicationStack_RPL_Fast(
     private val child: IApplicationStack_Actuator,
     private val logger: ILogger,
     private val config: Configuration,
+    private val compatibilityMode: Boolean,
 ) : IApplicationStack_Rooter {
     init {
         child.setRouter(this)
@@ -102,7 +103,7 @@ internal class ApplicationStack_RPL_Fast(
         for (i in 0 until config.devices.size) {
             if (routingTable[i] == -1) {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:104"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:105"/*SOURCE_FILE_END*/ },
                     { !isRoot }, // no route possible
                 )
                 routingTable[i] = globalParentTable[parent.address] // everything else goes to my own parent
@@ -146,17 +147,18 @@ internal class ApplicationStack_RPL_Fast(
                     }
                 }
             }
-            for (i in devicesWithDatabase) {
-                if (routingTableDatabaseHops[i] == -1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:151"/*SOURCE_FILE_END*/ },
-                        { myParent != -1 },
-                    )
-                    routingTableDatabaseHops[i] = myParent // routing towards root ... this is NOT handled by the original algorithm
+            if (!compatibilityMode) {
+                for (i in devicesWithDatabase) {
+                    if (routingTableDatabaseHops[i] == -1) {
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:153"/*SOURCE_FILE_END*/ },
+                            { myParent != -1 },
+                        )
+                        routingTableDatabaseHops[i] = myParent
+                    }
                 }
             }
         }
-//        println("local table ${parent.address} .. ${routingTable.map{it}} .. ${routingTableDatabaseHops.map{it}}")
     }
 
     override fun startUp() {
@@ -176,7 +178,7 @@ internal class ApplicationStack_RPL_Fast(
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:178"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:180"/*SOURCE_FILE_END*/ },
                         { delay> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {
@@ -186,7 +188,6 @@ internal class ApplicationStack_RPL_Fast(
                     }
                 }
             }
-            //           println("global table .. ${globalParentTable.map{it}}")
             for (d in config.devices) {
                 (d.applicationStack as ApplicationStack_RPL_Fast).generateRoutingTableUsingGlobalParentTable(globalParentTable)
             }
