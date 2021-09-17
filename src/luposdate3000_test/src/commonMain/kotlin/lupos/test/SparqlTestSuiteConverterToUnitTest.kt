@@ -440,7 +440,7 @@ without minify mode only the passing tests will be added
                         fileBufferTest.println("    @Ignore")
                     }
                     if (minifyMode) {
-                        fileBufferTest.println("    @Test(timeout = 2000)")
+                        fileBufferTest.println("    @Test(timeout = 10000)")
                     } else {
                         fileBufferTest.println("    @Test")
                     }
@@ -485,7 +485,7 @@ without minify mode only the passing tests will be added
                                     fileBufferTest.println("    @Ignore")
                                 }
                                 if (minifyMode) {
-                                    fileBufferTest.println("    @Test(timeout = 2000)")
+                                    fileBufferTest.println("    @Test(timeout = 10000)")
                                 } else {
                                     fileBufferTest.println("    @Test")
                                 }
