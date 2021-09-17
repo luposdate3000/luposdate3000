@@ -468,7 +468,7 @@ without minify mode only the passing tests will be added
                 for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
                     for (queryDistributionMode in EQueryDistributionModeExt.names) {
                         for (useDictionaryInlineEncoding in listOf("true", "false")) {
-                            for (routingProtocol in listOf("RPL", "RPL_Fast")) {
+                            for (routingProtocol in listOf("RPL", "RPL_Fast", "AllShortestPath")) {
                                 if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
                                     continue
                                 }

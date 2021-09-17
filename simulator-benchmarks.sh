@@ -15,7 +15,7 @@ BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
 JSON_LOCATION="${BASE_PATH}/campus.json"
 LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
-for r in RPL_Fast RPL
+for r in RPL_Fast RPL AllShortestPath
 do
 JSON_ROUTING="${BASE_PATH}/routing_$r.json"
 for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
@@ -78,7 +78,6 @@ echo $headerLine >> simulator_output/final.csv
 fi
 echo $contentLine >> simulator_output/final.csv
 first=false
-exit
 done
 done
 done
