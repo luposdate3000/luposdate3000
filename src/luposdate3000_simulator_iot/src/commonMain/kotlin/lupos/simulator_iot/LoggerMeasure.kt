@@ -185,6 +185,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
                             data[StatNetworkCounterIntermediateResults]++
                         }
                     }
+                    "/shacl/ontology/load" -> {}
                     else -> TODO(pck.path)
                 }
             }
