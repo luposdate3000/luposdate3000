@@ -1,0 +1,6 @@
+[31;1m> Task :src:luposdate3000_code_gen_test_00:allTests[0;39m FAILED
+resourcesmyqueriesoptional36sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL_Fast
+resourcesmyqueriesoptional55sparql4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Thread - RPL_Fast
+resourcesmyqueriessimulatorparkingquery32sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Thread - RPL
+resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread - RPL
+resourcessp2bq68sparql247 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Thread - RPL_Fast
