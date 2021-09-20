@@ -167,10 +167,6 @@ public class VisualisationOperatorGraph {
                         "\u2193" + key2
                     }
                     "POPTripleStoreIterator" -> {
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:170"/*SOURCE_FILE_END*/ },
-                            { n.parentKeys.size <= 1 }
-                        )
 /*                        var res: String? = null
                         if (n.parentKeys.size == 1) {
                             val pkey = n.parentKeys.first()

@@ -15,7 +15,7 @@ BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
 JSON_LOCATION="${BASE_PATH}/campus.json"
 LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
-for r in RPL_Fast RPL AllShortestPath
+for r in RPL_Fast AllShortestPath RPL
 do
 JSON_ROUTING="${BASE_PATH}/routing_$r.json"
 for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
@@ -66,9 +66,9 @@ value="$(sed '2q;d' $measurementFile | cut -f${idx} -d ',')"
 if [ "$q" = "Q0" ]
 then
 #baseline
-baselineValues["${t},${d},${idx}"]="$value"
+baselineValues["${t},${d},${idx},${r},${dist},${m}"]="$value"
 else
-value=$(echo "$value - ${baselineValues["${t},${d},${idx}"]}" | bc)
+value=$(echo "$value - ${baselineValues["${t},${d},${idx},${r},${dist},${m}"]}" | bc)
 fi
 contentLine="$contentLine,${value}"
 done
