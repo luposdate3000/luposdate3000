@@ -4,7 +4,7 @@
             "enabled": true,
         },
         "stdout": {
-            "enabled": false,
+            "enabled": true,
         },
         "visualize": {
             "enabled": true,

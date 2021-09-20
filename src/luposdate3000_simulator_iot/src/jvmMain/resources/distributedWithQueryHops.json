@@ -3,160 +3,158 @@
         "Central Tower": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 1": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 10": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 2": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 3": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 4": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 5": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 6": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 7": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 8": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Edge Gateway WSN 9": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true
-                }
-            }
+                    "enabled": true,
+                },
+            },
         },
         "Mesh Hop": {
             "applications": {
                 "Luposdate3000": {
-                    "enabled": true,
                     "databaseQuery": true,
-                    "databaseStore": false
-                }
-            }
+                    "databaseStore": false,
+                    "enabled": true,
+                },
+            },
         },
         "Sensor Device WSN 1": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 1"
-                }
-            }
+                    "dataSink": "Root WSN 1",
+                },
+            },
         },
         "Sensor Device WSN 10": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 10"
-                }
-            }
+                    "dataSink": "Root WSN 10",
+                },
+            },
         },
         "Sensor Device WSN 2": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 2"
-                }
-            }
+                    "dataSink": "Root WSN 2",
+                },
+            },
         },
         "Sensor Device WSN 3": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 3"
-                }
-            }
+                    "dataSink": "Root WSN 3",
+                },
+            },
         },
         "Sensor Device WSN 4": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 4"
-                }
-            }
+                    "dataSink": "Root WSN 4",
+                },
+            },
         },
         "Sensor Device WSN 5": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 5"
-                }
-            }
+                    "dataSink": "Root WSN 5",
+                },
+            },
         },
         "Sensor Device WSN 6": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 6"
-                }
-            }
+                    "dataSink": "Root WSN 6",
+                },
+            },
         },
         "Sensor Device WSN 7": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 7"
-                }
-            }
+                    "dataSink": "Root WSN 7",
+                },
+            },
         },
         "Sensor Device WSN 8": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 8"
-                }
-            }
+                    "dataSink": "Root WSN 8",
+                },
+            },
         },
         "Sensor Device WSN 9": {
             "applications": {
                 "ParkingSensor": {
-                    "dataSink": "Root WSN 9"
-                }
-            }
-        }
-    }
-},
-
-
+                    "dataSink": "Root WSN 9",
+                },
+            },
+        },
+    },
+}

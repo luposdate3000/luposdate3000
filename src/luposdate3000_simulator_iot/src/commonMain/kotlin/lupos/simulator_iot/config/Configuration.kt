@@ -38,6 +38,7 @@ import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
 import lupos.simulator_iot.applications.ApplicationStack_RPL
 import lupos.simulator_iot.applications.ApplicationStack_RPL_Fast
 import lupos.simulator_iot.applications.ApplicationStack_Sequence
+import lupos.simulator_iot.applications.Application_OntologySender
 import lupos.simulator_iot.applications.Application_ParkingSensor
 import lupos.simulator_iot.applications.Application_QuerySender
 import lupos.simulator_iot.applications.Application_ReceiveParkingSample
@@ -138,7 +139,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:140"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:141"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -271,7 +272,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:273"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:274"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -334,6 +335,18 @@ public class Configuration(private val simRun: SimulationRun) {
                     applicationJson as JsonParserObject
                     if (applicationJson.getOrDefault("enabled", true)) {
                         applications.add(Application_ReceiveParkingSample(ownAddress))
+                    }
+                }
+                "OntologySender" -> {
+                    applicationJson as JsonParserObject
+                    if (applicationJson.getOrDefault("enabled", true)) {
+                        applications.add(
+                            Application_OntologySender(
+                                applicationJson.getOrDefault("sendStartClockInSec", 0),
+                                applicationJson.getOrDefault("fileName", ""),
+                                ownAddress,
+                            )
+                        )
                     }
                 }
                 "QuerySender" -> {

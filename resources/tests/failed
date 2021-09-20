@@ -9363,13 +9363,6 @@ resourcesmyqueriesoptional9sparql5 - Thread - PartitionByIDTwiceAllCollations - 
 resourcesmyqueriesoptional9sparql5 - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriesoptional9sparql5 - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriesoptional9sparql5 - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - false - None - RPL
 resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9394,8 +9387,6 @@ resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9485,10 +9476,6 @@ resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9501,9 +9488,6 @@ resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9516,9 +9500,6 @@ resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - true
@@ -9583,7 +9564,6 @@ resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - false
 resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - false
@@ -9626,8 +9606,6 @@ resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - false
@@ -9655,8 +9633,6 @@ resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - None - Simple - false
-resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByKeyAllCollations - true
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
@@ -9670,13 +9646,6 @@ resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - false - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9713,14 +9682,6 @@ resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - false - None - RPL
 resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9741,7 +9702,6 @@ resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9754,8 +9714,6 @@ resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9775,14 +9733,6 @@ resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - false
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - true
@@ -9800,7 +9750,6 @@ resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery4sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery4sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery4sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9825,11 +9774,6 @@ resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9848,10 +9792,6 @@ resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9893,8 +9833,6 @@ resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9914,10 +9852,6 @@ resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -9954,8 +9888,6 @@ resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - None - Simple - true
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
@@ -9986,8 +9918,6 @@ resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
 resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
@@ -10001,7 +9931,6 @@ resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -10024,14 +9953,6 @@ resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -10054,7 +9975,6 @@ resourcesmyqueriessimulatorparkingquery621sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery621sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery621sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery621sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -10067,11 +9987,6 @@ resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - true
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
@@ -10087,9 +10002,6 @@ resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
 resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - Thread - Simple - false
-resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 resourcesmyqueriessimulatorparkingquery711sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery711sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery711sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -10120,15 +10032,6 @@ resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
@@ -10143,12 +10046,6 @@ resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - true
@@ -10168,9 +10065,6 @@ resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -10194,8 +10088,6 @@ resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - true
 resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
@@ -10210,7 +10102,6 @@ resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
 resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - Thread - Simple - true
-resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - Simple - false
 resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
@@ -10255,10 +10146,6 @@ resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
@@ -10279,12 +10166,6 @@ resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - false
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_S_AllCollations - false
@@ -10338,7 +10219,6 @@ resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmalltt
 resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false
@@ -10351,10 +10231,6 @@ resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByIDTwiceAllCollations - true
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false
 resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery821sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery821sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery821sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_2_AllCollations - false

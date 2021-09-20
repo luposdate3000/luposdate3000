@@ -1,7 +1,7 @@
 {
     "applications": {
         "Luposdate3000": {
-            "predefinedPartitionScheme": "PartitionByID_2_AllCollations"
-        }
-    }
-},
+            "predefinedPartitionScheme": "PartitionByID_2_AllCollations",
+        },
+    },
+}

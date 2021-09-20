@@ -6,7 +6,13 @@
     "deterministic": true,
     "deviceType": {
         "Central Tower": {
-            "applications": {},
+            "applications": {
+                "OntologySender": {
+                    "enabled": true,
+                    "fileName": "src/luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
+                    "sendStartClockInSec": 10,
+                },
+            },
             "performance": 100.0,
             "supportedLinkTypes": [
                 "WPAN",
