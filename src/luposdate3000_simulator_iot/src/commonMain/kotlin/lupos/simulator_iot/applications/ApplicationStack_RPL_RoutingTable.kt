@@ -69,15 +69,15 @@ internal class ApplicationStack_RPL_RoutingTable(
         }
         return fallbackHop
     }
-    internal fun getNextDatabaseHop(destinationAddress: Int): Int =
+    internal fun getNextDatabaseHop(destinationAddress: Int, flag: Int): Int =
         if (destinationAddress <nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
             -1 // tell the caller that we dont know it
         }
 
-    internal fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray =
-        IntArray(destinationAddresses.size) { getNextDatabaseHop(destinationAddresses[it]) }
+    internal fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray =
+        IntArray(destinationAddresses.size) { getNextDatabaseHop(destinationAddresses[it], flag) }
 
     internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false

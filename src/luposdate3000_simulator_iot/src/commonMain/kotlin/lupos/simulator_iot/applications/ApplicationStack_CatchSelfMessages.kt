@@ -50,7 +50,7 @@ public class ApplicationStack_CatchSelfMessages(
             parent.send(destinationAddress, pck)
         }
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = parent.getNextDatabaseHops(destinationAddresses)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextDatabaseHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)

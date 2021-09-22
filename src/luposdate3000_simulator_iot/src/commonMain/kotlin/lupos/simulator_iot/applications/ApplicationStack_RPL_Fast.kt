@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot.applications
+import lupos.shared.EDatabaseHopFlagExt
 import lupos.shared.SanityCheck
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
@@ -39,7 +40,7 @@ internal class ApplicationStack_RPL_Fast(
     private lateinit var parent: Device
     private var isRoot = false
     private var routingTable = intArrayOf()
-    private var routingTableDatabaseHops = intArrayOf()
+    private var routingTableDatabaseHops = Array(EDatabaseHopFlagExt.values_size) { intArrayOf() }
     override fun setDevice(device: Device) {
         parent = device
     }
@@ -48,7 +49,7 @@ internal class ApplicationStack_RPL_Fast(
         isRoot = true
     }
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = IntArray(destinationAddresses.size) { routingTableDatabaseHops[destinationAddresses[it]] }
+    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = IntArray(destinationAddresses.size) { routingTableDatabaseHops[flag][destinationAddresses[it]] }
     override fun send(destinationAddress: Int, pck: IPayload) {
         val pck2 = NetworkPackage(parent.address, destinationAddress, pck)
         val hop = routingTable[destinationAddress]
@@ -103,58 +104,62 @@ internal class ApplicationStack_RPL_Fast(
         for (i in 0 until config.devices.size) {
             if (routingTable[i] == -1) {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:105"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:106"/*SOURCE_FILE_END*/ },
                     { !isRoot }, // no route possible
                 )
                 routingTable[i] = globalParentTable[parent.address] // everything else goes to my own parent
             }
         }
-        routingTableDatabaseHops = IntArray(config.devices.size) { -1 }
-        routingTableDatabaseHops[parent.address] = parent.address // myself
-        val devicesWithDatabase = mutableSetOf<Int>()
-        devicesWithDatabase.addAll(config.dbDeviceAddressesStore.toList())
-        devicesWithDatabase.addAll(config.dbDeviceAddressesQuery.toList())
-        if (devicesWithDatabase.contains(parent.address)) {
-            val mappingOfNextDatabaseTowardsRoot = IntArray(config.devices.size) { -1 }
-            val queue = mutableListOf<Int>()
-            var myParent = -1
-            for (d in devicesWithDatabase) {
-                var hop = globalParentTable[d]
-                while (!devicesWithDatabase.contains(hop)) {
-                    val nextHop = globalParentTable[hop]
-                    if (hop == nextHop) {
-                        break
+        routingTableDatabaseHops = Array(EDatabaseHopFlagExt.values_size) { IntArray(config.devices.size) { -1 } }
+        for (
+            (flag, devicesWithDatabase) in listOf(
+                EDatabaseHopFlagExt.ANY to config.dbDeviceAddressesStore.toList() + config.dbDeviceAddressesQuery.toList(),
+                EDatabaseHopFlagExt.STORE_ONLY to config.dbDeviceAddressesStore.toList()
+            )
+        ) {
+            routingTableDatabaseHops[flag][parent.address] = parent.address // myself
+            if (devicesWithDatabase.contains(parent.address)) {
+                val mappingOfNextDatabaseTowardsRoot = IntArray(config.devices.size) { -1 }
+                val queue = mutableListOf<Int>()
+                var myParent = -1
+                for (d in devicesWithDatabase) {
+                    var hop = globalParentTable[d]
+                    while (!devicesWithDatabase.contains(hop)) {
+                        val nextHop = globalParentTable[hop]
+                        if (hop == nextHop) {
+                            break
+                        }
+                        hop = nextHop
                     }
-                    hop = nextHop
-                }
-                if (hop != d && devicesWithDatabase.contains(hop)) {
-                    mappingOfNextDatabaseTowardsRoot[d] = hop
-                    if (hop == parent.address) {
-                        routingTableDatabaseHops[d] = d // next database hop towards leaves saves its own address
-                        queue.add(d)
-                    } else if (d == parent.address) {
-                        routingTableDatabaseHops[hop] = hop // next database hop towards root
-                        myParent = hop
-                    }
-                }
-            }
-            while (queue.size > 0) {
-                val d = queue.removeAt(0)
-                for (i in devicesWithDatabase) {
-                    if (mappingOfNextDatabaseTowardsRoot[i] == d) {
-                        routingTableDatabaseHops[i] = d // routing towards leaves
-                        queue.add(i)
+                    if (hop != d && devicesWithDatabase.contains(hop)) {
+                        mappingOfNextDatabaseTowardsRoot[d] = hop
+                        if (hop == parent.address) {
+                            routingTableDatabaseHops[flag][d] = d // next database hop towards leaves saves its own address
+                            queue.add(d)
+                        } else if (d == parent.address) {
+                            routingTableDatabaseHops[flag][hop] = hop // next database hop towards root
+                            myParent = hop
+                        }
                     }
                 }
-            }
-            if (!compatibilityMode) {
-                for (i in devicesWithDatabase) {
-                    if (routingTableDatabaseHops[i] == -1) {
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:153"/*SOURCE_FILE_END*/ },
-                            { myParent != -1 },
-                        )
-                        routingTableDatabaseHops[i] = myParent
+                while (queue.size > 0) {
+                    val d = queue.removeAt(0)
+                    for (i in devicesWithDatabase) {
+                        if (mappingOfNextDatabaseTowardsRoot[i] == d) {
+                            routingTableDatabaseHops[flag][i] = d // routing towards leaves
+                            queue.add(i)
+                        }
+                    }
+                }
+                if (!compatibilityMode) {
+                    for (i in devicesWithDatabase) {
+                        if (routingTableDatabaseHops[flag][i] == -1) {
+                            SanityCheck.check(
+                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:157"/*SOURCE_FILE_END*/ },
+                                { myParent != -1 },
+                            )
+                            routingTableDatabaseHops[flag][i] = myParent
+                        }
                     }
                 }
             }
@@ -178,7 +183,7 @@ internal class ApplicationStack_RPL_Fast(
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:180"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:185"/*SOURCE_FILE_END*/ },
                         { delay> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {

@@ -19,6 +19,7 @@ package lupos.triple_store_manager
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.EDatabaseHopFlagExt
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
@@ -29,7 +30,6 @@ import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
-
 internal class FilterFunc(val j: Int, val index: TripleStoreIndexDescription, val action: (DictionaryValueTypeArray, Int, TripleStoreIndexDescription) -> Boolean)
 
 internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputStream?, val output: IMyOutputStream, val filters: MutableList<FilterFunc>)
@@ -56,7 +56,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
                     val host2 = if (instance.enableMulticastInsertions) {
-                        instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[instance.LUPOS_PROCESS_URLS_ALL.indexOf(host)] // this enables the multicast
+                        instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[EDatabaseHopFlagExt.STORE_ONLY][instance.LUPOS_PROCESS_URLS_ALL.indexOf(host)] // this enables the multicast
                     } else {
                         host
                     }

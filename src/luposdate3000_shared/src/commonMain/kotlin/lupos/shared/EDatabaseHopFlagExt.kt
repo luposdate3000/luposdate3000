@@ -14,15 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.shared
 
-package lupos.simulator_db
-import lupos.simulator_core.ITimer
-public interface IApplicationStack_Middleware {
-    public fun send(destinationAddress: Int, pck: IPayload)
-    public fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray
-    public fun getAllChildApplications(): Set<IApplicationStack_Actuator>
-    public fun registerTimer(durationInNanoSeconds: Long, entity: ITimer)
-    public fun resolveHostName(name: String): Int
-    public fun flush()
-    public fun addChildApplication(child: IApplicationStack_Actuator)
+import kotlin.jvm.JvmField
+
+public object EDatabaseHopFlagExt {
+    public const val ANY: EDatabaseHopFlag = 0 // 0x00000000
+    public const val STORE_ONLY: EDatabaseHopFlag = 1 // 0x00000001
+    public const val values_size: Int = 2
+    public const val values_mask: Int = 1 // 0x00000001
+    public const val values_mask_inversed: Int = 2147483646 // 0x7ffffffe
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
+        "ANY",
+        "STORE_ONLY",
+    )
 }

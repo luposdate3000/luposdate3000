@@ -65,7 +65,7 @@ public class ApplicationStack_MergeMessages(private val child: IApplicationStack
         }
         c.add(pck)
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray = parent.getNextDatabaseHops(destinationAddresses)
+    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextDatabaseHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush() {
         val cacheLocal = cache

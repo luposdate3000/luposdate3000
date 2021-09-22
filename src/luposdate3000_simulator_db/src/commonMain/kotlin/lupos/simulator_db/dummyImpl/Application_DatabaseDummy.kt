@@ -17,6 +17,7 @@
 
 package lupos.simulator_db.dummyImpl
 import lupos.parser.JsonParserObject
+import lupos.shared.EDatabaseHopFlagExt
 import lupos.shared.inline.File
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
@@ -159,7 +160,7 @@ public class Application_DatabaseDummy public constructor(
 
     private fun getHopToDestinationsMap(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
-        val nextHops = sender.getNextDatabaseHops(destinationAddresses)
+        val nextHops = sender.getNextDatabaseHops(destinationAddresses, EDatabaseHopFlagExt.ANY)
         for (i in nextHops.indices)
             addToHopMap(map, nextHops[i], destinationAddresses[i])
         return map
