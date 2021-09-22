@@ -191,7 +191,7 @@ internal object DictionaryHelper {
     internal inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
             val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
-            var year = ((componentAll shr 37) and 0x7FFFF)
+            var year = ((componentAll shr 37) and 0x7FF)
             if ((componentAll and (1L shl 36)) != (1L shl 36)) {
                 year = -year
             }

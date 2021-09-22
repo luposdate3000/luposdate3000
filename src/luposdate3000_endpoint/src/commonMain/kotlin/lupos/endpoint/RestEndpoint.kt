@@ -437,7 +437,7 @@ public object RestEndpoint {
                         val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
                         query.setDictionary(remoteDictionary)
                     } else {
-                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(), true))
+                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
                     }
                     query.setDictionaryUrl(dictionaryURL)
 // evaluate

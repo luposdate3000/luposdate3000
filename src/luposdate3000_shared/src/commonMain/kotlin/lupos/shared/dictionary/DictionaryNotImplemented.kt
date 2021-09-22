@@ -18,8 +18,14 @@ package lupos.shared.dictionary
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
-public class DictionaryNotImplemented public constructor() : IDictionary {
+import kotlin.jvm.JvmField
+public class DictionaryNotImplemented public constructor(
+    @JvmField
+    private val instance: Luposdate3000Instance,
+) : IDictionary {
+    internal val bnodeMapToGlobal = mutableMapOf<DictionaryValueType, DictionaryValueType>()
     override fun isInmemoryOnly(): Boolean = TODO()
     override fun close(): Unit = TODO()
     override fun delete(): Unit = TODO()
@@ -31,7 +37,24 @@ public class DictionaryNotImplemented public constructor() : IDictionary {
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType = TODO()
     override fun createNewBNode(s: String): DictionaryValueType = TODO()
     override fun isBnode(value: DictionaryValueType): Boolean = TODO()
-    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType = TODO()
+    override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
+        if ((value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal) {
+            if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
+                TODO()
+            } else {
+                val tmp = bnodeMapToGlobal[value]
+                if (tmp == null) {
+                    val res = instance.nodeGlobalDictionary!!.createNewBNode()
+                    bnodeMapToGlobal[value] = res
+                    return res
+                } else {
+                    return tmp
+                }
+            }
+        } else {
+            return value
+        }
+    }
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> = TODO()
     override fun isLocalValue(value: DictionaryValueType): Boolean {
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal

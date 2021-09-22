@@ -109,9 +109,9 @@ public object LuposdateEndpoint {
             data = data,
             unusedParam = false,
         )
-        parserObject.convertByteArrayWrapperToID = {
-            if (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE) {
-                dict.createValue(buffer)
+        parserObject.convertByteArrayWrapperToID = { it ->
+            if (DictionaryHelper.byteArrayToType(it) != ETripleComponentTypeExt.BLANK_NODE) {
+                dict.createValue(it)
             } else {
                 DictionaryValueHelper.booleanTrueValue
             }

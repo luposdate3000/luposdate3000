@@ -154,7 +154,7 @@ public abstract class OPBase public constructor(
             {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
-                    query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(), true))
+                    query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(query.getInstance()), true))
                 }
             }
         )

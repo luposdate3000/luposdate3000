@@ -5,7 +5,7 @@ mkdir -p simulator_output
 #git clean -xdf
 #./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
-./gradlew assemble
+#./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 declare -A baselineValues
 
@@ -18,8 +18,9 @@ LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
 for r in RPL_Fast AllShortestPath RPL
 do
 JSON_ROUTING="${BASE_PATH}/routing_$r.json"
-for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
+#for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
 #for q in Q3
+for q in Q0
 do
 JSON_QUERY="${BASE_PATH}/$q.json"
 for t in distributed distributedWithQueryHops central
@@ -27,14 +28,15 @@ for t in distributed distributedWithQueryHops central
 #for t in distributed
 do
 JSON_TOPOLOGY="${BASE_PATH}/$t.json"
-for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate3000_by_id_2_all_collations luposdate3000_by_id_1_all_collations luposdate3000_by_id_O_all_collations luposdate3000_by_id_S_all_collations luposdate3000_by_simple
-#for d in luposdate3000_by_key
+#for d in luposdate3000_by_key luposdate3000_by_id_twice_all_collations luposdate3000_by_id_2_all_collations luposdate3000_by_id_1_all_collations luposdate3000_by_id_O_all_collations luposdate3000_by_id_S_all_collations luposdate3000_by_simple
+for d in luposdate3000_by_key
 do
 JSON_DATABASE="${BASE_PATH}/$d.json"
 for m in Disabled Enabled
 do
 JSON_MULTICAST="${BASE_PATH}/luposdate3000Multicast${m}.json"
-for dist in luposdate3000_distribution_routing luposdate3000_distribution_centralized
+#for dist in luposdate3000_distribution_routing luposdate3000_distribution_centralized
+for dist in luposdate3000_distribution_routing
 do
 JSON_DIST="${BASE_PATH}/$dist.json"
 if [[($t == "central" && $q != "Q0")]]

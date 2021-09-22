@@ -241,12 +241,12 @@ public object DictionaryHelperLarge {
                                 }
                             }
                         }
-                        if (componentYear < (1L shl 19)) {
+                        if (componentYear < (1L shl 11)) {
                             componentYear = componentYear shl 37
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:245"/*SOURCE_FILE_END*/ }, { componentYear >= (1L shl 37) })
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:246"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 56) })
                             val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
-                            ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 7, false)
+                            ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 6, false)
                             DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
                             ByteArrayHelper.writeLong7(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize(), componentAll)
                             done = true
@@ -257,13 +257,13 @@ public object DictionaryHelperLarge {
         }
 
 /*
- * 56 bits = 7 bytes total
+ * 48 bits = 6 bytes total
  *
  * 27 bits milliseconds on day   (max 86400000)
  *  1 bit year-sign
  *  5 bits day in month
  *  4 bits month in year
- * 19 seconds year
+ * 11 seconds year
  * no timezone
  */
         if (!done) {
@@ -329,7 +329,7 @@ public object DictionaryHelperLarge {
             val hours = componentMilliseconds / (1000 * 60 * 60)
             val day = ((componentAll shr 27) and 0x1F)
             val month = ((componentAll shr 32) and 0xF)
-            var year = ((componentAll shr 37) and 0x7FFFF)
+            var year = ((componentAll shr 37) and 0x7FF)
             if ((componentAll and (1L shl 36)) != (1L shl 36)) {
                 year = -year
             }
