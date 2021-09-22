@@ -16,7 +16,6 @@
  */
 package lupos.visualize.distributed.database
 
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -174,7 +173,7 @@ public class VisualisationOperatorGraph {
                             val parr = pkey.split("=")
                             if (parr.size > 1) {
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:180"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationOperatorGraph.kt:176"/*SOURCE_FILE_END*/ },
                                     { parr.size == 3 },
                                     { "${parr.map{it}} $pkey ${n.parentKeys}" }
                                 )

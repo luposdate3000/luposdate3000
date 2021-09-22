@@ -5,7 +5,7 @@ mkdir -p simulator_output
 #git clean -xdf
 #./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 #./launcher.main.kts --setup --intellijMode=Disable
-#./gradlew assemble
+./gradlew assemble
 cmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep exec | sed "s/exec :: //g")
 declare -A baselineValues
 
@@ -59,7 +59,8 @@ contentLine="$contentLine,w"
 else
 contentLine="$contentLine,r"
 fi
-for idx in 11 12 14 15 18 19 23 24 26 29 30
+#for idx in 11 12 14 15 18 19 23 24 26 29 30
+for idx in $(seq 1 30)
 do
 headerLine="$headerLine,$(sed '1q;d' $measurementFile | cut -f${idx} -d ',')"
 value="$(sed '2q;d' $measurementFile | cut -f${idx} -d ',')"
