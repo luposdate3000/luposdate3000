@@ -112,7 +112,7 @@
                 "ParkingSensor": {
                     "area": 1,
                     "dataSink": "Fog",
-                    "maxSamples": 3,
+                    "maxSamples": 1,
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,
                 },
@@ -127,6 +127,7 @@
                 "ParkingSensor": {
                     "area": 10,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 110,
                     "sendStartClockInSec": 15,
@@ -142,6 +143,7 @@
                 "ParkingSensor": {
                     "area": 2,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 120,
                     "sendStartClockInSec": 15,
@@ -157,6 +159,7 @@
                 "ParkingSensor": {
                     "area": 3,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 100,
                     "sendStartClockInSec": 15,
@@ -172,6 +175,7 @@
                 "ParkingSensor": {
                     "area": 4,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 140,
                     "sendStartClockInSec": 15,
@@ -187,6 +191,7 @@
                 "ParkingSensor": {
                     "area": 5,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 50,
                     "sendStartClockInSec": 15,
@@ -202,6 +207,7 @@
                 "ParkingSensor": {
                     "area": 6,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 120,
                     "sendStartClockInSec": 15,
@@ -217,6 +223,7 @@
                 "ParkingSensor": {
                     "area": 7,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 59,
                     "sendStartClockInSec": 15,
@@ -232,6 +239,7 @@
                 "ParkingSensor": {
                     "area": 8,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 130,
                     "sendStartClockInSec": 15,
@@ -247,6 +255,7 @@
                 "ParkingSensor": {
                     "area": 9,
                     "dataSink": "Fog",
+                    "enabled": false,
                     "maxSamples": 3,
                     "rateInSec": 61,
                     "sendStartClockInSec": 15,
@@ -354,7 +363,7 @@
             "deviceType": "Sensor Device WSN 1",
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
-            "number": 5,
+            "number": 1,
             "starRoot": "Root WSN 1",
         },
         {

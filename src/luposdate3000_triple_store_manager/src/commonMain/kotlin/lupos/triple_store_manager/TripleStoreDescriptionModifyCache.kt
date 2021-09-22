@@ -103,6 +103,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             conn.output.writeInt(bytes2.size)
                             conn.output.write(bytes2)
                             conn.output.writeInt(idx)
+println("TripleStoreDescriptionModifyCache ... $host -> $host2 @ $key... ${conn}")
                         }
                     }
                     j++
