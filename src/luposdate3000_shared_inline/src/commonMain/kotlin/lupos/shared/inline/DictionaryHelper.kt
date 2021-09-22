@@ -190,7 +190,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             var year = ((componentAll shr 37) and 0x7FF)
             if ((componentAll and (1L shl 36)) != (1L shl 36)) {
                 year = -year
@@ -221,7 +221,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             return ((componentAll shr 32) and 0xF).toBigInteger()
         } else {
             var off = 0
@@ -235,7 +235,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             return ((componentAll shr 27) and 0x1F).toBigInteger()
         } else {
             var off = 0
@@ -250,7 +250,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             val hours = (componentAll and 0x7FFFFFF) / (1000 * 60 * 60)
             return hours.toBigInteger()
         } else {
@@ -267,7 +267,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): BigInteger {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             val minutes = ((componentAll and 0x7FFFFFF) / (1000 * 60)) % 60
             return minutes.toBigInteger()
         } else {
@@ -285,7 +285,7 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): BigDecimal {
         if (headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), headerSize())
             val milliseconds = ((componentAll and 0x7FFFFFF)) % (60 * 1000)
             return milliseconds.toBigDecimal() / 1000
         } else {

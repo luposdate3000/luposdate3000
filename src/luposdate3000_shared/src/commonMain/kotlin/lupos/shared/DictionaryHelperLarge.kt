@@ -244,11 +244,11 @@ public object DictionaryHelperLarge {
                         if (componentYear < (1L shl 11)) {
                             componentYear = componentYear shl 37
                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:245"/*SOURCE_FILE_END*/ }, { componentYear >= (1L shl 37) })
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:246"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 56) })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:246"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 48) })
                             val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
                             ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 6, false)
                             DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
-                            ByteArrayHelper.writeLong7(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize(), componentAll)
+                            ByteArrayHelper.writeLong6(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize(), componentAll)
                             done = true
                         }
                     }
@@ -322,7 +322,7 @@ public object DictionaryHelperLarge {
 
     public fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
         if (DictionaryHelper.headerDecodeFlag(buffer) == 0x80) {
-            val componentAll = ByteArrayHelper.readLong7(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize())
+            val componentAll = ByteArrayHelper.readLong6(ByteArrayWrapperExt.getBuf(buffer), DictionaryHelper.headerSize())
             val componentMilliseconds = (componentAll and 0x7FFFFFF)
             val milliseconds = componentMilliseconds % (60 * 1000)
             val minutes = (componentMilliseconds / (1000 * 60)) % 60
