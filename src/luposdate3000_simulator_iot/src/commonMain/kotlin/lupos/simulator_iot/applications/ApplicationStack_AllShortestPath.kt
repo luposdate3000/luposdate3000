@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.shared.EDatabaseHopFlagExt
 import lupos.shared.SanityCheck
 import lupos.simulator_core.ITimer
@@ -102,7 +103,7 @@ internal class ApplicationStack_AllShortestPath(
         }
         for (i in 0 until config.devices.size) {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:104"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:105"/*SOURCE_FILE_END*/ },
                 { routingTable[i] != -1 },
             )
         }
@@ -115,40 +116,43 @@ internal class ApplicationStack_AllShortestPath(
         ) {
             routingTableDatabaseHops[flag][parent.address] = parent.address // myself
             if (devicesWithDatabase.contains(parent.address)) {
-                val mappingOfNextDatabaseTowardsRoot = IntArray(config.devices.size) { -1 }
-                val queue = mutableListOf<Int>()
-                var myParent = -1
-                for (d in devicesWithDatabase) {
-                    var hop = globalParentTable[d]
-                    while (!devicesWithDatabase.contains(hop)) {
-                        val nextHop = globalParentTable[hop]
-                        if (hop == nextHop) {
-                            break
-                        }
-                        hop = nextHop
-                    }
-                    if (hop != d && devicesWithDatabase.contains(hop)) {
-                        mappingOfNextDatabaseTowardsRoot[d] = hop
-                        if (hop == parent.address) {
-                            routingTableDatabaseHops[flag][d] = d // next database hop towards leaves saves its own address
-                            queue.add(d)
+                val localParentTable = IntArray(globalParentTable.size) { globalParentTable[it] }
+                var changed = true
+                while (changed) {
+                    changed = false
+                    for (d in 0 until globalParentTable.size) {
+                        if (devicesWithDatabase.contains(localParentTable[d])) {
+// done, my parent is a database
+                        } else if (localParentTable[d] == localParentTable[localParentTable[d]]) {
+// done, endless loop
+                        } else {
+                            localParentTable[d] = localParentTable[localParentTable[d]]
+                            changed = true
                         }
                     }
                 }
-                while (queue.size > 0) {
-                    val d = queue.removeAt(0)
-                    for (i in devicesWithDatabase) {
-                        if (mappingOfNextDatabaseTowardsRoot[i] == d) {
-                            routingTableDatabaseHops[flag][i] = d // routing towards leaves
-                            queue.add(i)
+                changed = true
+                while (changed) {
+                    changed = false
+                    for (d in 0 until globalParentTable.size) {
+                        if (localParentTable[d] == parent.address) {
+// done, i am a direct neighbor
+                        } else if (localParentTable[localParentTable[d]] == parent.address) {
+// done, i am a indirect neighbor
+                        } else if (localParentTable[d] == localParentTable[localParentTable[d]]) {
+// done, endless loop
+                        } else {
+                            localParentTable[d] = localParentTable[localParentTable[d]]
+                            changed = true
                         }
                     }
                 }
-                for (i in devicesWithDatabase) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:148"/*SOURCE_FILE_END*/ },
-                        { routingTableDatabaseHops[flag][i] != -1 },
-                    )
+                for (i in 0 until config.devices.size) {
+                    if (localParentTable[i] == parent.address) {
+                        routingTableDatabaseHops[flag][i] = i
+                    } else {
+                        routingTableDatabaseHops[flag][i] = localParentTable[i]
+                    }
                 }
             }
         }
@@ -170,8 +174,8 @@ internal class ApplicationStack_AllShortestPath(
                     b to a
                 }
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:172"/*SOURCE_FILE_END*/ },
-                    { delay> 0 },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:176"/*SOURCE_FILE_END*/ },
+                    { delay > 0 },
                 )
                 if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {
                     globalParentCosts[p.second.address] = globalParentCosts[p.first.address] + delay

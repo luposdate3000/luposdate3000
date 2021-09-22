@@ -876,6 +876,8 @@ public class Application_Luposdate3000 public constructor(
                     for (i in 0 until hops.size) {
                         if (hops[i] != -1) {
                             instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[flag][i] = hops[i].toString()
+                        } else {
+                            instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[flag][i] = instance.LUPOS_PROCESS_URLS_ALL[i].toString()
                         }
                     }
                 }
