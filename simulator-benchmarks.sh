@@ -13,8 +13,10 @@ first=true
 
 BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
-JSON_LOCATION="${BASE_PATH}/campus.json"
 LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
+for cc in campus campusNoSamples
+do
+JSON_LOCATION="${BASE_PATH}/${cc}.json"
 for r in RPL_Fast AllShortestPath RPL
 do
 JSON_ROUTING="${BASE_PATH}/routing_$r.json"
@@ -44,6 +46,11 @@ then
 #centralized has only traffic during initialization, afterwards all zero
 continue
 fi
+if [[($cc == "campusNoSamples" && $q != "Q0")]]
+then
+#there is no data at all, any query get all zero data
+continue
+fi
 if [[($m == "Enabled" && $q != "Q0")]]
 then
 #multicast is only relevant for insert, everything else is the same
@@ -53,8 +60,8 @@ measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate300
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
 echo $measurementFile
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
-headerLine="topology,database,query,multicast,routing-protocol,dist,readwrite"
-contentLine="${t},${d},${q},${m},${r},${dist}"
+headerLine="topology,database,query,multicast,routing-protocol,dist,map,readwrite"
+contentLine="${t},${d},${q},${m},${r},${dist},${cc}"
 if [ "$q" = "Q0" ]
 then
 contentLine="$contentLine,w"
@@ -81,6 +88,7 @@ echo $headerLine >> simulator_output/final.csv
 fi
 echo $contentLine >> simulator_output/final.csv
 first=false
+done
 done
 done
 done
