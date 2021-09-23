@@ -108,80 +108,70 @@
             ],
         },
         "Sensor Device WSN 1": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 10": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 2": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 3": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 4": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 5": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 6": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 7": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 8": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 9": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
