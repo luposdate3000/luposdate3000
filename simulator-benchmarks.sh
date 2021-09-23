@@ -14,10 +14,10 @@ first=true
 BASE_PATH="src/luposdate3000_simulator_iot/src/jvmMain/resources"
 EVALUATION_LOCATION="${BASE_PATH}/evaluation.json"
 LUPOS_BASE_LOCATION="${BASE_PATH}/luposdate3000.json"
-for cc in campus campusNoSamples
+for cc in campusNoSamples campus
 do
 JSON_LOCATION="${BASE_PATH}/${cc}.json"
-for r in RPL_Fast AllShortestPath RPL
+for r in RPL_Fast AllShortestPath
 do
 JSON_ROUTING="${BASE_PATH}/routing_$r.json"
 #for q in Q0 Q3 Q2 Q1 Q4 Q5 Q6 Q7 Q8
@@ -56,7 +56,7 @@ then
 #multicast is only relevant for insert, everything else is the same
 continue
 fi
-measurementFile="simulator_output/_campus_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}_routing_${r}/measurement.csv"
+measurementFile="simulator_output/_${cc}_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}_routing_${r}/measurement.csv"
 echo $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
 echo $measurementFile
 eval $cmd $JSON_LOCATION $JSON_TOPOLOGY $JSON_QUERY $JSON_DATABASE $EVALUATION_LOCATION $LUPOS_BASE_LOCATION $JSON_DIST $JSON_MULTICAST $JSON_ROUTING
@@ -76,9 +76,9 @@ value="$(sed '2q;d' $measurementFile | cut -f${idx} -d ',')"
 if [ "$q" = "Q0" ]
 then
 #baseline
-baselineValues["${t},${d},${idx},${r},${dist},${m}"]="$value"
+baselineValues["${t},${d},${idx},${r},${dist},${m},${cc}"]="$value"
 else
-value=$(echo "$value - ${baselineValues["${t},${d},${idx},${r},${dist},${m}"]}" | bc)
+value=$(echo "$value - ${baselineValues["${t},${d},${idx},${r},${dist},${m},${cc}"]}" | bc)
 fi
 contentLine="$contentLine,${value}"
 done

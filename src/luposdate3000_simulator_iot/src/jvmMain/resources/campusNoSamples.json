@@ -108,70 +108,120 @@
             ],
         },
         "Sensor Device WSN 1": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 10": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 2": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 3": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 4": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 5": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 6": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 7": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 8": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
             ],
         },
         "Sensor Device WSN 9": {
-            "applications": {},
+            "applications": {
+                "ParkingSensor": {
+                    
+                    "enabled": false,
+                },
+            },
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",
