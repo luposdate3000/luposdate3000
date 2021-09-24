@@ -12,7 +12,7 @@
         },
         "EdgeGatewayDevice_1": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -20,11 +20,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true,
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -34,7 +34,7 @@
         },
         "EdgeGatewayDevice_2": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -42,11 +42,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true,
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 32.0,
             "supportedLinkTypes": [
@@ -56,7 +56,7 @@
         },
         "FogTower": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -64,11 +64,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true,
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 110.0,
             "supportedLinkTypes": [
@@ -78,7 +78,7 @@
         },
         "ParkingSensorDevice_1": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "Gateway of WSN 1",
                     "maxSamples": 10,
@@ -93,7 +93,7 @@
         },
         "ParkingSensorDevice_2": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 2,
                     "dataSink": "Gateway of WSN 2",
                     "maxSamples": 10,

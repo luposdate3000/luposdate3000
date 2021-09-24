@@ -4,9 +4,9 @@
     "deviceType": {
         "DataStore": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 5322.0,
             "supportedLinkTypes": [],
@@ -18,7 +18,7 @@
         },
         "SensorDevice": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "D",
                     "maxSamples": 3,

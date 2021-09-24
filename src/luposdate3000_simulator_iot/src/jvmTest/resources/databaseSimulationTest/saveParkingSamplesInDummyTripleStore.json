@@ -9,25 +9,25 @@
         },
         "FogWithDatabase": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 40.0,
             "supportedLinkTypes": [],
         },
         "FogWithDatabaseAndSensor": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "ParkingSensor": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "G",
                     "maxSamples": 8,
                     "rateInSec": 30,
                     "sendStartClockInSec": 15,
                 },
-                "QueryResponseReceiver": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 3.0,
             "supportedLinkTypes": [],

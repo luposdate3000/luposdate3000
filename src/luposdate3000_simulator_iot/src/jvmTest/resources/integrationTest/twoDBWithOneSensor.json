@@ -4,7 +4,7 @@
     "deviceType": {
         "DB": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -12,11 +12,10 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
                     "useDictionaryInlineEncoding": true,
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 50.0,
             "supportedLinkTypes": [],
@@ -27,7 +26,7 @@
         },
         "Sensor": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "B",
                     "maxSamples": 1,

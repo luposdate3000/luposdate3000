@@ -9,9 +9,9 @@
         },
         "FogWithDatabase": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 80.0,
             "supportedLinkTypes": [],

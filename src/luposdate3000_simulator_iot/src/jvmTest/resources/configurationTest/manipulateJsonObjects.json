@@ -3,9 +3,9 @@
     "deviceType": {
         "Fog": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 20.0,
             "supportedLinkTypes": [
@@ -14,7 +14,7 @@
         },
         "StandAloneParkingSensor": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 0,
                     "dataSink": "Tower1",
                     "maxSamples": -1,

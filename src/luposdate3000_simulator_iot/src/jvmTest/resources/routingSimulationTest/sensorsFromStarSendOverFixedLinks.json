@@ -4,9 +4,9 @@
     "deviceType": {
         "Edge Gateway WSN 1": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -15,9 +15,9 @@
         },
         "Mesh Hop": {
             "applications": {
-                "DummyDatabase": {},
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {},
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 20.0,
             "supportedLinkTypes": [
@@ -26,7 +26,7 @@
         },
         "Sensor Device WSN 1": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "DODAG ROOT",
                     "maxSamples": 5,

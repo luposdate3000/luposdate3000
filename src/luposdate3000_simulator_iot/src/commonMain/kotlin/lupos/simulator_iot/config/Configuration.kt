@@ -17,6 +17,7 @@
 
 package lupos.simulator_iot.config
 import lupos.parser.JsonParser
+import lupos.simulator_iot.ReflectionHelper
 import lupos.parser.JsonParserArray
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
@@ -280,112 +281,17 @@ public class Configuration(private val simRun: SimulationRun) {
         var databaseQuery = false
         var hasSensor = false
         for ((applicationName, applicationJson) in jsonApplicationsEffective) {
-            when (applicationName) {
-                "DummyDatabase" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        numberOfDatabases++
-                        databaseStore = true
-                        databaseQuery = true
-                        dbDeviceAddressesStoreList.add(ownAddress)
-                        dbDeviceAddressesQueryList.add(ownAddress)
-                        applications.add(
-                            Application_DatabaseDummy(
-                                applicationJson,
-                                simRun.logger,
-                                ownAddress,
-                                "$outputDirectory/db_states/device$ownAddress",
-                                dbDeviceAddressesStoreList,
-                                dbDeviceAddressesQueryList,
-                            )
-                        )
-                    }
-                }
-                "Luposdate3000" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        numberOfDatabases++
-                        databaseQuery = applicationJson.getOrDefault("databaseQuery", true)
-                        databaseStore = applicationJson.getOrDefault("databaseStore", true) || !databaseQuery // at least one must be true
-                        if (databaseStore) {
-                            dbDeviceAddressesStoreList.add(ownAddress)
-                        }
-                        if (databaseQuery) {
-                            dbDeviceAddressesQueryList.add(ownAddress)
-                        }
-                        applications.add(
-                            Application_Luposdate3000(
-                                applicationJson,
-                                simRun.logger,
-                                ownAddress,
-                                "$outputDirectory/db_states/device$ownAddress",
-                                dbDeviceAddressesStoreList,
-                                dbDeviceAddressesQueryList,
-                            )
-                        )
-                    }
-                }
-                "QueryResponseReceiver" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        applications.add(Application_ReceiveQueryResponse(outputDirectory + "/"))
-                    }
-                }
-                "ParkingSampleReceiver" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        applications.add(Application_ReceiveParkingSample(ownAddress))
-                    }
-                }
-                "OntologySender" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        applications.add(
-                            Application_OntologySender(
-                                applicationJson.getOrDefault("sendStartClockInSec", 0),
-                                applicationJson.getOrDefault("fileName", ""),
-                                ownAddress,
-                            )
-                        )
-                    }
-                }
-                "QuerySender" -> {
-                    applicationJson as JsonParserArray
-                    for (it in applicationJson) {
-                        it as JsonParserObject
-                        if (it.getOrDefault("enabled", true)) {
-                            applications.add(
-                                Application_QuerySender(
-                                    it.getOrDefault("sendStartClockInSec", 0),
-                                    it.getOrDefault("sendRateInSec", 1),
-                                    it.getOrDefault("maxNumberOfQueries", 1),
-                                    it.getOrDefault("query", ""),
-                                    ownAddress,
-                                )
-                            )
-                        }
-                    }
-                }
-                "ParkingSensor" -> {
-                    applicationJson as JsonParserObject
-                    if (applicationJson.getOrDefault("enabled", true)) {
-                        hasSensor = true
-                        numberOfSensors++
-                        applications.add(
-                            Application_ParkingSensor(
-                                applicationJson.getOrDefault("sendStartClockInSec", 0),
-                                applicationJson.getOrDefault("rateInSec", 0),
-                                applicationJson.getOrDefault("maxSamples", -1),
-                                applicationJson.getOrDefault("dataSink", ""),
-                                ownAddress,
-                                simRun.randGenerator,
-                                applicationJson.getOrDefault("area", 0),
-                            )
-                        )
-                    }
-                }
-                else -> TODO("unknown application '$applicationName'")
-            }
+val factory=ReflectionHelper.createApplicationFactory(applicationName)
+applications.addAll(factory.create(applicationJson))
+/*
+import lupos.simulator_iot.applications.Application_OntologySender
+import lupos.simulator_iot.applications.Application_ParkingSensor
+import lupos.simulator_iot.applications.Application_QuerySender
+import lupos.simulator_iot.applications.Application_ReceiveParkingSample
+import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
+import lupos.simulator_db.dummyImpl.Application_DatabaseDummy
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+*/
         }
         val applicationStack = ApplicationStack_Sequence(
             ownAddress,

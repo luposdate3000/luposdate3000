@@ -3,7 +3,7 @@
     "deviceType": {
         "LUPOSDATE_DEVICE": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "databaseQuery": true,
                     "databaseStore": true,
                     "REPLACE_STORE_WITH_VALUES": false,
@@ -11,12 +11,12 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "QueryResponseReceiver": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {
                 },
-                "ParkingSampleReceiver": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {
                 }
             },
             "performance": 100.0,

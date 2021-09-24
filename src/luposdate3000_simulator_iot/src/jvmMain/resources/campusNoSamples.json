@@ -1,13 +1,13 @@
 {
     "applications": {
-        "ParkingSampleReceiver": {},
-        "QueryResponseReceiver": {},
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
     },
     "deterministic": true,
     "deviceType": {
         "Central Tower": {
             "applications": {
-                "OntologySender": {
+                "lupos.simulator_iot.applications.ApplicationFactory_OntologySender": {
                     "enabled": true,
                     "fileName": "src/luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
                     "sendStartClockInSec": 10,
@@ -109,7 +109,7 @@
         },
         "Sensor Device WSN 1": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -120,7 +120,7 @@
         },
         "Sensor Device WSN 10": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -131,7 +131,7 @@
         },
         "Sensor Device WSN 2": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -142,7 +142,7 @@
         },
         "Sensor Device WSN 3": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -153,7 +153,7 @@
         },
         "Sensor Device WSN 4": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -164,7 +164,7 @@
         },
         "Sensor Device WSN 5": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -175,7 +175,7 @@
         },
         "Sensor Device WSN 6": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -186,7 +186,7 @@
         },
         "Sensor Device WSN 7": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -197,7 +197,7 @@
         },
         "Sensor Device WSN 8": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },
@@ -208,7 +208,7 @@
         },
         "Sensor Device WSN 9": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "enabled": false,
                 },
             },

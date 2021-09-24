@@ -3,7 +3,7 @@
     "deviceType": {
         "Edge Gateway WSN 1": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -11,11 +11,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {}
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {}
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -24,7 +24,7 @@
         },
         "Edge Gateway WSN 2": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -32,11 +32,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {}
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {}
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -45,7 +45,7 @@
         },
         "Edge Gateway WSN 3": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -53,11 +53,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {}
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {}
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -66,7 +66,7 @@
         },
         "Edge Gateway WSN 4": {
             "applications": {
-                "Luposdate3000": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "REPLACE_STORE_WITH_VALUES": false,
                     "SharedMemoryDictionaryCheat": true,
                     "databaseQuery": true,
@@ -74,11 +74,11 @@
                     "mergeLocalOperatorgraphs": true,
                     "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
                     "queryDistributionMode": "Routing",
-                    "type": "Luposdate3000",
+                    "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "ParkingSampleReceiver": {},
-                "QueryResponseReceiver": {}
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {}
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -93,7 +93,7 @@
         },
         "Sensor Device WSN 1": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "Root WSN 1",
                     "sendStartClockInSec": 15,
@@ -108,7 +108,7 @@
         },
         "Sensor Device WSN 2": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 2,
                     "dataSink": "Root WSN 2",
                     "sendStartClockInSec": 15,
@@ -123,7 +123,7 @@
         },
         "Sensor Device WSN 3": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 3,
                     "sendStartClockInSec": 15,
                     "dataSink": "Root WSN 3",
@@ -138,7 +138,7 @@
         },
         "Sensor Device WSN 4": {
             "applications": {
-                "ParkingSensor": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 4,
                     "sendStartClockInSec": 15,
                     "dataSink": "Root WSN 4",
