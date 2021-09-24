@@ -16,28 +16,31 @@
  */
 
 package lupos.simulator_iot.applications
-
 import lupos.parser.IJsonParserValue
+import lupos.parser.JsonParserArray
+import lupos.parser.JsonParserObject
+import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
-
-public class ApplicationFactory_QuerySender : IApplication_Factory:IApplication_Factory{
-    override fun create(json: IJsonParserValue): List<IApplicationStack_Actuator> {
-json as JsonParserArray
-val res=mutableListOf<IApplicationStack_Actuator>()
-                    for (it in json) {
-                        it as JsonParserObject
-                        if (it.getOrDefault("enabled", true)) {
-                            res.add(
-                                Application_QuerySender(
-                                    it.getOrDefault("sendStartClockInSec", 0),
-                                    it.getOrDefault("sendRateInSec", 1),
-                                    it.getOrDefault("maxNumberOfQueries", 1),
-                                    it.getOrDefault("query", ""),
-                                    ownAddress,
-                                )
-                            )
-                        }
-                    }
-return res
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.RandomGenerator
+public class ApplicationFactory_QuerySender : IApplication_Factory {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
+        json as JsonParserArray
+        val res = mutableListOf<IApplicationStack_Actuator>()
+        for (it in json) {
+            it as JsonParserObject
+            if (it.getOrDefault("enabled", true)) {
+                res.add(
+                    Application_QuerySender(
+                        it.getOrDefault("sendStartClockInSec", 0),
+                        it.getOrDefault("sendRateInSec", 1),
+                        it.getOrDefault("maxNumberOfQueries", 1),
+                        it.getOrDefault("query", ""),
+                        ownAddress,
+                    )
+                )
+            }
+        }
+        return res
     }
 }

@@ -16,29 +16,31 @@
  */
 
 package lupos.simulator_db.dummyImpl
-
 import lupos.parser.IJsonParserValue
+import lupos.parser.JsonParserObject
+import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.RandomGenerator
 
-public class ApplicationFactory_DatabaseDummy : IApplication_Factory:IApplication_Factory{
-    override fun create(json: IJsonParserValue): List<IApplicationStack_Actuator> {
+public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
+    private val dbDeviceAddressesStoreList = mutableListOf<Int>()
+    private val dbDeviceAddressesQueryList = mutableListOf<Int>()
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
-numberOfDatabases++
-                        databaseStore = true
-                        databaseQuery = true
-                        dbDeviceAddressesStoreList.add(ownAddress)
-                        dbDeviceAddressesQueryList.add(ownAddress)
-                        return listOf(
-                            Application_DatabaseDummy(
-                                json,
-                                simRun.logger,
-                                ownAddress,
-                                "$outputDirectory/db_states/device$ownAddress",
-                                dbDeviceAddressesStoreList,
-                                dbDeviceAddressesQueryList,
-                            )
-                        )
+            dbDeviceAddressesStoreList.add(ownAddress)
+            dbDeviceAddressesQueryList.add(ownAddress)
+            return listOf(
+                Application_DatabaseDummy(
+                    json,
+                    logger,
+                    ownAddress,
+                    "$outputDirectory/db_states/device$ownAddress",
+                    dbDeviceAddressesStoreList,
+                    dbDeviceAddressesQueryList,
+                )
+            )
         }
         return listOf()
     }

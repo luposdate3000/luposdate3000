@@ -45,8 +45,6 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     public companion object {
         public var StatCounter: Int = 0
         public val StatNumberOfDevices: Int = StatCounter++
-        public val StatNumberOfSensorDevices: Int = StatCounter++
-        public val StatNumberOfDatabaseDevices: Int = StatCounter++
 
         public val StatSimulationStartupDurationReal: Int = StatCounter++
         public val StatSimulationShutdownDurationReal: Int = StatCounter++
@@ -84,8 +82,6 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     public val headers: Array<String> = Array(StatCounter) {
         when (it) {
             StatNumberOfDevices -> "number of devices"
-            StatNumberOfSensorDevices -> "number of sensor devices"
-            StatNumberOfDatabaseDevices -> "number of database devices"
 
             StatSimulationStartupDurationReal -> "simulation startup duration real (Seconds)"
             StatSimulationShutdownDurationReal -> "simulation shutdown duration real (Seconds)"
@@ -243,13 +239,7 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         val stopSimulationTimeStamp = Clock.System.now()
         data[StatSimulationShutdownDurationReal] = (stopSimulationTimeStamp - shutDownTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
     }
-    override fun addDevice(address: Int, x: Double, y: Double, hasDBStore: Boolean, hasDBQuery: Boolean, hasSensor: Boolean) {
+    override fun addDevice(address: Int, x: Double, y: Double,) {
         data[StatNumberOfDevices]++
-        if (hasSensor) {
-            data[StatNumberOfSensorDevices]++
-        }
-        if (hasDBStore || hasDBQuery) {
-            data[StatNumberOfDatabaseDevices]++
-        }
     }
 }

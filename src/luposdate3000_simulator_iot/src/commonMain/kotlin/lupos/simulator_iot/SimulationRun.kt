@@ -21,6 +21,7 @@ import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
+import lupos.simulator_db.RandomGenerator
 import lupos.simulator_iot.config.Configuration
 public class SimulationRun {
 

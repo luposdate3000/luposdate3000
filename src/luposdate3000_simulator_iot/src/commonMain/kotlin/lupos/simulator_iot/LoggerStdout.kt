@@ -33,5 +33,5 @@ public class LoggerStdout public constructor(private val simRun: SimulationRun) 
     override fun onSteadyState() { println("${simRun.sim.clock} onSteadyState") }
     override fun onStartSimulation() { println("${simRun.sim.clock} onStartSimulation") }
     override fun onStopSimulation() { println("${simRun.sim.clock} onStopSimulation") }
-    override fun addDevice(address: Int, x: Double, y: Double, hasDBStore: Boolean, hasDBQuery: Boolean, hasSensor: Boolean) { println("addDevice $address $x $y $hasDBStore $hasDBQuery $hasSensor") }
+    override fun addDevice(address: Int, x: Double, y: Double,) { println("addDevice $address $x $y") }
 }

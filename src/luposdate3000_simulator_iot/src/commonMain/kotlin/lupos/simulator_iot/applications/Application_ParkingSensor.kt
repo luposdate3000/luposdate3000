@@ -25,7 +25,7 @@ import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
 import lupos.simulator_db.IPayload
-import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_db.RandomGenerator
 public class Application_ParkingSensor(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,

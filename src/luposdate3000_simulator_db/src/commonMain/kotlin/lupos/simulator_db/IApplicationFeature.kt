@@ -7,15 +7,17 @@
  * the Free Software Foundation, version 3.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY without even the implied warranty of
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_iot
-import lupos.simulator_db.IApplication_Factory
-internal expect object ReflectionHelper {
-    internal fun createApplicationFactory(name: String): IApplication_Factory
+
+package lupos.simulator_db
+
+public interface IApplicationStack_Feature {
+public fun getName():String
+public fun hasFeature (applicaton:IApplicationStack_Actuator):Boolean
 }

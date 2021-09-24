@@ -16,7 +16,7 @@
  */
 package lupos.simulator_iot
 internal actual object ReflectionHelper{
-actual fun createApplication(name:String):IApplicationStack_Actuator{
+actual fun createApplicationFactory(name:String):IApplication_Factory{
 TODO()
 }
 }

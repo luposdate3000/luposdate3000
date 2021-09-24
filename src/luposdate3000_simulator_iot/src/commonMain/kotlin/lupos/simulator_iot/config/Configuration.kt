@@ -17,19 +17,17 @@
 
 package lupos.simulator_iot.config
 import lupos.parser.JsonParser
-import lupos.simulator_iot.ReflectionHelper
-import lupos.parser.JsonParserArray
 import lupos.parser.JsonParserObject
 import lupos.parser.JsonParserString
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
 import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplication_Factory
 import lupos.simulator_db.IPackage_Database
-import lupos.simulator_db.dummyImpl.Application_DatabaseDummy
-import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_iot.LoggerMeasure
 import lupos.simulator_iot.LoggerStdout
+import lupos.simulator_iot.ReflectionHelper
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.applications.ApplicationStack_AllShortestPath
 import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
@@ -39,11 +37,7 @@ import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
 import lupos.simulator_iot.applications.ApplicationStack_RPL
 import lupos.simulator_iot.applications.ApplicationStack_RPL_Fast
 import lupos.simulator_iot.applications.ApplicationStack_Sequence
-import lupos.simulator_iot.applications.Application_OntologySender
-import lupos.simulator_iot.applications.Application_ParkingSensor
 import lupos.simulator_iot.applications.Application_QuerySender
-import lupos.simulator_iot.applications.Application_ReceiveParkingSample
-import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
@@ -55,6 +49,9 @@ public class Configuration(private val simRun: SimulationRun) {
     public companion object {
         public val defaultOutputDirectory: String = "simulator_output/"
     }
+    private val factories = mutableMapOf<String, IApplication_Factory>()
+private val features=mutableListOf<IApplicationStack_Feature>()
+
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
     public var outputDirectory: String = defaultOutputDirectory
@@ -62,10 +59,12 @@ public class Configuration(private val simRun: SimulationRun) {
         private set
     public var json: JsonParserObject? = null
 
-    internal var dbDeviceAddressesStore: IntArray = intArrayOf()
-    internal var dbDeviceAddressesQuery: IntArray = intArrayOf()
-    private val dbDeviceAddressesStoreList = mutableListOf<Int>()
-    private val dbDeviceAddressesQueryList = mutableListOf<Int>()
+    private var rootRouterAddress: Int = -1
+
+    private var deviceNames: MutableList<String> = mutableListOf()
+
+    internal var linker = DeviceLinker()
+        private set
 
     public fun addQuerySender(
         startClockInSec: Int,
@@ -89,19 +88,6 @@ public class Configuration(private val simRun: SimulationRun) {
         val device = getDeviceByAddress(receiver)
         device.applicationStack.addChildApplication(sender)
     }
-
-    private var rootRouterAddress: Int = -1
-
-    internal var numberOfDatabases = 0
-        private set
-
-    internal var numberOfSensors = 0
-        private set
-
-    private var deviceNames: MutableList<String> = mutableListOf()
-
-    internal var linker = DeviceLinker()
-        private set
 
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
@@ -140,7 +126,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:141"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:127"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -169,8 +155,6 @@ public class Configuration(private val simRun: SimulationRun) {
 // assign all dynamic links --->>>
         linker.createAvailableLinks(devices)
 // assign all dynamic links <<<---
-        dbDeviceAddressesStore = dbDeviceAddressesStoreList.toIntArray()
-        dbDeviceAddressesQuery = dbDeviceAddressesQueryList.toIntArray()
         if (autocorrect) {
             File(fileName).withOutputStream { out ->
                 out.println(JsonParser().jsonToString(json, false))
@@ -273,25 +257,26 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:274"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:258"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
-        var databaseStore = false
-        var databaseQuery = false
-        var hasSensor = false
         for ((applicationName, applicationJson) in jsonApplicationsEffective) {
-val factory=ReflectionHelper.createApplicationFactory(applicationName)
-applications.addAll(factory.create(applicationJson))
-/*
-import lupos.simulator_iot.applications.Application_OntologySender
-import lupos.simulator_iot.applications.Application_ParkingSensor
-import lupos.simulator_iot.applications.Application_QuerySender
-import lupos.simulator_iot.applications.Application_ReceiveParkingSample
-import lupos.simulator_iot.applications.Application_ReceiveQueryResponse
-import lupos.simulator_db.dummyImpl.Application_DatabaseDummy
-import lupos.simulator_db.luposdate3000.Application_Luposdate3000
-*/
+            var factory = factories[applicationName]
+            if (factory == null) {
+                factory = ReflectionHelper.createApplicationFactory(applicationName)
+factory.registerFeatures(features)
+                factories[applicationName] = factory
+            }
+            applications.addAll(
+                factory.create(
+                    applicationJson,
+                    ownAddress,
+                    simRun.logger,
+                    outputDirectory,
+                    simRun.randGenerator
+                )
+            )
         }
         val applicationStack = ApplicationStack_Sequence(
             ownAddress,
@@ -333,7 +318,7 @@ import lupos.simulator_db.luposdate3000.Application_Luposdate3000
             router,
             namedAddresses,
         )
-        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude, databaseStore, databaseQuery, hasSensor)
+        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude)
         devices.add(device)
         return device
     }

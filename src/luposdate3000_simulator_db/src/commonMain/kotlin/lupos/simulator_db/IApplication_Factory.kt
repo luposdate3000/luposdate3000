@@ -18,6 +18,5 @@
 package lupos.simulator_db
 import lupos.parser.IJsonParserValue
 public interface IApplication_Factory {
-public fun create(json:IJsonParserValue):List<IApplicationStack_Actuator>
+    public fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator>
 }
-

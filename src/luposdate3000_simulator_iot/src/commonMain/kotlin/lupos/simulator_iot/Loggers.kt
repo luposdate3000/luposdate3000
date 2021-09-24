@@ -85,9 +85,9 @@ public class Loggers public constructor(public val loggers: MutableList<ILogger>
             logger.onStopSimulation()
         }
     }
-    override fun addDevice(address: Int, x: Double, y: Double, hasDBStore: Boolean, hasDBQuery: Boolean, hasSensor: Boolean) {
+    override fun addDevice(address: Int, x: Double, y: Double,) {
         for (logger in loggers) {
-            logger.addDevice(address, x, y, hasDBStore, hasDBQuery, hasSensor)
+            logger.addDevice(address, x, y)
         }
     }
 }

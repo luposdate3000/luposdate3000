@@ -500,8 +500,8 @@ public class VisualisationNetwork(private val outputDirectory: String, private v
             }
         }
     }
-    override fun addDevice(address: Int, x: Double, y: Double, hasDBStore: Boolean, hasDBQuery: Boolean, hasSensor: Boolean) {
-        val d = VisualisationDevice(address, hasDBStore, hasDBQuery, hasSensor)
+    override fun addDevice(address: Int, x: Double, y: Double) {
+        val d = VisualisationDevice(address, true, true, true)
         d.x = x
         d.y = y
         addDevice(d)

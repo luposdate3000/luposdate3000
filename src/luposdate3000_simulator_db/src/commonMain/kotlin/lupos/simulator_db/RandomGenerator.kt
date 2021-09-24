@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot
+package lupos.simulator_db
 
 import lupos.shared.SanityCheck
 import kotlin.random.Random
@@ -25,27 +25,27 @@ public class RandomGenerator {
             field = value
             random = Random(value)
         }
-    internal var random: Random = Random(seed)
+    public var random: Random = Random(seed)
         private set
 
-    internal fun getDouble(minInclusive: Double, maxInclusive: Double): Double {
+    public fun getDouble(minInclusive: Double, maxInclusive: Double): Double {
         if (minInclusive == maxInclusive) {
             return minInclusive
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
             { maxInclusive < Double.MAX_VALUE },
         )
         val maxExclusive = maxInclusive + Double.MIN_VALUE
         return random.nextDouble(minInclusive, maxExclusive)
     }
 
-    internal fun getInt(minInclusive: Int, maxInclusive: Int): Int =
+    public fun getInt(minInclusive: Int, maxInclusive: Int): Int =
         getDouble(minInclusive.toDouble(), maxInclusive.toDouble()).toInt()
 
-    internal fun getLong(minInclusive: Long, maxInclusive: Long): Long =
+    public fun getLong(minInclusive: Long, maxInclusive: Long): Long =
         getDouble(minInclusive.toDouble(), maxInclusive.toDouble()).toLong()
 
-    internal fun getBoolean(probabilityOfTrue: Float): Boolean =
+    public fun getBoolean(probabilityOfTrue: Float): Boolean =
         random.nextFloat() < probabilityOfTrue
 }

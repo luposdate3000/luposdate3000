@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot
-import lupos.simulator_db.IApplicationStack_Actuator
+import lupos.simulator_db.IApplication_Factory
 internal actual object ReflectionHelper {
-    internal actual fun createApplication(name: String): IApplicationStack_Actuator {
-        return Class.forName(name)!!.newInstance() as IApplicationStack_Actuator
+    internal actual fun createApplicationFactory(name: String): IApplication_Factory {
+        return Class.forName(name)!!.newInstance() as IApplication_Factory
     }
 }

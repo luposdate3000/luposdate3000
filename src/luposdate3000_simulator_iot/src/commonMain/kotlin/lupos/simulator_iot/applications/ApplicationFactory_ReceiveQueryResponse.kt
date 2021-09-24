@@ -18,14 +18,18 @@
 package lupos.simulator_iot.applications
 
 import lupos.parser.IJsonParserValue
+import lupos.parser.JsonParserObject
+import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.RandomGenerator
 
-public class ApplicationFactory_ReceiveQueryResponse : IApplication_Factory:IApplication_Factory{
-    override fun create(json: IJsonParserValue): List<IApplicationStack_Actuator> {
+public class ApplicationFactory_ReceiveQueryResponse : IApplication_Factory {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
             return listOf(
-Application_ReceiveQueryResponse(outputDirectory + "/")
+                Application_ReceiveQueryResponse(outputDirectory + "/")
             )
         }
         return listOf()

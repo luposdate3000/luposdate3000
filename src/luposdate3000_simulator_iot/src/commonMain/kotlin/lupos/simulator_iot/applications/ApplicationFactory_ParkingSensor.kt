@@ -16,24 +16,27 @@
  */
 
 package lupos.simulator_iot.applications
-
 import lupos.parser.IJsonParserValue
+import lupos.parser.JsonParserObject
+import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
+import lupos.simulator_db.ILogger
+import lupos.simulator_db.RandomGenerator
 
-public class ApplicationFactory_ParkingSensor : IApplication_Factory:IApplication_Factory{
-    override fun create(json: IJsonParserValue): List<IApplicationStack_Actuator> {
+public class ApplicationFactory_ParkingSensor : IApplication_Factory {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
             return listOf(
-Application_ParkingSensor(
-                                applicationJson.getOrDefault("sendStartClockInSec", 0),
-                                applicationJson.getOrDefault("rateInSec", 0),
-                                applicationJson.getOrDefault("maxSamples", -1),
-                                applicationJson.getOrDefault("dataSink", ""),
-                                ownAddress,
-                                simRun.randGenerator,
-                                applicationJson.getOrDefault("area", 0),
-                            )
+                Application_ParkingSensor(
+                    json.getOrDefault("sendStartClockInSec", 0),
+                    json.getOrDefault("rateInSec", 0),
+                    json.getOrDefault("maxSamples", -1),
+                    json.getOrDefault("dataSink", ""),
+                    ownAddress,
+                    random,
+                    json.getOrDefault("area", 0),
+                )
             )
         }
         return listOf()
