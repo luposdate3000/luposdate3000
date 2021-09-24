@@ -88,7 +88,7 @@ public class ApplicationStack_Sequence(
         val pck2 = Package_ApplicationStack_Sequence(pck, num, ownAddress)
         parent.send(destinationAddress, pck2)
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextDatabaseHops(destinationAddresses, flag)
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)

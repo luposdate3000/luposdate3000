@@ -49,7 +49,7 @@ internal class ApplicationStack_AllShortestPath(
         isRoot = true
     }
 
-    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = IntArray(destinationAddresses.size) { routingTableDatabaseHops[flag][destinationAddresses[it]] }
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = IntArray(destinationAddresses.size) { routingTableDatabaseHops[flag][destinationAddresses[it]] }
     override fun send(destinationAddress: Int, pck: IPayload) {
         val pck2 = NetworkPackage(parent.address, destinationAddress, pck)
         val hop = routingTable[destinationAddress]

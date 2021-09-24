@@ -165,9 +165,9 @@ class ApplicationStack_RPL_RoutingTableTest {
         val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
         val hop = 3
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1, 2, 8))
-        assertEquals(hop, table.getNextDatabaseHop(1, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextDatabaseHop(2, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextDatabaseHop(8, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(1, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(2, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(8, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -175,9 +175,9 @@ class ApplicationStack_RPL_RoutingTableTest {
         val table = ApplicationStack_RPL_RoutingTable(0, 20, true)
         val hop = 3
         table.setDestinationsByDatabaseHop(hop, intArrayOf(1, 2, 8))
-        assertEquals(hop, table.getNextDatabaseHop(1, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextDatabaseHop(2, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextDatabaseHop(8, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(1, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(2, EDatabaseHopFlagExt.ANY))
+        assertEquals(hop, table.getNextFeatureHop(8, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -185,7 +185,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
         val hop = 8
         table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(-1, table.getNextDatabaseHop(hop, EDatabaseHopFlagExt.ANY))
+        assertEquals(-1, table.getNextFeatureHop(hop, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -193,7 +193,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val table = ApplicationStack_RPL_RoutingTable(0, 20, true)
         val hop = 8
         table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(-1, table.getNextDatabaseHop(hop, EDatabaseHopFlagExt.ANY))
+        assertEquals(-1, table.getNextFeatureHop(hop, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -203,7 +203,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val dest = 4
         val dbHop = 9
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, dbHop))
-        assertEquals(dbHop, table.getNextDatabaseHop(dest, EDatabaseHopFlagExt.ANY))
+        assertEquals(dbHop, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -213,7 +213,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val dest = 4
         val dbHop = 9
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, dbHop))
-        assertEquals(dbHop, table.getNextDatabaseHop(dest, EDatabaseHopFlagExt.ANY))
+        assertEquals(dbHop, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -223,7 +223,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
         table.removeDestinationsByHop(hop)
-        assertEquals(-1, table.getNextDatabaseHop(dest, EDatabaseHopFlagExt.ANY))
+        assertEquals(-1, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -233,7 +233,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         val dest = 4
         table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
         table.removeDestinationsByHop(hop)
-        assertEquals(-1, table.getNextDatabaseHop(dest, EDatabaseHopFlagExt.ANY))
+        assertEquals(-1, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -242,9 +242,9 @@ class ApplicationStack_RPL_RoutingTableTest {
         table.setDestinationsByDatabaseHop(0, intArrayOf(1, 2))
         table.setDestinationsByHop(5, intArrayOf(6, 7), intArrayOf(6, 7))
         table.setDestinationsByHop(5, intArrayOf(11, 12), intArrayOf(9, 10))
-        assertEquals(0, table.getNextDatabaseHop(0, EDatabaseHopFlagExt.ANY))
-        assertEquals(6, table.getNextDatabaseHop(6, EDatabaseHopFlagExt.ANY))
-        assertEquals(9, table.getNextDatabaseHop(11, EDatabaseHopFlagExt.ANY))
+        assertEquals(0, table.getNextFeatureHop(0, EDatabaseHopFlagExt.ANY))
+        assertEquals(6, table.getNextFeatureHop(6, EDatabaseHopFlagExt.ANY))
+        assertEquals(9, table.getNextFeatureHop(11, EDatabaseHopFlagExt.ANY))
     }
 
     @Test
@@ -253,7 +253,7 @@ class ApplicationStack_RPL_RoutingTableTest {
         table.setDestinationsByDatabaseHop(0, intArrayOf(1, 2))
         table.setDestinationsByHop(5, intArrayOf(6, 7), intArrayOf(6, 7))
         table.setDestinationsByHop(5, intArrayOf(11, 12), intArrayOf(9, 10))
-        val result = table.getNextDatabaseHops(intArrayOf(1, 6, 11), EDatabaseHopFlagExt.ANY)
+        val result = table.getNextFeatureHops(intArrayOf(1, 6, 11), EDatabaseHopFlagExt.ANY)
         assertEquals(3, result.size)
         assertEquals(0, result[0])
         assertEquals(6, result[1])

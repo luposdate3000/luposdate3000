@@ -22,6 +22,7 @@ import lupos.parser.JsonParserString
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
+import lupos.simulator_db.IApplicationFeature
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
 import lupos.simulator_db.IPackage_Database
@@ -50,7 +51,7 @@ public class Configuration(private val simRun: SimulationRun) {
         public val defaultOutputDirectory: String = "simulator_output/"
     }
     private val factories = mutableMapOf<String, IApplication_Factory>()
-private val features=mutableListOf<IApplicationStack_Feature>()
+    private val features = mutableListOf<IApplicationFeature>()
 
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
@@ -65,7 +66,15 @@ private val features=mutableListOf<IApplicationStack_Feature>()
 
     internal var linker = DeviceLinker()
         private set
-
+    public fun hasFeature(device: Device, feature: Int): Boolean {
+        val f = features[feature]
+        for (app in device.applicationStack.getAllChildApplications()) {
+            if (f.hasFeature(app)) {
+                return true
+            }
+        }
+        return false
+    }
     public fun addQuerySender(
         startClockInSec: Int,
         sendRateInSec: Int,
@@ -126,7 +135,7 @@ private val features=mutableListOf<IApplicationStack_Feature>()
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:127"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:137"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -257,7 +266,7 @@ private val features=mutableListOf<IApplicationStack_Feature>()
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:258"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:268"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -265,7 +274,7 @@ private val features=mutableListOf<IApplicationStack_Feature>()
             var factory = factories[applicationName]
             if (factory == null) {
                 factory = ReflectionHelper.createApplicationFactory(applicationName)
-factory.registerFeatures(features)
+                factory.registerFeatures(features)
                 factories[applicationName] = factory
             }
             applications.addAll(

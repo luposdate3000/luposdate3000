@@ -18,14 +18,37 @@
 package lupos.simulator_db.luposdate3000
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
+import lupos.simulator_db.IApplicationFeature
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplication_Factory
 import lupos.simulator_db.ILogger
 import lupos.simulator_db.RandomGenerator
-
+public class ApplicationFactory_Luposdate3000FeatureStore : IApplicationFeature {
+    public override fun getName(): String = "DatabaseStore"
+    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000 && applicaton.hasStoreCapability()
+}
+public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
+    public override fun getName(): String = "DatabaseQuery"
+    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000 && applicaton.hasQueryCapability()
+}
+public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
+    public override fun getName(): String = "Database"
+    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000
+}
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
+    private var featureIDStore = -1
+    private var featureIDQuery = -1
+    private var featureIDAny = -1
+    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {
+        featureIDStore = features.size
+        features.add(ApplicationFactory_Luposdate3000FeatureStore())
+        featureIDQuery = features.size
+        features.add(ApplicationFactory_Luposdate3000FeatureQuery())
+        featureIDAny = features.size
+        features.add(ApplicationFactory_Luposdate3000FeatureAny())
+    }
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
@@ -45,6 +68,9 @@ public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
                     "$outputDirectory/db_states/device$ownAddress",
                     dbDeviceAddressesStoreList,
                     dbDeviceAddressesQueryList,
+                    featureIDStore,
+                    featureIDQuery,
+                    featureIDAny,
                 )
             )
         }

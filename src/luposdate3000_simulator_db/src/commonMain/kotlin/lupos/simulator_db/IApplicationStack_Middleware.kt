@@ -19,7 +19,7 @@ package lupos.simulator_db
 import lupos.simulator_core.ITimer
 public interface IApplicationStack_Middleware {
     public fun send(destinationAddress: Int, pck: IPayload)
-    public fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray
+    public fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray
     public fun getAllChildApplications(): Set<IApplicationStack_Actuator>
     public fun registerTimer(durationInNanoSeconds: Long, entity: ITimer)
     public fun resolveHostName(name: String): Int

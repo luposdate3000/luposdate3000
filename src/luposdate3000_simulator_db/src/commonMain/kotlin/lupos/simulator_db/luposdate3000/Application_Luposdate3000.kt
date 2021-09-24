@@ -40,7 +40,6 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
-import lupos.shared.EDatabaseHopFlagExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
@@ -78,7 +77,12 @@ public class Application_Luposdate3000 public constructor(
     private val absolutePathToDataDirectory: String,
     private val dbDeviceAddressesStoreList: MutableList<Int>,
     private val dbDeviceAddressesQueryList: MutableList<Int>,
+    private val featureID_store: Int,
+    private val featureID_query: Int,
+    private val featureID_any: Int,
 ) : IApplicationStack_Actuator {
+    public fun hasStoreCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
+    public fun hasQueryCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
     private lateinit var parent: IApplicationStack_Middleware
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
@@ -222,17 +226,17 @@ public class Application_Luposdate3000 public constructor(
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:224"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:228"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:229"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:233"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:234"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:238"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -270,7 +274,7 @@ public class Application_Luposdate3000 public constructor(
                     hostMap[k] = v.toInt()
                 }
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:272"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:276"/*SOURCE_FILE_END*/ },
                     { hostMap.size == parts.size },
                     { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
                 )
@@ -380,7 +384,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:382"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:386"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -399,7 +403,7 @@ public class Application_Luposdate3000 public constructor(
     }
 
     private fun myGetNextHop(a: IntArray, flag: Int): IntArray {
-        var res = router!!.getNextDatabaseHops(a, flag)
+        var res = router!!.getNextFeatureHops(a, flag)
         for (i in 0 until res.size) {
             if (res[i] == -1) { // if the package-router does not know it - use the first database instance instead.
                 res[i] = rootAddressInt
@@ -420,7 +424,7 @@ public class Application_Luposdate3000 public constructor(
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.operatorGraphPartsToHostMap.values)
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
-        val nextHops = myGetNextHop(allHostAdresses, EDatabaseHopFlagExt.ANY)
+        val nextHops = myGetNextHop(allHostAdresses, featureID_any)
         for (i in 0 until nextHops.size) {
             if (nextHops[i] == -1) { // if the package-router does not know it - use the first database instance instead.
                 nextHops[i] = rootAddressInt
@@ -443,17 +447,17 @@ public class Application_Luposdate3000 public constructor(
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:445"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:449"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:450"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:454"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:455"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:459"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -472,7 +476,7 @@ public class Application_Luposdate3000 public constructor(
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:474"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:478"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
                             "${pck.operatorGraph[k]}"
@@ -507,7 +511,7 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:509"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:513"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) },
             { "${(pck.operatorGraph.keys - packageMap.keys).map { "$it\n" }} ${packageMap.map { "$it\n" }} ${pck.operatorGraph.map { "$it\n" }}" }
         )
@@ -810,7 +814,7 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:812"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:816"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
@@ -870,15 +874,13 @@ public class Application_Luposdate3000 public constructor(
         try {
             if (!hadInitDatabaseHopsWithinLuposdate3000) {
                 val names = instance.LUPOS_PROCESS_URLS_ALL.map { it.toInt() }.toIntArray()
-                for (flag in 0 until EDatabaseHopFlagExt.values_size) {
-                    instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[flag] = Array(names.size) { "" }
-                    val hops = myGetNextHop(names, flag)
-                    for (i in 0 until hops.size) {
-                        if (hops[i] != -1) {
-                            instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[flag][i] = hops[i].toString()
-                        } else {
-                            instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[flag][i] = instance.LUPOS_PROCESS_URLS_ALL[i].toString()
-                        }
+                instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP = Array(names.size) { "" }
+                val hops = myGetNextHop(names, featureID_any)
+                for (i in 0 until hops.size) {
+                    if (hops[i] != -1) {
+                        instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[i] = hops[i].toString()
+                    } else {
+                        instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP[i] = instance.LUPOS_PROCESS_URLS_ALL[i].toString()
                     }
                 }
                 hadInitDatabaseHopsWithinLuposdate3000 = true

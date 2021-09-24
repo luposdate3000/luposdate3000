@@ -56,7 +56,7 @@ public class ApplicationStack_Logger(
         logger.onSendPackage(ownAddress, destinationAddress, pck)
         parent.send(destinationAddress, pck)
     }
-    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextDatabaseHops(destinationAddresses, flag)
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)

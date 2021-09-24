@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_iot.applications
-import lupos.shared.EDatabaseHopFlagExt
 import lupos.simulator_core.ITimer
 import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_db.IApplicationStack_Middleware
@@ -67,13 +66,16 @@ internal class ApplicationStack_RPL(
         sendUnRoutedPackage(destinationAddress, dio)
     }
     private fun hasDatabase(): Boolean {
-        val res = config.dbDeviceAddressesStore.contains(parent.address) || config.dbDeviceAddressesQuery.contains(parent.address)
-        return res
+        for (f in 0 until config.features.size) {
+            if (config.features[f].getName().contains("Database") && config.hasFeature(parent, f)) {
+                return true
+            }
+        }
     }
 
     private fun sendPackage_ApplicationStack_RPL_DAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
-        val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations, EDatabaseHopFlagExt.ANY)
+        val nextDatabaseHops = routingTable.getNextFeatureHops(destinations, 0)
         val dao = Package_ApplicationStack_RPL_DAO(true, destinations, hasDatabase(), nextDatabaseHops)
         sendUnRoutedPackage(destinationAddress, dao)
     }
@@ -165,7 +167,7 @@ internal class ApplicationStack_RPL(
     }
 
     private fun getNextHop(destinationAddress: Int): Int = routingTable.getNextHop(destinationAddress)
-    override fun getNextDatabaseHops(destinationAddresses: IntArray, flag: Int): IntArray = routingTable.getNextDatabaseHops(destinationAddresses, flag)
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = routingTable.getNextFeatureHops(destinationAddresses, flag)
 
     override fun toString(): String {
         val strBuilder = StringBuilder()
@@ -236,7 +238,7 @@ internal class ApplicationStack_RPL(
                 if (hop != -1) {
                     logger.addConnectionTable(parent.address, dest, hop)
                 }
-                val dbhop = getNextDatabaseHops(intArrayOf(dest), EDatabaseHopFlagExt.ANY)[0]
+                val dbhop = getNextFeatureHops(intArrayOf(dest), 0)[0]
                 if (dbhop != -1) {
                     logger.addConnectionTableDB(parent.address, dest, dbhop)
                 }

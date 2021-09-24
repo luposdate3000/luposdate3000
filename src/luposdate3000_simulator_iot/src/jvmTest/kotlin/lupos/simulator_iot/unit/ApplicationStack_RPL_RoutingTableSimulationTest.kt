@@ -91,18 +91,18 @@ class ApplicationStack_RPL_RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address), EDatabaseHopFlagExt.ANY)
+        var actual = a.applicationStack.getNextFeatureHops(intArrayOf(a.address, b.address, c.address), EDatabaseHopFlagExt.ANY)
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
         // routing table from B
-        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, b.address, a.address, 999), EDatabaseHopFlagExt.ANY)
+        actual = b.applicationStack.getNextFeatureHops(intArrayOf(c.address, b.address, a.address, 999), EDatabaseHopFlagExt.ANY)
         assertEquals(c.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(-1, actual[2])
         assertEquals(-1, actual[3])
         // routing table from C
-        actual = c.applicationStack.getNextDatabaseHops(intArrayOf(c.address, 999, a.address), EDatabaseHopFlagExt.ANY)
+        actual = c.applicationStack.getNextFeatureHops(intArrayOf(c.address, 999, a.address), EDatabaseHopFlagExt.ANY)
         assertEquals(-1, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(-1, actual[2])
@@ -125,13 +125,13 @@ class ApplicationStack_RPL_RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address), EDatabaseHopFlagExt.ANY)
+        var actual = a.applicationStack.getNextFeatureHops(intArrayOf(a.address, b.address, c.address, d.address), EDatabaseHopFlagExt.ANY)
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
         assertEquals(d.address, actual[3])
         // routing table from B
-        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, d.address, b.address), EDatabaseHopFlagExt.ANY)
+        actual = b.applicationStack.getNextFeatureHops(intArrayOf(c.address, d.address, b.address), EDatabaseHopFlagExt.ANY)
         assertEquals(c.address, actual[0])
         assertEquals(d.address, actual[1])
         assertEquals(-1, actual[2])
@@ -157,7 +157,7 @@ class ApplicationStack_RPL_RoutingTableSimulationTest {
         simRun.startSimulation(config)
 
         // routing table from A
-        var actual = a.applicationStack.getNextDatabaseHops(intArrayOf(a.address, b.address, c.address, d.address, e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
+        var actual = a.applicationStack.getNextFeatureHops(intArrayOf(a.address, b.address, c.address, d.address, e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
         assertEquals(a.address, actual[0])
         assertEquals(-1, actual[1])
         assertEquals(c.address, actual[2])
@@ -166,19 +166,19 @@ class ApplicationStack_RPL_RoutingTableSimulationTest {
         assertEquals(c.address, actual[5])
         assertEquals(c.address, actual[6])
         // routing table from B
-        actual = b.applicationStack.getNextDatabaseHops(intArrayOf(c.address, d.address, e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
+        actual = b.applicationStack.getNextFeatureHops(intArrayOf(c.address, d.address, e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
         assertEquals(c.address, actual[0])
         assertEquals(c.address, actual[1])
         assertEquals(c.address, actual[2])
         assertEquals(c.address, actual[3])
         assertEquals(c.address, actual[4])
         // routing table from D
-        actual = d.applicationStack.getNextDatabaseHops(intArrayOf(e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
+        actual = d.applicationStack.getNextFeatureHops(intArrayOf(e.address, f.address, g.address), EDatabaseHopFlagExt.ANY)
         assertEquals(-1, actual[0])
         assertEquals(f.address, actual[1])
         assertEquals(g.address, actual[2])
         // routing table from E
-        actual = e.applicationStack.getNextDatabaseHops(intArrayOf(e.address, f.address, a.address), EDatabaseHopFlagExt.ANY)
+        actual = e.applicationStack.getNextFeatureHops(intArrayOf(e.address, f.address, a.address), EDatabaseHopFlagExt.ANY)
         assertEquals(-1, actual[0])
         assertEquals(f.address, actual[1])
         assertEquals(-1, actual[2])
