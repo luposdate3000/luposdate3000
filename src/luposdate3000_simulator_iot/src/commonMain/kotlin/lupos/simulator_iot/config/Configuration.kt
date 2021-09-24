@@ -51,7 +51,7 @@ public class Configuration(private val simRun: SimulationRun) {
         public val defaultOutputDirectory: String = "simulator_output/"
     }
     private val factories = mutableMapOf<String, IApplication_Factory>()
-    private val features = mutableListOf<IApplicationFeature>()
+    public val features: MutableList<IApplicationFeature> = mutableListOf<IApplicationFeature>()
 
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
@@ -66,6 +66,8 @@ public class Configuration(private val simRun: SimulationRun) {
 
     internal var linker = DeviceLinker()
         private set
+
+    public fun getAllDevicesForFeature(feature: Int): List<Device> = devices.filter { hasFeature(it, feature) }
     public fun hasFeature(device: Device, feature: Int): Boolean {
         val f = features[feature]
         for (app in device.applicationStack.getAllChildApplications()) {
@@ -135,7 +137,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:137"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:139"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -266,7 +268,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:268"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:270"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )

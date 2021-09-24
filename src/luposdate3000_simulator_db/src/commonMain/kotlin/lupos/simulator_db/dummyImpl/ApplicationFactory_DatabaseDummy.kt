@@ -25,7 +25,7 @@ import lupos.simulator_db.ILogger
 import lupos.simulator_db.RandomGenerator
 public class ApplicationFactory_DatabaseDummyFeature : IApplicationFeature {
     public override fun getName(): String = "Database"
-    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_DatabaseDummy
+    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_DatabaseDummy
 }
 public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()

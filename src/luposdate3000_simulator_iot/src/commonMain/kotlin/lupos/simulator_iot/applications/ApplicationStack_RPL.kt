@@ -71,6 +71,7 @@ internal class ApplicationStack_RPL(
                 return true
             }
         }
+        return false
     }
 
     private fun sendPackage_ApplicationStack_RPL_DAO(destinationAddress: Int) {

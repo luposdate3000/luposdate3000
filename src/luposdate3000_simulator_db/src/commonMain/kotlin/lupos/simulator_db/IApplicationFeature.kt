@@ -19,5 +19,5 @@ package lupos.simulator_db
 
 public interface IApplicationFeature {
     public fun getName(): String
-    public fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean
+    public fun hasFeature(application: IApplicationStack_Actuator): Boolean
 }

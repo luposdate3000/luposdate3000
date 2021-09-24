@@ -25,15 +25,15 @@ import lupos.simulator_db.ILogger
 import lupos.simulator_db.RandomGenerator
 public class ApplicationFactory_Luposdate3000FeatureStore : IApplicationFeature {
     public override fun getName(): String = "DatabaseStore"
-    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000 && applicaton.hasStoreCapability()
+    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasStoreCapability()
 }
 public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
     public override fun getName(): String = "DatabaseQuery"
-    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000 && applicaton.hasQueryCapability()
+    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasQueryCapability()
 }
-public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
+public class ApplicationFactory_Luposdate3000FeatureAny : IApplicationFeature {
     public override fun getName(): String = "Database"
-    public override fun hasFeature(applicaton: IApplicationStack_Actuator): Boolean = applicaton is Application_Luposdate3000
+    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000
 }
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()

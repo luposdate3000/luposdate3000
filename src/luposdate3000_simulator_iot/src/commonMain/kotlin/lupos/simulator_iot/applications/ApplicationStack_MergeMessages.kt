@@ -65,7 +65,7 @@ public class ApplicationStack_MergeMessages(private val child: IApplicationStack
         }
         c.add(pck)
     }
-    override fun s(destinationAddresses: IntArray, flag: Int): IntArray = parent.s(destinationAddresses, flag)
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush() {
         val cacheLocal = cache

@@ -39,7 +39,7 @@ internal class ApplicationStack_RPL_Fast(
     private lateinit var parent: Device
     private var isRoot = false
     private var routingTable = intArrayOf()
-    private var routingTableDatabaseHops = Array(features.features.size) { intArrayOf() }
+    private var routingTableDatabaseHops = Array(config.features.size) { intArrayOf() }
     override fun setDevice(device: Device) {
         parent = device
     }
@@ -109,13 +109,10 @@ internal class ApplicationStack_RPL_Fast(
                 routingTable[i] = globalParentTable[parent.address] // everything else goes to my own parent
             }
         }
-        routingTableDatabaseHops = Array(EDatabaseHopFlagExt.values_size) { IntArray(config.devices.size) { -1 } }
-        for (
-            (flag, devicesWithDatabase) in listOf(
-                EDatabaseHopFlagExt.ANY to config.dbDeviceAddressesStore.toList() + config.dbDeviceAddressesQuery.toList(),
-                EDatabaseHopFlagExt.STORE_ONLY to config.dbDeviceAddressesStore.toList()
-            )
-        ) {
+        routingTableDatabaseHops = Array(config.features.size) { IntArray(config.devices.size) { -1 } }
+
+        for (flag in 0 until config.features.size) {
+            val devicesWithDatabase = config.getAllDevicesForFeature(flag).map { it.address }
             routingTableDatabaseHops[flag][parent.address] = parent.address // myself
             if (devicesWithDatabase.contains(parent.address)) {
                 val localParentTable = IntArray(globalParentTable.size) { globalParentTable[it] }
@@ -177,7 +174,7 @@ internal class ApplicationStack_RPL_Fast(
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:179"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:176"/*SOURCE_FILE_END*/ },
                         { delay> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {
