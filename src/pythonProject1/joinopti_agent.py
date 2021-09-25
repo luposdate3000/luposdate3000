@@ -88,6 +88,8 @@ def optimize_query():
             print(f"Reward: {reward}")
             print(f"Done: {done}")
             print(info)
+            if reward < -10: done = True
+            print("---------------Query: ----------- " + str(query_counter))
             if done:
                 query_counter += 1
                 print("finish")

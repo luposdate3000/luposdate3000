@@ -44,5 +44,8 @@ print(is_min)
 print(num_mins)
 print(num_mins/len(rewards))
 
+print(len(rewards))
+
+print(len(rewards)-num_mins-num_maxs)
 print(f"Average reward: {average_reward}")
 # complete reward
