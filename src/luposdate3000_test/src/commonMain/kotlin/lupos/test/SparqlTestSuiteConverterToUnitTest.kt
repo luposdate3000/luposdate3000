@@ -517,7 +517,7 @@ without minify mode only the passing tests will be added
         fileBufferSimulator.println("    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {")
         fileBufferSimulator.println("        val simRun = SimulationRun()")
         fileBufferSimulator.println("        val config=simRun.parseConfig(fileName,false,{")
-        fileBufferSimulator.println("            it.getOrEmptyObject(\"deviceType\").getOrEmptyObject(\"LUPOSDATE_DEVICE\").getOrEmptyObject(\"applications\").getOrEmptyObject(\"Luposdate3000\").putAll(database_cfg)")
+        fileBufferSimulator.println("            it.getOrEmptyObject(\"deviceType\").getOrEmptyObject(\"LUPOSDATE_DEVICE\").getOrEmptyObject(\"applications\").getOrEmptyObject(\"lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000\").putAll(database_cfg)")
         fileBufferSimulator.println("            it.getOrEmptyObject(\"routing\").putAll(mapOf(\"protocol\" to routingProtocol))")
         fileBufferSimulator.println("        })")
         fileBufferSimulator.println("        simRun.sim = Simulation(config.getEntities())")
