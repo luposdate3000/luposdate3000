@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_iot.unit
-import lupos.shared.EDatabaseHopFlagExt
 import lupos.simulator_iot.applications.ApplicationStack_RPL_RoutingTable
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -158,106 +157,6 @@ class ApplicationStack_RPL_RoutingTableTest {
         table.setDestinationsByDatabaseHop(3, intArrayOf())
         val isUpdated = table.removeDestinationsByHop(9)
         assertFalse(isUpdated)
-    }
-
-    @Test
-    fun getDatabaseHopWithoutOwnDatabase() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
-        val hop = 3
-        table.setDestinationsByDatabaseHop(hop, intArrayOf(1, 2, 8))
-        assertEquals(hop, table.getNextFeatureHop(1, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextFeatureHop(2, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextFeatureHop(8, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getDatabaseHopWithOwnDatabase() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, true)
-        val hop = 3
-        table.setDestinationsByDatabaseHop(hop, intArrayOf(1, 2, 8))
-        assertEquals(hop, table.getNextFeatureHop(1, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextFeatureHop(2, EDatabaseHopFlagExt.ANY))
-        assertEquals(hop, table.getNextFeatureHop(8, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getDefaultDatabaseHopWithoutOwnDatabase() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
-        val hop = 8
-        table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(-1, table.getNextFeatureHop(hop, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getDefaultDatabaseHopWithOwnDatabase() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, true)
-        val hop = 8
-        table.setDestinationsByHop(hop, intArrayOf(), intArrayOf())
-        assertEquals(-1, table.getNextFeatureHop(hop, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getExistingDBHopWithoutOwnDB() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 10, false)
-        val hop = 8
-        val dest = 4
-        val dbHop = 9
-        table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, dbHop))
-        assertEquals(dbHop, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getExistingDBHopWithOwnDB() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 10, true)
-        val hop = 8
-        val dest = 4
-        val dbHop = 9
-        table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, dbHop))
-        assertEquals(dbHop, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun removeDestinationsRemovesAlsoDBHopsWithoutDB() {
-        val table = ApplicationStack_RPL_RoutingTable(1, 10, false)
-        val hop = 0
-        val dest = 4
-        table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
-        table.removeDestinationsByHop(hop)
-        assertEquals(-1, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun removeDestinationsRemovesAlsoDBHopsWithDB() {
-        val table = ApplicationStack_RPL_RoutingTable(1, 10, true)
-        val hop = 0
-        val dest = 4
-        table.setDestinationsByHop(hop, intArrayOf(1, 2, 3, dest), intArrayOf(2, 6, 7, 9))
-        table.removeDestinationsByHop(hop)
-        assertEquals(-1, table.getNextFeatureHop(dest, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun testMultipleUpdates() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
-        table.setDestinationsByDatabaseHop(0, intArrayOf(1, 2))
-        table.setDestinationsByHop(5, intArrayOf(6, 7), intArrayOf(6, 7))
-        table.setDestinationsByHop(5, intArrayOf(11, 12), intArrayOf(9, 10))
-        assertEquals(0, table.getNextFeatureHop(0, EDatabaseHopFlagExt.ANY))
-        assertEquals(6, table.getNextFeatureHop(6, EDatabaseHopFlagExt.ANY))
-        assertEquals(9, table.getNextFeatureHop(11, EDatabaseHopFlagExt.ANY))
-    }
-
-    @Test
-    fun getAllDBHopsByDestinations() {
-        val table = ApplicationStack_RPL_RoutingTable(0, 20, false)
-        table.setDestinationsByDatabaseHop(0, intArrayOf(1, 2))
-        table.setDestinationsByHop(5, intArrayOf(6, 7), intArrayOf(6, 7))
-        table.setDestinationsByHop(5, intArrayOf(11, 12), intArrayOf(9, 10))
-        val result = table.getNextFeatureHops(intArrayOf(1, 6, 11), EDatabaseHopFlagExt.ANY)
-        assertEquals(3, result.size)
-        assertEquals(0, result[0])
-        assertEquals(6, result[1])
-        assertEquals(9, result[2])
     }
 
     @Test

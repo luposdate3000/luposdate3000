@@ -20,7 +20,7 @@ package lupos.simulator_db
 import lupos.shared.SanityCheck
 import kotlin.random.Random
 public class RandomGenerator {
-    internal var seed: Int = 1
+    public var seed: Int = 1
         set(value) {
             field = value
             random = Random(value)
