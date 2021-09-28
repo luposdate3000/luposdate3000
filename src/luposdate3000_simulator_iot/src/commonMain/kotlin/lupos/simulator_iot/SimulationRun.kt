@@ -51,7 +51,7 @@ public class SimulationRun {
         return parseConfig(json, fileName, autocorrect)
     }
 
-    internal fun startSimulation(configuration: Configuration) {
+    public fun startSimulation(configuration: Configuration) {
         sim = Simulation(configuration.getEntities())
         sim.logger = logger
         sim.maxClock = if (simMaxClock == notInitializedClock) sim.maxClock else simMaxClock

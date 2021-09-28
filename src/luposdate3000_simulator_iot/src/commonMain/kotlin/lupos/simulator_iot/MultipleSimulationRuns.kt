@@ -21,11 +21,11 @@ import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import kotlin.math.sqrt
 
-internal class MultipleSimulationRuns(
+public class MultipleSimulationRuns(
     private val json: JsonParserObject,
 ) {
 
-    internal fun startSimulationRuns() {
+    public fun startSimulationRuns() {
         val measurements = mutableListOf<LoggerMeasure>()
         json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
         val outputDirectory = json.getOrDefault("outputDirectory", "simulator_output") + "/"

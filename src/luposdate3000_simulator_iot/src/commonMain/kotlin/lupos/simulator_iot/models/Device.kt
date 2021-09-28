@@ -29,7 +29,7 @@ import lupos.simulator_iot.utils.TimeUtils
 public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
-    internal val address: Int,
+    public val address: Int,
     internal val performance: Double,
     internal val linkManager: LinkManager,
     internal val deviceNameID: Int,

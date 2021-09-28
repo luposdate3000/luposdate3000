@@ -26,7 +26,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToLong
 import kotlin.time.ExperimentalTime
 
-internal object TimeUtils {
+public object TimeUtils {
 
     internal fun addNanoSeconds(instant: Instant, nanos: Long): Instant {
         return instant.plus(nanos, DateTimeUnit.NANOSECOND, TimeZone.UTC)

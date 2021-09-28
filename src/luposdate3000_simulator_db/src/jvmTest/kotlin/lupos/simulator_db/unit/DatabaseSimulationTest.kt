@@ -15,31 +15,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.unit
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
-import lupos.simulator_iot.MultipleSimulationRuns
+package lupos.simulator_db.unit
+
+import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 
-internal class MultipleSimulationRunsTest {
+class DatabaseSimulationTest {
 
     companion object {
-        private const val prefix = "src/jvmTest/resources/multipleSimulationRunsTest"
+        private const val prefix = "src/jvmTest/resources/databaseSimulationTest"
     }
 
+    /**
+     * DB(A) -> B -> DB(C) -> DB(D) -> E -> DB(F)
+     *                              -> DB(G)
+     *
+     * Send Data from root A to the leaf G and save it there.
+     */
     @Test
-    fun runMultipleStarNetworkSimulations() {
-        val runs = MultipleSimulationRuns(
-            json = JsonParser().fileToJson("$prefix/runMultipleStarNetworkSimulations.json") as JsonParserObject,
-        )
-        runs.startSimulationRuns()
-    }
+    fun saveParkingSamplesInDummyTripleStore() {
+        val simRun = SimulationRun()
+        val config = simRun.parseConfig("$prefix/saveParkingSamplesInDummyTripleStore.json")
+        config.getDeviceByName("G")
 
-    @Test
-    fun test_1() {
-        val runs = MultipleSimulationRuns(
-            json = JsonParser().fileToJson("$prefix/meshToDODAG.json") as JsonParserObject,
-        )
-        runs.startSimulationRuns()
+        simRun.simMaxClock = 100000000
+        simRun.startSimulation(config)
     }
 }

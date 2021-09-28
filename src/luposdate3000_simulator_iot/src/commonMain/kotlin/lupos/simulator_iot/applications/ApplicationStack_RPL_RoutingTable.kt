@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.applications
 
-internal class ApplicationStack_RPL_RoutingTable(
+public class ApplicationStack_RPL_RoutingTable(
     private val ownAddress: Int,
     private val addressSpace: Int,
     private val hasDatabase: Boolean
@@ -29,7 +29,7 @@ internal class ApplicationStack_RPL_RoutingTable(
 
     internal var destinationCounter: Int = 0
 
-    internal var fallbackHop = ownAddress
+    public var fallbackHop: Int = ownAddress
 
     private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int): Boolean {
         var updated = false
@@ -60,7 +60,7 @@ internal class ApplicationStack_RPL_RoutingTable(
         }
     }
 
-    internal fun getNextHop(destinationAddress: Int): Int {
+    public fun getNextHop(destinationAddress: Int): Int {
         if (destinationAddress <nextHops.size) {
             val res = nextHops[destinationAddress]
             if (res != -1) {
@@ -112,7 +112,7 @@ internal class ApplicationStack_RPL_RoutingTable(
         return updated
     }
 
-    internal fun getDestinations(): IntArray {
+    public fun getDestinations(): IntArray {
         val destinations = IntArray(destinationCounter)
         var destIndex = 0
         for ((index, value) in nextHops.withIndex())
