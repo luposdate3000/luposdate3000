@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot
 import lupos.shared.XMLElement
 import lupos.simulator_core.ILoggerCore
 public interface ILogger : ILoggerCore {

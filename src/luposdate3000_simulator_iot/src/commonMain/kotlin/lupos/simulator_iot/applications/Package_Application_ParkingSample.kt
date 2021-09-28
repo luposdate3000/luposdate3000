@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.applications
 
-import lupos.simulator_db.IPayload
+import lupos.simulator_iot.IPayload
 
 internal class Package_Application_ParkingSample(
     internal val sensorID: Int,
@@ -26,4 +26,5 @@ internal class Package_Application_ParkingSample(
     internal val area: Int
 ) : IPayload {
     override fun getSizeInBytes(): Int = 4 + sampleTime.length + 1 + 4
+    override fun getTopic(): String = "ParkingSample"
 }

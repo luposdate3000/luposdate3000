@@ -919,9 +919,8 @@ junitMain=jar
             }
 val a1=LauncherConfig.getConfigValue("--processUrlsStore")
 val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
-val c1=a1.count { it == ',' }
-val c2=a2.count { it == ',' }
-var c=c1+c2+if(a1.length>0){1}else{0}+if(a2.length>0){1}else{0}
+val a3=(a1.split(",").toList()+a2.split(",").toList()).toSet()
+var c=a3.size
 if(c==0){
 c=1
 }

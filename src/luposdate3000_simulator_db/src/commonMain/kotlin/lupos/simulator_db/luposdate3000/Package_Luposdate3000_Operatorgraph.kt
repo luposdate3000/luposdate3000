@@ -19,7 +19,7 @@ import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
 import lupos.shared.XMLElement
-import lupos.simulator_db.IPackage_Database
+import lupos.simulator_iot.IPackage_Database
 public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
     public val operatorGraph: MutableMap<Int, XMLElement>,
@@ -48,4 +48,5 @@ public class Package_Luposdate3000_Operatorgraph(
     override fun toString(): String {
         return "Package_Luposdate3000_Operatorgraph($queryID $operatorGraphPartsToHostMap $operatorGraph)"
     }
+    override fun getTopic(): String = "Database-Operatorgraph"
 }

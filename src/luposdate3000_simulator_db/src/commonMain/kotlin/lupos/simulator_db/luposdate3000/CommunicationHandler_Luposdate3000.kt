@@ -20,7 +20,7 @@ import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_iot.applications.IApplicationStack_Middleware
 
 internal class CommunicationHandler_Luposdate3000(val instance: Luposdate3000Instance, val router: IApplicationStack_Middleware) : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {

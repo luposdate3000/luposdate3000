@@ -16,10 +16,7 @@
  */
 package lupos.simulator_iot.applications
 import lupos.simulator_core.ITimer
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_BothDirections
-import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IPayload
+import lupos.simulator_iot.IPayload
 public class ApplicationStack_MergeMessages(private val child: IApplicationStack_Actuator) : IApplicationStack_BothDirections {
     private var cache = mutableMapOf<Int, MutableList<IPayload>>()
     private lateinit var parent: IApplicationStack_Middleware

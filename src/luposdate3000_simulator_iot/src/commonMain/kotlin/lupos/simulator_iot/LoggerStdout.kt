@@ -17,8 +17,6 @@
 
 package lupos.simulator_iot
 import lupos.shared.XMLElement
-import lupos.simulator_db.ILogger
-import lupos.simulator_db.IPayload
 public class LoggerStdout public constructor(private val simRun: SimulationRun) : ILogger {
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) { println("${simRun.sim.clock} onSendNetworkPackage $src $dest $hop $delay $pck") }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { println("${simRun.sim.clock} onReceiveNetworkPackage $address $pck") }

@@ -16,11 +16,9 @@
  */
 package lupos.simulator_iot.applications
 import lupos.simulator_core.ITimer
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IPackage_Database
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.Package_Query
+import lupos.simulator_iot.IPackage_Database
+import lupos.simulator_iot.IPayload
+import lupos.simulator_iot.Package_Query
 public class Application_QuerySender(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,

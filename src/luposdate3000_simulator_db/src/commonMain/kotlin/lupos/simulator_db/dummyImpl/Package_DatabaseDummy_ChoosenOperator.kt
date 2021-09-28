@@ -17,7 +17,7 @@
 
 package lupos.simulator_db.dummyImpl
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IPackage_Database
+import lupos.simulator_iot.IPackage_Database
 
 public class Package_DatabaseDummy_ChoosenOperator(
     // siehe #2
@@ -37,4 +37,5 @@ public class Package_DatabaseDummy_ChoosenOperator(
     override fun getContentLogString(): String {
         return "Package_DatabaseDummy_ChoosenOperator(dests=$destinationAddress, senderAddress=$senderAddress, operators=${operators.contentToString()}, queryID=$queryID)"
     }
+    override fun getTopic(): String = "Database-Choosen-Operator"
 }

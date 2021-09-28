@@ -15,14 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_iot.applications
+package lupos.simulator_db.luposdate3000
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
-import lupos.simulator_db.IApplicationFeature
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplication_Factory
-import lupos.simulator_db.ILogger
-import lupos.simulator_db.RandomGenerator
+import lupos.simulator_iot.ILogger
+import lupos.simulator_iot.RandomGenerator
+import lupos.simulator_iot.applications.IApplicationFeature
+import lupos.simulator_iot.applications.IApplicationStack_Actuator
+import lupos.simulator_iot.applications.IApplication_Factory
 
 public class ApplicationFactory_OntologySender : IApplication_Factory {
     public override fun registerFeatures(features: MutableList<IApplicationFeature>) {}

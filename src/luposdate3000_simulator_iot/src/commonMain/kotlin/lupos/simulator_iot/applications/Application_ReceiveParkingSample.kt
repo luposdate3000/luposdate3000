@@ -15,10 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.Package_Query
+import lupos.simulator_iot.IPayload
+import lupos.simulator_iot.Package_Query
 public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
     private lateinit var parent: IApplicationStack_Middleware
     override fun setRouter(router: IApplicationStack_Middleware) {

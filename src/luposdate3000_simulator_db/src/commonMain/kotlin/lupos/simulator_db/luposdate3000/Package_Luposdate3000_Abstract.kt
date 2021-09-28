@@ -18,7 +18,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.simulator_db.IPackage_Database
+import lupos.simulator_iot.IPackage_Database
 
 public class Package_Luposdate3000_Abstract(
     public val queryID: Int,
@@ -42,5 +42,15 @@ public class Package_Luposdate3000_Abstract(
         for ((key, value) in params)
             size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
+    }
+    override fun getTopic(): String {
+        return when (path) {
+            "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> "Database-Dictionary"
+            "/distributed/graph/create" -> "Database-Graph-Create"
+            "/distributed/graph/modify" -> "Database-Graph-Modify"
+            "simulator-intermediate-result" -> "Database-Intermadiate-Result"
+            "/shacl/ontology/load" -> "Database-Ontology-Load"
+            else -> TODO(path)
+        }
     }
 }

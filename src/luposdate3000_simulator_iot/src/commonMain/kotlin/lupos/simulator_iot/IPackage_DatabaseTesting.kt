@@ -15,6 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot
 
-public interface IApplicationStack_BothDirections : IApplicationStack_Actuator, IApplicationStack_Middleware
+public interface IPackage_DatabaseTesting : IPackage_Database {
+    public fun setOnFinish(pck: IPackage_DatabaseTesting)
+    public fun getOnFinish(): IPackage_DatabaseTesting?
+}

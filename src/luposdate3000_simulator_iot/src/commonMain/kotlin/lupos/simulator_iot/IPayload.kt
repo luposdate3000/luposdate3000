@@ -15,11 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot
 
-public interface IApplicationStack_Actuator {
-    public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
-    public fun startUp()
-    public fun shutDown()
-    public fun setRouter(router: IApplicationStack_Middleware)
+public interface IPayload {
+    public fun getSizeInBytes(): Int
+    public fun getTopic(): String
 }

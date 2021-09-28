@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.applications
 
-import lupos.simulator_db.IPayload
+import lupos.simulator_iot.IPayload
 
 internal class Package_ApplicationStack_RPL_DAO(
     internal val isPath: Boolean,
@@ -35,4 +35,5 @@ internal class Package_ApplicationStack_RPL_DAO(
     override fun toString(): String {
         return "Package_ApplicationStack_RPL_DAO(isPath $isPath)"
     }
+    override fun getTopic(): String = "Routing-RPL-DAO"
 }

@@ -48,7 +48,7 @@ internal class MultipleSimulationRuns(
             for (logger in simRun.logger.loggers) {
                 if (logger is LoggerMeasure) {
                     measurements.add(logger)
-                    appendLineToFile("measurement.csv", { logger.headers.toList().joinToString(",") }, logger.data.toList().joinToString(","))
+                    appendLineToFile("measurement.csv", { logger.getHeadersAggregated().toList().joinToString(",") }, logger.getDataAggregated().toList().joinToString(","))
                 }
             }
         }
@@ -60,12 +60,12 @@ internal class MultipleSimulationRuns(
             for (i in 0 until LoggerMeasure.StatCounter) {
                 var sum = 0.0
                 for (m in measurements) {
-                    sum += m.data[i]
+                    sum += m.getDataAggregated()[i]
                 }
                 val avg = sum / measurements.size
                 var dev = 0.0
                 for (m in measurements) {
-                    dev += (m.data[i] - avg) * (m.data[i] - avg)
+                    dev += (m.getDataAggregated()[i] - avg) * (m.getDataAggregated()[i] - avg)
                 }
                 val devPercent = if (avg == 0.0) {
                     0.0
@@ -76,9 +76,9 @@ internal class MultipleSimulationRuns(
                 dataDev[i] = dev
                 dataDevp[i] = devPercent
             }
-            appendLineToFile("average.csv", { firstLogger.headers.toList().joinToString(",") }, dataAvg.toList().joinToString(","))
-            appendLineToFile("deviation.csv", { firstLogger.headers.toList().joinToString(",") }, dataDev.toList().joinToString(","))
-            appendLineToFile("deviationPercent.csv", { firstLogger.headers.toList().joinToString(",") }, dataDevp.toList().joinToString(","))
+            appendLineToFile("average.csv", { firstLogger.getHeadersAggregated().toList().joinToString(",") }, dataAvg.toList().joinToString(","))
+            appendLineToFile("deviation.csv", { firstLogger.getHeadersAggregated().toList().joinToString(",") }, dataDev.toList().joinToString(","))
+            appendLineToFile("deviationPercent.csv", { firstLogger.getHeadersAggregated().toList().joinToString(",") }, dataDevp.toList().joinToString(","))
         }
     }
 }

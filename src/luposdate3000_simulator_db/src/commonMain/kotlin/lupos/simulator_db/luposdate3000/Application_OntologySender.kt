@@ -14,14 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_iot.applications
+package lupos.simulator_db.luposdate3000
 import lupos.shared.inline.File
 import lupos.simulator_core.ITimer
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IPackage_Database
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
+import lupos.simulator_iot.IPackage_Database
+import lupos.simulator_iot.IPayload
+import lupos.simulator_iot.applications.IApplicationStack_Actuator
+import lupos.simulator_iot.applications.IApplicationStack_Middleware
 public class Application_OntologySender(
     internal val startClockInSec: Int,
     internal val queryPck: IPackage_Database,

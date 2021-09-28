@@ -16,7 +16,7 @@
  */
 
 package lupos.simulator_iot.models.net
-import lupos.simulator_db.IPayload
+import lupos.simulator_iot.IPayload
 public class NetworkPackage(
     internal val sourceAddress: Int,
     internal val destinationAddress: Int,
@@ -24,4 +24,5 @@ public class NetworkPackage(
 ) : IPayload {
     override fun getSizeInBytes(): Int = 40 + payload.getSizeInBytes()
     override fun toString(): String = "Pck(src $sourceAddress, dest $destinationAddress, size ${getSizeInBytes()}, payload $payload)"
+    override fun getTopic(): String = TODO()
 }

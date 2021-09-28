@@ -20,7 +20,7 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IPackage_DatabaseTesting
+import lupos.simulator_iot.IPackage_DatabaseTesting
 public class Package_Luposdate3000_TestingCompareGraphPackage(
     public val query: String,
     public val expectedResult: MemoryTable,
@@ -100,4 +100,5 @@ public class Package_Luposdate3000_TestingCompareGraphPackage(
     override fun toString(): String {
         return getContentLogString()
     }
+    override fun getTopic(): String = "Testing"
 }

@@ -16,7 +16,7 @@
  */
 package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
-import lupos.simulator_db.IPackage_DatabaseTesting
+import lupos.simulator_iot.IPackage_DatabaseTesting
 
 public class Package_Luposdate3000_TestingExecute(
     public val query: String,
@@ -42,4 +42,5 @@ public class Package_Luposdate3000_TestingExecute(
     override fun toString(): String {
         return getContentLogString()
     }
+    override fun getTopic(): String = "Testing"
 }

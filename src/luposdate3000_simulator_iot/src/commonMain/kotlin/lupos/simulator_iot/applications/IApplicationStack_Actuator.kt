@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-
-public interface IPackage_Database : IPayload {
-    public fun getPackageID(): Long // for message tracing only, this does not affect the simulated data volume
-    public fun getContentLogString(): String
+package lupos.simulator_iot.applications
+import lupos.simulator_iot.IPayload
+public interface IApplicationStack_Actuator {
+    public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
+    public fun startUp()
+    public fun shutDown()
+    public fun setRouter(router: IApplicationStack_Middleware)
 }

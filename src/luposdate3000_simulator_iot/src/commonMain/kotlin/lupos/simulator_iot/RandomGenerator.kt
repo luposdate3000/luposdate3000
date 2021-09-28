@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot
 
 import lupos.shared.SanityCheck
 import kotlin.random.Random
@@ -33,7 +33,7 @@ public class RandomGenerator {
             return minInclusive
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
             { maxInclusive < Double.MAX_VALUE },
         )
         val maxExclusive = maxInclusive + Double.MIN_VALUE

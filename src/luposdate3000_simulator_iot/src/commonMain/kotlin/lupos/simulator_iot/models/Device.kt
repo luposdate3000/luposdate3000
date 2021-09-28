@@ -19,8 +19,8 @@ package lupos.simulator_iot.models
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
-import lupos.simulator_db.IApplicationStack_Actuator
 import lupos.simulator_iot.SimulationRun
+import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplicationStack_Rooter
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager

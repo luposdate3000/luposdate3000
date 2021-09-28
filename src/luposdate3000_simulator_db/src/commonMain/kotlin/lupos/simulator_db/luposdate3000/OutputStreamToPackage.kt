@@ -22,7 +22,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.simulator_db.IApplicationStack_Middleware
+import lupos.simulator_iot.applications.IApplicationStack_Middleware
 // import kotlin.io.println as kotlinprintln
 internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware) : IMyOutputStream {
     val buffer = ByteArrayWrapper()

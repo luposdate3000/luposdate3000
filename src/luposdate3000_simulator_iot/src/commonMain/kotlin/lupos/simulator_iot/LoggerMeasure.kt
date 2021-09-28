@@ -22,22 +22,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import lupos.shared.XMLElement
-import lupos.simulator_db.ILogger
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.IPayloadLayer
-import lupos.simulator_db.Package_Query
-import lupos.simulator_db.Package_QueryResponse
-import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_ChoosenOperator
-import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_Preprocessing
-import lupos.simulator_db.dummyImpl.Package_DatabaseDummy_Result
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_iot.applications.Package_ApplicationStack_RPL_DAO
-import lupos.simulator_iot.applications.Package_ApplicationStack_RPL_DIO
-import lupos.simulator_iot.applications.Package_Application_ParkingSample
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -51,35 +35,14 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         public val StatSimulationDurationReal: Int = StatCounter++
         public val StatSimulationDurationVirtual: Int = StatCounter++
 
-        public val StatNetworkCounterParkingSample: Int = StatCounter++
-        public val StatNetworkCounterQuery: Int = StatCounter++
-        public val StatNetworkCounterResponse: Int = StatCounter++
-        public val StatNetworkCounterOperatorGraph: Int = StatCounter++
-        public val StatNetworkCounterIntermediateResults: Int = StatCounter++
-        public val StatNetworkCounterGraphCreate: Int = StatCounter++
-        public val StatNetworkCounterGraphUpdate: Int = StatCounter++
-        public val StatNetworkCounterDictionary: Int = StatCounter++
-
-        public val StatNetworkCounterRoutingDIO: Int = StatCounter++
-        public val StatNetworkCounterRoutingDAO: Int = StatCounter++
         public val StatNetworkCounterForwarded: Int = StatCounter++
         public val StatNetworkCounter: Int = StatCounter++
 
-        public val StatNetworkTrafficParkingSample: Int = StatCounter++
-        public val StatNetworkTrafficQuery: Int = StatCounter++
-        public val StatNetworkTrafficResponse: Int = StatCounter++
-        public val StatNetworkTrafficOperatorGraph: Int = StatCounter++
-        public val StatNetworkTrafficIntermediateResults: Int = StatCounter++
-        public val StatNetworkTrafficGraphCreate: Int = StatCounter++
-        public val StatNetworkTrafficGraphUpdate: Int = StatCounter++
-        public val StatNetworkTrafficDictionary: Int = StatCounter++
-
-        public val StatNetworkTrafficRouting: Int = StatCounter++
         public val StatNetworkTrafficForwarded: Int = StatCounter++
         public val StatNetworkTraffic: Int = StatCounter++
     }
-    public val data: DoubleArray = DoubleArray(StatCounter)
-    public val headers: Array<String> = Array(StatCounter) {
+    private val data: DoubleArray = DoubleArray(StatCounter)
+    private val headers: Array<String> = Array(StatCounter) {
         when (it) {
             StatNumberOfDevices -> "number of devices"
 
@@ -88,30 +51,9 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
             StatSimulationDurationReal -> "simulation duration real (Seconds)"
             StatSimulationDurationVirtual -> "simulation duration virtual (Seconds)"
 
-            StatNetworkCounterParkingSample -> "number of virtually sent parking samples packages"
-            StatNetworkCounterQuery -> "number of virtually sent query packages"
-            StatNetworkCounterResponse -> "number of virtually sent response packages"
-            StatNetworkCounterOperatorGraph -> "number of virtually sent operatorGraph packages"
-            StatNetworkCounterIntermediateResults -> "number of virtually sent intermediate results packages"
-            StatNetworkCounterGraphCreate -> "number of virtually sent graph create packages"
-            StatNetworkCounterGraphUpdate -> "number of virtually sent graph update packages"
-            StatNetworkCounterDictionary -> "number of virtually sent dictionary packages"
-
-            StatNetworkCounterRoutingDIO -> "number of sent DIO packages"
-            StatNetworkCounterRoutingDAO -> "number of sent DAO packages"
             StatNetworkCounterForwarded -> "number of forwarded packages"
             StatNetworkCounter -> "number of sent packages"
 
-            StatNetworkTrafficParkingSample -> "virtual network traffic parking samples(Bytes)"
-            StatNetworkTrafficQuery -> "virtual network traffic query(Bytes)"
-            StatNetworkTrafficResponse -> "virtual network traffic response(Bytes)"
-            StatNetworkTrafficOperatorGraph -> "virtual network traffic operatorGraph(Bytes)"
-            StatNetworkTrafficIntermediateResults -> "virtual network traffic intermediate results(Bytes)"
-            StatNetworkTrafficGraphCreate -> "virtual network traffic graph create(Bytes)"
-            StatNetworkTrafficGraphUpdate -> "virtual network traffic graph update(Bytes)"
-            StatNetworkTrafficDictionary -> "virtual network traffic dictionary(Bytes)"
-
-            StatNetworkTrafficRouting -> "network traffic routing(Bytes)"
             StatNetworkTrafficForwarded -> "network traffic forwarded(Bytes)"
             StatNetworkTraffic -> "network traffic total (Bytes)"
 
@@ -121,6 +63,46 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
     private lateinit var startSimulationTimeStamp: Instant
     private lateinit var startUpTimeStamp: Instant
     private lateinit var shutDownTimeStamp: Instant
+    private val packageByTopic = mutableMapOf<String, Int>()
+    private val packageCounter = mutableListOf<Double>()
+    private val packageSize = mutableListOf<Double>()
+    private val packageSizeAggregated = mutableListOf<Double>()
+    public fun getDataAggregated(): DoubleArray {
+        val res = mutableListOf<Double>()
+        for (d in data) {
+            res.add(d)
+        }
+        for (feature in 0 until simRun.config.features.size) {
+            var counter = 0.0
+            for (d in simRun.config.devices) {
+                if (simRun.config.hasFeature(d, feature)) {
+                    counter++
+                }
+            }
+            res.add(counter)
+        }
+        for (topicId in 0 until packageByTopic.size) {
+            res.add(packageCounter[topicId])
+            res.add(packageSize[topicId])
+            res.add(packageSizeAggregated[topicId])
+        }
+        return res.toDoubleArray()
+    }
+    public fun getHeadersAggregated(): Array<String> {
+        val res = mutableListOf<String>()
+        for (h in headers) {
+            res.add(h)
+        }
+        for (feature in simRun.config.features) {
+            res.add("number of devices having '" + feature.getName() + "'")
+        }
+        for ((topic, topicId) in packageByTopic) {
+            res.add("package count for '$topic'")
+            res.add("package size for '$topic'")
+            res.add("package size aggregated for '$topic'")
+        }
+        return res.toTypedArray()
+    }
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
@@ -138,79 +120,20 @@ public class LoggerMeasure public constructor(private val simRun: SimulationRun)
         }
     }
     private fun onSendNetworkPackageInternal(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
-        when (pck) {
-            is Package_ApplicationStack_RPL_DIO -> {
-                data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterRoutingDIO]++
-                }
-            }
-            is Package_ApplicationStack_RPL_DAO -> {
-                data[StatNetworkTrafficRouting] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterRoutingDAO]++
-                }
-            }
-            is Package_Luposdate3000_TestingImportPackage, is Package_Luposdate3000_TestingExecute, is Package_Luposdate3000_TestingCompareGraphPackage -> { // testing only ... this must not crash, but does not count for network traffic
-            }
-            is Package_DatabaseDummy_Preprocessing, is Package_DatabaseDummy_Result, is Package_DatabaseDummy_ChoosenOperator -> { // dummyImpl
-            }
-            is Package_Luposdate3000_Abstract -> {
-                when (pck.path) {
-                    "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> {
-                        data[StatNetworkTrafficDictionary] += pck.getSizeInBytes().toDouble()
-                        if (dest == hop) {
-                            data[StatNetworkCounterDictionary]++
-                        }
-                    }
-                    "/distributed/graph/create" -> {
-                        data[StatNetworkTrafficGraphCreate] += pck.getSizeInBytes().toDouble()
-                        if (dest == hop) {
-                            data[StatNetworkCounterGraphCreate]++
-                        }
-                    }
-                    "/distributed/graph/modify" -> {
-                        data[StatNetworkTrafficGraphUpdate] += pck.getSizeInBytes().toDouble()
-                        if (dest == hop) {
-                            data[StatNetworkCounterGraphUpdate]++
-                        }
-                    }
-                    "simulator-intermediate-result" -> {
-                        data[StatNetworkTrafficIntermediateResults] += pck.getSizeInBytes().toDouble()
-                        if (dest == hop) {
-                            data[StatNetworkCounterIntermediateResults]++
-                        }
-                    }
-                    "/shacl/ontology/load" -> {}
-                    else -> TODO(pck.path)
-                }
-            }
-            is Package_Luposdate3000_Operatorgraph -> {
-                data[StatNetworkTrafficOperatorGraph] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterOperatorGraph]++
-                }
-            }
-            is Package_QueryResponse -> {
-                data[StatNetworkTrafficResponse] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterResponse]++
-                }
-            }
-            is Package_Application_ParkingSample -> {
-                data[StatNetworkTrafficParkingSample] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterParkingSample]++
-                }
-            }
-            is Package_Query -> {
-                data[StatNetworkTrafficQuery] += pck.getSizeInBytes().toDouble()
-                if (dest == hop) {
-                    data[StatNetworkCounterQuery]++
-                }
-            }
-            else -> TODO("$pck")
+        val topic = pck.getTopic()
+        var id = packageByTopic[topic]
+        if (id == null) {
+            id = packageByTopic.size
+            packageByTopic[topic] = id
+            packageCounter.add(0.0)
+            packageSize.add(0.0)
+            packageSizeAggregated.add(0.0)
         }
+        if (dest == hop) {
+            packageCounter[id]++
+            packageSize[id] += pck.getSizeInBytes().toDouble()
+        }
+        packageSizeAggregated[id] += pck.getSizeInBytes().toDouble()
     }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }

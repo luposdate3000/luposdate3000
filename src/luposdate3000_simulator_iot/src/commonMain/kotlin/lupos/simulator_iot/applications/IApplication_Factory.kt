@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-
-public interface IPackage_DatabaseTesting : IPackage_Database {
-    public fun setOnFinish(pck: IPackage_DatabaseTesting)
-    public fun getOnFinish(): IPackage_DatabaseTesting?
+package lupos.simulator_iot.applications
+import lupos.parser.IJsonParserValue
+import lupos.simulator_iot.ILogger
+import lupos.simulator_iot.RandomGenerator
+public interface IApplication_Factory {
+    public fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator>
+    public fun registerFeatures(features: MutableList<IApplicationFeature>)
 }

@@ -16,8 +16,8 @@
  */
 
 package lupos.simulator_iot.applications
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.IPayloadLayer
+import lupos.simulator_iot.IPayload
+import lupos.simulator_iot.IPayloadLayer
 internal class Package_ApplicationStack_MergeMessages(
     internal val data: MutableList<IPayload>,
 ) : IPayloadLayer {
@@ -34,4 +34,5 @@ internal class Package_ApplicationStack_MergeMessages(
         }
         return res
     }
+    override fun getTopic(): String = TODO()
 }

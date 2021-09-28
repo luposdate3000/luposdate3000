@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-import lupos.parser.IJsonParserValue
-public interface IApplication_Factory {
-    public fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator>
-    public fun registerFeatures(features: MutableList<IApplicationFeature>)
+package lupos.simulator_iot.applications
+
+public interface IApplicationFeature {
+    public fun getName(): String
+    public fun hasFeature(application: IApplicationStack_Actuator): Boolean
 }

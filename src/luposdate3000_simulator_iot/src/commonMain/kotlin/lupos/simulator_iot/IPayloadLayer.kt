@@ -15,22 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-import lupos.shared.UUID_Counter
-public class Package_Query(
-    public val sourceAddress: Int,
-    public val query: ByteArray,
-) : IPackage_Database {
-    public val queryID: Int = idCounter++
-    public val pckID: Long = UUID_Counter.getNextUUID()
-    override fun getPackageID(): Long = pckID
-    private companion object {
-        private var idCounter: Int = 0
-    }
-    public override fun getSizeInBytes(): Int {
-        return query.size + 4
-    }
-    public override fun getContentLogString(): String {
-        return "Package_Query($sourceAddress,'${query.decodeToString()}')"
-    }
+package lupos.simulator_iot
+
+public interface IPayloadLayer : IPayload {
+    public fun getApplicationPayload(): List<IPayload>
 }

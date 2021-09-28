@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
+package lupos.simulator_iot
 
-public interface IApplicationFeature {
-    public fun getName(): String
-    public fun hasFeature(application: IApplicationStack_Actuator): Boolean
+public interface IPackage_Database : IPayload {
+    public fun getPackageID(): Long // for message tracing only, this does not affect the simulated data volume
+    public fun getContentLogString(): String
 }

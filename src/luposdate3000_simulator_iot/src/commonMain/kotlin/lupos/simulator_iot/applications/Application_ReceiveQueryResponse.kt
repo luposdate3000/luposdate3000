@@ -16,10 +16,8 @@
  */
 package lupos.simulator_iot.applications
 import lupos.shared.inline.File
-import lupos.simulator_db.IApplicationStack_Actuator
-import lupos.simulator_db.IApplicationStack_Middleware
-import lupos.simulator_db.IPayload
-import lupos.simulator_db.Package_QueryResponse
+import lupos.simulator_iot.IPayload
+import lupos.simulator_iot.Package_QueryResponse
 public class Application_ReceiveQueryResponse(
     private val outputdirectory: String,
 ) : IApplicationStack_Actuator {

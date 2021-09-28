@@ -15,14 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.simulator_db
-import lupos.simulator_core.ITimer
-public interface IApplicationStack_Middleware {
-    public fun send(destinationAddress: Int, pck: IPayload)
-    public fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray
-    public fun getAllChildApplications(): Set<IApplicationStack_Actuator>
-    public fun registerTimer(durationInNanoSeconds: Long, entity: ITimer)
-    public fun resolveHostName(name: String): Int
-    public fun flush()
-    public fun addChildApplication(child: IApplicationStack_Actuator)
+package lupos.simulator_iot
+import lupos.shared.UUID_Counter
+public class Package_QueryResponse(
+    public val result: ByteArray,
+    public val queryID: Int
+) : IPackage_Database {
+    public val pckID: Long = UUID_Counter.getNextUUID()
+    override fun getPackageID(): Long = pckID
+
+    public override fun getSizeInBytes(): Int {
+        return result.size
+    }
+    public override fun getContentLogString(): String {
+        return "Package_QueryResponse('${result.decodeToString()}')"
+    }
+    override fun getTopic(): String = "SPARQL-Response"
 }

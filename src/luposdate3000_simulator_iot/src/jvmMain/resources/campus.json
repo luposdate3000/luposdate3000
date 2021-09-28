@@ -7,7 +7,7 @@
     "deviceType": {
         "Central Tower": {
             "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_OntologySender": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
                     "enabled": true,
                     "fileName": "src/luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
                     "sendStartClockInSec": 10,

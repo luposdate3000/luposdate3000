@@ -17,7 +17,7 @@
 
 package lupos.simulator_iot.applications
 
-import lupos.simulator_db.IPayload
+import lupos.simulator_iot.IPayload
 
 internal class Package_ApplicationStack_RPL_DIO(internal val rank: Int) : IPayload {
     override fun getSizeInBytes(): Int {
@@ -27,4 +27,5 @@ internal class Package_ApplicationStack_RPL_DIO(internal val rank: Int) : IPaylo
     override fun toString(): String {
         return "Package_ApplicationStack_RPL_DIO(rank $rank)"
     }
+    override fun getTopic(): String = "Routing-RPL-DIO"
 }
