@@ -1,0 +1,78 @@
+{
+    "applications": {},
+    "deterministic": false,
+    "deviceType": {
+        "Fog": {
+            "applications": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": -1,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "StandAloneParkingSensor": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": -1,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Tower1": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 3.0,
+            "longitude": 3.0,
+        },
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 30,
+        },
+    },
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [
+        {
+            "dataSink": "",
+            "deviceType": "StandAloneParkingSensor",
+            "linkType": "WPAN",
+            "networkPrefix": "garageA",
+            "number": 2,
+            "starRoot": "Tower1",
+        },
+    ],
+    "rootRouter": "Tower1",
+}

@@ -243,7 +243,7 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     internal fun getDeviceName(nameIndex: Int) = deviceNames[nameIndex]
-    internal fun getRootDevice(): Device = devices[rootRouterAddress]
+    public fun getRootDevice(): Device = devices[rootRouterAddress]
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getDeviceByName(network.starRoot)
@@ -342,7 +342,7 @@ public class Configuration(private val simRun: SimulationRun) {
         return device
     }
 
-    internal fun getNumberOfDevices(): Int {
+    public fun getNumberOfDevices(): Int {
         return devices.size
     }
 

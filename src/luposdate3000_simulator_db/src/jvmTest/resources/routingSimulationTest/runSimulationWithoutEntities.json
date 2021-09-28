@@ -1,0 +1,46 @@
+{
+    "deterministic": false,
+    "deviceType": {
+        "Fog": {
+            "applications": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Fog",
+                    "maxSamples": -1,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {},
+    "fixedLink": [],
+    "linkType": {
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 15,
+        },
+    },
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "rootRouter": "",
+}

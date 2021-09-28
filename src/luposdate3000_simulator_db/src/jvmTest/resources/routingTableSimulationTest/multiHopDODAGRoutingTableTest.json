@@ -1,0 +1,99 @@
+{
+    "applications": {},
+    "deterministic": false,
+    "deviceType": {
+        "Fog": {
+            "applications": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [],
+        },
+    },
+    "fixedDevice": {
+        "A": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.09814632127328,
+            "longitude": 8.754628362427354,
+        },
+        "B": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.09278266982357,
+            "longitude": 8.747762643839831,
+        },
+        "C": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.09407405925197,
+            "longitude": 8.761070144669068,
+        },
+        "D": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.09072134809814,
+            "longitude": 8.75265783665239,
+        },
+        "E": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.08345396298265,
+            "longitude": 8.772318909617125,
+        },
+        "F": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.07572006093855,
+            "longitude": 8.785879536459793,
+        },
+    },
+    "fixedLink": [
+        {
+            "dataRateInKbps": 2500,
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "B",
+        },
+        {
+            "dataRateInKbps": 2500,
+            "fixedDeviceA": "A",
+            "fixedDeviceB": "C",
+        },
+        {
+            "dataRateInKbps": 2500,
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "D",
+        },
+        {
+            "dataRateInKbps": 2500,
+            "fixedDeviceA": "C",
+            "fixedDeviceB": "E",
+        },
+        {
+            "dataRateInKbps": 2500,
+            "fixedDeviceA": "E",
+            "fixedDeviceB": "F",
+        },
+    ],
+    "linkType": {},
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "rootRouter": "A",
+    "routing": {
+        "protocol": "RPL",
+    },
+}

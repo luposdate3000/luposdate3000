@@ -1,0 +1,71 @@
+{
+    "applications": {},
+    "deterministic": false,
+    "deviceType": {
+        "Fog": {
+            "applications": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+        "StandAloneParkingSensor": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "area": 1,
+                    "dataSink": "Tower1",
+                    "maxSamples": 3,
+                    "rateInSec": 30,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 2.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Tower1": {
+            "applications": {},
+            "deviceType": "Fog",
+            "latitude": 53.640454118715894,
+            "longitude": 10.179179491574411,
+        },
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 30,
+        },
+    },
+    "logging": {
+        "measure": {
+            "enabled": false,
+        },
+        "stdout": {
+            "enabled": false,
+        },
+        "visualize": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [
+        {
+            "dataSink": "",
+            "deviceType": "StandAloneParkingSensor",
+            "linkType": "WPAN",
+            "networkPrefix": "garageA",
+            "number": 20,
+            "starRoot": "Tower1",
+        },
+    ],
+    "rootRouter": "Tower1",
+}
