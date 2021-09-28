@@ -5,13 +5,13 @@
     "fixedLink": [],
     "linkType": {},
     "logging": {
-        "measure": {
+        "lupos.simulator_iot.LoggerMeasure": {
             "enabled": false,
         },
-        "stdout": {
+        "lupos.simulator_iot.LoggerStdout": {
             "enabled": false,
         },
-        "visualize": {
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
             "enabled": false,
         },
     },
