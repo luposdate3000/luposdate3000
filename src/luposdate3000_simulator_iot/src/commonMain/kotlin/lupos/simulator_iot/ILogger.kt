@@ -19,6 +19,7 @@ package lupos.simulator_iot
 import lupos.shared.XMLElement
 import lupos.simulator_core.ILoggerCore
 public interface ILogger : ILoggerCore {
+    public fun initialize(simRun: SimulationRun)
     public fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long)
     public fun onReceiveNetworkPackage(address: Int, pck: IPayload)
     public fun onSendPackage(src: Int, dest: Int, pck: IPayload)

@@ -18,6 +18,11 @@
 package lupos.simulator_iot
 import lupos.shared.XMLElement
 public class Loggers public constructor(public val loggers: MutableList<ILogger>) : ILogger {
+    override fun initialize(simRun: SimulationRun) {
+        for (log in loggers) {
+            log.initialize(simRun)
+        }
+    }
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         for (logger in loggers) {
             logger.onSendNetworkPackage(src, dest, hop, pck, delay)

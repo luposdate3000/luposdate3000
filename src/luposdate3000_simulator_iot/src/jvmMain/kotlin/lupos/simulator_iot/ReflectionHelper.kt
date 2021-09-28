@@ -20,4 +20,7 @@ internal actual object ReflectionHelper {
     internal actual fun createApplicationFactory(name: String): IApplication_Factory {
         return Class.forName(name)!!.newInstance() as IApplication_Factory
     }
+    internal actual fun createLogger(name: String): ILogger {
+        return Class.forName(name)!!.newInstance() as ILogger
+    }
 }

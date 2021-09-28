@@ -25,7 +25,11 @@ import lupos.shared.XMLElement
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-public class LoggerMeasure public constructor(private val simRun: SimulationRun) : ILogger {
+public class LoggerMeasure : ILogger {
+    private lateinit var simRun: SimulationRun
+    override fun initialize(simRun: SimulationRun) {
+        this.simRun = simRun
+    }
     public companion object {
         public var StatCounter: Int = 0
         public val StatNumberOfDevices: Int = StatCounter++

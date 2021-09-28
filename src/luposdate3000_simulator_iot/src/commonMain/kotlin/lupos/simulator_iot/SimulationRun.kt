@@ -27,7 +27,7 @@ public class SimulationRun {
     public lateinit var sim: Simulation
 
     internal val randGenerator = RandomGenerator()
-    internal val config = Configuration(this)
+    public val config = Configuration(this)
 
     public val logger: Loggers = Loggers(mutableListOf())
 
