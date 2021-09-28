@@ -27,7 +27,7 @@ public class MultipleSimulationRuns(
 
     public fun startSimulationRuns() {
         val measurements = mutableListOf<LoggerMeasure>()
-        json.getOrEmptyObject("logging").getOrEmptyObject("measure").set("enabled", true)
+        json.getOrEmptyObject("logging").getOrEmptyObject("lupos.simulator_iot.LoggerMeasure").set("enabled", true)
         val outputDirectory = json.getOrDefault("outputDirectory", "simulator_output") + "/"
         File(outputDirectory).mkdirs()
         fun appendLineToFile(name: String, header: () -> String, line: String) {
