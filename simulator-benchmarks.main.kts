@@ -46,36 +46,36 @@ val queryList = listOf("Q0")
 val topologyList = listOf("distributed", "distributedWithQueryHops", "central")
 val dataDistributionList = listOf("luposdate3000_by_key")
 val multicastList = listOf("Disabled", "Enabled")
-val distopologyList = listOf("luposdate3000_distribution_routing")
+val queryDistributionList = listOf("luposdate3000_distribution_routing")
 
 for (campus in campusList) {
     val json_campus = "${BASE_PATH}/${campus}.json"
-    for (r in routingList) {
-        val json_routing = "${BASE_PATH}/routing_$r.json"
-        for (q in queryList) {
-            val json_query = "${BASE_PATH}/$q.json"
-            for (t in topologyList) {
-                val json_topology = "${BASE_PATH}/$t.json"
-                for (d in dataDistributionList) {
-                    val json_dataDistribution = "${BASE_PATH}/$d.json"
-                    for (m in multicastList) {
-                        val json_multicast = "${BASE_PATH}/luposdate3000Multicast${m}.json"
-                        for (dist in distopologyList) {
-                            val json_dataDistributionist = "${BASE_PATH}/$dist.json"
-                            if (t == "central" && q != "Q0") {
+    for (routing in routingList) {
+        val json_routing = "${BASE_PATH}/routing_$routing.json"
+        for (query in queryList) {
+            val json_query = "${BASE_PATH}/$query.json"
+            for (topology in topologyList) {
+                val json_topology = "${BASE_PATH}/$topology.json"
+                for (dataDistribution in dataDistributionList) {
+                    val json_dataDistribution = "${BASE_PATH}/$dataDistribution.json"
+                    for (multicast in multicastList) {
+                        val json_multicast = "${BASE_PATH}/luposdate3000Multicast${multicast}.json"
+                        for (queryDistribution in queryDistributionList) {
+                            val json_queryDistribution = "${BASE_PATH}/$queryDistribution.json"
+                            if (topology == "central" && query != "Q0") {
 	//centralized has only traffic during initialization, afterwards all zero
                                 continue
                             }
-                            if (campus == "campusNoSamples" && q != "Q0") {
+                            if (campus == "campusNoSamples" && query != "Q0") {
 	//there is no data at all, any query get all zero data
                                 continue
                             }
-                            if (m == "Enabled" && q != "Q0") {
+                            if (multicast == "Enabled" && query != "Q0") {
 	//multicast is only relevant for insert, everything else is the same
                                 continue
                             }
-                            val measurementFile = "simulator_output/_${campus}_${t}_${q}_${d}_evaluation_luposdate3000_${dist}_luposdate3000Multicast${m}_routing_${r}/measurement.csv"
-                            val cmd = baseCmd + listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_dataDistributionist, json_multicast, json_routing)
+                            val measurementFile = "simulator_output/_${campus}_${topology}_${query}_${dataDistribution}_evaluation_luposdate3000_${queryDistribution}_luposdate3000Multicast${multicast}_routing_${routing}/measurement.csv"
+                            val cmd = baseCmd + listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
                             execute(cmd)
 
 
