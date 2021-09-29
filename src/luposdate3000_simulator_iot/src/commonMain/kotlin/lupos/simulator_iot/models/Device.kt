@@ -32,7 +32,6 @@ public class Device(
     public val address: Int,
     internal val performance: Double,
     internal val linkManager: LinkManager,
-    internal val deviceNameID: Int,
     internal val isDeterministic: Boolean,
     public val applicationStack: IApplicationStack_Rooter,
     internal val hostNameLookUpTable: MutableMap<String, Int>,
@@ -87,7 +86,7 @@ public class Device(
     override fun equals(other: Any?): Boolean = other is Device && address == other.address
     override fun hashCode(): Int = address
 
-    override fun toString(): String = "Device(addr $address, name '${simRun.config.getDeviceName(deviceNameID)}')"
+    override fun toString(): String = "Device(addr $address)"
     internal fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = setTimer(durationInNanoSeconds, entity)
     internal fun resolveHostName(name: String): Int = hostNameLookUpTable[name]!!
     public fun getAllChildApplications(): Set<IApplicationStack_Actuator> = applicationStack.getAllChildApplications()

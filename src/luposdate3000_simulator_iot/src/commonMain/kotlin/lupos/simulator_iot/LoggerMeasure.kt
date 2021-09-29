@@ -64,9 +64,9 @@ public class LoggerMeasure : ILogger {
             else -> TODO("$it")
         }
     }
-    private lateinit var startSimulationTimeStamp: Instant
-    private lateinit var startUpTimeStamp: Instant
-    private lateinit var shutDownTimeStamp: Instant
+    private var startSimulationTimeStamp: Instant = Clock.System.now()
+    private var startUpTimeStamp: Instant = Clock.System.now()
+    private var shutDownTimeStamp: Instant = Clock.System.now()
     private val packageByTopic = mutableMapOf<String, Int>()
     private val packageCounter = mutableListOf<Double>()
     private val packageSize = mutableListOf<Double>()

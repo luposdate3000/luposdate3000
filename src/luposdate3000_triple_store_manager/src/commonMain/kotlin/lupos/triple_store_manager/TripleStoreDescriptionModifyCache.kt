@@ -166,8 +166,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                 c.output.writeDictionaryValueType(DictionaryValueHelper.nullValue)
             } else if (c.isLocal) {
                 c.output.write(ByteArrayWrapperExt.getBuf(c.header), ByteArrayWrapperExt.getSize(c.header))
-            } else {
-                println("saved ${ByteArrayWrapperExt.getSize(c.header)} bytes")
             }
             c.output.close()
             c.input?.close()

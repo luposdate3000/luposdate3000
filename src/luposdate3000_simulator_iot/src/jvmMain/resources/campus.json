@@ -337,15 +337,13 @@
             "rangeInMeters": 30,
         },
     },
-    "randomMeshNetwork": [
+    "randomCircle": [
         {
+            "density": 2.0E-6,
             "deviceType": "Mesh Hop",
-            "linkType": "WLAN",
-            "networkPrefix": "Campus Mesh",
-            "originLatitude": 53.83897140331313,
-            "originLongitude": 10.694405480987202,
-            "signalCoverageEast": 560,
-            "signalCoverageSouth": 460,
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "radius": 0.005,
         },
     ],
     "randomStarNetwork": [
