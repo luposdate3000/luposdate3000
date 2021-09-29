@@ -150,6 +150,7 @@
         },
     },
     "outputDirectory": "",
+    "randomCircle": [],
     "randomMeshNetwork": [
         {
             "deviceType": "EdgeGatewayDevice",
