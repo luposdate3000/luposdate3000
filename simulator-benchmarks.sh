@@ -69,7 +69,7 @@ else
 contentLine="$contentLine,r"
 fi
 #for idx in 11 12 14 15 18 19 23 24 26 29 30
-for idx in $(seq 1 30)
+for idx in $(seq 1 50)
 do
 headerLine="$headerLine,$(sed '1q;d' $measurementFile | cut -f${idx} -d ',')"
 value="$(sed '2q;d' $measurementFile | cut -f${idx} -d ',')"
