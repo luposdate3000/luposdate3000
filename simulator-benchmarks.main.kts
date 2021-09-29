@@ -21,7 +21,7 @@ import java.io.File
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
-fun execute(args: List<String>): List<String> {
+inline fun execute(args: List<String>): List<String> {
     val p = ProcessBuilder(args)
     val it = p.start()
     val res = it.getInputStream().bufferedReader().use { it.readText() }.split("\n")
@@ -40,13 +40,29 @@ val BASE_PATH = "src/luposdate3000_simulator_iot/src/jvmMain/resources"
 val json_evaluation = "${BASE_PATH}/evaluation.json"
 val json_luposdate3000 = "${BASE_PATH}/luposdate3000.json"
 
-val campusList = listOf("campusNoSamples", "campus")
-val routingList = listOf("RPL_Fast", "AllShortestPath")
-val queryList = listOf("Q0")
-val topologyList = listOf("distributed", "distributedWithQueryHops", "central")
-val dataDistributionList = listOf("luposdate3000_by_key")
-val multicastList = listOf("Disabled", "Enabled")
-val queryDistributionList = listOf("luposdate3000_distribution_routing")
+val campusList = listOf(
+    "campusNoSamples",
+    "campus")
+val routingList = listOf(
+    "RPL_Fast",
+    "AllShortestPath")
+val queryList = listOf(
+    "Q0")
+val topologyList = listOf(
+    "distributed",
+    "distributedWithQueryHops",
+    "central")
+val dataDistributionList = listOf(
+    "luposdate3000_by_key")
+val multicastList = listOf(
+    "Disabled",
+    "Enabled")
+val queryDistributionList = listOf(
+    "luposdate3000_distribution_routing")
+
+
+val headerLine = mutableListOf<String>()
+val contentLines = mutableListOf<MutableList<Double>>()
 
 for (campus in campusList) {
     val json_campus = "${BASE_PATH}/${campus}.json"
@@ -63,26 +79,52 @@ for (campus in campusList) {
                         for (queryDistribution in queryDistributionList) {
                             val json_queryDistribution = "${BASE_PATH}/$queryDistribution.json"
                             if (topology == "central" && query != "Q0") {
-	//centralized has only traffic during initialization, afterwards all zero
+                                //centralized has only traffic during initialization, afterwards all zero
                                 continue
                             }
                             if (campus == "campusNoSamples" && query != "Q0") {
-	//there is no data at all, any query get all zero data
+                                //there is no data at all, any query get all zero data
                                 continue
                             }
                             if (multicast == "Enabled" && query != "Q0") {
-	//multicast is only relevant for insert, everything else is the same
+                                //multicast is only relevant for insert, everything else is the same
                                 continue
                             }
-                            val measurementFile = "simulator_output/_${campus}_${topology}_${query}_${dataDistribution}_evaluation_luposdate3000_${queryDistribution}_luposdate3000Multicast${multicast}_routing_${routing}/measurement.csv"
                             val cmd = baseCmd + listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
-                            execute(cmd)
-
-
+                            val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
+                            var firstLine = listOf<String>()
+                            var contentLine = mutableListOf<Double>()
+                            println("measurementFile:$measurementFile")
+                            File(measurementFile).forEachLine {
+                                if (firstLine.isEmpty()) {
+                                    firstLine = it.split(",")
+                                } else if (contentLine.isEmpty()) {
+                                    val data = it.split(",")
+                                    for (i in 0 until firstLine.size) {
+                                        var idx = headerLine.indexOf(firstLine[i])
+                                        if (idx < 0) {
+                                            idx = headerLine.size
+                                            headerLine.add(firstLine[i])
+                                        }
+                                        while (contentLine.size <= idx) {
+                                            contentLine.add(0.0)
+                                        }
+                                        contentLine[i] = data[i].toDouble()
+                                    }
+                                }
+                            }
+                            contentLines.add(contentLine)
                         }
                     }
                 }
             }
         }
     }
+}
+println(headerLine.joinToString())
+for (line in contentLines) {
+    while (line.size < headerLine.size) {
+        line.add(0.0)
+    }
+    println(line.joinToString())
 }

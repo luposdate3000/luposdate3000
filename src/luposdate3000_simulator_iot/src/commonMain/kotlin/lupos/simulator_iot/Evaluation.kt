@@ -63,6 +63,7 @@ public class Evaluation {
             }
         }
         val outputdirectory = json.getOrDefault("outputDirectory", outputdirectoryTmp) + "/"
+        println("outputdirectory=$outputdirectory")
         File(outputdirectory).mkdirs()
         File(outputdirectory + ".generated.parsed.json").withOutputStream { out -> // this reformats the json file, such that all files are structurally equal
             out.println(JsonParser().jsonToString(json, false))
