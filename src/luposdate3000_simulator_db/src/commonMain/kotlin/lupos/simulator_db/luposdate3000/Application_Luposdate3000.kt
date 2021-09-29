@@ -82,7 +82,7 @@ public class Application_Luposdate3000 public constructor(
     private val featureID_any: Int,
 ) : IApplicationStack_Actuator {
     public fun hasStoreCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
-    public fun hasQueryCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
+    public fun hasQueryCapability(): Boolean = dbDeviceAddressesQueryList.contains(ownAdress)
     private lateinit var parent: IApplicationStack_Middleware
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     public var instance: Luposdate3000Instance = Luposdate3000Instance()

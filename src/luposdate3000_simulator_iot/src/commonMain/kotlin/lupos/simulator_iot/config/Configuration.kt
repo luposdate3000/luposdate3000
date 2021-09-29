@@ -73,7 +73,18 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         TODO()
     }
+    public fun featureIdForName2(name: String): Int {
+        for (i in 0 until features.size) {
+            if (features[i].getName() == name) {
+                return i
+            }
+        }
+        return -1
+    }
     public fun hasFeature(device: Device, feature: Int): Boolean {
+        if (feature <0) {
+            return false
+        }
         val f = features[feature]
         for (app in device.applicationStack.getAllChildApplications()) {
             if (f.hasFeature(app)) {
@@ -142,7 +153,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val nameID = addDeviceName(name)
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, nameID, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:144"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:155"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -319,7 +330,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:321"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:332"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -334,8 +345,8 @@ public class Configuration(private val simRun: SimulationRun) {
             router,
             namedAddresses,
         )
-        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude)
         devices.add(device)
+        simRun.logger.addDevice(ownAddress, location.longitude, location.latitude)
         return device
     }
 
