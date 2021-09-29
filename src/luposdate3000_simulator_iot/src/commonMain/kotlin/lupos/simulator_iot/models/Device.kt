@@ -76,7 +76,27 @@ public class Device(
     override fun onShutDown() {
         applicationStack.shutDown()
     }
-
+    public fun closestDeviceWithFeature(name: String): Int {
+        val devicesWithFeature = simRun.config.getAllDevicesForFeature(simRun.config.featureIdForName2(name)).toMutableList()
+        if (devicesWithFeature.size == 0) {
+            return -1
+        }
+        var closestDevice: Device? = null
+        var closestDistance = 0
+        for (d in devicesWithFeature) {
+            if (closestDevice == null) {
+                closestDevice = d
+                closestDistance = d.location.getDistanceInMeters(location)
+            } else {
+                val dist = d.location.getDistanceInMeters(location)
+                if (dist <closestDistance) {
+                    closestDevice = d
+                    closestDistance = dist
+                }
+            }
+        }
+        return closestDevice!!.address
+    }
     internal fun assignToSimulation(dest: Int, hop: Int, pck: NetworkPackage, delay: Long) {
         val entity = simRun.config.getDeviceByAddress(hop)
         scheduleEvent(entity, pck, delay)

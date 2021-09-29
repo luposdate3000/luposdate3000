@@ -62,6 +62,7 @@ public class ApplicationStack_MultipleChilds(
         return pck
     }
     override fun send(destinationAddress: Int, pck: IPayload): Unit = parent.send(destinationAddress, pck)
+    override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()

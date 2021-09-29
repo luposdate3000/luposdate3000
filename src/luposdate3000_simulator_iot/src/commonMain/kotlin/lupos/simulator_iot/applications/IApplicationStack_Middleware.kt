@@ -24,6 +24,7 @@ public interface IApplicationStack_Middleware {
     public fun getAllChildApplications(): Set<IApplicationStack_Actuator>
     public fun registerTimer(durationInNanoSeconds: Long, entity: ITimer)
     public fun resolveHostName(name: String): Int
+    public fun closestDeviceWithFeature(name: String): Int
     public fun flush()
     public fun addChildApplication(child: IApplicationStack_Actuator)
 }

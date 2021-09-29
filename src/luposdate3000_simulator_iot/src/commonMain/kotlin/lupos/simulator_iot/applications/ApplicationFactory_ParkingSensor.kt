@@ -36,7 +36,6 @@ public class ApplicationFactory_ParkingSensor : IApplication_Factory {
                     json.getOrDefault("sendStartClockInSec", 0),
                     json.getOrDefault("rateInSec", 0),
                     json.getOrDefault("maxSamples", -1),
-                    json.getOrDefault("dataSink", ""),
                     ownAddress,
                     random,
                     json.getOrDefault("area", 0),

@@ -223,6 +223,7 @@ public class ApplicationStack_RPL(
     }
     override fun flush() {}
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
     override fun send(destinationAddress: Int, pck: IPayload) {
         val pck2 = NetworkPackage(parent.address, destinationAddress, pck)

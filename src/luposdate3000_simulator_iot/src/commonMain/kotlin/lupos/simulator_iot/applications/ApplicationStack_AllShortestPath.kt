@@ -77,6 +77,7 @@ internal class ApplicationStack_AllShortestPath(
 
     override fun flush() {}
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
     override fun shutDown() = child.shutDown()
     override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
@@ -100,7 +101,7 @@ internal class ApplicationStack_AllShortestPath(
         }
         for (i in 0 until config.devices.size) {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:102"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:103"/*SOURCE_FILE_END*/ },
                 { routingTable[i] != -1 },
             )
         }
@@ -172,7 +173,7 @@ internal class ApplicationStack_AllShortestPath(
                     b to a
                 }
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:174"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:175"/*SOURCE_FILE_END*/ },
                     { distance > 0 },
                 )
                 if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + distance) {

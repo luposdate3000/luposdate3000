@@ -77,6 +77,7 @@ internal class ApplicationStack_RPL_Fast(
 
     override fun flush() {}
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
+    override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
     override fun shutDown() = child.shutDown()
     override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
@@ -101,7 +102,7 @@ internal class ApplicationStack_RPL_Fast(
         for (i in 0 until config.devices.size) {
             if (routingTable[i] == -1) {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:103"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:104"/*SOURCE_FILE_END*/ },
                     { !isRoot }, // no route possible
                 )
                 routingTable[i] = globalParentTable[parent.address] // everything else goes to my own parent
@@ -177,7 +178,7 @@ internal class ApplicationStack_RPL_Fast(
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:179"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:180"/*SOURCE_FILE_END*/ },
                         { distance> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + distance) {

@@ -28,7 +28,6 @@ public class Application_ParkingSensor(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,
     internal val maxNumber: Int,
-    internal val receiverName: String,
     internal val ownAddress: Int,
     internal val random: RandomGenerator,
     internal val area: Int,
@@ -44,7 +43,7 @@ public class Application_ParkingSensor(
     override fun startUp() {
         startUpTimeStamp = Clock.System.now()
         parent.registerTimer(startClockInSec.toLong() * 1000000000L + random.getLong(0L, sendingVarianceInSec.toLong() * 1000000000L), this)
-        receiver = parent.resolveHostName(receiverName)
+        receiver = parent.closestDeviceWithFeature("Database")
     }
     override fun shutDown() { }
     override fun receive(pck: IPayload): IPayload? = pck

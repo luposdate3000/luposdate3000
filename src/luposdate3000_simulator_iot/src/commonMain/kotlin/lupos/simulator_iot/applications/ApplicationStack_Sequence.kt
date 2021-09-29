@@ -88,6 +88,7 @@ public class ApplicationStack_Sequence(
     override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
+    override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
     override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
 }
