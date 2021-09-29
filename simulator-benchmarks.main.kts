@@ -17,12 +17,14 @@
  */
 
 import java.io.File
-
+import java.lang.ProcessBuilder.Redirect
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
 inline fun execute(args: List<String>): List<String> {
+println(args.joinToString(" "))
     val p = ProcessBuilder(args)
+.redirectError(Redirect.INHERIT)
     val it = p.start()
     val res = it.getInputStream().bufferedReader().use { it.readText() }.split("\n")
     it.waitFor()
@@ -41,60 +43,72 @@ val json_evaluation = "${BASE_PATH}/evaluation.json"
 val json_luposdate3000 = "${BASE_PATH}/luposdate3000.json"
 
 val campusList = listOf(
-    "campusNoSamples",
-    "campus")
+    "campusNoSamples.json",
+    "campus.json"
+)
 val routingList = listOf(
-    "RPL_Fast",
-    "AllShortestPath")
+    "routing_RPL_Fast.json",
+    "routing_AllShortestPath.json"
+)
 val queryList = listOf(
-    "Q0")
+    "Q0.json"
+)
 val topologyList = listOf(
-    "distributed",
-    "distributedWithQueryHops",
-    "central")
+    "distributed.json",
+    "distributedWithQueryHops.json",
+    "central.json"
+)
 val dataDistributionList = listOf(
-    "luposdate3000_by_key")
+    "luposdate3000_by_key.json"
+)
 val multicastList = listOf(
-    "Disabled",
-    "Enabled")
+    "luposdate3000MulticastDisabled.json",
+    "luposdate3000MulticastEnabled.json"
+)
 val queryDistributionList = listOf(
-    "luposdate3000_distribution_routing")
+    "luposdate3000_distribution_routing.json"
+)
 
 
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<Double>>()
+val attributeLines = mutableListOf<MutableList<String>>()
+val specializedCmdHeaders = listOf("campus", "topology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
+headerLine.addAll(specializedCmdHeaders)
 
 for (campus in campusList) {
-    val json_campus = "${BASE_PATH}/${campus}.json"
+    val json_campus = "${BASE_PATH}/$campus"
     for (routing in routingList) {
-        val json_routing = "${BASE_PATH}/routing_$routing.json"
+        val json_routing = "${BASE_PATH}/$routing"
         for (query in queryList) {
-            val json_query = "${BASE_PATH}/$query.json"
+            val json_query = "${BASE_PATH}/$query"
             for (topology in topologyList) {
-                val json_topology = "${BASE_PATH}/$topology.json"
+                val json_topology = "${BASE_PATH}/$topology"
                 for (dataDistribution in dataDistributionList) {
-                    val json_dataDistribution = "${BASE_PATH}/$dataDistribution.json"
+                    val json_dataDistribution = "${BASE_PATH}/$dataDistribution"
                     for (multicast in multicastList) {
-                        val json_multicast = "${BASE_PATH}/luposdate3000Multicast${multicast}.json"
+                        val json_multicast = "${BASE_PATH}/$multicast"
                         for (queryDistribution in queryDistributionList) {
-                            val json_queryDistribution = "${BASE_PATH}/$queryDistribution.json"
-                            if (topology == "central" && query != "Q0") {
+                            val json_queryDistribution = "${BASE_PATH}/$queryDistribution"
+                            if (topology == "central.json" && query != "Q0.json") {
                                 //centralized has only traffic during initialization, afterwards all zero
                                 continue
                             }
-                            if (campus == "campusNoSamples" && query != "Q0") {
+                            if (campus == "campusNoSamples.json" && query != "Q0.json") {
                                 //there is no data at all, any query get all zero data
                                 continue
                             }
-                            if (multicast == "Enabled" && query != "Q0") {
+                            if (multicast == "luposdate3000MulticastEnabled.json" && query != "Q0.json") {
                                 //multicast is only relevant for insert, everything else is the same
                                 continue
                             }
-                            val cmd = baseCmd + listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+                            val specializedCmd = listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+                            val cmd = baseCmd + specializedCmd
                             val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
                             var firstLine = listOf<String>()
                             var contentLine = mutableListOf<Double>()
-                            println("measurementFile:$measurementFile")
+val attributeLine=specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
+                            attributeLines.add(attributeLine)
                             File(measurementFile).forEachLine {
                                 if (firstLine.isEmpty()) {
                                     firstLine = it.split(",")
@@ -121,10 +135,11 @@ for (campus in campusList) {
         }
     }
 }
+println()
 println(headerLine.joinToString())
-for (line in contentLines) {
-    while (line.size < headerLine.size) {
-        line.add(0.0)
+for (i in 0 until contentLines.size) {
+    while (contentLines[i].size < headerLine.size-specializedCmdHeaders.size) {
+        contentLines[i].add(0.0)
     }
-    println(line.joinToString())
+    println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
 }

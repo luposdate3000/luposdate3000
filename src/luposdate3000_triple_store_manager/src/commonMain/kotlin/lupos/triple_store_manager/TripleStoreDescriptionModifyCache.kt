@@ -29,9 +29,16 @@ import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
 internal class FilterFunc(val j: Int, val index: TripleStoreIndexDescription, val action: (DictionaryValueTypeArray, Int, TripleStoreIndexDescription) -> Boolean)
 
-internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputStream?, val output: IMyOutputStream, val filters: MutableList<FilterFunc>)
+internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputStream?, val output: IMyOutputStream, val filters: MutableList<FilterFunc>, val isLocal: Boolean) {
+    internal var hadInit = false
+    internal var header = ByteArrayWrapper()
+}
 public class TripleStoreDescriptionModifyCacheFilterEntry(public val host: String, public val key: String, public val idx: Int)
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
     private val row = DictionaryValueTypeArray(3)
@@ -89,22 +96,29 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             }
                         )
                         if (host == localH) {
-                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter)))
+                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter), true))
                         } else {
                             var conn = allConnMap[host2]
                             if (conn == null) {
                                 val tmp = instance.communicationHandler!!.openConnection(host2, "/distributed/graph/modify", mapOf("graph" to description.graph, "sortedBy" to "$sortedBy", "isSorted" to "$isSorted", "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt())
-                                conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf())
+                                conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf(), false)
                                 allConnMap[host2] = conn
                             }
                             conn.filters.add(filter)
                             val bytes = host.encodeToByteArray()
-                            conn.output.writeInt(bytes.size)
-                            conn.output.write(bytes)
                             val bytes2 = key.encodeToByteArray()
-                            conn.output.writeInt(bytes2.size)
-                            conn.output.write(bytes2)
-                            conn.output.writeInt(idx)
+                            var off = ByteArrayWrapperExt.getSize(conn.header)
+                            ByteArrayWrapperExt.setSize(conn.header, off + 4 + 4 + 4 + bytes.size + bytes2.size, true)
+                            val buf = ByteArrayWrapperExt.getBuf(conn.header) // after changing the size
+                            ByteArrayHelper.writeInt4(buf, off, bytes.size)
+                            off += 4
+                            bytes.copyInto(buf, off)
+                            off += bytes.size
+                            ByteArrayHelper.writeInt4(buf, off, bytes2.size)
+                            off += 4
+                            bytes2.copyInto(buf, off)
+                            off += bytes2.size
+                            ByteArrayHelper.writeInt4(buf, off, idx)
                         }
                     }
                     j++
@@ -112,16 +126,19 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             }
         }
         for (conn in allConnMap.values) {
-            conn.output.writeInt(-1)
+            var off = ByteArrayWrapperExt.getSize(conn.header)
+            ByteArrayWrapperExt.setSize(conn.header, off + 4, true)
+            val buf = ByteArrayWrapperExt.getBuf(conn.header) // after changing the size
+            ByteArrayHelper.writeInt4(buf, off, -1)
             allConn.add(conn)
         }
         allConn.addAll(allConnLocal)
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:121"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:122"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:123"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:138"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:139"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:140"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         var i = 0
         loop@ for (c in allConn) {
             i++
@@ -130,6 +147,10 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             row[2] = o
             for (f in c.filters) {
                 if (f.action(row, f.j, f.index)) {
+                    if (!c.hadInit) {
+                        c.hadInit = true
+                        c.output.write(ByteArrayWrapperExt.getBuf(c.header), ByteArrayWrapperExt.getSize(c.header))
+                    }
                     c.output.writeDictionaryValueType(s)
                     c.output.writeDictionaryValueType(p)
                     c.output.writeDictionaryValueType(o)
@@ -141,7 +162,13 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     public override fun close() {
         for (c in allConn) {
-            c.output.writeDictionaryValueType(DictionaryValueHelper.nullValue)
+            if (c.hadInit) {
+                c.output.writeDictionaryValueType(DictionaryValueHelper.nullValue)
+            } else if (c.isLocal) {
+                c.output.write(ByteArrayWrapperExt.getBuf(c.header), ByteArrayWrapperExt.getSize(c.header))
+            } else {
+                println("saved ${ByteArrayWrapperExt.getSize(c.header)} bytes")
+            }
             c.output.close()
             c.input?.close()
         }

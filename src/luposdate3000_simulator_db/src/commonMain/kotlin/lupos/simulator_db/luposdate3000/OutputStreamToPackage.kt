@@ -28,7 +28,9 @@ internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path
     val buffer = ByteArrayWrapper()
     override fun flush() {}
     override fun close() {
-        router.send(target, Package_Luposdate3000_Abstract(queryID, path, params, buffer))
+        if (ByteArrayWrapperExt.getSize(buffer)> 0) {
+            router.send(target, Package_Luposdate3000_Abstract(queryID, path, params, buffer))
+        }
     }
 
     override fun print(x: Boolean) {

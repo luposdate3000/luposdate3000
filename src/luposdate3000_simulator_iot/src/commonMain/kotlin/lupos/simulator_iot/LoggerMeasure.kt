@@ -107,7 +107,6 @@ public class LoggerMeasure : ILogger {
         }
         return res.toTypedArray()
     }
-
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
         data[StatNetworkCounter]++
