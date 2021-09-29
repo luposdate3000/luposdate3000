@@ -37,12 +37,8 @@ public class VisualisationNetwork : ILogger {
     }
     private val skipQueriesWithLessPartsThan = 1
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
-    private var devicesMaxID = 0
-    private val connections = mutableSetOf<VisualisationConnection>() // alle möglichen Verbindungen
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
-    private val connectionsInRoutingDB = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
-    private var connectionTable = IntArray(0) // src*devicesMaxID+dest -> nexthop
-    private var connectionTableDB = IntArray(0) // src*devicesMaxID+dest -> nexthop
+    private var connectionTable = IntArray(0) // src*simRun.config.devices.size+dest -> nexthop
     private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
@@ -69,7 +65,7 @@ public class VisualisationNetwork : ILogger {
         var s = src
         while (s != dest) {
             tmp.add(s)
-            val idx = s * devicesMaxID + dest
+            val idx = s * simRun.config.devices.size + dest
             if (idx >= connectionTable.size) {
                 break
             }
@@ -78,18 +74,6 @@ public class VisualisationNetwork : ILogger {
         tmp.add(dest)
         return tmp
     }
-    private fun messageToRoutingPathDB(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
-        val tmp = mutableListOf<Int>()
-        var s = src
-        while (s != dest) {
-            tmp.add(s)
-            val idx = s * devicesMaxID + dest
-            s = connectionTableDB[idx]
-        }
-        tmp.add(dest)
-        return tmp
-    }
-
     private fun toBaseImageStyle(): ImageHelper {
         val imageHelperBase = ImageHelper()
         imageHelperBase.createClass(
@@ -242,11 +226,6 @@ public class VisualisationNetwork : ILogger {
             imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
             imageHelperBase.addText(layerName, device.xnew, device.ynew, device.id.toString(), mutableListOf())
         }
-        for (connection in connections) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnection, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connection"))
-        }
         for (connection in connectionsInRouting) {
             val a = getDeviceById(connection.source)
             val b = getDeviceById(connection.destination)
@@ -327,11 +306,6 @@ public class VisualisationNetwork : ILogger {
             }
             imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
             imageHelperBase.addText(layerName, device.xnew, device.ynew - deviceRadius * 1.5, device.id.toString(), mutableListOf())
-        }
-        for (connection in connectionsInRoutingDB) {
-            val a = getDeviceById(connection.source)
-            val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
         }
         return imageHelperBase
     }
@@ -518,20 +492,18 @@ public class VisualisationNetwork : ILogger {
         addDevice(d)
     }
     private fun addDevice(device: VisualisationDevice) {
-        if (device.id> devicesMaxID) {
-            devicesMaxID = device.id
-        }
         devices.add(device)
     }
 
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
         if (src != dest) {
-            val idx = src * devicesMaxID + dest
-            val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:530"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:531"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:532"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:533"/*SOURCE_FILE_END*/ }, { src != hop })
+            val idx = src * simRun.config.devices.size + dest
+            val size = simRun.config.devices.size * simRun.config.devices.size
+            println("$src $dest $hop ${simRun.config.devices.size} $size")
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:502"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:503"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:504"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:505"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -539,24 +511,6 @@ public class VisualisationNetwork : ILogger {
             connectionsInRouting.add(VisualisationConnection(src, hop))
         }
     }
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
-        if (src != dest && src != hop) {
-            val idx = src * devicesMaxID + dest
-            val size = devicesMaxID * devicesMaxID
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:545"/*SOURCE_FILE_END*/ }, { devicesMaxID> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:546"/*SOURCE_FILE_END*/ }, { devicesMaxID> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:547"/*SOURCE_FILE_END*/ }, { devicesMaxID> hop })
-            if (connectionTableDB.size <size) {
-                connectionTableDB = IntArray(size) { -1 }
-            }
-            connectionTableDB[idx] = hop
-            connectionsInRoutingDB.add(VisualisationConnection(src, hop))
-        }
-    }
-    public fun addConnection(connection: VisualisationConnection) {
-        connections.add(connection)
-    }
-
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
         val clock = simRun.sim.clock
         when (pck) {
@@ -614,7 +568,7 @@ public class VisualisationNetwork : ILogger {
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
         fullOperatorGraph[queryId] = operatorGraph
     }
-    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${connections.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
+    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
     override fun onStartSimulation() {
     }
     override fun onStopSimulation() {

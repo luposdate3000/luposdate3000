@@ -144,7 +144,6 @@ public class LoggerMeasure : ILogger {
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) { }
 
     override fun onStartSimulation() { // phase 1
         startSimulationTimeStamp = Clock.System.now()

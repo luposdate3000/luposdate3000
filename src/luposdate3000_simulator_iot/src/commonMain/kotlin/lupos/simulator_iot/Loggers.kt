@@ -58,11 +58,6 @@ public class Loggers public constructor(public val loggers: MutableList<ILogger>
             logger.addConnectionTable(src, dest, hop)
         }
     }
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {
-        for (logger in loggers) {
-            logger.addConnectionTableDB(src, dest, hop)
-        }
-    }
     override fun onStartUp() {
         for (logger in loggers) {
             logger.onStartUp()

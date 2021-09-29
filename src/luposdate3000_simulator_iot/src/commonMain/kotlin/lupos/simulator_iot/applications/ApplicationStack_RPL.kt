@@ -237,10 +237,6 @@ public class ApplicationStack_RPL(
                 if (hop != -1) {
                     logger.addConnectionTable(parent.address, dest, hop)
                 }
-                val dbhop = getNextFeatureHops(intArrayOf(dest), 0)[0]
-                if (dbhop != -1) {
-                    logger.addConnectionTableDB(parent.address, dest, dbhop)
-                }
             } catch (e: Throwable) {
             }
         }

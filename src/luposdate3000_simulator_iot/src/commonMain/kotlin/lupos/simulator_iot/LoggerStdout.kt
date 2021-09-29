@@ -29,7 +29,6 @@ public class LoggerStdout : ILogger {
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) { println("${simRun.sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut") }
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) { println("${simRun.sim.clock} addOperatorGraph $queryId $operatorGraph") }
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
-    override fun addConnectionTableDB(src: Int, dest: Int, hop: Int) {}
     override fun onStartUp() { println("${simRun.sim.clock} onStartUp") }
     override fun onShutDown() { println("${simRun.sim.clock} onShutDown") }
     override fun onSteadyState() { println("${simRun.sim.clock} onSteadyState") }

@@ -153,6 +153,10 @@ internal class ApplicationStack_RPL_Fast(
                 }
             }
         }
+        for (dest in 0 until config.devices.size) {
+            val hop = routingTable[dest]
+            logger.addConnectionTable(parent.address, dest, hop)
+        }
     }
 
     override fun startUp() {
@@ -172,7 +176,7 @@ internal class ApplicationStack_RPL_Fast(
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:174"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:178"/*SOURCE_FILE_END*/ },
                         { delay> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + delay) {
