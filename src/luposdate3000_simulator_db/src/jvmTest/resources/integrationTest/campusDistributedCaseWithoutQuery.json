@@ -494,6 +494,7 @@
         },
     },
     "outputDirectory": "",
+    "randomCircle": [],
     "randomMeshNetwork": [
         {
             "deviceType": "Mesh Hop",

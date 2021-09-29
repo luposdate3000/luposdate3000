@@ -28,12 +28,12 @@ internal object Stubs {
 
     internal fun createEmptyDevice(address: Int, simRun: SimulationRun = SimulationRun()): Device {
         val loc = GeoLocation.getRandom(simRun.randGenerator.random)
-        return Device(simRun, loc, address, 100.0, LinkManager(intArrayOf()), -1, true, createRouter(simRun), mutableMapOf())
+        return Device(simRun, loc, address, 100.0, LinkManager(intArrayOf()), true, createRouter(simRun), mutableMapOf())
     }
 
     internal fun createEmptyDevice(address: Int, linkTypes: IntArray, simRun: SimulationRun = SimulationRun()): Device {
         val loc = GeoLocation.getRandom(simRun.randGenerator.random)
-        return Device(simRun, loc, address, 100.0, LinkManager(linkTypes), -1, true, createRouter(simRun), mutableMapOf())
+        return Device(simRun, loc, address, 100.0, LinkManager(linkTypes), true, createRouter(simRun), mutableMapOf())
     }
     private fun createRouter(simRun: SimulationRun): ApplicationStack_RPL {
         return ApplicationStack_RPL(

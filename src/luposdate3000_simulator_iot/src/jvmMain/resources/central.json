@@ -3,77 +3,9 @@
         "Central Tower": {
             "applications": {
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
                     "enabled": true,
-                },
-            },
-        },
-        "Sensor Device WSN 1": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 10": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 2": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 3": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 4": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 5": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 6": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 7": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 8": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
-                },
-            },
-        },
-        "Sensor Device WSN 9": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Fog",
                 },
             },
         },

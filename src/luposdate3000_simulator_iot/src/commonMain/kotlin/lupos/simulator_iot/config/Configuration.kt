@@ -353,9 +353,15 @@ public class Configuration(private val simRun: SimulationRun) {
         return devices[address]
     }
     private fun createRandomCircle(json: JsonParserObject) {
-        val density = json.getOrDefault("density", 0.01) // space per device
         val radius = json.getOrDefault("radius", 0.1)
-        val count = (2 * PI * radius * radius / density).toInt() + 1
+        val count = when (json.getOrDefault("mode", "count")) {
+            "count" -> json.getOrDefault("count", 1)
+            "density" -> {
+                val density = json.getOrDefault("density", 0.01) // space per device
+                (2 * PI * radius * radius / density).toInt() + 1
+            }
+            else -> TODO()
+        }
         val posLat = json.getOrDefault("latitude", 0.0)
         val posLong = json.getOrDefault("longitude", 0.0)
         val deviceTypeName = json.getOrDefault("deviceType", "")

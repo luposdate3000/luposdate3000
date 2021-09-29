@@ -101,6 +101,7 @@
         },
     },
     "outputDirectory": "",
+    "randomCircle": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [
         {

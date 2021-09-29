@@ -62,6 +62,7 @@
         },
     },
     "outputDirectory": "",
+    "randomCircle": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
     "rootRouter": "A",

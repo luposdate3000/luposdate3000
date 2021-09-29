@@ -310,7 +310,6 @@
     ],
     "randomStarNetwork": [
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 1",
             "linkType": "WPAN",
             "networkPrefix": "WSN 1",
@@ -318,7 +317,6 @@
             "starRoot": "Root WSN 1",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 2",
             "linkType": "WPAN",
             "networkPrefix": "WSN 2",
@@ -326,7 +324,6 @@
             "starRoot": "Root WSN 2",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 3",
             "linkType": "WPAN",
             "networkPrefix": "WSN 3",
@@ -334,7 +331,6 @@
             "starRoot": "Root WSN 3",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 4",
             "linkType": "WPAN",
             "networkPrefix": "WSN 4",
@@ -342,7 +338,6 @@
             "starRoot": "Root WSN 4",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 5",
             "linkType": "WPAN",
             "networkPrefix": "WSN 5",
@@ -350,7 +345,6 @@
             "starRoot": "Root WSN 5",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 6",
             "linkType": "WPAN",
             "networkPrefix": "WSN 6",
@@ -358,7 +352,6 @@
             "starRoot": "Root WSN 6",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 7",
             "linkType": "WPAN",
             "networkPrefix": "WSN 7",
@@ -366,7 +359,6 @@
             "starRoot": "Root WSN 7",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 8",
             "linkType": "WPAN",
             "networkPrefix": "WSN 8",
@@ -374,7 +366,6 @@
             "starRoot": "Root WSN 8",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 9",
             "linkType": "WPAN",
             "networkPrefix": "WSN 9",
@@ -382,7 +373,6 @@
             "starRoot": "Root WSN 9",
         },
         {
-            "dataSink": "",
             "deviceType": "Sensor Device WSN 10",
             "linkType": "WPAN",
             "networkPrefix": "WSN 10",

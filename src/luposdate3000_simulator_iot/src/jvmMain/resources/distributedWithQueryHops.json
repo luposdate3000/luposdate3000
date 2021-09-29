@@ -3,76 +3,17 @@
         "Central Tower": {
             "applications": {
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
                     "enabled": true,
                 },
             },
         },
-        "Edge Gateway WSN 1": {
+        "Database Device": {
             "applications": {
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 10": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 2": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 3": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 4": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 5": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 6": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 7": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 8": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "enabled": true,
-                },
-            },
-        },
-        "Edge Gateway WSN 9": {
-            "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
                     "enabled": true,
                 },
             },
@@ -83,76 +24,6 @@
                     "databaseQuery": true,
                     "databaseStore": false,
                     "enabled": true,
-                },
-            },
-        },
-        "Sensor Device WSN 1": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 1",
-                },
-            },
-        },
-        "Sensor Device WSN 10": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 10",
-                },
-            },
-        },
-        "Sensor Device WSN 2": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 2",
-                },
-            },
-        },
-        "Sensor Device WSN 3": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 3",
-                },
-            },
-        },
-        "Sensor Device WSN 4": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 4",
-                },
-            },
-        },
-        "Sensor Device WSN 5": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 5",
-                },
-            },
-        },
-        "Sensor Device WSN 6": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 6",
-                },
-            },
-        },
-        "Sensor Device WSN 7": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 7",
-                },
-            },
-        },
-        "Sensor Device WSN 8": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 8",
-                },
-            },
-        },
-        "Sensor Device WSN 9": {
-            "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
-                    "dataSink": "Root WSN 9",
                 },
             },
         },
