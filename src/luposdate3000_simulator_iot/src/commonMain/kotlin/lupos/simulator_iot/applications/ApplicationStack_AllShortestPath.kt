@@ -165,16 +165,15 @@ internal class ApplicationStack_AllShortestPath(
         while (queue.size > 0) {
             val a = queue.removeAt(0)
             for (b in a.linkManager.getNeighbours().map { config.devices[it] }) {
-//                    val distance2 = a.location.getDistanceInMeters(b.location)
-//                    val distance = distance2 * distance2 // use the square to prefer many smaller distances over a few huge distances
-                val distance = a.linkManager.getTransmissionDelay(b.address, 1024) // delay for sending 1kb
+                val distance2 = a.location.getDistanceInMeters(b.location)
+                val distance = distance2 * distance2 // use the square to prefer many smaller distances over a few huge distances
                 val p = if (globalParentCosts[a.address] < globalParentCosts[b.address]) {
                     a to b
                 } else {
                     b to a
                 }
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:176"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_AllShortestPath.kt:175"/*SOURCE_FILE_END*/ },
                     { distance > 0 },
                 )
                 if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + distance) {
