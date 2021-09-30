@@ -431,7 +431,7 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         val packages = mutableMapOf<Int, Package_Luposdate3000_Operatorgraph>()
-        for (i in (allHostAdresses.toSet() + nextHops.toSet()).toSet()) {
+        for (i in nextHops.toSet()) {
             packages[i] = Package_Luposdate3000_Operatorgraph(
                 pck.queryID,
                 mutableMapOf(),
@@ -518,7 +518,9 @@ public class Application_Luposdate3000 public constructor(
         for ((k, v) in packageMap) {
             val p = packages[v]
             val g = pck.operatorGraph[k]
-            if (p != null && g != null) { // p can be null if there is a send-multi
+            if (p != null && g != null) { 
+// p must not be null - otherwise packages are not sent and therefore lost
+// g may be null for sendmulti???
                 p.operatorGraph[k] = g
                 val h = pck.operatorGraphPartsToHostMap[k]
                 if (h != null) {
@@ -532,6 +534,8 @@ public class Application_Luposdate3000 public constructor(
                         p.destinations[i] = ownAdress
                     }
                 }
+            } else if (p == null) {
+                TODO()
             }
         }
         // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
@@ -814,7 +818,7 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:816"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:818"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
