@@ -1,0 +1,43 @@
+{
+    "deterministic": true,
+    "deviceType": {
+        "Fog": {
+            "applications": {
+                "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Tower1": {
+            "deviceType": "Fog",
+            "latitude": 53.83671457538109,
+            "longitude": 10.697678009507923,
+        },
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 20,
+        },
+    },
+    "randomMeshNetwork": [
+        {
+            "deviceType": "Fog",
+            "linkType": "WPAN",
+            "networkPrefix": "meshA",
+            "originLatitude": 53.83671457538109,
+            "originLongitude": 10.697678009507923,
+            "signalCoverageEast": 200,
+            "signalCoverageSouth": 300,
+        },
+    ],
+    "randomStarNetwork": [],
+    "rootRouter": "Tower1",
+}
