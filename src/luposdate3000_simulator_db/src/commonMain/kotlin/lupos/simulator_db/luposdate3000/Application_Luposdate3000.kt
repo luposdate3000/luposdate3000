@@ -518,7 +518,7 @@ public class Application_Luposdate3000 public constructor(
         for ((k, v) in packageMap) {
             val p = packages[v]
             val g = pck.operatorGraph[k]
-            if (p != null && g != null) { 
+            if (p != null && g != null) {
 // p must not be null - otherwise packages are not sent and therefore lost
 // g may be null for sendmulti???
                 p.operatorGraph[k] = g
@@ -818,7 +818,7 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:818"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:820"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")

@@ -56,8 +56,6 @@ public class Configuration(private val simRun: SimulationRun) {
     public var devices: MutableList<Device> = mutableListOf()
     private var namedAddresses: MutableMap<String, Int> = mutableMapOf()
     public var outputDirectory: String = defaultOutputDirectory
-    public var jsonObjects: JsonObjects = JsonObjects()
-        private set
     public var json: JsonParserObject? = null
 
     private var rootRouterAddress: Int = -1
@@ -119,7 +117,6 @@ public class Configuration(private val simRun: SimulationRun) {
 
     internal fun parse(json: JsonParserObject, fileName: String, autocorrect: Boolean = true) {
         this.json = json
-        jsonObjects = JsonObjects(json)
         outputDirectory = json.getOrDefault("outputDirectory", defaultOutputDirectory) + "/"
         if (outputDirectory == "") {
             outputDirectory = defaultOutputDirectory
@@ -153,7 +150,7 @@ public class Configuration(private val simRun: SimulationRun) {
             val location = GeoLocation(fixedDevice.getOrDefault("latitude", 0.0), fixedDevice.getOrDefault("longitude", 0.0))
             val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), location, fixedDevice)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:155"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:152"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -177,12 +174,6 @@ public class Configuration(private val simRun: SimulationRun) {
             circle as JsonParserObject
             createRandomCircle(circle)
         }
-        for (network in jsonObjects.randomMeshNetwork) {
-            createRandomMeshNetwork(network)
-        }
-        for (network in jsonObjects.randomStarNetwork) {
-            createRandomStarNetwork(network)
-        }
 // assign all dynamic links --->>>
         linker.createAvailableLinks(devices)
 // assign all dynamic links <<<---
@@ -205,46 +196,10 @@ public class Configuration(private val simRun: SimulationRun) {
         return entities
     }
 
-    private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
-        val origin = createMeshOriginDevice(network)
-        val linkType = linker.getLinkByName(network.linkType)
-        var column = createSouthernDevices(origin, linkType, network, network.deviceType)
-        var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
-        var predecessor = origin
-        while (restCoverageEast > 0) {
-            val distance = getRandomDistance(linkType.rangeInMeters)
-            val location = GeoLocation.createEasternLocation(predecessor.location, distance)
-            predecessor = createDevice(network.deviceType, location, null)
-            column = createSouthernDevices(predecessor, linkType, network, network.deviceType)
-            restCoverageEast -= distance
-        }
-    }
-
-    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceTypeName: String): MutableList<Device> {
-        val column = mutableListOf<Device>()
-        var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
-        column.add(origin)
-        var predecessor = origin
-        while (restCoverageSouth > 0) {
-            val distance = getRandomDistance(linkType.rangeInMeters)
-            val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
-            predecessor = createDevice(deviceTypeName, location, null)
-            column.add(predecessor)
-            restCoverageSouth -= distance
-        }
-
-        return column
-    }
-
     private fun getRandomDistance(maxDistance: Int): Int {
         val density = 0.7
         val percentage = round(maxDistance * density).toInt()
         return simRun.randGenerator.getInt(percentage, maxDistance)
-    }
-
-    private fun createMeshOriginDevice(network: RandomMeshNetwork): Device {
-        val location = GeoLocation(network.originLatitude, network.originLongitude)
-        return createDevice(network.deviceType, location, null)
     }
 
     public fun getDeviceByName(name: String): Device {
@@ -253,17 +208,6 @@ public class Configuration(private val simRun: SimulationRun) {
     }
 
     public fun getRootDevice(): Device = devices[rootRouterAddress]
-
-    private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val root = getDeviceByName(network.starRoot)
-        val linkType = linker.getLinkByName(network.linkType)
-        for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters, simRun.randGenerator.random)
-            val leaf = createDevice(network.deviceType, location, null)
-            linker.linkIfPossible(root, leaf)
-            leaf.isStarNetworkChild = true
-        }
-    }
 
     private fun createDevice(deviceTypeName: String, location: GeoLocation, jsonFixed: JsonParserObject?): Device {
         val ownAddress = devices.size
@@ -325,7 +269,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(deviceType.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:327"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:271"/*SOURCE_FILE_END*/ },
             { deviceType.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
