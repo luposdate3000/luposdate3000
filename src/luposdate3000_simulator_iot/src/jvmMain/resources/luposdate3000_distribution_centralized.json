@@ -1,7 +1,0 @@
-{
-    "applications": {
-        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-            "queryDistributionMode": "Centralized",
-        },
-    },
-}
