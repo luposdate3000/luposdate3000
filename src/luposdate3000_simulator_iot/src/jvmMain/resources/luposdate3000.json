@@ -1,0 +1,13 @@
+{
+    "applications": {
+        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+            "REPLACE_STORE_WITH_VALUES": false,
+            "SharedMemoryDictionaryCheat": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "enabled": false,
+            "mergeLocalOperatorgraphs": true,
+            "useDictionaryInlineEncoding": true,
+        },
+    },
+}

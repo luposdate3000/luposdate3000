@@ -1,0 +1,100 @@
+{
+    "applications": {
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
+                    "enabled": true,
+                    "fileName": "src/luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
+                    "sendStartClockInSec": 10,
+                },
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {},
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {},
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "area": 1,
+                    "maxSamples": 10,
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+        },
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 200,
+        },
+        "WPAN": {
+            "dataRateInKbps": 250,
+            "rangeInMeters": 30,
+        },
+    },
+    "randomCircle": [
+        {
+            "density": 2.0E-6,
+            "deviceType": "Mesh Hop",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "mode": "density",
+            "radius": 0.005,
+        },
+        {
+            "count": 100,
+            "deviceType": "Sensor Device",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "mode": "count",
+            "radius": 0.005,
+        },
+        {
+            "count": 10,
+            "deviceType": "Database Device",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "mode": "count",
+            "radius": 0.005,
+        },
+    ],
+    "rootRouter": "Fog",
+}

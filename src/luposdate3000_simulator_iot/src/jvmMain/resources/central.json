@@ -1,0 +1,13 @@
+{
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+            },
+        },
+    },
+}

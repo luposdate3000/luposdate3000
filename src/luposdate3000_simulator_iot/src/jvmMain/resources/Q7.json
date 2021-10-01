@@ -1,0 +1,16 @@
+{
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_QuerySender": [
+                    {
+                        "maxNumberOfQueries": 1,
+                        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nSELECT ?area ?spot ?isOccupied ?lastObservedAt\nWHERE {\n  ?o a parking:Observation;\n  parking:area ?area;\n  parking:spotInArea ?spot;\n  parking:isOccupied ?isOccupied;\n  parking:resultTime ?lastObservedAt.\n  {\n    SELECT(MAX(?d) AS ?lastObservedAt) ?area ?spot WHERE{\n      ?o2 a parking:Observation;\n      parking:area ?area;\n      parking:spotInArea ?spot;\n      parking:resultTime ?d.\n      FILTER (?area IN (9, 8, 2))\n    }\n    GROUP BY ?area ?spot\n  }\n}",
+                        "sendRateInSeconds": 1,
+                        "sendStartClockInSec": 9000,
+                    },
+                ],
+            },
+        },
+    },
+}
