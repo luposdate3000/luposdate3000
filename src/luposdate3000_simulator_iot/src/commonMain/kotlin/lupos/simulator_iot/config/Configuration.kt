@@ -154,9 +154,13 @@ public class Configuration(private val simRun: SimulationRun) {
 // load all link types <<<---
         for ((name, fixedDevice) in json.getOrEmptyObject("fixedDevice")) {
             fixedDevice as JsonParserObject
-            val created = createDevice(fixedDevice.getOrDefault("deviceType", ""), fixedDevice)
+            val created = createDevice(
+                fixedDevice.getOrDefault("deviceType", ""),
+                fixedDevice,
+                JsonParserObject(mutableMapOf()),
+            )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:158"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:162"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -176,7 +180,12 @@ public class Configuration(private val simRun: SimulationRun) {
             linker.link(a, b, l.getOrDefault("dataRateInKbps", 0))
         }
 // assign all static links <<<---
-        createPattern(json.getOrEmptyArray("patterns"))
+        createPattern(
+            json.getOrEmptyArray("patterns"),
+            null,
+            JsonParserObject(mutableMapOf()),
+            null,
+        )
 // assign all dynamic links --->>>
         linker.createAvailableLinks(devices)
 // assign all dynamic links <<<---
@@ -212,7 +221,7 @@ public class Configuration(private val simRun: SimulationRun) {
 
     public fun getRootDevice(): Device = devices[rootRouterAddress]
 
-    private fun createDevice(deviceTypeName: String, jsonDeviceParam: JsonParserObject, valuesPassThrough: JsonParserObject = JsonParserObject(mutableMapOf())): Device {
+    private fun createDevice(deviceTypeName: String, jsonDeviceParam: JsonParserObject, valuesPassThrough: JsonParserObject): Device {
         val ownAddress = devices.size
 // device json-->>
         val deviceTypes2 = json!!.getOrEmptyObject("deviceType")
@@ -278,7 +287,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:280"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:289"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -294,7 +303,7 @@ public class Configuration(private val simRun: SimulationRun) {
         )
         devices.add(device)
         simRun.logger.addDevice(ownAddress, location.longitude, location.latitude)
-        createPattern(jsonDevice.getOrEmptyArray("patterns"), location, valuesPassThrough)
+        createPattern(jsonDevice.getOrEmptyArray("patterns"), location, valuesPassThrough, device)
         return device
     }
 
@@ -306,9 +315,24 @@ public class Configuration(private val simRun: SimulationRun) {
         return devices[address]
     }
 
-    private fun createPattern(patterns: JsonParserArray, location: GeoLocation? = null, valuesPassThrough: JsonParserObject = JsonParserObject(mutableMapOf())) {
+    private fun createPattern(
+        patterns: JsonParserArray,
+        location: GeoLocation?,
+        valuesPassThrough: JsonParserObject,
+        parent: Device?
+    ) {
         for (rand in patterns) {
             rand as JsonParserObject
+            val posLong = if (location != null) {
+                location.longitude
+            } else {
+                rand.getOrDefault("longitude", 0.0)
+            }
+            val posLat = if (location != null) {
+                location.latitude
+            } else {
+                rand.getOrDefault("latitude", 0.0)
+            }
             val type = rand.getOrDefault("type", "random_fill")
             when (type) {
                 "random_fill" -> {
@@ -320,16 +344,6 @@ public class Configuration(private val simRun: SimulationRun) {
                             (2 * PI * radius * radius / density).toInt() + 1
                         }
                         else -> TODO()
-                    }
-                    val posLong = if (location != null) {
-                        location.longitude
-                    } else {
-                        rand.getOrDefault("longitude", 0.0)
-                    }
-                    val posLat = if (location != null) {
-                        location.latitude
-                    } else {
-                        rand.getOrDefault("latitude", 0.0)
                     }
                     val deviceTypeName = rand.getOrDefault("deviceType", "")
                     for (i in 0 until count) {
@@ -347,19 +361,9 @@ public class Configuration(private val simRun: SimulationRun) {
                 "ring" -> {
                     val radius = rand.getOrDefault("radius", 0.1)
                     val count = rand.getOrDefault("count", 1)
-                    val posLong = if (location != null) {
-                        location.longitude
-                    } else {
-                        rand.getOrDefault("longitude", 0.0)
-                    }
-                    val posLat = if (location != null) {
-                        location.latitude
-                    } else {
-                        rand.getOrDefault("latitude", 0.0)
-                    }
                     val deviceTypeName = rand.getOrDefault("deviceType", "")
-                    var firstDevice: Device? = null
-                    var lastDevice: Device? = null
+                    var firstDevice: Device? = parent
+                    var lastDevice: Device? = parent
                     for (i in 0 until count) {
                         val alpha = 2 * PI * i.toDouble() / count.toDouble()
                         rand["latitude"] = posLat + sin(alpha) * radius
@@ -382,18 +386,11 @@ public class Configuration(private val simRun: SimulationRun) {
                 "star" -> {
                     val radius = rand.getOrDefault("radius", 0.1)
                     val count = rand.getOrDefault("count", 1)
-                    val posLong = if (location != null) {
-                        location.longitude
-                    } else {
-                        rand.getOrDefault("longitude", 0.0)
-                    }
-                    val posLat = if (location != null) {
-                        location.latitude
-                    } else {
-                        rand.getOrDefault("latitude", 0.0)
-                    }
                     val deviceTypeName = rand.getOrDefault("deviceType", "")
                     var localDevices = mutableListOf<Device>()
+                    if (parent != null) {
+                        localDevices.add(parent)
+                    }
                     for (i in 0 until count) {
                         val alpha = 2 * PI * i.toDouble() / count.toDouble()
                         rand["latitude"] = posLat + sin(alpha) * radius

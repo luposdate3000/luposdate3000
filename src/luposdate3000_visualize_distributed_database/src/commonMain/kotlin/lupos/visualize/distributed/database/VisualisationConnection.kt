@@ -16,8 +16,21 @@
  */
 package lupos.visualize.distributed.database
 
-public class VisualisationConnection(public val source: Int, public val destination: Int) {
+public class VisualisationConnection(
+    src: Int,
+    dest: Int
+) {
+    public val source: Int
+    public val destination: Int
+    init {
+        if (src <dest) {
+            source = src
+            destination = dest
+        } else {
+            source = dest
+            destination = src
+        }
+    }
     override fun equals(other: Any?): Boolean = other is VisualisationConnection && source == other.source && destination == other.destination
-    override fun hashCode(): Int = source - destination
-    override fun toString(): String = "VisualisationConnection($source -> $destination)"
+    override fun hashCode(): Int = destination - source
 }

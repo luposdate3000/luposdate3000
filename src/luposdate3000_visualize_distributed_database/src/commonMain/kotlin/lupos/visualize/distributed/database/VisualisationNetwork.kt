@@ -38,6 +38,7 @@ public class VisualisationNetwork : ILogger {
     private val skipQueriesWithLessPartsThan = 1
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
+    private val connections = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
     private var connectionTable = IntArray(0) // src*simRun.config.devices.size+dest -> nexthop
     private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
@@ -226,10 +227,15 @@ public class VisualisationNetwork : ILogger {
             imageHelperBase.addCircle(layer, device.xnew, device.ynew, deviceRadius, classes)
             imageHelperBase.addText(layerName, device.xnew, device.ynew, device.id.toString(), mutableListOf())
         }
+        for (connection in connections) {
+            val a = getDeviceById(connection.source)
+            val b = getDeviceById(connection.destination)
+            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connection"))
+        }
         for (connection in connectionsInRouting) {
             val a = getDeviceById(connection.source)
             val b = getDeviceById(connection.destination)
-            imageHelperBase.addLine(layerConnectionInRouting, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
+            imageHelperBase.addLine(layerConnection, a.xnew, a.ynew, b.xnew, b.ynew, listOf("connectionInRouting"))
         }
         return imageHelperBase
     }
@@ -499,10 +505,10 @@ public class VisualisationNetwork : ILogger {
         if (src != dest) {
             val idx = src * simRun.config.devices.size + dest
             val size = simRun.config.devices.size * simRun.config.devices.size
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:501"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:502"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:503"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:504"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:507"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:508"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:509"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:510"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size <size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -571,6 +577,12 @@ public class VisualisationNetwork : ILogger {
     override fun onStartSimulation() {
     }
     override fun onStopSimulation() {
+        for (device in simRun.config.devices) {
+            val src = device.address
+            for (dest in device.linkManager.getNeighbours()) {
+                connections.add(VisualisationConnection(src, dest))
+            }
+        }
         toImage()
     }
     override fun onStartUp() { }

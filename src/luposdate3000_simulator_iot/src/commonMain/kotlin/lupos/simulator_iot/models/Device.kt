@@ -31,7 +31,7 @@ public class Device(
     internal var location: GeoLocation,
     public val address: Int,
     internal val performance: Double,
-    internal val linkManager: LinkManager,
+    public val linkManager: LinkManager,
     internal val isDeterministic: Boolean,
     public val applicationStack: IApplicationStack_Rooter,
     internal val hostNameLookUpTable: MutableMap<String, Int>,

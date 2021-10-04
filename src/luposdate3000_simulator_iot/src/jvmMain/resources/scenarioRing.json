@@ -1,0 +1,64 @@
+{
+ "deviceType": {
+        "Central Tower": {
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+    "patterns": [
+        {
+"type":"ring",
+            "count": 15,
+            "deviceType": "Database Device",
+            "mode": "count",
+            "provideCounterAs": "area",
+            "radius": 0.005,
+            "patterns": [
+                {
+"type":"random_fill",
+                    "count": 10,
+                    "deviceType": "Sensor Device",
+                    "mode": "count",
+                    "radius": 5.0E-4,
+                },
+            ],
+        },
+    ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 200,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 200,
+        },
+    },
+    "rootRouter": "Fog",
+}

@@ -37,5 +37,5 @@ public class LinkManager(
 
     internal fun hasLink(otherDevice: Device): Boolean = getLink(otherDevice) != null
 
-    internal fun getNeighbours(): MutableSet<Int> = links.keys
+    public fun getNeighbours(): MutableSet<Int> = links.keys
 }
