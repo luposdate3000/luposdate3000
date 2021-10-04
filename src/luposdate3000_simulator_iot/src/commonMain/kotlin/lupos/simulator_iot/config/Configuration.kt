@@ -344,6 +344,74 @@ public class Configuration(private val simRun: SimulationRun) {
                         createDevice(deviceTypeName, rand, values)
                     }
                 }
+                "ring" -> {
+                    val radius = rand.getOrDefault("radius", 0.1)
+                    val count = rand.getOrDefault("count", 1)
+                    val posLong = if (location != null) {
+                        location.longitude
+                    } else {
+                        rand.getOrDefault("longitude", 0.0)
+                    }
+                    val posLat = if (location != null) {
+                        location.latitude
+                    } else {
+                        rand.getOrDefault("latitude", 0.0)
+                    }
+                    val deviceTypeName = rand.getOrDefault("deviceType", "")
+                    var firstDevice: Device? = null
+                    var lastDevice: Device? = null
+                    for (i in 0 until count) {
+                        val alpha = 2 * PI * i.toDouble() / count.toDouble()
+                        rand["latitude"] = posLat + sin(alpha) * radius
+                        rand["longitude"] = posLong + cos(alpha) * radius
+                        val name = rand.getOrDefault("provideCounterAs", "")
+                        val values = valuesPassThrough.cloneJson()
+                        if (name != "") {
+                            values[name] = i
+                        }
+                        val d = createDevice(deviceTypeName, rand, values)
+                        if (firstDevice == null) {
+                            firstDevice = d
+                        } else {
+                            linker.link(d, lastDevice!!, rand.getOrDefault("dataRateInKbps", 1000))
+                        }
+                        lastDevice = d
+                    }
+                    linker.link(firstDevice!!, lastDevice!!, rand.getOrDefault("dataRateInKbps", 1000))
+                }
+                "star" -> {
+                    val radius = rand.getOrDefault("radius", 0.1)
+                    val count = rand.getOrDefault("count", 1)
+                    val posLong = if (location != null) {
+                        location.longitude
+                    } else {
+                        rand.getOrDefault("longitude", 0.0)
+                    }
+                    val posLat = if (location != null) {
+                        location.latitude
+                    } else {
+                        rand.getOrDefault("latitude", 0.0)
+                    }
+                    val deviceTypeName = rand.getOrDefault("deviceType", "")
+                    var localDevices = mutableListOf<Device>()
+                    for (i in 0 until count) {
+                        val alpha = 2 * PI * i.toDouble() / count.toDouble()
+                        rand["latitude"] = posLat + sin(alpha) * radius
+                        rand["longitude"] = posLong + cos(alpha) * radius
+                        val name = rand.getOrDefault("provideCounterAs", "")
+                        val values = valuesPassThrough.cloneJson()
+                        if (name != "") {
+                            values[name] = i
+                        }
+                        val d = createDevice(deviceTypeName, rand, values)
+                        localDevices.add(d)
+                    }
+                    for (i in 0 until count) {
+                        for (j in i + 1 until count) {
+                            linker.link(localDevices[i], localDevices[j], rand.getOrDefault("dataRateInKbps", 1000))
+                        }
+                    }
+                }
             }
         }
     }
