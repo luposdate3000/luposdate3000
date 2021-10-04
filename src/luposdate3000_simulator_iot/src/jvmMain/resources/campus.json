@@ -54,6 +54,32 @@
             "deviceType": "Central Tower",
             "latitude": 53.83759450606049,
             "longitude": 10.702377248379614,
+    "patterns": [
+        {
+"type":"random_fill",
+            "density": 2.0E-6,
+            "deviceType": "Mesh Hop",
+            "mode": "density",
+            "radius": 0.005,
+        },
+        {
+"type":"random_fill",
+            "count": 15,
+            "deviceType": "Database Device",
+            "mode": "count",
+            "provideCounterAs": "area",
+            "radius": 0.005,
+            "patterns": [
+                {
+"type":"random_fill",
+                    "count": 10,
+                    "deviceType": "Sensor Device",
+                    "mode": "count",
+                    "radius": 5.0E-4,
+                },
+            ],
+        },
+    ],
         },
     },
     "linkType": {
@@ -66,32 +92,5 @@
             "rangeInMeters": 200,
         },
     },
-    "randomCircle": [
-        {
-            "density": 2.0E-6,
-            "deviceType": "Mesh Hop",
-            "latitude": 53.83759450606049,
-            "longitude": 10.702377248379614,
-            "mode": "density",
-            "radius": 0.005,
-        },
-        {
-            "count": 15,
-            "deviceType": "Database Device",
-            "latitude": 53.83759450606049,
-            "longitude": 10.702377248379614,
-            "mode": "count",
-            "provideCounterAs": "area",
-            "radius": 0.005,
-            "randomCircle": [
-                {
-                    "count": 10,
-                    "deviceType": "Sensor Device",
-                    "mode": "count",
-                    "radius": 5.0E-4,
-                },
-            ],
-        },
-    ],
     "rootRouter": "Fog",
 }

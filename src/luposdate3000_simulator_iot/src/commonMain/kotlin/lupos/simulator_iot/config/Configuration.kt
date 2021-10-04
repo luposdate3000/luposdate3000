@@ -176,7 +176,7 @@ public class Configuration(private val simRun: SimulationRun) {
             linker.link(a, b, l.getOrDefault("dataRateInKbps", 0))
         }
 // assign all static links <<<---
-        createRandomCircle(json.getOrEmptyArray("randomCircle"))
+        createPattern(json.getOrEmptyArray("patterns"))
 // assign all dynamic links --->>>
         linker.createAvailableLinks(devices)
 // assign all dynamic links <<<---
@@ -212,12 +212,13 @@ public class Configuration(private val simRun: SimulationRun) {
 
     public fun getRootDevice(): Device = devices[rootRouterAddress]
 
-    private fun createDevice(deviceTypeName: String, jsonDeviceParam: JsonParserObject): Device {
+    private fun createDevice(deviceTypeName: String, jsonDeviceParam: JsonParserObject, valuesPassThrough: JsonParserObject = JsonParserObject(mutableMapOf())): Device {
         val ownAddress = devices.size
 // device json-->>
         val deviceTypes2 = json!!.getOrEmptyObject("deviceType")
         val deviceType2 = deviceTypes2.getOrEmptyObject(deviceTypeName)
-        val jsonDevice = deviceType2.cloneJson()
+        val jsonDevice = valuesPassThrough
+        valuesPassThrough.mergeWith(deviceType2.cloneJson())
         jsonDevice.mergeWith(jsonDeviceParam.cloneJson())
 // device json<<--
         val location = GeoLocation(jsonDevice.getOrDefault("latitude", 0.0), jsonDevice.getOrDefault("longitude", 0.0))
@@ -277,7 +278,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:279"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:280"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -293,7 +294,7 @@ public class Configuration(private val simRun: SimulationRun) {
         )
         devices.add(device)
         simRun.logger.addDevice(ownAddress, location.longitude, location.latitude)
-        createRandomCircle(jsonDevice.getOrEmptyArray("randomCircle"), location)
+        createPattern(jsonDevice.getOrEmptyArray("patterns"), location, valuesPassThrough)
         return device
     }
 
@@ -305,38 +306,44 @@ public class Configuration(private val simRun: SimulationRun) {
         return devices[address]
     }
 
-    private fun createRandomCircle(circles: JsonParserArray, location: GeoLocation? = null) {
-        for (circle in circles) {
-            circle as JsonParserObject
-            val radius = circle.getOrDefault("radius", 0.1)
-            val count = when (circle.getOrDefault("mode", "count")) {
-                "count" -> circle.getOrDefault("count", 1)
-                "density" -> {
-                    val density = circle.getOrDefault("density", 0.01) // space per device
-                    (2 * PI * radius * radius / density).toInt() + 1
+    private fun createPattern(patterns: JsonParserArray, location: GeoLocation? = null, valuesPassThrough: JsonParserObject = JsonParserObject(mutableMapOf())) {
+        for (rand in patterns) {
+            rand as JsonParserObject
+            val type = rand.getOrDefault("type", "random_fill")
+            when (type) {
+                "random_fill" -> {
+                    val radius = rand.getOrDefault("radius", 0.1)
+                    val count = when (rand.getOrDefault("mode", "count")) {
+                        "count" -> rand.getOrDefault("count", 1)
+                        "density" -> {
+                            val density = rand.getOrDefault("density", 0.01) // space per device
+                            (2 * PI * radius * radius / density).toInt() + 1
+                        }
+                        else -> TODO()
+                    }
+                    val posLong = if (location != null) {
+                        location.longitude
+                    } else {
+                        rand.getOrDefault("longitude", 0.0)
+                    }
+                    val posLat = if (location != null) {
+                        location.latitude
+                    } else {
+                        rand.getOrDefault("latitude", 0.0)
+                    }
+                    val deviceTypeName = rand.getOrDefault("deviceType", "")
+                    for (i in 0 until count) {
+                        val p = randomCoords(radius)
+                        rand["latitude"] = posLat + p.first
+                        rand["longitude"] = posLong + p.second
+                        val name = rand.getOrDefault("provideCounterAs", "")
+                        val values = valuesPassThrough.cloneJson()
+                        if (name != "") {
+                            values[name] = i
+                        }
+                        createDevice(deviceTypeName, rand, values)
+                    }
                 }
-                else -> TODO()
-            }
-            val posLong = if (location != null) {
-                location.longitude
-            } else {
-                circle.getOrDefault("longitude", 0.0)
-            }
-            val posLat = if (location != null) {
-                location.latitude
-            } else {
-                circle.getOrDefault("latitude", 0.0)
-            }
-            val deviceTypeName = circle.getOrDefault("deviceType", "")
-            for (i in 0 until count) {
-                val p = randomCoords(radius)
-                circle["latitude"] = posLat + p.first
-                circle["longitude"] = posLong + p.second
-                val name = circle.getOrDefault("provideCounterAs", "")
-                if (name != "") {
-                    circle[name] = i
-                }
-                createDevice(deviceTypeName, circle)
             }
         }
     }
