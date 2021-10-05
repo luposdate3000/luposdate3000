@@ -226,7 +226,7 @@ public class Configuration(private val simRun: SimulationRun) {
 // device json-->>
         val deviceTypes2 = json!!.getOrEmptyObject("deviceType")
         val deviceType2 = deviceTypes2.getOrEmptyObject(deviceTypeName)
-        val jsonDevice = valuesPassThrough
+        val jsonDevice = valuesPassThrough.cloneJson()
         valuesPassThrough.mergeWith(deviceType2.cloneJson())
         jsonDevice.mergeWith(jsonDeviceParam.cloneJson())
 // device json<<--
@@ -383,7 +383,7 @@ public class Configuration(private val simRun: SimulationRun) {
                     }
                     linker.link(firstDevice!!, lastDevice!!, rand.getOrDefault("dataRateInKbps", 1000))
                 }
-                "star" -> {
+                "full" -> {
                     val radius = rand.getOrDefault("radius", 0.1)
                     val count = rand.getOrDefault("count", 1)
                     val deviceTypeName = rand.getOrDefault("deviceType", "")
@@ -408,7 +408,7 @@ public class Configuration(private val simRun: SimulationRun) {
                             linker.link(localDevices[i], localDevices[j], rand.getOrDefault("dataRateInKbps", 1000))
                         }
                     }
-                }
+                } else -> TODO()
             }
         }
     }
