@@ -48,50 +48,15 @@
             ],
         },
     },
-    "fixedDevice": {
-        "Fog": {
-            "applications": {},
-            "deviceType": "Central Tower",
-            "latitude": 53.83759450606049,
-            "longitude": 10.702377248379614,
-    "patterns": [
-        {
-"type":"random_fill",
-            "density": 2.0E-6,
-            "deviceType": "Mesh Hop",
-            "mode": "density",
-            "radius": 0.005,
-        },
-        {
-"type":"random_fill",
-            "count": 15,
-            "deviceType": "Database Device",
-            "mode": "count",
-            "provideCounterAs": "area",
-            "radius": 0.005,
-            "patterns": [
-                {
-"type":"random_fill",
-                    "count": 10,
-                    "deviceType": "Sensor Device",
- "provideCounterAs": "spotInArea",
-                    "mode": "count",
-                    "radius": 5.0E-4,
-                },
-            ],
-        },
-    ],
-        },
-    },
-    "linkType": {
+    "rootRouter": "Fog",
+"linkType": {
         "WLAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 200,
+            "rangeInMeters": 150,
         },
         "WPAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 200,
+            "rangeInMeters": 60,
         },
     },
-    "rootRouter": "Fog",
 }
