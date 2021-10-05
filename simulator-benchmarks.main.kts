@@ -29,7 +29,7 @@ println(args.joinToString(" "))
     val res = it.getInputStream().bufferedReader().use { it.readText() }.split("\n")
     it.waitFor()
     if (it.exitValue() != 0) {
-        throw Exception("exit-code:: " + it.exitValue())
+        println("exit-code:: " + it.exitValue())
     }
     return res
 }
@@ -52,6 +52,14 @@ val routingList = listOf(
 )
 val queryList = listOf(
     "Q0.json",
+    "Q1.json",
+    "Q2.json",
+    "Q3.json",
+    "Q4.json",
+    "Q5.json",
+    "Q6.json",
+    "Q7.json",
+    "Q8.json",
 )
 val databaseTopologyList = listOf(
     "distributed.json",
@@ -60,6 +68,7 @@ val databaseTopologyList = listOf(
 )
 val dataDistributionList = listOf(
     "luposdate3000_by_key.json",
+"luposdate3000_by_id_S_all_collations.json",
 )
 val multicastList = listOf(
     "luposdate3000MulticastDisabled.json",
@@ -80,12 +89,12 @@ val attributeLines = mutableListOf<MutableList<String>>()
 val specializedCmdHeaders = listOf("campus","networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
 headerLine.addAll(specializedCmdHeaders)
 
+        for (query in queryList) {
+            val json_query = "${BASE_PATH}/$query"
 for (campus in campusList) {
     val json_campus = "${BASE_PATH}/$campus"
     for (routing in routingList) {
         val json_routing = "${BASE_PATH}/$routing"
-        for (query in queryList) {
-            val json_query = "${BASE_PATH}/$query"
             for (databaseTopology in databaseTopologyList) {
                 val json_database_topology = "${BASE_PATH}/$databaseTopology"
                 for (dataDistribution in dataDistributionList) {
@@ -102,6 +111,10 @@ val json_networkTopology="${BASE_PATH}/$networkTopology"
                             }
                             if (campus == "campusNoSamples.json" && query != "Q0.json") {
                                 //there is no data at all, any query get all zero data
+                                continue
+                            }
+                            if (campus == "campusNoSamples.json" && multicast=="luposdate3000MulticastEnabled.json") {
+ //no difference because there are no samples at all
                                 continue
                             }
                             if (multicast == "luposdate3000MulticastEnabled.json" && query != "Q0.json") {

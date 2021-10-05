@@ -17,6 +17,7 @@
 
 package lupos.simulator_iot.config
 
+import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserArray
 import lupos.parser.JsonParserObject
@@ -161,7 +162,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 JsonParserObject(mutableMapOf()),
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:163"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:164"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -237,9 +238,13 @@ public class Configuration(private val simRun: SimulationRun) {
         val jsonApplicationsEffective = json!!.getOrEmptyObject("applications").cloneJson()
         jsonApplicationsEffective.mergeWith(jsonDevice.getOrEmptyObject("applications").cloneJson())
         for ((applicationName, applicationJsonTmp) in jsonApplicationsEffective) {
-            applicationJsonTmp as JsonParserObject
-            val applicationJson = jsonDevice.cloneJson()
-            applicationJson.mergeWith(applicationJsonTmp.cloneJson())
+            var applicationJson: IJsonParserValue = jsonDevice.cloneJson()
+            if (applicationJsonTmp is JsonParserObject) {
+                applicationJson as JsonParserObject
+                applicationJson.mergeWith(applicationJsonTmp.cloneJson())
+            } else {
+                applicationJson = applicationJsonTmp
+            }
             var factory = factories[applicationName]
             if (factory == null) {
                 factory = ReflectionHelper.createApplicationFactory(applicationName)
@@ -288,7 +293,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:290"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:295"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
