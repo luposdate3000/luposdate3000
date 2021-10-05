@@ -40,6 +40,7 @@
         },
     },
     "outputDirectory": "",
+    "patterns": [],
     "randomCircle": [],
     "randomMeshNetwork": [],
     "randomStarNetwork": [],
