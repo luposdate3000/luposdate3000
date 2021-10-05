@@ -31,6 +31,7 @@ public class Application_ParkingSensor(
     internal val ownAddress: Int,
     internal val random: RandomGenerator,
     internal val area: Int,
+    internal val spotInArea: Int,
 ) : IApplicationStack_Actuator, ITimer {
     private lateinit var parent: IApplicationStack_Middleware
     private lateinit var startUpTimeStamp: Instant
@@ -59,6 +60,7 @@ public class Application_ParkingSensor(
                     sampleTime = sampleTime,
                     isOccupied = random.getBoolean(0.5f),
                     area = area,
+                    spotInArea = spotInArea,
                 )
             )
             parent.flush()

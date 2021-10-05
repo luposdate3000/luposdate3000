@@ -69,6 +69,7 @@
                     "count": 10,
                     "deviceType": "Sensor Device",
                     "mode": "count",
+ "provideCounterAs": "spotInArea",
                     "radius": 5.0E-4,
                 },
             ],

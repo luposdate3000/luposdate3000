@@ -74,6 +74,7 @@
 "type":"random_fill",
                     "count": 10,
                     "deviceType": "Sensor Device",
+ "provideCounterAs": "spotInArea",
                     "mode": "count",
                     "radius": 5.0E-4,
                 },

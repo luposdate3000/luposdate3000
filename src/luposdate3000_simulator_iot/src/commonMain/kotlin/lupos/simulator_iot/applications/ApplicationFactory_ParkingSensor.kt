@@ -39,6 +39,7 @@ public class ApplicationFactory_ParkingSensor : IApplication_Factory {
                     ownAddress,
                     random,
                     json.getOrDefault("area", 0),
+                    json.getOrDefault("spotInArea", 0),
                 )
             )
         }

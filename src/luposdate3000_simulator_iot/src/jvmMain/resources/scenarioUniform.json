@@ -12,16 +12,6 @@
                 "WLAN",
             ],
         },
-        "Mesh Hop": {
-            "supportedLinkTypes": [
-                "WLAN",
-            ],
-        },
-        "Sensor Device": {
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
     },
     "fixedDevice": {
         "Fog": {
@@ -31,26 +21,10 @@
             "longitude": 10.702377248379614,
             "patterns": [
                 {
-                    "density": 3.0E-6,
-                    "deviceType": "Mesh Hop",
-                    "mode": "density",
-                    "radius": 0.005,
-                    "type": "uniform",
-                },
-                {
-                    "count": 15,
+                    "density": 2.0E-6,
                     "deviceType": "Database Device",
-                    "mode": "count",
-                    "patterns": [
-                        {
-                            "count": 10,
-                            "deviceType": "Sensor Device",
-                            "mode": "count",
-                            "radius": 5.0E-4,
-                            "type": "random_fill",
-                        },
-                    ],
-                    "provideCounterAs": "area",
+                    "mode": "density",
+                    "patterns": [],
                     "radius": 0.005,
                     "type": "uniform",
                 },
