@@ -47,6 +47,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 public class Configuration(private val simRun: SimulationRun) {
     public companion object {
@@ -160,7 +161,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 JsonParserObject(mutableMapOf()),
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:162"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:163"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -287,7 +288,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:289"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:290"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
@@ -339,10 +340,7 @@ public class Configuration(private val simRun: SimulationRun) {
                     val radius = rand.getOrDefault("radius", 0.1)
                     val count = when (rand.getOrDefault("mode", "count")) {
                         "count" -> rand.getOrDefault("count", 1)
-                        "density" -> {
-                            val density = rand.getOrDefault("density", 0.01) // space per device
-                            (2 * PI * radius * radius / density).toInt() + 1
-                        }
+                        "density" -> (2 * PI * radius * radius / rand.getOrDefault("density", 0.01)).toInt() + 1
                         else -> TODO()
                     }
                     val deviceTypeName = rand.getOrDefault("deviceType", "")
@@ -408,7 +406,41 @@ public class Configuration(private val simRun: SimulationRun) {
                             linker.link(localDevices[i], localDevices[j], rand.getOrDefault("dataRateInKbps", 1000))
                         }
                     }
-                } else -> TODO()
+                }
+                "uniform" -> {
+                    fun sunflower(n: Double, alpha: Double, action: (Int, Double, Double) -> Unit) {
+                        val b = round(alpha * sqrt(n))
+                        val phi = (sqrt(5.0) + 1.0) / 2.0
+                        for (i in 1 until n.toInt()) {
+                            val k = i.toDouble()
+                            val r = if (k> n - b) {
+                                1.0
+                            } else {
+                                sqrt(k - 1.0 / 2.0) / sqrt(n - (b + 1.0) / 2.0)
+                            }
+                            val theta = 2 * PI * k / (phi * phi)
+                            action(i, r * cos(theta), r * sin(theta))
+                        }
+                    }
+                    val radius = rand.getOrDefault("radius", 0.1)
+                    val count = when (rand.getOrDefault("mode", "count")) {
+                        "count" -> rand.getOrDefault("count", 1)
+                        "density" -> (2 * PI * radius * radius / rand.getOrDefault("density", 0.01)).toInt() + 1
+                        else -> TODO()
+                    }
+                    val deviceTypeName = rand.getOrDefault("deviceType", "")
+                    sunflower(count.toDouble(), 1.0) { i, x, y ->
+                        rand["latitude"] = posLat + x * radius
+                        rand["longitude"] = posLong + y * radius
+                        val name = rand.getOrDefault("provideCounterAs", "")
+                        val values = valuesPassThrough.cloneJson()
+                        if (name != "") {
+                            values[name] = i
+                        }
+                        createDevice(deviceTypeName, rand, values)
+                    }
+                }
+                else -> TODO()
             }
         }
     }

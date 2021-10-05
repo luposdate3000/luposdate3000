@@ -60,11 +60,11 @@
     "linkType": {
         "WLAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 200,
+            "rangeInMeters": 150,
         },
         "WPAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 50,
+            "rangeInMeters": 60,
         },
     },
     "logging": {

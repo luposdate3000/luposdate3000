@@ -8,8 +8,8 @@
         },
         "Database Device": {
             "supportedLinkTypes": [
-                "WLAN",
                 "WPAN",
+                "WLAN",
             ],
         },
         "Mesh Hop": {
@@ -31,6 +31,13 @@
             "longitude": 10.702377248379614,
             "patterns": [
                 {
+                    "density": 3.0E-6,
+                    "deviceType": "Mesh Hop",
+                    "mode": "density",
+                    "radius": 0.005,
+                    "type": "uniform",
+                },
+                {
                     "count": 15,
                     "deviceType": "Database Device",
                     "mode": "count",
@@ -45,7 +52,7 @@
                     ],
                     "provideCounterAs": "area",
                     "radius": 0.005,
-                    "type": "ring",
+                    "type": "uniform",
                 },
             ],
         },
