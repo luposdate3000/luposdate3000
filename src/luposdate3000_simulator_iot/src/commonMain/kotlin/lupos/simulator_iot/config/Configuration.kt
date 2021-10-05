@@ -227,7 +227,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val deviceTypes2 = json!!.getOrEmptyObject("deviceType")
         val deviceType2 = deviceTypes2.getOrEmptyObject(deviceTypeName)
         val jsonDevice = valuesPassThrough.cloneJson()
-        valuesPassThrough.mergeWith(deviceType2.cloneJson())
+        jsonDevice.mergeWith(deviceType2.cloneJson())
         jsonDevice.mergeWith(jsonDeviceParam.cloneJson())
 // device json<<--
         val location = GeoLocation(jsonDevice.getOrDefault("latitude", 0.0), jsonDevice.getOrDefault("longitude", 0.0))
@@ -403,8 +403,8 @@ public class Configuration(private val simRun: SimulationRun) {
                         val d = createDevice(deviceTypeName, rand, values)
                         localDevices.add(d)
                     }
-                    for (i in 0 until count) {
-                        for (j in i + 1 until count) {
+                    for (i in 0 until localDevices.size) {
+                        for (j in i + 1 until localDevices.size) {
                             linker.link(localDevices[i], localDevices[j], rand.getOrDefault("dataRateInKbps", 1000))
                         }
                     }

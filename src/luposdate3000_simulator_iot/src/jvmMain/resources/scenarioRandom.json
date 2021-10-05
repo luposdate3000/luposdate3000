@@ -64,7 +64,7 @@
         },
         "WPAN": {
             "dataRateInKbps": 25000,
-            "rangeInMeters": 10,
+            "rangeInMeters": 50,
         },
     },
     "logging": {
