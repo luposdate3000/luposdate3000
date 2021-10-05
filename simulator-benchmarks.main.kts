@@ -44,36 +44,40 @@ val json_luposdate3000 = "${BASE_PATH}/luposdate3000.json"
 
 val campusList = listOf(
     "campusNoSamples.json",
-    "campus.json"
+    "campus.json",
 )
 val routingList = listOf(
     "routing_RPL_Fast.json",
-    "routing_AllShortestPath.json"
+    "routing_AllShortestPath.json",
 )
 val queryList = listOf(
-    "Q0.json"
+    "Q0.json",
 )
-val topologyList = listOf(
+val databaseTopologyList = listOf(
     "distributed.json",
     "distributedWithQueryHops.json",
-    "central.json"
+    "central.json",
 )
 val dataDistributionList = listOf(
-    "luposdate3000_by_key.json"
+    "luposdate3000_by_key.json",
 )
 val multicastList = listOf(
     "luposdate3000MulticastDisabled.json",
-    "luposdate3000MulticastEnabled.json"
+    "luposdate3000MulticastEnabled.json",
 )
 val queryDistributionList = listOf(
-    "luposdate3000_distribution_routing.json"
+    "luposdate3000_distribution_routing.json",
 )
-
-
+val networkTopologyList=listOf(
+"scenarioParkingFull.json" ,
+ "scenarioParkingRandom.json",
+  "scenarioParkingRing.json",
+  "scenarioParkingUniform.json",
+)
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<Double>>()
 val attributeLines = mutableListOf<MutableList<String>>()
-val specializedCmdHeaders = listOf("campus", "topology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
+val specializedCmdHeaders = listOf("campus","networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
 headerLine.addAll(specializedCmdHeaders)
 
 for (campus in campusList) {
@@ -82,15 +86,17 @@ for (campus in campusList) {
         val json_routing = "${BASE_PATH}/$routing"
         for (query in queryList) {
             val json_query = "${BASE_PATH}/$query"
-            for (topology in topologyList) {
-                val json_topology = "${BASE_PATH}/$topology"
+            for (databaseTopology in databaseTopologyList) {
+                val json_database_topology = "${BASE_PATH}/$databaseTopology"
                 for (dataDistribution in dataDistributionList) {
                     val json_dataDistribution = "${BASE_PATH}/$dataDistribution"
                     for (multicast in multicastList) {
                         val json_multicast = "${BASE_PATH}/$multicast"
                         for (queryDistribution in queryDistributionList) {
                             val json_queryDistribution = "${BASE_PATH}/$queryDistribution"
-                            if (topology == "central.json" && query != "Q0.json") {
+for(networkTopology in networkTopologyList){
+val json_networkTopology="${BASE_PATH}/$networkTopology"
+                            if (databaseTopology == "central.json" && query != "Q0.json") {
                                 //centralized has only traffic during initialization, afterwards all zero
                                 continue
                             }
@@ -102,7 +108,7 @@ for (campus in campusList) {
                                 //multicast is only relevant for insert, everything else is the same
                                 continue
                             }
-                            val specializedCmd = listOf(json_campus, json_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+                            val specializedCmd = listOf(json_campus,json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
                             val cmd = baseCmd + specializedCmd
                             val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
                             var firstLine = listOf<String>()
@@ -134,6 +140,7 @@ val attributeLine=specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.
             }
         }
     }
+}
 }
 println()
 println(headerLine.joinToString())

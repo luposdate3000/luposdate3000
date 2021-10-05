@@ -42,8 +42,7 @@
             ],
         },
     },
-    "rootRouter": "Fog",
-"linkType": {
+    "linkType": {
         "WLAN": {
             "dataRateInKbps": 25000,
             "rangeInMeters": 150,
@@ -53,4 +52,5 @@
             "rangeInMeters": 60,
         },
     },
+    "rootRouter": "Fog",
 }

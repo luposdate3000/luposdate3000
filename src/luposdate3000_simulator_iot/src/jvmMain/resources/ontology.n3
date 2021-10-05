@@ -7,6 +7,7 @@ _:b0 sh:property _:b1 .
 _:b0 sh:property _:b2 .
 _:b0 sh:property _:b3 .
 _:b0 sh:property _:b4 .
+_:b0 sh:property _:b5 .
 _:b1 sh:path parking:area .
 _:b1 sh:datatype xsd:integer .
 _:b2 sh:path parking:spotInArea .
@@ -15,3 +16,5 @@ _:b3 sh:path parking:isOccupied .
 _:b3 sh:datatype xsd:boolean .
 _:b4 sh:path parking:resultTime .
 _:b4 sh:datatype xsd:dateTime .
+_:b5 sh:path parking:sensorID .
+_:b5 sh:datatype xsd:integer .
