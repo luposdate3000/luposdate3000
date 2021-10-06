@@ -416,7 +416,7 @@ public class Configuration(private val simRun: SimulationRun) {
                     fun sunflower(n: Double, alpha: Double, action: (Int, Double, Double) -> Unit) {
                         val b = round(alpha * sqrt(n))
                         val phi = (sqrt(5.0) + 1.0) / 2.0
-                        for (i in 1 until n.toInt()) {
+                        for (i in 1 until 1 + n.toInt()) {
                             val k = i.toDouble()
                             val r = if (k> n - b) {
                                 1.0

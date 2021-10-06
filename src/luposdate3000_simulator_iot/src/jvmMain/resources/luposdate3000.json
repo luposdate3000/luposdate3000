@@ -2,7 +2,7 @@
     "applications": {
         "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
             "REPLACE_STORE_WITH_VALUES": false,
-            "SharedMemoryDictionaryCheat": true,
+            "SharedMemoryDictionaryCheat": false,
             "databaseQuery": true,
             "databaseStore": true,
             "enabled": false,

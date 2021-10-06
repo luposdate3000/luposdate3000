@@ -71,6 +71,7 @@ public class LoggerMeasure : ILogger {
     private val packageCounter = mutableListOf<Double>()
     private val packageSize = mutableListOf<Double>()
     private val packageSizeAggregated = mutableListOf<Double>()
+    private val packageSizeSelfMessage = mutableListOf<Double>()
     public fun getDataAggregated(): DoubleArray {
         val res = mutableListOf<Double>()
         for (d in data) {
@@ -89,6 +90,7 @@ public class LoggerMeasure : ILogger {
             res.add(packageCounter[topicId])
             res.add(packageSize[topicId])
             res.add(packageSizeAggregated[topicId])
+            res.add(packageSizeSelfMessage[topicId])
         }
         return res.toDoubleArray()
     }
@@ -104,6 +106,7 @@ public class LoggerMeasure : ILogger {
             res.add("package count for '$topic'")
             res.add("package size for '$topic'")
             res.add("package size aggregated for '$topic'")
+            res.add("package size self Messages for '$topic'")
         }
         return res.toTypedArray()
     }
@@ -125,18 +128,23 @@ public class LoggerMeasure : ILogger {
     private fun onSendNetworkPackageInternal(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         val topic = pck.getTopic()
         var id = packageByTopic[topic]
+        val size = pck.getSizeInBytes().toDouble()
         if (id == null) {
             id = packageByTopic.size
             packageByTopic[topic] = id
             packageCounter.add(0.0)
             packageSize.add(0.0)
             packageSizeAggregated.add(0.0)
+            packageSizeSelfMessage.add(0.0)
+        }
+        if (src == dest) {
+            packageSizeSelfMessage[id] += size
         }
         if (dest == hop) {
             packageCounter[id]++
-            packageSize[id] += pck.getSizeInBytes().toDouble()
+            packageSize[id] += size
         }
-        packageSizeAggregated[id] += pck.getSizeInBytes().toDouble()
+        packageSizeAggregated[id] += size
     }
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }
