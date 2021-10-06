@@ -170,15 +170,14 @@ internal class ApplicationStack_RPL_Fast(
             while (queue.size > 0) {
                 val a = queue.removeAt(0)
                 for (b in a.linkManager.getNeighbours().map { config.devices[it] }) {
-                    val distance2 = a.location.getDistanceInMeters(b.location)
-                    val distance = distance2 * distance2 // use the square to prefer many smaller distances over a few huge distances
+                    val distance = a.location.getDistanceInMeters(b.location)
                     val p = if (globalParentCosts[a.address] < globalParentCosts[b.address]) {
                         a to b
                     } else {
                         b to a
                     }
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:180"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:179"/*SOURCE_FILE_END*/ },
                         { distance> 0 },
                     )
                     if (globalParentCosts[p.second.address] > globalParentCosts[p.first.address] + distance) {

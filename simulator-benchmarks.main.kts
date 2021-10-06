@@ -89,7 +89,7 @@ val attributeLines = mutableListOf<MutableList<String>>()
 val specializedCmdHeaders = listOf("campus","networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
 headerLine.addAll(specializedCmdHeaders)
 
-        for (query in queryList) {
+loop@        for (query in queryList) {
             val json_query = "${BASE_PATH}/$query"
 for (campus in campusList) {
     val json_campus = "${BASE_PATH}/$campus"
@@ -139,10 +139,11 @@ val attributeLine=specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.
                                             idx = headerLine.size
                                             headerLine.add(firstLine[i])
                                         }
+idx-=specializedCmdHeaders.size
                                         while (contentLine.size <= idx) {
                                             contentLine.add(0.0)
                                         }
-                                        contentLine[i] = data[i].toDouble()
+                                        contentLine[idx] = data[i].toDouble()
                                     }
                                 }
                             }
