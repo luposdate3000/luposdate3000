@@ -275,6 +275,7 @@ public class Configuration(private val simRun: SimulationRun) {
         val jsonRouting = json!!.getOrEmptyObject("routing")
         val multicastLayer = when (jsonRouting.getOrDefault("multicast", "None")) {
             "None" -> ApplicationStack_MulticastNone(applicationStack)
+            "Simple" -> ApplicationStack_MulticastSimple(applicationStack)
             else -> TODO("unknown multicast implementation '${jsonRouting.getOrDefault("multicast", "None")}'")
         }
         val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {

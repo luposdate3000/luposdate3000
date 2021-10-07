@@ -60,7 +60,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val allConnMap = mutableMapOf<String, TripleStoreDescriptionModifyCacheConnection>() // address -> real-targets
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
         val allTargetsList = mutableSetOf<Int>()
-        if (instance.enableMulticastInsertions) {
             for (index in description.indices) {
                 val idx = index.idx_set[0]
                 if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
@@ -69,7 +68,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                         allTargetsList.add(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))
                     }
                 }
-            }
         }
         val allTargets = allTargetsList.toIntArray()
         val allTargetsHops = instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP(allTargets)
@@ -78,11 +76,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
-                    val host2 = if (instance.enableMulticastInsertions) {
-                        instance.LUPOS_PROCESS_URLS_ALL[allTargetsHops[allTargets.indexOf(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))]]
-                    } else {
-                        host
-                    }
+                    val host2 =                        instance.LUPOS_PROCESS_URLS_ALL[allTargetsHops[allTargets.indexOf(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))]]
                     var flag: Boolean
                     if (filteredBy == null) {
                         flag = true

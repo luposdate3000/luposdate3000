@@ -82,5 +82,4 @@ public class Luposdate3000Instance {
 
     @JvmField public var mergeLocalOperatorgraphs: Boolean = Luposdate3000Config.mergeLocalOperatorgraphs
 
-    @JvmField public var enableMulticastInsertions: Boolean = Luposdate3000Config.enableMulticastInsertions
 }
