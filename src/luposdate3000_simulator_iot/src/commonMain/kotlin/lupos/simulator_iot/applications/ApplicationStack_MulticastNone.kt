@@ -40,7 +40,7 @@ public class ApplicationStack_MulticastNone(
     }
     override fun receive(pck: IPayload): IPayload? = child.receive(pck)
     override fun send(destinationAddress: Int, pck: IPayload): Unit = parent.send(destinationAddress, pck)
-    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = IntArray(destinationAddresses.size){-1}
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = IntArray(destinationAddresses.size) { -1 }
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)

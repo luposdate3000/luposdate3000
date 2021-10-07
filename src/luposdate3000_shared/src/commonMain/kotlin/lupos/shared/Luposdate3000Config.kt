@@ -135,5 +135,4 @@ public object Luposdate3000Config {
 
     @JvmField
     public var mergeLocalOperatorgraphs: Boolean = true
-
 }

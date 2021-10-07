@@ -57,6 +57,7 @@
     "randomStarNetwork": [],
     "rootRouter": "Tower1",
     "routing": {
+        "multicast": "None",
         "protocol": "RPL",
     },
 }

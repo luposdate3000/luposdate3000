@@ -116,6 +116,7 @@
     ],
     "rootRouter": "DODAG ROOT",
     "routing": {
+        "multicast": "None",
         "protocol": "RPL",
     },
 }

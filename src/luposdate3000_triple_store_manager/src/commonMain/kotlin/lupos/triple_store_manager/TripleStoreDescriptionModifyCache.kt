@@ -60,14 +60,14 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val allConnMap = mutableMapOf<String, TripleStoreDescriptionModifyCacheConnection>() // address -> real-targets
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
         val allTargetsList = mutableSetOf<Int>()
-            for (index in description.indices) {
-                val idx = index.idx_set[0]
-                if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
-                    var j = 0
-                    for ((host, key) in index.getAllLocations()) {
-                        allTargetsList.add(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))
-                    }
+        for (index in description.indices) {
+            val idx = index.idx_set[0]
+            if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
+                var j = 0
+                for ((host, key) in index.getAllLocations()) {
+                    allTargetsList.add(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))
                 }
+            }
         }
         val allTargets = allTargetsList.toIntArray()
         val allTargetsHops = instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP(allTargets)
@@ -76,7 +76,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
             if (!isSorted || (EIndexPatternHelper.tripleIndicees[idx][0] == EIndexPatternHelper.tripleIndicees[sortedBy][0] && EIndexPatternHelper.tripleIndicees[idx][1] == EIndexPatternHelper.tripleIndicees[sortedBy][1] && EIndexPatternHelper.tripleIndicees[idx][2] == EIndexPatternHelper.tripleIndicees[sortedBy][2])) {
                 var j = 0
                 for ((host, key) in index.getAllLocations()) {
-                    val host2 =                        instance.LUPOS_PROCESS_URLS_ALL[allTargetsHops[allTargets.indexOf(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))]]
+                    val host2 = instance.LUPOS_PROCESS_URLS_ALL[allTargetsHops[allTargets.indexOf(instance.LUPOS_PROCESS_URLS_ALL.indexOf(host))]]
                     var flag: Boolean
                     if (filteredBy == null) {
                         flag = true
@@ -144,9 +144,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:152"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:153"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:154"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:146"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:147"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:148"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         var i = 0
         loop@ for (c in allConn) {
             i++
