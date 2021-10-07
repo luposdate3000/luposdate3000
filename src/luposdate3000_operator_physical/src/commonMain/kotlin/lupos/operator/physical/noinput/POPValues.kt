@@ -18,7 +18,6 @@ package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
@@ -32,7 +31,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 public open class POPValues : POPBase {
@@ -162,7 +160,7 @@ public open class POPValues : POPBase {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:164"/*SOURCE_FILE_END*/ }, { v is AOPValue })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:162"/*SOURCE_FILE_END*/ }, { v is AOPValue })
                 val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)
@@ -174,18 +172,7 @@ public open class POPValues : POPBase {
 
     override fun getProvidedVariableNamesInternal(): List<String> = variables.distinct()
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        return if (rows == -1) {
-            val outMap = mutableMapOf<String, ColumnIterator>()
-            for (name in variables) {
-                outMap[name] = ColumnIteratorMultiValue(data[name]!!)
-            }
-            IteratorBundle(outMap)
-        } else {
-            IteratorBundle(rows)
-        }
-    }
-
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalValues(rows, variables, data)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlvariables = XMLElement("variables")
