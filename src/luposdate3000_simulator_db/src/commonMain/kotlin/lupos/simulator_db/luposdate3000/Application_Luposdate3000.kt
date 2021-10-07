@@ -405,7 +405,7 @@ public class Application_Luposdate3000 public constructor(
         var res = router!!.getNextFeatureHops(a, flag)
         for (i in 0 until res.size) {
             if (res[i] == -1) { // if the package-router does not know it - use the first database instance instead.
-                res[i] = rootAddressInt
+                res[i] = a[i]
             }
         }
         for (i in 0 until res.size) {
