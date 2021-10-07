@@ -881,11 +881,6 @@ public class Application_Luposdate3000 public constructor(
                 instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP = { arr -> // contains indices of luposdate3000
                     val arr2 = arr.map { instance.LUPOS_PROCESS_URLS_ALL[it].toInt() }.toIntArray() // contains device ids
                     val res = myGetNextHop(arr2, featureID_any) // res contains device ids
-                    for (i in 0 until res.size) {
-                        if (res[i] == -1) {
-                            res[i] = arr2[i] // no target ... fall back to direct communication
-                        }
-                    }
                     res.map { instance.LUPOS_PROCESS_URLS_ALL.indexOf(it.toString()) }.toIntArray() // the final result is again indices of luposdate3000
                 }
                 hadInitDatabaseHopsWithinLuposdate3000 = true

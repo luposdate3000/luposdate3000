@@ -32,6 +32,7 @@ import lupos.simulator_iot.applications.ApplicationStack_AllShortestPath
 import lupos.simulator_iot.applications.ApplicationStack_CatchSelfMessages
 import lupos.simulator_iot.applications.ApplicationStack_Logger
 import lupos.simulator_iot.applications.ApplicationStack_MergeMessages
+import lupos.simulator_iot.applications.ApplicationStack_MulticastNone
 import lupos.simulator_iot.applications.ApplicationStack_MultipleChilds
 import lupos.simulator_iot.applications.ApplicationStack_RPL
 import lupos.simulator_iot.applications.ApplicationStack_RPL_Fast
@@ -162,7 +163,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 JsonParserObject(mutableMapOf()),
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:164"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:165"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -272,20 +273,24 @@ public class Configuration(private val simRun: SimulationRun) {
         )
 // applications<<--
         val jsonRouting = json!!.getOrEmptyObject("routing")
+        val multicastLayer = when (jsonRouting.getOrDefault("multicast", "None")) {
+            "None" -> ApplicationStack_MulticastNone(applicationStack)
+            else -> TODO("unknown multicast implementation '${jsonRouting.getOrDefault("multicast", "None")}'")
+        }
         val router = when (jsonRouting.getOrDefault("protocol", "RPL")) {
             "AllShortestPath" -> ApplicationStack_AllShortestPath(
-                applicationStack,
+                multicastLayer,
                 simRun.logger,
                 simRun.config,
             )
             "RPL_Fast" -> ApplicationStack_RPL_Fast(
-                applicationStack,
+                multicastLayer,
                 simRun.logger,
                 simRun.config,
                 jsonRouting.getOrDefault("compatibilityMode", false),
             )
             "RPL" -> ApplicationStack_RPL(
-                applicationStack,
+                multicastLayer,
                 simRun.logger,
                 simRun.config,
             )
@@ -293,7 +298,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:295"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:300"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
