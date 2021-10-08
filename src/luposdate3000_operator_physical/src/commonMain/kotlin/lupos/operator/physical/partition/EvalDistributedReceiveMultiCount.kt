@@ -15,10 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalDistributedReceiveMultiCount {
-    public operator fun invoke(): IteratorBundle {
+    public operator fun invoke(
+        inputs: Array<IMyInputStream>,
+        outputs: Array<IMyOutputStream?>,
+    ): IteratorBundle {
         var count = 0
         for (i in 0 until inputs.size) {
             count += inputs[i].readInt()

@@ -38,12 +38,11 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinWithStoreExists()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinWithStoreExists(children[0].evaluate(parent), childB, query, parent)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))
         return res
     }
-
     override fun cloneOP(): IOPBase = POPJoinWithStoreExists(query, projectedVariables, children[0].cloneOP(), childB.cloneOP() as LOPTriple, optional)
 }

@@ -60,5 +60,5 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(),)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(), children[0].getProvidedVariableNames().size, name, (children[1] as AOPBase))
 }

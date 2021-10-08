@@ -21,40 +21,21 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.multiinput.LOPJoin_Helper
-import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalJoinCartesianProduct{
-public operator fun invoke(): IteratorBundle {
-        val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:44"/*SOURCE_FILE_END*/ },
-            {
-                for (v in children[0].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-                for (v in children[1].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-            }
-        )
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:54"/*SOURCE_FILE_END*/ }, { columns[0].size == 0 })
-        val childA = children[0].evaluate(parent)
-        val childB = children[1].evaluate(parent)
+public object EvalJoinCartesianProduct {
+    public operator fun invoke(
+        childA: IteratorBundle,
+        childB: IteratorBundle,
+        optional: Boolean,
+    ): IteratorBundle {
+        val columns = LOPJoin_Helper.getColumns(childA.columns.keys.toList(), childB.columns.keys.toList())
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
@@ -143,7 +124,7 @@ public operator fun invoke(): IteratorBundle {
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
                                             if (value == DictionaryValueHelper.nullValue) {
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:145"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:126"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -210,7 +191,7 @@ public operator fun invoke(): IteratorBundle {
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:212"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:193"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

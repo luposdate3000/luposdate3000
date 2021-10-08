@@ -18,5 +18,5 @@ package lupos.operator.physical.partition
 
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalSplitMergePartitionFromStore {
-    public operator fun invoke(): IteratorBundle = children[0].evaluate(parent)
+    public operator fun invoke(child: IteratorBundle): IteratorBundle = child
 }

@@ -30,5 +30,5 @@ public class POPNothing public constructor(query: IQuery, projectedVariables: Li
     override fun toSparql(): String = "{}"
     override fun equals(other: Any?): Boolean = other is POPNothing
     override fun cloneOP(): IOPBase = this
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalNothing()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalNothing(getProvidedVariableNames())
 }

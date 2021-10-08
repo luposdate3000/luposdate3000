@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.singleinput
 
-import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.noinput.OPEmptyRow
@@ -56,7 +55,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:73"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:57"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -116,7 +115,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:133"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:117"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -158,16 +157,6 @@ public class POPGroup : POPBase {
         }
     }
 
-    private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
-        val res = mutableListOf<AOPAggregationBase>()
-        for (n in node.getChildren()) {
-            res.addAll(getAggregations(n))
-        }
-        if (node is AOPAggregationBase) {
-            res.add(node)
-        }
-        return res
-    }
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val byxml = XMLElement("by")
@@ -186,5 +175,5 @@ public class POPGroup : POPBase {
         return true
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(children[0].evaluate(parent), bindings, projectedVariables)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(children[0].evaluate(parent), bindings, projectedVariables, by, children[0].getMySortPriority(), query.getDictionary())
 }

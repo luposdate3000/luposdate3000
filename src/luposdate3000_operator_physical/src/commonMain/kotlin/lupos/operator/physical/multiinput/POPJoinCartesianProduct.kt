@@ -16,15 +16,7 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
-import lupos.shared.ColumnIteratorChildIterator
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -32,10 +24,7 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -43,7 +32,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:45"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:34"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -65,7 +54,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalJoinCartesianProduct()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinCartesianProduct(children[0].evaluate(parent), children[1].evaluate(parent), optional)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

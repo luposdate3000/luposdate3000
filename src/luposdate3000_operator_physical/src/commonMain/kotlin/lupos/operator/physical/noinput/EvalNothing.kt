@@ -22,8 +22,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalNothing {
-    public operator fun invoke(): IteratorBundle {
-        val variables = getProvidedVariableNames()
+    public operator fun invoke(variables: List<String>): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (variable in variables) {
             val tmp = object : ColumnIterator() {

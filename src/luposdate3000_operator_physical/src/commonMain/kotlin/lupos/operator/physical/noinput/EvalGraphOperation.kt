@@ -17,10 +17,13 @@
 package lupos.operator.physical.noinput
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
+import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EvaluationException
+import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescription
 import lupos.shared.MemoryTable
 import lupos.shared.TripleStoreManager
@@ -29,7 +32,15 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalGraphOperation {
-    public operator fun invoke(): IteratorBundle {
+    public operator fun invoke(
+        silent: Boolean,
+        graph1type: EGraphRefType,
+        graph1iri: String?,
+        graph2type: EGraphRefType,
+        graph2iri: String?,
+        action: EGraphOperationType,
+        query: IQuery,
+    ): IteratorBundle {
         try {
             val manager = query.getInstance().tripleStoreManager!!
             when (action) {

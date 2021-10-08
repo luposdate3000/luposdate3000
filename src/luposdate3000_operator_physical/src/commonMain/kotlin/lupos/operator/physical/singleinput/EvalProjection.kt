@@ -24,17 +24,17 @@ public object EvalProjection {
     public operator fun invoke(child: IteratorBundle, variables: List<String>): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
         when {
-            variables.containsAll(children[0].getProvidedVariableNames()) -> {
+            variables.containsAll(child.columns.keys) -> {
                 return child
             }
             variables.isEmpty() -> {
-                val variables2 = children[0].getProvidedVariableNames()
+                val variables2 = child.columns.keys.toList()
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:39"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:32"/*SOURCE_FILE_END*/ },
                     {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:41"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:34"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
                         for (variable in variables2) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:43"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:36"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
                         }
                     }
                 )
@@ -51,7 +51,7 @@ public object EvalProjection {
             }
             else -> {
                 for (variable in variables) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:60"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:53"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
                     outMap[variable] = child.columns[variable]!!
                 }
                 return IteratorBundle(outMap)

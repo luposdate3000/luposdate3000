@@ -16,25 +16,18 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalJoinMerge(): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:33"/*SOURCE_FILE_END*/ }, { !optional })
+public object EvalJoinMerge {
+    public operator fun invoke(
+        child0: IteratorBundle,
+        child1: IteratorBundle,
+        projectedVariables: List<String>,
+    ): IteratorBundle {
         // setup columns
-        val child0 = children[0].evaluate(parent)
-        val child1 = children[1].evaluate(parent)
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()
         val columnsINJ0 = mutableListOf<ColumnIterator>()
@@ -45,8 +38,8 @@ public object EvalJoinMerge(): IteratorBundle {
         val outIterators = mutableListOf<Pair<String, Int>>() // Key_in_outMap, which_outIteratorsCounter (J,O0,O1,none)
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
-        tmp.addAll(children[1].getProvidedVariableNames())
-        for (name in children[0].getProvidedVariableNames()) {
+        tmp.addAll(child1.columns.keys)
+        for (name in child0.columns.keys) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
                     outIterators.add(Pair(name, 0))
@@ -66,8 +59,8 @@ public object EvalJoinMerge(): IteratorBundle {
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1.columns[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:68"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:69"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:61"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:62"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
@@ -114,3 +107,4 @@ public object EvalJoinMerge(): IteratorBundle {
         }
         return res
     }
+}

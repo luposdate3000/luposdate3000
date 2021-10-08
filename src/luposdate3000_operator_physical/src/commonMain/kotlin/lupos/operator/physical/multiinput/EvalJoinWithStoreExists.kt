@@ -19,27 +19,20 @@ package lupos.operator.physical.multiinput
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.operator.IAOPBase
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-
-public object EvalJoinWithStoreExists{
-public operator fun invoke(): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:38"/*SOURCE_FILE_END*/ }, { !optional })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:39"/*SOURCE_FILE_END*/ }, { !childB.graphVar })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:40"/*SOURCE_FILE_END*/ }, { projectedVariables.isEmpty() })
-        val childAv = children[0].evaluate(parent)
+public object EvalJoinWithStoreExists {
+    public operator fun invoke(
+        childAv: IteratorBundle,
+        childB: LOPTriple,
+        query: IQuery,
+        parent: Partition,
+    ): IteratorBundle {
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array(3) { childB.children[it] as IAOPBase }
         var res = IteratorBundle(0)
@@ -56,7 +49,7 @@ public operator fun invoke(): IteratorBundle {
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:58"/*SOURCE_FILE_END*/ }, { mapping.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:51"/*SOURCE_FILE_END*/ }, { mapping.isNotEmpty() })
         for (i in mapping.indices) {
             val tmp = iterators[i].next()
             if (tmp == DictionaryValueHelper.nullValue) {
@@ -64,7 +57,7 @@ public operator fun invoke(): IteratorBundle {
                 for (element in iterators) {
                     element.close()
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:66"/*SOURCE_FILE_END*/ }, { i == 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:59"/*SOURCE_FILE_END*/ }, { i == 0 })
                 break
             } else {
                 params[mapping[i]] = AOPConstant(query, tmp)
@@ -84,7 +77,7 @@ public operator fun invoke(): IteratorBundle {
                                     element.close()
                                 }
                                 done = true
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:86"/*SOURCE_FILE_END*/ }, { i == 0 })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStoreExists.kt:79"/*SOURCE_FILE_END*/ }, { i == 0 })
                                 break@loop
                             } else {
                                 params[mapping[i]] = AOPConstant(query, tmp)

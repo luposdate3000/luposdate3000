@@ -19,12 +19,17 @@ package lupos.operator.physical.noinput
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
+import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EModifyTypeExt
+import lupos.shared.IQuery
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalModifyData {
-    public operator fun invoke(): IteratorBundle {
+    public operator fun invoke(
+        data: List<LOPTriple>,
+        query: IQuery,
+    ): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
         val dictionary = query.getDictionary()
         for (t in data) {

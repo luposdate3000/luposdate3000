@@ -17,42 +17,23 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
-import lupos.operator.physical.POPBase
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-public object EvalUnion{
-public operator fun invoke(): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:33"/*SOURCE_FILE_END*/ },
-            {
-                for (v in children[0].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-                for (v in children[1].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-            }
-        )
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:43"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().containsAll(variables) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:44"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().containsAll(variables) })
+public object EvalUnion {
+    public operator fun invoke(
+        childA: IteratorBundle,
+        childB: IteratorBundle,
+        variables: List<String>
+    ): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val childA = children[0].evaluate(parent)
-        val childB = children[1].evaluate(parent)
         if (variables.isNotEmpty()) {
             for (variable in variables) {
                 outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
             }
             return IteratorBundle(outMap)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:54"/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:35"/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()

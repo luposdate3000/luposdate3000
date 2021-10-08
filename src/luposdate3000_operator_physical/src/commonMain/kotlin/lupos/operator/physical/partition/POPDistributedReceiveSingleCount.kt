@@ -65,5 +65,5 @@ public class POPDistributedReceiveSingleCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0]
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingleCount()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingleCount(input, output)
 }

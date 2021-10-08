@@ -23,7 +23,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal class POPJoinMergeSingleColumn_Iterator(internal val uuid: Long, @JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
     @JvmField
     internal var counter: Int = 0
 

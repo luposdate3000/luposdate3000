@@ -57,7 +57,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             if (c.graphVar) {
                 TODO()
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:64"/*SOURCE_FILE_END*/ }, { !c.graphVar })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:59"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
@@ -77,7 +77,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(data, query)
     public override fun usesDictionary(): Boolean {
         return true
     }

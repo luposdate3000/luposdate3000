@@ -113,12 +113,11 @@ public class POPGraphOperation public constructor(
 
     override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGraphOperation()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGraphOperation(silent, graph1type, graph1iri, graph2type, graph2iri, action, query)
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:129"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:119"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

@@ -29,9 +29,10 @@ public object EvalFilter {
     public operator fun invoke(
         child: IteratorBundle,
         variablesOut: List<String>,
+        filterExpression: AOPBase,
     ): IteratorBundle {
         // TODO not-equal shortcut during evaluation based on integer-ids
-        val variables = child.colums.keys.toList()
+        val variables = child.columns.keys.toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         var expression: () -> Boolean = { true }
@@ -65,7 +66,7 @@ public object EvalFilter {
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     // point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:72"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:68"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
                                         for (v in child.columns.values) {
                                             v.close()
                                         }
@@ -94,7 +95,7 @@ public object EvalFilter {
             })
         }
         for (variableIndex in variables.indices) {
-            if (projectedVariables.contains(variables[variableIndex])) {
+            if (variablesOut.contains(variables[variableIndex])) {
                 outMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }
             localMap[variables[variableIndex]] = columnsLocal[variableIndex]
@@ -107,7 +108,7 @@ public object EvalFilter {
         for (element in variablesOut) {
             columnsOut.add(resLocal.columns[element]!! as ColumnIteratorQueue)
         }
-        expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
+        expression = filterExpression.evaluateAsBoolean(resLocal)
         if (variablesOut.isEmpty()) {
             if (variables.isEmpty()) {
                 res = if (expression()) {
@@ -138,7 +139,7 @@ public object EvalFilter {
                                     for (v in child.columns.values) {
                                         v.close()
                                     }
-                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:145"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:141"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
                                     for (variableIndex3 in 0 until variables.size) {
                                         ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                     }
