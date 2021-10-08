@@ -25,7 +25,7 @@ class DatabaseEnv(gym.Env):
         triple = t
         possible join = j = [-1,-1,-1]
         no entry = 0 = [0,0,0]
-        j/0 = j oder 0
+        j/0 = j or 0
 
         Type: Box(, , dtype=int)
         Num	t0              t1          t2          t3          t4
@@ -114,8 +114,6 @@ class DatabaseEnv(gym.Env):
         self.max_exec_time: float = None
 
         self.min_exec_time: float = None
-
-        self.whole_dataset = False
 
     def step(self, action: int):
         """The step function takes an action from the agent and executes it.

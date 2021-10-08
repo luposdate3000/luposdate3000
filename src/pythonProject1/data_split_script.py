@@ -1,9 +1,10 @@
 import random
 import sys
 
-# same seed same result, depending on split value??
 input_file = sys.argv[1]
 split_value = int(sys.argv[2])  # (1-9)
+
+random.seed(100)  # same seed same result
 
 with open(input_file, "r") as inp:
     lines = inp.readlines()
@@ -31,12 +32,12 @@ test_set = []
 for d in reversed(del_list):
     test_set.append(q.pop(d))
 
-with open("train.me.train"+str(split_value)+":"+str(10-split_value), "w") as train:
+with open("train.me.train"+str(split_value)+"_"+str(10-split_value), "w") as train:
     for query in q:
         for line in query:
             train.write(line)
 
-with open("train.me.test"+str(split_value)+":"+str(10-split_value), "w") as test:
+with open("train.me.test"+str(split_value)+"_"+str(10-split_value), "w") as test:
     for query in test_set:
         for line in query:
             test.write(line)

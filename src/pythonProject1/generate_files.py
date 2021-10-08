@@ -51,7 +51,7 @@ def generate_queries():
     lupos3000_query_params = ""
     python_ml_params = ""
 
-    file_index = 0
+    file_index = 0  # number of current file
     join_on = ""
     for p in range(len(join_patterns)):
         s0 = join_patterns[p][0]
@@ -72,7 +72,7 @@ def generate_queries():
         for i in range(len(unique_predicates)):
             for j in range(i + 1, len(unique_predicates)):
                 for k in range(j + 1, len(unique_predicates)):
-
+                    # Write SPARQL query into file.
                     with open(output_directory +
                               "q" + join_on + str(file_index) + ".sparql", "w") as query:
                         for sparql_prefix in sparql_prefixes:
@@ -83,7 +83,7 @@ def generate_queries():
                         query.write("    " + s1 + " " + unique_predicates[j] + " " + o1 + " .\n")
                         query.write("    " + s2 + " " + unique_predicates[k] + " " + o2 + " .\n")
                         query.write("}\n")
-
+                    # Convert SPARQL query into input for the machine learning model and write to file.
                     with open(output_directory + "q" + join_on + str(file_index) + ".mlq", "w") as python_q_file:
                         bucket_list = [[s0]]
                         for a in [s1, s2, o0, o1, o2]:
@@ -102,18 +102,22 @@ def generate_queries():
                         python_q_file.write(str(ids[s0]) + "," + str(i) + "," + str(ids[o0]) + ";")
                         python_q_file.write(str(ids[s1]) + "," + str(j) + "," + str(ids[o1]) + ";")
                         python_q_file.write(str(ids[s2]) + "," + str(k) + "," + str(ids[o2]) + ";" + "\n")
-
+                    # Save file names and locations of SPARQL queries to variable.
                     python_ml_params += output_directory + "q" + join_on + str(file_index) + ".mlq" + ";"
+                    # Save file names and locations of machine learning input to variable.
                     lupos3000_query_params += output_directory + "q" + join_on + str(file_index) + ".sparql" + ";"
 
                     file_index += 1
 
         python_ml_params = python_ml_params[:-1]
         lupos3000_query_params = lupos3000_query_params[:-1]
-
+        # Write file names and locations of SPARQL queries to file "luposdate3000_query_params".
+        # This file acts as input for luposdate3000 to benchmark the query files,
+        # that are written in this file.
         with open(output_directory + "luposdate3000_query_params", "w") as params_file:
             params_file.write(lupos3000_query_params)
-
+        # Write machine learning input file names and locations to file "python_ml_params".
+        # Currently not used.
         with open(output_directory + "python_ml_params", "w") as p_params_file:
             p_params_file.write(python_ml_params)
 
