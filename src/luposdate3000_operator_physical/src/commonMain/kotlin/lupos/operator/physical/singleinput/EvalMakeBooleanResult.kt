@@ -21,10 +21,12 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalMakeBooleanResult {
-    public operator fun invoke(child: IteratorBundle): IteratorBundle {
+    public operator fun invoke(
+        child: IteratorBundle,
+        variables: List<String>,
+    ): IteratorBundle {
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val variables = child.columns.keys.toList()
         if (variables.isNotEmpty()) {
             flag = child.columns[variables[0]]!!.next() != DictionaryValueHelper.nullValue
             for (variable in variables) {

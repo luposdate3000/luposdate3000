@@ -35,5 +35,5 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
     override fun cloneOP(): IOPBase = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal(): MutableList<String> = mutableListOf("?boolean")
     override fun getRequiredVariableNames(): List<String> = listOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent))
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent), children[0].getProvidedVariableNames())
 }
