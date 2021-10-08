@@ -46,5 +46,5 @@ public class POPMinus public constructor(query: IQuery, projectedVariables: List
     override fun cloneOP(): IOPBase = POPMinus(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql(): String = "{" + children[0].toSparql() + "} MINUS {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPMinus && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMinus(children[0].evaluate(parent), children[1].evaluate(parent))
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMinus(children[0].evaluate(parent), children[1].evaluate(parent), projectedVariables)
 }

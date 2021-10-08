@@ -22,10 +22,11 @@ public object EvalMinus {
     public operator fun invoke(
         childA: IteratorBundle,
         childB: IteratorBundle,
+        projectedVariables: List<String>,
     ): IteratorBundle {
         val rowA = childA.rows
         val rowB = childB.rows
-        val x = RowIteratorMinus(rowA, rowB, rowA.columns)
+        val x = RowIteratorMinus(rowA, rowB, projectedVariables.toTypedArray())
         x._init()
         return IteratorBundle(x)
     }
