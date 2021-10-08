@@ -31,11 +31,8 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.IVisualisation
 import lupos.shared.Partition
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public var visualTest: IVisualisation? = null
@@ -47,7 +44,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
-    override fun evaluate(parent: Partition): IteratorBundle =EvalVisualisation()
+    override fun evaluate(parent: Partition): IteratorBundle = EvalVisualisation(getChildren()[0].evaluate(parent), visualTest, query, getChildren()[0].getVisualUUUID(), getParent().getVisualUUUID())
     public override fun usesDictionary(): Boolean {
         return true
     }

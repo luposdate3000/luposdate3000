@@ -17,22 +17,15 @@
 package lupos.operator.physical.partition
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
-import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
 import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
-import kotlin.jvm.JvmField
-public object EvalMergePartitionOrderedByIntId{
-public operator fun invoke(): IteratorBundle {
+public object EvalMergePartitionOrderedByIntId {
+    public operator fun invoke(): IteratorBundle {
         if (partitionCount2 == 1) {
             // single partition - just pass through
             return children[0].evaluate(parent)

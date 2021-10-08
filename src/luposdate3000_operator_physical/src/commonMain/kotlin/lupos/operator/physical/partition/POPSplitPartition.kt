@@ -15,22 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.operator.base.PartitionHelper2
-import lupos.operator.base.Query
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
-import lupos.shared.ParallelCondition
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 public class POPSplitPartition public constructor(
@@ -100,5 +93,5 @@ public class POPSplitPartition public constructor(
 
     override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalSplitPartition()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalSplitPartition()
 }

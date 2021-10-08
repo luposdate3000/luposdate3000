@@ -16,32 +16,20 @@
  */
 package lupos.operator.physical.noinput
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
-import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EModifyTypeExt
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
-import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescription
 import lupos.shared.MemoryTable
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
-import lupos.shared.XMLElement
 import lupos.shared.inline.File
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
-public object EvalGraphOperation{
-public operator fun invoke():IteratorBundle {
+public object EvalGraphOperation {
+    public operator fun invoke(): IteratorBundle {
         try {
             val manager = query.getInstance().tripleStoreManager!!
             when (action) {
@@ -97,7 +85,7 @@ public operator fun invoke():IteratorBundle {
                     }
                 }
                 EGraphOperationTypeExt.LOAD -> {
-val fileName = query.getWorkingDirectory() + graph1iri
+                    val fileName = query.getWorkingDirectory() + graph1iri
                     val target: ITripleStoreDescription = if (graph2type == EGraphRefTypeExt.DefaultGraphRef) {
                         manager.getDefaultGraph()
                     } else {

@@ -16,9 +16,7 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.physical.POPBase
-import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -29,7 +27,6 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -61,7 +58,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalJoinMergeOptional()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeOptional()
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {

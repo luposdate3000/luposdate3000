@@ -18,44 +18,32 @@ package lupos.operator.physical.singleinput
 
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.GroupByColumnMissing
 import lupos.shared.GroupByDuplicateColumnException
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
-import lupos.shared.VariableNotDefinedSyntaxException
-import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
 public object EvalGroup {
-    public operatpr fun invoke(): IteratorBundle {
+    public operator fun invoke(
+        child: IteratorBundle,
+        bindings: Int,
+        projectedVariables: List<String>,
+    ): IteratorBundle {
         val buffer = ByteArrayWrapper()
-        val localVariables = children[0].getProvidedVariableNames()
+        val localVariables = child.columns.keys.toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate(parent)
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
@@ -96,7 +84,7 @@ public object EvalGroup {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
                         if (value == DictionaryValueHelper.nullValue) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:98"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:100"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                             for (closeIndex in 0 until valueColumnNames.size) {
                                 valueColumns[closeIndex].close()
                             }
@@ -143,7 +131,7 @@ public object EvalGroup {
                         for (element in valueColumns) {
                             element.close()
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:145"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:147"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         emptyResult = true
                         break
                     }
@@ -224,7 +212,7 @@ public object EvalGroup {
                                                     for (element in valueColumns) {
                                                         element.close()
                                                     }
-                                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:226"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:228"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                     for (columnIndex2 in keyColumnNames.indices) {
                                                         if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                             output[columnIndex2].queue.add(currentKey[columnIndex2])
@@ -350,7 +338,7 @@ public object EvalGroup {
                                 for (element in valueColumns) {
                                     element.close()
                                 }
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:352"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:354"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                 break@loop
                             }
                             currentKey[columnIndex] = value
@@ -414,5 +402,4 @@ public object EvalGroup {
         }
         return IteratorBundle(outMap)
     }
-
 }

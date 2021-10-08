@@ -18,17 +18,11 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
-import lupos.shared.SanityCheck
-import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPFilter public constructor(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
@@ -46,5 +40,5 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalFilter()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalFilter(children[0].evaluate(parent), getProvidedVariableNames(),)
 }

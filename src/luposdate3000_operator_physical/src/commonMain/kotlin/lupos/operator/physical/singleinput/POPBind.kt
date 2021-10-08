@@ -19,22 +19,15 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -67,5 +60,5 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalBind()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(),)
 }

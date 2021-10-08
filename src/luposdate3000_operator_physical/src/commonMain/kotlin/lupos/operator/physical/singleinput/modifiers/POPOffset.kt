@@ -17,8 +17,6 @@
 package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -27,7 +25,6 @@ import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -47,6 +44,6 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalOffset(children[0].evaluate(parent),offset)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalOffset(children[0].evaluate(parent), offset)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("offset", "" + offset)
 }

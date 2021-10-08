@@ -16,21 +16,15 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -44,7 +38,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalJoinWithStoreExists()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinWithStoreExists()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))

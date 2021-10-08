@@ -18,14 +18,11 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
-import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPProjection public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPProjectionID, "POPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
@@ -45,5 +42,5 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
     override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalProjection()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalProjection(children[0].evaluate(parent), getProvidedVariableNames())
 }

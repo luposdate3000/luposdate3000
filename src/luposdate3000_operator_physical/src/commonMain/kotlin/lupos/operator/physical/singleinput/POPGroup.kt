@@ -16,24 +16,14 @@
  */
 package lupos.operator.physical.singleinput
 
-import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
-import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -41,12 +31,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ColumnIteratorQueueExt
-import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -201,6 +186,5 @@ public class POPGroup : POPBase {
         return true
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalGroup()
-
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(children[0].evaluate(parent), bindings, projectedVariables)
 }

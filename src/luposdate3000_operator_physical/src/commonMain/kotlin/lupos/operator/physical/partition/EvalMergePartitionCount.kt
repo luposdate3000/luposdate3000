@@ -16,19 +16,12 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalMergePartitionCount{
-public opeartor fun invoke(): IteratorBundle {
+public object EvalMergePartitionCount {
+    public operator fun invoke(): IteratorBundle {
         if (partitionCount == 1) {
             // single partition - just pass through
             return children[0].evaluate(parent)

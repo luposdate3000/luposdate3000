@@ -26,7 +26,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
-public class EvalSplitPartition {
+public object EvalSplitPartition {
     public operator fun invoke(): IteratorBundle {
 // throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
         if (partitionCount == 1) {

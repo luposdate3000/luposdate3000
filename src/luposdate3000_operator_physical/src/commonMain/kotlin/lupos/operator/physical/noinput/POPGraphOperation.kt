@@ -15,28 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
-import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
 import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
-import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.ITripleStoreDescription
-import lupos.shared.MemoryTable
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -123,7 +114,7 @@ public class POPGraphOperation public constructor(
     override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalGraphOperation()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGraphOperation()
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(

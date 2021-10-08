@@ -16,8 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -29,7 +27,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
@@ -73,5 +70,5 @@ public class POPDistributedReceiveSingle public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalDistributedReceiveSingle()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingle()
 }

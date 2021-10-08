@@ -16,8 +16,6 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 
-import lupos.operator.base.iterator.ColumnIteratorReduced
-import lupos.operator.base.iterator.RowIteratorReduced
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -38,5 +36,5 @@ public class POPReduced public constructor(query: IQuery, projectedVariables: Li
     }
 
     override fun cloneOP(): IOPBase = POPReduced(query, projectedVariables, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalReduced(children[0].evaluate(parent),projectedVariables.size)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalReduced(children[0].evaluate(parent), projectedVariables.size)
 }

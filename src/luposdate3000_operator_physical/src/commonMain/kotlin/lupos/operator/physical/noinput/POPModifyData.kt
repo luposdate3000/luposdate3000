@@ -16,13 +16,8 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -82,7 +77,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalModifyData()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData()
     public override fun usesDictionary(): Boolean {
         return true
     }

@@ -17,25 +17,16 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalJoinMergeOptional{
-public operator fun invoke(): IteratorBundle {
+public object EvalJoinMergeOptional {
+    public operator fun invoke(): IteratorBundle {
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeOptional.kt:39"/*SOURCE_FILE_END*/ },
             {

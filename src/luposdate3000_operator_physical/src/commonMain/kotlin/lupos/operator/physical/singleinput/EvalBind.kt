@@ -17,33 +17,23 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorQueueExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalBind{
-public operator fun invoke(): IteratorBundle {
-        val variablesOut = getProvidedVariableNames()
-        val variablesLocal = getProvidedVariableNamesInternal()
+public object EvalBind {
+    public operator fun invoke(
+        child: IteratorBundle,
+        variablesOut: List<String>,
+    ): IteratorBundle {
+        val variablesLocal = child.columns.keys.toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate(parent)
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
         var expression: () -> DictionaryValueType = { DictionaryValueHelper.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }

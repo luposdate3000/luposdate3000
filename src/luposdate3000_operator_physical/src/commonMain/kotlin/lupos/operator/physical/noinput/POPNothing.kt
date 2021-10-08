@@ -17,14 +17,11 @@
 package lupos.operator.physical.noinput
 
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPNothing public constructor(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorIDExt.POPNothingID, "POPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
@@ -33,5 +30,5 @@ public class POPNothing public constructor(query: IQuery, projectedVariables: Li
     override fun toSparql(): String = "{}"
     override fun equals(other: Any?): Boolean = other is POPNothing
     override fun cloneOP(): IOPBase = this
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalNothing()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalNothing()
 }

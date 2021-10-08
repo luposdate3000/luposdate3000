@@ -17,10 +17,7 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.iterator.ColumnIteratorMerge
-import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
@@ -29,8 +26,6 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
-import lupos.shared.ValueComparatorASC
-import lupos.shared.ValueComparatorDESC
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -113,7 +108,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalSort()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalSort(children[0].evaluate(parent), mySortPriority, query, sortBy, getProvidedVariableNames(), sortOrder)
     public override fun usesDictionary(): Boolean {
         return true
     }

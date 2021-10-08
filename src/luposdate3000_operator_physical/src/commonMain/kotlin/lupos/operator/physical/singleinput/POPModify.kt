@@ -16,15 +16,9 @@
  */
 package lupos.operator.physical.singleinput
 
-import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -34,8 +28,6 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -135,7 +127,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalModify()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent))
     public override fun usesDictionary(): Boolean {
         return true
     }

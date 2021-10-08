@@ -15,25 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-import lupos.operator.physical.POPBase
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.IVisualisation
-import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
-public object EvalVisualisation{
-public operator fun invoke(): IteratorBundle {
-        val child = getChildren()[0].evaluate(parent)
-        val rowMode = child.rows.columns.toMutableList()
-        val target = getChildren()[0].getProvidedVariableNames()
-        rowMode.containsAll(target)
-        target.containsAll(rowMode)
+public object EvalVisualisation {
+    public operator fun invoke(
+        child: IteratorBundle,
+        visualTest: IVisualisation?,
+        query: IQuery,
+        childUUID: Long,
+        parentUUID: Long,
+    ): IteratorBundle {
         // Map Column Iterator
         val iterator = RowIterator()
         var counter = 0
@@ -49,9 +45,9 @@ public operator fun invoke(): IteratorBundle {
                 // Columns auf ein mal senden
                 for (j in 0 until iterator.columns.size) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
-                    val string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
-                    var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
-                    outputString += getParent().getVisualUUUID().toString() + ","
+                    val string = "?" + iterator.columns[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
+                    var outputString = "[" + childUUID.toString() + ","
+                    outputString += parentUUID.toString() + ","
                     outputString += "\"$string\","
                     outputString += iterator.buf[res + j].toString() + "]"
                     visualTest!!.sendData(outputString)

@@ -17,29 +17,24 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorQueueExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 
-public object EvalFilter{
-public operator fun invoke(): IteratorBundle {
+public object EvalFilter {
+    public operator fun invoke(
+        child: IteratorBundle,
+        variablesOut: List<String>,
+    ): IteratorBundle {
         // TODO not-equal shortcut during evaluation based on integer-ids
-        val variables = children[0].getProvidedVariableNames()
-        val variablesOut = getProvidedVariableNames()
+        val variables = child.colums.keys.toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         var expression: () -> Boolean = { true }
-        val child = children[0].evaluate(parent)
         val res: IteratorBundle
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = mutableListOf<ColumnIteratorQueue>()

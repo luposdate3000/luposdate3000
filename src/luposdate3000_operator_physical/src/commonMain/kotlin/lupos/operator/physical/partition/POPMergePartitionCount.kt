@@ -19,10 +19,8 @@ package lupos.operator.physical.partition
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -89,5 +87,5 @@ public class POPMergePartitionCount public constructor(
 
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalMergePartitionCount()
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMergePartitionCount()
 }

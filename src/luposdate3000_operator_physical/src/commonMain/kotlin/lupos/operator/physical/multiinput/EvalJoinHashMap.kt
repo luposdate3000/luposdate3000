@@ -17,25 +17,16 @@
 package lupos.operator.physical.multiinput
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.MapKey
-import lupos.operator.physical.POPBase
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalJoinHashMap{
-public operator fun invoke(): IteratorBundle {
+public object EvalJoinHashMap {
+    public operator fun invoke(): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:40"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })

@@ -19,26 +19,12 @@ package lupos.operator.physical.noinput
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
-import lupos.shared.TripleStoreManager
-import lupos.shared.UnreachableException
-import lupos.shared.XMLElement
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalModifyData{
-operator public fun invoke(): IteratorBundle {
+public object EvalModifyData {
+    public operator fun invoke(): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
         val dictionary = query.getDictionary()
         for (t in data) {

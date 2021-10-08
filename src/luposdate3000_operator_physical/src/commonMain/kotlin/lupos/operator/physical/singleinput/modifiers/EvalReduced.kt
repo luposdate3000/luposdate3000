@@ -18,21 +18,15 @@ package lupos.operator.physical.singleinput.modifiers
 
 import lupos.operator.base.iterator.ColumnIteratorReduced
 import lupos.operator.base.iterator.RowIteratorReduced
-import lupos.operator.physical.POPBase
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-public object EvalReduced{
-public operator fun invoke(child:IteratorBundle,columnCount:Int): IteratorBundle {
+public object EvalReduced {
+    public operator fun invoke(child: IteratorBundle, columnCount: Int): IteratorBundle {
         return when {
             columnCount == 1 -> {
                 val reduced = ColumnIteratorReduced(child.columns.values.first())
                 IteratorBundle(mapOf(child.columns.keys.first() to reduced))
             }
-            columnCount>0 -> {
+            columnCount> 0 -> {
                 val reduced = RowIteratorReduced(child.rows)
                 IteratorBundle(reduced)
             }

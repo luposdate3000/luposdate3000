@@ -16,39 +16,23 @@
  */
 package lupos.operator.physical.singleinput
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.physical.POPBase
-import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.SanityCheck
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
-public object EvalMakeBooleanResult{
-public operator fun invoke(): IteratorBundle {
+public object EvalMakeBooleanResult {
+    public operator fun invoke(child: IteratorBundle): IteratorBundle {
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val variables = children[0].getProvidedVariableNames()
-        if (children[0] is POPNothing) {
-            flag = false
-        } else if (children[0] is OPEmptyRow) {
-            flag = true
-        } else {
-            val child = children[0].evaluate(parent)
-            if (variables.isNotEmpty()) {
-                flag = child.columns[variables[0]]!!.next() != DictionaryValueHelper.nullValue
-                for (variable in variables) {
-                    child.columns[variable]!!.close()
-                }
-            } else {
-                flag = child.hasNext2()
-                child.hasNext2Close()
+        val variables = child.columns.keys.toList()
+        if (variables.isNotEmpty()) {
+            flag = child.columns[variables[0]]!!.next() != DictionaryValueHelper.nullValue
+            for (variable in variables) {
+                child.columns[variable]!!.close()
             }
+        } else {
+            flag = child.hasNext2()
+            child.hasNext2Close()
         }
         val value = if (flag) {
             DictionaryValueHelper.booleanTrueValue

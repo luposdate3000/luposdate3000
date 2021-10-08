@@ -20,29 +20,17 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
-public object EvalModify{
-public operator fun invoke(): IteratorBundle {
-        val variables = children[0].getProvidedVariableNames()
-        val child = children[0].evaluate(parent)
+public object EvalModify {
+    public operator fun invoke(child: IteratorBundle): IteratorBundle {
+        val variables = child.columns.keys.toList()
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<DictionaryValueType>>>>()
@@ -52,7 +40,7 @@ public operator fun invoke(): IteratorBundle {
                 for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:54"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:53"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         break@loop
                     }
                     row[columnIndex] = value
@@ -66,7 +54,7 @@ public operator fun invoke(): IteratorBundle {
             for ((first, second) in modify) {
                 var graphVarIdx = 0
                 if (first.graphVar) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:68"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:67"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
                     while (variables[graphVarIdx] != first.graph) {
                         graphVarIdx++
                     }
