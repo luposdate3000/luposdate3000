@@ -47,50 +47,6 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate(parent)
-        for (variable in variables) {
-            val tmp = object : ColumnIterator() {
-                @JvmField
-                var count = 0
-
-                @JvmField
-                val iterator = child.columns[variable]!!
-
-                @JvmField
-                var label = 1
-                override /*suspend*/ fun next(): DictionaryValueType {
-                    return if (label != 0) {
-                        if (count == limit) {
-                            _close()
-                            DictionaryValueHelper.nullValue
-                        } else {
-                            count++
-                            iterator.next()
-                        }
-                    } else {
-                        DictionaryValueHelper.nullValue
-                    }
-                }
-
-                @Suppress("NOTHING_TO_INLINE")
-                /*suspend*/ inline fun _close() {
-                    if (label != 0) {
-                        label = 0
-                        iterator.close()
-                    }
-                }
-
-                override /*suspend*/ fun close() {
-                    _close()
-                }
-            }
-            outMap[variable] = tmp
-        }
-        return IteratorBundle(outMap)
-    }
-
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalLimit(children[0].evaluate(parent),limit)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
 }

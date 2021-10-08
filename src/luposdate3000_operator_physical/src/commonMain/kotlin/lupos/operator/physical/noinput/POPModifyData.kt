@@ -82,36 +82,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
-        val dictionary = query.getDictionary()
-        for (t in data) {
-            for (i in 0 until 3) {
-                var tmp = iteratorDataMap[t.graph]
-                if (tmp == null) {
-                    tmp = Array(3) { mutableListOf() }
-                    iteratorDataMap[t.graph] = tmp
-                }
-                tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))
-            }
-        }
-        for ((graph, iteratorData) in iteratorDataMap) {
-            val graphLocal = query.getInstance().tripleStoreManager!!.getGraph(graph)
-            val cache = graphLocal.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
-            val iterator = Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }
-            while (true) {
-                val s = iterator[0].next()
-                val p = iterator[1].next()
-                val o = iterator[2].next()
-                if (s == DictionaryValueHelper.nullValue) {
-                    break
-                }
-                cache.writeRow(s, p, o, query)
-            }
-            cache.close()
-        }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryValueHelper.booleanTrueValue)))
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalModifyData()
     public override fun usesDictionary(): Boolean {
         return true
     }

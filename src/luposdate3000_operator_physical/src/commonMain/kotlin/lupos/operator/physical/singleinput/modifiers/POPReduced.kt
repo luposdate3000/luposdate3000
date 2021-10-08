@@ -38,20 +38,5 @@ public class POPReduced public constructor(query: IQuery, projectedVariables: Li
     }
 
     override fun cloneOP(): IOPBase = POPReduced(query, projectedVariables, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val child = children[0].evaluate(parent)
-        return when {
-            projectedVariables.size == 1 -> {
-                val reduced = ColumnIteratorReduced(child.columns[projectedVariables[0]]!!)
-                IteratorBundle(mapOf(projectedVariables[0] to reduced))
-            }
-            projectedVariables.isNotEmpty() -> {
-                val reduced = RowIteratorReduced(child.rows)
-                IteratorBundle(reduced)
-            }
-            else -> {
-                child
-            }
-        }
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalReduced(children[0].evaluate(parent),projectedVariables.size)
 }

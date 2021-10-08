@@ -44,78 +44,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:47"/*SOURCE_FILE_END*/ }, { !optional })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:48"/*SOURCE_FILE_END*/ }, { !childB.graphVar })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isEmpty() })
-        val childAv = children[0].evaluate(parent)
-        val iteratorsHelper = mutableListOf<ColumnIterator>()
-        val params = Array(3) { childB.children[it] as IAOPBase }
-        var res = IteratorBundle(0)
-        val mappingHelper = mutableListOf<Int>()
-        for (i in 0 until 3) {
-            val p = params[i]
-            if (p is AOPVariable && p.name != "_") {
-                mappingHelper.add(i)
-                iteratorsHelper.add(childAv.columns[p.name]!!)
-                params[i] = AOPConstant(query, 0)
-            }
-        }
-        val index = LOPTriple.getIndex(params.map { it }.toTypedArray(), listOf())
-        var done = false
-        val iterators = iteratorsHelper.toTypedArray()
-        val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:67"/*SOURCE_FILE_END*/ }, { mapping.isNotEmpty() })
-        for (i in mapping.indices) {
-            val tmp = iterators[i].next()
-            if (tmp == DictionaryValueHelper.nullValue) {
-                done = true
-                for (element in iterators) {
-                    element.close()
-                }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:75"/*SOURCE_FILE_END*/ }, { i == 0 })
-                break
-            } else {
-                params[mapping[i]] = AOPConstant(query, tmp)
-            }
-        }
-        if (!done) {
-            val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
-            var iteratorB = distributedStore.getIterator(query, params, index).evaluate(parent)
-            res = object : IteratorBundle(0) {
-                override /*suspend*/ fun hasNext2(): Boolean {
-                    val t = iteratorB.hasNext2()
-                    loop@ while (!t && !done) {
-                        for (i in mapping.indices) {
-                            val tmp = iterators[i].next()
-                            if (tmp == DictionaryValueHelper.nullValue) {
-                                for (element in iterators) {
-                                    element.close()
-                                }
-                                done = true
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinWithStoreExists.kt:95"/*SOURCE_FILE_END*/ }, { i == 0 })
-                                break@loop
-                            } else {
-                                params[mapping[i]] = AOPConstant(query, tmp)
-                            }
-                        }
-                        if (!done) {
-                            iteratorB = distributedStore.getIterator(query, params, index).evaluate(parent)
-                        }
-                    }
-                    return t
-                }
-
-                override /*suspend*/ fun hasNext2Close() {
-                    for (element in iterators) {
-                        element.close()
-                    }
-                }
-            }
-        }
-        return res
-    }
-
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalJoinWithStoreExists()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))

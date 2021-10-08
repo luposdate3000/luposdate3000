@@ -123,108 +123,11 @@ public class POPGraphOperation public constructor(
     override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        try {
-            val manager = query.getInstance().tripleStoreManager!!
-            when (action) {
-                EGraphOperationTypeExt.CLEAR -> {
-                    when (graph1type) {
-                        EGraphRefTypeExt.AllGraphRef -> {
-                            for (name in manager.getGraphNames(true)) {
-                                manager.clearGraph(query, name)
-                            }
-                        }
-                        EGraphRefTypeExt.DefaultGraphRef -> {
-                            manager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                        }
-                        EGraphRefTypeExt.IriGraphRef -> {
-                            manager.clearGraph(query, graph1iri!!)
-                        }
-                        EGraphRefTypeExt.NamedGraphRef -> {
-                            for (name in manager.getGraphNames()) {
-                                manager.clearGraph(query, name)
-                            }
-                        }
-                    }
-                }
-                EGraphOperationTypeExt.DROP -> {
-                    when (graph1type) {
-                        EGraphRefTypeExt.AllGraphRef -> {
-                            manager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                            for (name in manager.getGraphNames(false)) {
-                                manager.dropGraph(query, name)
-                            }
-                        }
-                        EGraphRefTypeExt.DefaultGraphRef -> {
-                            manager.clearGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-                        }
-                        EGraphRefTypeExt.IriGraphRef -> {
-                            manager.dropGraph(query, graph1iri!!)
-                        }
-                        EGraphRefTypeExt.NamedGraphRef -> {
-                            for (name in manager.getGraphNames(false)) {
-                                manager.dropGraph(query, name)
-                            }
-                        }
-                    }
-                }
-                EGraphOperationTypeExt.CREATE -> {
-                    when (graph1type) {
-                        EGraphRefTypeExt.IriGraphRef -> {
-                            manager.createGraph(query, graph1iri!!)
-                        }
-                        else -> {
-                            TODO("b $graph1type")
-                        }
-                    }
-                }
-                EGraphOperationTypeExt.LOAD -> {
-                    val fileName = query.getWorkingDirectory() + graph1iri
-                    val target: ITripleStoreDescription = if (graph2type == EGraphRefTypeExt.DefaultGraphRef) {
-                        manager.getDefaultGraph()
-                    } else {
-                        manager.getGraph(graph2iri!!)
-                    }
-                    val table = MemoryTable.parseFromAny(File(fileName).readAsString(), fileName, query)!!
-                    val sa = table.column("s")!!
-                    val pa = table.column("p")!!
-                    val oa = table.column("o")!!
-                    val iterator = arrayOf<ColumnIterator>(
-                        ColumnIteratorMultiValue3(sa, sa.size),
-                        ColumnIteratorMultiValue3(pa, pa.size),
-                        ColumnIteratorMultiValue3(oa, oa.size),
-                    )
-                    val cache = target.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
-                    while (true) {
-                        val s = iterator[0].next()
-                        val p = iterator[1].next()
-                        val o = iterator[2].next()
-                        if (s == DictionaryValueHelper.nullValue) {
-                            break
-                        }
-                        cache.writeRow(s, p, o, query)
-                    }
-                    cache.close()
-                }
-                else -> { TODO("c $action") }
-            }
-        } catch (e: EvaluationException) {
-            e.printStackTrace()
-            if (!silent) {
-                throw e
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            if (!silent) {
-                throw e
-            }
-        }
-        return IteratorBundle(1)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalGraphOperation()
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:226"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:129"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

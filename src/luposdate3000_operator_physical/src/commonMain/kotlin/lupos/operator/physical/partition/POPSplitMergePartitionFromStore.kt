@@ -78,7 +78,5 @@ public class POPSplitMergePartitionFromStore public constructor(
 
     override fun cloneOP(): IOPBase = POPSplitMergePartitionFromStore(query, projectedVariables, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitMergePartitionFromStore && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        return children[0].evaluate(parent)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalSplitMergePartitionFromStore()
 }

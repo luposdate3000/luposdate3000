@@ -61,173 +61,11 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:65"/*SOURCE_FILE_END*/ },
-            {
-                for (v in children[0].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-                for (v in children[1].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-            }
-        )
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:75"/*SOURCE_FILE_END*/ }, { optional })
-// setup columns
-        val child = Array(2) { children[it].evaluate(parent) }
-        val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
-        val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
-        val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
-        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<Pair<String, Int>>() // J,O0,O1,J-ohne-Map
-        val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val tmp = mutableListOf<String>()
-        tmp.addAll(children[1].getProvidedVariableNames())
-        for (name in children[0].getProvidedVariableNames()) {
-            if (tmp.contains(name)) {
-                if (projectedVariables.contains(name)) {
-                    outIterators.add(Pair(name, 0))
-                    for (i in 0 until 2) {
-                        columnsINJ[i].add(0, child[i].columns[name]!!)
-                    }
-                } else {
-                    for (i in 0 until 2) {
-                        columnsINJ[i].add(child[i].columns[name]!!)
-                    }
-                }
-                tmp.remove(name)
-            } else {
-                outIterators.add(Pair(name, 1))
-                columnsINO[0].add(child[0].columns[name]!!)
-            }
-        }
-        for (name in tmp) {
-            outIterators.add(Pair(name, 2))
-            columnsINO[1].add(child[1].columns[name]!!)
-        }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:109"/*SOURCE_FILE_END*/ }, { columnsINJ[0].size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:110"/*SOURCE_FILE_END*/ }, { columnsINJ[0].size == columnsINJ[1].size })
-        val emptyColumnsWithJoin = outIterators.size == 0
-        if (emptyColumnsWithJoin) {
-            outIterators.add(Pair("", 3))
-        }
-        val key = Array(2) { i -> DictionaryValueTypeArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
-        var done = findNextKey(key, columnsINJ, columnsINO)
-        if (done) {
-            for (closeIndex2 in 0 until 2) {
-                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                    columnsINJ[closeIndex2][closeIndex].close()
-                }
-                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                    columnsINO[closeIndex2][closeIndex].close()
-                }
-            }
-            for ((first, second) in outIterators) {
-                val iterator = ColumnIteratorChildIteratorEmpty()
-                outIteratorsAllocated.add(iterator)
-                when (second) {
-                    0 -> {
-                        columnsOUTJ.add(iterator)
-                        outMap[first] = iterator
-                    }
-                    1 -> {
-                        columnsOUT[0].add(iterator)
-                        outMap[first] = iterator
-                    }
-                    2 -> {
-                        columnsOUT[1].add(iterator)
-                        outMap[first] = iterator
-                    }
-                    3 -> {
-                        columnsOUTJ.add(iterator)
-                    }
-                }
-            }
-        } else {
-            val keyCopy = DictionaryValueTypeArray(columnsINJ[0].size) { key[0][it] }
-            for ((first, second) in outIterators) {
-                val iterator = object : ColumnIteratorChildIterator() {
-                    override /*suspend*/ fun close() {
-                        _close()
-                    }
-
-                    override /*suspend*/ fun next(): DictionaryValueType {
-                        return ColumnIteratorChildIteratorExt.nextHelper(
-                            this,
-                            {
-                                for (i in 0 until columnsINJ[0].size) {
-                                    keyCopy[i] = key[0][i]
-                                }
-                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<DictionaryValueType>() } }
-                                val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                                val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                                done = findNextKey(key, columnsINJ, columnsINO)
-                                if (done) {
-                                    for (iterator2 in outIteratorsAllocated) {
-                                        iterator2.closeOnNoMoreElements()
-                                    }
-                                    for (closeIndex2 in 0 until 2) {
-                                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                            columnsINJ[closeIndex2][closeIndex].close()
-                                        }
-                                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                            columnsINO[closeIndex2][closeIndex].close()
-                                        }
-                                    }
-                                }
-                                POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
-                            },
-                            { _close() }
-                        )
-                    }
-                }
-                outIteratorsAllocated.add(iterator)
-                when (second) {
-                    0 -> {
-                        columnsOUTJ.add(iterator)
-                        outMap[first] = iterator
-                    }
-                    1 -> {
-                        columnsOUT[0].add(iterator)
-                        outMap[first] = iterator
-                    }
-                    2 -> {
-                        columnsOUT[1].add(iterator)
-                        outMap[first] = iterator
-                    }
-                    3 -> {
-                        columnsOUTJ.add(iterator)
-                    }
-                }
-            }
-        }
-        var res = IteratorBundle(outMap)
-        if (emptyColumnsWithJoin) {
-            res = object : IteratorBundle(0) {
-                override /*suspend*/ fun hasNext2(): Boolean {
-                    return columnsOUTJ[0].next() != DictionaryValueHelper.nullValue
-                }
-
-                override /*suspend*/ fun hasNext2Close() {
-                    for (closeIndex2 in 0 until 2) {
-                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                            columnsINJ[closeIndex2][closeIndex].close()
-                        }
-                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                            columnsINO[closeIndex2][closeIndex].close()
-                        }
-                    }
-                }
-            }
-        }
-        return res
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalJoinMergeOptional()
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:229"/*SOURCE_FILE_END*/ }, { keyCopy[0] != DictionaryValueHelper.nullValue })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:67"/*SOURCE_FILE_END*/ }, { keyCopy[0] != DictionaryValueHelper.nullValue })
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
@@ -246,7 +84,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:248"/*SOURCE_FILE_END*/ }, { key[i] != DictionaryValueHelper.undefValue })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:86"/*SOURCE_FILE_END*/ }, { key[i] != DictionaryValueHelper.undefValue })
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -270,9 +108,9 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:272"/*SOURCE_FILE_END*/ }, { key[1][j] != DictionaryValueHelper.undefValue })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:110"/*SOURCE_FILE_END*/ }, { key[1][j] != DictionaryValueHelper.undefValue })
                             if (key[1][j] == DictionaryValueHelper.nullValue) {
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:274"/*SOURCE_FILE_END*/ }, { j == 0 })
+                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:112"/*SOURCE_FILE_END*/ }, { j == 0 })
                                 break@loop
                             }
                         }

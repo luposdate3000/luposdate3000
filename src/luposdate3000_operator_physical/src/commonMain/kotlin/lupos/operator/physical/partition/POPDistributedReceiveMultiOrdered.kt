@@ -16,8 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -29,7 +27,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
@@ -73,7 +70,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     }
 
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:75"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:72"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int = 1
@@ -81,127 +78,5 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts, orderedBy))
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, orderedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
-
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = mutableListOf<String>()
-        variables.addAll(projectedVariables)
-        for (i in 0 until orderedBy.size) {
-            val v = orderedBy[orderedBy.size - i - 1]
-            if (variables.contains(v)) {
-                variables.remove(v)
-                variables.add(0, v)
-            }
-        }
-        val openInputs = Array<IMyInputStream?>(inputs.size) { inputs[it] }
-        val openOutputs = Array<IMyOutputStream?>(inputs.size) { outputs[it] }
-        var openConnections = BooleanArray(inputs.size) { true }
-        val openInputMappings = IntArray(inputs.size * variables.size)
-        val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
-        val debugbuffer = DictionaryValueTypeArray(inputs.size * variables.size)
-        // println("POPDistributedReceiveMultiOrdered $uuid columns $variables")
-        for (kk in 0 until inputs.size) {
-            val off = kk * variables.size
-            val cnt = openInputs[kk]!!.readInt()
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:105"/*SOURCE_FILE_END*/ },
-                { cnt == variables.size },
-                { "$cnt vs ${variables.size}" }
-            )
-            for (i in 0 until variables.size) {
-                val len = openInputs[kk]!!.readInt()
-                val buf = ByteArray(len)
-                openInputs[kk]!!.read(buf, len)
-                val name = buf.decodeToString()
-                val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMultiOrdered.kt:115"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
-                openInputMappings[off + i] = off + j
-            }
-            for (i in 0 until variables.size) {
-                buffer[openInputMappings[off + i]] = inputs[kk].readDictionaryValueType()
-            }
-            // var debugtmp = ""
-            // for (i in 0 until variables.size) {
-            //     debugtmp = debugtmp + ",${buffer[off + i]}"
-            // }
-            // println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
-            if (buffer[off] == DictionaryValueHelper.nullValue) {
-                openInputs[kk]!!.close()
-                openOutputs[kk]?.close()
-                openInputs[kk] = null
-                openOutputs[kk] = null
-            } else {
-            }
-        }
-        val iterator = RowIterator()
-        iterator.columns = variables.toTypedArray()
-        iterator.buf = DictionaryValueTypeArray(variables.size)
-        iterator.next = {
-            var res = -1
-            for (ii in 0 until openInputs.size) {
-                if (openInputs[ii] != null) {
-                    res = 0
-                    var min = ii
-                    loop@ for (i in min + 1 until openInputs.size) {
-                        if (openInputs[i] != null) {
-                            for (idx in 0 until orderedBy.size) {
-                                val c = buffer[idx + i * variables.size]
-                                val d = buffer[idx + min * variables.size]
-                                if (d > c) {
-                                    min = i
-                                    continue@loop
-                                } else if (d < c) {
-                                    continue@loop
-                                }
-                            }
-                        }
-                    }
-                    val off = min * variables.size
-                    for (i in 0 until variables.size) {
-                        iterator.buf[i] = buffer[off + i]
-                    }
-                    for (i in 0 until variables.size) {
-                        buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
-                    }
-                    //  var debugtmp = ""
-                    //  for (i in 0 until variables.size) {
-                    //     debugtmp = debugtmp + ",${buffer[off + i]}"
-                    // }
-                    //  println("POPDistributedReceiveMultiOrdered $uuid row $min $debugtmp")
-                    if (buffer[off] != DictionaryValueHelper.nullValue) {
-                        for (idx in 0 until orderedBy.size) {
-                            val a = buffer[idx + min * variables.size]
-                            val b = debugbuffer[idx + min * variables.size]
-                            if (a > b) {
-                                break
-                            } else {
-                                if (a < b) {
-                                    TODO("not sorted input can not be fixed here $min")
-                                }
-                            }
-                        }
-                        for (i in 0 until variables.size) {
-                            debugbuffer[off + i] = buffer[off + i]
-                        }
-                    }
-                    if (buffer[off] == DictionaryValueHelper.nullValue) {
-                        openInputs[min]!!.close()
-                        openOutputs[min]?.close()
-                        openInputs[min] = null
-                        openOutputs[min] = null
-                    }
-                    break
-                }
-            }
-            res
-        }
-        iterator.close = {
-            for (i in 0 until inputs.size) {
-                openInputs[i]?.close()
-                openOutputs[i]?.close()
-                openInputs[i] = null
-                openOutputs[i] = null
-            }
-        }
-        return IteratorBundle(iterator)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveMultiOrdered()
 }

@@ -18,9 +18,6 @@ package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.POPBase
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EOperatorIDExt
@@ -34,8 +31,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.noinput.IAOPConstant
-import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
 
 public class POPTripleStoreIterator(
@@ -130,7 +125,7 @@ public class POPTripleStoreIterator(
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:132"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:127"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {
@@ -151,41 +146,7 @@ public class POPTripleStoreIterator(
     public fun getDesiredHostnameFor(parent: Partition): LuposHostname = getTarget(parent).first
     public fun getTarget(parent: Partition): Pair<LuposHostname, LuposStoreKey> = tripleStoreIndexDescription.getStore(query, children, parent)
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val index = tripleStoreIndexDescription
-        val target = getTarget(parent)
-        val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:158"/*SOURCE_FILE_END*/ },
-            { target.first == manager.localhost },
-            { "${target.first} ${manager.localhost } ${parent.data} ${parent.limit}" }
-        )
-        val store = manager.localStoresGet()[target.second]!!
-        val filter2 = mutableListOf<DictionaryValueType>()
-        val projection = mutableListOf<String>()
-        for (ii in 0 until 3) {
-            val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
-            when (val param = children[i]) {
-                is IAOPConstant -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:169"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
-                    val v = param.getValue()
-                    if (query.getDictionary().isLocalValue(v)) {
-                        filter2.add(DictionaryValueHelper.nullValue)
-                    } else {
-                        filter2.add(v)
-                    }
-                }
-                is IAOPVariable -> {
-                    projection.add(param.getName())
-                }
-                else -> {
-                    SanityCheck.checkUnreachable()
-                }
-            }
-        }
-        val filter = DictionaryValueTypeArray(filter2.size) { filter2[it] }
-        return store.getIterator(query, filter, projection)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalTripleStoreIterator()
     public override fun usesDictionary(): Boolean {
         return false
     }

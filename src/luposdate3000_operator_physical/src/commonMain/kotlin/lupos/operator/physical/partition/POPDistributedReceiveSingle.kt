@@ -73,45 +73,5 @@ public class POPDistributedReceiveSingle public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = mutableListOf<String>()
-        variables.addAll(projectedVariables)
-        val mapping = IntArray(variables.size)
-        val iterator = RowIterator()
-        iterator.columns = variables.toTypedArray()
-        iterator.buf = DictionaryValueTypeArray(variables.size)
-        val cnt = input.readInt()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:83"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size}" })
-        for (i in 0 until variables.size) {
-            val len = input.readInt()
-            val buf = ByteArray(len)
-            input.read(buf, len)
-            val name = buf.decodeToString()
-            val j = variables.indexOf(name)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:90"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size }, { "$j ${variables.size} $variables $name" })
-            mapping[i] = j
-        }
-        var closed = false
-        iterator.next = {
-            var res = -1
-            if (!closed) {
-                for (i in 0 until variables.size) {
-                    iterator.buf[mapping[i]] = input.readDictionaryValueType()
-                }
-                if (iterator.buf[0] == DictionaryValueHelper.nullValue) {
-                    input.close()
-                    output?.close()
-                    closed = true
-                } else {
-                    res = 0
-                }
-            }
-            res
-        }
-        iterator.close = {
-            input.close()
-            output?.close()
-        }
-        return IteratorBundle(iterator)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalDistributedReceiveSingle()
 }

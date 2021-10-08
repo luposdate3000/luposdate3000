@@ -47,31 +47,6 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate(parent)
-        val columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: DictionaryValueType = DictionaryValueHelper.nullValue
-        loop@ for (i in 0 until offset) {
-            for (element in columns) {
-                tmp = element!!.next()
-                if (tmp == DictionaryValueHelper.nullValue) {
-                    for (element2 in columns) {
-                        element2!!.close()
-                    }
-                    break@loop
-                }
-            }
-        }
-        for (variable in variables) {
-            if (tmp == DictionaryValueHelper.nullValue) {
-                child.columns[variable]!!.close()
-            }
-            outMap[variable] = child.columns[variable]!!
-        }
-        return IteratorBundle(outMap)
-    }
-
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalOffset(children[0].evaluate(parent),offset)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("offset", "" + offset)
 }

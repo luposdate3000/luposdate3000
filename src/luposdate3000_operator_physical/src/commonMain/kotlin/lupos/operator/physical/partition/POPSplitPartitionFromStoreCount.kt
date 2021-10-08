@@ -82,7 +82,5 @@ public class POPSplitPartitionFromStoreCount public constructor(
 
     override fun cloneOP(): IOPBase = POPSplitPartitionFromStoreCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStoreCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        return children[0].evaluate(parent)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalSplitPartitionFromStoreCount()
 }

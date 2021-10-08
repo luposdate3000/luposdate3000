@@ -71,13 +71,5 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        var count = 0
-        for (i in 0 until inputs.size) {
-            count += inputs[i].readInt()
-            inputs[i].close()
-            outputs[i]?.close()
-        }
-        return IteratorBundle(count)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalDistributedReceiveMultiCount()
 }

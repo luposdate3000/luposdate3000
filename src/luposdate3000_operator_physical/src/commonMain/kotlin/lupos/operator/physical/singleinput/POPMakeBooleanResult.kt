@@ -40,32 +40,5 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
     override fun cloneOP(): IOPBase = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal(): MutableList<String> = mutableListOf("?boolean")
     override fun getRequiredVariableNames(): List<String> = listOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val flag: Boolean
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val variables = children[0].getProvidedVariableNames()
-        if (children[0] is POPNothing) {
-            flag = false
-        } else if (children[0] is OPEmptyRow) {
-            flag = true
-        } else {
-            val child = children[0].evaluate(parent)
-            if (variables.isNotEmpty()) {
-                flag = child.columns[variables[0]]!!.next() != DictionaryValueHelper.nullValue
-                for (variable in variables) {
-                    child.columns[variable]!!.close()
-                }
-            } else {
-                flag = child.hasNext2()
-                child.hasNext2Close()
-            }
-        }
-        val value = if (flag) {
-            DictionaryValueHelper.booleanTrueValue
-        } else {
-            DictionaryValueHelper.booleanFalseValue
-        }
-        outMap["?boolean"] = ColumnIteratorRepeatValue(1, value)
-        return IteratorBundle(outMap)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalMakeBooleanResult()
 }

@@ -113,47 +113,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val child = children[0].evaluate(parent)
-        val variablesOut = getProvidedVariableNames()
-        val comparator: Comparator<DictionaryValueType> = if (sortOrder) {
-            ValueComparatorASC(query)
-        } else {
-            ValueComparatorDESC(query)
-        }
-        when {
-            variablesOut.isEmpty() -> {
-                return child
-            }
-            variablesOut.size == 1 -> {
-                return if (sortBy.size == 1) {
-                    IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
-                } else {
-                    IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
-                }
-            }
-            else -> {
-                val columnNamesTmp = mutableListOf<String>()
-                for (v in sortBy) {
-                    columnNamesTmp.add(v.name)
-                }
-                for (v in mySortPriority.map { it.variableName }) {
-                    if (variablesOut.contains(v)) {
-                        if (!columnNamesTmp.contains(v)) {
-                            columnNamesTmp.add(v)
-                        }
-                    }
-                }
-                for (v in variablesOut) {
-                    if (!columnNamesTmp.contains(v)) {
-                        columnNamesTmp.add(v)
-                    }
-                }
-                val columnNames = columnNamesTmp.toTypedArray()
-                return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
-            }
-        }
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalSort()
     public override fun usesDictionary(): Boolean {
         return true
     }

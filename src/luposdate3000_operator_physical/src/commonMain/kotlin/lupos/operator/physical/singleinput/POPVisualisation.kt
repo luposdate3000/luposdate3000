@@ -47,43 +47,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
-    override fun evaluate(parent: Partition): IteratorBundle {
-        val child = getChildren()[0].evaluate(parent)
-        val rowMode = child.rows.columns.toMutableList()
-        val target = getChildren()[0].getProvidedVariableNames()
-        rowMode.containsAll(target)
-        target.containsAll(rowMode)
-        // Map Column Iterator
-        val iterator = RowIterator()
-        var counter = 0
-        iterator.columns = child.rows.columns
-        val buffer = ByteArrayWrapper()
-        iterator.next = {
-            val res = child.rows.next()
-            iterator.buf = child.rows.buf
-            if (res >= 0) {
-                // For each Column the data is received from the Dictionary and send to the
-                // visualization framework.
-                counter++
-                // Columns auf ein mal senden
-                for (j in 0 until iterator.columns.size) {
-                    query.getDictionary().getValue(buffer, iterator.buf[res + j])
-                    val string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer).replace("\\", "\\\\").replace("\"", "\\\"")
-                    var outputString = "[" + getChildren()[0].getVisualUUUID().toString() + ","
-                    outputString += getParent().getVisualUUUID().toString() + ","
-                    outputString += "\"$string\","
-                    outputString += iterator.buf[res + j].toString() + "]"
-                    visualTest!!.sendData(outputString)
-                }
-            }
-            res
-        }
-        iterator.close = {
-            child.rows.close()
-            iterator._close()
-        }
-        return IteratorBundle(iterator)
-    }
+    override fun evaluate(parent: Partition): IteratorBundle =EvalVisualisation()
     public override fun usesDictionary(): Boolean {
         return true
     }

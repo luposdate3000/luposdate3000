@@ -45,43 +45,5 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
     override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        val child = children[0].evaluate(parent)
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        when {
-            variables.containsAll(children[0].getProvidedVariableNames()) -> {
-                return child
-            }
-            variables.isEmpty() -> {
-                val variables2 = children[0].getProvidedVariableNames()
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:58"/*SOURCE_FILE_END*/ },
-                    {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:60"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
-                        for (variable in variables2) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:62"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
-                        }
-                    }
-                )
-                val column = child.columns[variables2[0]]!!
-                return object : IteratorBundle(0) {
-                    override /*suspend*/ fun hasNext2(): Boolean {
-                        return column.next() != DictionaryValueHelper.nullValue
-                    }
-
-                    override /*suspend*/ fun hasNext2Close() {
-                        column.close()
-                    }
-                }
-            }
-            else -> {
-                for (variable in variables) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPProjection.kt:79"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
-                    outMap[variable] = child.columns[variable]!!
-                }
-                return IteratorBundle(outMap)
-            }
-        }
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalProjection()
 }

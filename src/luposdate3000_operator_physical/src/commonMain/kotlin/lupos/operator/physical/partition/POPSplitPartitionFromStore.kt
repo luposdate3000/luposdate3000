@@ -1,4 +1,3 @@
-
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -44,7 +43,7 @@ public class POPSplitPartitionFromStore public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:45"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -88,7 +87,5 @@ public class POPSplitPartitionFromStore public constructor(
 
     override fun cloneOP(): IOPBase = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        return children[0].evaluate(parent)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalSplitPartitionFromStore()
 }

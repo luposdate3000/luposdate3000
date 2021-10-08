@@ -49,41 +49,5 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun cloneOP(): IOPBase = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql(): String = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:54"/*SOURCE_FILE_END*/ },
-            {
-                for (v in children[0].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-                for (v in children[1].getProvidedVariableNames()) {
-                    getPartitionCount(v)
-                }
-            }
-        )
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:64"/*SOURCE_FILE_END*/ }, { children[0].getProvidedVariableNames().containsAll(variables) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:65"/*SOURCE_FILE_END*/ }, { children[1].getProvidedVariableNames().containsAll(variables) })
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val childA = children[0].evaluate(parent)
-        val childB = children[1].evaluate(parent)
-        if (variables.isNotEmpty()) {
-            for (variable in variables) {
-                outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
-            }
-            return IteratorBundle(outMap)
-        } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:75"/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
-            return object : IteratorBundle(0) {
-                override /*suspend*/ fun hasNext2(): Boolean {
-                    return childA.hasNext2() || childB.hasNext2()
-                }
-
-                override /*suspend*/ fun hasNext2Close() {
-                    childA.hasNext2Close()
-                    childB.hasNext2Close()
-                }
-            }
-        }
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalUnion()
 }

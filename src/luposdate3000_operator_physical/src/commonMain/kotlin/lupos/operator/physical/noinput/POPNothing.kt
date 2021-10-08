@@ -33,19 +33,5 @@ public class POPNothing public constructor(query: IQuery, projectedVariables: Li
     override fun toSparql(): String = "{}"
     override fun equals(other: Any?): Boolean = other is POPNothing
     override fun cloneOP(): IOPBase = this
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = getProvidedVariableNames()
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        for (variable in variables) {
-            val tmp = object : ColumnIterator() {
-                override /*suspend*/ fun next(): DictionaryValueType {
-                    return DictionaryValueHelper.nullValue
-                }
-                override /*suspend*/ fun close() {
-                }
-            }
-            outMap[variable] = tmp
-        }
-        return IteratorBundle(outMap)
-    }
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle =EvalNothing()
 }
