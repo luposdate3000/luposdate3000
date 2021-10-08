@@ -66,7 +66,7 @@ pip install -e .
 # create training data
 cd ~/lupos/luposdate3000/src/pythonProject1
 #replace " " with file name; choose s or p or a
-python generate_files.py query "input triple file" "$out_dir = output directory for files" "[s/p/a] join on subject/predicate/all" 
+python generate_files.py query "input triple file" "$out_dir = output directory for files" "[s/p/a] join on subject/predicate/all"
 
 # benchmark with luposdate3000
 cd ~/lupos/luposdate3000/
@@ -78,7 +78,9 @@ cd ~/lupos/luposdate3000/src/pythonProject1/
 python generate_files.py train "input triple file".bench "output directory"
 
 # data split:
-python data_split_script.py
+# Split the data into a training and test data set, the split value denotes the percentage of the training set.
+# Example output files: input_file.train7_3 input_file.test7_3
+python data_split_script.py "input_file" "ratio of splitting (input a value from 1 to 9)"
 
 # train python:
 #activate conda environment

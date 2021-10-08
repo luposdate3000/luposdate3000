@@ -1,3 +1,18 @@
+"""
+Split the input data in a ratio of 1:9 - 9:1.
+
+Arg1: String: path to input file
+    Input file is the benchmarked query file.
+
+Arg2: int: from 1 to 9
+    Number denotes what percentage of data gets split into the training set.
+    1 - 10%, 2 - 20%, ...
+
+Output:
+    Two files: A training data set ending with .training7_3 for a 70% split.
+                A test data set ending with .test7_3, containing 30% of data.
+"""
+
 import random
 import sys
 
