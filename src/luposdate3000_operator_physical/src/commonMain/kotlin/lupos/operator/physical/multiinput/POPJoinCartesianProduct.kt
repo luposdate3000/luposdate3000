@@ -54,7 +54,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinCartesianProduct(children[0].evaluate(parent), children[1].evaluate(parent), optional)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinCartesianProduct(children[0].evaluate(parent), children[1].evaluate(parent), optional, children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

@@ -175,5 +175,13 @@ public class POPGroup : POPBase {
         return true
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(children[0].evaluate(parent), bindings, projectedVariables, by, children[0].getMySortPriority(), query.getDictionary())
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(
+        children[0].evaluate(parent),
+        bindings,
+        projectedVariables,
+        by,
+        children[0].getMySortPriority(),
+        query.getDictionary(),
+        children[0].getProvidedVariableNames()
+    )
 }

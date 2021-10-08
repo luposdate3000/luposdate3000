@@ -56,9 +56,9 @@ public object EvalGroup {
         by: List<AOPVariable>,
         sortPriority: MutableList<SortHelper>,
         dict: IDictionary,
+        localVariables: List<String>,
     ): IteratorBundle {
         val buffer = ByteArrayWrapper()
-        val localVariables = child.columns.keys.toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
