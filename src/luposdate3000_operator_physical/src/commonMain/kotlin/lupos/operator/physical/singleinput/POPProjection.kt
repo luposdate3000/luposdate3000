@@ -42,5 +42,5 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
     override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalProjection(children[0].evaluate(parent), getProvidedVariableNames())
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalProjection(children[0].evaluate(parent), getProvidedVariableNames(), children[0].getProvidedVariableNames())
 }

@@ -35,7 +35,7 @@ public object EvalBind {
         name: AOPVariable,
         value: AOPBase,
     ): IteratorBundle {
-        val variablesLocal = child.columns.keys.toList()
+        val variablesLocal = (child.columns.keys + name.name).toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
