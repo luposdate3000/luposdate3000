@@ -28,6 +28,7 @@ def generate_train_file():
         with open(output_directory + "train.me", "w") as train_file:
             # Read every line from benchmark file
             for line in benchmark_file:
+                # Take path to query file and replace the .sparql ending with .mlq.
                 tmp = line.split(" ")
                 ml_query_file_string = tmp[0].split("/")
                 tmp2 = ml_query_file_string[-1].split(".")[0]
@@ -35,10 +36,12 @@ def generate_train_file():
                 ml_query_file_string = ml_query_file_string[:-1]
                 ml_query_file_string.append(tmp3)
                 ml_query_file_string = "/".join(ml_query_file_string)
+                # Use the path to the .mlq file to open it and read out the content.
                 with open(ml_query_file_string, "r") as ml_query_file:
                     for line2 in ml_query_file:
                         ml_query = line2[:-1]
                 tmp[0] = ml_query
+                # Merge the content of the .mlq file with the benchmark results and write to file.
                 tmp3 = " ".join(tmp)
                 train_file.write(tmp3)
 
