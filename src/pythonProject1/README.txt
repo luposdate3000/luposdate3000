@@ -63,6 +63,10 @@ pip install stable-baselines3
 cd ~/lupos/luposdate3000/src/pythonProject1/gym-database/
 pip install -e .
 
+# create synthetic triple set
+# refer to manual of sp2b
+# http://dbis.informatik.uni-freiburg.de/index.php?project=SP2B/download.php
+
 # create training data
 cd ~/lupos/luposdate3000/src/pythonProject1
 #replace " " with file name; choose s or p or a

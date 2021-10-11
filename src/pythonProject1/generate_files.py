@@ -1,3 +1,9 @@
+"""
+Generate query files and training files for the ML module.
+
+Arg1:
+"""
+
 import sys
 
 
@@ -122,6 +128,9 @@ def generate_queries():
             p_params_file.write(python_ml_params)
 
 def generate_train_file():
+    """
+
+    """
     with open(input_file, "r") as benchmark_file:
         with open(output_directory + "train.me", "w") as train_file:
             for line in benchmark_file:
