@@ -13,6 +13,7 @@ Output: training file
 
 import sys
 
+
 def generate_train_file():
     """
     Read every line from benchmark file, the first string is the path to the query file.

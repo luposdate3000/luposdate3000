@@ -12,7 +12,7 @@ Arg3: "s" or "o" or "a"
 
 Output: Query files into the output directory
     For every query a file is created and written into the output directory.
-    Every SPARQL query file ends on .sparql.
+    Every SPARQL query file ends with .sparql.
     For every SPARQL query there is one file created that acts later on as input
     for the ML model. These files end on .mlq.
 """
@@ -21,6 +21,7 @@ import sys
 
 
 def generate_queries():
+    # Read triple file and find all prefixes and predicates.
     predicates = []
     prefixes = []
     with open(input_file, "r") as file:
@@ -30,6 +31,7 @@ def generate_queries():
             else:
                 predicates.append(line.split(" ")[1])
 
+    # Eliminate all duplicate predicates -> find all unique predicates
     unique_predicates_tmp = list(set(predicates))
     unique_predicates_tmp.sort()
     unique_predicates = []
@@ -37,10 +39,12 @@ def generate_queries():
         if predicate.split(":")[1] != '':
             unique_predicates.append(predicate)
 
+    # Write dictionary for predicates to file. Ids starting at 1.
     with open(output_directory + "dictionary", "w") as dictionary_file:
         for idx, predicate in enumerate(unique_predicates):
-            dictionary_file.write(str(idx) + " " + predicate + "\n")
+            dictionary_file.write(str(idx+1) + " " + predicate + "\n")
 
+    # Convert triple store prefix to SPARQL prefix.
     sparql_prefixes = []
     for prefix in prefixes:
         tmp = prefix.split(" ")
@@ -49,9 +53,12 @@ def generate_queries():
         prefix = " ".join(tmp)
         sparql_prefixes.append(prefix)
 
+    # Manually create all join patterns for joins on subjects and objects.
     join_patterns = []
+    # join pattern for subject - subject joins
     if joins == "s" or joins == "a":
         join_patterns.append(["?x", "?x", "?x", "?o0", "?o1", "?o2"])
+    # join patterns for subject - object joins
     if joins == "a":
         join_patterns.append(["?x", "?x", "?s2", "?o0", "?o1", "?x"])
         join_patterns.append(["?x", "?s1", "?x", "?o0", "?x", "?o2"])
@@ -64,14 +71,15 @@ def generate_queries():
         join_patterns.append(["?s0", "?s1", "?x", "?x", "?x", "?o2"])
         join_patterns.append(["?s0", "?x", "?s2", "?x", "?o1", "?x"])
         join_patterns.append(["?x", "?s1", "?s2", "?o0", "?x", "?x"])
+    # join pattern for object - object join
     if joins == "o" or joins == "a":
         join_patterns.append(["?s0", "?s1", "?s2", "?x", "?x", "?x"])
 
-    lupos3000_query_params = ""
-    python_ml_params = ""
-
+    lupos3000_query_params = ""  # holds the paths to the created files
+    python_ml_params = ""  # currently not used
     file_index = 0  # number of current file
     join_on = ""
+    # Create a query for every join pattern.
     for p in range(len(join_patterns)):
         s0 = join_patterns[p][0]
         s1 = join_patterns[p][1]
@@ -87,7 +95,8 @@ def generate_queries():
             join_on = "O"
         else:
             join_on = ""
-
+        # Create queries that cover every possible combination of predicates.
+        # Example: For 23 predicates and 3 joins, there are 23 nCr 3 = 1771 possible combinations.
         for i in range(len(unique_predicates)):
             for j in range(i + 1, len(unique_predicates)):
                 for k in range(j + 1, len(unique_predicates)):
@@ -119,9 +128,9 @@ def generate_queries():
                             for variable in bucket:
                                 ids[variable] = -(idx + 1)
                         # Write machine learning input to file.
-                        python_q_file.write(str(ids[s0]) + "," + str(i) + "," + str(ids[o0]) + ";")
-                        python_q_file.write(str(ids[s1]) + "," + str(j) + "," + str(ids[o1]) + ";")
-                        python_q_file.write(str(ids[s2]) + "," + str(k) + "," + str(ids[o2]) + ";" + "\n")
+                        python_q_file.write(str(ids[s0]) + "," + str(i+1) + "," + str(ids[o0]) + ";")
+                        python_q_file.write(str(ids[s1]) + "," + str(j+1) + "," + str(ids[o1]) + ";")
+                        python_q_file.write(str(ids[s2]) + "," + str(k+1) + "," + str(ids[o2]) + ";" + "\n")
                     # Save file names and locations of machine learning input to variable.
                     python_ml_params += output_directory + "q" + join_on + str(file_index) + ".mlq" + ";"
                     # Save file names and locations of SPARQL queries to variable.
