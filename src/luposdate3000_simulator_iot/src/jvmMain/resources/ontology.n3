@@ -84,3 +84,12 @@ sh:property [
  sh:path ssn:implements ;
  sh:datatype sosa:Procedure 
 ] .
+
+
+
+
+#some additional variables, needed to be in ontology-cache
+
+parking:AvailableParkingSpaces a sosa:FeatureOfInterest .
+parking:CarMovement a ssn:Stimulus .
+parking:SensorOnEachSlot a sosa:Procedure .
