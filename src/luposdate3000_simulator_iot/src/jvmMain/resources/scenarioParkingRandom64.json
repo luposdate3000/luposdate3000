@@ -28,7 +28,7 @@
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 0.005,
+                    "radius": 0.02,
                     "type": "random_fill",
                 },
             ],

@@ -28,7 +28,7 @@
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 0.005,
+                    "radius": 0.0025,
                     "type": "uniform",
                 },
             ],
