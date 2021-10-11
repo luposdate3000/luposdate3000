@@ -70,16 +70,19 @@ pip install -e .
 # create training data
 cd ~/lupos/luposdate3000/src/pythonProject1
 #replace " " with file name; choose s or p or a
-python generate_files.py query "input triple file" "$out_dir = output directory for files" "[s/p/a] join on subject/predicate/all"
+python generate_queries.py "input triple file" "$out_dir = output directory for files" "[s/p/a] join on subject/predicate/all"
 
 # benchmark with luposdate3000
 cd ~/lupos/luposdate3000/
 #replace String with file name / value
 ./launcher.main.kts --run mainClass=Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=String --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$out_dir/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=String --runArgument_Luposdate3000_Launch_Benchmark_Ml:numberOfTriples=String --runArgument_Luposdate3000_Launch_Benchmark_Ml:optimizerMode=OnlyWithout
+#luposdate3000 outputs a file called "triple_file".bench, in which every query file is put together with
+#the join order and the execution time (measured in executions/second -> the higher the better)
+
 
 # convert to training data
 cd ~/lupos/luposdate3000/src/pythonProject1/
-python generate_files.py train "input triple file".bench "output directory"
+python generate_training_file.py "input triple file".bench "output directory"
 
 # data split:
 # Split the data into a training and test data set, the split value denotes the percentage of the training set.
