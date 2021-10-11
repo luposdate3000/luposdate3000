@@ -1,3 +1,7 @@
+"""
+For testing lupos3000 optimizer.
+"""
+
 
 with open("train.me.test", "r") as inp:
     lines = inp.readlines()

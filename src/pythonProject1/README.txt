@@ -87,6 +87,7 @@ python generate_training_file.py "input triple file".bench "output directory"
 # data split:
 # Split the data into a training and test data set, the split value denotes the percentage of the training set.
 # Example output files: input_file.train7_3 input_file.test7_3
+# input file is the training file - train.me
 python data_split_script.py "input_file" "ratio of splitting (input a value from 1 to 9)"
 
 # train python:
