@@ -14,10 +14,8 @@
                     "type": "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {
-                },
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {
-                }
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {                }
+                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {                },
             },
             "performance": 100.0,
             "supportedLinkTypes": [
