@@ -19,7 +19,7 @@
                     "mode": "count",
                     "patterns": [
                         {
-                            "count": 5,
+                            "count": 10,
                             "deviceType": "Sensor Device",
                             "mode": "count",
                             "provideCounterAs": "spotInArea",
