@@ -82,7 +82,7 @@ public class Device(
             return -1
         }
         var closestDevice: Device? = null
-        var closestDistance = 0
+        var closestDistance = 0.0
         for (d in devicesWithFeature) {
             if (closestDevice == null) {
                 closestDevice = d

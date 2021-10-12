@@ -16,6 +16,7 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
@@ -26,7 +27,7 @@ internal object NodeLeaf {
     const val START_OFFSET = 12
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(node: ByteArray, b: DictionaryValueTypeArray) {
+    internal inline fun getFirstTriple(node: BufferManagerPageWrapper, b: DictionaryValueTypeArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
@@ -35,12 +36,12 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(node: ByteArray, nodeid: Int, nodeManager: NodeManager): TripleIterator {
+    internal inline fun iterator(node: BufferManagerPageWrapper, nodeid: Int, nodeManager: NodeManager): TripleIterator {
         return NodeLeafIterator(node, nodeid, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock, nodeManager)
@@ -58,17 +59,17 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager)
@@ -83,11 +84,11 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:86"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
+    internal inline fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:87"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
         var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:89"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:90"/*SOURCE_FILE_END*/ },
             {
                 writtenTriples = mutableListOf()
             }
@@ -99,7 +100,7 @@ internal object NodeLeaf {
         while (iterator.hasNext() && offset <= offsetEnd) {
             val tripleCurrent = iterator.next()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:101"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:102"/*SOURCE_FILE_END*/ },
                 {
                     writtenTriples!!.add(tripleCurrent[0])
                     writtenTriples!!.add(tripleCurrent[1])
@@ -112,7 +113,7 @@ internal object NodeLeaf {
         NodeShared.setTripleCount(node, triples)
         NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:114"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:115"/*SOURCE_FILE_END*/ },
             {
                 var remaining = NodeShared.getTripleCount(node)
                 var offset2 = START_OFFSET
@@ -126,9 +127,9 @@ internal object NodeLeaf {
                         value1 = v1
                         value2 = v2
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:128"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:129"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:130"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:129"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:130"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:131"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
                     remaining--
                     i++
                 }

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -26,37 +26,37 @@ internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setNodeType(node: ByteArray, type: Int) {
+    internal inline fun setNodeType(node: BufferManagerPageWrapper, type: Int) {
         BufferManagerPage.writeInt4(node, 0, type)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getNodeType(node: ByteArray): Int {
+    internal inline fun getNodeType(node: BufferManagerPageWrapper): Int {
         return BufferManagerPage.readInt4(node, 0)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setNextNode(node: ByteArray, nextNode: Int) {
+    internal inline fun setNextNode(node: BufferManagerPageWrapper, nextNode: Int) {
         BufferManagerPage.writeInt4(node, 8, nextNode)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getNextNode(node: ByteArray): Int {
+    internal inline fun getNextNode(node: BufferManagerPageWrapper): Int {
         return BufferManagerPage.readInt4(node, 8)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setTripleCount(node: ByteArray, count: Int) {
+    internal inline fun setTripleCount(node: BufferManagerPageWrapper, count: Int) {
         BufferManagerPage.writeInt4(node, 4, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getTripleCount(node: ByteArray): Int {
+    internal inline fun getTripleCount(node: BufferManagerPageWrapper): Int {
         return BufferManagerPage.readInt4(node, 4)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readTriple000(node: ByteArray, offset: Int): Int {
+    internal inline fun readTriple000(node: BufferManagerPageWrapper, offset: Int): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -65,7 +65,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple111(node: ByteArray, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple111(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -80,7 +80,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple010(node: ByteArray, offset: Int, d1: DictionaryValueType, crossinline action: (d1: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple010(node: BufferManagerPageWrapper, offset: Int, d1: DictionaryValueType, crossinline action: (d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -92,7 +92,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple001(node: ByteArray, offset: Int, d2: DictionaryValueType, crossinline action: (d2: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple001(node: BufferManagerPageWrapper, offset: Int, d2: DictionaryValueType, crossinline action: (d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -104,7 +104,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple100(node: ByteArray, offset: Int, d0: DictionaryValueType, crossinline action: (d0: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple100(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, crossinline action: (d0: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -115,7 +115,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple110(node: ByteArray, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple110(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -128,7 +128,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal inline fun readTriple101(node: ByteArray, offset: Int, d0: DictionaryValueType, d2: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
+    internal inline fun readTriple101(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d2: DictionaryValueType, crossinline action: (d0: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -142,7 +142,7 @@ internal object NodeShared {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeTriple(node: ByteArray, offset: Int, l: DictionaryValueTypeArray, d: DictionaryValueTypeArray): Int {
+    internal inline fun writeTriple(node: BufferManagerPageWrapper, offset: Int, l: DictionaryValueTypeArray, d: DictionaryValueTypeArray): Int {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]
         val b2 = l[2] xor d[2]

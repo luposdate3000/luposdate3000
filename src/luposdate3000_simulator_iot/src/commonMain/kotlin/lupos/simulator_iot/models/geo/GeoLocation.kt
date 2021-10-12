@@ -19,7 +19,6 @@ package lupos.simulator_iot.models.geo
 
 import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -62,17 +61,11 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
             val x = w * cos(t)
             val y = w * sin(t)
 
-            // Adjust the x-coordinate for the shrinking of the east-west distances
             val newX = x / cos(y0 / 180.0 * PI)
             val foundLongitude = newX + x0
             val foundLatitude = y + y0
 
-            // Check the result for possible rounding errors
-            val result = GeoLocation(foundLatitude, foundLongitude)
-            if (result.getDistanceInMeters(center) > radiusInMeters) {
-                return getRandomLocationInRadius(center, radiusInMeters, random)
-            }
-            return result
+            return GeoLocation(foundLatitude, foundLongitude)
         }
 
         internal fun getRandom(random: Random): GeoLocation {
@@ -81,13 +74,13 @@ public class GeoLocation(internal var latitude: Double, internal var longitude: 
         }
     }
 
-    internal fun getDistanceInMeters(other: GeoLocation): Int {
+    internal fun getDistanceInMeters(other: GeoLocation): Double {
         val distance = LatLngTool.distance(
             LatLng(latitude, longitude),
             LatLng(other.latitude, other.longitude),
             LengthUnit.METER
         )
-        return round(distance).toInt()
+        return distance
     }
 
     override fun equals(other: Any?): Boolean {

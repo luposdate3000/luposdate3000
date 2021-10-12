@@ -17,13 +17,13 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-
 public expect class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     public override fun releasePage(call_location: String, pageid: Int)
-    public override fun getPage(call_location: String, pageid: Int): ByteArray
+    public override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper
 
     /*suspend*/ public override fun allocPage(call_location: String): Int
 

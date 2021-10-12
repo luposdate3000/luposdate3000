@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple
-
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleIndexTypeExt
@@ -69,7 +69,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     internal var distinctPrimary_: Int = 0
 
     @JvmField
-    internal var rootNode: ByteArray? = null
+    internal var rootNode: BufferManagerPageWrapper? = null
 
     @JvmField
     internal var pendingImport: MutableList<Int?> = mutableListOf()
@@ -395,8 +395,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     private inline fun importHelper(a: Int, b: Int, crossinline combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
-        var nodeA: ByteArray? = null
-        var nodeB: ByteArray? = null
+        var nodeA: BufferManagerPageWrapper? = null
+        var nodeB: BufferManagerPageWrapper? = null
         nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:399"/*SOURCE_FILE_END*/, a) {
             nodeA = it
         }
@@ -411,7 +411,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
-        var node2: ByteArray? = null
+        var node2: BufferManagerPageWrapper? = null
         nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:414"/*SOURCE_FILE_END*/) { n, i ->
             res = i
             node2 = n
@@ -501,7 +501,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             } else {
                 insertID
             }
-            var node: ByteArray? = null
+            var node: BufferManagerPageWrapper? = null
             var flag = false
             nodeManager.getNodeAny(
                 /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:506"/*SOURCE_FILE_END*/,
@@ -534,7 +534,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         val iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
-            var node2: ByteArray? = null
+            var node2: BufferManagerPageWrapper? = null
             nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:537"/*SOURCE_FILE_END*/) { n, i ->
                 setFirstLeaf(i)
                 node2 = n
@@ -559,7 +559,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 // work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
-                    var prev2: ByteArray? = null
+                    var prev2: BufferManagerPageWrapper? = null
                     nodeManager.allocateNodeInner(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:562"/*SOURCE_FILE_END*/) { n, i ->
                         nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:563"/*SOURCE_FILE_END*/, nodeid)
                         nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:564"/*SOURCE_FILE_END*/, nodeid)

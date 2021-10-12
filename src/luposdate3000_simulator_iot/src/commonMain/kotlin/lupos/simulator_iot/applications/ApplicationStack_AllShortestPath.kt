@@ -158,8 +158,8 @@ internal class ApplicationStack_AllShortestPath(
 
     override fun startUp() {
         val globalParentTable = IntArray(config.devices.size) { -1 }
-        val globalParentCosts = LongArray(config.devices.size) { Long.MAX_VALUE }
-        globalParentCosts[parent.address] = 0
+        val globalParentCosts = DoubleArray(config.devices.size) { Double.MAX_VALUE }
+        globalParentCosts[parent.address] = 0.0
         globalParentTable[parent.address] = parent.address
         val queue = mutableListOf<Device>(parent)
         while (queue.size > 0) {

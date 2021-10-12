@@ -21,7 +21,7 @@
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 0.005,
+                    "radius": 0.01,
                     "type": "full",
                 },
             ],

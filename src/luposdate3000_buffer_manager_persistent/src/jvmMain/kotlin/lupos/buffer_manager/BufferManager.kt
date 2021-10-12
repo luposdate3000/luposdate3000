@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.buffer_manager
-
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
@@ -171,7 +171,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         }
     }
 
-    public actual override fun getPage(call_location: String, pageid: Int): ByteArray {
+    public actual override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:175"/*SOURCE_FILE_END*/ }, { !closed })
         var openId2 = -1

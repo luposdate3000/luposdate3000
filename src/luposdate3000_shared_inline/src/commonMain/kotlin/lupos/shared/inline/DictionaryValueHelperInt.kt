@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.SanityCheck
@@ -81,6 +82,9 @@ internal object DictionaryValueHelperInt {
     internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) = BufferManagerPage.writeIntX(buffer, off, value, count)
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) = ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
 
     @Suppress("NOTHING_TO_INLINE")
@@ -112,7 +116,7 @@ internal object DictionaryValueHelperInt {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:114"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:118"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value> 0xFFFF) {
             if (value> 0xFFFFFF) {
                 return 4

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.SanityCheck
@@ -84,6 +85,9 @@ internal object DictionaryValueHelperLong {
     internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Long, count: Int) = ByteArrayHelper.writeLongX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Long, count: Int) = BufferManagerPage.writeLongX(buffer, off, value, count)
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArray(buffer: ByteArray, off: Int): Long = ByteArrayHelper.readLong8(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
@@ -112,7 +116,7 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:114"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:118"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value> 0xFFFFFFFF) {
             if (value> 0xFFFFFFFFFFFF) {
                 if (value> 0xFFFFFFFFFFFFFF) {

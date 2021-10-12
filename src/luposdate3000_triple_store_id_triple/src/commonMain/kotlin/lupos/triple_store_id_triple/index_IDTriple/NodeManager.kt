@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
-
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
@@ -40,13 +40,13 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:39"/*SOURCE_FILE_END*/, nodeid)
     }
 
-    internal inline fun getNodeLeaf(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
+    internal inline fun getNodeLeaf(call_location: String, nodeid: Int, crossinline actionLeaf: (BufferManagerPageWrapper) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:44"/*SOURCE_FILE_END*/, nodeid)
         actionLeaf(node)
     }
 
-    internal inline fun getNodeAny(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
+    internal inline fun getNodeAny(call_location: String, nodeid: Int, crossinline actionLeaf: (BufferManagerPageWrapper) -> Unit, crossinline actionInner: (BufferManagerPageWrapper) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAny($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:50"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
@@ -62,7 +62,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         }
     }
 
-    /*suspend*/ internal inline fun getNodeAnySuspended(call_location: String, nodeid: Int, crossinline actionLeaf: /*suspend*/ (ByteArray) -> Unit, crossinline actionInner: /*suspend*/ (ByteArray) -> Unit) {
+    /*suspend*/ internal inline fun getNodeAnySuspended(call_location: String, nodeid: Int, crossinline actionLeaf: /*suspend*/ (BufferManagerPageWrapper) -> Unit, crossinline actionInner: /*suspend*/ (BufferManagerPageWrapper) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAnySuspended($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:66"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
@@ -78,7 +78,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         }
     }
 
-    internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (BufferManagerPageWrapper, Int) -> Unit) {
         val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:81"/*SOURCE_FILE_END*/)
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:82"/*SOURCE_FILE_END*/, nodeid)
         NodeShared.setNodeType(node, nodeTypeLeaf)
@@ -88,7 +88,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         action(node, nodeid)
     }
 
-    internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (BufferManagerPageWrapper, Int) -> Unit) {
         val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:91"/*SOURCE_FILE_END*/)
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:92"/*SOURCE_FILE_END*/, nodeid)
         NodeShared.setNodeType(node, nodeTypeInner)
@@ -116,7 +116,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     /*suspend*/ private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($nodeid) : $call_location" }
         if (nodeid != nodeNullPointer) {
-            var node: ByteArray? = null
+            var node: BufferManagerPageWrapper? = null
             getNodeAny(
                 /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:120"/*SOURCE_FILE_END*/,
                 nodeid,
@@ -146,7 +146,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     /*suspend*/ private fun freeAllInnerInternal(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeAllInnerInternal($nodeid) : $call_location" }
         if (nodeid != nodeNullPointer) {
-            var node: ByteArray? = null
+            var node: BufferManagerPageWrapper? = null
             getNodeAny(
                 /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:150"/*SOURCE_FILE_END*/,
                 nodeid,

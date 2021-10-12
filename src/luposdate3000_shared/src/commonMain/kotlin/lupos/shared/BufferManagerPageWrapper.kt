@@ -15,14 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-
-public interface IBufferManager {
-    public fun close()
-    public fun flushPage(call_location: String, pageid: Int)
-    public fun releasePage(call_location: String, pageid: Int)
-    public fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper
-    public /*suspend*/ fun allocPage(call_location: String): Int
-    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit
-    public fun getNumberOfAllocatedPages(): Int
-    public fun getNumberOfReferencedPages(): Int
-}
+public class BufferManagerPageWrapper(public val data: ByteArray)
+// typealias BufferManagerPageWrapper = ByteArray

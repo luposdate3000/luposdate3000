@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.vk
-
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -236,7 +236,7 @@ internal class ValueKeyStoreWriter {
     internal var pageid: Int = ValueKeyStore.PAGEID_NULL_PTR
 
     @JvmField
-    internal var page: ByteArray
+    internal var page: BufferManagerPageWrapper
 
     @JvmField
     internal var offset = 12
@@ -382,7 +382,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
-                page.copyInto(ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
+                BufferManagerPage.copyInto(page, ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
                 bufferOffset += l1
                 offset += l1
             }
@@ -436,7 +436,7 @@ internal class ValueKeyStoreIteratorSearch {
                 while (bufferOffset < len) {
                     val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
                     if (l1 > 0) {
-                        page.copyInto(ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
+                        BufferManagerPage.copyInto(page, ByteArrayWrapperExt.getBuf(buffer), bufferOffset, offset, offset + l1)
                         bufferOffset += l1
                         offset += l1
                     }

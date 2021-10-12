@@ -18,7 +18,7 @@
 package lupos.simulator_iot.models.net
 
 internal class Link(
-    var distanceInMeters: Int,
+    var distanceInMeters: Double,
     val linkTypeIndex: Int,
     val dataRateInKbps: Int,
 ) {
@@ -29,17 +29,15 @@ internal class Link(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        other as Link
-
+        if (other !is Link)return false
         if (distanceInMeters != other.distanceInMeters) return false
         if (linkTypeIndex != other.linkTypeIndex) return false
         if (dataRateInKbps != other.dataRateInKbps) return false
-
         return true
     }
 
     override fun hashCode(): Int {
-        var result = distanceInMeters
+        var result = (distanceInMeters * 1000.0).toInt()
         result = 31 * result + linkTypeIndex
         result = 31 * result + dataRateInKbps
         return result
