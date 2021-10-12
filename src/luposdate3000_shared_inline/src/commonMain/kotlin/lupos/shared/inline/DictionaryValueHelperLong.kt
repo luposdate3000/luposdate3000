@@ -76,6 +76,9 @@ internal object DictionaryValueHelperLong {
     internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Long) = ByteArrayHelper.writeLong8(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Long) = BufferManagerPage.writeLong8(buffer, off, value)
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) = ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
 
     @Suppress("NOTHING_TO_INLINE")
@@ -91,6 +94,9 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromByteArray(buffer: ByteArray, off: Int): Long = ByteArrayHelper.readLong8(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Long = BufferManagerPage.readLong8(buffer, off)
+
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
 
     @Suppress("NOTHING_TO_INLINE")
@@ -98,6 +104,9 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Long = ByteArrayHelper.readLongX(buffer, off, bytes)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Long = BufferManagerPage.readLongX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun getSize(): Int = 8
@@ -116,7 +125,7 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:118"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:127"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value> 0xFFFFFFFF) {
             if (value> 0xFFFFFFFFFFFF) {
                 if (value> 0xFFFFFFFFFFFFFF) {

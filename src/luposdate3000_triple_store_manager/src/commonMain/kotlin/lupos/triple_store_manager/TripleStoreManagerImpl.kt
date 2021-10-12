@@ -236,7 +236,7 @@ public class TripleStoreManagerImpl public constructor(
         val buffer = ByteArray(size)
         var off = 0
         val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
-        page.copyInto(buffer, off, 8, 8 + len)
+        BufferManagerPage.copyInto(page, buffer, off, 8, 8 + len)
         off += len
         bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:240"/*SOURCE_FILE_END*/, pageid)
         while (off < size) {
@@ -244,7 +244,7 @@ public class TripleStoreManagerImpl public constructor(
             page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:243"/*SOURCE_FILE_END*/, pageid)
             nextid = BufferManagerPage.readInt4(page, 0)
             val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
-            page.copyInto(buffer, off, 4, 4 + len2)
+            BufferManagerPage.copyInto(page, buffer, off, 4, 4 + len2)
             off += len2
             bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:248"/*SOURCE_FILE_END*/, pageid)
         }

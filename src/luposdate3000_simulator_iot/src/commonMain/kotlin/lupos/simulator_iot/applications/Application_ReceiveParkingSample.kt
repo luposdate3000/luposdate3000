@@ -39,6 +39,7 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
     }
 
     private fun sendPackage(pck: Package_Application_ParkingSample) {
+        TODO("reusing blank nodes does not work like this")
         val ids = idCache[pck.sensorID]!!
         val query = StringBuilder()
         query.appendLine("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>")
@@ -65,6 +66,7 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
     }
 
     override fun receive(pck: IPayload): IPayload? {
+        TODO("the Package_QueryResponse is never recieved")
         if (pck is Package_Application_ParkingSample) {
             if (idCacheRequested.values.contains(pck.sensorID)) {
                 pendingPackages.add(pck)

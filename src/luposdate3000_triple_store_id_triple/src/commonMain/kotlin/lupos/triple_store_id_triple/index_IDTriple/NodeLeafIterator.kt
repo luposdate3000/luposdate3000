@@ -16,12 +16,13 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
-internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField internal val nodeManager: NodeManager) : TripleIterator() {
+internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField internal val nodeManager: NodeManager) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 
@@ -54,11 +55,11 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             val nextid = NodeShared.getNextNode(node)
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:56"/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:57"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:59"/*SOURCE_FILE_END*/, nodeid) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:60"/*SOURCE_FILE_END*/ }, { node != it })
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:60"/*SOURCE_FILE_END*/, nodeid) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:61"/*SOURCE_FILE_END*/ }, { node != it })
                     node = it
                     remaining = NodeShared.getTripleCount(node)
                 }

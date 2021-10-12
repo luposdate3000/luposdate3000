@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
+import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
 import kotlin.jvm.JvmField
 
-internal abstract class NodeLeafColumnIteratorPrefix(node: ByteArray, nodeid: Int, @JvmField val prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager)
+internal abstract class NodeLeafColumnIteratorPrefix(node: BufferManagerPageWrapper, nodeid: Int, @JvmField val prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager)
