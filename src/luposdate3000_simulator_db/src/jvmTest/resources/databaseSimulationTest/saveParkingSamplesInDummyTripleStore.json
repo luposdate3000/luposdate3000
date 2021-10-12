@@ -11,7 +11,6 @@
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
                 "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 40.0,
             "supportedLinkTypes": [],
@@ -27,7 +26,6 @@
                     "sendStartClockInSec": 15,
                 },
                 "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 3.0,
             "supportedLinkTypes": [],

@@ -16,17 +16,16 @@
  */
 package lupos.simulator_iot.applications
 
+import lupos.shared.SanityCheck
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.Package_Query
 import lupos.simulator_iot.Package_QueryResponse
-
 public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
     private lateinit var parent: IApplicationStack_Middleware
-    private val idCache = mutableMapOf<Int, Pair<String, String>>() // pck.sensorID -> _:Sensor to _:ParkingSlotLocation
-    private val idCacheRequested = mutableMapOf<Int, Int>() // queryID -> pck.sensorID
-    private val idCacheRequestedSelect = mutableSetOf<Int>() // queryID
+    private val idCacheRequested = mutableMapOf<Int, Int>() // queryID -> sensorID
     private val pendingPackages = mutableListOf<Package_Application_ParkingSample>()
-    private val idSampleInserted = mutableSetOf<Int>() // queryID
+    private val idSampleInserted2 = mutableSetOf<Int>() // sensorID
+    private val idSampleInserted3 = mutableSetOf<Int>() // queryID
 
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
@@ -36,11 +35,21 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
     }
 
     override fun shutDown() {
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_ReceiveParkingSample.kt:38"/*SOURCE_FILE_END*/ },
+            { idSampleInserted3.size == 0 }
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_ReceiveParkingSample.kt:42"/*SOURCE_FILE_END*/ },
+            { idCacheRequested.size == 0 }
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_ReceiveParkingSample.kt:46"/*SOURCE_FILE_END*/ },
+            { pendingPackages.size == 0 }
+        )
     }
 
     private fun sendPackage(pck: Package_Application_ParkingSample) {
-        TODO("reusing blank nodes does not work like this")
-        val ids = idCache[pck.sensorID]!!
         val query = StringBuilder()
         query.appendLine("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>")
         query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
@@ -48,29 +57,33 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
         query.appendLine("PREFIX ssn: <http://www.w3.org/ns/ssn/>")
         query.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
         query.appendLine("")
-        query.appendLine("INSERT DATA {")
+        query.appendLine("INSERT {")
         query.appendLine("_:Observation a sosa:Observation .")
         query.appendLine("_:Observation sosa:hasFeatureOfInterest parking:AvailableParkingSpaces .")
         query.appendLine("_:Observation sosa:hasSimpleResult \"${pck.isOccupied}\"^^xsd:boolean .")
-        query.appendLine("_:Observation sosa:madeBySensor ${ids.first} .")
-        query.appendLine("_:Observation sosa:observedProperty ${ids.second} .")
+        query.appendLine("_:Observation sosa:madeBySensor ?Sensor .")
+        query.appendLine("_:Observation sosa:observedProperty ?ParkingSlotLocation .")
         query.appendLine("_:Observation sosa:phenomenonTime \"${pck.sampleTime}\"^^xsd:dateTime .")
         query.appendLine("_:Observation sosa:resultTime \"${pck.sampleTime}\"^^xsd:dateTime .")
         query.appendLine("_:Observation sosa:usedProcedure parking:SensorOnEachSlot .")
         query.appendLine("_:Observation ssn:wasOriginatedBy parking:CarMovement .")
-        query.appendLine("${ids.first} sosa:madeObservation _:Observation .")
+        query.appendLine("?Sensor sosa:madeObservation _:Observation .")
+        query.appendLine("} WHERE {")
+        query.appendLine("?ParkingSlotLocation sosa:isObservedBy ?Sensor .")
+        query.appendLine("?Sensor parking:sensorID \"${pck.sensorID}\"^^xsd:integer .")
         query.appendLine("}")
         val pckQuery = Package_Query(ownAddress, query.toString().encodeToByteArray())
         parent.send(ownAddress, pckQuery)
-        idSampleInserted.add(pckQuery.queryID)
+        idSampleInserted3.add(pckQuery.queryID)
     }
 
     override fun receive(pck: IPayload): IPayload? {
-        TODO("the Package_QueryResponse is never recieved")
         if (pck is Package_Application_ParkingSample) {
             if (idCacheRequested.values.contains(pck.sensorID)) {
                 pendingPackages.add(pck)
-            } else if (idCache[pck.sensorID] == null) {
+            } else if (idSampleInserted2.contains(pck.sensorID)) {
+                sendPackage(pck)
+            } else {
                 val query = StringBuilder()
                 query.appendLine("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>")
                 query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
@@ -101,44 +114,23 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
                 parent.send(ownAddress, pckQuery)
                 idCacheRequested[pckQuery.queryID] = pck.sensorID
                 pendingPackages.add(pck)
-            } else {
-                sendPackage(pck)
             }
             return null
         } else if (pck is Package_QueryResponse) {
             val sensorID = idCacheRequested[pck.queryID]
             if (sensorID != null) {
+                idSampleInserted2.add(sensorID)
                 idCacheRequested.remove(pck.queryID)
-                if (idCacheRequestedSelect.contains(pck.queryID)) {
-                    idCacheRequestedSelect.remove(pck.queryID)
-                    TODO(pck.result.decodeToString())
-                    for (i in 0 until pendingPackages.size) {
-                        val pck = pendingPackages[pendingPackages.size - 1 - i]
-                        if (idCache[pck.sensorID] != null) {
-                            sendPackage(pck)
-                            pendingPackages.removeAt(i)
-                        }
+                for (i in 0 until pendingPackages.size) {
+                    val pck = pendingPackages[pendingPackages.size - 1 - i]
+                    if (idSampleInserted2.contains(pck.sensorID)) {
+                        sendPackage(pck)
+                        pendingPackages.removeAt(i)
                     }
-                } else {
-                    val query = StringBuilder()
-                    query.appendLine("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>")
-                    query.appendLine("PREFIX parking: <https://github.com/luposdate3000/parking#>")
-                    query.appendLine("PREFIX sosa: <http://www.w3.org/ns/sosa/>")
-                    query.appendLine("PREFIX ssn: <http://www.w3.org/ns/ssn/>")
-                    query.appendLine("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>")
-                    query.appendLine("")
-                    query.appendLine("SELECT ?sensor ?parkingSlot WHERE {")
-                    query.appendLine("_:ParkingSlotLocation sosa:isObservedBy _:Sensor .")
-                    query.appendLine("_:Sensor parking:sensorID \"${sensorID}\"^^xsd:integer .")
-                    query.appendLine("}")
-                    val pckQuery = Package_Query(ownAddress, query.toString().encodeToByteArray())
-                    parent.send(ownAddress, pckQuery)
-                    idCacheRequested[pckQuery.queryID] = sensorID
-                    idCacheRequestedSelect.add(pckQuery.queryID)
                 }
                 return null
-            } else if (idSampleInserted.contains(pck.queryID)) {
-                idSampleInserted.remove(pck.queryID)
+            } else if (idSampleInserted3.contains(pck.queryID)) {
+                idSampleInserted3.remove(pck.queryID)
                 return null
             } else {
                 return pck

@@ -12,7 +12,6 @@
                     "sendStartClockInSec": 15,
                 },
                 "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {},
             },
             "performance": 20.0,
             "supportedLinkTypes": [

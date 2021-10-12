@@ -15,7 +15,6 @@
                     "useDictionaryInlineEncoding": true
                 },
                 "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {                }
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveQueryResponse": {                },
             },
             "performance": 100.0,
             "supportedLinkTypes": [
