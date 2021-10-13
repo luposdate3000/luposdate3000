@@ -279,7 +279,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
 // assign host to root node
             partitionHelper.startUp()
             // println(root.toXMLElement(false, partitionHelper))
-            query.operatorgraphParts[-1] = root.toXMLElement(true, partitionHelper)
+            query.operatorgraphParts[-1] = root.toXMLElementRoot(true, partitionHelper)
             query.operatorgraphPartsToHostMap[-1] = (query.getInstance().tripleStoreManager!!).getLocalhost()
 // split query into parts, and automatically assign hosts to triple store access parts
             splitPartitions(query, root, mutableMapOf())

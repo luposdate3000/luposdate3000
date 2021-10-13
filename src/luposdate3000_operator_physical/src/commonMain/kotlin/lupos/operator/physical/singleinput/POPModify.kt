@@ -36,14 +36,14 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
-        val res = super.toXMLElement(false, PartitionHelper())
+        val res = super.toXMLElement(partial, partition)
         val xmlInsert = XMLElement("insert")
         val xmlDelete = XMLElement("delete")
         for ((first, second) in modify) {
             if (second == EModifyTypeExt.INSERT) {
-                xmlInsert.addContent(first.toXMLElement(false, PartitionHelper()))
+                xmlInsert.addContent(first.toXMLElement(false, partition))
             } else {
-                xmlDelete.addContent(first.toXMLElement(false, PartitionHelper()))
+                xmlDelete.addContent(first.toXMLElement(false, partition))
             }
         }
         res.addContent(xmlInsert)

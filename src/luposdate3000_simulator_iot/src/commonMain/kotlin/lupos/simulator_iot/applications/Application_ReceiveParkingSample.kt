@@ -73,8 +73,8 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
         query.appendLine("?Sensor parking:sensorID \"${pck.sensorID}\"^^xsd:integer .")
         query.appendLine("}")
         val pckQuery = Package_Query(ownAddress, query.toString().encodeToByteArray())
-        parent.send(ownAddress, pckQuery)
         idSampleInserted3.add(pckQuery.queryID)
+        parent.send(ownAddress, pckQuery)
     }
 
     override fun receive(pck: IPayload): IPayload? {
@@ -111,9 +111,9 @@ public class Application_ReceiveParkingSample(private val ownAddress: Int) : IAp
                 query.appendLine("_:Sensor ssn:implements parking:SensorOnEachSlot .")
                 query.appendLine("}")
                 val pckQuery = Package_Query(ownAddress, query.toString().encodeToByteArray())
-                parent.send(ownAddress, pckQuery)
                 idCacheRequested[pckQuery.queryID] = pck.sensorID
                 pendingPackages.add(pck)
+                parent.send(ownAddress, pckQuery)
             }
             return null
         } else if (pck is Package_QueryResponse) {

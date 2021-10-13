@@ -73,10 +73,10 @@ public class Application_QuerySender(
         if (eventCounter <maxNumber || maxNumber == -1) {
             eventCounter++
             val p = queryPck
-            parent.send(receiver, p)
             if (p is Package_Query) {
                 awaitingQueries.add(p.queryID)
             }
+            parent.send(receiver, p)
             parent.flush()
             parent.registerTimer(sendRateInSec.toLong() * 1000000000L, this)
         }

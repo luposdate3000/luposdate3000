@@ -45,7 +45,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:46"/*SOURCE_FILE_END*/ },
-            { endIndex <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { endIndex <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         data.copyInto(destination, destinationOffset, startIndex, endIndex)
     }
@@ -60,7 +60,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:61"/*SOURCE_FILE_END*/ },
-            { destinationOffset + endIndex - startIndex <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { destinationOffset + endIndex - startIndex <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         source.copyInto(data, destinationOffset, startIndex, endIndex)
     }
@@ -112,7 +112,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:113"/*SOURCE_FILE_END*/ },
-            { offset + 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeInt2(data, offset, value)
     }
@@ -130,7 +130,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:131"/*SOURCE_FILE_END*/ },
-            { offset + 2 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeInt3(data, offset, value)
     }
@@ -148,7 +148,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:149"/*SOURCE_FILE_END*/ },
-            { offset + 3 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeInt4(data, offset, value)
     }
@@ -166,7 +166,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:167"/*SOURCE_FILE_END*/ },
-            { offset + count - 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeIntX(data, offset, value, count)
     }
@@ -184,7 +184,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:185"/*SOURCE_FILE_END*/ },
-            { offset + count - 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeLongX(data, offset, value, count)
     }
@@ -202,7 +202,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:203"/*SOURCE_FILE_END*/ },
-            { offset + 7 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeLong8(data, offset, value)
     }
@@ -220,7 +220,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:221"/*SOURCE_FILE_END*/ },
-            { offset + 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         ByteArrayHelper.writeChar(data, offset, value)
     }
@@ -238,7 +238,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:239"/*SOURCE_FILE_END*/ },
-            { offset + 7 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readLong8(data, offset)
     }
@@ -256,7 +256,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:257"/*SOURCE_FILE_END*/ },
-            { offset + 3 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readInt4(data, offset)
     }
@@ -274,7 +274,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:275"/*SOURCE_FILE_END*/ },
-            { offset + 2 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readInt3(data, offset)
     }
@@ -292,7 +292,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:293"/*SOURCE_FILE_END*/ },
-            { offset + 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readInt2(data, offset)
     }
@@ -328,7 +328,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:329"/*SOURCE_FILE_END*/ },
-            { offset + count - 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readIntX(data, offset, count)
     }
@@ -346,7 +346,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:347"/*SOURCE_FILE_END*/ },
-            { offset + count - 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readLongX(data, offset, count)
     }
@@ -364,7 +364,7 @@ internal object BufferManagerPage {
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPage.kt:365"/*SOURCE_FILE_END*/ },
-            { offset + 1 <BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+            { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
         return ByteArrayHelper.readChar(data, offset)
     }
