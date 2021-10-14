@@ -16,14 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt") 
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
-@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt") 
+@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
-@file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
+@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
@@ -31,25 +31,25 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
- 
-import launcher.CreateModuleArgs 
+
+import launcher.CreateModuleArgs
 import launcher.DryMode
 import launcher.EDictionaryValueMode
-import launcher.ExecMode 
+import launcher.ExecMode
 import launcher.InlineMode
-import launcher.IntellijMode 
-import launcher.ParamClassMode 
+import launcher.IntellijMode
+import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.TargetMode2
-import launcher.createBuildFileForModule 
+import launcher.createBuildFileForModule
 import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared.inline.Platform 
+import lupos.shared.inline.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -62,7 +62,7 @@ object LauncherConfig {
     val configFileName = "build.config"
     val config = readConfig()
     fun readConfig(): MutableMap<String, String> {
-        var res = mutableMapOf<String, String>() 
+        var res = mutableMapOf<String, String>()
         if (File(configFileName).exists()) {
             File(configFileName).forEachLine { line ->
                 val a = line.split("=")
@@ -221,7 +221,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             }
                         }
                     }
-line.startsWith("useKTLint=") -> {
+                    line.startsWith("useKTLint=") -> {
                         currentArgs.useKTLint = line.substring("useKTLint=".length).toBoolean()
                     }
                     else -> {
@@ -857,14 +857,14 @@ fun onRun() {
                 if (module.enabledRunFunc()) {
                     jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
                     jars.add("${module.moduleFolder}/build/libs/${module.moduleName.lowercase()}-jvm-0.0.1.jar")
-if(LauncherConfig.getConfigValue("--dryMode") == "Enable_Test"){
-val f = File("${module.moduleFolder}/build/external_jvm_test_dependencies")
-                    if (f.exists()) {
-                        f.forEachLine {
-                            jars.add(it)
+                    if (LauncherConfig.getConfigValue("--dryMode") == "Enable_Test") {
+                        val f = File("${module.moduleFolder}/build/external_jvm_test_dependencies")
+                        if (f.exists()) {
+                            f.forEachLine {
+                                jars.add(it)
+                            }
                         }
                     }
-}
                     val f = File("${module.moduleFolder}/build/external_jvm_dependencies")
                     if (f.exists()) {
                         f.forEachLine {
@@ -873,15 +873,15 @@ val f = File("${module.moduleFolder}/build/external_jvm_test_dependencies")
                     }
                 }
             }
-var junitMain=""
+            var junitMain = ""
             var classpath = ""
             for (jar in jars.sorted()) {
-if(jar.contains("standalone")){
-println(jar)
-}
-if(jar.contains("junit-platform-console-standalone")){
-junitMain=jar
-}else                if (classpath == "") {
+                if (jar.contains("standalone")) {
+                    println(jar)
+                }
+                if (jar.contains("junit-platform-console-standalone")) {
+                    junitMain = jar
+                } else if (classpath == "") {
                     classpath = jar
                 } else {
                     if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -917,49 +917,49 @@ junitMain=jar
                 cmd.add("java")
                 cmd.add("-Xmx${Platform.getAvailableRam()}g")
             }
-val a1=LauncherConfig.getConfigValue("--processUrlsStore")
-val a2=LauncherConfig.getConfigValue("--processUrlsQuery")
-val a3=(a1.split(",").toList()+a2.split(",").toList()).toSet()
-var c=a3.size
-if(c==0){
-c=1
-}
+            val a1 = LauncherConfig.getConfigValue("--processUrlsStore")
+            val a2 = LauncherConfig.getConfigValue("--processUrlsQuery")
+            val a3 = (a1.split(",").toList() + a2.split(",").toList()).toSet()
+            var c = a3.size
+            if (c == 0) {
+                c = 1
+            }
             if (LauncherConfig.getConfigValue("--dryMode") == "Enable_Test") {
-cmd.add("-jar")
-cmd.add(junitMain)
-            cmd.add("-cp")
-            cmd.add(classpath)
+                cmd.add("-jar")
+                cmd.add(junitMain)
+                cmd.add("-cp")
+                cmd.add(classpath)
 
-                println("export LUPOS_PROCESS_URLS_STORE=${a1}")
-                println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
+                println("export LUPOS_PROCESS_URLS_STORE=$a1")
+                println("export LUPOS_PROCESS_URLS_QUERY=$a2")
                 println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
                 println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
-            } else             if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
-            cmd.add("-cp")
-            cmd.add(classpath)
-            cmd.add("MainKt")
-            cmd.addAll(runArgs)
-                println("export LUPOS_PROCESS_URLS_STORE=${a1}")
-                println("export LUPOS_PROCESS_URLS_QUERY=${a2}")
+            } else if (LauncherConfig.getConfigValue("--dryMode") == "Enable") {
+                cmd.add("-cp")
+                cmd.add(classpath)
+                cmd.add("MainKt")
+                cmd.addAll(runArgs)
+                println("export LUPOS_PROCESS_URLS_STORE=$a1")
+                println("export LUPOS_PROCESS_URLS_QUERY=$a2")
                 println("export LUPOS_THREAD_COUNT=${LauncherConfig.getConfigValue("--threadCount")}")
                 println("export LUPOS_PARTITION_MODE=${LauncherConfig.getConfigValue("--partitionMode")}")
                 println("export LUPOS_DICTIONARY_MODE=${LauncherConfig.getConfigValue("--dictionaryMode")}")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
-            cmd.add("-cp")
-            cmd.add(classpath)
-            cmd.add("MainKt")
-            cmd.addAll(runArgs)
+                cmd.add("-cp")
+                cmd.add(classpath)
+                cmd.add("MainKt")
+                cmd.addAll(runArgs)
                 Array(c) {
                     val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
                     env["LUPOS_PROCESS_ID"] = "$it"
-                    env["LUPOS_PROCESS_URLS_STORE"] = "${a1}"
-                    env["LUPOS_PROCESS_URLS_QUERY"] = "${a2}"
+                    env["LUPOS_PROCESS_URLS_STORE"] = "$a1"
+                    env["LUPOS_PROCESS_URLS_QUERY"] = "$a2"
                     env["LUPOS_THREAD_COUNT"] = "${LauncherConfig.getConfigValue("--threadCount")}"
                     env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
                     env["LUPOS_DICTIONARY_MODE"] = "${LauncherConfig.getConfigValue("--dictionaryMode")}"

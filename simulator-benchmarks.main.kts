@@ -88,28 +88,28 @@ val contentLines = mutableListOf<MutableList<Double>>()
 val attributeLines = mutableListOf<MutableList<String>>()
 val specializedCmdHeaders = listOf("campus", "networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
 headerLine.addAll(specializedCmdHeaders)
-var printCounter=0
+var printCounter = 0
 
-fun printStatus(){
-println()
-println("printing status csv '${printCounter}'")
-println()
-printCounter++
-println(headerLine.joinToString())
-for (i in 0 until contentLines.size) {
-    while (contentLines[i].size < headerLine.size - specializedCmdHeaders.size) {
-        contentLines[i].add(0.0)
+fun printStatus() {
+    println()
+    println("printing status csv '$printCounter'")
+    println()
+    printCounter++
+    println(headerLine.joinToString())
+    for (i in 0 until contentLines.size) {
+        while (contentLines[i].size < headerLine.size - specializedCmdHeaders.size) {
+            contentLines[i].add(0.0)
+        }
+        println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
     }
-    println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
-}
 }
 
-loop@         for (campus in campusList) {
-            val json_campus = "$BASE_PATH/$campus"
-for (networkTopology in networkTopologyList) {
-    val json_networkTopology = "$BASE_PATH/$networkTopology"
-    for (query in queryList) {
-        val json_query = "$BASE_PATH/$query"
+loop@ for (campus in campusList) {
+    val json_campus = "$BASE_PATH/$campus"
+    for (networkTopology in networkTopologyList) {
+        val json_networkTopology = "$BASE_PATH/$networkTopology"
+        for (query in queryList) {
+            val json_query = "$BASE_PATH/$query"
             for (routing in routingList) {
                 val json_routing = "$BASE_PATH/$routing"
                 for (databaseTopology in databaseTopologyList) {
@@ -129,16 +129,16 @@ for (networkTopology in networkTopologyList) {
                                     continue
                                 }
                                 val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
-if(campus=="campusNoSamples.json" &&(
-multicast != "luposdate3000MulticastEnabled.json" ||
-databaseTopology!="distributedWithQueryHops.json"||
-routing!="routing_RPL_Fast.json"||
-dataDistribution!="luposdate3000_by_id_S_all_collations.json"||
-query != "Q0.json"
-)
-){
-continue
-}
+                                if (campus == "campusNoSamples.json" && (
+                                    multicast != "luposdate3000MulticastEnabled.json" ||
+                                        databaseTopology != "distributedWithQueryHops.json" ||
+                                        routing != "routing_RPL_Fast.json" ||
+                                        dataDistribution != "luposdate3000_by_id_S_all_collations.json" ||
+                                        query != "Q0.json"
+                                    )
+                                ) {
+                                    continue
+                                }
                                 val cmd = baseCmd + specializedCmd
                                 val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
                                 var firstLine = listOf<String>()
@@ -169,7 +169,7 @@ continue
                         }
                     }
                 }
-printStatus()
+                printStatus()
             }
         }
     }
