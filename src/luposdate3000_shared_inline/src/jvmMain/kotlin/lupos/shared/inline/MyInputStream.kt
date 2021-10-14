@@ -71,10 +71,12 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
         read(buf8, 4)
         return ByteArrayHelper.readInt4(buf8, 0)
     }
+
     public actual override fun readDictionaryValueType(): DictionaryValueType {
         read(buf8, DictionaryValueHelper.getSize())
         return DictionaryValueHelper.fromByteArray(buf8, 0)
     }
+
     public actual override fun readLong(): Long {
         read(buf8, 8)
         return ByteArrayHelper.readLong8(buf8, 0)

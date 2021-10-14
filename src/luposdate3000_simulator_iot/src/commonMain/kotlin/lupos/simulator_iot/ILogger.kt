@@ -16,8 +16,10 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.shared.XMLElement
 import lupos.simulator_core.ILoggerCore
+
 public interface ILogger : ILoggerCore {
     public fun initialize(simRun: SimulationRun)
     public fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long)
@@ -29,5 +31,5 @@ public interface ILogger : ILoggerCore {
     public fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>)
     public fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>)
     public fun addConnectionTable(src: Int, dest: Int, hop: Int)
-    public fun addDevice(address: Int, x: Double, y: Double,)
+    public fun addDevice(address: Int, x: Double, y: Double)
 }

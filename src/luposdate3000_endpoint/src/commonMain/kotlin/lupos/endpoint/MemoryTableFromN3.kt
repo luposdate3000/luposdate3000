@@ -15,11 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
+
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))

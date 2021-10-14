@@ -16,7 +16,9 @@
  */
 
 package lupos.simulator_core
+
 import lupos.shared.SanityCheck
+
 public class Simulation(
     private val entities: List<Entity>,
 ) {

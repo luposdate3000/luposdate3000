@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.multiinput
+
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt

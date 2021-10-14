@@ -15,20 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dynamicArray
+
 import lupos.shared.SanityCheck
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
-    @JvmField public var buf_: ByteArray
+    @JvmField
+    public var buf_: ByteArray
 
-    @JvmField public var size_: Int = 0
+    @JvmField
+    public var size_: Int = 0
 
     public constructor(buf: ByteArray, size: Int) {
         this.buf_ = buf
         this.size_ = size
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dynamicArray/ByteArrayWrapper.kt:29"/*SOURCE_FILE_END*/ }, { size <= buf.size })
     }
+
     public constructor(buf: ByteArray) : this(buf, buf.size)
     public constructor() : this(ByteArray(20), 0)
 
@@ -51,8 +55,9 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     override fun toString(): String {
         return buf_.map { it }.subList(0, size_).toString()
     }
+
     public fun toStringShort(): String {
-        val len = if (size_ <20) {
+        val len = if (size_ < 20) {
             size_
         } else {
             20

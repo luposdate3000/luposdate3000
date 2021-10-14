@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.singleinput.modifiers
+
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt

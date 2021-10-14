@@ -21,16 +21,16 @@ import lupos.shared.IMyOutputStream
 
 internal class OutputStreamToVoid : IMyOutputStream {
     override fun flush() {}
-    override fun close() { }
-    override fun print(x: Boolean) { }
-    override fun print(x: Double) { }
-    override fun print(x: Int) { }
-    override fun print(x: String) { }
-    override fun println() { }
-    override fun println(x: String) { }
-    override fun write(buf: ByteArray) { }
-    override fun write(buf: ByteArray, len: Int) { }
-    override fun writeDictionaryValueType(value: DictionaryValueType) { }
-    override fun writeLong(value: Long) { }
-    override fun writeInt(value: Int) { }
+    override fun close() {}
+    override fun print(x: Boolean) {}
+    override fun print(x: Double) {}
+    override fun print(x: Int) {}
+    override fun print(x: String) {}
+    override fun println() {}
+    override fun println(x: String) {}
+    override fun write(buf: ByteArray) {}
+    override fun write(buf: ByteArray, len: Int) {}
+    override fun writeDictionaryValueType(value: DictionaryValueType) {}
+    override fun writeLong(value: Long) {}
+    override fun writeInt(value: Int) {}
 }

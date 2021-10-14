@@ -100,6 +100,7 @@ public class JSOutputStream(private val filename: String, append: Boolean) {
         buffer[bufferSize + 3] = (value and 0xFF).toByte()
         bufferSize += 4
     }
+
     public fun writeLong(value: Long) {
         reserveSpace(8)
         buffer[bufferSize] = ((value shr 56) and 0xFF).toByte()
@@ -176,6 +177,7 @@ public class JSInputStream {
         pos += 4
         return res
     }
+
     public fun readLong(): Long {
         val res = (((buffer[pos].toLong() and 0xFF) shl 56) or ((buffer[pos + 1].toLong() and 0xFF) shl 48) or ((buffer[pos + 2].toLong() and 0xFF) shl 40) or ((buffer[pos + 3].toLong() and 0xFF) shl 32) or ((buffer[pos + 4].toLong() and 0xFF) shl 24) or ((buffer[pos + 5].toLong() and 0xFF) shl 16) or ((buffer[pos + 6].toLong() and 0xFF) shl 8) or ((buffer[pos + 7].toLong() and 0xFF)))
         pos += 8

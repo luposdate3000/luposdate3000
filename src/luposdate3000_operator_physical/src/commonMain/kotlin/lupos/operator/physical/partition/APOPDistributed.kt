@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
@@ -42,6 +43,7 @@ public abstract class APOPDistributed public constructor(
             res.addAttribute("partitionID", "" + partitionID)
             return res
         }
+
         internal fun toXMLElementHelper4(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>): XMLElement {
             val res = toXMLElementHelper3(classname, partitionID, partial, isRoot)
             for ((k, h) in hosts) {
@@ -49,6 +51,7 @@ public abstract class APOPDistributed public constructor(
             }
             return res
         }
+
         internal fun toXMLElementHelper10(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Map<Int, String>, orderedBy: List<String>): XMLElement {
             val res = toXMLElementHelper4(classname, partitionID, partial, isRoot, hosts)
             for (o in orderedBy) {
@@ -56,11 +59,13 @@ public abstract class APOPDistributed public constructor(
             }
             return res
         }
+
         internal fun toXMLElementHelper5(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>): XMLElement {
             val res = toXMLElementHelper3(classname, partitionID, partial, isRoot)
             res.addContent(XMLElement("partitionDistributionKey").addAttribute("host", hosts.second).addAttribute("key", "${hosts.first}"))
             return res
         }
+
         internal fun toXMLElementHelper6(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, partitionedBy: MutableMap<String, Int>): XMLElement {
             val res = toXMLElementHelper3(classname, partitionID, partial, isRoot)
             for ((k, v) in partitionedBy) {
@@ -68,6 +73,7 @@ public abstract class APOPDistributed public constructor(
             }
             return res
         }
+
         internal fun toXMLElementHelper7(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, keys: List<Int>, partitionedBy: MutableMap<String, Int>): XMLElement {
             val res = toXMLElementHelper6(classname, partitionID, partial, isRoot, partitionedBy)
             for (k in keys) {
@@ -75,12 +81,14 @@ public abstract class APOPDistributed public constructor(
             }
             return res
         }
+
         internal fun toXMLElementHelper8(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, keys: List<Int>, partitionedBy: MutableMap<String, Int>, partitionVariable: String, partitionCount: Int): XMLElement {
             val res = toXMLElementHelper7(classname, partitionID, partial, isRoot, keys, partitionedBy)
             res.addAttribute("partitionVariable", partitionVariable)
             res.addAttribute("partitionCount", "$partitionCount")
             return res
         }
+
         internal fun toXMLElementHelper9(classname: String, partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>): XMLElement {
             val res = toXMLElementHelper6(classname, partitionID, partial, isRoot, partitionedBy)
             res.addContent(XMLElement("partitionDistributionKey").addAttribute("key", "$keys"))

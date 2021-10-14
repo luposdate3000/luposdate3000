@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
@@ -29,6 +30,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
 import kotlin.jvm.JvmField
+
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: DictionaryValueType

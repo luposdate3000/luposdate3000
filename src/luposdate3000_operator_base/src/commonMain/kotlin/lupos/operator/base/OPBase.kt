@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base
+
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
@@ -93,6 +94,7 @@ public abstract class OPBase public constructor(
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {
         sortPriorities = value
     }
+
     public fun setMySortPriority(value: MutableList<SortHelper>, filteredByName: List<String>) {
         val tmp = mutableListOf<SortHelper>()
         for (v in value) {
@@ -104,6 +106,7 @@ public abstract class OPBase public constructor(
         }
         mySortPriority = tmp
     }
+
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }

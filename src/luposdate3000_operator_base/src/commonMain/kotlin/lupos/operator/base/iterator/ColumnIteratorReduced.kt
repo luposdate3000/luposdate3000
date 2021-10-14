@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
+
 public class ColumnIteratorReduced(@JvmField public val child: ColumnIterator) : ColumnIterator() {
     @JvmField
     public var last: DictionaryValueType = DictionaryValueHelper.nullValue

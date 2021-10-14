@@ -28,6 +28,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
+
 public object EvalTripleStoreIterator {
     public operator fun invoke(
         target: Pair<LuposHostname, LuposStoreKey>,

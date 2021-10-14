@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
@@ -51,6 +52,7 @@ public abstract class APOPParallel public constructor(
         }
         return res
     }
+
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -61,5 +63,6 @@ public abstract class APOPParallel public constructor(
             tmp.getProvidedVariableNames()
         }
     }
+
     override fun toSparql(): String = children[0].toSparql()
 }

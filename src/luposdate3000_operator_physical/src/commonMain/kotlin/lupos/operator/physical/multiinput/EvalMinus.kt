@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.RowIteratorMinus
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalMinus {
     public operator fun invoke(
         childA: IteratorBundle,

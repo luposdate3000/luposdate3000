@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.IPayload
+
 public class ApplicationStack_Sequence(
     private val ownAddress: Int,
     private val child: IApplicationStack_Actuator,
@@ -25,9 +27,11 @@ public class ApplicationStack_Sequence(
     private val incomingNum = mutableListOf<Int>() // index is the src-address
     private val caches = mutableListOf<MutableList<Package_ApplicationStack_Sequence>>() // index is the src-address
     private lateinit var parent: IApplicationStack_Middleware
+
     init {
         child.setRouter(this)
     }
+
     override fun startUp(): Unit = child.startUp()
     override fun shutDown(): Unit = child.shutDown()
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
@@ -39,9 +43,11 @@ public class ApplicationStack_Sequence(
         }
         return res
     }
+
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun receive(pck: IPayload): IPayload? {
         if (pck is Package_ApplicationStack_Sequence) {
             while (incomingNum.size <= pck.src) {
@@ -54,7 +60,7 @@ public class ApplicationStack_Sequence(
                 child.receive(pck.data)
                 incomingNum[pck.src]++
                 var changed = true
-                loop@while (changed) {
+                loop@ while (changed) {
                     changed = false
                     for (c in caches[pck.src]) {
                         if (c.num == incomingNum[pck.src]) {
@@ -74,9 +80,10 @@ public class ApplicationStack_Sequence(
             }
             return null
         } else {
-            return child.receive(pck) // unsequenced packages ... 
+            return child.receive(pck) // unsequenced packages ...
         }
     }
+
     override fun send(destinationAddress: Int, pck: IPayload) {
         while (outgoingNum.size <= destinationAddress) {
             outgoingNum.add(0)
@@ -85,6 +92,7 @@ public class ApplicationStack_Sequence(
         val pck2 = Package_ApplicationStack_Sequence(pck, num, ownAddress)
         parent.send(destinationAddress, pck2)
     }
+
     override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()

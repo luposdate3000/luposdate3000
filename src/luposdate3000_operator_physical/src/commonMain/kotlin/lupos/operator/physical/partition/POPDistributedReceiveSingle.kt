@@ -47,7 +47,7 @@ public class POPDistributedReceiveSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>,) = toXMLElementHelper5("POPDistributedReceiveSingle", partitionID, partial, true, hosts)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>) = toXMLElementHelper5("POPDistributedReceiveSingle", partitionID, partial, true, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -60,6 +60,7 @@ public class POPDistributedReceiveSingle public constructor(
             return POPDistributedReceiveSingle(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts)
         }
     }
+
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveSingle.kt:63"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }

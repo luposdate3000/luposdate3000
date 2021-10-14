@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
@@ -57,14 +58,17 @@ public object RestEndpoint {
     public fun registerDictionary(key: String, instance: Luposdate3000Instance): IDictionary {
         return registerDictionary(key, DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
     }
+
     public fun registerDictionary(key: String, dict: IDictionary, instance: Luposdate3000Instance): IDictionary {
         val dict2 = RemoteDictionaryServer(dict, instance)
         dictionaryMapping[key] = dict2
         return dict2
     }
+
     public fun removeDictionary(key: String) {
         dictionaryMapping.remove(key)
     }
+
     public fun distributed_graph_create(params: Map<String, String>, instance: Luposdate3000Instance) {
         val name = params["name"]!!
         val query = Query(instance)

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
+
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -116,6 +117,7 @@ public class TripleStoreIndexDescriptionSimple(
         res.addAttribute("key", "$key")
         return res
     }
+
     override fun requireSplitFromStore(): Boolean = true
     override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = null
 }

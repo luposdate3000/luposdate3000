@@ -16,12 +16,14 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_core.Simulation
 import lupos.simulator_iot.config.Configuration
+
 public class SimulationRun {
 
     public lateinit var sim: Simulation
@@ -40,10 +42,12 @@ public class SimulationRun {
     public fun parseConfig(json: IJsonParserValue, fileName: String, autocorrect: Boolean = true): Configuration {
         return parseConfig(json as JsonParserObject, fileName, autocorrect)
     }
+
     public fun parseConfig(json: JsonParserObject, fileName: String, autocorrect: Boolean = true): Configuration {
         config.parse(json, fileName, autocorrect)
         return config
     }
+
     public fun parseConfig(fileName: String, autocorrect: Boolean = true, modifyJson: (JsonParserObject) -> Unit = {}): Configuration {
         val fileStr = File(fileName).readAsString()
         val json = JsonParser().stringToJson(fileStr) as JsonParserObject

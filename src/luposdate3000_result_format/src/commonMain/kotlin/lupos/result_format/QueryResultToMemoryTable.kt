@@ -37,6 +37,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
+
 public class QueryResultToMemoryTable : IResultFormat {
     private val testingVerbose = false
 
@@ -44,7 +45,7 @@ public class QueryResultToMemoryTable : IResultFormat {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val startTime = DateHelperRelative.markNow()
-        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) <timeoutInMs) {
+        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == DictionaryValueHelper.nullValue) {
@@ -151,15 +152,19 @@ public class QueryResultToMemoryTable : IResultFormat {
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean): List<MemoryTable> {
         return invokeInternal(rootNode, timeoutInMs, asRoot)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): List<MemoryTable> {
         return invokeInternal(rootNode, timeoutInMs, true)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream): List<MemoryTable> {
         return invokeInternal(rootNode, -1, true)
     }
+
     override operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
         return invokeInternal(rootNode, -1, true)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean): List<MemoryTable> {
         return invokeInternal(rootNode, -1, asRoot)
     }

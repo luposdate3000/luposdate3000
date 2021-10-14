@@ -16,6 +16,7 @@
  */
 
 package lupos.shared.inline.fileformat
+
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateRow

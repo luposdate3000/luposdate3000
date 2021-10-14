@@ -35,6 +35,7 @@ internal object Stubs {
         val loc = GeoLocation.getRandom(simRun.randGenerator.random)
         return Device(simRun, loc, address, 100.0, LinkManager(linkTypes), true, createRouter(simRun), mutableMapOf())
     }
+
     private fun createRouter(simRun: SimulationRun): ApplicationStack_RPL {
         return ApplicationStack_RPL(
             ApplicationStack_MultipleChilds(arrayOf()),

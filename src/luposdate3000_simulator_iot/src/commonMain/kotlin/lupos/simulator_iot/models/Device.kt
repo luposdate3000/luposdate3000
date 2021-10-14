@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot.models
+
 import kotlinx.datetime.Instant
 import lupos.simulator_core.Entity
 import lupos.simulator_core.ITimer
@@ -26,6 +27,7 @@ import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.LinkManager
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
+
 public class Device(
     internal val simRun: SimulationRun,
     internal var location: GeoLocation,
@@ -38,9 +40,11 @@ public class Device(
 ) : Entity() {
     internal var isStarNetworkChild: Boolean = false
     private lateinit var deviceStart: Instant
+
     init {
         applicationStack.setDevice(this)
     }
+
     internal fun getProcessingDelay(): Long {
         if (isDeterministic) {
             return 1
@@ -50,6 +54,7 @@ public class Device(
         val scaled = microDif * 100 / performance
         return scaled.toLong()
     }
+
     internal fun getNetworkDelay(destinationAddress: Int, pck: NetworkPackage): Long {
         val processingDelay = getProcessingDelay()
         return if (destinationAddress == address) {
@@ -59,6 +64,7 @@ public class Device(
             transmissionDelay + processingDelay
         }
     }
+
     override fun onStartUp() {
         deviceStart = TimeUtils.stamp()
         applicationStack.startUp()
@@ -66,6 +72,7 @@ public class Device(
 
     override fun onSteadyState() {
     }
+
     override fun onEvent(source: Entity, data: Any) {
         deviceStart = TimeUtils.stamp()
         val pck = data as NetworkPackage
@@ -76,6 +83,7 @@ public class Device(
     override fun onShutDown() {
         applicationStack.shutDown()
     }
+
     public fun closestDeviceWithFeature(name: String): Int {
         val devicesWithFeature = simRun.config.getAllDevicesForFeature(simRun.config.featureIdForName2(name)).toMutableList()
         if (devicesWithFeature.size == 0) {
@@ -89,7 +97,7 @@ public class Device(
                 closestDistance = d.location.getDistanceInMeters(location)
             } else {
                 val dist = d.location.getDistanceInMeters(location)
-                if (dist <closestDistance) {
+                if (dist < closestDistance) {
                     closestDevice = d
                     closestDistance = dist
                 }
@@ -97,6 +105,7 @@ public class Device(
         }
         return closestDevice!!.address
     }
+
     internal fun assignToSimulation(dest: Int, hop: Int, pck: NetworkPackage, delay: Long) {
         val entity = simRun.config.getDeviceByAddress(hop)
         scheduleEvent(entity, pck, delay)

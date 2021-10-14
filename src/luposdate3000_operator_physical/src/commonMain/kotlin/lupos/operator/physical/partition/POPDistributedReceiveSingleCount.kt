@@ -46,7 +46,7 @@ public class POPDistributedReceiveSingleCount public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>,) = toXMLElementHelper5("POPDistributedReceiveSingleCount", partitionID, partial, isRoot, hosts)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, hosts: Pair<Int, String>) = toXMLElementHelper5("POPDistributedReceiveSingleCount", partitionID, partial, isRoot, hosts)
         public operator fun invoke(
             query: IQuery,
             projectedVariables: List<String>,
@@ -59,6 +59,7 @@ public class POPDistributedReceiveSingleCount public constructor(
             return POPDistributedReceiveSingleCount(query, projectedVariables, partitionID, child, conn.first, conn.second, hosts)
         }
     }
+
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))

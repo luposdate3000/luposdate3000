@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinMergeSingleColumn {
     public operator fun invoke(
         child0: IteratorBundle,

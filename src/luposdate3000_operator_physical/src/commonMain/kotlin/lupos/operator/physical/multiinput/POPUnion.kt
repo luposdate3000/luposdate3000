@@ -30,7 +30,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:32"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }, { "$uuid $variable  ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} :: ${children[0].getPartitionCount(variable)} vs ${children[1].getPartitionCount(variable)} --- ${this.toXMLElement(false,PartitionHelper()).toPrettyString()}" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPUnion.kt:32"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }, { "$uuid $variable  ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} :: ${children[0].getPartitionCount(variable)} vs ${children[1].getPartitionCount(variable)} --- ${this.toXMLElement(false, PartitionHelper()).toPrettyString()}" })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)

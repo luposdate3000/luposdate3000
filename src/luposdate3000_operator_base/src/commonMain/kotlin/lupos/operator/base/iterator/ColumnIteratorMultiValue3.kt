@@ -21,6 +21,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
+
 public class ColumnIteratorMultiValue3(@JvmField public val values: DictionaryValueTypeArray, @JvmField public var size: Int) : ColumnIterator() {
     @JvmField
     public var index: Int = 0

@@ -25,6 +25,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinMergeOptional {
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
@@ -85,6 +86,7 @@ public object EvalJoinMergeOptional {
         }
         return key[0][0] == DictionaryValueHelper.nullValue
     }
+
     public operator fun invoke(
         child: Array<IteratorBundle>,
         projectedVariables: List<String>,

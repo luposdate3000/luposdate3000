@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
@@ -65,9 +66,11 @@ public class POPDistributedReceiveMulti public constructor(
             return POPDistributedReceiveMulti(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts)
         }
     }
+
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:68"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
+
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))

@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+
 import lupos.shared.XMLElement
+
 public class VisualisationOperatorGraphNode(
     public val layer: Int,
     public val below: MutableList<VisualisationOperatorGraphNode>,

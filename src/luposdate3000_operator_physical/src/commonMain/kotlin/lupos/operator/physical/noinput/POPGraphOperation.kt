@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
+
 import lupos.operator.physical.POPBase
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
@@ -56,6 +57,7 @@ public class POPGraphOperation public constructor(
         res.addAttribute("action", EGraphOperationTypeExt.names[action])
         return res
     }
+
     override fun getPartitionCount(variable: String): Int = 1
     override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {

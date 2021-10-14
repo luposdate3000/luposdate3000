@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
+
 internal class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
@@ -72,10 +74,12 @@ internal class MyStringStream(str: String) : IMyInputStream {
         read(buf8, 4)
         return ByteArrayHelper.readInt4(buf8, 0)
     }
+
     override fun readDictionaryValueType(): DictionaryValueType {
         read(buf8, DictionaryValueHelper.getSize())
         return DictionaryValueHelper.fromByteArray(buf8, 0)
     }
+
     override fun readLong(): Long {
         read(buf8, 8)
         return ByteArrayHelper.readLong8(buf8, 0)

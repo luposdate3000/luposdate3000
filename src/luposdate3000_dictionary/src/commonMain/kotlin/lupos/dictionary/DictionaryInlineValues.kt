@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
@@ -22,6 +23,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
 public object DictionaryInlineValues {
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {

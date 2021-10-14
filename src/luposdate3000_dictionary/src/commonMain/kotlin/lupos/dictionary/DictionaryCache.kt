@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -24,12 +25,14 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
 public class DictionaryCache : IDictionaryCache {
     private var valueCapacity: Int
     private var offset = 0
     private var valueIds: DictionaryValueTypeArray
     private var valueContent: Array<ByteArrayWrapper>
     private val lock = MyReadWriteLock()
+
     public constructor(instance: Luposdate3000Instance) : this(instance.dictionaryCacheCapacity)
     public constructor(capacity: Int) {
         valueCapacity = capacity
@@ -40,6 +43,7 @@ public class DictionaryCache : IDictionaryCache {
             tmp
         }
     }
+
     override fun forEach(action: (ByteArrayWrapper, DictionaryValueType) -> Unit) {
         lock.withReadLock {
             for (i in 0 until valueCapacity) {
@@ -49,6 +53,7 @@ public class DictionaryCache : IDictionaryCache {
             }
         }
     }
+
     override fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
         var res = DictionaryValueHelper.nullValue
         lock.withReadLock {
@@ -79,6 +84,7 @@ public class DictionaryCache : IDictionaryCache {
     override fun insertValuePair(buffer: ByteArrayWrapper, id: DictionaryValueType) {
         insertValuePairInternal(buffer, id, false)
     }
+
     override fun insertValuePairExtend(buffer: ByteArrayWrapper, id: DictionaryValueType) {
         insertValuePairInternal(buffer, id, true)
     }
@@ -107,14 +113,14 @@ public class DictionaryCache : IDictionaryCache {
                                 target = 1
                             }
                             val tmpIds = DictionaryValueTypeArray(target) {
-                                if (it <valueCapacity) {
+                                if (it < valueCapacity) {
                                     valueIds[it]
                                 } else {
                                     DictionaryValueHelper.booleanTrueValue
                                 }
                             }
                             val tmpContents = Array(target) {
-                                if (it <valueCapacity) {
+                                if (it < valueCapacity) {
                                     valueContent[it]
                                 } else {
                                     val tmp = ByteArrayWrapper()

@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -70,6 +71,7 @@ import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplicationStack_Middleware
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
+
 public class Application_Luposdate3000 public constructor(
     internal val config: JsonParserObject,
     private val logger: ILogger,

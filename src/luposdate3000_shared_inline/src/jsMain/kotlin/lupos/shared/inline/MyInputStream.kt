@@ -35,9 +35,11 @@ internal actual class MyInputStream : IMyInputStream {
     public actual override fun readInt(): Int {
         return tmp.readInt()
     }
+
     public actual override fun readDictionaryValueType(): DictionaryValueType {
         return DictionaryValueHelper.readFromStream(this)
     }
+
     public actual override fun readLong(): Long {
         return tmp.readLong()
     }

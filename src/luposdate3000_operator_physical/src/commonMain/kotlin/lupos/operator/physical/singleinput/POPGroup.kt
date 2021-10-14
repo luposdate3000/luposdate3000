@@ -171,6 +171,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
+
     public override fun usesDictionary(): Boolean {
         return true
     }

@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base.iterator
+
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
+
 public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     override /*suspend*/ fun close() {
         _close()

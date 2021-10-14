@@ -35,6 +35,7 @@ public class VisualisationOperatorGraph {
         internal const val maxMove = 5.0
         internal const val minMove = 0.1
     }
+
     internal val id = idcounter++
     public val mapOfReceivers: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
     public val mapOfSenders: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
@@ -48,22 +49,24 @@ public class VisualisationOperatorGraph {
     public var anchorX: Double = 0.0
     public var anchorY: Double = 0.0
     private fun checkMinMax(x: Double, y: Double) {
-        if (maxY <y + 0.5 * distanceY || maxY <-999990.0) {
+        if (maxY < y + 0.5 * distanceY || maxY < -999990.0) {
             maxY = y + 0.5 * distanceY
         }
-        if (maxX <x + 0.5 * distanceX || maxX <-999990.0) {
+        if (maxX < x + 0.5 * distanceX || maxX < -999990.0) {
             maxX = x + 0.5 * distanceX
         }
-        if (minY > y - 0.5 * distanceY || minY <-999990.0) {
+        if (minY > y - 0.5 * distanceY || minY < -999990.0) {
             minY = y - 0.5 * distanceY
         }
-        if (minX > x - 0.5 * distanceX || minX <-999990.0) {
+        if (minX > x - 0.5 * distanceX || minX < -999990.0) {
             minX = x - 0.5 * distanceX
         }
     }
+
     public fun getRadius(): Double {
         return sqrt((maxX - minX) * (maxX - minX) + (maxY - minY) * (maxY - minY))
     }
+
     public fun prepareOperatorGraph(op: XMLElement) {
         operatorGraphToNodes(op, 0, nodes, listOf())
         for (i in 0 until nodes.size) {
@@ -81,7 +84,7 @@ public class VisualisationOperatorGraph {
                 for (j in 1 until nodes[i].size) {
                     val n = nodes[i][j]
                     val nl = nodes[i][j - 1]
-                    if (nl.x + distanceY> n.x + treshhold) {
+                    if (nl.x + distanceY > n.x + treshhold) {
                         n.x = nl.x + distanceY
                         checkMinMax(n.x, n.y)
                         flag = true
@@ -97,6 +100,7 @@ public class VisualisationOperatorGraph {
             }
         }
     }
+
     public fun myOffsetX(): Double = offsetX - (minX + maxX) * 0.5
     public fun myOffsetY(): Double = offsetY - (minY + maxY) * 0.5
     public fun toImage(
@@ -131,7 +135,7 @@ public class VisualisationOperatorGraph {
             for (n in nn) {
                 val key2 = if (n.key.size == 1) {
                     n.key.first()
-                } else if (n.key.size> 1) {
+                } else if (n.key.size > 1) {
                     val kk: Array<String> = n.key.toTypedArray()
                     val a = kk[0].split(":").map { it.split("=") }
                     val b = kk[1].split(":").map { it.split("=") }
@@ -218,7 +222,7 @@ public class VisualisationOperatorGraph {
                     val a2 = atan2(h, w)
                     val radius = sqrt(cos(a2) * 0.5 * distanceX * cos(a2) * 0.5 * distanceX + sin(a2) * 0.5 * distanceY * sin(a2) * 0.5 * distanceY)
                     var l2 = l1 - radius
-                    if (l2 <0.0) {
+                    if (l2 < 0.0) {
                         l2 = 0.0
                     }
                     val w0 = w / l1 * l2 * 0.5
@@ -229,7 +233,7 @@ public class VisualisationOperatorGraph {
         }
         if (mapOfSenders2 != null && mapOfReceivers2 != null) {
             if (mapOfSenders2.size != mapOfReceivers2.size || !mapOfSenders2.keys.toSet().containsAll(mapOfReceivers2.keys.toSet())) {
-                println("e: FAIL visualisation Problem :: ${ mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}")
+                println("e: FAIL visualisation Problem :: ${mapOfSenders2.size} ${mapOfReceivers2.size} ${mapOfSenders2.keys} ${mapOfReceivers2.keys}")
             }
             for ((k, s) in mapOfSenders2) {
                 val d = mapOfReceivers2[k]
@@ -239,6 +243,7 @@ public class VisualisationOperatorGraph {
             }
         }
     }
+
     public fun operatorGraphToImage(op: XMLElement): ImageHelper {
         prepareOperatorGraph(op)
         val res = ImageHelper()
@@ -249,23 +254,23 @@ public class VisualisationOperatorGraph {
 
     private fun assignCoordinates(n: VisualisationOperatorGraphNode, nodes: MutableList<MutableList<VisualisationOperatorGraphNode>>): Boolean {
         var flag = false
-        val a = n.above.size> 0 && n.above.map { it.below }.flatten().toSet().size == 1
-        val b = n.below.size> 0 && n.below.map { it.above }.flatten().toSet().size == 1
+        val a = n.above.size > 0 && n.above.map { it.below }.flatten().toSet().size == 1
+        val b = n.below.size > 0 && n.below.map { it.above }.flatten().toSet().size == 1
         if (a && (!b || n.above.size >= n.below.size)) {
             var xl = n.above.first().x
             var xr = n.above.last().x
             var x = xl + (xr - xl) * 0.5
-            if (x> n.x + treshhold) {
+            if (x > n.x + treshhold) {
                 n.x = x
                 checkMinMax(n.x, n.y)
                 flag = true
             }
         }
-        if (b && (!a || n.below.size> n.above.size)) {
+        if (b && (!a || n.below.size > n.above.size)) {
             var xl = n.below.first().x
             var xr = n.below.last().x
             var x = xl + (xr - xl) * 0.5
-            if (x> n.x + treshhold) {
+            if (x > n.x + treshhold) {
                 n.x = x
                 checkMinMax(n.x, n.y)
                 flag = true
@@ -278,7 +283,8 @@ public class VisualisationOperatorGraph {
         val res = mutableListOf<XMLElement>()
         for (c in childs) {
             when (c.tag) {
-                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionKey" -> {}
+                "columnProjectionOrders", "projectedVariables", "bindings", "columnProjectionOrderElement", "by", "sparam", "pparam", "oparam", "partitionDistributionKey" -> {
+                }
                 "children", "POPDebug" -> {
                     res.addAll(filterChilds(c.childs))
                 }

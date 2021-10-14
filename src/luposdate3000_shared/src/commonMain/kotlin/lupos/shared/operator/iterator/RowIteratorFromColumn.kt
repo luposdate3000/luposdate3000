@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
+
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
     @JvmField
     public var iterators: Array<ColumnIterator>

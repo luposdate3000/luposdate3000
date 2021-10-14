@@ -33,7 +33,8 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
-    @JvmField public var partitionedBy: MutableMap<String, Int> = mutableMapOf()
+    @JvmField
+    public var partitionedBy: MutableMap<String, Int> = mutableMapOf()
 
     @JvmField
     public var operatorgraphParts: MutableMap<Int, XMLElement> = mutableMapOf()
@@ -193,6 +194,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     override fun setTransactionID(id: Long) {
         transactionID = id
     }
+
     override fun getWorkingDirectory(): String = _workingDirectory
     override fun getDictionary(): IDictionary = dictionary
     override fun checkVariableExistence(): Boolean = !dontCheckVariableExistence

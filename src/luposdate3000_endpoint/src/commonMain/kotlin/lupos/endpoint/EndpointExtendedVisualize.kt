@@ -33,6 +33,7 @@ import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
+
 public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
     private var resultLog: Array<OPVisualGraph>
     private var resultPhys: Array<OPVisualGraph>

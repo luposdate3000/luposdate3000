@@ -23,12 +23,13 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_iot.applications.IApplicationStack_Middleware
+
 // import kotlin.io.println as kotlinprintln
 internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware) : IMyOutputStream {
     val buffer = ByteArrayWrapper()
     override fun flush() {}
     override fun close() {
-        if (ByteArrayWrapperExt.getSize(buffer)> 0) {
+        if (ByteArrayWrapperExt.getSize(buffer) > 0) {
             router.send(target, Package_Luposdate3000_Abstract(queryID, path, params, buffer))
         }
     }
@@ -64,16 +65,19 @@ internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path
     override fun write(buf: ByteArray, len: Int) {
         ByteArrayWrapperExt.appendTo(buf, len, buffer)
     }
+
     override fun writeDictionaryValueType(value: DictionaryValueType) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + DictionaryValueHelper.getSize(), true)
         DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(buffer), offset, value)
     }
+
     override fun writeLong(value: Long) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + 8, true)
         ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), offset, value)
     }
+
     override fun writeInt(value: Int) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + 4, true)

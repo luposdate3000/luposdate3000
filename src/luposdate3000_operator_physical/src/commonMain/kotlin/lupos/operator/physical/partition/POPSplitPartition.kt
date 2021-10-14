@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.base.PartitionHelper2
 import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper

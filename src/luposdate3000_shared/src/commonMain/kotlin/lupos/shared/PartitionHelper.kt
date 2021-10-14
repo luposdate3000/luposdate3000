@@ -36,7 +36,7 @@ public class PartitionHelper() {
                         SanityCheck.check(
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:36"/*SOURCE_FILE_END*/ },
                             { k.debugMarker[i] == 3 },
-                            { "${k.uuid}, $i ${ k.debugMarker.toList() }" }
+                            { "${k.uuid}, $i ${k.debugMarker.toList()}" }
                         )
                     }
                 }
@@ -78,7 +78,7 @@ public class PartitionHelper() {
 
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean, filterIndiceesFunc: (Int) -> IntArray): IntArray {
         val filterIndicees = filterIndiceesFunc(partition[partitionid]!!)
-        val res = getKeysForInternal(uuid, partitionid, query, count, isSender,)
+        val res = getKeysForInternal(uuid, partitionid, query, count, isSender)
         val myList = IntArray(filterIndicees.size) { res.keys[filterIndicees[it]] }
         // println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
         SanityCheck(
@@ -91,8 +91,9 @@ public class PartitionHelper() {
         )
         return myList
     }
+
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): IntArray {
-        val res = getKeysForInternal(uuid, partitionid, query, count, isSender,)
+        val res = getKeysForInternal(uuid, partitionid, query, count, isSender)
         // println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:97"/*SOURCE_FILE_END*/ },

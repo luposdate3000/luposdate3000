@@ -44,8 +44,9 @@ public class POPDistributedSendSingleCount public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     public companion object {
-        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>,) = toXMLElementHelper9("POPDistributedSendSingleCount", partitionID, partial, true, keys, partitionedBy)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>) = toXMLElementHelper9("POPDistributedSendSingleCount", partitionID, partial, true, keys, partitionedBy)
     }
+
     override fun getPartitionCount(variable: String): Int = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))

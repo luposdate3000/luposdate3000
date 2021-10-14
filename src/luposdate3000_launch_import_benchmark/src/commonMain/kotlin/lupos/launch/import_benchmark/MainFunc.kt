@@ -20,6 +20,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.parser.InputToIntermediate
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
+
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val timer = DateHelperRelative.markNow()
     val instance = LuposdateEndpoint.initialize()
@@ -29,7 +30,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         counter++
         InputToIntermediate.process(inputFileName, instance)
         time = DateHelperRelative.elapsedSeconds(timer)
-        if (time> 10) {
+        if (time > 10) {
             break
         }
     }

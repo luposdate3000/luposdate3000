@@ -71,12 +71,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             override /*suspend*/ fun next(): DictionaryValueType {
                                 return childIter.next()
                             }
+
                             override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                 childIter.nextSIP(minValue, resultValue, resultSkip)
                             }
+
                             override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                 return childIter.skipSIP(skipCount)
                             }
+
                             override /*suspend*/ fun close() {
                                 childIter.close()
                             }

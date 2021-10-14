@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
+
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
@@ -46,7 +47,7 @@ without minify mode only the passing tests will be added
     internal val folderCount = 1
     internal var folderCurrent = 0
 
-    internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2,'0')}"
+    internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2, '0')}"
     internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathCoponent(idx)}/"
     internal fun outputFolderSrcJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathCoponent(idx)}/"
     internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/kotlin/lupos/${folderPathCoponent(idx)}/"
@@ -76,6 +77,7 @@ without minify mode only the passing tests will be added
             return !listOfPassed.contains(testName)
         }
     }
+
     internal fun shouldAddFunction(testName: String): Boolean {
 //        if (minifyMode) {
         return !isIgnored(testName)
@@ -83,6 +85,7 @@ without minify mode only the passing tests will be added
 //            return true
 //        }
     }
+
     init {
         prefixDirectory = "$resource_folder/"
         if (File("resources/tests/failed").exists()) {
@@ -145,7 +148,9 @@ without minify mode only the passing tests will be added
             .replace("\" +\n", " \" +\n")
             .replace("\" +\n", "\\n\" +\n")
     }
+
     internal class GraphHelper(val graph: String, val type: String, val filename: String, val filenameoriginal: String)
+
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //
@@ -238,23 +243,27 @@ without minify mode only the passing tests will be added
                 }
                 distributedTest.appendLine("        val pkg$distributedTestCtr = $s")
                 distributedTestCtr++
-                if (distributedTestCtr> 1) {
+                if (distributedTestCtr > 1) {
                     distributedTest.appendLine("        pkg${distributedTestCtr - 2}.setOnFinish(pkg${distributedTestCtr - 1})")
                 }
             }
         }
+
         var localCounter = 0
         fun myExpectedData(counter: Int, data: String, type: String, out: IMyOutputStream) {
             out.println("        val expected$counter = MemoryTable.parseFromAny($data, $type, Query(instance))!!")
         }
+
         fun myActualDataOperatorGraph(counter: Int, graph: String, out: IMyOutputStream) {
             out.println("        val query$counter = Query(instance)")
             out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
             out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
         }
+
         fun myActualDataEvaluate(counter: Int, out: IMyOutputStream) {
             out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
         }
+
         fun myCompareData(counter: Int, out: IMyOutputStream) {
             out.println("        val buf_err$counter = MyPrintWriter()")
             out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, buf_err$counter)) {")
@@ -262,6 +271,7 @@ without minify mode only the passing tests will be added
             out.println("            fail($s)")
             out.println("        }")
         }
+
         fun myVerifyGraph(counter: Int, data: String, type: String, graph: String, query: String, isDefaultGraph: Boolean, out: IMyOutputStream) {
             if (query == "null") {
                 myActualDataOperatorGraph(counter, graph, out)
@@ -543,7 +553,7 @@ without minify mode only the passing tests will be added
                     ctr++
                 }
             }
-            if (ctr> 0) {
+            if (ctr > 0) {
                 if (fileModeMany) {
                     for ((testname, fileBufferTest) in fileBufferTests) {
                         if (shouldAddFunction(testname)) {
@@ -596,7 +606,7 @@ without minify mode only the passing tests will be added
                         out.print(postfix)
                     }
                 }
-                if (fileBufferTests.size> 0) {
+                if (fileBufferTests.size > 0) {
                     for (g in inputGraphs.values) {
                         File(g.filename).withOutputStream { out ->
                             File(g.filenameoriginal).forEachLine {

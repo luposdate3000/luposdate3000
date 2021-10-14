@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.dummyImpl
+
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_iot.ILogger
@@ -39,17 +40,21 @@ public class Application_DatabaseDummy public constructor(
     override fun setRouter(router: IApplicationStack_Middleware) {
         sender = router
     }
+
     override fun shutDown() {
     }
+
     init {
         state = Application_DatabaseDummy_State(logger, ownAddress, dbDeviceAddressesStoreList.toIntArray(), dbDeviceAddressesApplication_DatabaseDummy_QueryList.toIntArray(), absolutePathToDataDirectory)
         state.dataFile = "$absolutePathToDataDirectory/file.txt"
         File(absolutePathToDataDirectory).mkdirs()
     }
+
     override fun startUp() {
         File(state.dataFile).withOutputStream { }
     }
-    override fun receive(pck: IPayload): IPayload ? {
+
+    override fun receive(pck: IPayload): IPayload? {
         when (pck) {
             is Package_DatabaseDummy_Preprocessing -> receive(pck)
             is Package_DatabaseDummy_Result -> receive(pck)

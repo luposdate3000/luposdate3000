@@ -16,18 +16,22 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.RandomGenerator
+
 public class ApplicationFactory_ParkingSensorFeature : IApplicationFeature {
     public override fun getName(): String = "Sensor"
     public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_ParkingSensor
 }
+
 public class ApplicationFactory_ParkingSensor : IApplication_Factory {
     public override fun registerFeatures(features: MutableList<IApplicationFeature>) {
         features.add(ApplicationFactory_ParkingSensorFeature())
     }
+
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {

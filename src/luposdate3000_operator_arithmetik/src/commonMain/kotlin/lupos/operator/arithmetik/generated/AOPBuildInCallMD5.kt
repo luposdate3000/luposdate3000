@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.generated
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.Crypto_MD5
 import lupos.shared.DictionaryValueHelper

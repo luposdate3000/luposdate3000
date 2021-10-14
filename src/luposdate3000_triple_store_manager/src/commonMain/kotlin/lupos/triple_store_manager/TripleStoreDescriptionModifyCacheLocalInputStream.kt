@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
@@ -24,6 +25,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
+
 internal class TripleStoreDescriptionModifyCacheLocalInputStream(val key: String, val mode: EModifyType, val idx: EIndexPattern, val instance: Luposdate3000Instance, val isSorted: Boolean, val partition: Int) : IMyOutputStream {
     var off = 0
     var debugcounter = 0
@@ -31,7 +33,7 @@ internal class TripleStoreDescriptionModifyCacheLocalInputStream(val key: String
     val limit = buf.size - (buf.size % 3)
     val store = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localStoresGet()[key]!!
     override fun flush() {}
-    override fun close() { }
+    override fun close() {}
 
     override fun print(x: Boolean) {
     }
@@ -56,6 +58,7 @@ internal class TripleStoreDescriptionModifyCacheLocalInputStream(val key: String
 
     override fun write(buf: ByteArray, len: Int) {
     }
+
     override fun writeInt(value: Int) {}
     override fun writeLong(value: Long) {}
     override fun writeDictionaryValueType(value: DictionaryValueType) {
@@ -70,7 +73,7 @@ internal class TripleStoreDescriptionModifyCacheLocalInputStream(val key: String
                 off = 0
             }
             buf[off++] = value
-        } else if (off> 0) {
+        } else if (off > 0) {
             if (mode == EModifyTypeExt.INSERT) {
                 store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], off, isSorted)
             } else {

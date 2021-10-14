@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
@@ -155,7 +156,7 @@ public class DictionaryInMemory internal constructor(
             )
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:156"/*SOURCE_FILE_END*/ },
-                { dataV2I.size> DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue) },
+                { dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue) },
             )
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:160"/*SOURCE_FILE_END*/ },
@@ -170,6 +171,7 @@ public class DictionaryInMemory internal constructor(
             )
         }
     }
+
     public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withWriteLock {
@@ -201,6 +203,7 @@ public class DictionaryInMemory internal constructor(
         }
         return r
     }
+
     public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {

@@ -44,5 +44,6 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         res["children"]!!.addContent(childB.toXMLElement(partial, partition))
         return res
     }
+
     override fun cloneOP(): IOPBase = POPJoinWithStoreExists(query, projectedVariables, children[0].cloneOP(), childB.cloneOP() as LOPTriple, optional)
 }

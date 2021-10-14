@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot
+
 internal actual object ReflectionHelper {
     actual fun createApplicationFactory(name: String): IApplication_Factory {
         TODO()
     }
+
     actual fun createLogger(name: String): ILogger {
         TODO()
     }

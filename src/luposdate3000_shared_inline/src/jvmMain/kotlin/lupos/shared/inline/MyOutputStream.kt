@@ -22,6 +22,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.SanityCheck
 import java.io.OutputStream
 import kotlin.jvm.JvmField
+
 internal actual class MyOutputStream : IMyOutputStream {
     @JvmField
     val buffer: ByteArray
@@ -42,19 +43,21 @@ internal actual class MyOutputStream : IMyOutputStream {
         stream = null
         buffer = ByteArray(8192)
     }
+
     public actual override fun writeDictionaryValueType(value: DictionaryValueType) {
         DictionaryValueHelper.sendToStream(this, value)
     }
 
     public actual override fun writeInt(value: Int) {
-        if (bufferPos + 4> buffer.size) {
+        if (bufferPos + 4 > buffer.size) {
             localFlush()
         }
         ByteArrayHelper.writeInt4(buffer, bufferPos, value)
         bufferPos += 4
     }
+
     public actual override fun writeLong(value: Long) {
-        if (bufferPos + 8> buffer.size) {
+        if (bufferPos + 8 > buffer.size) {
             localFlush()
         }
         ByteArrayHelper.writeLong8(buffer, bufferPos, value)
@@ -86,13 +89,15 @@ internal actual class MyOutputStream : IMyOutputStream {
         stream!!.close()
         stream = null
     }
+
     private fun localFlush() {
         // kotlin.io.println("MyOutputStream.localFlush $this $bufferPos")
-        if (bufferPos> 0) {
+        if (bufferPos > 0) {
             stream!!.write(buffer, 0, bufferPos)
             bufferPos = 0
         }
     }
+
     public actual override fun flush() {
         // kotlin.io.println("MyOutputStream.flush $this")
         localFlush()
@@ -102,19 +107,21 @@ internal actual class MyOutputStream : IMyOutputStream {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun _write(buf: ByteArray, off: Int, len: Int) {
         // kotlin.io.println("MyOutputStream._write $this")
-        if (bufferPos + len> buffer.size) {
+        if (bufferPos + len > buffer.size) {
             localFlush()
         }
-        if (len> buffer.size) {
+        if (len > buffer.size) {
             stream!!.write(buf, off, len)
         } else {
             buf.copyInto(buffer, bufferPos, off, off + len)
             bufferPos += len
         }
     }
+
     public actual override fun write(buf: ByteArray) {
         _write(buf, 0, buf.size)
     }
+
     public actual override fun write(buf: ByteArray, len: Int) {
         _write(buf, 0, len)
     }

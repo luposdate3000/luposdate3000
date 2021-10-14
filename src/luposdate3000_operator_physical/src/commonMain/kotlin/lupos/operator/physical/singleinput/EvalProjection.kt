@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalProjection {
     public operator fun invoke(
         child: IteratorBundle,

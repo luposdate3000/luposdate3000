@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.ILogger
@@ -23,18 +24,22 @@ import lupos.simulator_iot.RandomGenerator
 import lupos.simulator_iot.applications.IApplicationFeature
 import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplication_Factory
+
 public class ApplicationFactory_Luposdate3000FeatureStore : IApplicationFeature {
     public override fun getName(): String = "DatabaseStore"
     public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasStoreCapability()
 }
+
 public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
     public override fun getName(): String = "DatabaseQuery"
     public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasQueryCapability()
 }
+
 public class ApplicationFactory_Luposdate3000FeatureAny : IApplicationFeature {
     public override fun getName(): String = "Database"
     public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000
 }
+
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
@@ -49,6 +54,7 @@ public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
         featureIDAny = features.size
         features.add(ApplicationFactory_Luposdate3000FeatureAny())
     }
+
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {

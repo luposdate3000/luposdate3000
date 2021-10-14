@@ -38,6 +38,7 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinWithStore {
     public operator fun invoke(
         childA: IteratorBundle,

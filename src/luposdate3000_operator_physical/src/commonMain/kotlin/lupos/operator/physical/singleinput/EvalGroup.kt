@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
@@ -38,6 +39,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalGroup {
     private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
         val res = mutableListOf<AOPAggregationBase>()
@@ -49,6 +51,7 @@ public object EvalGroup {
         }
         return res
     }
+
     public operator fun invoke(
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,

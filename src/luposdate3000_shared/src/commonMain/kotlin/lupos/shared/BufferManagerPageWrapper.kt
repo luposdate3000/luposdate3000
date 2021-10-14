@@ -15,5 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 public class BufferManagerPageWrapper(public val data: ByteArray)
 // typealias BufferManagerPageWrapper = ByteArray

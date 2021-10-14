@@ -29,6 +29,7 @@ public object EvalNothing {
                 override /*suspend*/ fun next(): DictionaryValueType {
                     return DictionaryValueHelper.nullValue
                 }
+
                 override /*suspend*/ fun close() {
                 }
             }

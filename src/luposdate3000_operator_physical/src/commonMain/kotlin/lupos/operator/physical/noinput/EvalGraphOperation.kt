@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
+
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EGraphOperationType
@@ -123,7 +124,9 @@ public object EvalGraphOperation {
                     }
                     cache.close()
                 }
-                else -> { TODO("c $action") }
+                else -> {
+                    TODO("c $action")
+                }
             }
         } catch (e: EvaluationException) {
             e.printStackTrace()

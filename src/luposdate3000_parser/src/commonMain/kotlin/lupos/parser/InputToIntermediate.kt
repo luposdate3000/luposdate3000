@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.parser
+
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.shared.DateHelperRelative
@@ -160,9 +161,10 @@ public object InputToIntermediate {
     public fun process(inputFileName: String, fileType: String, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         process(inputFileName, fileType, false, instance)
     }
+
     public fun process(inputFileName: String, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
         val idx = inputFileName.lastIndexOf(".")
-        val fileType = if (idx <0) {
+        val fileType = if (idx < 0) {
             ""
         } else {
             inputFileName.substring(idx, inputFileName.length)

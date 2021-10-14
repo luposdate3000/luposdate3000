@@ -24,7 +24,7 @@ public class VisualisationMessage(public val source: Int, public val destination
         val res = time - other.time
         if (res < 0) {
             return -1
-        } else if (res> 0) {
+        } else if (res > 0) {
             return 1
         }
         var res2 = messageCounter - other.messageCounter

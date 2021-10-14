@@ -16,8 +16,10 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.models.Device
+
 public interface IApplicationStack_Rooter : IApplicationStack_Middleware {
     public fun setRoot()
     public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure

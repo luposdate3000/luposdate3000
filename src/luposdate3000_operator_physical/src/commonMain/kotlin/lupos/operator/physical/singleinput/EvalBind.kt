@@ -27,6 +27,7 @@ import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalBind {
     public operator fun invoke(
         child: IteratorBundle,

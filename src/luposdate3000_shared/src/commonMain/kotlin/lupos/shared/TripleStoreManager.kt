@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 public abstract class TripleStoreManager {
     public companion object {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
+
     public abstract fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int>
     public abstract fun close()
     public abstract fun delete()

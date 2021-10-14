@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
@@ -105,7 +106,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     init {
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:106"/*SOURCE_FILE_END*/ },
-            { partitionCount> 1 },
+            { partitionCount > 1 },
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:110"/*SOURCE_FILE_END*/ },
@@ -113,7 +114,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         )
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:114"/*SOURCE_FILE_END*/ },
-            { partitionColumn <3 },
+            { partitionColumn < 3 },
         )
         idx_set = when (idx) {
             EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O -> intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O)
@@ -163,6 +164,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         }
         return res
     }
+
     override fun requireSplitFromStore(): Boolean = false
     override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = fixedPartitionName to partitionCount
 }

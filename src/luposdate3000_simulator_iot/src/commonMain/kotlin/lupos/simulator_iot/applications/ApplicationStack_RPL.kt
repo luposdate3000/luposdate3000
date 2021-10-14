@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.IPayload
@@ -23,6 +24,7 @@ import lupos.simulator_iot.config.Configuration
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.net.NetworkPackage
 import lupos.simulator_iot.utils.TimeUtils
+
 public class ApplicationStack_RPL(
     private val child: IApplicationStack_Actuator,
     private val logger: ILogger,
@@ -31,6 +33,7 @@ public class ApplicationStack_RPL(
     init {
         child.setRouter(this)
     }
+
     private lateinit var parent: Device
     public lateinit var routingTable: ApplicationStack_RPL_RoutingTable
     private val notInitializedAddress = -1
@@ -40,12 +43,15 @@ public class ApplicationStack_RPL(
     private var isDelayPackage_ApplicationStack_RPL_DAOTimerRunning = false
 
     internal inner class Parent(internal var address: Int = notInitializedAddress, internal var rank: Int = INFINITE_RANK)
+
     override fun setDevice(device: Device) {
         parent = device
     }
+
     override fun setRoot() {
         isRoot = true
     }
+
     internal fun sendUnRoutedPackage(hop: Int, data: IPayload) {
         val pck = NetworkPackage(parent.address, hop, data)
         val delay = parent.getNetworkDelay(hop, pck)
@@ -63,6 +69,7 @@ public class ApplicationStack_RPL(
         val dio = Package_ApplicationStack_RPL_DIO(rank)
         sendUnRoutedPackage(destinationAddress, dio)
     }
+
     private fun hasDatabase(): Boolean {
         for (f in 0 until config.features.size) {
             if (config.features[f].getName().contains("Database") && config.hasFeature(parent, f)) {
@@ -123,6 +130,7 @@ public class ApplicationStack_RPL(
         }
         child.startUp()
     }
+
     override fun receive(pck: IPayload): IPayload? {
         pck as NetworkPackage
         val payload = pck.payload
@@ -214,6 +222,7 @@ public class ApplicationStack_RPL(
         // This is the constant maximum for the Rank.
         internal const val INFINITE_RANK: Int = Int.MAX_VALUE
     }
+
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>(child)
         if (child is IApplicationStack_Middleware) {
@@ -221,6 +230,7 @@ public class ApplicationStack_RPL(
         }
         return res
     }
+
     override fun flush() {}
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
@@ -231,6 +241,7 @@ public class ApplicationStack_RPL(
         val delay = parent.getNetworkDelay(hop, pck2)
         parent.assignToSimulation(destinationAddress, hop, pck2, delay)
     }
+
     override fun shutDown() {
         for (dest in 0 until config.devices.size) {
             try {
@@ -243,5 +254,6 @@ public class ApplicationStack_RPL(
         }
         child.shutDown()
     }
+
     override fun addChildApplication(child: IApplicationStack_Actuator): Unit = (this.child as IApplicationStack_Middleware).addChildApplication(child)
 }

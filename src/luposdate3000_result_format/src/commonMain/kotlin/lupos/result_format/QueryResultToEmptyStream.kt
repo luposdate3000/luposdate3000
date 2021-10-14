@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
+
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
@@ -37,7 +38,7 @@ public class QueryResultToEmptyStream : IResultFormat {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val startTime = DateHelperRelative.markNow()
-        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) <timeoutInMs) {
+        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == DictionaryValueHelper.nullValue) {
@@ -54,15 +55,19 @@ public class QueryResultToEmptyStream : IResultFormat {
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
         invokeInternal(rootNode, timeoutInMs, true)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         invokeInternal(rootNode, timeoutInMs, asRoot)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
         invokeInternal(rootNode, -1, true)
     }
+
     override operator fun invoke(rootNode: IOPBase) {
         invokeInternal(rootNode, -1, true)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
         invokeInternal(rootNode, -1, asRoot)
     }

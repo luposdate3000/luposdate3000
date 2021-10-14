@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator

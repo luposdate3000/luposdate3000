@@ -105,7 +105,7 @@ public object Luposdate3000Config {
     public var initialThreads: Int = 128
 
     @JvmField
-    public var maxThreads: Int = if (LUPOS_PROCESS_URLS_ALL.size> 1) {
+    public var maxThreads: Int = if (LUPOS_PROCESS_URLS_ALL.size > 1) {
         LUPOS_PROCESS_URLS_ALL.size
     } else {
         16

@@ -24,11 +24,13 @@ import lupos.shared.EIndexPatternHelper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
+
 internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     private val writeOrder: EIndexPattern
     private val i0: Int
     private val i1: Int
     private val i2: Int
+
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
         val version = streamIn!!.readInt()

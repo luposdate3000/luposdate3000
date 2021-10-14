@@ -16,7 +16,9 @@
  */
 
 package lupos.simulator_core
+
 import lupos.shared.SanityCheck
+
 public abstract class Entity {
     internal lateinit var simulation: Simulation
 

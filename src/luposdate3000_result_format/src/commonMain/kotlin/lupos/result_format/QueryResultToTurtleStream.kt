@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
+
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.partition.POPMergePartition
@@ -36,6 +37,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
+
 public class QueryResultToTurtleStream : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
@@ -45,7 +47,7 @@ public class QueryResultToTurtleStream : IResultFormat {
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
         val startTime = DateHelperRelative.markNow()
-        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) <timeoutInMs) {
+        loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == DictionaryValueHelper.nullValue) {
@@ -108,15 +110,19 @@ public class QueryResultToTurtleStream : IResultFormat {
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long) {
         invokeInternal(rootNode, output, timeoutInMs, true)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean) {
         invokeInternal(rootNode, output, timeoutInMs, asRoot)
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
         invokeInternal(rootNode, output, -1, true)
     }
+
     override operator fun invoke(rootNode: IOPBase) {
         TODO()
     }
+
     override operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, asRoot: Boolean) {
         invokeInternal(rootNode, output, -1, asRoot)
     }

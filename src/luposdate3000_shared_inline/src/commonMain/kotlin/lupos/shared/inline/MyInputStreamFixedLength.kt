@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
+
 internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
     public override fun readDictionaryValueType(): DictionaryValueType {
         if (remainingBytes >= DictionaryValueHelper.getSize()) {
@@ -29,6 +30,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             throw Exception("not enough bytes available $remainingBytes")
         }
     }
+
     public override fun readInt(): Int {
         if (remainingBytes >= 4) {
             remainingBytes -= 4

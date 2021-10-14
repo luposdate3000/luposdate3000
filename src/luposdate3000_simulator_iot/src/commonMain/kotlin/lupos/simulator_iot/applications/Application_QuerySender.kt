@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.ITimer
@@ -22,6 +23,7 @@ import lupos.simulator_iot.IPackage_Database
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.Package_Query
 import lupos.simulator_iot.Package_QueryResponse
+
 public class Application_QuerySender(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,
@@ -38,6 +40,7 @@ public class Application_QuerySender(
         receiver: Int,
         outputdirectory: String,
     ) : this(startClockInSec, sendRateInSec, maxNumber, Package_Query(receiver, query.encodeToByteArray()), receiver, outputdirectory)
+
     private lateinit var parent: IApplicationStack_Middleware
     private var eventCounter = 0
     private var awaitingQueries = mutableListOf<Int>()
@@ -45,15 +48,18 @@ public class Application_QuerySender(
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun startUp() {
         parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
+
     override fun shutDown() {
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_QuerySender.kt:52"/*SOURCE_FILE_END*/ },
             { awaitingQueries.size == 0 }
         )
     }
+
     override fun receive(pck: IPayload): IPayload? {
         if (pck is Package_QueryResponse) {
             if (awaitingQueries.contains(pck.queryID)) {
@@ -69,8 +75,9 @@ public class Application_QuerySender(
             return pck
         }
     }
+
     override fun onTimerExpired(clock: Long) {
-        if (eventCounter <maxNumber || maxNumber == -1) {
+        if (eventCounter < maxNumber || maxNumber == -1) {
             eventCounter++
             val p = queryPck
             if (p is Package_Query) {

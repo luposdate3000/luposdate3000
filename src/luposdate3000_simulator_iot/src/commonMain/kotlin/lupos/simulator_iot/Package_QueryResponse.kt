@@ -16,7 +16,9 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.shared.UUID_Counter
+
 public class Package_QueryResponse(
     public val result: ByteArray,
     public val queryID: Int
@@ -27,8 +29,10 @@ public class Package_QueryResponse(
     public override fun getSizeInBytes(): Int {
         return result.size
     }
+
     public override fun getContentLogString(): String {
         return "Package_QueryResponse('${result.decodeToString()}')"
     }
+
     override fun getTopic(): String = "SPARQL-Response"
 }

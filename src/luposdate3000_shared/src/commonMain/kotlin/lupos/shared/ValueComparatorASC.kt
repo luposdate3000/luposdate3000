@@ -19,6 +19,7 @@ package lupos.shared
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
+
 public class ValueComparatorASC(@JvmField public val query: IQuery) : Comparator<DictionaryValueType> {
     @JvmField
     internal var bufferA = ByteArrayWrapper()

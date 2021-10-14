@@ -19,6 +19,7 @@ package lupos.simulator_iot
 
 import lupos.shared.SanityCheck
 import kotlin.random.Random
+
 public class RandomGenerator {
     public var seed: Int = 1
         set(value) {

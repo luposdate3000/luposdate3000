@@ -18,6 +18,7 @@
 @file:Suppress("UnusedImport")
 
 package lupos.simulator_iot.config
+
 public class LinkType(
     public val name: String = "",
     public var rangeInMeters: Int = 0,

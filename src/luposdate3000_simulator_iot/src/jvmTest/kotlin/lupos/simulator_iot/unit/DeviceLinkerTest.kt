@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot.unit
+
 import lupos.simulator_iot.config.LinkType
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation

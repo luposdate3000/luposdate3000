@@ -65,6 +65,7 @@ public class POPDistributedReceiveMultiCount public constructor(
             return POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, child, inputs.toTypedArray(), outputs.toTypedArray(), hosts)
         }
     }
+
     override fun getPartitionCount(variable: String): Int = 1
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, hosts))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, hosts))

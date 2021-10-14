@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -30,11 +31,13 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+
 public class VisualisationNetwork : ILogger {
     private lateinit var simRun: SimulationRun
     override fun initialize(simRun: SimulationRun) {
         this.simRun = simRun
     }
+
     private val skipQueriesWithLessPartsThan = 1
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
@@ -46,6 +49,7 @@ public class VisualisationNetwork : ILogger {
     private val allMessageTypes = mutableSetOf<String>()
     private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<Pair<String, XMLElement>>/*work-list*/>>()
     private val fullOperatorGraph = mutableMapOf<Int/*queryID*/, MutableMap<Int, XMLElement>>()
+
     private companion object {
         const val layerConnection = 0
         const val layerConnectionInRouting = 1
@@ -61,6 +65,7 @@ public class VisualisationNetwork : ILogger {
         var deviceRadius = 20.0
         const val minDistToOtherPath = 4.0
     }
+
     private fun messageToRoutingPath(src: Int, dest: Int): List<Int> { // TODO get this directly from simulator
         val tmp = mutableListOf<Int>()
         var s = src
@@ -75,6 +80,7 @@ public class VisualisationNetwork : ILogger {
         tmp.add(dest)
         return tmp
     }
+
     private fun toBaseImageStyle(): ImageHelper {
         val imageHelperBase = ImageHelper()
         imageHelperBase.createClass(
@@ -172,22 +178,22 @@ public class VisualisationNetwork : ILogger {
                 "stroke" to "#0000FF",
             )
         )
-        if (devices.size> 0) {
+        if (devices.size > 0) {
             var minX = devices.first().x
             var minY = devices.first().y
             var maxX = devices.first().x
             var maxY = devices.first().y
             for (device in devices) {
-                if (minX> device.x) {
+                if (minX > device.x) {
                     minX = device.x
                 }
-                if (maxX <device.x) {
+                if (maxX < device.x) {
                     maxX = device.x
                 }
-                if (minY> device.y) {
+                if (minY > device.y) {
                     minY = device.y
                 }
-                if (maxY <device.y) {
+                if (maxY < device.y) {
                     maxY = device.y
                 }
             }
@@ -200,6 +206,7 @@ public class VisualisationNetwork : ILogger {
         }
         return imageHelperBase
     }
+
     private fun toBaseImage(): ImageHelper {
         val imageHelperBase = toBaseImageStyle()
         for (device in devices) {
@@ -245,7 +252,7 @@ public class VisualisationNetwork : ILogger {
         var last = messages.size
         if (queryNumber != -1) {
             var currQuery = 0
-            while (first <messages.size && currQuery <queryNumber) {
+            while (first < messages.size && currQuery < queryNumber) {
                 val message = messages[first]
                 if (message.shortText.startsWith("query")) {
                     currQuery++
@@ -256,7 +263,7 @@ public class VisualisationNetwork : ILogger {
                 return false
             }
             last = first
-            while (last <messages.size) {
+            while (last < messages.size) {
                 val message = messages[last]
                 if (message.shortText.startsWith("response")) {
                     break
@@ -265,7 +272,7 @@ public class VisualisationNetwork : ILogger {
             }
         }
         val w = workForQueryAtNode[queryNumber]
-        if (w != null && skipQueriesWithLessPartsThan <w.values.map { it.size }.sum()) {
+        if (w != null && skipQueriesWithLessPartsThan < w.values.map { it.size }.sum()) {
             val imgOverview = imageHelperBase.deepCopy()
             for (i in first until last) {
                 val cc = messageToRoutingPath(messages[i].source, messages[i].destination)
@@ -282,7 +289,7 @@ public class VisualisationNetwork : ILogger {
             val name = if (queryNumber == -1) {
                 "visual-overview.svg"
             } else {
-                "visual-overview-${queryNumber.toString().padStart(4,'0')}.svg"
+                "visual-overview-${queryNumber.toString().padStart(4, '0')}.svg"
             }
             File(simRun.config.outputDirectory + name).withOutputStream { out ->
                 out.println(imgOverview.toString())
@@ -290,6 +297,7 @@ public class VisualisationNetwork : ILogger {
         }
         return true
     }
+
     private fun toBaseImageDB(): ImageHelper {
         val imageHelperBase = toBaseImageStyle()
         for (device in devices) {
@@ -315,6 +323,7 @@ public class VisualisationNetwork : ILogger {
         }
         return imageHelperBase
     }
+
     private fun saveDBStorageLocations(imageHelperBase: ImageHelper): ImageHelper {
         val image = imageHelperBase.deepCopy()
         for ((k, vs) in device_to_key) {
@@ -327,9 +336,10 @@ public class VisualisationNetwork : ILogger {
         }
         return image
     }
+
     private fun saveWorkForQuery(imageHelperBase: ImageHelper) {
         for ((queryID, listA) in workForQueryAtNode) {
-            if (skipQueriesWithLessPartsThan <listA.values.map { it.size }.sum()) {
+            if (skipQueriesWithLessPartsThan < listA.values.map { it.size }.sum()) {
                 var helperImageCounter = 0
                 var allWork = mutableListOf<VisualisationOperatorGraph>()
                 val mapOfReceivers: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
@@ -348,7 +358,7 @@ public class VisualisationNetwork : ILogger {
                         opGraph.anchorX = device.xnew
                         opGraph.anchorY = device.ynew
                         list.add(opGraph)
-                        if (minR <opGraph.getRadius() + deviceRadius * 1.5) {
+                        if (minR < opGraph.getRadius() + deviceRadius * 1.5) {
                             minR = opGraph.getRadius() + deviceRadius * 1.5
                         }
                         umfang += opGraph.getRadius()
@@ -359,9 +369,9 @@ public class VisualisationNetwork : ILogger {
                         helperImageCounter++
                         i++
                     }
-                    if (list.size> 1) {
+                    if (list.size > 1) {
                         val dist1 = umfang / (2.0 * PI)
-                        val dist = if (dist1> minR) {
+                        val dist = if (dist1 > minR) {
                             dist1
                         } else {
                             minR
@@ -383,10 +393,10 @@ public class VisualisationNetwork : ILogger {
                     val ox = w.myOffsetX()
                     val oy = w.myOffsetY()
                     for ((k, v) in w.mapOfSenders) {
-                        mapOfSenders[k] = (v.first + ox) to(v.second + oy)
+                        mapOfSenders[k] = (v.first + ox) to (v.second + oy)
                     }
                     for ((k, v) in w.mapOfReceivers) {
-                        mapOfReceivers[k] = (v.first + ox) to(v.second + oy)
+                        mapOfReceivers[k] = (v.first + ox) to (v.second + oy)
                     }
                 }
                 for (w in allWork) {
@@ -398,6 +408,7 @@ public class VisualisationNetwork : ILogger {
             }
         }
     }
+
     private fun toImage(): String {
         File(simRun.config.outputDirectory).mkdirs()
         val imageHelperBase = toBaseImage()
@@ -430,6 +441,7 @@ public class VisualisationNetwork : ILogger {
             throw Exception("getDeviceById $id not found", e)
         }
     }
+
     private fun addDistributedStorage(source: Int, destination: Int, time: Long, graphname: String, metaString: String) {
         addMessage(VisualisationMessage(source, destination, time, "create '$graphname'"))
         val metad = metaString.split("|")
@@ -485,6 +497,7 @@ public class VisualisationNetwork : ILogger {
             }
         }
     }
+
     override fun addDevice(address: Int, x: Double, y: Double) {
         val device = simRun.config.devices[address]
         val d = VisualisationDevice(
@@ -497,6 +510,7 @@ public class VisualisationNetwork : ILogger {
         d.y = y
         addDevice(d)
     }
+
     private fun addDevice(device: VisualisationDevice) {
         devices.add(device)
     }
@@ -505,17 +519,18 @@ public class VisualisationNetwork : ILogger {
         if (src != dest) {
             val idx = src * simRun.config.devices.size + dest
             val size = simRun.config.devices.size * simRun.config.devices.size
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:507"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:508"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:509"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size> hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:507"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:508"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:509"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > hop })
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:510"/*SOURCE_FILE_END*/ }, { src != hop })
-            if (connectionTable.size <size) {
+            if (connectionTable.size < size) {
                 connectionTable = IntArray(size) { -1 }
             }
             connectionTable[idx] = hop
             connectionsInRouting.add(VisualisationConnection(src, hop))
         }
     }
+
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
         val clock = simRun.sim.clock
         when (pck) {
@@ -557,6 +572,7 @@ public class VisualisationNetwork : ILogger {
         message.messageCounter = messages.size
         messages.add(message)
     }
+
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
         var workNode = workForQueryAtNode[queryID]
         if (workNode == null) {
@@ -570,12 +586,15 @@ public class VisualisationNetwork : ILogger {
         }
         workquery.add("$keysIn -> $keysOut" to operatorGraph)
     }
+
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
         fullOperatorGraph[queryId] = operatorGraph
     }
-    override fun toString(): String = "${devices.map{it.toString() + "\n"}}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map{it.toString() + "\n"}}"
+
+    override fun toString(): String = "${devices.map { it.toString() + "\n" }}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map { it.toString() + "\n" }}"
     override fun onStartSimulation() {
     }
+
     override fun onStopSimulation() {
         for (device in simRun.config.devices) {
             val src = device.address
@@ -585,8 +604,9 @@ public class VisualisationNetwork : ILogger {
         }
         toImage()
     }
-    override fun onStartUp() { }
-    override fun onShutDown() { }
+
+    override fun onStartUp() {}
+    override fun onShutDown() {}
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
     override fun onReceivePackage(address: Int, pck: IPayload) {}

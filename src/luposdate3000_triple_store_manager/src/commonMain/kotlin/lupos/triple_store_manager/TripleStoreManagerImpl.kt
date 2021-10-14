@@ -359,7 +359,7 @@ public class TripleStoreManagerImpl public constructor(
 
     public override fun resetDefaultTripleStoreLayout() {
         var partitionCount = 4
-        while (partitionCount <instance.LUPOS_PROCESS_URLS_STORE.size) {
+        while (partitionCount < instance.LUPOS_PROCESS_URLS_STORE.size) {
             partitionCount *= 2
         }
         if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.None) {
@@ -455,7 +455,7 @@ public class TripleStoreManagerImpl public constructor(
             }
         }
         val indexKey2 = indexKey % instance.LUPOS_PROCESS_URLS_STORE.size
-        if (keysOnHostname_[indexKey2].size <keysOnHostname_[hostidx].size * 2) {
+        if (keysOnHostname_[indexKey2].size < keysOnHostname_[hostidx].size * 2) {
             hostidx = indexKey2
         }
 
@@ -480,7 +480,7 @@ public class TripleStoreManagerImpl public constructor(
         var filterList = mutableListOf<TripleStoreDescriptionModifyCacheFilterEntry>()
         while (true) {
             val l1 = stream.readInt()
-            if (l1 <0) {
+            if (l1 < 0) {
                 break
             }
             val buf = ByteArray(l1)
@@ -508,6 +508,7 @@ public class TripleStoreManagerImpl public constructor(
         }
         cache.close()
     }
+
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
         if (origin) {
             createGraph(query, graphName)

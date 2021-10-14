@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.XMLElement
 import lupos.simulator_iot.IPackage_Database
+
 internal class PendingWork(
     val queryID: Int,
     val operatorGraph: XMLElement,
@@ -33,5 +35,6 @@ internal class PendingWork(
     internal companion object {
         var pendingWorkCounter = 0
     }
+
     val pendingWorkID = pendingWorkCounter++
 }

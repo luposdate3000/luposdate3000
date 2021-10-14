@@ -18,6 +18,7 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
+
 internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 1

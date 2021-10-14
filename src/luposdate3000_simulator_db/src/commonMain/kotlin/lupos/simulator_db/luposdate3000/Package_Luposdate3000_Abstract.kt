@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -32,6 +33,7 @@ public class Package_Luposdate3000_Abstract(
     override fun getSizeInBytes(): Int {
         return path.encodeToByteArray().size + getParamsSizeInBytes() + ByteArrayWrapperExt.getSize(data)
     }
+
     override fun toString(): String = "Package_Luposdate3000_Abstract $path"
     override fun getContentLogString(): String {
         return "AbstractPck(path '$path', params $params, data $data)"
@@ -43,6 +45,7 @@ public class Package_Luposdate3000_Abstract(
             size += key.encodeToByteArray().size + value.encodeToByteArray().size
         return size
     }
+
     override fun getTopic(): String {
         return when (path) {
             "/distributed/query/dictionary/register", "/distributed/query/dictionary/remove" -> "Database-Dictionary"

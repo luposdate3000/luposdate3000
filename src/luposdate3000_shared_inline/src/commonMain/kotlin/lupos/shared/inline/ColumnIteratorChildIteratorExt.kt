@@ -16,12 +16,13 @@
  */
 
 package lupos.shared.inline
+
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 
 internal object ColumnIteratorChildIteratorExt {
-/*suspend*/ public inline fun nextHelper(iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
+    /*suspend*/ public inline fun nextHelper(iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
         when (iterator.label) {
             1 -> {
                 while (iterator.queueRead < iterator.queueWrite) {

@@ -41,6 +41,7 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
 internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun helper_intToString(value: BigInteger): String {

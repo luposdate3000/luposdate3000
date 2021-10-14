@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 import lupos.ProguardTestAnnotation
 import lupos.shared.operator.iterator.IteratorBundle
 

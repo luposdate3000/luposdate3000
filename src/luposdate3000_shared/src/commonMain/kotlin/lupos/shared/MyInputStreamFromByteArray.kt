@@ -21,6 +21,7 @@ import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.min
+
 public class MyInputStreamFromByteArray public constructor(@JvmField public val data: ByteArrayWrapper) : IMyInputStream {
     private var offset = 0
     override fun close() {}
@@ -34,6 +35,7 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
         offset += l
         return l
     }
+
     override fun read(buf: ByteArray, off: Int, len: Int): Int {
         TODO()
     }
@@ -48,18 +50,21 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
         offset += DictionaryValueHelper.getSize()
         return res
     }
+
     override fun readLong(): Long {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:51"/*SOURCE_FILE_END*/ }, { offset + 8 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
         offset += 8
         return res
     }
+
     override fun readInt(): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:57"/*SOURCE_FILE_END*/ }, { offset + 4 <= ByteArrayWrapperExt.getSize(data) })
         val res = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
         offset += 4
         return res
     }
+
     override fun readLine(): String? {
         TODO()
     }

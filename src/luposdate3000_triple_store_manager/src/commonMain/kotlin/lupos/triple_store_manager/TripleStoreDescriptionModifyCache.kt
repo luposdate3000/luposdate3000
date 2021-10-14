@@ -39,13 +39,16 @@ internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputSt
     internal var hadInit = false
     internal var header = ByteArrayWrapper()
 }
+
 public class TripleStoreDescriptionModifyCacheFilterEntry(public val host: String, public val key: String, public val idx: Int)
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
     private val row = DictionaryValueTypeArray(3)
     private val allConn = mutableListOf<TripleStoreDescriptionModifyCacheConnection>()
+
     public companion object {
         internal var debug_ctr_global = 0
     }
+
     public constructor(
         query: IQuery,
         description: TripleStoreDescription,

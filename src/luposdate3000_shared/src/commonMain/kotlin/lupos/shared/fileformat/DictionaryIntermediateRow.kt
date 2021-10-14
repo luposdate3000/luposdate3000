@@ -16,6 +16,7 @@
  */
 
 package lupos.shared.fileformat
+
 import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField

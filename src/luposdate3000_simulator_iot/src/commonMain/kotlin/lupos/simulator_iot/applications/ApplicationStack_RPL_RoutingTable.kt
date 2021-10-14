@@ -61,7 +61,7 @@ public class ApplicationStack_RPL_RoutingTable(
     }
 
     public fun getNextHop(destinationAddress: Int): Int {
-        if (destinationAddress <nextHops.size) {
+        if (destinationAddress < nextHops.size) {
             val res = nextHops[destinationAddress]
             if (res != -1) {
                 return res
@@ -69,8 +69,9 @@ public class ApplicationStack_RPL_RoutingTable(
         }
         return fallbackHop
     }
+
     internal fun getNextFeatureHop(destinationAddress: Int, flag: Int): Int =
-        if (destinationAddress <nextDatabaseHops.size) {
+        if (destinationAddress < nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
             -1 // tell the caller that we dont know it

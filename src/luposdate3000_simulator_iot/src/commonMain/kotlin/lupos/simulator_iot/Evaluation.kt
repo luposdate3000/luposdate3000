@@ -16,12 +16,15 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.parser.JsonParser
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
 import lupos.simulator_iot.config.Configuration
+
 public class Evaluation {
     public constructor() {}
+
     public fun simulate(configFileName: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(configFileName)
@@ -29,7 +32,7 @@ public class Evaluation {
     }
 
     public fun evalConfigFile(configFileName: String) {
-        val json = JsonParser().fileToJson(configFileName)as JsonParserObject
+        val json = JsonParser().fileToJson(configFileName) as JsonParserObject
         json.getOrDefault("outputDirectory", Configuration.defaultOutputDirectory + "/" + configFileName.substring(configFileName.lastIndexOf("/") + 1, configFileName.lastIndexOf(".")))
         val runs = MultipleSimulationRuns(json)
         runs.startSimulationRuns()
@@ -37,6 +40,7 @@ public class Evaluation {
             out.println(JsonParser().jsonToString(json, true))
         }
     }
+
     public fun evalConfigFileMerge(configFileNames: List<String>) {
         val json = JsonParser().fileMergeToJson(configFileNames)
         var outputdirectoryTmp = Configuration.defaultOutputDirectory + "/"
@@ -74,16 +78,18 @@ public class Evaluation {
             out.println(JsonParser().jsonToString(json, true))
         }
     }
+
     public fun evalConfigFiles(configFileNames: Set<String>) {
         for ((index, configFileName) in configFileNames.withIndex()) {
             evalConfigFile(configFileName)
-            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
+            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1} runs left..")
         }
     }
+
     public fun evalConfigFilesMerge(configFileNames: Set<List<String>>) {
         for ((index, configFileName) in configFileNames.withIndex()) {
             evalConfigFileMerge(configFileName)
-            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1 } runs left..")
+            println("evalQueryProcessingCentralizedCase: Run ${index + 1} finished. ${configFileNames.size - index - 1} runs left..")
         }
     }
 }

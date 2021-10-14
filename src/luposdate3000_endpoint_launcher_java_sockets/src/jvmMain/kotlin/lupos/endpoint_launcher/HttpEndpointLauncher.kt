@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
+
 import lupos.dictionary.RemoteDictionaryClient
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
@@ -30,6 +31,7 @@ import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
 import kotlin.system.exitProcess
+
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
 

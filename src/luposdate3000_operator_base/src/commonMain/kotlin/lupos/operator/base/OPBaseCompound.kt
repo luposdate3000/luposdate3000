@@ -25,6 +25,7 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
+
 public class OPBaseCompound public constructor(
     query: IQuery,
     children: Array<IOPBase>,

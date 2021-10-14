@@ -23,6 +23,7 @@ import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.inline.BufferManagerPage
 import lupos.shared.operator.iterator.ColumnIterator
+
 internal object NodeLeaf {
     const val START_OFFSET = 12
 

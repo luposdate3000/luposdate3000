@@ -1,5 +1,5 @@
-
 package lupos.parser.turtle
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
@@ -12,9 +12,11 @@ import lupos.shared.inline.MyStringStream
 public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, internal val kpInputstream: IMyInputStream) {
     public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, kpFileLoc: String) : this(consume_triple, File(kpFileLoc).openInputStream())
     public constructor(consume_triple: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit, data: String, unusedParam: Boolean) : this(consume_triple, MyStringStream(data))
+
     internal companion object {
 
         internal const val kpBufferSize = 16384 * 2
+
         internal class UnexpectedToken(token: Token, arrayOf: Array<String>, index: Long, lineNumber: Long, columnNumber: Long) :
             Error("Unexpected \"" + token.image + "\":" + token.type + " at " + lineNumber + ":" + columnNumber + ". Expected " + arrayOf)
 
@@ -404,34 +406,90 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                 currentNode = kpScannerNextNode(currentNode)
             }
             when (kpScannerLastTokenId) {
-                -7 -> { kpScannerLastToken = STRING_2; kpScannerLastImage = "BASE" }; // -7
-                -6 -> { kpScannerLastToken = STRING_6; kpScannerLastImage = "false" }; // -6
-                -5 -> { kpScannerLastToken = STRING_5; kpScannerLastImage = "true" }; // -5
-                -4 -> { kpScannerLastToken = STRING_3; kpScannerLastImage = "PREFIX" }; // -4
-                -3 -> { kpScannerLastToken = STRING_1; kpScannerLastImage = "@base" }; // -3
-                -2 -> { kpScannerLastToken = STRING_4; kpScannerLastImage = "a" }; // -2
-                -1 -> { kpScannerLastToken = STRING_0; kpScannerLastImage = "@prefix" }; // -1
-                1 -> { continue }; // 1
-                2 -> { kpScannerLastToken = SEMICOLON; kpScannerLastImage = ";" }; // 2
-                3 -> { kpScannerLastToken = COMMA; kpScannerLastImage = "," }; // 3
-                4 -> { kpScannerLastToken = LBRACE; kpScannerLastImage = "(" }; // 4
-                5 -> { kpScannerLastToken = RBRACE; kpScannerLastImage = ")" }; // 5
-                6 -> { kpScannerLastToken = ANONBNODE; kpScannerLastImage = "[]" }; // 6
-                7 -> { kpScannerLastToken = SLBRACE; kpScannerLastImage = "[" }; // 7
-                8 -> { kpScannerLastToken = SRBRACE; kpScannerLastImage = "]" }; // 8
-                9 -> { kpScannerLastToken = IRI; kpScannerLastImage = kpBufferRetrieve() }; // 9
-                10 -> { kpScannerLastToken = STRING; kpScannerLastImage = kpBufferRetrieve() }; // 10
-                11 -> { kpScannerLastToken = STRING; kpScannerLastImage = kpBufferRetrieve().drop(2).dropLast(2) }; // 11
-                12 -> { kpScannerLastToken = INTEGER; kpScannerLastImage = kpBufferRetrieve() }; // 12
-                13 -> { kpScannerLastToken = DECIMAL; kpScannerLastImage = kpBufferRetrieve() }; // 13
-                14 -> { kpScannerLastToken = DOUBLE; kpScannerLastImage = kpBufferRetrieve() }; // 14
-                15 -> { kpScannerLastToken = DOT; kpScannerLastImage = "." }; // 15
-                16 -> { kpScannerLastToken = DOUBLECIRCUMFLEX; kpScannerLastImage = "^^" }; // 16
-                17 -> { kpScannerLastToken = LANGTAG; kpScannerLastImage = kpBufferRetrieve() }; // 17
-                18 -> { kpScannerLastToken = BNODE; kpScannerLastImage = kpBufferRetrieve() }; // 18
-                19 -> { kpScannerLastToken = POSSIBLEKEYWORD; kpScannerLastImage = kpBufferRetrieve() }; // 19
-                20 -> { kpScannerLastToken = PNAMENS; kpScannerLastImage = kpBufferRetrieve() }; // 20
-                21 -> { kpScannerLastToken = PNAMELN; kpScannerLastImage = kpBufferRetrieve() }; // 21
+                -7 -> {
+                    kpScannerLastToken = STRING_2; kpScannerLastImage = "BASE"
+                }; // -7
+                -6 -> {
+                    kpScannerLastToken = STRING_6; kpScannerLastImage = "false"
+                }; // -6
+                -5 -> {
+                    kpScannerLastToken = STRING_5; kpScannerLastImage = "true"
+                }; // -5
+                -4 -> {
+                    kpScannerLastToken = STRING_3; kpScannerLastImage = "PREFIX"
+                }; // -4
+                -3 -> {
+                    kpScannerLastToken = STRING_1; kpScannerLastImage = "@base"
+                }; // -3
+                -2 -> {
+                    kpScannerLastToken = STRING_4; kpScannerLastImage = "a"
+                }; // -2
+                -1 -> {
+                    kpScannerLastToken = STRING_0; kpScannerLastImage = "@prefix"
+                }; // -1
+                1 -> {
+                    continue
+                }; // 1
+                2 -> {
+                    kpScannerLastToken = SEMICOLON; kpScannerLastImage = ";"
+                }; // 2
+                3 -> {
+                    kpScannerLastToken = COMMA; kpScannerLastImage = ","
+                }; // 3
+                4 -> {
+                    kpScannerLastToken = LBRACE; kpScannerLastImage = "("
+                }; // 4
+                5 -> {
+                    kpScannerLastToken = RBRACE; kpScannerLastImage = ")"
+                }; // 5
+                6 -> {
+                    kpScannerLastToken = ANONBNODE; kpScannerLastImage = "[]"
+                }; // 6
+                7 -> {
+                    kpScannerLastToken = SLBRACE; kpScannerLastImage = "["
+                }; // 7
+                8 -> {
+                    kpScannerLastToken = SRBRACE; kpScannerLastImage = "]"
+                }; // 8
+                9 -> {
+                    kpScannerLastToken = IRI; kpScannerLastImage = kpBufferRetrieve()
+                }; // 9
+                10 -> {
+                    kpScannerLastToken = STRING; kpScannerLastImage = kpBufferRetrieve()
+                }; // 10
+                11 -> {
+                    kpScannerLastToken = STRING; kpScannerLastImage = kpBufferRetrieve().drop(2).dropLast(2)
+                }; // 11
+                12 -> {
+                    kpScannerLastToken = INTEGER; kpScannerLastImage = kpBufferRetrieve()
+                }; // 12
+                13 -> {
+                    kpScannerLastToken = DECIMAL; kpScannerLastImage = kpBufferRetrieve()
+                }; // 13
+                14 -> {
+                    kpScannerLastToken = DOUBLE; kpScannerLastImage = kpBufferRetrieve()
+                }; // 14
+                15 -> {
+                    kpScannerLastToken = DOT; kpScannerLastImage = "."
+                }; // 15
+                16 -> {
+                    kpScannerLastToken = DOUBLECIRCUMFLEX; kpScannerLastImage = "^^"
+                }; // 16
+                17 -> {
+                    kpScannerLastToken = LANGTAG; kpScannerLastImage = kpBufferRetrieve()
+                }; // 17
+                18 -> {
+                    kpScannerLastToken = BNODE; kpScannerLastImage = kpBufferRetrieve()
+                }; // 18
+                19 -> {
+                    kpScannerLastToken = POSSIBLEKEYWORD; kpScannerLastImage = kpBufferRetrieve()
+                }; // 19
+                20 -> {
+                    kpScannerLastToken = PNAMENS; kpScannerLastImage = kpBufferRetrieve()
+                }; // 20
+                21 -> {
+                    kpScannerLastToken = PNAMELN; kpScannerLastImage = kpBufferRetrieve()
+                }; // 21
                 else -> {
                     if (!kpBufferHasNext() && kpScannerEOFAllowed[startNode]) {
                         kpScannerLastToken = EOF; kpScannerLastImage = "EOF"
@@ -443,1459 +501,13251 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             break
         }
     }
+
     private fun kpNode0(): Int {
         return 0
     }
+
     private fun kpNode1(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <10) { if (next <0) { 0 } else { 1 } } else { if (next <11) { 167 } else { 1 } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 10) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        1
+                    }
+                } else {
+                    if (next < 11) {
+                        167
+                    } else {
+                        1
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode2(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <95) { if (next <94) { 0 } else { 200 } } else { 0 }
+            return if (next < 95) {
+                if (next < 94) {
+                    0
+                } else {
+                    200
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode3(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <95) { if (next <94) { 0 } else { 2 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 95) {
+                    if (next < 94) {
+                        0
+                    } else {
+                        2
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode4(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <60) { if (next <47) { if (next <46) { 0 } else { 198 } } else { if (next <59) { 0 } else { 170 } } } else { if (next <94) { if (next <93) { 0 } else { 186 } } else { 0 } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 60) {
+                    if (next < 47) {
+                        if (next < 46) {
+                            0
+                        } else {
+                            198
+                        }
+                    } else {
+                        if (next < 59) {
+                            0
+                        } else {
+                            170
+                        }
+                    }
+                } else {
+                    if (next < 94) {
+                        if (next < 93) {
+                            0
+                        } else {
+                            186
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode5(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <114) { 0 } else { 7 } } else { 0 }
+            return if (next < 115) {
+                if (next < 114) {
+                    0
+                } else {
+                    7
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode6(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <114) { 0 } else { 72 } } else { 0 }
+            return if (next < 115) {
+                if (next < 114) {
+                    0
+                } else {
+                    72
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode7(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <101) { 0 } else { 8 } } else { 0 }
+            return if (next < 102) {
+                if (next < 101) {
+                    0
+                } else {
+                    8
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode8(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <103) { if (next <102) { 0 } else { 9 } } else { 0 }
+            return if (next < 103) {
+                if (next < 102) {
+                    0
+                } else {
+                    9
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode9(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <106) { if (next <105) { 0 } else { 10 } } else { 0 }
+            return if (next < 106) {
+                if (next < 105) {
+                    0
+                } else {
+                    10
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode10(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <121) { if (next <120) { 0 } else { 166 } } else { 0 }
+            return if (next < 121) {
+                if (next < 120) {
+                    0
+                } else {
+                    166
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode11(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <113) { if (next <99) { if (next <98) { 0 } else { 12 } } else { if (next <112) { 0 } else { 5 } } } else { 0 }
+            return if (next < 113) {
+                if (next < 99) {
+                    if (next < 98) {
+                        0
+                    } else {
+                        12
+                    }
+                } else {
+                    if (next < 112) {
+                        0
+                    } else {
+                        5
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode12(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <98) { if (next <97) { 0 } else { 14 } } else { 0 }
+            return if (next < 98) {
+                if (next < 97) {
+                    0
+                } else {
+                    14
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode13(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <98) { if (next <97) { 0 } else { 75 } } else { 0 }
+            return if (next < 98) {
+                if (next < 97) {
+                    0
+                } else {
+                    75
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode14(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <116) { if (next <115) { 0 } else { 16 } } else { 0 }
+            return if (next < 116) {
+                if (next < 115) {
+                    0
+                } else {
+                    16
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode15(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <116) { if (next <115) { 0 } else { 76 } } else { 0 }
+            return if (next < 116) {
+                if (next < 115) {
+                    0
+                } else {
+                    76
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode16(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <101) { 0 } else { 171 } } else { 0 }
+            return if (next < 102) {
+                if (next < 101) {
+                    0
+                } else {
+                    171
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode17(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode18(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 18 } } else { if (next <47) { 65 } else { 0 } } } else { if (next <59) { if (next <58) { 18 } else { 205 } } else { if (next <65) { 0 } else { 18 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 18 } } else { if (next <97) { 0 } else { 18 } } } else { if (next <184) { if (next <183) { 0 } else { 18 } } else { if (next <192) { 0 } else { 18 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 18 } } else { if (next <248) { 0 } else { 18 } } } else { if (next <8192) { if (next <895) { 0 } else { 18 } } else { if (next <8204) { 0 } else { 18 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 18 } } else { if (next <8304) { 0 } else { 18 } } } else { if (next <12272) { if (next <11264) { 0 } else { 18 } } else { if (next <12289) { 0 } else { 18 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 18 } } else { if (next <65008) { 0 } else { 18 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 18 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 47) {
+                                    65
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    18
+                                } else {
+                                    205
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            18
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            18
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            18
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode19(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <94) { if (next <62) { if (next <60) { if (next <35) { 0 } else { 19 } } else { if (next <61) { 0 } else { 19 } } } else { if (next <92) { if (next <63) { 187 } else { 19 } } else { if (next <93) { 57 } else { 19 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 19 } } else { if (next <97) { 0 } else { 19 } } } else { if (next <1114112) { if (next <126) { 0 } else { 19 } } else { 0 } } }
+            return if (next < 94) {
+                if (next < 62) {
+                    if (next < 60) {
+                        if (next < 35) {
+                            0
+                        } else {
+                            19
+                        }
+                    } else {
+                        if (next < 61) {
+                            0
+                        } else {
+                            19
+                        }
+                    }
+                } else {
+                    if (next < 92) {
+                        if (next < 63) {
+                            187
+                        } else {
+                            19
+                        }
+                    } else {
+                        if (next < 93) {
+                            57
+                        } else {
+                            19
+                        }
+                    }
+                }
+            } else {
+                if (next < 123) {
+                    if (next < 96) {
+                        if (next < 95) {
+                            0
+                        } else {
+                            19
+                        }
+                    } else {
+                        if (next < 97) {
+                            0
+                        } else {
+                            19
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 126) {
+                            0
+                        } else {
+                            19
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode20(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <69) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <70) { 21 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 69) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 70) {
+                                    21
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode21(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <70) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <71) { 22 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 70) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 71) {
+                                    22
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode22(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <73) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <74) { 23 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 73) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 74) {
+                                    23
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode23(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <88) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <89) { 172 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 88) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 89) {
+                                    172
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode24(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <83) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <84) { 25 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 83) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 84) {
+                                    25
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode25(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <69) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <70) { 181 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 69) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 70) {
+                                    181
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode26(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 41 } } else { if (next <65) { 0 } else { 41 } } } else { if (next <103) { if (next <97) { 0 } else { 41 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        41
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        41
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        41
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode27(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 32 } } else { if (next <65) { 0 } else { 32 } } } else { if (next <103) { if (next <97) { 0 } else { 32 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        32
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        32
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        32
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode28(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 33 } } else { if (next <65) { 0 } else { 33 } } } else { if (next <103) { if (next <97) { 0 } else { 33 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        33
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        33
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        33
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode29(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 34 } } else { if (next <65) { 0 } else { 34 } } } else { if (next <103) { if (next <97) { 0 } else { 34 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        34
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        34
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        34
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode30(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 35 } } else { if (next <65) { 0 } else { 35 } } } else { if (next <103) { if (next <97) { 0 } else { 35 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        35
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        35
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        35
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode31(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 36 } } else { if (next <65) { 0 } else { 36 } } } else { if (next <103) { if (next <97) { 0 } else { 36 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        36
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        36
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        36
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode32(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 26 } } else { if (next <65) { 0 } else { 26 } } } else { if (next <103) { if (next <97) { 0 } else { 26 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        26
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        26
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        26
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode33(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 37 } } else { if (next <65) { 0 } else { 37 } } } else { if (next <103) { if (next <97) { 0 } else { 37 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        37
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        37
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        37
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode34(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 38 } } else { if (next <65) { 0 } else { 38 } } } else { if (next <103) { if (next <97) { 0 } else { 38 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        38
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        38
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        38
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode35(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 39 } } else { if (next <65) { 0 } else { 39 } } } else { if (next <103) { if (next <97) { 0 } else { 39 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        39
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        39
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        39
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode36(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 40 } } else { if (next <65) { 0 } else { 40 } } } else { if (next <103) { if (next <97) { 0 } else { 40 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        40
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        40
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        40
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode37(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 42 } } else { if (next <65) { 0 } else { 42 } } } else { if (next <103) { if (next <97) { 0 } else { 42 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        42
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        42
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        42
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode38(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 43 } } else { if (next <65) { 0 } else { 43 } } } else { if (next <103) { if (next <97) { 0 } else { 43 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        43
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        43
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        43
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode39(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 44 } } else { if (next <65) { 0 } else { 44 } } } else { if (next <103) { if (next <97) { 0 } else { 44 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        44
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        44
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        44
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode40(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 45 } } else { if (next <65) { 0 } else { 45 } } } else { if (next <103) { if (next <97) { 0 } else { 45 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        45
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        45
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        45
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode41(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 46 } } else { if (next <65) { 0 } else { 46 } } } else { if (next <103) { if (next <97) { 0 } else { 46 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        46
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        46
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        46
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode42(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 47 } } else { if (next <65) { 0 } else { 47 } } } else { if (next <103) { if (next <97) { 0 } else { 47 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        47
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        47
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        47
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode43(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 48 } } else { if (next <65) { 0 } else { 48 } } } else { if (next <103) { if (next <97) { 0 } else { 48 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        48
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        48
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        48
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode44(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 49 } } else { if (next <65) { 0 } else { 49 } } } else { if (next <103) { if (next <97) { 0 } else { 49 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        49
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        49
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        49
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode45(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 50 } } else { if (next <65) { 0 } else { 50 } } } else { if (next <103) { if (next <97) { 0 } else { 50 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        50
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        50
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        50
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode46(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 51 } } else { if (next <65) { 0 } else { 51 } } } else { if (next <103) { if (next <97) { 0 } else { 51 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        51
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        51
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        51
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode47(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 53 } } else { if (next <65) { 0 } else { 53 } } } else { if (next <103) { if (next <97) { 0 } else { 53 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        53
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        53
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        53
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode48(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 54 } } else { if (next <65) { 0 } else { 54 } } } else { if (next <103) { if (next <97) { 0 } else { 54 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        54
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        54
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        54
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode49(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 55 } } else { if (next <65) { 0 } else { 55 } } } else { if (next <103) { if (next <97) { 0 } else { 55 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        55
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        55
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        55
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode50(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 56 } } else { if (next <65) { 0 } else { 56 } } } else { if (next <103) { if (next <97) { 0 } else { 56 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        56
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        56
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        56
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode51(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 19 } } else { if (next <65) { 0 } else { 19 } } } else { if (next <103) { if (next <97) { 0 } else { 19 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        19
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        19
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        19
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode52(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 59 } } else { if (next <65) { 0 } else { 59 } } } else { if (next <103) { if (next <97) { 0 } else { 59 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        59
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        59
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        59
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode53(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 108 } } else { if (next <65) { 0 } else { 108 } } } else { if (next <103) { if (next <97) { 0 } else { 108 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        108
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        108
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        108
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode54(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 114 } } else { if (next <65) { 0 } else { 114 } } } else { if (next <103) { if (next <97) { 0 } else { 114 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        114
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        114
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        114
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode55(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 116 } } else { if (next <65) { 0 } else { 116 } } } else { if (next <103) { if (next <97) { 0 } else { 116 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        116
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode56(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 118 } } else { if (next <65) { 0 } else { 118 } } } else { if (next <103) { if (next <97) { 0 } else { 118 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        118
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode57(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <118) { if (next <86) { if (next <85) { 0 } else { 27 } } else { if (next <117) { 0 } else { 26 } } } else { 0 }
+            return if (next < 118) {
+                if (next < 86) {
+                    if (next < 85) {
+                        0
+                    } else {
+                        27
+                    }
+                } else {
+                    if (next < 117) {
+                        0
+                    } else {
+                        26
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode58(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <11264) { if (next <183) { if (next <65) { if (next <46) { if (next <38) { if (next <37) { 0 } else { 52 } } else { if (next <45) { 0 } else { 206 } } } else { if (next <48) { if (next <47) { 58 } else { 0 } } else { if (next <59) { 206 } else { 0 } } } } else { if (next <95) { if (next <92) { if (next <91) { 206 } else { 0 } } else { if (next <93) { 60 } else { 0 } } } else { if (next <97) { if (next <96) { 206 } else { 0 } } else { if (next <123) { 206 } else { 0 } } } } } else { if (next <895) { if (next <216) { if (next <192) { if (next <184) { 206 } else { 0 } } else { if (next <215) { 206 } else { 0 } } } else { if (next <248) { if (next <247) { 206 } else { 0 } } else { if (next <894) { 206 } else { 0 } } } } else { if (next <8255) { if (next <8204) { if (next <8192) { 206 } else { 0 } } else { if (next <8206) { 206 } else { 0 } } } else { if (next <8304) { if (next <8257) { 206 } else { 0 } } else { if (next <8592) { 206 } else { 0 } } } } } } else { if (next <65536) { if (next <63744) { if (next <12289) { if (next <12272) { 206 } else { 0 } } else { if (next <55296) { 206 } else { 0 } } } else { if (next <65008) { if (next <64976) { 206 } else { 0 } } else { if (next <65534) { 206 } else { 0 } } } } else { if (next <1114112) { 206 } else { 0 } } }
+            return if (next < 11264) {
+                if (next < 183) {
+                    if (next < 65) {
+                        if (next < 46) {
+                            if (next < 38) {
+                                if (next < 37) {
+                                    0
+                                } else {
+                                    52
+                                }
+                            } else {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 48) {
+                                if (next < 47) {
+                                    58
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 59) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 95) {
+                            if (next < 92) {
+                                if (next < 91) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 93) {
+                                    60
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 895) {
+                        if (next < 216) {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8255) {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 63744) {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                206
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                206
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                206
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                206
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        206
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode59(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <58) { if (next <48) { 0 } else { 206 } } else { if (next <65) { 0 } else { 206 } } } else { if (next <103) { if (next <97) { 0 } else { 206 } } else { 0 } }
+            return if (next < 71) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        206
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        206
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        206
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode60(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <62) { if (next <48) { if (next <34) { if (next <33) { 0 } else { 206 } } else { if (next <35) { 0 } else { 206 } } } else { if (next <60) { if (next <59) { 0 } else { 206 } } else { if (next <61) { 0 } else { 206 } } } } else { if (next <96) { if (next <65) { if (next <63) { 0 } else { 206 } } else { if (next <95) { 0 } else { 206 } } } else { if (next <127) { if (next <126) { 0 } else { 206 } } else { 0 } } }
+            return if (next < 62) {
+                if (next < 48) {
+                    if (next < 34) {
+                        if (next < 33) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            206
+                        }
+                    }
+                } else {
+                    if (next < 60) {
+                        if (next < 59) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        if (next < 61) {
+                            0
+                        } else {
+                            206
+                        }
+                    }
+                }
+            } else {
+                if (next < 96) {
+                    if (next < 65) {
+                        if (next < 63) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        if (next < 95) {
+                            0
+                        } else {
+                            206
+                        }
+                    }
+                } else {
+                    if (next < 127) {
+                        if (next < 126) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode61(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <59) { if (next <58) { 0 } else { 62 } } else { 0 }
+            return if (next < 59) {
+                if (next < 58) {
+                    0
+                } else {
+                    62
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode62(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <894) { if (next <123) { if (next <91) { if (next <58) { if (next <48) { 0 } else { 202 } } else { if (next <65) { 0 } else { 202 } } } else { if (next <96) { if (next <95) { 0 } else { 202 } } else { if (next <97) { 0 } else { 202 } } } } else { if (next <247) { if (next <215) { if (next <192) { 0 } else { 202 } } else { if (next <216) { 0 } else { 202 } } } else { if (next <768) { if (next <248) { 0 } else { 202 } } else { if (next <880) { 0 } else { 202 } } } } } else { if (next <12272) { if (next <8206) { if (next <8192) { if (next <895) { 0 } else { 202 } } else { if (next <8204) { 0 } else { 202 } } } else { if (next <8592) { if (next <8304) { 0 } else { 202 } } else { if (next <11264) { 0 } else { 202 } } } } else { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 202 } } else { if (next <63744) { 0 } else { 202 } } } else { if (next <65534) { if (next <65008) { 0 } else { 202 } } else { if (next <65536) { 0 } else { 202 } } } } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 894) {
+                    if (next < 123) {
+                        if (next < 91) {
+                            if (next < 58) {
+                                if (next < 48) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        } else {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        } else {
+                            if (next < 768) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 12272) {
+                        if (next < 8206) {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 64976) {
+                            if (next < 55296) {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        } else {
+                            if (next < 65534) {
+                                if (next < 65008) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 65536) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode63(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 202 } } else { if (next <47) { 63 } else { 0 } } } else { if (next <65) { if (next <58) { 202 } else { 0 } } else { if (next <91) { 202 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 202 } else { 0 } } else { if (next <123) { 202 } else { 0 } } } else { if (next <192) { if (next <184) { 202 } else { 0 } } else { if (next <215) { 202 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 202 } else { 0 } } else { if (next <894) { 202 } else { 0 } } } else { if (next <8204) { if (next <8192) { 202 } else { 0 } } else { if (next <8206) { 202 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 202 } else { 0 } } else { if (next <8592) { 202 } else { 0 } } } else { if (next <12289) { if (next <12272) { 202 } else { 0 } } else { if (next <55296) { 202 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 202 } else { 0 } } else { if (next <65534) { 202 } else { 0 } } } else { if (next <1114112) { 202 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 47) {
+                                    63
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            202
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            202
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        202
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode64(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <65) { if (next <58) { 17 } else { 0 } } else { if (next <91) { 17 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 17 } else { 0 } } else { if (next <123) { 17 } else { 0 } } } else { if (next <192) { if (next <184) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <894) { 17 } else { 0 } } } else { if (next <8204) { if (next <8192) { 17 } else { 0 } } else { if (next <8206) { 17 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } else { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } else { if (next <1114112) { 17 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        17
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode65(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 18 } } else { if (next <47) { 65 } else { 0 } } } else { if (next <65) { if (next <58) { 18 } else { 0 } } else { if (next <91) { 18 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 18 } else { 0 } } else { if (next <123) { 18 } else { 0 } } } else { if (next <192) { if (next <184) { 18 } else { 0 } } else { if (next <215) { 18 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 18 } else { 0 } } else { if (next <894) { 18 } else { 0 } } } else { if (next <8204) { if (next <8192) { 18 } else { 0 } } else { if (next <8206) { 18 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 18 } else { 0 } } else { if (next <8592) { 18 } else { 0 } } } else { if (next <12289) { if (next <12272) { 18 } else { 0 } } else { if (next <55296) { 18 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 18 } else { 0 } } else { if (next <65534) { 18 } else { 0 } } } else { if (next <1114112) { 18 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 47) {
+                                    65
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    18
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            18
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            18
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        18
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode66(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 146 } } else { if (next <47) { 66 } else { 0 } } } else { if (next <65) { if (next <58) { 146 } else { 0 } } else { if (next <91) { 146 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 146 } else { 0 } } else { if (next <123) { 146 } else { 0 } } } else { if (next <192) { if (next <184) { 146 } else { 0 } } else { if (next <215) { 146 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 146 } else { 0 } } else { if (next <894) { 146 } else { 0 } } } else { if (next <8204) { if (next <8192) { 146 } else { 0 } } else { if (next <8206) { 146 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 146 } else { 0 } } else { if (next <8592) { 146 } else { 0 } } } else { if (next <12289) { if (next <12272) { 146 } else { 0 } } else { if (next <55296) { 146 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 146 } else { 0 } } else { if (next <65534) { 146 } else { 0 } } } else { if (next <1114112) { 146 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 47) {
+                                    66
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    146
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            146
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            146
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        146
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode67(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <82) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <96) { if (next <91) { if (next <83) { 20 } else { 17 } } else { if (next <95) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 82) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 91) {
+                                if (next < 83) {
+                                    20
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode68(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12289) { if (next <192) { if (next <66) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 24 } } } } else { if (next <97) { if (next <95) { if (next <91) { 17 } else { 0 } } else { if (next <96) { 17 } else { 0 } } } else { if (next <183) { if (next <123) { 17 } else { 0 } } else { if (next <184) { 17 } else { 0 } } } } } else { if (next <8204) { if (next <248) { if (next <216) { if (next <215) { 17 } else { 0 } } else { if (next <247) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } else { if (next <8304) { if (next <8255) { if (next <8206) { 17 } else { 0 } } else { if (next <8257) { 17 } else { 0 } } } else { if (next <11264) { if (next <8592) { 17 } else { 0 } } else { if (next <12272) { 17 } else { 0 } } } } } } else { if (next <65008) { if (next <63744) { if (next <55296) { 17 } else { 0 } } else { if (next <64976) { 17 } else { 0 } } } else { if (next <65536) { if (next <65534) { 17 } else { 0 } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 12289) {
+                if (next < 192) {
+                    if (next < 66) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    24
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 97) {
+                            if (next < 95) {
+                                if (next < 91) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 96) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 183) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 184) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8204) {
+                        if (next < 248) {
+                            if (next < 216) {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8304) {
+                            if (next < 8255) {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8257) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 11264) {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 12272) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65008) {
+                    if (next < 63744) {
+                        if (next < 55296) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 64976) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65534) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode69(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <94) { if (next <33) { if (next <32) { 0 } else { 69 } } else { if (next <93) { 0 } else { 183 } } } else { 0 }
+            return if (next < 94) {
+                if (next < 33) {
+                    if (next < 32) {
+                        0
+                    } else {
+                        69
+                    }
+                } else {
+                    if (next < 93) {
+                        0
+                    } else {
+                        183
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode70(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <768) { if (next <65) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <59) { if (next <41) { if (next <40) { 0 } else { 175 } } else { if (next <58) { 0 } else { 204 } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { if (next <64) { 0 } else { 11 } } } } } else { if (next <96) { if (next <81) { if (next <67) { if (next <66) { 17 } else { 68 } } else { if (next <80) { 17 } else { 67 } } } else { if (next <92) { if (next <91) { 17 } else { 184 } } else { if (next <95) { 0 } else { 61 } } } } else { if (next <215) { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } else { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <8592) { if (next <8192) { if (next <894) { if (next <880) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } else { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } } else { if (next <55296) { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } else { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 768) {
+                if (next < 65) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 59) {
+                            if (next < 41) {
+                                if (next < 40) {
+                                    0
+                                } else {
+                                    175
+                                }
+                            } else {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 64) {
+                                    0
+                                } else {
+                                    11
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 96) {
+                        if (next < 81) {
+                            if (next < 67) {
+                                if (next < 66) {
+                                    17
+                                } else {
+                                    68
+                                }
+                            } else {
+                                if (next < 80) {
+                                    17
+                                } else {
+                                    67
+                                }
+                            }
+                        } else {
+                            if (next < 92) {
+                                if (next < 91) {
+                                    17
+                                } else {
+                                    184
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    61
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 215) {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 8592) {
+                        if (next < 8192) {
+                            if (next < 894) {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 55296) {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 64976) {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 65008) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode71(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <47) { if (next <46) { 0 } else { 198 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 47) {
+                    if (next < 46) {
+                        0
+                    } else {
+                        198
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode72(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <118) { if (next <117) { 0 } else { 73 } } else { 0 }
+            return if (next < 118) {
+                if (next < 117) {
+                    0
+                } else {
+                    73
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode73(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <101) { 0 } else { 176 } } else { 0 }
+            return if (next < 102) {
+                if (next < 101) {
+                    0
+                } else {
+                    176
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode74(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <117) { if (next <116) { 0 } else { 6 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 116) {
+                        0
+                    } else {
+                        6
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode75(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <109) { if (next <108) { 0 } else { 15 } } else { 0 }
+            return if (next < 109) {
+                if (next < 108) {
+                    0
+                } else {
+                    15
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode76(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <101) { 0 } else { 178 } } else { 0 }
+            return if (next < 102) {
+                if (next < 101) {
+                    0
+                } else {
+                    178
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode77(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <103) { if (next <102) { 0 } else { 13 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 102) {
+                        0
+                    } else {
+                        13
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode78(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <83) { if (next <82) { 0 } else { 79 } } else { 0 }
+            return if (next < 83) {
+                if (next < 82) {
+                    0
+                } else {
+                    79
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode79(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <70) { if (next <69) { 0 } else { 80 } } else { 0 }
+            return if (next < 70) {
+                if (next < 69) {
+                    0
+                } else {
+                    80
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode80(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <71) { if (next <70) { 0 } else { 81 } } else { 0 }
+            return if (next < 71) {
+                if (next < 70) {
+                    0
+                } else {
+                    81
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode81(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <74) { if (next <73) { 0 } else { 82 } } else { 0 }
+            return if (next < 74) {
+                if (next < 73) {
+                    0
+                } else {
+                    82
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode82(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <89) { if (next <88) { 0 } else { 173 } } else { 0 }
+            return if (next < 89) {
+                if (next < 88) {
+                    0
+                } else {
+                    173
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode83(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <81) { if (next <80) { 0 } else { 78 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 81) {
+                    if (next < 80) {
+                        0
+                    } else {
+                        78
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode84(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <47) { if (next <46) { 0 } else { 86 } } else { if (next <48) { 0 } else { 84 } } } else { 0 }
+            return if (next < 58) {
+                if (next < 47) {
+                    if (next < 46) {
+                        0
+                    } else {
+                        86
+                    }
+                } else {
+                    if (next < 48) {
+                        0
+                    } else {
+                        84
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode85(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <47) { if (next <46) { 0 } else { 161 } } else { if (next <48) { 0 } else { 85 } } } else { 0 }
+            return if (next < 58) {
+                if (next < 47) {
+                    if (next < 46) {
+                        0
+                    } else {
+                        161
+                    }
+                } else {
+                    if (next < 48) {
+                        0
+                    } else {
+                        85
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode86(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 195 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    195
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode87(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 196 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    196
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode88(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <46) { if (next <44) { if (next <43) { 0 } else { 84 } } else { if (next <45) { 0 } else { 84 } } } else { if (next <48) { if (next <47) { 86 } else { 0 } } else { if (next <58) { 84 } else { 0 } } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 46) {
+                    if (next < 44) {
+                        if (next < 43) {
+                            0
+                        } else {
+                            84
+                        }
+                    } else {
+                        if (next < 45) {
+                            0
+                        } else {
+                            84
+                        }
+                    }
+                } else {
+                    if (next < 48) {
+                        if (next < 47) {
+                            86
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 58) {
+                            84
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode89(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <46) { if (next <44) { if (next <43) { 0 } else { 159 } } else { if (next <45) { 0 } else { 159 } } } else { if (next <48) { if (next <47) { 160 } else { 0 } } else { if (next <58) { 162 } else { 0 } } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 46) {
+                    if (next < 44) {
+                        if (next < 43) {
+                            0
+                        } else {
+                            159
+                        }
+                    } else {
+                        if (next < 45) {
+                            0
+                        } else {
+                            159
+                        }
+                    }
+                } else {
+                    if (next < 48) {
+                        if (next < 47) {
+                            160
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 58) {
+                            162
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode90(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <98) { if (next <97) { 0 } else { 168 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 98) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        168
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode91(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <91) { if (next <59) { if (next <58) { 0 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } else { if (next <123) { if (next <97) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <768) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <894) { if (next <880) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 91) {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 768) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode92(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <91) { if (next <59) { if (next <58) { 0 } else { 205 } } else { if (next <65) { 0 } else { 18 } } } else { if (next <123) { if (next <97) { 0 } else { 18 } } else { if (next <192) { 0 } else { 18 } } } } } else { if (next <8192) { if (next <768) { if (next <247) { if (next <216) { 0 } else { 18 } } else { if (next <248) { 0 } else { 18 } } } else { if (next <894) { if (next <880) { 0 } else { 18 } } else { if (next <895) { 0 } else { 18 } } } } else { if (next <8592) { if (next <8206) { if (next <8204) { 0 } else { 18 } } else { if (next <8304) { 0 } else { 18 } } } else { if (next <12272) { if (next <11264) { 0 } else { 18 } } else { if (next <12289) { 0 } else { 18 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 18 } } else { if (next <65008) { 0 } else { 18 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 18 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 91) {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    205
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 768) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    18
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            18
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            18
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            18
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode93(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <99) { if (next <98) { 0 } else { 12 } } else { 0 }
+            return if (next < 99) {
+                if (next < 98) {
+                    0
+                } else {
+                    12
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode94(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <65) { if (next <64) { 0 } else { 93 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 65) {
+                    if (next < 64) {
+                        0
+                    } else {
+                        93
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode95(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <65) { if (next <64) { 0 } else { 103 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 65) {
+                    if (next < 64) {
+                        0
+                    } else {
+                        103
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode96(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <65) { if (next <64) { 0 } else { 140 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 65) {
+                    if (next < 64) {
+                        0
+                    } else {
+                        140
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode97(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <123) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <61) { if (next <59) { if (next <58) { 0 } else { 204 } } else { if (next <60) { 0 } else { 19 } } } else { if (next <91) { if (next <65) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } } } else { if (next <894) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <768) { if (next <248) { 0 } else { 17 } } else { if (next <880) { 0 } else { 17 } } } } else { if (next <8206) { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 123) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 61) {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            }
+                        } else {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 894) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 768) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8206) {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode98(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <66) { if (next <65) { 0 } else { 99 } } else { 0 }
+            return if (next < 66) {
+                if (next < 65) {
+                    0
+                } else {
+                    99
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode99(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <84) { if (next <83) { 0 } else { 100 } } else { 0 }
+            return if (next < 84) {
+                if (next < 83) {
+                    0
+                } else {
+                    100
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode100(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <70) { if (next <69) { 0 } else { 182 } } else { 0 }
+            return if (next < 70) {
+                if (next < 69) {
+                    0
+                } else {
+                    182
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode101(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <67) { if (next <66) { 0 } else { 98 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 67) {
+                    if (next < 66) {
+                        0
+                    } else {
+                        98
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode102(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 61) {
+                    if (next < 60) {
+                        0
+                    } else {
+                        19
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode103(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <123) { if (next <91) { if (next <65) { 0 } else { 201 } } else { if (next <97) { 0 } else { 201 } } } else { 0 }
+            return if (next < 123) {
+                if (next < 91) {
+                    if (next < 65) {
+                        0
+                    } else {
+                        201
+                    }
+                } else {
+                    if (next < 97) {
+                        0
+                    } else {
+                        201
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode104(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <91) { if (next <58) { if (next <48) { 0 } else { 201 } } else { if (next <65) { 0 } else { 201 } } } else { if (next <123) { if (next <97) { 0 } else { 201 } } else { 0 } }
+            return if (next < 91) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        201
+                    }
+                } else {
+                    if (next < 65) {
+                        0
+                    } else {
+                        201
+                    }
+                }
+            } else {
+                if (next < 123) {
+                    if (next < 97) {
+                        0
+                    } else {
+                        201
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode105(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { 0 }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode106(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <94) { if (next <93) { 0 } else { 186 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 94) {
+                    if (next < 93) {
+                        0
+                    } else {
+                        186
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode107(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <11264) { if (next <98) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <61) { if (next <59) { if (next <58) { 0 } else { 204 } } else { if (next <60) { 0 } else { 19 } } } else { if (next <91) { if (next <65) { 0 } else { 17 } } else { if (next <97) { 0 } else { 169 } } } } } else { if (next <880) { if (next <216) { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } else { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } } else { if (next <8204) { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } else { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } } } } else { if (next <65536) { if (next <63744) { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } else { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } } else { if (next <1114112) { 17 } else { 0 } } }
+            return if (next < 11264) {
+                if (next < 98) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 61) {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            }
+                        } else {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    169
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 880) {
+                        if (next < 216) {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8204) {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8304) {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 63744) {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        17
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode108(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <34) { if (next <10) { if (next <0) { 0 } else { 108 } } else { if (next <11) { 0 } else { 108 } } } else { if (next <92) { if (next <35) { 188 } else { 108 } } else { if (next <93) { 111 } else { 108 } } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 34) {
+                    if (next < 10) {
+                        if (next < 0) {
+                            0
+                        } else {
+                            108
+                        }
+                    } else {
+                        if (next < 11) {
+                            0
+                        } else {
+                            108
+                        }
+                    }
+                } else {
+                    if (next < 92) {
+                        if (next < 35) {
+                            188
+                        } else {
+                            108
+                        }
+                    } else {
+                        if (next < 93) {
+                            111
+                        } else {
+                            108
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode109(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <34) { if (next <10) { if (next <0) { 0 } else { 108 } } else { if (next <11) { 0 } else { 108 } } } else { if (next <92) { if (next <35) { 190 } else { 108 } } else { if (next <93) { 111 } else { 108 } } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 34) {
+                    if (next < 10) {
+                        if (next < 0) {
+                            0
+                        } else {
+                            108
+                        }
+                    } else {
+                        if (next < 11) {
+                            0
+                        } else {
+                            108
+                        }
+                    }
+                } else {
+                    if (next < 92) {
+                        if (next < 35) {
+                            190
+                        } else {
+                            108
+                        }
+                    } else {
+                        if (next < 93) {
+                            111
+                        } else {
+                            108
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode110(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <93) { if (next <40) { if (next <35) { if (next <34) { 0 } else { 118 } } else { if (next <39) { 0 } else { 118 } } } else { if (next <86) { if (next <85) { 0 } else { 31 } } else { if (next <92) { 0 } else { 118 } } } } else { if (next <103) { if (next <99) { if (next <98) { 0 } else { 118 } } else { if (next <102) { 0 } else { 118 } } } else { if (next <111) { if (next <110) { 0 } else { 118 } } else { if (next <114) { 0 } else { 118 } } } } } else { if (next <117) { if (next <116) { 0 } else { 118 } } else { if (next <118) { 40 } else { 0 } } }
+            return if (next < 115) {
+                if (next < 93) {
+                    if (next < 40) {
+                        if (next < 35) {
+                            if (next < 34) {
+                                0
+                            } else {
+                                118
+                            }
+                        } else {
+                            if (next < 39) {
+                                0
+                            } else {
+                                118
+                            }
+                        }
+                    } else {
+                        if (next < 86) {
+                            if (next < 85) {
+                                0
+                            } else {
+                                31
+                            }
+                        } else {
+                            if (next < 92) {
+                                0
+                            } else {
+                                118
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 103) {
+                        if (next < 99) {
+                            if (next < 98) {
+                                0
+                            } else {
+                                118
+                            }
+                        } else {
+                            if (next < 102) {
+                                0
+                            } else {
+                                118
+                            }
+                        }
+                    } else {
+                        if (next < 111) {
+                            if (next < 110) {
+                                0
+                            } else {
+                                118
+                            }
+                        } else {
+                            if (next < 114) {
+                                0
+                            } else {
+                                118
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 116) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    if (next < 118) {
+                        40
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode111(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <93) { if (next <40) { if (next <35) { if (next <34) { 0 } else { 108 } } else { if (next <39) { 0 } else { 108 } } } else { if (next <86) { if (next <85) { 0 } else { 28 } } else { if (next <92) { 0 } else { 108 } } } } else { if (next <103) { if (next <99) { if (next <98) { 0 } else { 108 } } else { if (next <102) { 0 } else { 108 } } } else { if (next <111) { if (next <110) { 0 } else { 108 } } else { if (next <114) { 0 } else { 108 } } } } } else { if (next <117) { if (next <116) { 0 } else { 108 } } else { if (next <118) { 37 } else { 0 } } }
+            return if (next < 115) {
+                if (next < 93) {
+                    if (next < 40) {
+                        if (next < 35) {
+                            if (next < 34) {
+                                0
+                            } else {
+                                108
+                            }
+                        } else {
+                            if (next < 39) {
+                                0
+                            } else {
+                                108
+                            }
+                        }
+                    } else {
+                        if (next < 86) {
+                            if (next < 85) {
+                                0
+                            } else {
+                                28
+                            }
+                        } else {
+                            if (next < 92) {
+                                0
+                            } else {
+                                108
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 103) {
+                        if (next < 99) {
+                            if (next < 98) {
+                                0
+                            } else {
+                                108
+                            }
+                        } else {
+                            if (next < 102) {
+                                0
+                            } else {
+                                108
+                            }
+                        }
+                    } else {
+                        if (next < 111) {
+                            if (next < 110) {
+                                0
+                            } else {
+                                108
+                            }
+                        } else {
+                            if (next < 114) {
+                                0
+                            } else {
+                                108
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 116) {
+                        0
+                    } else {
+                        108
+                    }
+                } else {
+                    if (next < 118) {
+                        37
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode112(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <93) { if (next <40) { if (next <35) { if (next <34) { 0 } else { 114 } } else { if (next <39) { 0 } else { 114 } } } else { if (next <86) { if (next <85) { 0 } else { 29 } } else { if (next <92) { 0 } else { 114 } } } } else { if (next <103) { if (next <99) { if (next <98) { 0 } else { 114 } } else { if (next <102) { 0 } else { 114 } } } else { if (next <111) { if (next <110) { 0 } else { 114 } } else { if (next <114) { 0 } else { 114 } } } } } else { if (next <117) { if (next <116) { 0 } else { 114 } } else { if (next <118) { 38 } else { 0 } } }
+            return if (next < 115) {
+                if (next < 93) {
+                    if (next < 40) {
+                        if (next < 35) {
+                            if (next < 34) {
+                                0
+                            } else {
+                                114
+                            }
+                        } else {
+                            if (next < 39) {
+                                0
+                            } else {
+                                114
+                            }
+                        }
+                    } else {
+                        if (next < 86) {
+                            if (next < 85) {
+                                0
+                            } else {
+                                29
+                            }
+                        } else {
+                            if (next < 92) {
+                                0
+                            } else {
+                                114
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 103) {
+                        if (next < 99) {
+                            if (next < 98) {
+                                0
+                            } else {
+                                114
+                            }
+                        } else {
+                            if (next < 102) {
+                                0
+                            } else {
+                                114
+                            }
+                        }
+                    } else {
+                        if (next < 111) {
+                            if (next < 110) {
+                                0
+                            } else {
+                                114
+                            }
+                        } else {
+                            if (next < 114) {
+                                0
+                            } else {
+                                114
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 116) {
+                        0
+                    } else {
+                        114
+                    }
+                } else {
+                    if (next < 118) {
+                        38
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode113(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <115) { if (next <93) { if (next <40) { if (next <35) { if (next <34) { 0 } else { 116 } } else { if (next <39) { 0 } else { 116 } } } else { if (next <86) { if (next <85) { 0 } else { 30 } } else { if (next <92) { 0 } else { 116 } } } } else { if (next <103) { if (next <99) { if (next <98) { 0 } else { 116 } } else { if (next <102) { 0 } else { 116 } } } else { if (next <111) { if (next <110) { 0 } else { 116 } } else { if (next <114) { 0 } else { 116 } } } } } else { if (next <117) { if (next <116) { 0 } else { 116 } } else { if (next <118) { 39 } else { 0 } } }
+            return if (next < 115) {
+                if (next < 93) {
+                    if (next < 40) {
+                        if (next < 35) {
+                            if (next < 34) {
+                                0
+                            } else {
+                                116
+                            }
+                        } else {
+                            if (next < 39) {
+                                0
+                            } else {
+                                116
+                            }
+                        }
+                    } else {
+                        if (next < 86) {
+                            if (next < 85) {
+                                0
+                            } else {
+                                30
+                            }
+                        } else {
+                            if (next < 92) {
+                                0
+                            } else {
+                                116
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 103) {
+                        if (next < 99) {
+                            if (next < 98) {
+                                0
+                            } else {
+                                116
+                            }
+                        } else {
+                            if (next < 102) {
+                                0
+                            } else {
+                                116
+                            }
+                        }
+                    } else {
+                        if (next < 111) {
+                            if (next < 110) {
+                                0
+                            } else {
+                                116
+                            }
+                        } else {
+                            if (next < 114) {
+                                0
+                            } else {
+                                116
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 116) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    if (next < 118) {
+                        39
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode114(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <39) { if (next <10) { if (next <0) { 0 } else { 114 } } else { if (next <11) { 0 } else { 114 } } } else { if (next <92) { if (next <40) { 188 } else { 114 } } else { if (next <93) { 112 } else { 114 } } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 39) {
+                    if (next < 10) {
+                        if (next < 0) {
+                            0
+                        } else {
+                            114
+                        }
+                    } else {
+                        if (next < 11) {
+                            0
+                        } else {
+                            114
+                        }
+                    }
+                } else {
+                    if (next < 92) {
+                        if (next < 40) {
+                            188
+                        } else {
+                            114
+                        }
+                    } else {
+                        if (next < 93) {
+                            112
+                        } else {
+                            114
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode115(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <1114112) { if (next <39) { if (next <10) { if (next <0) { 0 } else { 114 } } else { if (next <11) { 0 } else { 114 } } } else { if (next <92) { if (next <40) { 189 } else { 114 } } else { if (next <93) { 112 } else { 114 } } } } else { 0 }
+            return if (next < 1114112) {
+                if (next < 39) {
+                    if (next < 10) {
+                        if (next < 0) {
+                            0
+                        } else {
+                            114
+                        }
+                    } else {
+                        if (next < 11) {
+                            0
+                        } else {
+                            114
+                        }
+                    }
+                } else {
+                    if (next < 92) {
+                        if (next < 40) {
+                            189
+                        } else {
+                            114
+                        }
+                    } else {
+                        if (next < 93) {
+                            112
+                        } else {
+                            114
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode116(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <39) { if (next <0) { 0 } else { 116 } } else { if (next <40) { 117 } else { 116 } } } else { if (next <1114112) { if (next <93) { 113 } else { 116 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 39) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    if (next < 40) {
+                        117
+                    } else {
+                        116
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        113
+                    } else {
+                        116
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode117(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <39) { if (next <0) { 0 } else { 116 } } else { if (next <40) { 121 } else { 116 } } } else { if (next <1114112) { if (next <93) { 113 } else { 116 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 39) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    if (next < 40) {
+                        121
+                    } else {
+                        116
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        113
+                    } else {
+                        116
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode118(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <34) { if (next <0) { 0 } else { 118 } } else { if (next <35) { 119 } else { 118 } } } else { if (next <1114112) { if (next <93) { 110 } else { 118 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 34) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    if (next < 35) {
+                        119
+                    } else {
+                        118
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        110
+                    } else {
+                        118
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode119(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <34) { if (next <0) { 0 } else { 118 } } else { if (next <35) { 122 } else { 118 } } } else { if (next <1114112) { if (next <93) { 110 } else { 118 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 34) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    if (next < 35) {
+                        122
+                    } else {
+                        118
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        110
+                    } else {
+                        118
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode120(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <35) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <34) { 0 } else { 109 } } } } else { if (next <39) { if (next <36) { 1 } else { 0 } } else { if (next <40) { 115 } else { 0 } } }
+            return if (next < 35) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 34) {
+                            0
+                        } else {
+                            109
+                        }
+                    }
+                }
+            } else {
+                if (next < 39) {
+                    if (next < 36) {
+                        1
+                    } else {
+                        0
+                    }
+                } else {
+                    if (next < 40) {
+                        115
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode121(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <39) { if (next <0) { 0 } else { 116 } } else { if (next <40) { 191 } else { 116 } } } else { if (next <1114112) { if (next <93) { 113 } else { 116 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 39) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        116
+                    }
+                } else {
+                    if (next < 40) {
+                        191
+                    } else {
+                        116
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        113
+                    } else {
+                        116
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode122(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <92) { if (next <34) { if (next <0) { 0 } else { 118 } } else { if (next <35) { 191 } else { 118 } } } else { if (next <1114112) { if (next <93) { 110 } else { 118 } } else { 0 } }
+            return if (next < 92) {
+                if (next < 34) {
+                    if (next < 0) {
+                        0
+                    } else {
+                        118
+                    }
+                } else {
+                    if (next < 35) {
+                        191
+                    } else {
+                        118
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 93) {
+                        110
+                    } else {
+                        118
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode123(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <92) { if (next <91) { 0 } else { 185 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 92) {
+                    if (next < 91) {
+                        0
+                    } else {
+                        185
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode124(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <42) { if (next <41) { 0 } else { 180 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 42) {
+                    if (next < 41) {
+                        0
+                    } else {
+                        180
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode125(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <64976) { if (next <247) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <123) { if (next <91) { if (next <65) { 0 } else { 203 } } else { if (next <97) { 0 } else { 203 } } } else { if (next <215) { if (next <192) { 0 } else { 203 } } else { if (next <216) { 0 } else { 203 } } } } } else { if (next <8206) { if (next <894) { if (next <768) { if (next <248) { 0 } else { 203 } } else { if (next <880) { 0 } else { 203 } } } else { if (next <8192) { if (next <895) { 0 } else { 203 } } else { if (next <8204) { 0 } else { 203 } } } } else { if (next <12272) { if (next <8592) { if (next <8304) { 0 } else { 203 } } else { if (next <11264) { 0 } else { 203 } } } else { if (next <55296) { if (next <12289) { 0 } else { 203 } } else { if (next <63744) { 0 } else { 203 } } } } } } else { if (next <1114112) { if (next <65534) { if (next <65008) { 0 } else { 203 } } else { if (next <65536) { 0 } else { 203 } } } else { 0 } }
+            return if (next < 64976) {
+                if (next < 247) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        } else {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 768) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 12272) {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        } else {
+                            if (next < 55296) {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 65534) {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            203
+                        }
+                    } else {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            203
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode126(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 203 } } else { if (next <47) { 126 } else { 0 } } } else { if (next <65) { if (next <58) { 203 } else { 0 } } else { if (next <91) { 203 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 203 } else { 0 } } else { if (next <123) { 203 } else { 0 } } } else { if (next <192) { if (next <184) { 203 } else { 0 } } else { if (next <215) { 203 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 203 } else { 0 } } else { if (next <894) { 203 } else { 0 } } } else { if (next <8204) { if (next <8192) { 203 } else { 0 } } else { if (next <8206) { 203 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 203 } else { 0 } } else { if (next <8592) { 203 } else { 0 } } } else { if (next <12289) { if (next <12272) { 203 } else { 0 } } else { if (next <55296) { 203 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 203 } else { 0 } } else { if (next <65534) { 203 } else { 0 } } } else { if (next <1114112) { 203 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 47) {
+                                    126
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            203
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            203
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        203
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode127(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <8204) { if (next <91) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <59) { if (next <41) { if (next <40) { 0 } else { 175 } } else { if (next <58) { 0 } else { 204 } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { if (next <65) { 0 } else { 17 } } } } } else { if (next <216) { if (next <97) { if (next <95) { if (next <92) { 69 } else { 0 } } else { if (next <96) { 61 } else { 0 } } } else { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } } else { if (next <880) { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } } } else { if (next <63744) { if (next <11264) { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } else { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 8204) {
+                if (next < 91) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 59) {
+                            if (next < 41) {
+                                if (next < 40) {
+                                    0
+                                } else {
+                                    175
+                                }
+                            } else {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 216) {
+                        if (next < 97) {
+                            if (next < 95) {
+                                if (next < 92) {
+                                    69
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 96) {
+                                    61
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 880) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 63744) {
+                    if (next < 11264) {
+                        if (next < 8304) {
+                            if (next < 8206) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 8592) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode128(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <92) { if (next <91) { 0 } else { 69 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 92) {
+                    if (next < 91) {
+                        0
+                    } else {
+                        69
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode129(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <47) { if (next <46) { 0 } else { 86 } } else { if (next <48) { 0 } else { 192 } } } else { 0 }
+            return if (next < 58) {
+                if (next < 47) {
+                    if (next < 46) {
+                        0
+                    } else {
+                        86
+                    }
+                } else {
+                    if (next < 48) {
+                        0
+                    } else {
+                        192
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode130(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <46) { if (next <44) { if (next <43) { 0 } else { 131 } } else { if (next <45) { 0 } else { 131 } } } else { if (next <58) { if (next <48) { 0 } else { 197 } } else { 0 } }
+            return if (next < 46) {
+                if (next < 44) {
+                    if (next < 43) {
+                        0
+                    } else {
+                        131
+                    }
+                } else {
+                    if (next < 45) {
+                        0
+                    } else {
+                        131
+                    }
+                }
+            } else {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        197
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode131(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 197 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    197
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode132(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <47) { if (next <35) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <34) { 0 } else { 109 } } } } else { if (next <43) { if (next <39) { if (next <36) { 1 } else { 0 } } else { if (next <40) { 115 } else { 0 } } } else { if (next <45) { if (next <44) { 129 } else { 0 } } else { if (next <46) { 129 } else { 87 } } } } } else { if (next <103) { if (next <58) { if (next <48) { 0 } else { 193 } } else { if (next <102) { 0 } else { 13 } } } else { if (next <117) { if (next <116) { 0 } else { 6 } } else { 0 } } }
+            return if (next < 47) {
+                if (next < 35) {
+                    if (next < 14) {
+                        if (next < 11) {
+                            if (next < 9) {
+                                0
+                            } else {
+                                167
+                            }
+                        } else {
+                            if (next < 13) {
+                                0
+                            } else {
+                                167
+                            }
+                        }
+                    } else {
+                        if (next < 33) {
+                            if (next < 32) {
+                                0
+                            } else {
+                                167
+                            }
+                        } else {
+                            if (next < 34) {
+                                0
+                            } else {
+                                109
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 43) {
+                        if (next < 39) {
+                            if (next < 36) {
+                                1
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 40) {
+                                115
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 45) {
+                            if (next < 44) {
+                                129
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 46) {
+                                129
+                            } else {
+                                87
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 103) {
+                    if (next < 58) {
+                        if (next < 48) {
+                            0
+                        } else {
+                            193
+                        }
+                    } else {
+                        if (next < 102) {
+                            0
+                        } else {
+                            13
+                        }
+                    }
+                } else {
+                    if (next < 117) {
+                        if (next < 116) {
+                            0
+                        } else {
+                            6
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode133(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <70) { if (next <58) { if (next <48) { 0 } else { 196 } } else { if (next <69) { 0 } else { 130 } } } else { if (next <102) { if (next <101) { 0 } else { 130 } } else { 0 } }
+            return if (next < 70) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        196
+                    }
+                } else {
+                    if (next < 69) {
+                        0
+                    } else {
+                        130
+                    }
+                }
+            } else {
+                if (next < 102) {
+                    if (next < 101) {
+                        0
+                    } else {
+                        130
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode134(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <96) { if (next <92) { if (next <91) { 0 } else { 69 } } else { if (next <95) { 0 } else { 61 } } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 96) {
+                    if (next < 92) {
+                        if (next < 91) {
+                            0
+                        } else {
+                            69
+                        }
+                    } else {
+                        if (next < 95) {
+                            0
+                        } else {
+                            61
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode135(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <94) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <47) { if (next <45) { if (next <44) { 0 } else { 174 } } else { if (next <46) { 0 } else { 198 } } } else { if (next <60) { if (next <59) { 0 } else { 170 } } else { if (next <93) { 0 } else { 186 } } } } } else { 0 }
+            return if (next < 94) {
+                if (next < 36) {
+                    if (next < 14) {
+                        if (next < 11) {
+                            if (next < 9) {
+                                0
+                            } else {
+                                167
+                            }
+                        } else {
+                            if (next < 13) {
+                                0
+                            } else {
+                                167
+                            }
+                        }
+                    } else {
+                        if (next < 33) {
+                            if (next < 32) {
+                                0
+                            } else {
+                                167
+                            }
+                        } else {
+                            if (next < 35) {
+                                0
+                            } else {
+                                1
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 47) {
+                        if (next < 45) {
+                            if (next < 44) {
+                                0
+                            } else {
+                                174
+                            }
+                        } else {
+                            if (next < 46) {
+                                0
+                            } else {
+                                198
+                            }
+                        }
+                    } else {
+                        if (next < 60) {
+                            if (next < 59) {
+                                0
+                            } else {
+                                170
+                            }
+                        } else {
+                            if (next < 93) {
+                                0
+                            } else {
+                                186
+                            }
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode136(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <95) { if (next <65) { if (next <64) { 0 } else { 103 } } else { if (next <94) { 0 } else { 2 } } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 95) {
+                    if (next < 65) {
+                        if (next < 64) {
+                            0
+                        } else {
+                            103
+                        }
+                    } else {
+                        if (next < 94) {
+                            0
+                        } else {
+                            2
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode137(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <41) { if (next <40) { 0 } else { 175 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 41) {
+                    if (next < 40) {
+                        0
+                    } else {
+                        175
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode138(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <8204) { if (next <91) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <59) { if (next <41) { if (next <40) { 0 } else { 175 } } else { if (next <58) { 0 } else { 204 } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { if (next <65) { 0 } else { 17 } } } } } else { if (next <216) { if (next <97) { if (next <95) { if (next <92) { 184 } else { 0 } } else { if (next <96) { 61 } else { 0 } } } else { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } } else { if (next <880) { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } } } else { if (next <63744) { if (next <11264) { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } else { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 8204) {
+                if (next < 91) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 59) {
+                            if (next < 41) {
+                                if (next < 40) {
+                                    0
+                                } else {
+                                    175
+                                }
+                            } else {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 216) {
+                        if (next < 97) {
+                            if (next < 95) {
+                                if (next < 92) {
+                                    184
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 96) {
+                                    61
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 880) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 63744) {
+                    if (next < 11264) {
+                        if (next < 8304) {
+                            if (next < 8206) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 8592) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode139(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <96) { if (next <95) { 0 } else { 61 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 96) {
+                    if (next < 95) {
+                        0
+                    } else {
+                        61
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode140(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <113) { if (next <112) { 0 } else { 5 } } else { 0 }
+            return if (next < 113) {
+                if (next < 112) {
+                    0
+                } else {
+                    5
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode141(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <67) { if (next <65) { if (next <64) { 0 } else { 11 } } else { if (next <66) { 0 } else { 98 } } } else { if (next <81) { if (next <80) { 0 } else { 78 } } else { 0 } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 67) {
+                    if (next < 65) {
+                        if (next < 64) {
+                            0
+                        } else {
+                            11
+                        }
+                    } else {
+                        if (next < 66) {
+                            0
+                        } else {
+                            98
+                        }
+                    }
+                } else {
+                    if (next < 81) {
+                        if (next < 80) {
+                            0
+                        } else {
+                            78
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode142(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <8204) { if (next <91) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <59) { if (next <47) { if (next <46) { 0 } else { 198 } } else { if (next <58) { 0 } else { 204 } } } else { if (next <61) { if (next <60) { 170 } else { 19 } } else { if (next <65) { 0 } else { 17 } } } } } else { if (next <216) { if (next <98) { if (next <94) { if (next <93) { 0 } else { 186 } } else { if (next <97) { 0 } else { 169 } } } else { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } } else { if (next <880) { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } } } else { if (next <63744) { if (next <11264) { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } else { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 8204) {
+                if (next < 91) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 59) {
+                            if (next < 47) {
+                                if (next < 46) {
+                                    0
+                                } else {
+                                    198
+                                }
+                            } else {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    170
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 216) {
+                        if (next < 98) {
+                            if (next < 94) {
+                                if (next < 93) {
+                                    0
+                                } else {
+                                    186
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    169
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 880) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 63744) {
+                    if (next < 11264) {
+                        if (next < 8304) {
+                            if (next < 8206) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 8592) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode143(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <46) { if (next <44) { if (next <43) { 0 } else { 129 } } else { if (next <45) { 0 } else { 129 } } } else { if (next <48) { if (next <47) { 87 } else { 0 } } else { if (next <58) { 193 } else { 0 } } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 46) {
+                    if (next < 44) {
+                        if (next < 43) {
+                            0
+                        } else {
+                            129
+                        }
+                    } else {
+                        if (next < 45) {
+                            0
+                        } else {
+                            129
+                        }
+                    }
+                } else {
+                    if (next < 48) {
+                        if (next < 47) {
+                            87
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 58) {
+                            193
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode144(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <45) { if (next <44) { 0 } else { 174 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 45) {
+                    if (next < 44) {
+                        0
+                    } else {
+                        174
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode145(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <8304) { if (next <91) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <59) { if (next <47) { if (next <46) { 0 } else { 198 } } else { if (next <58) { 0 } else { 204 } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { if (next <65) { 0 } else { 17 } } } } } else { if (next <248) { if (next <192) { if (next <98) { if (next <97) { 0 } else { 169 } } else { if (next <123) { 17 } else { 0 } } } else { if (next <216) { if (next <215) { 17 } else { 0 } } else { if (next <247) { 17 } else { 0 } } } } else { if (next <895) { if (next <880) { if (next <768) { 17 } else { 0 } } else { if (next <894) { 17 } else { 0 } } } else { if (next <8204) { if (next <8192) { 17 } else { 0 } } else { if (next <8206) { 17 } else { 0 } } } } } } else { if (next <65008) { if (next <12289) { if (next <11264) { if (next <8592) { 17 } else { 0 } } else { if (next <12272) { 17 } else { 0 } } } else { if (next <63744) { if (next <55296) { 17 } else { 0 } } else { if (next <64976) { 17 } else { 0 } } } } else { if (next <65536) { if (next <65534) { 17 } else { 0 } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 8304) {
+                if (next < 91) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 59) {
+                            if (next < 47) {
+                                if (next < 46) {
+                                    0
+                                } else {
+                                    198
+                                }
+                            } else {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 248) {
+                        if (next < 192) {
+                            if (next < 98) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    169
+                                }
+                            } else {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 216) {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 895) {
+                            if (next < 880) {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65008) {
+                    if (next < 12289) {
+                        if (next < 11264) {
+                            if (next < 8592) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 12272) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 63744) {
+                            if (next < 55296) {
+                                17
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 64976) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65534) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode146(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 146 } } else { if (next <47) { 66 } else { 0 } } } else { if (next <59) { if (next <58) { 146 } else { 207 } } else { if (next <65) { 0 } else { 146 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 146 } } else { if (next <97) { 0 } else { 146 } } } else { if (next <184) { if (next <183) { 0 } else { 146 } } else { if (next <192) { 0 } else { 146 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 146 } } else { if (next <248) { 0 } else { 146 } } } else { if (next <8192) { if (next <895) { 0 } else { 146 } } else { if (next <8204) { 0 } else { 146 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 146 } } else { if (next <8304) { 0 } else { 146 } } } else { if (next <12272) { if (next <11264) { 0 } else { 146 } } else { if (next <12289) { 0 } else { 146 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 146 } } else { if (next <65008) { 0 } else { 146 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 146 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 47) {
+                                    66
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    146
+                                } else {
+                                    207
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            146
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            146
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            146
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode147(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <91) { if (next <59) { if (next <58) { 0 } else { 207 } } else { if (next <65) { 0 } else { 146 } } } else { if (next <123) { if (next <97) { 0 } else { 146 } } else { if (next <192) { 0 } else { 146 } } } } } else { if (next <8192) { if (next <768) { if (next <247) { if (next <216) { 0 } else { 146 } } else { if (next <248) { 0 } else { 146 } } } else { if (next <894) { if (next <880) { 0 } else { 146 } } else { if (next <895) { 0 } else { 146 } } } } else { if (next <8592) { if (next <8206) { if (next <8204) { 0 } else { 146 } } else { if (next <8304) { 0 } else { 146 } } } else { if (next <12272) { if (next <11264) { 0 } else { 146 } } else { if (next <12289) { 0 } else { 146 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 146 } } else { if (next <65008) { 0 } else { 146 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 146 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 36) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 35) {
+                                    0
+                                } else {
+                                    1
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 91) {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    0
+                                } else {
+                                    207
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 768) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    146
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            146
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            146
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            146
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode148(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 194 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    194
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode149(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <46) { if (next <44) { if (next <43) { 0 } else { 148 } } else { if (next <45) { 0 } else { 148 } } } else { if (next <58) { if (next <48) { 0 } else { 194 } } else { 0 } } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 46) {
+                    if (next < 44) {
+                        if (next < 43) {
+                            0
+                        } else {
+                            148
+                        }
+                    } else {
+                        if (next < 45) {
+                            0
+                        } else {
+                            148
+                        }
+                    }
+                } else {
+                    if (next < 58) {
+                        if (next < 48) {
+                            0
+                        } else {
+                            194
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode150(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <117) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <118) { 151 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 117) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 118) {
+                                    151
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode151(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <101) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <102) { 177 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 101) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 102) {
+                                    177
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode152(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <108) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <109) { 153 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 108) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 109) {
+                                    153
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode153(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <115) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <116) { 154 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 115) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 116) {
+                                    154
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode154(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <101) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <102) { 179 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 101) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 102) {
+                                    179
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode155(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <117) { if (next <46) { if (next <35) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <34) { 0 } else { 109 } } } } else { if (next <41) { if (next <39) { if (next <36) { 1 } else { 0 } } else { if (next <40) { 115 } else { 175 } } } else { if (next <44) { if (next <43) { 0 } else { 129 } } else { if (next <45) { 0 } else { 129 } } } } } else { if (next <91) { if (next <59) { if (next <48) { if (next <47) { 87 } else { 0 } } else { if (next <58) { 193 } else { 204 } } } else { if (next <61) { if (next <60) { 0 } else { 19 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <97) { if (next <95) { if (next <92) { 184 } else { 0 } } else { if (next <96) { 61 } else { 0 } } } else { if (next <103) { if (next <102) { 17 } else { 157 } } else { if (next <116) { 17 } else { 156 } } } } } } else { if (next <11264) { if (next <880) { if (next <216) { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } else { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } } else { if (next <8204) { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } else { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } } } else { if (next <65536) { if (next <63744) { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } else { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 117) {
+                if (next < 46) {
+                    if (next < 35) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 34) {
+                                    0
+                                } else {
+                                    109
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 41) {
+                            if (next < 39) {
+                                if (next < 36) {
+                                    1
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 40) {
+                                    115
+                                } else {
+                                    175
+                                }
+                            }
+                        } else {
+                            if (next < 44) {
+                                if (next < 43) {
+                                    0
+                                } else {
+                                    129
+                                }
+                            } else {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    129
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 91) {
+                        if (next < 59) {
+                            if (next < 48) {
+                                if (next < 47) {
+                                    87
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 58) {
+                                    193
+                                } else {
+                                    204
+                                }
+                            }
+                        } else {
+                            if (next < 61) {
+                                if (next < 60) {
+                                    0
+                                } else {
+                                    19
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 97) {
+                            if (next < 95) {
+                                if (next < 92) {
+                                    184
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 96) {
+                                    61
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 103) {
+                                if (next < 102) {
+                                    17
+                                } else {
+                                    157
+                                }
+                            } else {
+                                if (next < 116) {
+                                    17
+                                } else {
+                                    156
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 11264) {
+                    if (next < 880) {
+                        if (next < 216) {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8204) {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8304) {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 63744) {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65008) {
+                                if (next < 64976) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 65534) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode156(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12272) { if (next <184) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <114) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <123) { if (next <115) { 150 } else { 17 } } else { if (next <183) { 0 } else { 17 } } } } } else { if (next <8192) { if (next <247) { if (next <215) { if (next <192) { 0 } else { 17 } } else { if (next <216) { 0 } else { 17 } } } else { if (next <894) { if (next <248) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } } else { if (next <8257) { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8255) { 0 } else { 17 } } } else { if (next <8592) { if (next <8304) { 0 } else { 17 } } else { if (next <11264) { 0 } else { 17 } } } } } } else { if (next <1114112) { if (next <64976) { if (next <55296) { if (next <12289) { 0 } else { 17 } } else { if (next <63744) { 0 } else { 17 } } } else { if (next <65534) { if (next <65008) { 0 } else { 17 } } else { if (next <65536) { 0 } else { 17 } } } } else { 0 } }
+            return if (next < 12272) {
+                if (next < 184) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 114) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 123) {
+                                if (next < 115) {
+                                    150
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8192) {
+                        if (next < 247) {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 894) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8257) {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 64976) {
+                        if (next < 55296) {
+                            if (next < 12289) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 63744) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    } else {
+                        if (next < 65534) {
+                            if (next < 65008) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode157(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <12289) { if (next <192) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <98) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 152 } } } else { if (next <183) { if (next <123) { 17 } else { 0 } } else { if (next <184) { 17 } else { 0 } } } } } else { if (next <8204) { if (next <248) { if (next <216) { if (next <215) { 17 } else { 0 } } else { if (next <247) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } else { if (next <8304) { if (next <8255) { if (next <8206) { 17 } else { 0 } } else { if (next <8257) { 17 } else { 0 } } } else { if (next <11264) { if (next <8592) { 17 } else { 0 } } else { if (next <12272) { 17 } else { 0 } } } } } } else { if (next <65008) { if (next <63744) { if (next <55296) { 17 } else { 0 } } else { if (next <64976) { 17 } else { 0 } } } else { if (next <65536) { if (next <65534) { 17 } else { 0 } } else { if (next <1114112) { 17 } else { 0 } } } }
+            return if (next < 12289) {
+                if (next < 192) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 98) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    152
+                                }
+                            }
+                        } else {
+                            if (next < 183) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 184) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8204) {
+                        if (next < 248) {
+                            if (next < 216) {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8304) {
+                            if (next < 8255) {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8257) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 11264) {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 12272) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65008) {
+                    if (next < 63744) {
+                        if (next < 55296) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 64976) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 65536) {
+                        if (next < 65534) {
+                            17
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            17
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode158(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <97) { if (next <45) { if (next <35) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <34) { 0 } else { 109 } } } } else { if (next <41) { if (next <39) { if (next <36) { 1 } else { 0 } } else { if (next <40) { 115 } else { 175 } } } else { if (next <43) { if (next <42) { 180 } else { 0 } } else { if (next <44) { 129 } else { 174 } } } } } else { if (next <64) { if (next <58) { if (next <47) { if (next <46) { 129 } else { 199 } } else { if (next <48) { 0 } else { 193 } } } else { if (next <60) { if (next <59) { 204 } else { 170 } } else { if (next <61) { 19 } else { 0 } } } } else { if (next <93) { if (next <91) { if (next <65) { 103 } else { 17 } } else { if (next <92) { 184 } else { 0 } } } else { if (next <95) { if (next <94) { 186 } else { 2 } } else { if (next <96) { 61 } else { 0 } } } } } } else { if (next <8204) { if (next <216) { if (next <117) { if (next <103) { if (next <102) { 17 } else { 157 } } else { if (next <116) { 17 } else { 156 } } } else { if (next <192) { if (next <123) { 17 } else { 0 } } else { if (next <215) { 17 } else { 0 } } } } else { if (next <880) { if (next <248) { if (next <247) { 17 } else { 0 } } else { if (next <768) { 17 } else { 0 } } } else { if (next <895) { if (next <894) { 17 } else { 0 } } else { if (next <8192) { 17 } else { 0 } } } } } else { if (next <63744) { if (next <11264) { if (next <8304) { if (next <8206) { 17 } else { 0 } } else { if (next <8592) { 17 } else { 0 } } } else { if (next <12289) { if (next <12272) { 17 } else { 0 } } else { if (next <55296) { 17 } else { 0 } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 17 } else { 0 } } else { if (next <65534) { 17 } else { 0 } } } else { if (next <1114112) { 17 } else { 0 } } } } }
+            return if (next < 97) {
+                if (next < 45) {
+                    if (next < 35) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 34) {
+                                    0
+                                } else {
+                                    109
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 41) {
+                            if (next < 39) {
+                                if (next < 36) {
+                                    1
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 40) {
+                                    115
+                                } else {
+                                    175
+                                }
+                            }
+                        } else {
+                            if (next < 43) {
+                                if (next < 42) {
+                                    180
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 44) {
+                                    129
+                                } else {
+                                    174
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 64) {
+                        if (next < 58) {
+                            if (next < 47) {
+                                if (next < 46) {
+                                    129
+                                } else {
+                                    199
+                                }
+                            } else {
+                                if (next < 48) {
+                                    0
+                                } else {
+                                    193
+                                }
+                            }
+                        } else {
+                            if (next < 60) {
+                                if (next < 59) {
+                                    204
+                                } else {
+                                    170
+                                }
+                            } else {
+                                if (next < 61) {
+                                    19
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 93) {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    103
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 92) {
+                                    184
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 95) {
+                                if (next < 94) {
+                                    186
+                                } else {
+                                    2
+                                }
+                            } else {
+                                if (next < 96) {
+                                    61
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 8204) {
+                    if (next < 216) {
+                        if (next < 117) {
+                            if (next < 103) {
+                                if (next < 102) {
+                                    17
+                                } else {
+                                    157
+                                }
+                            } else {
+                                if (next < 116) {
+                                    17
+                                } else {
+                                    156
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 123) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 880) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 768) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 895) {
+                                if (next < 894) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8192) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 63744) {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8206) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 65536) {
+                            if (next < 65008) {
+                                if (next < 64976) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 65534) {
+                                    17
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 1114112) {
+                                17
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode159(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 85 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    85
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode160(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 161 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    161
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode161(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <70) { if (next <58) { if (next <48) { 0 } else { 161 } } else { if (next <69) { 0 } else { 130 } } } else { if (next <102) { if (next <101) { 0 } else { 130 } } else { 0 } }
+            return if (next < 70) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        161
+                    }
+                } else {
+                    if (next < 69) {
+                        0
+                    } else {
+                        130
+                    }
+                }
+            } else {
+                if (next < 102) {
+                    if (next < 101) {
+                        0
+                    } else {
+                        130
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode162(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <58) { if (next <47) { if (next <46) { 0 } else { 161 } } else { if (next <48) { 0 } else { 85 } } } else { if (next <70) { if (next <69) { 0 } else { 130 } } else { if (next <101) { 0 } else { 130 } } } } else { 0 }
+            return if (next < 102) {
+                if (next < 58) {
+                    if (next < 47) {
+                        if (next < 46) {
+                            0
+                        } else {
+                            161
+                        }
+                    } else {
+                        if (next < 48) {
+                            0
+                        } else {
+                            85
+                        }
+                    }
+                } else {
+                    if (next < 70) {
+                        if (next < 69) {
+                            0
+                        } else {
+                            130
+                        }
+                    } else {
+                        if (next < 101) {
+                            0
+                        } else {
+                            130
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode163(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <116) { if (next <45) { if (next <35) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <34) { 0 } else { 109 } } } } else { if (next <41) { if (next <39) { if (next <36) { 1 } else { 0 } } else { if (next <40) { 115 } else { 175 } } } else { if (next <43) { if (next <42) { 180 } else { 0 } } else { if (next <44) { 129 } else { 0 } } } } } else { if (next <65) { if (next <58) { if (next <47) { if (next <46) { 129 } else { 87 } } else { if (next <48) { 0 } else { 193 } } } else { if (next <60) { if (next <59) { 204 } else { 0 } } else { if (next <61) { 19 } else { 0 } } } } else { if (next <96) { if (next <92) { if (next <91) { 17 } else { 184 } } else { if (next <95) { 0 } else { 61 } } } else { if (next <102) { if (next <97) { 0 } else { 17 } } else { if (next <103) { 157 } else { 17 } } } } } } else { if (next <8592) { if (next <768) { if (next <215) { if (next <123) { if (next <117) { 156 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } else { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } } else { if (next <8192) { if (next <894) { if (next <880) { 0 } else { 17 } } else { if (next <895) { 0 } else { 17 } } } else { if (next <8206) { if (next <8204) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } } } else { if (next <65534) { if (next <55296) { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } else { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } } }
+            return if (next < 116) {
+                if (next < 45) {
+                    if (next < 35) {
+                        if (next < 14) {
+                            if (next < 11) {
+                                if (next < 9) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 13) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            }
+                        } else {
+                            if (next < 33) {
+                                if (next < 32) {
+                                    0
+                                } else {
+                                    167
+                                }
+                            } else {
+                                if (next < 34) {
+                                    0
+                                } else {
+                                    109
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 41) {
+                            if (next < 39) {
+                                if (next < 36) {
+                                    1
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 40) {
+                                    115
+                                } else {
+                                    175
+                                }
+                            }
+                        } else {
+                            if (next < 43) {
+                                if (next < 42) {
+                                    180
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 44) {
+                                    129
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65) {
+                        if (next < 58) {
+                            if (next < 47) {
+                                if (next < 46) {
+                                    129
+                                } else {
+                                    87
+                                }
+                            } else {
+                                if (next < 48) {
+                                    0
+                                } else {
+                                    193
+                                }
+                            }
+                        } else {
+                            if (next < 60) {
+                                if (next < 59) {
+                                    204
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 61) {
+                                    19
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 96) {
+                            if (next < 92) {
+                                if (next < 91) {
+                                    17
+                                } else {
+                                    184
+                                }
+                            } else {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    61
+                                }
+                            }
+                        } else {
+                            if (next < 102) {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 103) {
+                                    157
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 8592) {
+                    if (next < 768) {
+                        if (next < 215) {
+                            if (next < 123) {
+                                if (next < 117) {
+                                    156
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8192) {
+                            if (next < 894) {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8206) {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 65534) {
+                        if (next < 55296) {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 64976) {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 65008) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 1114112) {
+                            if (next < 65536) {
+                                0
+                            } else {
+                                17
+                            }
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode164(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <60) { if (next <59) { 0 } else { 170 } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 60) {
+                    if (next < 59) {
+                        0
+                    } else {
+                        170
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode165(): Int {
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { if (next <117) { if (next <103) { if (next <102) { 0 } else { 13 } } else { if (next <116) { 0 } else { 6 } } } else { 0 } }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                if (next < 117) {
+                    if (next < 103) {
+                        if (next < 102) {
+                            0
+                        } else {
+                            13
+                        }
+                    } else {
+                        if (next < 116) {
+                            0
+                        } else {
+                            6
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode166(): Int {
         kpScannerLastTokenId = -1
         kpBufferMark()
         return 0
     }
+
     private fun kpNode167(): Int {
         kpScannerLastTokenId = 1
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <36) { if (next <14) { if (next <11) { if (next <9) { 0 } else { 167 } } else { if (next <13) { 0 } else { 167 } } } else { if (next <33) { if (next <32) { 0 } else { 167 } } else { if (next <35) { 0 } else { 1 } } } } else { 0 }
+            return if (next < 36) {
+                if (next < 14) {
+                    if (next < 11) {
+                        if (next < 9) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 13) {
+                            0
+                        } else {
+                            167
+                        }
+                    }
+                } else {
+                    if (next < 33) {
+                        if (next < 32) {
+                            0
+                        } else {
+                            167
+                        }
+                    } else {
+                        if (next < 35) {
+                            0
+                        } else {
+                            1
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode168(): Int {
         kpScannerLastTokenId = -2
         kpBufferMark()
         return 0
     }
+
     private fun kpNode169(): Int {
         kpScannerLastTokenId = -2
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode170(): Int {
         kpScannerLastTokenId = 2
         kpBufferMark()
         return 0
     }
+
     private fun kpNode171(): Int {
         kpScannerLastTokenId = -3
         kpBufferMark()
         return 0
     }
+
     private fun kpNode172(): Int {
         kpScannerLastTokenId = -4
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode173(): Int {
         kpScannerLastTokenId = -4
         kpBufferMark()
         return 0
     }
+
     private fun kpNode174(): Int {
         kpScannerLastTokenId = 3
         kpBufferMark()
         return 0
     }
+
     private fun kpNode175(): Int {
         kpScannerLastTokenId = 4
         kpBufferMark()
         return 0
     }
+
     private fun kpNode176(): Int {
         kpScannerLastTokenId = -5
         kpBufferMark()
         return 0
     }
+
     private fun kpNode177(): Int {
         kpScannerLastTokenId = -5
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode178(): Int {
         kpScannerLastTokenId = -6
         kpBufferMark()
         return 0
     }
+
     private fun kpNode179(): Int {
         kpScannerLastTokenId = -6
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode180(): Int {
         kpScannerLastTokenId = 5
         kpBufferMark()
         return 0
     }
+
     private fun kpNode181(): Int {
         kpScannerLastTokenId = -7
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <55296) { if (next <215) { if (next <91) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 17 } } else { if (next <47) { 64 } else { 0 } } } else { if (next <59) { if (next <58) { 17 } else { 204 } } else { if (next <65) { 0 } else { 17 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 17 } } else { if (next <97) { 0 } else { 17 } } } else { if (next <184) { if (next <183) { 0 } else { 17 } } else { if (next <192) { 0 } else { 17 } } } } } else { if (next <8206) { if (next <894) { if (next <247) { if (next <216) { 0 } else { 17 } } else { if (next <248) { 0 } else { 17 } } } else { if (next <8192) { if (next <895) { 0 } else { 17 } } else { if (next <8204) { 0 } else { 17 } } } } else { if (next <8592) { if (next <8257) { if (next <8255) { 0 } else { 17 } } else { if (next <8304) { 0 } else { 17 } } } else { if (next <12272) { if (next <11264) { 0 } else { 17 } } else { if (next <12289) { 0 } else { 17 } } } } } } else { if (next <65534) { if (next <64976) { if (next <63744) { 0 } else { 17 } } else { if (next <65008) { 0 } else { 17 } } } else { if (next <1114112) { if (next <65536) { 0 } else { 17 } } else { 0 } } }
+            return if (next < 55296) {
+                if (next < 215) {
+                    if (next < 91) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 47) {
+                                    64
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 59) {
+                                if (next < 58) {
+                                    17
+                                } else {
+                                    204
+                                }
+                            } else {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 184) {
+                                if (next < 183) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 247) {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8592) {
+                            if (next < 8257) {
+                                if (next < 8255) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        } else {
+                            if (next < 12272) {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            } else {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    17
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65534) {
+                    if (next < 64976) {
+                        if (next < 63744) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            17
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            17
+                        }
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode182(): Int {
         kpScannerLastTokenId = -7
         kpBufferMark()
         return 0
     }
+
     private fun kpNode183(): Int {
         kpScannerLastTokenId = 6
         kpBufferMark()
         return 0
     }
+
     private fun kpNode184(): Int {
         kpScannerLastTokenId = 7
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <94) { if (next <33) { if (next <32) { 0 } else { 69 } } else { if (next <93) { 0 } else { 183 } } } else { 0 }
+            return if (next < 94) {
+                if (next < 33) {
+                    if (next < 32) {
+                        0
+                    } else {
+                        69
+                    }
+                } else {
+                    if (next < 93) {
+                        0
+                    } else {
+                        183
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode185(): Int {
         kpScannerLastTokenId = 7
         kpBufferMark()
         return 0
     }
+
     private fun kpNode186(): Int {
         kpScannerLastTokenId = 8
         kpBufferMark()
         return 0
     }
+
     private fun kpNode187(): Int {
         kpScannerLastTokenId = 9
         kpBufferMark()
         return 0
     }
+
     private fun kpNode188(): Int {
         kpScannerLastTokenId = 10
         kpBufferMark()
         return 0
     }
+
     private fun kpNode189(): Int {
         kpScannerLastTokenId = 10
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <40) { if (next <39) { 0 } else { 116 } } else { 0 }
+            return if (next < 40) {
+                if (next < 39) {
+                    0
+                } else {
+                    116
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode190(): Int {
         kpScannerLastTokenId = 10
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <35) { if (next <34) { 0 } else { 118 } } else { 0 }
+            return if (next < 35) {
+                if (next < 34) {
+                    0
+                } else {
+                    118
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode191(): Int {
         kpScannerLastTokenId = 11
         kpBufferMark()
         return 0
     }
+
     private fun kpNode192(): Int {
         kpScannerLastTokenId = 12
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <47) { if (next <46) { 0 } else { 133 } } else { if (next <48) { 0 } else { 192 } } } else { 0 }
+            return if (next < 58) {
+                if (next < 47) {
+                    if (next < 46) {
+                        0
+                    } else {
+                        133
+                    }
+                } else {
+                    if (next < 48) {
+                        0
+                    } else {
+                        192
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode193(): Int {
         kpScannerLastTokenId = 12
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <102) { if (next <58) { if (next <47) { if (next <46) { 0 } else { 133 } } else { if (next <48) { 0 } else { 192 } } } else { if (next <70) { if (next <69) { 0 } else { 130 } } else { if (next <101) { 0 } else { 130 } } } } else { 0 }
+            return if (next < 102) {
+                if (next < 58) {
+                    if (next < 47) {
+                        if (next < 46) {
+                            0
+                        } else {
+                            133
+                        }
+                    } else {
+                        if (next < 48) {
+                            0
+                        } else {
+                            192
+                        }
+                    }
+                } else {
+                    if (next < 70) {
+                        if (next < 69) {
+                            0
+                        } else {
+                            130
+                        }
+                    } else {
+                        if (next < 101) {
+                            0
+                        } else {
+                            130
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode194(): Int {
         kpScannerLastTokenId = 12
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 194 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    194
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode195(): Int {
         kpScannerLastTokenId = 13
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 195 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    195
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode196(): Int {
         kpScannerLastTokenId = 13
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <70) { if (next <58) { if (next <48) { 0 } else { 196 } } else { if (next <69) { 0 } else { 130 } } } else { if (next <102) { if (next <101) { 0 } else { 130 } } else { 0 } }
+            return if (next < 70) {
+                if (next < 58) {
+                    if (next < 48) {
+                        0
+                    } else {
+                        196
+                    }
+                } else {
+                    if (next < 69) {
+                        0
+                    } else {
+                        130
+                    }
+                }
+            } else {
+                if (next < 102) {
+                    if (next < 101) {
+                        0
+                    } else {
+                        130
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode197(): Int {
         kpScannerLastTokenId = 14
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 197 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    197
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode198(): Int {
         kpScannerLastTokenId = 15
         kpBufferMark()
         return 0
     }
+
     private fun kpNode199(): Int {
         kpScannerLastTokenId = 15
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <58) { if (next <48) { 0 } else { 196 } } else { 0 }
+            return if (next < 58) {
+                if (next < 48) {
+                    0
+                } else {
+                    196
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode200(): Int {
         kpScannerLastTokenId = 16
         kpBufferMark()
         return 0
     }
+
     private fun kpNode201(): Int {
         kpScannerLastTokenId = 17
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <123) { if (next <58) { if (next <46) { if (next <45) { 0 } else { 104 } } else { if (next <48) { 0 } else { 201 } } } else { if (next <91) { if (next <65) { 0 } else { 201 } } else { if (next <97) { 0 } else { 201 } } } } else { 0 }
+            return if (next < 123) {
+                if (next < 58) {
+                    if (next < 46) {
+                        if (next < 45) {
+                            0
+                        } else {
+                            104
+                        }
+                    } else {
+                        if (next < 48) {
+                            0
+                        } else {
+                            201
+                        }
+                    }
+                } else {
+                    if (next < 91) {
+                        if (next < 65) {
+                            0
+                        } else {
+                            201
+                        }
+                    } else {
+                        if (next < 97) {
+                            0
+                        } else {
+                            201
+                        }
+                    }
+                }
+            } else {
+                0
+            }
         }
         return 0
     }
+
     private fun kpNode202(): Int {
         kpScannerLastTokenId = 18
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 202 } } else { if (next <47) { 63 } else { 0 } } } else { if (next <65) { if (next <58) { 202 } else { 0 } } else { if (next <91) { 202 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 202 } else { 0 } } else { if (next <123) { 202 } else { 0 } } } else { if (next <192) { if (next <184) { 202 } else { 0 } } else { if (next <215) { 202 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 202 } else { 0 } } else { if (next <894) { 202 } else { 0 } } } else { if (next <8204) { if (next <8192) { 202 } else { 0 } } else { if (next <8206) { 202 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 202 } else { 0 } } else { if (next <8592) { 202 } else { 0 } } } else { if (next <12289) { if (next <12272) { 202 } else { 0 } } else { if (next <55296) { 202 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 202 } else { 0 } } else { if (next <65534) { 202 } else { 0 } } } else { if (next <1114112) { 202 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    202
+                                }
+                            } else {
+                                if (next < 47) {
+                                    63
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    202
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            202
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            202
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        202
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode203(): Int {
         kpScannerLastTokenId = 19
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <63744) { if (next <216) { if (next <95) { if (next <48) { if (next <46) { if (next <45) { 0 } else { 203 } } else { if (next <47) { 126 } else { 0 } } } else { if (next <65) { if (next <58) { 203 } else { 0 } } else { if (next <91) { 203 } else { 0 } } } } else { if (next <183) { if (next <97) { if (next <96) { 203 } else { 0 } } else { if (next <123) { 203 } else { 0 } } } else { if (next <192) { if (next <184) { 203 } else { 0 } } else { if (next <215) { 203 } else { 0 } } } } } else { if (next <8255) { if (next <895) { if (next <248) { if (next <247) { 203 } else { 0 } } else { if (next <894) { 203 } else { 0 } } } else { if (next <8204) { if (next <8192) { 203 } else { 0 } } else { if (next <8206) { 203 } else { 0 } } } } else { if (next <11264) { if (next <8304) { if (next <8257) { 203 } else { 0 } } else { if (next <8592) { 203 } else { 0 } } } else { if (next <12289) { if (next <12272) { 203 } else { 0 } } else { if (next <55296) { 203 } else { 0 } } } } } } else { if (next <65536) { if (next <65008) { if (next <64976) { 203 } else { 0 } } else { if (next <65534) { 203 } else { 0 } } } else { if (next <1114112) { 203 } else { 0 } } }
+            return if (next < 63744) {
+                if (next < 216) {
+                    if (next < 95) {
+                        if (next < 48) {
+                            if (next < 46) {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    203
+                                }
+                            } else {
+                                if (next < 47) {
+                                    126
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 65) {
+                                if (next < 58) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 91) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 183) {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8255) {
+                        if (next < 895) {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 11264) {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 12289) {
+                                if (next < 12272) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 55296) {
+                                    203
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 65008) {
+                        if (next < 64976) {
+                            203
+                        } else {
+                            0
+                        }
+                    } else {
+                        if (next < 65534) {
+                            203
+                        } else {
+                            0
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        203
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode204(): Int {
         kpScannerLastTokenId = 20
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <64976) { if (next <247) { if (next <93) { if (next <59) { if (next <38) { if (next <37) { 0 } else { 52 } } else { if (next <48) { 0 } else { 206 } } } else { if (next <91) { if (next <65) { 0 } else { 206 } } else { if (next <92) { 0 } else { 60 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 206 } } else { if (next <97) { 0 } else { 206 } } } else { if (next <215) { if (next <192) { 0 } else { 206 } } else { if (next <216) { 0 } else { 206 } } } } } else { if (next <8206) { if (next <894) { if (next <768) { if (next <248) { 0 } else { 206 } } else { if (next <880) { 0 } else { 206 } } } else { if (next <8192) { if (next <895) { 0 } else { 206 } } else { if (next <8204) { 0 } else { 206 } } } } else { if (next <12272) { if (next <8592) { if (next <8304) { 0 } else { 206 } } else { if (next <11264) { 0 } else { 206 } } } else { if (next <55296) { if (next <12289) { 0 } else { 206 } } else { if (next <63744) { 0 } else { 206 } } } } } } else { if (next <1114112) { if (next <65534) { if (next <65008) { 0 } else { 206 } } else { if (next <65536) { 0 } else { 206 } } } else { 0 } }
+            return if (next < 64976) {
+                if (next < 247) {
+                    if (next < 93) {
+                        if (next < 59) {
+                            if (next < 38) {
+                                if (next < 37) {
+                                    0
+                                } else {
+                                    52
+                                }
+                            } else {
+                                if (next < 48) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 92) {
+                                    0
+                                } else {
+                                    60
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 768) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 12272) {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 55296) {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 65534) {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            206
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode205(): Int {
         kpScannerLastTokenId = 20
         kpBufferMark()
         return 0
     }
+
     private fun kpNode206(): Int {
         kpScannerLastTokenId = 21
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <11264) { if (next <183) { if (next <65) { if (next <46) { if (next <38) { if (next <37) { 0 } else { 52 } } else { if (next <45) { 0 } else { 206 } } } else { if (next <48) { if (next <47) { 58 } else { 0 } } else { if (next <59) { 206 } else { 0 } } } } else { if (next <95) { if (next <92) { if (next <91) { 206 } else { 0 } } else { if (next <93) { 60 } else { 0 } } } else { if (next <97) { if (next <96) { 206 } else { 0 } } else { if (next <123) { 206 } else { 0 } } } } } else { if (next <895) { if (next <216) { if (next <192) { if (next <184) { 206 } else { 0 } } else { if (next <215) { 206 } else { 0 } } } else { if (next <248) { if (next <247) { 206 } else { 0 } } else { if (next <894) { 206 } else { 0 } } } } else { if (next <8255) { if (next <8204) { if (next <8192) { 206 } else { 0 } } else { if (next <8206) { 206 } else { 0 } } } else { if (next <8304) { if (next <8257) { 206 } else { 0 } } else { if (next <8592) { 206 } else { 0 } } } } } } else { if (next <65536) { if (next <63744) { if (next <12289) { if (next <12272) { 206 } else { 0 } } else { if (next <55296) { 206 } else { 0 } } } else { if (next <65008) { if (next <64976) { 206 } else { 0 } } else { if (next <65534) { 206 } else { 0 } } } } else { if (next <1114112) { 206 } else { 0 } } }
+            return if (next < 11264) {
+                if (next < 183) {
+                    if (next < 65) {
+                        if (next < 46) {
+                            if (next < 38) {
+                                if (next < 37) {
+                                    0
+                                } else {
+                                    52
+                                }
+                            } else {
+                                if (next < 45) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 48) {
+                                if (next < 47) {
+                                    58
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 59) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 95) {
+                            if (next < 92) {
+                                if (next < 91) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 93) {
+                                    60
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 97) {
+                                if (next < 96) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 123) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 895) {
+                        if (next < 216) {
+                            if (next < 192) {
+                                if (next < 184) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 215) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 248) {
+                                if (next < 247) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 894) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 8255) {
+                            if (next < 8204) {
+                                if (next < 8192) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8206) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        } else {
+                            if (next < 8304) {
+                                if (next < 8257) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            } else {
+                                if (next < 8592) {
+                                    206
+                                } else {
+                                    0
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 65536) {
+                    if (next < 63744) {
+                        if (next < 12289) {
+                            if (next < 12272) {
+                                206
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 55296) {
+                                206
+                            } else {
+                                0
+                            }
+                        }
+                    } else {
+                        if (next < 65008) {
+                            if (next < 64976) {
+                                206
+                            } else {
+                                0
+                            }
+                        } else {
+                            if (next < 65534) {
+                                206
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 1114112) {
+                        206
+                    } else {
+                        0
+                    }
+                }
+            }
         }
         return 0
     }
+
     private fun kpNode207(): Int {
         kpScannerLastTokenId = 21
         kpBufferMark()
         if (kpBufferHasNext()) {
             val next = kpBufferNextInt()
-            return if (next <64976) { if (next <247) { if (next <93) { if (next <59) { if (next <38) { if (next <37) { 0 } else { 52 } } else { if (next <48) { 0 } else { 206 } } } else { if (next <91) { if (next <65) { 0 } else { 206 } } else { if (next <92) { 0 } else { 60 } } } } else { if (next <123) { if (next <96) { if (next <95) { 0 } else { 206 } } else { if (next <97) { 0 } else { 206 } } } else { if (next <215) { if (next <192) { 0 } else { 206 } } else { if (next <216) { 0 } else { 206 } } } } } else { if (next <8206) { if (next <894) { if (next <768) { if (next <248) { 0 } else { 206 } } else { if (next <880) { 0 } else { 206 } } } else { if (next <8192) { if (next <895) { 0 } else { 206 } } else { if (next <8204) { 0 } else { 206 } } } } else { if (next <12272) { if (next <8592) { if (next <8304) { 0 } else { 206 } } else { if (next <11264) { 0 } else { 206 } } } else { if (next <55296) { if (next <12289) { 0 } else { 206 } } else { if (next <63744) { 0 } else { 206 } } } } } } else { if (next <1114112) { if (next <65534) { if (next <65008) { 0 } else { 206 } } else { if (next <65536) { 0 } else { 206 } } } else { 0 } }
+            return if (next < 64976) {
+                if (next < 247) {
+                    if (next < 93) {
+                        if (next < 59) {
+                            if (next < 38) {
+                                if (next < 37) {
+                                    0
+                                } else {
+                                    52
+                                }
+                            } else {
+                                if (next < 48) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 91) {
+                                if (next < 65) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 92) {
+                                    0
+                                } else {
+                                    60
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 123) {
+                            if (next < 96) {
+                                if (next < 95) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 97) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 215) {
+                                if (next < 192) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 216) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (next < 8206) {
+                        if (next < 894) {
+                            if (next < 768) {
+                                if (next < 248) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 880) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 8192) {
+                                if (next < 895) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 8204) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    } else {
+                        if (next < 12272) {
+                            if (next < 8592) {
+                                if (next < 8304) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 11264) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        } else {
+                            if (next < 55296) {
+                                if (next < 12289) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            } else {
+                                if (next < 63744) {
+                                    0
+                                } else {
+                                    206
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (next < 1114112) {
+                    if (next < 65534) {
+                        if (next < 65008) {
+                            0
+                        } else {
+                            206
+                        }
+                    } else {
+                        if (next < 65536) {
+                            0
+                        } else {
+                            206
+                        }
+                    }
+                } else {
+                    0
+                }
+            }
         }
         return 0
     }
@@ -1913,7 +13763,7 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
     private var kpLookAheadBuffered = 0 // how many tokens are currently buffered?
 
     private fun kpLookAheadNextToken(startNode: Int): Token {
-        return if (kpLookAheadBuffered> 0) {
+        return if (kpLookAheadBuffered > 0) {
             val result = kpLookAheadTokens[kpLookAheadIndex1]
             kpLookAheadIndex1 = (kpLookAheadIndex1 + 1) % kpLookAheadTokens.size
             kpLookAheadBuffered--
@@ -1972,6 +13822,7 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
         DictionaryHelper.booleanToByteArray(buf, false)
         valueCachedFalse = convertByteArrayWrapperToID(buf)
     }
+
     public fun turtleDoc() {
         var token: Token
         var t1 = kpLookAhead(70)
@@ -1993,7 +13844,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                 triples()
                 token = kpLookAheadNextToken(71)
             }
-            else -> { throw UnexpectedToken(t2, arrayOf("STRING_0", "STRING_1", "STRING_3", "STRING_2", "IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t2, arrayOf("STRING_0", "STRING_1", "STRING_3", "STRING_2", "IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2013,7 +13866,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t3.type == STRING_2 -> {
                 sparqlBase()
             }
-            else -> { throw UnexpectedToken(t3, arrayOf("STRING_0", "STRING_1", "STRING_3", "STRING_2"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t3, arrayOf("STRING_0", "STRING_1", "STRING_3", "STRING_2"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2066,7 +13921,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                     predicateObjectList(s2)
                 }
             }
-            else -> { throw UnexpectedToken(t5, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t5, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2115,7 +13972,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                     return valueCachedType
                 }
             }
-            else -> { throw UnexpectedToken(t9, arrayOf("IRI", "PNAMELN", "PNAMENS", "STRING_4"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t9, arrayOf("IRI", "PNAMELN", "PNAMENS", "STRING_4"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2133,7 +13992,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t10.type == LBRACE -> {
                 result = collection()
             }
-            else -> { throw UnexpectedToken(t10, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t10, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
         return result
     }
@@ -2164,7 +14025,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t11.type == STRING || t11.type == INTEGER || t11.type == DECIMAL || t11.type == DOUBLE || t11.type == STRING_5 || t11.type == STRING_6 -> {
                 result = literal()
             }
-            else -> { throw UnexpectedToken(t11, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE", "STRING", "INTEGER", "DECIMAL", "DOUBLE", "STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t11, arrayOf("IRI", "PNAMELN", "PNAMENS", "BNODE", "ANONBNODE", "LBRACE", "SLBRACE", "STRING", "INTEGER", "DECIMAL", "DOUBLE", "STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
         return result
     }
@@ -2183,7 +14046,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t12.type == STRING_5 || t12.type == STRING_6 -> {
                 result = BooleanLiteral()
             }
-            else -> { throw UnexpectedToken(t12, arrayOf("STRING", "INTEGER", "DECIMAL", "DOUBLE", "STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t12, arrayOf("STRING", "INTEGER", "DECIMAL", "DOUBLE", "STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
         return result
     }
@@ -2243,7 +14108,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                 DictionaryHelper.doubleToByteArray(buf, token.image)
                 return convertByteArrayWrapperToID(buf)
             }
-            else -> { throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2266,7 +14133,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                     DictionaryHelper.typedToByteArray(buf, MyStringExt.replaceEscapes(content, strictMode), MyStringExt.replaceEscapes(type_iri, strictMode))
                     return convertByteArrayWrapperToID(buf)
                 }
-                else -> { throw UnexpectedToken(t15, arrayOf("LANGTAG", "DOUBLECIRCUMFLEX"), kpIndex, kpColumnNumber, kpLineNumber) }
+                else -> {
+                    throw UnexpectedToken(t15, arrayOf("LANGTAG", "DOUBLECIRCUMFLEX"), kpIndex, kpColumnNumber, kpLineNumber)
+                }
             }
         }
         DictionaryHelper.stringToByteArray(buf, MyStringExt.replaceEscapes(content, strictMode))
@@ -2291,7 +14160,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                 }
                 return valueCachedFalse
             }
-            else -> { throw UnexpectedToken(t17, arrayOf("STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t17, arrayOf("STRING_5", "STRING_6"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2307,7 +14178,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t18.type == PNAMELN || t18.type == PNAMENS -> {
                 iri = PrefixedName()
             }
-            else -> { throw UnexpectedToken(t18, arrayOf("IRI", "PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t18, arrayOf("IRI", "PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
         DictionaryHelper.iriToByteArray(buf, iri)
         return convertByteArrayWrapperToID(buf)
@@ -2325,7 +14198,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             t19.type == PNAMELN || t19.type == PNAMENS -> {
                 iri = PrefixedName()
             }
-            else -> { throw UnexpectedToken(t19, arrayOf("IRI", "PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t19, arrayOf("IRI", "PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
         return iri
     }
@@ -2355,7 +14230,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                     return result
                 }
             }
-            else -> { throw UnexpectedToken(t20, arrayOf("PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t20, arrayOf("PNAMELN", "PNAMENS"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 
@@ -2373,7 +14250,9 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
                 DictionaryHelper.bnodeToByteArray(buf, "_:_" + bnode_counter++)
                 return convertByteArrayWrapperToID(buf)
             }
-            else -> { throw UnexpectedToken(t21, arrayOf("BNODE", "ANONBNODE"), kpIndex, kpColumnNumber, kpLineNumber) }
+            else -> {
+                throw UnexpectedToken(t21, arrayOf("BNODE", "ANONBNODE"), kpIndex, kpColumnNumber, kpLineNumber)
+            }
         }
     }
 }

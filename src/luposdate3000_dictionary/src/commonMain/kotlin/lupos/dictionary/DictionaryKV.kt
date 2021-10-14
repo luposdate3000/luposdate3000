@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.kv.KeyValueStore
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
@@ -250,7 +251,7 @@ public class DictionaryKV internal constructor(
                 hasNext = {
                     loop@ while (!ready && reader.hasNext()) {
                         reader.next(buffer) { id ->
-                            if (id> lastid) {
+                            if (id > lastid) {
                                 lastid = id
                             }
                             originalID = id

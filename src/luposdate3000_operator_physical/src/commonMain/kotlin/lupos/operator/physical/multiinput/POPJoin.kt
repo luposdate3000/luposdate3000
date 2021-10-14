@@ -25,6 +25,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
+
 internal object POPJoin {
     fun crossProduct(dataO0: Array<MutableList<DictionaryValueType>>, dataO1: Array<MutableList<DictionaryValueType>>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/

@@ -25,6 +25,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IQuery
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalModifyData {
     public operator fun invoke(
         data: List<LOPTriple>,

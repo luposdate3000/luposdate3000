@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+
 import kotlin.math.abs
 import kotlin.math.sqrt
+
 public class ImageHelper {
     private val layers = mutableListOf(mutableSetOf<String>())
     private val classes = mutableMapOf<String, MutableMap<String, String>>()
@@ -35,17 +37,18 @@ public class ImageHelper {
         maxX = -99999999.0
         maxY = -99999999.0
     }
+
     private fun adjustBordersToPoint(x: Double, y: Double) {
-        if (minX> x || minX == -99999999.0) {
+        if (minX > x || minX == -99999999.0) {
             minX = x
         }
-        if (minY> y || minY == -99999999.0) {
+        if (minY > y || minY == -99999999.0) {
             minY = y
         }
-        if (maxX <x || maxX == -99999999.0) {
+        if (maxX < x || maxX == -99999999.0) {
             maxX = x
         }
-        if (maxY <y || maxY == -99999999.0) {
+        if (maxY < y || maxY == -99999999.0) {
             maxY = y
         }
     }
@@ -60,7 +63,7 @@ public class ImageHelper {
             i++
         }
         res.classes.clear()
-        for ((k, v)in classes) {
+        for ((k, v) in classes) {
             val m = mutableMapOf<String, String>()
             res.classes[k] = m
             m.putAll(v)
@@ -82,6 +85,7 @@ public class ImageHelper {
             layers.add(mutableSetOf())
         }
     }
+
     private fun classString(classes: List<String>): String {
         return if (classes.isEmpty()) {
             ""
@@ -89,23 +93,27 @@ public class ImageHelper {
             " class=\"${classes.joinToString(" ")}\""
         }
     }
+
     public fun addText(layer: Int, x: Double, y: Double, text: String, classes: List<String>) {
         checkLayer(layer)
         adjustBordersToPoint(x, y)
         layers[layer].add("    <text x=\"$x\" y=\"$y\" writing-mode=\"lr\" glyph-orientation-horizontal=\"90\" text-anchor=\"middle\" alignment-baseline=\"middle\" dominant-baseline=\"central\"${classString(classes)} >$text</text>")
     }
+
     public fun addCircle(layer: Int, cx: Double, cy: Double, r: Double, classes: List<String>) {
         checkLayer(layer)
         adjustBordersToPoint(cx - r, cy - r)
         adjustBordersToPoint(cx + r, cy + r)
         layers[layer].add("    <circle cx=\"$cx\" cy=\"$cy\" r=\"$r\"${classString(classes)} />")
     }
+
     public fun addRect(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
         checkLayer(layer)
         adjustBordersToPoint(x1, y1)
         adjustBordersToPoint(x2, y2)
         layers[layer].add("    <rect x=\"$x1\" y=\"$y1\" width=\"${x2 - x1}\" height=\"${y2 - y1}\"${classString(classes)} />")
     }
+
     public fun addLine(layer: Int, x1: Double, y1: Double, x2: Double, y2: Double, classes: List<String>) {
         checkLayer(layer)
         adjustBordersToPoint(x1, y1)
@@ -121,13 +129,14 @@ public class ImageHelper {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun setLength(p: Pair<Double, Double>, l: Double): Pair<Double, Double> {
         val f = l / getLength(p)
-        return (p.first * f)to(p.second * f)
+        return (p.first * f) to (p.second * f)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
-        return (p2.first - p1.first)to(p2.second - p1.second)
+        return (p2.first - p1.first) to (p2.second - p1.second)
     }
+
     private fun rotate90Degree(p: Pair<Double, Double>): Pair<Double, Double> {
         return p.second to (-p.first)
     }
@@ -139,29 +148,32 @@ public class ImageHelper {
         val p2 = p.first - mov.first to p.second - mov.second
         val l1 = getLength(getDirection(a, p1)) + getLength(getDirection(b, p1))
         val l2 = getLength(getDirection(a, p2)) + getLength(getDirection(b, p2))
-        return if (abs(l2 - l1) <20.0) { // sourth left first, if it does not matter
-            if (getLength(getDirection(p1, 0.0 to 0.0)) <getLength(getDirection(p2, 0.0 to 0.0))) {
+        return if (abs(l2 - l1) < 20.0) { // sourth left first, if it does not matter
+            if (getLength(getDirection(p1, 0.0 to 0.0)) < getLength(getDirection(p2, 0.0 to 0.0))) {
                 p1
             } else {
                 p2
             }
-        } else if (l1 <l2) {
+        } else if (l1 < l2) {
             p1
         } else {
             p2
         }
     }
+
     private inner class LocalPoint(val p: Pair<Double, Double>) {
         override fun equals(other: Any?): Boolean {
-            return other is LocalPoint && getLength(getDirection(p, other.p)) <1.0
+            return other is LocalPoint && getLength(getDirection(p, other.p)) < 1.0
         }
+
         override fun hashCode(): Int {
             return getLength(p).toInt()
         }
     }
+
     private var byPassMap = mutableMapOf<LocalPoint, Int>()
     public fun addPath(layer: Int, points: List<Pair<Double, Double>>, classes: List<String>, pointRadius: Double, minDistToOtherPath: Double) {
-        if (points.size> 0) {
+        if (points.size > 0) {
             checkLayer(layer)
             for ((first, second) in points) {
                 adjustBordersToPoint(first - pointRadius - minDistToOtherPath, second - pointRadius - minDistToOtherPath)
@@ -176,8 +188,8 @@ public class ImageHelper {
                 directions.add(points[0].first - 10 to points[0].second + 10)
             } else {
                 for (i in 0 until points.size) {
-                    val im = if (i> 0)i - 1 else i // i-1
-                    val ip = if (i <points.size - 1) i + 1 else i // i+1
+                    val im = if (i > 0) i - 1 else i // i-1
+                    val ip = if (i < points.size - 1) i + 1 else i // i+1
                     val dir = getDirection(points[im], points[ip])
                     directions.add(dir)
                     if (i == 0 || i == points.size - 1) {
@@ -201,7 +213,7 @@ public class ImageHelper {
                 val (x1, y1) = correctedPoints[i]
                 val (x2, y2) = correctedPoints[i + 1]
                 var len = getLength(getDirection(correctedPoints[i], correctedPoints[i + 1])) / 5.0 // 1/5 der strecke
-                if (len <pointRadius * 2) { // minimum doppelter punkt-radius
+                if (len < pointRadius * 2) { // minimum doppelter punkt-radius
                     len = pointRadius * 2
                 }
                 val (dx1, dy1) = setLength(directions[i], len)
@@ -216,6 +228,7 @@ public class ImageHelper {
             layers[layer].add(s)
         }
     }
+
     public override fun toString(): String {
         val buffer = StringBuilder()
         val x = minX - margin

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
@@ -24,41 +25,59 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal object DictionaryValueHelperInt {
-    @JvmField internal val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    @JvmField
+    internal val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
 
-    @JvmField internal val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    @JvmField
+    internal val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
 
-    @JvmField internal val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    @JvmField
+    internal val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
 
-    @JvmField internal val undefValue: Int = (0x00000003) /*lowest 5 values*/
+    @JvmField
+    internal val undefValue: Int = (0x00000003) /*lowest 5 values*/
 
-    @JvmField internal val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    @JvmField
+    internal val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
-    @JvmField internal val flagLocal: Int = 0x40000000.toInt()
+    @JvmField
+    internal val flagLocal: Int = 0x40000000.toInt()
 
-    @JvmField internal val flagNoBNode: Int = 0x20000000.toInt()
+    @JvmField
+    internal val flagNoBNode: Int = 0x20000000.toInt()
 
-    @JvmField internal val flagInlineValue1: Int = 0x04000000.toInt()
+    @JvmField
+    internal val flagInlineValue1: Int = 0x04000000.toInt()
 
-    @JvmField internal val flagInlineValue2: Int = 0x08000000.toInt()
+    @JvmField
+    internal val flagInlineValue2: Int = 0x08000000.toInt()
 
-    @JvmField internal val flagInlineValue3: Int = 0x0c000000.toInt()
+    @JvmField
+    internal val flagInlineValue3: Int = 0x0c000000.toInt()
 
-    @JvmField internal val flagInlineValue4: Int = 0x10000000.toInt()
+    @JvmField
+    internal val flagInlineValue4: Int = 0x10000000.toInt()
 
-    @JvmField internal val flagInlineValue5: Int = 0x14000000.toInt()
+    @JvmField
+    internal val flagInlineValue5: Int = 0x14000000.toInt()
 
-    @JvmField internal val flagInlineValue6: Int = 0x18000000.toInt()
+    @JvmField
+    internal val flagInlineValue6: Int = 0x18000000.toInt()
 
-    @JvmField internal val flagInlineValue7: Int = 0x1c000000.toInt()
+    @JvmField
+    internal val flagInlineValue7: Int = 0x1c000000.toInt()
 
-    @JvmField internal val flagInlineValue: Int = 0x1c000000.toInt()
+    @JvmField
+    internal val flagInlineValue: Int = 0x1c000000.toInt()
 
-    @JvmField internal val maskValue: Int = 0x03FFFFFF.toInt()
+    @JvmField
+    internal val maskValue: Int = 0x03FFFFFF.toInt()
 
-    @JvmField internal val NULL: Int = 0
+    @JvmField
+    internal val NULL: Int = 0
 
-    @JvmField internal val FIRST_BNODE: Int = 5
+    @JvmField
+    internal val FIRST_BNODE: Int = 5
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun DictionaryValueTypeArrayOf() = intArrayOf()
@@ -118,7 +137,7 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByte(value: Byte): Int = value.toInt()and 0xFF // adapter for places, where always Byte are used
+    internal inline fun fromByte(value: Byte): Int = value.toInt() and 0xFF // adapter for places, where always Byte are used
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used
@@ -126,17 +145,17 @@ internal object DictionaryValueHelperInt {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:127"/*SOURCE_FILE_END*/ }, { value >= 0 })
-        if (value> 0xFFFF) {
-            if (value> 0xFFFFFF) {
+        if (value > 0xFFFF) {
+            if (value > 0xFFFFFF) {
                 return 4
             } else {
                 return 3
             }
         } else {
-            if (value> 0xFF) {
+            if (value > 0xFF) {
                 return 2
             } else {
-                if (value> 0) {
+                if (value > 0) {
                     return 1
                 } else {
                     return 0

@@ -20,6 +20,7 @@ import lupos.shared.SanityCheck
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.Package_Query
 import lupos.simulator_iot.Package_QueryResponse
+
 public class Application_ReceiveParkingSample(private val ownAddress: Int) : IApplicationStack_Actuator {
     private lateinit var parent: IApplicationStack_Middleware
     private val idCacheRequested = mutableMapOf<Int, Int>() // queryID -> sensorID

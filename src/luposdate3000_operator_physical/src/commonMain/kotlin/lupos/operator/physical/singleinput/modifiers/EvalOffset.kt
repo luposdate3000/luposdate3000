@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalOffset {
     public operator fun invoke(child: IteratorBundle, offset: Int): IteratorBundle {
         val variables = child.columns.keys.toList()

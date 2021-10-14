@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
+
 import lupos.shared.IMyOutputStream
 import lupos.shared.operator.IOPBase
+
 public interface IResultFormat {
     public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long, asRoot: Boolean): Any
     public operator fun invoke(rootNode: IOPBase, output: IMyOutputStream, timeoutInMs: Long): Any

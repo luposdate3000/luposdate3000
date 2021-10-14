@@ -27,7 +27,9 @@ import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
 internal actual class File {
-    @JvmField internal val filename: String
+    @JvmField
+    internal val filename: String
+
     actual constructor(filename: String) {
         this.filename = filename.replace("\\", "/").replace("/./", "/").replace("//", "/")
     }

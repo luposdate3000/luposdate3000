@@ -24,6 +24,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
+
 internal class POPJoinMerge_Iterator(
     @JvmField internal val columnsINJ0: List<ColumnIterator>,
     @JvmField internal val columnsINJ1: List<ColumnIterator>,

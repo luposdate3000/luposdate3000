@@ -16,23 +16,61 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.shared.XMLElement
+
 public class LoggerStdout : ILogger {
     private lateinit var simRun: SimulationRun
     override fun initialize(simRun: SimulationRun) {
         this.simRun = simRun
     }
-    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) { println("${simRun.sim.clock} onSendNetworkPackage $src $dest $hop $delay $pck") }
-    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { println("${simRun.sim.clock} onReceiveNetworkPackage $address $pck") }
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { println("${simRun.sim.clock} onSendPackage $src $dest $pck") }
-    override fun onReceivePackage(address: Int, pck: IPayload) { println("${simRun.sim.clock} onReceivePackage $address $pck") }
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) { println("${simRun.sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut") }
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) { println("${simRun.sim.clock} addOperatorGraph $queryId $operatorGraph") }
-    override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
-    override fun onStartUp() { println("${simRun.sim.clock} onStartUp") }
-    override fun onShutDown() { println("${simRun.sim.clock} onShutDown") }
-    override fun onSteadyState() { println("${simRun.sim.clock} onSteadyState") }
-    override fun onStartSimulation() { println("${simRun.sim.clock} onStartSimulation") }
-    override fun onStopSimulation() { println("${simRun.sim.clock} onStopSimulation") }
-    override fun addDevice(address: Int, x: Double, y: Double,) { println("addDevice $address $x $y") }
+
+    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
+        println("${simRun.sim.clock} onSendNetworkPackage $src $dest $hop $delay $pck")
+    }
+
+    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
+        println("${simRun.sim.clock} onReceiveNetworkPackage $address $pck")
+    }
+
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
+        println("${simRun.sim.clock} onSendPackage $src $dest $pck")
+    }
+
+    override fun onReceivePackage(address: Int, pck: IPayload) {
+        println("${simRun.sim.clock} onReceivePackage $address $pck")
+    }
+
+    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
+        println("${simRun.sim.clock} addWork $queryID $address $operatorGraph $keysIn $keysOut")
+    }
+
+    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
+        println("${simRun.sim.clock} addOperatorGraph $queryId $operatorGraph")
+    }
+
+    override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
+    override fun onStartUp() {
+        println("${simRun.sim.clock} onStartUp")
+    }
+
+    override fun onShutDown() {
+        println("${simRun.sim.clock} onShutDown")
+    }
+
+    override fun onSteadyState() {
+        println("${simRun.sim.clock} onSteadyState")
+    }
+
+    override fun onStartSimulation() {
+        println("${simRun.sim.clock} onStartSimulation")
+    }
+
+    override fun onStopSimulation() {
+        println("${simRun.sim.clock} onStopSimulation")
+    }
+
+    override fun addDevice(address: Int, x: Double, y: Double) {
+        println("addDevice $address $x $y")
+    }
 }

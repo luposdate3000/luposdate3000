@@ -48,9 +48,11 @@ public class POPDistributedSendSingle public constructor(
     init {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
+
     public companion object {
-        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>,) = toXMLElementHelper9("POPDistributedSendSingle", partitionID, partial, true, keys, partitionedBy)
+        internal fun toXMLElementInternal(partitionID: Int, partial: Boolean, isRoot: Boolean, keys: Int, partitionedBy: MutableMap<String, Int>) = toXMLElementHelper9("POPDistributedSendSingle", partitionID, partial, true, keys, partitionedBy)
     }
+
     override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")

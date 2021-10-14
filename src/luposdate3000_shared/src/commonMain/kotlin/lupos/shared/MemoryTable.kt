@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
@@ -54,7 +55,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 ""
             }
         }
-        return "$booleanResult - ${columns.map{it}} - ${data.map{it.map{it2 -> "$it2 -> ${idToString(it2)}"}}}"
+        return "$booleanResult - ${columns.map { it }} - ${data.map { it.map { it2 -> "$it2 -> ${idToString(it2)}" } }}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -73,24 +74,24 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         val dict1 = query!!.getDictionary()
         val dict2 = other.query!!.getDictionary()
 
-      /*
-  println(
-            "equalsVerbose left ${data.map{
-                "${it.map{it}} : ${it.map{
-                    dict1.getValue(buffer1, it)
-                    DictionaryHelper.byteArrayToSparql(buffer1)
-                }}"
-            }}"
-        )
-        println(
-            "equalsVerbose right ${other.data.map{
-                "${it.map{it}} : ${it.map{
-                    dict2.getValue(buffer1, it)
-                    DictionaryHelper.byteArrayToSparql(buffer1)
-                }}"
-            }}"
-        )
- */
+        /*
+    println(
+              "equalsVerbose left ${data.map{
+                  "${it.map{it}} : ${it.map{
+                      dict1.getValue(buffer1, it)
+                      DictionaryHelper.byteArrayToSparql(buffer1)
+                  }}"
+              }}"
+          )
+          println(
+              "equalsVerbose right ${other.data.map{
+                  "${it.map{it}} : ${it.map{
+                      dict2.getValue(buffer1, it)
+                      DictionaryHelper.byteArrayToSparql(buffer1)
+                  }}"
+              }}"
+          )
+   */
         if (columns.size != other.columns.size) {
             if (verbose) {
                 out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")

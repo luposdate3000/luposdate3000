@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik
+
 import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorID
 import lupos.shared.IQuery

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.display_bibtex
+
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.Parallel

@@ -29,7 +29,7 @@ internal class Link(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is Link)return false
+        if (other !is Link) return false
         if (distanceInMeters != other.distanceInMeters) return false
         if (linkTypeIndex != other.linkTypeIndex) return false
         if (dataRateInKbps != other.dataRateInKbps) return false

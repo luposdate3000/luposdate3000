@@ -15,12 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.dictionary
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
+
 public class DictionaryNotImplemented public constructor(
     @JvmField
     private val instance: Luposdate3000Instance,
@@ -55,6 +57,7 @@ public class DictionaryNotImplemented public constructor(
             return value
         }
     }
+
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> = TODO()
     override fun isLocalValue(value: DictionaryValueType): Boolean {
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal

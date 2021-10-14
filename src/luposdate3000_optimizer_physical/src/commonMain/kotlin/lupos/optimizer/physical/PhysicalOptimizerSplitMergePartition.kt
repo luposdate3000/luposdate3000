@@ -26,6 +26,7 @@ import lupos.operator.physical.singleinput.POPDebug
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.operator.IOPBase
+
 public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerSplitMergePartitionID, "PhysicalOptimizerSplitMergePartition") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node

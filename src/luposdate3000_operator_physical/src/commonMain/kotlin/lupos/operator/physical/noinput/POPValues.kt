@@ -33,6 +33,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
 
@@ -198,6 +199,7 @@ public open class POPValues : POPBase {
         }
         return res
     }
+
     public override fun usesDictionary(): Boolean {
         return true
     }

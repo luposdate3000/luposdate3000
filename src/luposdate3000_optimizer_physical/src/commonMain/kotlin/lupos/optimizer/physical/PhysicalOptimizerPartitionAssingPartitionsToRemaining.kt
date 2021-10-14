@@ -44,8 +44,8 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             if (c is AOPVariable) {
                                 val partitionVariable = c.name
                                 val new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
-                                if (new_count> 0) {
-                                    if (new_count> new_countMax) {
+                                if (new_count > 0) {
+                                    if (new_count > new_countMax) {
                                         new_countMax = new_count
                                         partitionVariableMax = partitionVariable
                                     }

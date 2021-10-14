@@ -15,12 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
+
 import lupos.shared.inline.File
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.IPackage_Database
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplicationStack_Middleware
+
 public class Application_OntologySender(
     internal val startClockInSec: Int,
     internal val queryPck: IPackage_Database,
@@ -31,18 +33,23 @@ public class Application_OntologySender(
         ontologyFileName: String,
         receiver: Int
     ) : this(startClockInSec, Package_Luposdate3000_Abstract(-1, "/shacl/ontology/import", mapOf("data" to File(ontologyFileName).readAsString())), receiver)
+
     private lateinit var parent: IApplicationStack_Middleware
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun startUp() {
         parent.registerTimer(startClockInSec.toLong() * 1000000000L, this)
     }
+
     override fun shutDown() {
     }
+
     override fun receive(pck: IPayload): IPayload? {
         return pck
     }
+
     override fun onTimerExpired(clock: Long) {
         parent.send(receiver, queryPck)
         parent.flush()

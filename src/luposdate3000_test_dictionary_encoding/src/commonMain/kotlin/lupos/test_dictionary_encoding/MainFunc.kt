@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test_dictionary_encoding
+
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.DictionaryValueHelper
@@ -23,6 +24,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.math.abs
+
 private object AssertionFunctions {
     fun <T> assumeEQ(a: () -> T, b: () -> T) {
         val a1 = a()

@@ -21,6 +21,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinMerge {
     public operator fun invoke(
         child0: IteratorBundle,

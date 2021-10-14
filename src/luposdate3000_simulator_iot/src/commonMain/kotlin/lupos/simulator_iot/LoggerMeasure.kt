@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_iot
+
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -30,6 +31,7 @@ public class LoggerMeasure : ILogger {
     override fun initialize(simRun: SimulationRun) {
         this.simRun = simRun
     }
+
     public companion object {
         public var StatCounter: Int = 0
         public val StatNumberOfDevices: Int = StatCounter++
@@ -46,6 +48,7 @@ public class LoggerMeasure : ILogger {
         public val StatNetworkTrafficForwarded: Int = StatCounter++
         public val StatNetworkTraffic: Int = StatCounter++
     }
+
     private val data: DoubleArray = DoubleArray(StatCounter)
     private val headers: Array<String> = Array(StatCounter) {
         when (it) {
@@ -96,6 +99,7 @@ public class LoggerMeasure : ILogger {
         }
         return res.toDoubleArray()
     }
+
     public fun getHeadersAggregated(): Array<String> {
         val res = mutableListOf<String>()
         for (h in headers) {
@@ -112,6 +116,7 @@ public class LoggerMeasure : ILogger {
         }
         return res.toTypedArray()
     }
+
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         data[StatNetworkTraffic] += pck.getSizeInBytes().toDouble()
         data[StatNetworkCounter]++
@@ -127,6 +132,7 @@ public class LoggerMeasure : ILogger {
             onSendNetworkPackageInternal(src, dest, hop, pck, delay)
         }
     }
+
     private fun onSendNetworkPackageInternal(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         val topic = pck.getTopic()
         var id = packageByTopic[topic]
@@ -148,9 +154,10 @@ public class LoggerMeasure : ILogger {
         }
         packageSizeAggregated[id] += size
     }
-    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) { }
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) { }
-    override fun onReceivePackage(address: Int, pck: IPayload) { }
+
+    override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
+    override fun onReceivePackage(address: Int, pck: IPayload) {}
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
@@ -158,24 +165,29 @@ public class LoggerMeasure : ILogger {
     override fun onStartSimulation() { // phase 1
         startSimulationTimeStamp = Clock.System.now()
     }
+
     override fun onStartUp() { // phase 2
         startUpTimeStamp = Clock.System.now()
         data[StatSimulationStartupDurationReal] = (startUpTimeStamp - startSimulationTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
         data[StatNetworkLinkCounter] = simRun.config.devices.map { d -> d.linkManager.getNeighbours().filter { it -> it > d.address }.size }.sum().toDouble()
     }
+
     override fun onSteadyState() { // phase 3
     }
+
     override fun onShutDown() { // phase 4
         var shutDownTimeStampVirtual = startSimulationTimeStamp.plus(simRun.sim.clock, DateTimeUnit.NANOSECOND, TimeZone.UTC)
         shutDownTimeStamp = Clock.System.now()
         data[StatSimulationDurationReal] = (shutDownTimeStamp - startSimulationTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
         data[StatSimulationDurationVirtual] = (shutDownTimeStampVirtual - startSimulationTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
     }
+
     override fun onStopSimulation() { // phase 5
         val stopSimulationTimeStamp = Clock.System.now()
         data[StatSimulationShutdownDurationReal] = (stopSimulationTimeStamp - shutDownTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
     }
-    override fun addDevice(address: Int, x: Double, y: Double,) {
+
+    override fun addDevice(address: Int, x: Double, y: Double) {
         data[StatNumberOfDevices]++
     }
 }

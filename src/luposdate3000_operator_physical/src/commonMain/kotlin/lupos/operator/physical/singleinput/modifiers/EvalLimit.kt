@@ -21,6 +21,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public object EvalLimit {
     public operator fun invoke(child: IteratorBundle, limit: Int): IteratorBundle {
         val variables = child.columns.keys

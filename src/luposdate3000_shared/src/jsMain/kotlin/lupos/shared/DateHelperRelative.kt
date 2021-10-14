@@ -24,6 +24,7 @@ public actual object DateHelperRelative {
     public actual fun elapsedSeconds(marker: Long): Double {
         return 0.0
     }
+
     public actual fun elapsedMilliSeconds(marker: Long): Long {
         return 0
     }

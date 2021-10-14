@@ -130,7 +130,7 @@ public val generateInstantiatedError: GenerateFuncOtherInstantiated = { _, _, _,
 }
 public val generateByteArrayWrapperError: GenerateFuncOther = { indention, outputName, _, imports, target, _, onResult ->
     imports.add("lupos.shared.inline.DictionaryHelper")
-    target.appendLine("${indention}DictionaryHelper.errorToByteArray(${suffixNames(outputName,EVariablePlaceholderExt.ByteArrayWrapper)})")
+    target.appendLine("${indention}DictionaryHelper.errorToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)})")
     onResult(indention, ETripleComponentTypeExt.ERROR)
 }
 public val generateIDError: GenerateFuncOther = { indention, outputName, _, imports, target, _, onResult ->
@@ -174,7 +174,7 @@ public val generateByteArrayWrapperError2: GenerateFunc = { indention, _, output
     imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared.inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-    target.appendLine("${indention}DictionaryHelper.errorToByteArray(${suffixNames(outputName,EVariablePlaceholderExt.ByteArrayWrapper)})")
+    target.appendLine("${indention}DictionaryHelper.errorToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)})")
     onResult(indention, ETripleComponentTypeExt.ERROR)
 }
 public val generateInstantiatedTrue2: GenerateFunc = { indention, _, outputName, _, _, target, _, _, onResult ->
@@ -218,6 +218,7 @@ public fun generateInstantiatedString(str: String): GenerateFunc = { indention, 
 public fun prefixVal_yes(name: String, type: EVariablePlaceholder): String {
     return "val ${name}${EVariablePlaceholderExt.names[type]} : ${EVariablePlaceholderNames[type]}"
 }
+
 public fun prefixVal_no(name: String, type: EVariablePlaceholder): String {
     if (type == EVariablePlaceholderExt.ByteArrayWrapper) {
         return "val ${name}${EVariablePlaceholderExt.names[type]} : ${EVariablePlaceholderNames[type]}"
@@ -461,6 +462,7 @@ public class MyOperator(
                 openWhenStatements--
             }
         }
+
         val prefix_reset = prefix_counter
         for (implementation in implementations) {
             prefix_counter = prefix_reset
@@ -874,11 +876,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator BigDecimal.fromBigInteger(${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)})")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator BigDecimal.fromBigInteger(${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)})")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator BigDecimal.fromBigInteger(${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)})")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator BigDecimal.fromBigInteger(${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)})")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
@@ -893,11 +895,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
@@ -912,11 +914,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Integer)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -931,11 +933,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}) $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}) $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}) $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = BigDecimal.fromBigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}) $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
@@ -950,11 +952,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
@@ -969,11 +971,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
@@ -988,11 +990,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1006,11 +1008,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
@@ -1024,11 +1026,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
@@ -1043,11 +1045,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
@@ -1061,11 +1063,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1079,11 +1081,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1097,11 +1099,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue() $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1115,11 +1117,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1133,11 +1135,11 @@ public class MyOperatorPartFactory {
                         target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
                         onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                         target.appendLine("$indention}")
                     } else {
-                        target.appendLine("$indention    ${valPrefix(outputName,EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
+                        target.appendLine("$indention    ${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)} $operator ${suffixNames(inputNames[1], EVariablePlaceholderExt.Double)}")
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
@@ -1174,7 +1176,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName)")
         }
     ),
@@ -1185,7 +1187,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Decimal)} = DictionaryHelper.byteArrayToDecimal_I($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = DictionaryHelper.byteArrayToDecimal_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1195,7 +1197,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName)")
         }
     ),
@@ -1205,7 +1207,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToDouble_I($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToDouble_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1215,7 +1217,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName)")
         }
     ),
@@ -1225,7 +1227,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToFloat_I($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToFloat_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1263,7 +1265,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.String_content)} = DictionaryHelper.byteArrayToString($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = DictionaryHelper.byteArrayToString($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1281,7 +1283,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.Boolean)} = DictionaryHelper.byteArrayToBoolean($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = DictionaryHelper.byteArrayToBoolean($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1291,7 +1293,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.bnodeToByteArray($outputName, $inputName)")
         }
     ),
@@ -1302,7 +1304,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
         }
     ),
@@ -1313,7 +1315,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_lang)")
         }
     ),
@@ -1324,7 +1326,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.typedToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
         }
     ),
@@ -1336,7 +1338,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.iriToByteArray($outputName, $inputName)")
         }
     ),
@@ -1347,7 +1349,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName)")
         }
     ),
@@ -1372,7 +1374,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, $inputName)")
         }
     ),
@@ -1383,7 +1385,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, _, outputName, imports, target, globalVariables, valPrefix ->
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared.inline.DictionaryHelper")
-            globalVariables.add("${valPrefix(outputName,EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
+            globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
         }
     ),
@@ -1395,15 +1397,15 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
             imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_typed_content)} = DictionaryHelper.byteArrayToDateTimeAsTyped_Content($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_year)} = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_month)} = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_day)} = DictionaryHelper.byteArrayToDateTime_Day($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_hours)} = DictionaryHelper.byteArrayToDateTime_Hours($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_minutes)} = DictionaryHelper.byteArrayToDateTime_Minutes($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_seconds)}= DictionaryHelper.byteArrayToDateTime_Seconds($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_tz)} = DictionaryHelper.byteArrayToDateTime_TZ($inputName)")
-            target.appendLine("${indention}${valPrefix(outputName,EVariablePlaceholderExt.DateTime_timezone)} = DictionaryHelper.byteArrayToDateTime_TimeZone($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_typed_content)} = DictionaryHelper.byteArrayToDateTimeAsTyped_Content($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_year)} = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_month)} = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_day)} = DictionaryHelper.byteArrayToDateTime_Day($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_hours)} = DictionaryHelper.byteArrayToDateTime_Hours($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_minutes)} = DictionaryHelper.byteArrayToDateTime_Minutes($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_seconds)}= DictionaryHelper.byteArrayToDateTime_Seconds($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_tz)} = DictionaryHelper.byteArrayToDateTime_TZ($inputName)")
+            target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_timezone)} = DictionaryHelper.byteArrayToDateTime_TimeZone($inputName)")
         }
     ),
 )

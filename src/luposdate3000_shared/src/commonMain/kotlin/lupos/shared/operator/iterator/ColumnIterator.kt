@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
+
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+
 public abstract class ColumnIterator {
     public abstract /*suspend*/ fun next(): DictionaryValueType
     public abstract /*suspend*/ fun close()

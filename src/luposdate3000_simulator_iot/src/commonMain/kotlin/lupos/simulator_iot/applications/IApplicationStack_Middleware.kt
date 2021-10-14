@@ -16,8 +16,10 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.IPayload
+
 public interface IApplicationStack_Middleware {
     public fun send(destinationAddress: Int, pck: IPayload)
     public fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray

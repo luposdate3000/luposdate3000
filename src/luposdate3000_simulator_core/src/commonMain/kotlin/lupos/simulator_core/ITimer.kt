@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_core
+
 public interface ITimer {
     public fun onTimerExpired(clock: Long)
 }

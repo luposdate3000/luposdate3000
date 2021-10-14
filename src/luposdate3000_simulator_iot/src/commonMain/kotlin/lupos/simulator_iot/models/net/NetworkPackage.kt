@@ -16,7 +16,9 @@
  */
 
 package lupos.simulator_iot.models.net
+
 import lupos.simulator_iot.IPayload
+
 public class NetworkPackage(
     internal val sourceAddress: Int,
     internal val destinationAddress: Int,

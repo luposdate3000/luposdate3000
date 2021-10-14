@@ -16,74 +16,89 @@
  */
 
 package lupos.simulator_iot
+
 import lupos.shared.XMLElement
+
 public class Loggers public constructor(public val loggers: MutableList<ILogger>) : ILogger {
     override fun initialize(simRun: SimulationRun) {
         for (log in loggers) {
             log.initialize(simRun)
         }
     }
+
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
         for (logger in loggers) {
             logger.onSendNetworkPackage(src, dest, hop, pck, delay)
         }
     }
+
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {
         for (logger in loggers) {
             logger.onReceiveNetworkPackage(address, pck)
         }
     }
+
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
         for (logger in loggers) {
             logger.onSendPackage(src, dest, pck)
         }
     }
+
     override fun onReceivePackage(address: Int, pck: IPayload) {
         for (logger in loggers) {
             logger.onReceivePackage(address, pck)
         }
     }
+
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
         for (logger in loggers) {
             logger.addWork(queryID, address, operatorGraph, keysIn, keysOut)
         }
     }
+
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
         for (logger in loggers) {
             logger.addOperatorGraph(queryId, operatorGraph)
         }
     }
+
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
         for (logger in loggers) {
             logger.addConnectionTable(src, dest, hop)
         }
     }
+
     override fun onStartUp() {
         for (logger in loggers) {
             logger.onStartUp()
         }
     }
+
     override fun onShutDown() {
         for (logger in loggers) {
             logger.onShutDown()
         }
     }
+
     override fun onSteadyState() {
         for (logger in loggers) {
             logger.onSteadyState()
         }
     }
+
     override fun onStartSimulation() {
         for (logger in loggers) {
             logger.onStartSimulation()
         }
     }
+
     override fun onStopSimulation() {
         for (logger in loggers) {
             logger.onStopSimulation()
         }
     }
-    override fun addDevice(address: Int, x: Double, y: Double,) {
+
+    override fun addDevice(address: Int, x: Double, y: Double) {
         for (logger in loggers) {
             logger.addDevice(address, x, y)
         }

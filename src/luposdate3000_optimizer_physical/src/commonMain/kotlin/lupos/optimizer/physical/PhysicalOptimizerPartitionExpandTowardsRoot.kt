@@ -51,7 +51,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
-                    if (new_count> 0) {
+                    if (new_count > 0) {
                         if (new_count != max_count) {
                             val newID = query.getNextPartitionOperatorID()
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
@@ -74,7 +74,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
-                    if (new_count> 0) {
+                    if (new_count > 0) {
                         if (new_count != max_count) {
                             val newID = query.getNextPartitionOperatorID()
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
@@ -358,7 +358,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                         is POPTripleStoreIterator -> {
                             if (node.partitionVariable != null) {
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable!!)
-                                if (new_count> 0) {
+                                if (new_count > 0) {
                                     c.hasSplitFromStore = true
                                     res = if (node.projectedVariables.isNotEmpty()) {
                                         POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable!!, new_count, node.partitionID, c)

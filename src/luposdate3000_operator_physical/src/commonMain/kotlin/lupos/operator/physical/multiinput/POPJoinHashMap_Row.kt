@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
+
 import lupos.shared.DictionaryValueType
+
 internal class POPJoinHashMap_Row(columns: Int) {
     val columns = Array<MutableList<DictionaryValueType>>(columns) { mutableListOf() }
     var count = 0

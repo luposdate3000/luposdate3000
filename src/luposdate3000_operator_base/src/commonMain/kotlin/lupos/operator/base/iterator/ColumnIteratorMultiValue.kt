@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base.iterator
+
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+
 public object ColumnIteratorMultiValue {
     public operator fun invoke(values: DictionaryValueTypeArray, size: Int): ColumnIteratorMultiValue3 = ColumnIteratorMultiValue3(values, size)
     public operator fun invoke(values: MutableList<DictionaryValueType>): ColumnIteratorMultiValue1 = ColumnIteratorMultiValue1(values)

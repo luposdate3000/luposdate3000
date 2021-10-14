@@ -26,6 +26,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinWithStoreExists {
     public operator fun invoke(
         childAv: IteratorBundle,

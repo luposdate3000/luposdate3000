@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_id_triple.index_IDTriple
+
 import lupos.shared.DictionaryValueType
 import kotlin.jvm.JvmField
+
 internal class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 0
@@ -31,6 +33,7 @@ internal class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterato
     override fun hasNext(): Boolean {
         return flag != 0
     }
+
     override fun next(component: Int): DictionaryValueType {
         value[0] = a.value[0]
         value[1] = a.value[1]

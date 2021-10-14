@@ -25,6 +25,7 @@ import lupos.shared.SortHelper
 import lupos.shared.ValueComparatorASC
 import lupos.shared.ValueComparatorDESC
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalSort {
     public operator fun invoke(
         child: IteratorBundle,

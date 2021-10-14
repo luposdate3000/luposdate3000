@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
+
 public class VisualisationDevice(public val id: Int, public val hasDatabaseStore: Boolean, public val hasDatabaseQuery: Boolean, public val hasSensor: Boolean) {
     public var x: Double = 0.0
     public var y: Double = 0.0

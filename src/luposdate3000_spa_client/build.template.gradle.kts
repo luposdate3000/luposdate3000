@@ -1,5 +1,6 @@
 import java.io.FileOutputStream
 import java.net.URL
+
 evaluationDependsOn(":src:luposdate3000_endpoint")
 var executableDirectoryBaseDir = gradle.gradleUserHomeDir.toString() + "/native-binaries/node/"
 var isWindows = System.getProperty("os.name").contains("Win")
@@ -35,7 +36,7 @@ task("downloadNode") {
     }
 }
 task("downloadNodeIfNotExist") {
-    if (!File(executableDirectoryBaseDir+".download.ok").exists()) {
+    if (!File(executableDirectoryBaseDir + ".download.ok").exists()) {
         dependsOn("downloadNode")
     }
 }
@@ -52,7 +53,7 @@ task<Exec>("installNode") {
     }
 }
 task("installNodeIfNotExist") {
-    if (!File(executableDirectoryBaseDir+"ok").exists()) {
+    if (!File(executableDirectoryBaseDir + "ok").exists()) {
         dependsOn("installNode")
     }
 }

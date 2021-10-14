@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -24,6 +25,7 @@ import kotlinx.datetime.toLocalDateTime
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.IPayload
 import lupos.simulator_iot.RandomGenerator
+
 public class Application_ParkingSensor(
     internal val startClockInSec: Int,
     internal val sendRateInSec: Int,
@@ -41,15 +43,17 @@ public class Application_ParkingSensor(
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun startUp() {
         startUpTimeStamp = Clock.System.now()
         parent.registerTimer(startClockInSec.toLong() * 1000000000L + random.getLong(0L, sendingVarianceInSec.toLong() * 1000000000L), this)
         receiver = parent.closestDeviceWithFeature("Database")
     }
-    override fun shutDown() { }
+
+    override fun shutDown() {}
     override fun receive(pck: IPayload): IPayload? = pck
     override fun onTimerExpired(clock: Long) {
-        if (eventCounter <maxNumber || maxNumber == -1) {
+        if (eventCounter < maxNumber || maxNumber == -1) {
             val sampleTimeObj = startUpTimeStamp.plus(clock, DateTimeUnit.NANOSECOND, TimeZone.UTC).toLocalDateTime(TimeZone.currentSystemDefault())
             val sampleTime = "${sampleTimeObj.year}-${sampleTimeObj.monthNumber.toString().padStart(2, '0')}-${sampleTimeObj.dayOfMonth.toString().padStart(2, '0')}T${sampleTimeObj.hour.toString().padStart(2, '0')}:${sampleTimeObj.minute.toString().padStart(2, '0')}:${sampleTimeObj.second.toString().padStart(2, '0')}.${(sampleTimeObj.nanosecond / 1000000).toString().padStart(3, '0')}"
             eventCounter++

@@ -18,6 +18,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+
 internal class MyCommands(
     internal val params: Array<String>,
     internal val action: (Array<String>) -> Unit,
@@ -52,7 +53,7 @@ public fun main() {
     commands["output"] = MyCommands(
         params = arrayOf("<OutputFileName?>"),
         action = { args ->
-            if (args.size> 1) {
+            if (args.size > 1) {
                 outputFile = args[1]
             } else {
                 outputFile = null

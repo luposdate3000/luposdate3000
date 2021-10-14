@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
+
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
@@ -59,6 +60,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
             return dictionary.createValue(buffer)
         }
     }
+
     private class ColumnIteratorAggregateCOUNTNoChild(private val dictionary: IDictionary) : ColumnIteratorAggregate() {
         private var counter = 0L
 

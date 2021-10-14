@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
+
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.MapKey
 import lupos.shared.ColumnIteratorChildIterator
@@ -25,6 +26,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinHashMap {
     public operator fun invoke(
         childA: IteratorBundle,

@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+
 public class PathMappingHelper(
     public val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
     public val params: Map<Pair<String/*name*/, String/*default-value*/>,

@@ -20,6 +20,7 @@ import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalValues {
     public operator fun invoke(rows: Int, variables: List<String>, data: Map<String, MutableList<DictionaryValueType>>): IteratorBundle {
         return if (rows == -1) {

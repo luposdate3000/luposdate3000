@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.dummyImpl
+
 import lupos.shared.UUID_Counter
 import lupos.simulator_iot.IPackage_Database
 
@@ -36,5 +37,6 @@ public class Package_DatabaseDummy_Preprocessing(
     override fun getContentLogString(): String {
         return "Package_DatabaseDummy_Preprocessing(dests=${destinationAddresses.contentToString()}, operatorGraphParts=${operatorGraphParts.contentToString()}, senderAddress=$senderAddress, queryID=$queryID)"
     }
+
     override fun getTopic(): String = "Database-Preprocessing"
 }

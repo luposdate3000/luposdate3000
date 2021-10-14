@@ -18,6 +18,7 @@
 * The code was translated into Kotlin and cut to the required parts.
 * */
 package lupos.simulator_iot.models.geo
+
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.asin

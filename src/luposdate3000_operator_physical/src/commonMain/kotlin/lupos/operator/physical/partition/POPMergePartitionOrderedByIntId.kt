@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
@@ -240,7 +241,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
                         SanityCheck.check(
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ },
                             { sortColumns[x] >= 0 },
-                            { "${variables.map{it}} .. ${mySortPriority.map{it.variableName}}" }
+                            { "${variables.map { it }} .. ${mySortPriority.map { it.variableName }}" }
                         )
                         SanityCheck.check(
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:245"/*SOURCE_FILE_END*/ },

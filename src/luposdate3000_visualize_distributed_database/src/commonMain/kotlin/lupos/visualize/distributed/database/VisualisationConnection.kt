@@ -22,8 +22,9 @@ public class VisualisationConnection(
 ) {
     public val source: Int
     public val destination: Int
+
     init {
-        if (src <dest) {
+        if (src < dest) {
             source = src
             destination = dest
         } else {
@@ -31,6 +32,7 @@ public class VisualisationConnection(
             destination = src
         }
     }
+
     override fun equals(other: Any?): Boolean = other is VisualisationConnection && source == other.source && destination == other.destination
     override fun hashCode(): Int = destination - source
 }

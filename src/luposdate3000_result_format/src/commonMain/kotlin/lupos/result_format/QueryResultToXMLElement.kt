@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.result_format
+
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper

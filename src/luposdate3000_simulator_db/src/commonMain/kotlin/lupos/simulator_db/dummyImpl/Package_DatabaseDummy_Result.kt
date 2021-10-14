@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.dummyImpl
+
 import lupos.shared.UUID_Counter
 import lupos.simulator_iot.IPackage_Database
 
@@ -37,5 +38,6 @@ public class Package_DatabaseDummy_Result(
     override fun getContentLogString(): String {
         return "Package_DatabaseDummy_Result(result=${result.contentToString()}, destinationAddress=$destinationAddress, senderAddress=$senderAddress, queryID=$queryID, operatorID=$operatorID)"
     }
+
     override fun getTopic(): String = "Database-Intermediate-Result"
 }

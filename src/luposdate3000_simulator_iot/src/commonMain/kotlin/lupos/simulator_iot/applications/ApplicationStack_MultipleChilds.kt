@@ -15,29 +15,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.IPayload
+
 public class ApplicationStack_MultipleChilds(
     private var childs: Array<IApplicationStack_Actuator>,
 ) : IApplicationStack_BothDirections {
     private var hadStartUp = false
     private lateinit var parent: IApplicationStack_Middleware
+
     init {
         for (child in childs) {
             child.setRouter(this)
         }
     }
+
     override fun startUp() {
         for (child in childs) {
             child.startUp()
         }
         hadStartUp = true
     }
+
     override fun shutDown() {
         for (child in childs) {
             child.shutDown()
         }
     }
+
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
         var res = mutableSetOf<IApplicationStack_Actuator>()
         for (child in childs) {
@@ -49,9 +55,11 @@ public class ApplicationStack_MultipleChilds(
         }
         return res
     }
+
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun receive(pck: IPayload): IPayload? {
         for (child in childs) {
             val pp = child.receive(pck)
@@ -61,6 +69,7 @@ public class ApplicationStack_MultipleChilds(
         }
         return pck
     }
+
     override fun send(destinationAddress: Int, pck: IPayload): Unit = parent.send(destinationAddress, pck)
     override fun closestDeviceWithFeature(name: String): Int = parent.closestDeviceWithFeature(name)
     override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
@@ -69,7 +78,7 @@ public class ApplicationStack_MultipleChilds(
     override fun resolveHostName(name: String): Int = parent.resolveHostName(name)
     override fun addChildApplication(child: IApplicationStack_Actuator) {
         val res = Array<IApplicationStack_Actuator>(childs.size + 1) {
-            if (it <childs.size) {
+            if (it < childs.size) {
                 childs[it]
             } else {
                 child

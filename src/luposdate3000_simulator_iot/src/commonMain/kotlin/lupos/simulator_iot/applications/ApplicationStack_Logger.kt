@@ -15,18 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_iot.applications
+
 import lupos.simulator_core.ITimer
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.IPayload
+
 public class ApplicationStack_Logger(
     private val ownAddress: Int,
     private val logger: ILogger,
     private val child: IApplicationStack_Actuator,
 ) : IApplicationStack_BothDirections {
     private lateinit var parent: IApplicationStack_Middleware
+
     init {
         child.setRouter(this)
     }
+
     override fun startUp(): Unit = child.startUp()
     override fun shutDown(): Unit = child.shutDown()
     override fun getAllChildApplications(): Set<IApplicationStack_Actuator> {
@@ -38,9 +42,11 @@ public class ApplicationStack_Logger(
         }
         return res
     }
+
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
     }
+
     override fun receive(pck: IPayload): IPayload? {
         val res = child.receive(pck)
         if (res == null) {
@@ -49,10 +55,12 @@ public class ApplicationStack_Logger(
         }
         return res
     }
+
     override fun send(destinationAddress: Int, pck: IPayload) {
         logger.onSendPackage(ownAddress, destinationAddress, pck)
         parent.send(destinationAddress, pck)
     }
+
     override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = parent.getNextFeatureHops(destinationAddresses, flag)
     override fun registerTimer(durationInNanoSeconds: Long, entity: ITimer): Unit = parent.registerTimer(durationInNanoSeconds, entity)
     override fun flush(): Unit = parent.flush()

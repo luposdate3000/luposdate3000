@@ -16,6 +16,7 @@
  */
 
 package lupos.operator.arithmetik.generated
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType

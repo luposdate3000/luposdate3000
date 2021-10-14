@@ -20,6 +20,7 @@ import lupos.ProguardTestAnnotation
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
+
 public expect class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
     public override fun releasePage(call_location: String, pageid: Int)

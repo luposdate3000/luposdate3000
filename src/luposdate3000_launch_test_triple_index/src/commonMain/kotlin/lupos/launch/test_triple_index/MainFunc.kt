@@ -61,9 +61,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     fun mergeSPO(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType): DictionaryValueType {
         return DictionaryValueHelper.fromInt((DictionaryValueHelper.toInt(s) and 0x7fff0000) or ((DictionaryValueHelper.toInt(p) and 0x7f000000) shr 16) or ((DictionaryValueHelper.toInt(o) and 0x7f000000) shr 24))
     }
+
     fun splitSPO(v: DictionaryValueType, action: (DictionaryValueType, DictionaryValueType, DictionaryValueType) -> Unit) {
         action(DictionaryValueHelper.fromInt(DictionaryValueHelper.toInt(v) and 0x7fff0000), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x00007f00) shl 16)), DictionaryValueHelper.fromInt(((DictionaryValueHelper.toInt(v) and 0x0000007f) shl 24)))
     }
+
     fun filterArrToFun(filter: DictionaryValueTypeArray): (DictionaryValueType) -> Boolean {
         var res: (DictionaryValueType) -> Boolean = { true }
         when (filter.size) {

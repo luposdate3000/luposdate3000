@@ -40,6 +40,7 @@ public class MultipleSimulationRuns(
             stream.println(line)
             stream.close()
         }
+
         val numberOfRepetitions: Int = json.getOrDefault("repeatSimulationCount", 1)
         for (repetition in 0 until numberOfRepetitions) {
             val simRun = SimulationRun()

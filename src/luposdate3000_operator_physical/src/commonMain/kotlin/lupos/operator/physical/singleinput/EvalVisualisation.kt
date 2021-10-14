@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+
 import lupos.shared.IQuery
 import lupos.shared.IVisualisation
 import lupos.shared.dynamicArray.ByteArrayWrapper

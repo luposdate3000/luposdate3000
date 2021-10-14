@@ -31,6 +31,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalModify {
     public operator fun invoke(
         child: IteratorBundle,

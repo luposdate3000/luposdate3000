@@ -16,7 +16,9 @@
  */
 
 package lupos.simulator_iot.applications
+
 import lupos.simulator_iot.IPayload
+
 public interface IApplicationStack_Actuator {
     public fun receive(pck: IPayload): IPayload? // return null on success, or the errored package on failure
     public fun startUp()

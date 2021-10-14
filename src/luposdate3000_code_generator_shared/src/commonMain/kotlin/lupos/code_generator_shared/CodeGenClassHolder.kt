@@ -30,15 +30,19 @@ public class CodeGenClassHolder(
     public fun getUUID(): Long {
         return uuid
     }
+
     public fun getChildren(): Array<CodeGenClassHolder> {
         return children
     }
+
     public fun getClassname(): String {
         return className
     }
+
     public fun getName(): String {
         return name
     }
+
     public fun getValue(): ByteArrayWrapper {
         return value
     }

@@ -27,6 +27,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
+
 public abstract class TripleStoreIndexDescription(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescription {
     @JvmField
     internal var idx_set: IntArray = intArrayOf()
@@ -62,6 +63,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
         }
         return null
     }
+
     override fun getGraphName(): String {
         val manager = (instance.tripleStoreManager!!) as TripleStoreManagerImpl
         for ((k, v) in manager.metadataGet()) {
@@ -71,6 +73,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
         }
         TODO()
     }
+
     public override fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIndexDescription")
         val manager = (instance.tripleStoreManager!!) as TripleStoreManagerImpl

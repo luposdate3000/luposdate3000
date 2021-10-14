@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.singleinput
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt

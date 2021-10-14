@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base.iterator
+
 import lupos.operator.base.MERGE_SORT_MIN_ROWS
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType

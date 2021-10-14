@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -213,7 +214,7 @@ public object DictionaryHelperLarge {
                     componentMilliseconds += (hours * 1000L * 60L * 60L)
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:213"/*SOURCE_FILE_END*/ }, { componentMilliseconds >= 0 })
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:214"/*SOURCE_FILE_END*/ }, { componentMilliseconds < (1L shl 27) })
-                    if (day < 32 && month <16) {
+                    if (day < 32 && month < 16) {
                         val componentDay = day.toLong() shl 27
                         SanityCheck.check(
                             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:218"/*SOURCE_FILE_END*/ },
