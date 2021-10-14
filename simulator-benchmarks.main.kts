@@ -42,7 +42,7 @@ val json_evaluation = "$BASE_PATH/evaluation.json"
 val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
 val campusList = listOf(
-//    "campusNoSamples.json",
+    "campusNoSamples.json",
     "campus.json",
 )
 val routingList = listOf(
@@ -104,12 +104,12 @@ for (i in 0 until contentLines.size) {
 }
 }
 
-loop@ for (networkTopology in networkTopologyList) {
+loop@         for (campus in campusList) {
+            val json_campus = "$BASE_PATH/$campus"
+for (networkTopology in networkTopologyList) {
     val json_networkTopology = "$BASE_PATH/$networkTopology"
     for (query in queryList) {
         val json_query = "$BASE_PATH/$query"
-        for (campus in campusList) {
-            val json_campus = "$BASE_PATH/$campus"
             for (routing in routingList) {
                 val json_routing = "$BASE_PATH/$routing"
                 for (databaseTopology in databaseTopologyList) {
@@ -124,19 +124,21 @@ loop@ for (networkTopology in networkTopologyList) {
                                     // centralized has only traffic during initialization, afterwards all zero
                                     continue
                                 }
-                                if (campus == "campusNoSamples.json" && query != "Q0.json") {
-                                    // there is no data at all, any query get all zero data
-                                    continue
-                                }
-                                if (campus == "campusNoSamples.json" && multicast == "luposdate3000MulticastEnabled.json") {
-                                    // no difference because there are no samples at all
-                                    continue
-                                }
                                 if (multicast == "luposdate3000MulticastEnabled.json" && query != "Q0.json") {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
                                 val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+if(campus=="campusNoSamples.json" &&(
+multicast != "luposdate3000MulticastEnabled.json" ||
+databaseTopology!="distributedWithQueryHops.json"||
+routing!="routing_RPL_Fast.json"||
+dataDistribution!="luposdate3000_by_id_S_all_collations.json"||
+query != "Q0.json"
+)
+){
+continue
+}
                                 val cmd = baseCmd + specializedCmd
                                 val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
                                 var firstLine = listOf<String>()

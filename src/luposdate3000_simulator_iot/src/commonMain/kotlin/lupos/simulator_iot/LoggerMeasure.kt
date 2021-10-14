@@ -33,6 +33,7 @@ public class LoggerMeasure : ILogger {
     public companion object {
         public var StatCounter: Int = 0
         public val StatNumberOfDevices: Int = StatCounter++
+        public val StatNetworkLinkCounter: Int = StatCounter++
 
         public val StatSimulationStartupDurationReal: Int = StatCounter++
         public val StatSimulationShutdownDurationReal: Int = StatCounter++
@@ -49,6 +50,7 @@ public class LoggerMeasure : ILogger {
     private val headers: Array<String> = Array(StatCounter) {
         when (it) {
             StatNumberOfDevices -> "number of devices"
+            StatNetworkLinkCounter -> "number of links"
 
             StatSimulationStartupDurationReal -> "simulation startup duration real (Seconds)"
             StatSimulationShutdownDurationReal -> "simulation shutdown duration real (Seconds)"
@@ -151,7 +153,7 @@ public class LoggerMeasure : ILogger {
     override fun onReceivePackage(address: Int, pck: IPayload) { }
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}
-    override fun addConnectionTable(src: Int, dest: Int, hop: Int) { }
+    override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
 
     override fun onStartSimulation() { // phase 1
         startSimulationTimeStamp = Clock.System.now()
@@ -159,6 +161,7 @@ public class LoggerMeasure : ILogger {
     override fun onStartUp() { // phase 2
         startUpTimeStamp = Clock.System.now()
         data[StatSimulationStartupDurationReal] = (startUpTimeStamp - startSimulationTimeStamp).inWholeNanoseconds.toDouble() / 1000000000.0
+        data[StatNetworkLinkCounter] = simRun.config.devices.map { d -> d.linkManager.getNeighbours().filter { it -> it > d.address }.size }.sum().toDouble()
     }
     override fun onSteadyState() { // phase 3
     }

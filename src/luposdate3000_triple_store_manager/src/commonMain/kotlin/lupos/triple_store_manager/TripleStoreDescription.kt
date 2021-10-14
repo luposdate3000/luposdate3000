@@ -177,15 +177,21 @@ public class TripleStoreDescription(
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        val conn = instance.communicationHandler!!.openConnection(first1, "/distributed/query/histogram", mapOf("tag" to second1), query.getTransactionID().toInt())
-                        conn.second.writeInt(filter.size)
-                        for (i in 0 until filter.size) {
-                            conn.second.writeDictionaryValueType(filter[i])
+                        try {
+                            val conn = instance.communicationHandler!!.openConnection(first1, "/distributed/query/histogram", mapOf("tag" to second1), query.getTransactionID().toInt())
+                            conn.second.writeInt(filter.size)
+                            for (i in 0 until filter.size) {
+                                conn.second.writeDictionaryValueType(filter[i])
+                            }
+                            first += conn.first.readInt()
+                            second += conn.first.readInt()
+                            conn.first.close()
+                            conn.second.close()
+                        } catch (e: Throwable) {
+                            e.printStackTrace()
+                            first += 100
+                            second += 100
                         }
-                        first += conn.first.readInt()
-                        second += conn.first.readInt()
-                        conn.first.close()
-                        conn.second.close()
                     }
                 }
                 return Pair(first, second)
