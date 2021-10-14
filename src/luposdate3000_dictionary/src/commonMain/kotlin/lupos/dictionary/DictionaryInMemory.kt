@@ -150,22 +150,22 @@ public class DictionaryInMemory internal constructor(
     public override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:151"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:152"/*SOURCE_FILE_END*/ },
                 { (value and DictionaryValueHelper.maskValue) >= 0 },
                 { " $value >= 0" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:156"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:157"/*SOURCE_FILE_END*/ },
                 { dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue) },
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:160"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:161"/*SOURCE_FILE_END*/ },
                 { (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode }
             )
             val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
             ByteArrayWrapperExt.copyInto(buf, buffer, false)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:166"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:167"/*SOURCE_FILE_END*/ },
                 { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
                 { "$value" }
             )
@@ -176,11 +176,11 @@ public class DictionaryInMemory internal constructor(
         var r = DictionaryValueHelper.nullValue
         lock.withWriteLock {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:176"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:178"/*SOURCE_FILE_END*/ },
                 { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:180"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:182"/*SOURCE_FILE_END*/ },
                 { DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) }
             )
             var res = dataV2I[buffer]
@@ -208,24 +208,24 @@ public class DictionaryInMemory internal constructor(
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:207"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:210"/*SOURCE_FILE_END*/ },
                 { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
             )
             val type = DictionaryHelper.byteArrayToType(buffer)
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:212"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:215"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.BLANK_NODE }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:216"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:219"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.BOOLEAN }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:220"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:223"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.ERROR }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:224"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:227"/*SOURCE_FILE_END*/ },
                 { type != ETripleComponentTypeExt.UNDEF }
             )
             var res = dataV2I[buffer]

@@ -53,7 +53,7 @@ public class POPMergePartition public constructor(
     }
 
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:54"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:55"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -108,9 +108,9 @@ public class POPMergePartition public constructor(
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:109"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:110"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:111"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:110"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:111"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:112"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount

@@ -103,7 +103,7 @@ internal class ApplicationStack_RPL_Fast(
         for (i in 0 until config.devices.size) {
             if (routingTable[i] == -1) {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:104"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/ApplicationStack_RPL_Fast.kt:105"/*SOURCE_FILE_END*/ },
                     { !isRoot }, // no route possible
                 )
                 routingTable[i] = globalParentTable[parent.address] // everything else goes to my own parent

@@ -28,11 +28,11 @@ public object DictionaryInlineValues {
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:28"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:30"/*SOURCE_FILE_END*/ },
             {
                 val value = DictionaryHelper.byteArrayToType(buffer)
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:32"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:34"/*SOURCE_FILE_END*/ },
                     { ETripleComponentTypeExt.BLANK_NODE != value }
                 )
             }

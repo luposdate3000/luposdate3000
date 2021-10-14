@@ -44,7 +44,7 @@ public object EvalTripleStoreIterator {
             val i = EIndexPatternHelper.tripleIndicees[index][ii]
             when (val param = children[i]) {
                 is IAOPConstant -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:45"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:46"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                     val v = param.getValue()
                     if (query.getDictionary().isLocalValue(v)) {
                         filter2.add(DictionaryValueHelper.nullValue)

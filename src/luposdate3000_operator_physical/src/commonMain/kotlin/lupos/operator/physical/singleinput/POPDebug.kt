@@ -89,8 +89,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:88"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:89"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:91"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:92"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                 }
                 return child
             }
@@ -174,14 +174,14 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             }
                             outMap[k] = iterator
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:173"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:174"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:176"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:177"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {
                         val rowMode = child.rows.columns.toMutableList()
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:179"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:180"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:182"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:183"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                         val iterator = RowIterator()
                         var counter = 0
                         iterator.columns = child.rows.columns

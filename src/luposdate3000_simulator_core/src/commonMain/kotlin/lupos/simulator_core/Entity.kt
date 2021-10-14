@@ -43,7 +43,7 @@ public abstract class Entity {
 
     protected fun scheduleEvent(destination: Entity, data: Any, delay: Long) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:43"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Entity.kt:45"/*SOURCE_FILE_END*/ },
             { !isTerminated },
         )
         simulation.addEvent(delay, this, destination, data)

@@ -34,7 +34,7 @@ public class RandomGenerator {
             return minInclusive
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/RandomGenerator.kt:35"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/RandomGenerator.kt:36"/*SOURCE_FILE_END*/ },
             { maxInclusive < Double.MAX_VALUE },
         )
         val maxExclusive = maxInclusive + Double.MIN_VALUE

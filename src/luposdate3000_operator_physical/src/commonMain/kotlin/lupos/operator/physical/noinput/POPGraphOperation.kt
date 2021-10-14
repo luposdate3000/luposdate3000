@@ -119,7 +119,7 @@ public class POPGraphOperation public constructor(
     public override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:119"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:121"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }

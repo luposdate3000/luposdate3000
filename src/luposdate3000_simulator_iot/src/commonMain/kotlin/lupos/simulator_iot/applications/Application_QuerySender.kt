@@ -55,7 +55,7 @@ public class Application_QuerySender(
 
     override fun shutDown() {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_QuerySender.kt:52"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/applications/Application_QuerySender.kt:57"/*SOURCE_FILE_END*/ },
             { awaitingQueries.size == 0 }
         )
     }

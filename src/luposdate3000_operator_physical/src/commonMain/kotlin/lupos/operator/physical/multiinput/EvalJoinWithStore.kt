@@ -76,7 +76,7 @@ public object EvalJoinWithStore {
             if (t is AOPVariable) {
                 val name = t.name
                 if (columnsTmp[0].contains(name)) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:77"/*SOURCE_FILE_END*/ }, { name != "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:78"/*SOURCE_FILE_END*/ }, { name != "_" })
                     for (k in 0 until 3) {
                         val cc = childB.children[k]
                         if (cc is AOPVariable && cc.name == name) {
@@ -92,7 +92,7 @@ public object EvalJoinWithStore {
                         columnsINAJ.add(childA.columns[name]!!)
                     }
                 } else {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:93"/*SOURCE_FILE_END*/ }, { columnsTmp[2].contains(name) || name == "_" })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:94"/*SOURCE_FILE_END*/ }, { columnsTmp[2].contains(name) || name == "_" })
                     if (name != "_") {
                         variablINBO.add(name)
                         columnsOUT.add(Pair(name, 2))
@@ -101,13 +101,13 @@ public object EvalJoinWithStore {
             }
         }
         for (name in tmp2) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:102"/*SOURCE_FILE_END*/ }, { columnsTmp[1].contains(name) || name == "_" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:103"/*SOURCE_FILE_END*/ }, { columnsTmp[1].contains(name) || name == "_" })
             if (name != "_") {
                 columnsOUT.add(Pair(name, 0))
                 columnsINAO.add(0, childA.columns[name]!!)
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:108"/*SOURCE_FILE_END*/ }, { variablINBO.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:109"/*SOURCE_FILE_END*/ }, { variablINBO.size > 0 })
         val distributedStore = query.getInstance().tripleStoreManager!!.getGraph(childB.graph)
         val valuesAO = DictionaryValueTypeArray(columnsINAO.size) { DictionaryValueHelper.nullValue }
         val valuesAJ = DictionaryValueTypeArray(columnsINAJ.size) { DictionaryValueHelper.nullValue }
@@ -119,20 +119,20 @@ public object EvalJoinWithStore {
             childB.children[it] as AOPBase
         }
         for (i in 0 until indicesINBJ.size) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:120"/*SOURCE_FILE_END*/ }, { params[indicesINBJ[i]] is AOPVariable })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:121"/*SOURCE_FILE_END*/ }, { params[indicesINBJ[i]] is AOPVariable })
             params[indicesINBJ[i]] = AOPConstant(query, DictionaryExt.undefValue2)
             count++
         }
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:125"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:126"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:127"/*SOURCE_FILE_END*/ }, { count > 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:128"/*SOURCE_FILE_END*/ }, { count < 3 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:128"/*SOURCE_FILE_END*/ }, { count > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:129"/*SOURCE_FILE_END*/ }, { count < 3 })
                 for (i in 0 until childB.mySortPriority.size) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:130"/*SOURCE_FILE_END*/ }, { childB.mySortPriority[i].sortType == ESortTypeExt.FAST })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:131"/*SOURCE_FILE_END*/ }, { childB.mySortPriority[i].sortType == ESortTypeExt.FAST })
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:132"/*SOURCE_FILE_END*/ }, { indicesINBJ.size > 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:133"/*SOURCE_FILE_END*/ }, { valuesAJ.size == indicesINBJ.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:133"/*SOURCE_FILE_END*/ }, { indicesINBJ.size > 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:134"/*SOURCE_FILE_END*/ }, { valuesAJ.size == indicesINBJ.size })
             }
         )
         val columnsInB = Array<ColumnIterator>(variablINBO.size) { ColumnIteratorEmpty() }
@@ -185,7 +185,7 @@ public object EvalJoinWithStore {
                                             for (element in columnsInB) {
                                                 element.close()
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:186"/*SOURCE_FILE_END*/ }, { i == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinWithStore.kt:187"/*SOURCE_FILE_END*/ }, { i == 0 })
                                             done = false
                                             break@loopB
                                         } else {

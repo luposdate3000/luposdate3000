@@ -101,7 +101,7 @@ public class Simulation(
 
     internal fun addEvent(delay: Long, src: Entity, dest: Entity, data: Any) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:101"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_core/src/commonMain/kotlin/lupos/simulator_core/Simulation.kt:103"/*SOURCE_FILE_END*/ },
             { delay >= 0 },
             { "Clock cannot go backwards." }
         )
