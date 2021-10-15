@@ -21,6 +21,8 @@ import java.lang.ProcessBuilder.Redirect
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
+var useSOSA = true
+
 inline fun execute(args: List<String>): List<String> {
     println(args.joinToString(" "))
     val p = ProcessBuilder(args)
@@ -41,25 +43,28 @@ val BASE_PATH = "src/luposdate3000_simulator_iot/src/jvmMain/resources"
 val json_evaluation = "$BASE_PATH/evaluation.json"
 val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
-val campusList = listOf(
-    "campusNoSamples.json",
-    "campus.json",
-)
+val campusList = if (useSOSA) {
+    listOf(
+        "campusNoSamples.json",
+        "campus.json",
+    )
+} else {
+    listOf(
+        "campusSOSANoSamples.json",
+        "campusSOSA.json",
+    )
+}
 val routingList = listOf(
     "routing_RPL_Fast.json",
     "routing_AllShortestPath.json",
 )
-val queryList = listOf(
-    "Q0.json",
-    "Q1.json",
-    "Q2.json",
-    "Q3.json",
-    "Q4.json",
-    "Q5.json",
-    "Q6.json",
-    "Q7.json",
-    "Q8.json",
-)
+val queryList = List(9) {
+    if (useSOSA) {
+        "Q_SOSA_$it.json"
+    } else {
+        "Q$it.json"
+    }
+}
 val databaseTopologyList = listOf(
     "distributed.json",
     "distributedWithQueryHops.json",
