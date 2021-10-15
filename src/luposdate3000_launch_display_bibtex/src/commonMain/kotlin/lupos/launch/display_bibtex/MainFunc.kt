@@ -77,6 +77,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                         "volume" to "<bibtex_volume>",
                         "number" to "<bibtex_number>",
                         "year" to "<bibtex_year>",
+                        "school" to "<bibtex_school>",
                         "url" to "<bibtex_url>",
                         "address" to "<bibtex_address>",
                         "booktitle" to "<bibtex_booktitle>",
