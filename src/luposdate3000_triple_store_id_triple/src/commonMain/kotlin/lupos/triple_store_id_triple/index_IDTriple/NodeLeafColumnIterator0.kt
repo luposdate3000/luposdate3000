@@ -74,7 +74,7 @@ internal class NodeLeafColumnIterator0(node: BufferManagerPageWrapper, nodeid: I
                 }
             }
             // look at the next pages
-            val nodeidTmp = NodeShared.getNextNode(node)
+            var nodeidTmp = NodeShared.getNextNode(node)
             var valueTmp: DictionaryValueType = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
@@ -103,6 +103,7 @@ internal class NodeLeafColumnIterator0(node: BufferManagerPageWrapper, nodeid: I
                 offset = offsetTmp
                 needsReset = false
                 usedNextPage = true
+                nodeidTmp = NodeShared.getNextNode(node)
             }
             if (usedNextPage) {
                 updateRemaining()

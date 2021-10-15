@@ -27,7 +27,7 @@ import lupos.shared.inline.DictionaryHelper
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val instance = LuposdateEndpoint.initialize()
     LuposdateEndpoint.importTripleFile(instance, inputFileName)
-    var node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, "SELECT ?s ?p ?o WHERE { ?s a <bibtex_entry> . ?s ?p ?o . }", false)
+    var node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, "SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", false)
     node = node.getChildren()[0]
     val query = node.getQuery()
     val child = node.evaluateRoot(Partition())
@@ -57,61 +57,71 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             break
         }
     }
+    println(values)
     println("bibtex :: ")
     for ((s, vals) in values) {
-        vals.remove("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")
-        val type = extractIri(vals["<bibtex_type>"])!!
-        val label = extractIri(s)
-        println("@$type{$label,")
-        vals.remove("<bibtex_type>")
-        for (
-            (first, second) in arrayOf(
-                "title" to "<bibtex_title>",
-                "author" to "<bibtex_author_list>",
-                "journal" to "<bibtex_journal>",
-                "publisher" to "<bibtex_publisher>",
-                "volume" to "<bibtex_volume>",
-                "number" to "<bibtex_number>",
-                "year" to "<bibtex_year>",
-                "url" to "<bibtex_url>",
-                "address" to "<bibtex_address>",
-                "booktitle" to "<bibtex_booktitle>",
-                "data" to "<bibtex_data>",
-                "day" to "<bibtex_day>",
-                "doi" to "<bibtex_doi>",
-                "editor" to "<bibtex_editor>",
-                "howpublished" to "<bibtex_howpublished>",
-                "iddue_data" to "<bibtex_iddue_data>",
-                "isbn" to "<bibtex_isbn>",
-                "issn" to "<bibtex_issn>",
-                "issue_data" to "<bibtex_issue_data>",
-                "keywords" to "<bibtex_keywords>",
-                "location" to "<bibtex_location>",
-                "month" to "<bibtex_month>",
-                "note" to "<bibtex_note>",
-                "numpages" to "<bibtex_numpages>",
-                "organization" to "<bibtex_organization>",
-                "series" to "<bibtex_series>",
-                "urn" to "<bibtex_urn>",
-            )
-        ) {
-            val item = extractString(vals[second])
-            if (item != null) {
-                println("  $first={$item},")
-                vals.remove(second)
+        try {
+            if (vals["<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"] == "<bibtex_entry>") {
+                val type = extractIri(vals["<bibtex_type>"])!!
+                val label = extractIri(s)
+                println("@$type{$label,")
+                vals.remove("<bibtex_type>")
+                for (
+                    (first, second) in arrayOf(
+                        "title" to "<bibtex_title>",
+                        "author" to "<bibtex_author_list>",
+                        "journal" to "<bibtex_journal>",
+                        "publisher" to "<bibtex_publisher>",
+                        "volume" to "<bibtex_volume>",
+                        "number" to "<bibtex_number>",
+                        "year" to "<bibtex_year>",
+                        "url" to "<bibtex_url>",
+                        "address" to "<bibtex_address>",
+                        "booktitle" to "<bibtex_booktitle>",
+                        "data" to "<bibtex_data>",
+                        "day" to "<bibtex_day>",
+                        "doi" to "<bibtex_doi>",
+                        "editor" to "<bibtex_editor>",
+                        "howpublished" to "<bibtex_howpublished>",
+                        "iddue_data" to "<bibtex_iddue_data>",
+                        "isbn" to "<bibtex_isbn>",
+                        "issn" to "<bibtex_issn>",
+                        "issue_data" to "<bibtex_issue_data>",
+                        "keywords" to "<bibtex_keywords>",
+                        "location" to "<bibtex_location>",
+                        "month" to "<bibtex_month>",
+                        "note" to "<bibtex_note>",
+                        "numpages" to "<bibtex_numpages>",
+                        "organization" to "<bibtex_organization>",
+                        "series" to "<bibtex_series>",
+                        "urn" to "<bibtex_urn>",
+                    )
+                ) {
+                    val item = extractString(vals[second])
+                    if (item != null) {
+                        println("  $first={$item},")
+                        vals.remove(second)
+                    }
+                }
+                val pages_from = extractString(vals["<bibtex_pages_from>"])
+                if (pages_from != null) {
+                    val pages_to = extractString(vals["<bibtex_pages_to>"]!!)
+                    vals.remove("<bibtex_pages_from>")
+                    vals.remove("<bibtex_pages_to>")
+                    println("  pages={$pages_from--$pages_to},")
+                }
+                for ((p, o) in vals) {
+                    println("#### $s -> $p -> $o")
+                }
+                println("}")
             }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            println("xxxx-->>")
+            println(s)
+            println(vals)
+            println("xxxx<<--")
         }
-        val pages_from = extractString(vals["<bibtex_pages_from>"])
-        if (pages_from != null) {
-            val pages_to = extractString(vals["<bibtex_pages_to>"]!!)
-            vals.remove("<bibtex_pages_from>")
-            vals.remove("<bibtex_pages_to>")
-            println("  pages={$pages_from--$pages_to},")
-        }
-        for ((p, o) in vals) {
-            println("#### $s -> $p -> $o")
-        }
-        println("}")
     }
 }
 
