@@ -62,6 +62,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     for ((s, vals) in values) {
         try {
             if (vals["<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"] == "<bibtex_entry>") {
+                vals.remove("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")
+                vals.remove("<comment_tag>")
                 val type = extractIri(vals["<bibtex_type>"])!!
                 val label = extractIri(s)
                 println("@$type{$label,")
