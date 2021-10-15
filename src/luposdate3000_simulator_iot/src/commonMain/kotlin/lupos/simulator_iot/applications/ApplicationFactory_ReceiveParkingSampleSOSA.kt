@@ -21,6 +21,7 @@ import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.RandomGenerator
+
 public class ApplicationFactory_ReceiveParkingSample : IApplication_Factory {
     public override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {

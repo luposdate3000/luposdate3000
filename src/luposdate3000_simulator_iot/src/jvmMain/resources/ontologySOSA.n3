@@ -1,0 +1,95 @@
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+PREFIX parking: <https://github.com/luposdate3000/parking#> 
+PREFIX sh: <http://www.w3.org/shacl#> 
+PREFIX sosa: <http://www.w3.org/ns/sosa/> 
+PREFIX ssn: <http://www.w3.org/ns/ssn/> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+_:FeatureOfInterest a sh:NodeShape ;
+sh:targetClass sosa:FeatureOfInterest ;
+sh:property [
+ sh:path ssn:hasProperty ;
+ sh:datatype sosa:ObservableProperty 
+] .
+_:Observation a sh:NodeShape ;
+sh:targetClass sosa:Observation ;
+sh:property [
+ sh:path sosa:hasFeatureOfInterest ;
+ sh:datatype sosa:FeatureOfInterest 
+] , [
+ sh:path sosa:hasSimpleResult ;
+ sh:datatype xsd:boolean 
+] , [
+ sh:path sosa:madeBySensor ;
+ sh:datatype sosa:Sensor 
+] , [
+ sh:path sosa:observedProperty ;
+ sh:datatype sosa:ObservableProperty 
+] , [
+ sh:path sosa:phenomenonTime ;
+ sh:datatype xsd:dateTime 
+] , [
+ sh:path sosa:resultTime ;
+ sh:datatype xsd:dateTime 
+] , [
+ sh:path sosa:usedProcedure ;
+ sh:datatype sosa:Procedure 
+] , [
+ sh:path ssn:wasOriginatedBy ;
+ sh:datatype ssn:Stimulus 
+] .
+_:Stimulus a sh:NodeShape ;
+sh:targetClass ssn:Stimulus ;
+sh:property [
+ sh:path ssn:isProxyFor ;
+ sh:datatype sosa:ObservableProperty 
+] .
+_:Procedure a sh:NodeShape ;
+sh:targetClass sosa:Procedure .
+_:ObservableProperty a sh:NodeShape ;
+sh:targetClass sosa:ObservableProperty ;
+sh:property [
+ sh:path geo:lat ;
+ sh:datatype xsd:double 
+] , [
+ sh:path geo:long ;
+ sh:datatype xsd:double 
+] , [
+ sh:path parking:area ;
+ sh:datatype xsd:integer 
+] , [
+ sh:path parking:spotInArea ;
+ sh:datatype xsd:integer 
+] , [
+ sh:path sosa:isObservedBy ;
+ sh:datatype sosa:Sensor 
+] , [
+ sh:path ssn:isPropertyOf ;
+ sh:datatype sosa:FeatureOfInterest 
+] .
+_:Sensor a sh:NodeShape ;
+sh:targetClass sosa:Sensor ;
+sh:property [ 
+ sh:path parking:sensorID ;
+ sh:datatype xsd:integer 
+] , [
+ sh:path sosa:madeObservation ;
+ sh:datatype sosa:Observation 
+] , [
+ sh:path sosa:observes ;
+ sh:datatype sosa:Observation 
+] , [
+ sh:path ssn:detects ;
+ sh:datatype ssn:Stimulus 
+] , [
+ sh:path ssn:implements ;
+ sh:datatype sosa:Procedure 
+] .
+
+
+
+
+#some additional variables, needed to be in ontology-cache
+
+parking:AvailableParkingSpaces a sosa:FeatureOfInterest .
+parking:CarMovement a ssn:Stimulus .
+parking:SensorOnEachSlot a sosa:Procedure .

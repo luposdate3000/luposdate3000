@@ -1,0 +1,16 @@
+{
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_QuerySender": [
+                    {
+                        "maxNumberOfQueries": 1,
+                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT DISTINCT ?area WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n}",
+                        "sendRateInSeconds": 1,
+                        "sendStartClockInSec": 9000,
+                    },
+                ],
+            },
+        },
+    },
+}

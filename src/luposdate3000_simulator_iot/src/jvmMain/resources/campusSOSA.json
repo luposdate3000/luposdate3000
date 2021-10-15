@@ -1,0 +1,61 @@
+{
+    "applications": {
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSampleSOSA": {},
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
+                    "enabled": true,
+                    "fileName": "src/luposdate3000_simulator_iot/src/jvmMain/resources/ontologySOSA.n3",
+                    "sendStartClockInSec": 10,
+                },
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {},
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {},
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "maxSamples": 5,
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 150,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 60,
+        },
+    },
+    "rootRouter": "Fog",
+}

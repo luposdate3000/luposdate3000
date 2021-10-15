@@ -5,7 +5,7 @@
                 "lupos.simulator_iot.applications.ApplicationFactory_QuerySender": [
                     {
                         "maxNumberOfQueries": 1,
-                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (MAX(?resultTime) AS ?latestDate) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 7 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?resultTime .\n}",
+                        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect   (max(?d) AS ?latestDate)\nwhere {\n  ?b a parking:Observation;\n  parking:area 7;\n  parking:spotInArea 1;\n  parking:resultTime ?d.\n}",
                         "sendRateInSeconds": 1,
                         "sendStartClockInSec": 9000,
                     },
