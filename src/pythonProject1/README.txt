@@ -68,6 +68,7 @@ pip install -e .
 # refer to manual of sp2b
 # http://dbis.informatik.uni-freiburg.de/index.php?project=SP2B/download.php
 
+########### IDs are generated in generate_queries.py ##############
 # create training data
 cd ~/lupos/luposdate3000/src/pythonProject1
 #replace " " with file name; choose s or p or a
@@ -91,6 +92,7 @@ python generate_training_file.py "input triple file".bench "output directory"
 # input file is the training file - train.me
 python data_split_script.py "input_file" "ratio of splitting (input a value from 1 to 9)"
 
+######## MATRIX is created in ~/lupos/luposdate3000/src/pythonProject1/gym-database/ #######
 # train python:
 #activate conda environment
 conda activate pythonEnvironment
