@@ -40,7 +40,7 @@ class DatabaseEnv(gym.Env):
     Actions:
         Type: Discrete(n_triples*(n_triples+1)/2)-n_triples)
         Num	Action
-        0	[0 1] - join bgp0 and bgp1 -
+        0	[0 1] - join triple0 and triple1 -
         1	[0 2]
         2	[0 3]
         3	[0 4]
@@ -105,15 +105,27 @@ class DatabaseEnv(gym.Env):
         """Reward for invalid actions."""
 
         self.training_data: List[List[List[str]]] = None
+        """The input training data.
+        Format: List of all queries[List of all join orders of that query[List of data content]]
+        Data content format: ["query", "join order", "execution time"]
+        Query format: "triple0;triple1;triple2;"
+        Triple format: "subjectID,predicateID,objectID"
+        example: "1,1,-2;-1,2,-3;-1,3,-4;"
+        Join order: int from 0 to 2
+        Execution time: float: execution times/second -> the higher the better
+        """
 
         self.networking = None
         """Connection to Client: True or Local: False"""
 
         self.query_counter = 0
+        """Keeps track of current query."""
 
         self.max_exec_time: float = None
+        """Maximum execution time of benched queries - used for reward."""
 
         self.min_exec_time: float = None
+        """Minimum execution time of benched queries - used for reward."""
 
     def step(self, action: int):
         """The step function takes an action from the agent and executes it.
@@ -182,11 +194,16 @@ class DatabaseEnv(gym.Env):
             else:
                 # Load new query
                 query_string = self.training_data[self.query_counter][0][0]
-                self.query = hf.load_query(query_string)
 
+                ####### CREATE MATRIX: TRANSFORM QUERY INTO LIST OF TRIPLES
+                self.query = hf.load_query(query_string)
+                ####### CREATE MATRIX
+
+        ####### CREATE MATRIX: FILL MATRIX WITH TRIPLES
         # Create initial observation matrix, in this state no joins have happened
         self.observation_matrix = hf.fill_matrix(self.query,
                                                  np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+        ####### CREATE MATRIX
 
         # Initialize dictionary to save the join order
         self.join_order = {}

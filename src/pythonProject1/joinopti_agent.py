@@ -122,13 +122,16 @@ def read_query(q_file):
         counter = 0  # all join orders of one query
         counter2 = 0  # index for one query
         for line in p_file:
+            # if new query
             if counter == 0:
                 tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
+                tmp[-1] = tmp[-1][:-1]  # cut off "\n"
+                # create new list for the query and all its join orders
                 benched_queries.append([tmp])
             else:
                 tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]
+                tmp[-1] = tmp[-1][:-1]  # cut off "\n"
+                # add join order of query #counter2 to list
                 benched_queries[counter2].append(tmp)
 
             if counter == N_JOIN_ORDERS-1:

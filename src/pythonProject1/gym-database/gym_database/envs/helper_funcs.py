@@ -22,7 +22,7 @@ def create_action_list(matrix_size: int) -> List[Tuple[int, int]]:
     -------
     List[Tuple[int, int]]
         List of possible actions.
-        (0,1),(0,2),...,(0,matrix_size),(1,2),(1,3),...,(2,3),(2,4)...,(matrix_size-2,n_bgps-1)
+        (0,1),(0,2),...,(0,matrix_size),(1,2),(1,3),...,(2,3),(2,4)...,(matrix_size-2,n_triples-1)
     """
 
     action_list = []
@@ -34,7 +34,7 @@ def create_action_list(matrix_size: int) -> List[Tuple[int, int]]:
 def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matrix: np.ndarray) -> np.ndarray:
     """Function to initially fill the observation matrix with triples and its join candidates.
 
-    Takes bgps from query and sets the diagonal values of the corresponding entry in the
+    Takes triples from query and sets the diagonal values of the corresponding entry in the
     observation matrix to the values of the corresponding triple. The possible join candidates
     are marked with a [-1, -1, -1]. Join variables are negative integers.
 
@@ -42,7 +42,7 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
     Parameters
     ----------
     sorted_query : List[List[Tuple[int, int, int]]
-        list of lists of bgps and join candidates in query:
+        list of lists of triples and join candidates in query:
         [triple_a, triple_b, ...]. triple_a = [triple, join_candidate0, join_candidate1, ...]
     observation_matrix : np.ndarray
         empty observation matrix with all entries set to zero
@@ -56,7 +56,7 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
     # Create dictionary to map triple to its index in matrix and vice versa.
     index_dict = _create_matrix_index_triple_dict(sorted_query)
 
-    # Fill matrix with bgps from query.
+    # Fill matrix with triples from query.
     for index, triples in enumerate(sorted_query): # triples is a list with the triple and its join candidates
         observation_matrix[index, index] = triples[0]
         observation_matrix[index, index, 0] -= 1 # fix join variable offset
@@ -193,7 +193,7 @@ def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
     Returns
     -------
     List[List[Tuple[int, int, int]]
-        The query is a list of Triples that represent the BGPs and its join candidates.
+        The query is a list of Triples that represent the triples and its join candidates.
     """
 
     # Build query list from string

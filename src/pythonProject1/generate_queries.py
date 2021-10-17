@@ -39,10 +39,14 @@ def generate_queries():
         if predicate.split(":")[1] != '':
             unique_predicates.append(predicate)
 
+    ######################## ID GENERATION #############################
+
     # Write dictionary for predicates to file. Ids starting at 1.
     with open(output_directory + "dictionary", "w") as dictionary_file:
         for idx, predicate in enumerate(unique_predicates):
             dictionary_file.write(str(idx+1) + " " + predicate + "\n")
+
+    ######################## ID GENERATION #############################
 
     # Convert triple store prefix to SPARQL prefix.
     sparql_prefixes = []
