@@ -143,7 +143,8 @@ class DatabaseEnv(gym.Env):
         # 5. Check if episode is done (all triples joined)
         done = hf.check_if_done(self.observation_matrix)
 
-        # 6. Calculate reward - send join order over socket to database and calculate reward there
+        # 6. Calculate reward
+        # if networking: send join order over socket to database and calculate reward there
         if done:
             if self.networking:
                 # Encode join order in utf-8 and send to client
@@ -166,8 +167,8 @@ class DatabaseEnv(gym.Env):
         else:
             # Reward for valid action
             reward = 0
-        #print(self.query_counter)
-        # 7. Return observation space, reward, done, {}
+
+        # 7. Return observation space, reward, if episode is done, {}
         return self.observation_matrix, reward, done, {}
 
     def reset(self):

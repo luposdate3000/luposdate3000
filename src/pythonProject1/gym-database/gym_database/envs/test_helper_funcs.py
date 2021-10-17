@@ -1,7 +1,7 @@
 from unittest import TestCase
 import numpy as np
 from helper_funcs import create_action_list, fill_matrix, perform_join, check_if_done, \
-    _create_matrix_index_bgp_dict, _order_query_by_predicate, update_join_order, _query_from_string, is_empty
+    _create_matrix_index_triple_dict, _order_query_by_predicate, update_join_order, _query_from_string, is_empty
 import copy
 
 
@@ -77,8 +77,8 @@ class TestHelperFuncs(TestCase):
         self.assertTrue(check_if_done(observation_matrix))
 
 
-    def test_create_matrix_index_bgp_dict(self):
-        test_dict = _create_matrix_index_bgp_dict(self.query)
+    def test_create_matrix_index_triple_dict(self):
+        test_dict = _create_matrix_index_triple_dict(self.query)
         self.assertDictEqual(self.index_dict, test_dict)
 
     def test_order_query_by_predicate(self):

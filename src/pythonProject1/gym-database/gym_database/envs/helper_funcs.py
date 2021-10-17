@@ -53,8 +53,8 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
         initial observation matrix with triples and join candidates
     """
 
-    # Create dictionary to map bgp to its index in matrix and vice versa.
-    index_dict = _create_matrix_index_bgp_dict(sorted_query)
+    # Create dictionary to map triple to its index in matrix and vice versa.
+    index_dict = _create_matrix_index_triple_dict(sorted_query)
 
     # Fill matrix with bgps from query.
     for index, triples in enumerate(sorted_query): # triples is a list with the triple and its join candidates
@@ -106,7 +106,7 @@ def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
                     observation_matrix[index_a, i, 2] == 0:
                 observation_matrix[index_a, i] = v  # overwrite value with the value from b row
             else:
-                None    # dont overwrite bgps
+                None    # dont overwrite triples
         observation_matrix[index_b, i] = 0  # set entries in b row to 0
 
 
@@ -132,24 +132,24 @@ def is_empty(index: int, observation_matrix: np.ndarray) -> bool:
         return True
 
 
-def _create_matrix_index_bgp_dict(sorted_query: List[List[Tuple[int, int, int]]]) -> Dict:
-    """Function that maps every BGP to an index in the observation matrix and vice versa.
+def _create_matrix_index_triple_dict(sorted_query: List[List[Tuple[int, int, int]]]) -> Dict:
+    """Function that maps every triple to an index in the observation matrix and vice versa.
 
     Parameters
     ----------
     sorted_query: List[List[Tuple[int, int, int]]]
-        The sorted query where the occuring BGPs are in.
+        The sorted query where the occuring triple are in.
 
     Returns
     -------
     Dict
-        The Dict containing a mapping between an index in the observation matrix and a BGP
+        The Dict containing a mapping between an index in the observation matrix and a triple
         and vice versa.
     """
     new_dict = {}
-    for index, list_of_bgps in enumerate(sorted_query):
-        new_dict[index] = list_of_bgps[0]
-        new_dict[list_of_bgps[0]] = index
+    for index, list_of_triples in enumerate(sorted_query):
+        new_dict[index] = list_of_triples[0]
+        new_dict[list_of_triples[0]] = index
     return new_dict
 
 
@@ -285,8 +285,11 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
         Row in observation matrix to join.
     join_order: Dict
         The join order is saved as a graph and encoded in a Dict. It gets updated by this method.
+        For every join that happened there is one entry of its join partners at join_order[i],
+        where i is the i'th join. i is negative to avoid collisions.
     join_order_h: Dict
-        This is a Dict for assistant values to build join_order.
+        This is a Dict for assistant values to build join_order. It attributes every row number to
+        its content as a pointer (index) to that join.
     """
 
     # invariant joining, join into lower numbered row, important for this to work
@@ -298,17 +301,29 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
     # index has negative values, starting from -1, to avoid collisions with IDs
     index = -(len(join_order)+1)
 
+    # if right and left have been joined before
     if left in join_order_h and right in join_order_h:
+        # save the join of left and right in join_order as {index: [pointer to row of left, pointer to row of right]}
         join_order[index] = [join_order_h[left], join_order_h[right]]
+        # update pointer to row of left
         join_order_h[left] = index
+    # if left has been joined before, but not right
     elif left in join_order_h:
+        # save the join of left and right in join_order as {index: [pointer to row of left, right]}
         join_order[index] = [join_order_h[left], right]
+        # update pointer to row of left
         join_order_h[left] = index
+    # if right has been joined before, but not left
     elif right in join_order_h:
+        # save the join of left and right in join_order as {index: [left, pointer to row of right]}
         join_order[index] = [left, join_order_h[right]]
+        # update pointer to row of right
         join_order_h[right] = index
+    # if left and right have not been involved in a join so far
     else:
+        # save the join of left and right in join_order as {index: [left, right]}
         join_order[index] = [left, right]
+        # save the pointer to that join as {left: index}
         join_order_h[left] = index
 
 
@@ -340,17 +355,22 @@ def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     # execution times of all benched queries
     reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
 
-    # max_list = []
-    # for i in range(3):
-    #     print(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
-    #     max_list.append(-(math.sqrt(abs(execution_times[i]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10))
-    # print("MAX: "+ str(max(max_list)))
-    # print("Reward: " + str(reward))
-
     return reward
 
 
 def _join_order_to_number(join_order):
+    """Function that takes the join order and returns the ID of that join order.
+
+    Parameters
+    ----------
+    join_order
+        The calculated join order of a query.
+
+    Returns
+    -------
+    int
+        ID of the join order.
+    """
     if join_order[-1] == [0, 1]:
         return 0
     elif join_order[-1] == [0, 2]:

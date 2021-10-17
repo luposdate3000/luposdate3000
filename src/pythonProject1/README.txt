@@ -60,6 +60,7 @@ conda install pip
 pip install stable-baselines3
 
 # setup python module
+# you have to repeat this whenever you change the environment
 cd ~/lupos/luposdate3000/src/pythonProject1/gym-database/
 pip install -e .
 
