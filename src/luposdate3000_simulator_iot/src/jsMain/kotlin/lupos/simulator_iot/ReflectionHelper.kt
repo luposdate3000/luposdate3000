@@ -17,11 +17,7 @@
 package lupos.simulator_iot
 
 internal actual object ReflectionHelper {
-    actual fun createApplicationFactory(name: String): IApplication_Factory {
-        TODO()
-    }
-
-    actual fun createLogger(name: String): ILogger {
-        TODO()
+    actual fun create(name: String): Any {
+return	eval("new $name()")
     }
 }

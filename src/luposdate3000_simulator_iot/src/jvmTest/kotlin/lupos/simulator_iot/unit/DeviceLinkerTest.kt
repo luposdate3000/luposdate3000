@@ -33,7 +33,9 @@ class DeviceLinkerTest {
     @Test
     fun linkByLink() {
         val deviceLinker = DeviceLinker()
-        val link = Link(123, 5, 9)
+        val link = Link(123.0,
+ 5, 
+9)
         val one = Stubs.createEmptyDevice(1)
         val two = Stubs.createEmptyDevice(2)
         deviceLinker.link(one, two, link)

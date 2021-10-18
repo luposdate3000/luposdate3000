@@ -25,7 +25,9 @@ import lupos.parser.JsonParserString
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import lupos.simulator_core.Entity
+import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.IPackage_Database
+import lupos.simulator_iot.applications.IApplication_Factory
 import lupos.simulator_iot.ReflectionHelper
 import lupos.simulator_iot.SimulationRun
 import lupos.simulator_iot.applications.ApplicationStack_AllShortestPath
@@ -41,7 +43,6 @@ import lupos.simulator_iot.applications.ApplicationStack_Sequence
 import lupos.simulator_iot.applications.Application_QuerySender
 import lupos.simulator_iot.applications.IApplicationFeature
 import lupos.simulator_iot.applications.IApplicationStack_Actuator
-import lupos.simulator_iot.applications.IApplication_Factory
 import lupos.simulator_iot.models.Device
 import lupos.simulator_iot.models.geo.GeoLocation
 import lupos.simulator_iot.models.net.DeviceLinker
@@ -138,7 +139,7 @@ public class Configuration(private val simRun: SimulationRun) {
             loggerJson as JsonParserObject
             val enabled = loggerJson.getOrDefault("enabled", false)
             if (enabled) {
-                val log = ReflectionHelper.createLogger(loggerName)
+                val log = ReflectionHelper.create(loggerName) as ILogger
                 log.initialize(simRun)
                 simRun.logger.loggers.add(log)
             }
@@ -164,7 +165,7 @@ public class Configuration(private val simRun: SimulationRun) {
                 JsonParserObject(mutableMapOf()),
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:166"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:167"/*SOURCE_FILE_END*/ },
                 { namedAddresses[name] == null },
                 { "name $name must be unique" }
             )
@@ -249,7 +250,7 @@ public class Configuration(private val simRun: SimulationRun) {
             }
             var factory = factories[applicationName]
             if (factory == null) {
-                factory = ReflectionHelper.createApplicationFactory(applicationName)
+                factory = ReflectionHelper.create(applicationName) as IApplication_Factory
                 factory.registerFeatures(features)
                 factories[applicationName] = factory
             }
@@ -300,7 +301,7 @@ public class Configuration(private val simRun: SimulationRun) {
         }
         val linkTypes = linker.getSortedLinkTypeIndices(jsonDevice.getOrEmptyArray("supportedLinkTypes").map { (it as JsonParserString).value }.toMutableList())
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:302"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_iot/src/commonMain/kotlin/lupos/simulator_iot/config/Configuration.kt:303"/*SOURCE_FILE_END*/ },
             { jsonDevice.getOrDefault("performance", 100.0) > 0.0 },
             { "The performance level of a device can not be 0.0 %" },
         )
