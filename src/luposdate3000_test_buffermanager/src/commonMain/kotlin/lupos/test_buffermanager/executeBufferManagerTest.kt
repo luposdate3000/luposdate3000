@@ -16,11 +16,11 @@
  */
 package lupos.test_buffermanager
 
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
-import lupos.shared.inline.BufferManagerPage
 import kotlin.math.abs
 
 public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppress("UNUSED_PARAMETER") resetRandom: () -> Unit, BufferManager: (Luposdate3000Instance) -> IBufferManager, isInMemoryOnly: Boolean, allowInitFromDisk: (Boolean) -> Unit, isUnitTest: Boolean) {

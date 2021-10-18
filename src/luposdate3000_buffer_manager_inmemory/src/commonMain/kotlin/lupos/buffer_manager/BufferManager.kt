@@ -17,12 +17,12 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
 public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) : IBufferManager {

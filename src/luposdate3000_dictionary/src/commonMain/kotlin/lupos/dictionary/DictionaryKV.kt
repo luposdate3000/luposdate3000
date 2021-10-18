@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.kv.KeyValueStore
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -27,7 +28,6 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt

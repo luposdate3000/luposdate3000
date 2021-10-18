@@ -16,5 +16,4 @@
  */
 package lupos.shared
 
-public class BufferManagerPageWrapper(public val data: ByteArray)
-// typealias BufferManagerPageWrapper = ByteArray
+public typealias BufferManagerPageWrapperRelease = ByteArray

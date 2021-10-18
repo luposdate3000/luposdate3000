@@ -820,8 +820,12 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
 
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
+typeAliasAll["BufferManagerPageWrapper"]=Pair("BufferManagerPageWrapper","lupos.shared.BufferManagerPageWrapperRelease")
+typeAliasAll["BufferManagerPage"]=Pair("BufferManagerPage","lupos.shared.inline.BufferManagerPageRelease")
         } else {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOn")
+typeAliasAll["BufferManagerPageWrapper"]=Pair("BufferManagerPageWrapper","lupos.shared.BufferManagerPageWrapperDebug")
+typeAliasAll["BufferManagerPage"]=Pair("BufferManagerPage","lupos.shared.inline.BufferManagerPageDebug")
         }
         if (moduleArgs.suspendMode == SuspendMode.Enable) {
             typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelCoroutine")

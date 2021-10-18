@@ -7,15 +7,13 @@
  * the Free Software Foundation, version 3.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY without even the implied warranty of
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.simulator_iot
+package lupos.shared
 
-internal expect object ReflectionHelper {
-    internal fun create(name: String): Any
-}
+public class BufferManagerPageWrapperDebug(public val data: ByteArray)

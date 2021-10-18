@@ -69,7 +69,7 @@ internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path
     override fun writeDictionaryValueType(value: DictionaryValueType) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + DictionaryValueHelper.getSize(), true)
-        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        DictionaryValueHelper.toByteArray(buffer, offset, value)
     }
 
     override fun writeLong(value: Long) {

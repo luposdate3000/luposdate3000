@@ -18,6 +18,7 @@ package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
+import lupos.shared.BufferManagerPage
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
@@ -39,7 +40,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple

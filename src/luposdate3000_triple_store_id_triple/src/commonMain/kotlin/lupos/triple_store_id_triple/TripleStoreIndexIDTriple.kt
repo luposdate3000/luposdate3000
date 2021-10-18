@@ -17,6 +17,7 @@
 package lupos.triple_store_id_triple
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -29,7 +30,6 @@ import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreBulkImportExt
 import lupos.shared.TripleStoreIndex
-import lupos.shared.inline.BufferManagerPage
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle

@@ -46,7 +46,7 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
 
     override fun readDictionaryValueType(): DictionaryValueType {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:47"/*SOURCE_FILE_END*/ }, { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) })
-        val res = DictionaryValueHelper.fromByteArray(ByteArrayWrapperExt.getBuf(data), offset)
+        val res = DictionaryValueHelper.fromByteArray(data, offset)
         offset += DictionaryValueHelper.getSize()
         return res
     }

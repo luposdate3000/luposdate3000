@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline.fileformat
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
@@ -45,6 +45,9 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
 
     @JvmField
     internal val buf: ByteArray = ByteArray(25)
+
+    @JvmField
+    val bufWrapper = ByteArrayWrapper(buf, 24)
     private val writeOrder: EIndexPattern
 
     internal constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
@@ -81,9 +84,9 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
             ByteArrayHelper.writeInt1(buf, 0, header)
-            DictionaryValueHelper.toByteArrayX(buf, 1, b0, counter0)
-            DictionaryValueHelper.toByteArrayX(buf, rel0, b1, counter1)
-            DictionaryValueHelper.toByteArrayX(buf, rel1, b2, counter2)
+            DictionaryValueHelper.toByteArrayX(bufWrapper, 1, b0, counter0)
+            DictionaryValueHelper.toByteArrayX(bufWrapper, rel0, b1, counter1)
+            DictionaryValueHelper.toByteArrayX(bufWrapper, rel1, b2, counter2)
             streamOut!!.write(buf, rel2)
             last0 = row[i0]
             last1 = row[i1]

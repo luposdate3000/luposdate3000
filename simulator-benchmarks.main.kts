@@ -21,7 +21,7 @@ import java.lang.ProcessBuilder.Redirect
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
-var useSOSA = true
+var useSOSA = false
 
 inline fun execute(args: List<String>): List<String> {
     println(args.joinToString(" "))
@@ -45,13 +45,13 @@ val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
 val campusList = if (useSOSA) {
     listOf(
-        "campusNoSamples.json",
-        "campus.json",
+        "campusSOSANoSamples.json",
+        "campusSOSA.json",
     )
 } else {
     listOf(
-        "campusSOSANoSamples.json",
-        "campusSOSA.json",
+        "campusNoSamples.json",
+        "campus.json",
     )
 }
 val routingList = listOf(
@@ -68,7 +68,7 @@ val queryList = List(9) {
 val databaseTopologyList = listOf(
     "distributed.json",
     "distributedWithQueryHops.json",
-    "central.json",
+//    "central.json",
 )
 val dataDistributionList = listOf(
     "luposdate3000_by_key.json",
@@ -82,7 +82,7 @@ val queryDistributionList = listOf(
     "luposdate3000_distribution_routing.json",
 )
 val networkTopologyList = mutableListOf<String>()
-for (i in listOf(4, 8, 16, 32, 64)) {
+for (i in listOf(4)) {
     networkTopologyList.add("scenarioParkingFull$i.json")
     networkTopologyList.add("scenarioParkingRandom$i.json")
     networkTopologyList.add("scenarioParkingRing$i.json")
@@ -125,25 +125,25 @@ loop@ for (campus in campusList) {
                             val json_multicast = "$BASE_PATH/$multicast"
                             for (queryDistribution in queryDistributionList) {
                                 val json_queryDistribution = "$BASE_PATH/$queryDistribution"
-                                if (databaseTopology == "central.json" && query != "Q0.json") {
+                                if (databaseTopology == "central.json" && query !in listOf("Q0.json","Q_SOSA_0.json")) {
                                     // centralized has only traffic during initialization, afterwards all zero
                                     continue
                                 }
-                                if (multicast == "luposdate3000MulticastEnabled.json" && query != "Q0.json") {
+                                if (multicast == "luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json","Q_SOSA_0.json")) {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
-                                val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
-                                if (campus == "campusNoSamples.json" && (
+                                if (campus in listOf("campusNoSamples.json","campusSOSANoSamples.json") && (
                                     multicast != "luposdate3000MulticastEnabled.json" ||
                                         databaseTopology != "distributedWithQueryHops.json" ||
                                         routing != "routing_RPL_Fast.json" ||
                                         dataDistribution != "luposdate3000_by_id_S_all_collations.json" ||
-                                        query != "Q0.json"
+                                        query !in listOf("Q0.json","Q_SOSA_0.json")
                                     )
                                 ) {
                                     continue
                                 }
+                                val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
                                 val cmd = baseCmd + specializedCmd
                                 val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
                                 var firstLine = listOf<String>()

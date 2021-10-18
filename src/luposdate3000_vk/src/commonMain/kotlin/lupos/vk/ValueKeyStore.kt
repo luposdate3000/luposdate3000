@@ -17,11 +17,11 @@
 package lupos.vk
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.min

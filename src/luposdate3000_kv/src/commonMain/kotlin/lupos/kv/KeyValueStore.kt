@@ -18,12 +18,12 @@ package lupos.kv
 
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.MyIntArray
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.BufferManagerPage
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 

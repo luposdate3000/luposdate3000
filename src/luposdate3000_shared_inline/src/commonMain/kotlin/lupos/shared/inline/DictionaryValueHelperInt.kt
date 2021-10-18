@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
@@ -92,16 +92,10 @@ internal object DictionaryValueHelperInt {
     internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) = intArrayOf(a, b, c)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArray(buffer: ByteArray, off: Int, value: Int) = ByteArrayHelper.writeInt4(buffer, off, value)
-
-    @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int) = BufferManagerPage.writeInt4(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(ByteArrayWrapperExt.getBuf(buffer), off, value, count)
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArrayX(buffer: ByteArray, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) = BufferManagerPage.writeIntX(buffer, off, value, count)
@@ -110,13 +104,7 @@ internal object DictionaryValueHelperInt {
     internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) = ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArray(buffer: ByteArray, off: Int): Int = ByteArrayHelper.readInt4(buffer, off)
-
-    @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Int = BufferManagerPage.readInt4(buffer, off)
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArrayX(buffer: ByteArray, off: Int, bytes: Int): Int = ByteArrayHelper.readIntX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Int = BufferManagerPage.readIntX(buffer, off, bytes)
@@ -144,7 +132,7 @@ internal object DictionaryValueHelperInt {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Int): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:146"/*SOURCE_FILE_END*/ }, { value >= 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperInt.kt:134"/*SOURCE_FILE_END*/ }, { value >= 0 })
         if (value > 0xFFFF) {
             if (value > 0xFFFFFF) {
                 return 4

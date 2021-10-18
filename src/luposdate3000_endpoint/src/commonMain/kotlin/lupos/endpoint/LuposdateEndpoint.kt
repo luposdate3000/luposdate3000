@@ -136,7 +136,7 @@ public object LuposdateEndpoint {
         }
         val c3 = ByteArrayWrapperExt.getSize(data2)
         ByteArrayWrapperExt.setSize(data2, c3 + DictionaryValueHelper.getSize(), true)
-        DictionaryValueHelper.toByteArray(ByteArrayWrapperExt.getBuf(data2), c3, DictionaryValueHelper.nullValue)
+        DictionaryValueHelper.toByteArray(data2, c3, DictionaryValueHelper.nullValue)
         for (i in 1 until instance.LUPOS_PROCESS_URLS_ALL.size) {
             val (input, output) = instance.communicationHandler!!.openConnection(instance.LUPOS_PROCESS_URLS_ALL[i], "/shacl/ontology/load", mapOf(), -1)
             output.write(ByteArrayWrapperExt.getBuf(data2), ByteArrayWrapperExt.getSize(data2))

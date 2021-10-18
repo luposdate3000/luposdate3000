@@ -15,16 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
 internal class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
     val buf8 = ByteArray(8)
+
+    @JvmField
+    val buf8Wrapper = ByteArrayWrapper(buf8, 8)
 
     @JvmField
     public val data = str.encodeToByteArray()
@@ -77,7 +80,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
 
     override fun readDictionaryValueType(): DictionaryValueType {
         read(buf8, DictionaryValueHelper.getSize())
-        return DictionaryValueHelper.fromByteArray(buf8, 0)
+        return DictionaryValueHelper.fromByteArray(buf8Wrapper, 0)
     }
 
     override fun readLong(): Long {
