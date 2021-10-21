@@ -29,6 +29,7 @@ def generate_queries():
             if line[0] == "@":
                 prefixes.append(line)
             else:
+                #ERROR : this assumes that ech line contains exactly one triple, and each triple is terminted with an '.' which is not the case. Empty lines crash.
                 predicates.append(line.split(" ")[1])
 
     # Eliminate all duplicate predicates -> find all unique predicates
@@ -36,6 +37,7 @@ def generate_queries():
     unique_predicates_tmp.sort()
     unique_predicates = []
     for predicate in unique_predicates_tmp:
+        #ERROR : this assumes that every predicate has the form 'prefix:postfix' - this assumption is wrong. Iris yould be written as '<abc...xyz>' too.
         if predicate.split(":")[1] != '':
             unique_predicates.append(predicate)
 
