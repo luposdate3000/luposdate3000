@@ -28,7 +28,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.operator.IOPBase
 
-public class LogicalOptimizerJoinOrderML(query: Query, private val joinOrder: Int) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
+public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
+    private val joinOrder: Int = query.getInstance().machineLearningOptimizerOrder
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {

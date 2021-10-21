@@ -96,8 +96,11 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
             LogicalOptimizerExists(query) //
         ),
         arrayOf(
-// join order must stant alone otherwise there are lots of recalulations
-            LogicalOptimizerJoinOrder(query) //
+            if (query.getInstance().useMachineLearningOptimizer) {
+                LogicalOptimizerJoinOrderML(query) //
+            } else {
+                LogicalOptimizerJoinOrder(query) //
+            }
         ),
         arrayOf(
 // put the filters between the joins

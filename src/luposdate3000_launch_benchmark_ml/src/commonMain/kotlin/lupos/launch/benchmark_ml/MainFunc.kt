@@ -16,7 +16,7 @@
  */
 package lupos.launch.benchmark_ml
 
-import lupos.endpoint.LuposdateEndpointML
+import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
@@ -25,7 +25,7 @@ import lupos.shared.inline.MyPrintWriter
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
-    val instance = LuposdateEndpointML.initialize()
+    val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
         HttpEndpointLauncher.start(instance)
     }
@@ -39,7 +39,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     val timer = DateHelperRelative.markNow()
 
     // Load turtle data
-    LuposdateEndpointML.importTurtleFile(instance, datasourceFiles)
+    LuposdateEndpoint.importTurtleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
 
     // avoid unnecessary overhead during measurement
@@ -56,7 +56,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     val query = File(queryFile).readAsString()
 
                     // Optimize query and convert to operatorgraph
-                    val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphBB(instance, query, true)
+                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query, true)
                     var lopjoin0 = node.getChildren() // lopjoin
 
                     // ERROR : this is NOT typesafe, and may error. Especially for more than 2 Joins. Please Check for the Class-Types here !!
@@ -82,16 +82,18 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     val query = File(queryFile).readAsString()
 
                     // Optimize query and convert to operatorgraph
-                    val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphB(instance, query, true, joinOrder)
+                    instance.useMachineLearningOptimizer = true
+                    instance.machineLearningOptimizerOrder = joinOrder
+                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
 
                     // dry run, to prevent caching issues
-                    LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
 
                     // measure time for executing the query
                     val timerFirst = DateHelperRelative.markNow()
 
                     // Execute query
-                    LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
 
                     // save time, and predict how often we could execute this
                     val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
@@ -104,7 +106,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     do {
                         counter += groupSize[queryFileIdx]
                         for (i in 0 until groupSize[queryFileIdx]) {
-                            LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+                            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
                         }
                         time = DateHelperRelative.elapsedSeconds(timer)
                     } while (time <minimumTime2)
