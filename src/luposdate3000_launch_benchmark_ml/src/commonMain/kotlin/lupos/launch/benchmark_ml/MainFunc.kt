@@ -22,11 +22,6 @@ import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import java.io.FileOutputStream
-
-internal enum class OptimizerMode {
-    All, OnlyWith, OnlyWithout, Test
-}
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
@@ -35,159 +30,86 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         HttpEndpointLauncher.start(instance)
     }
     // Cast input string to internal data types
-    val bufferedReader = java.io.File(queryFiles).bufferedReader()
-    val inputString = bufferedReader.use { it.readText() }
-
+    val inputString = File(queryFiles).readAsString()
     val queryFiles2 = inputString.split(";")
+
     val minimumTime2 = minimumTime.toDouble()
-    val numberOfTriples2 = numberOfTriples.toLong()
-    var optimizerMode2: OptimizerMode
-    if (optimizerMode == "OnlyWith") {
-        optimizerMode2 = OptimizerMode.OnlyWith
-    } else if (optimizerMode == "OnlyWithout") {
-        optimizerMode2 = OptimizerMode.OnlyWithout
-    } else if (optimizerMode == "Test") {
-        optimizerMode2 = OptimizerMode.Test
-    } else {
-        optimizerMode2 = OptimizerMode.All
-    }
+
     // measure time for turtle data load
     val timer = DateHelperRelative.markNow()
+
     // Load turtle data
     LuposdateEndpointML.importTurtleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
-    //
 
-    val fileName = "$datasourceFiles.dictionaryML"
-    var dictionaryFile = java.io.File(fileName)
+    // avoid unnecessary overhead during measurement
+    val groupSize = IntArray(queryFiles2.size) { 1 }
+    val writer = MyPrintWriter(false)
 
-//    val buffer = ByteArrayWrapper()
-//    instance.nodeGlobalDictionary?.forEachValue(buffer) { id -> println("$id -> ${DictionaryHelper.byteArrayToSparql(buffer)}") }
-
-//    val buffer = ByteArrayWrapper()
-//    var text = ""
-//    dictionaryFile.printWriter().use { out ->
-//        instance.nodeGlobalDictionary?.forEachValue(buffer) {
-//            out.println("${DictionaryHelper.byteArrayToSparql(buffer)}")
-//        }
-//    }
-
-    println("$datasourceFiles/persistence-import.sparql,$numberOfTriples2,0,1,${numberOfTriples2 * 1000.0},${1.0 / time}")
-    val groupSize = IntArray(queryFiles2.size) { 1 } // int array with a 1 for every input query file, used to measure time
-
-    if (optimizerMode2 == OptimizerMode.Test) {
-        var inputStringforPython = ""
-        for (queryFileIdx in queryFiles2.indices) { // for every query
-            // Read in query file
-            val queryFile = queryFiles2[queryFileIdx]
-            val query = File(queryFile).readAsString()
-            var testFile = java.io.File("$queryFile.test")
-            testFile.printWriter().use { it ->
-                it.print("")
-            }
-            // Optimize query and convert to operatorgraph
-            val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphBB(instance, query, true)
-            var lopjoin0 = node.getChildren() // lopjoin
-
-            var pred0 = lopjoin0[0].getChildren()[0].getChildren()[1]
-            var pred1 = lopjoin0[0].getChildren()[1].getChildren()[0].getChildren()[1]
-            var pred2 = lopjoin0[0].getChildren()[1].getChildren()[1].getChildren()[1]
-
-            FileOutputStream(testFile, true).bufferedWriter().use { it ->
-                it.write(query)
-                it.append(pred0.toString())
-                it.append(pred1.toString())
-                it.append(pred2.toString())
-            }
-            inputStringforPython += "$queryFile.test;"
-        }
-        var inputStringFile = java.io.File("${queryFiles2[0]}.luposTestDataFile")
-        inputStringFile.printWriter().use { it ->
-            it.write(inputStringforPython)
-        }
-    }
-
-    // Benchmark with Optimizer
-    if (optimizerMode2 != OptimizerMode.OnlyWithout && optimizerMode2 != OptimizerMode.Test) { // All or OnlyWith
-        for (queryFileIdx in queryFiles2.indices) { // for every queryfile
-            // Read in query file
-            val queryFile = queryFiles2[queryFileIdx]
-            val query = File(queryFile).readAsString()
-            // measure time for query optimization + execution
-            val timerFirst = DateHelperRelative.markNow()
-            // Optimize + Execute query
-            LuposdateEndpointML.evaluateSparqlToResultC(instance, query, true)
-            // save time
-            val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-            groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-            // Benchmark
-            val timer = DateHelperRelative.markNow()
-            var time: Double
-            var counter = 0 // counts how often the query gets executed
-            while (true) { // Loop for minimumTime2 seconds
-                counter += groupSize[queryFileIdx]
-                for (i in 0 until groupSize[queryFileIdx]) {
-                    LuposdateEndpointML.evaluateSparqlToResultB(instance, query)
-                }
-                time = DateHelperRelative.elapsedSeconds(timer)
-                if (time > minimumTime2) {
-                    break
-                }
-            }
-            println("$queryFile,$numberOfTriples2,0,$counter,${time * 1000.0},${counter / time},WithOptimizer")
-        }
-    }
-
-    var benchFile = java.io.File("$datasourceFiles.bench")
-    benchFile.printWriter().use { it ->
-        it.print("")
-    }
-
-    // Benchmark without Optimizer
-    if (optimizerMode2 != OptimizerMode.OnlyWith && optimizerMode2 != OptimizerMode.Test) { // All or OnlyWithout
-        for (queryFileIdx in queryFiles2.indices) { // for every query
-            for (joinOrder in 0..2) { // for every permutation
-                // Read in query file
+    if (optimizerMode == "Test") {
+        File("${queryFiles2[0]}.luposTestDataFile").openOutputStream { testResult ->
+            for (queryFileIdx in queryFiles2.indices) { // for every query
                 val queryFile = queryFiles2[queryFileIdx]
-                val query = File(queryFile).readAsString()
-                // Optimize query and convert to operatorgraph
-                val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphB(instance, query, true, joinOrder)
-                val writer = MyPrintWriter(false)
-//                for (a in node.getChildren()) {
-//                    if (a is lupos.triple_store_manager.POPTripleStoreIterator) {
-//                    }
-//                }
+                File("$queryFile.test").openOutputStream { testOut ->
 
-                LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
-                // measure time for executing the query
-                val timerFirst = DateHelperRelative.markNow()
-                // Execute query
-                LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
-                // save time
-                val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-                groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-                // Benchmark
-                val timer = DateHelperRelative.markNow()
-                var time: Double
-                var counter = 0 // counts how often the query gets executed
-                while (true) { // loop for minimumTime2 seconds
-                    counter += groupSize[queryFileIdx]
-                    for (i in 0 until groupSize[queryFileIdx]) {
-                        LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
-                    }
-                    time = DateHelperRelative.elapsedSeconds(timer)
-                    if (time > minimumTime2) {
-                        break
-                    }
-                }
-                FileOutputStream(benchFile, true).bufferedWriter().use { it ->
-                    it.appendLine("$queryFile $joinOrder ${counter / time}")
-                }
+                    // Read in query file
+                    val query = File(queryFile).readAsString()
 
-//                benchFile.printWriter().use { it ->
-//                    it.println("$queryFile $joinOrder ${counter / time}")
-//                }
-                println("$queryFile,$numberOfTriples2,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+                    // Optimize query and convert to operatorgraph
+                    val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphBB(instance, query, true)
+                    var lopjoin0 = node.getChildren() // lopjoin
+
+                    // ERROR : this is NOT typesafe, and may error. Especially for more than 2 Joins. Please Check for the Class-Types here !!
+                    var pred0 = lopjoin0[0].getChildren()[0].getChildren()[1]
+                    var pred1 = lopjoin0[0].getChildren()[1].getChildren()[0].getChildren()[1]
+                    var pred2 = lopjoin0[0].getChildren()[1].getChildren()[1].getChildren()[1]
+
+                    testOut.print(query)
+                    testOut.print(pred0.toString())
+                    testOut.print(pred1.toString())
+                    testOut.print(pred2.toString())
+                    testResult.print("$queryFile.test;")
+                }
+            }
+        }
+    } else {
+        File("$datasourceFiles.bench").openOutputStream { benchOut ->
+            for (queryFileIdx in queryFiles2.indices) { // for every query
+                for (joinOrder in 0..2) { // for every permutation
+
+                    // Read in query file
+                    val queryFile = queryFiles2[queryFileIdx]
+                    val query = File(queryFile).readAsString()
+
+                    // Optimize query and convert to operatorgraph
+                    val node = LuposdateEndpointML.evaluateSparqlToOperatorgraphB(instance, query, true, joinOrder)
+
+                    // dry run, to prevent caching issues
+                    LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+
+                    // measure time for executing the query
+                    val timerFirst = DateHelperRelative.markNow()
+
+                    // Execute query
+                    LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+
+                    // save time, and predict how often we could execute this
+                    val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+                    groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
+
+                    // Benchmark
+                    val timer = DateHelperRelative.markNow()
+                    var time: Double
+                    var counter = 0 // counts how often the query gets executed
+                    do {
+                        counter += groupSize[queryFileIdx]
+                        for (i in 0 until groupSize[queryFileIdx]) {
+                            LuposdateEndpointML.evaluateOperatorgraphToResult(instance, node, writer)
+                        }
+                        time = DateHelperRelative.elapsedSeconds(timer)
+                    } while (time <minimumTime2)
+                    benchOut.println("$queryFile $joinOrder ${counter / time}")
+                }
             }
         }
     }
