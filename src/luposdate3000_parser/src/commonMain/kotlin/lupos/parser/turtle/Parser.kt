@@ -21,7 +21,7 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
             Error("Unexpected \"" + token.image + "\":" + token.type + " at " + lineNumber + ":" + columnNumber + ". Expected " + arrayOf)
 
         internal class ScannerError(index: Long, lineNumber: Long, columnNumber: Long) :
-            Error("No valid token found at " + lineNumber + ":" + columnNumber + "@"+index)
+            Error("No valid token found at " + lineNumber + ":" + columnNumber + "@" + index)
 
         internal class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Long, lineNumber: Long, columnNumber: Long) :
             Error("Requested " + lookahead + " lookahead, but maximum is " + requestedLookahead + " at " + lineNumber + ":" + columnNumber)
