@@ -43,10 +43,14 @@ cd idea-IC-211.7142.45/bin/
 cd ~/lupos/luposdate3000
 # compile from commandline
 ./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
+# if you want the tests
 ./gradlew build
+# if you dont want the "unit"-tests to be executed
+./gradlew assemble
 #compile with Intellij
 ./launcher.main.kts --setup --intellijMode=Enable --releaseMode=Enable
 #open Intellij and compile
+
 
 # miniconda
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
