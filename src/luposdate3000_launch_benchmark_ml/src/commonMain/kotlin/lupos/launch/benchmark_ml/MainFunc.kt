@@ -39,7 +39,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     val timer = DateHelperRelative.markNow()
 
     // Load turtle data
-    LuposdateEndpoint.importTurtleFile(instance, datasourceFiles)
+    LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
 
     // avoid unnecessary overhead during measurement
@@ -47,10 +47,10 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     val writer = MyPrintWriter(false)
 
     if (optimizerMode == "Test") {
-        File("${queryFiles2[0]}.luposTestDataFile").openOutputStream { testResult ->
+        File("${queryFiles2[0]}.luposTestDataFile").withOutputStream { testResult ->
             for (queryFileIdx in queryFiles2.indices) { // for every query
                 val queryFile = queryFiles2[queryFileIdx]
-                File("$queryFile.test").openOutputStream { testOut ->
+                File("$queryFile.test").withOutputStream { testOut ->
 
                     // Read in query file
                     val query = File(queryFile).readAsString()
@@ -73,7 +73,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             }
         }
     } else {
-        File("$datasourceFiles.bench").openOutputStream { benchOut ->
+        File("$datasourceFiles.bench").withOutputStream { benchOut ->
             for (queryFileIdx in queryFiles2.indices) { // for every query
                 for (joinOrder in 0..2) { // for every permutation
 
@@ -87,13 +87,13 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
 
                     // dry run, to prevent caching issues
-                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
 
                     // measure time for executing the query
                     val timerFirst = DateHelperRelative.markNow()
 
                     // Execute query
-                    LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
 
                     // save time, and predict how often we could execute this
                     val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
@@ -106,7 +106,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     do {
                         counter += groupSize[queryFileIdx]
                         for (i in 0 until groupSize[queryFileIdx]) {
-                            LuposdateEndpoint.evaluateOperatorgraphToResult(instance, node, writer)
+                            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                         }
                         time = DateHelperRelative.elapsedSeconds(timer)
                     } while (time <minimumTime2)

@@ -42,10 +42,10 @@ cd idea-IC-211.7142.45/bin/
 # compile luposdate3000
 cd ~/lupos/luposdate3000
 # compile from commandline
-./launcher.main.kts --setupCommandline --releaseMode=Enable
+./launcher.main.kts --setup --intellijMode=Disable --releaseMode=Enable
 ./gradlew build
 #compile with Intellij
-./launcher.main.kts --setupIntellijIdea --releaseMode=Enable
+./launcher.main.kts --setup --intellijMode=Enable --releaseMode=Enable
 #open Intellij and compile
 
 # miniconda
