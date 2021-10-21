@@ -395,6 +395,25 @@ public object LuposdateEndpoint {
         }
         return id
     }
+    @JsName("evaluate_sparql_to_logical_operatorgraph_b")
+    /*suspend*/ public fun evaluateSparqlToLogicalOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
+        val q = Query(instance)
+        SanityCheck.println { "----------String Query" }
+        SanityCheck.println { query }
+        SanityCheck.println { "----------Abstract Syntax Tree" }
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val astNode = parser.expr()
+        SanityCheck.println { astNode }
+        SanityCheck.println { "----------Logical Operator Graph" }
+        val lopNode = astNode.visit(OperatorGraphVisitor(q))
+        SanityCheck.println { lopNode }
+        SanityCheck.println { "----------Logical Operator Graph optimized" }
+        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
+        return lopNode2
+    }
 
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResultB(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream): Any {
