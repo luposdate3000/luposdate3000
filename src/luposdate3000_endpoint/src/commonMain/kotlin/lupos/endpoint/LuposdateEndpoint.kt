@@ -395,6 +395,7 @@ public object LuposdateEndpoint {
         }
         return id
     }
+
     @JsName("evaluate_sparql_to_logical_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToLogicalOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query(instance)

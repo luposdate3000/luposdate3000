@@ -111,8 +111,10 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var mergeLocalOperatorgraphs: Boolean = Luposdate3000Config.mergeLocalOperatorgraphs
-@JvmField
+
+    @JvmField
     public var useMachineLearningOptimizer: Boolean = false
-@JvmField
+
+    @JvmField
     public var machineLearningOptimizerOrder: Int = 0
 }
