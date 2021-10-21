@@ -15,13 +15,13 @@ public class TurtleParserWithDictionaryValueTypeTriples(consume_triple: (Diction
 
     internal companion object {
 
-        internal const val kpBufferSize = 16384 * 2
+        internal const val kpBufferSize = 16384 * 1024
 
         internal class UnexpectedToken(token: Token, arrayOf: Array<String>, index: Long, lineNumber: Long, columnNumber: Long) :
             Error("Unexpected \"" + token.image + "\":" + token.type + " at " + lineNumber + ":" + columnNumber + ". Expected " + arrayOf)
 
         internal class ScannerError(index: Long, lineNumber: Long, columnNumber: Long) :
-            Error("No valid token found at " + lineNumber + ":" + columnNumber)
+            Error("No valid token found at " + lineNumber + ":" + columnNumber + "@"+index)
 
         internal class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Long, lineNumber: Long, columnNumber: Long) :
             Error("Requested " + lookahead + " lookahead, but maximum is " + requestedLookahead + " at " + lineNumber + ":" + columnNumber)
