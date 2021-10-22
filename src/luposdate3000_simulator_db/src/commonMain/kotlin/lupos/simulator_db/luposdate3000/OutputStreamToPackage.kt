@@ -20,7 +20,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_iot.applications.IApplicationStack_Middleware
 
@@ -75,12 +74,12 @@ internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path
     override fun writeLong(value: Long) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + 8, true)
-        ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        ByteArrayWrapperExt.writeLong8(buffer, offset, value)
     }
 
     override fun writeInt(value: Int) {
         val offset = ByteArrayWrapperExt.getSize(buffer)
         ByteArrayWrapperExt.setSize(buffer, offset + 4, true)
-        ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), offset, value)
+        ByteArrayWrapperExt.writeInt4(buffer, offset, value)
     }
 }

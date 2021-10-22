@@ -20,7 +20,7 @@ import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.ITripleStoreIndexDescriptionFactory
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.ByteArrayHelper2
 import kotlin.jvm.JvmField
 
 public open class TripleStoreIndexDescriptionFactory(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescriptionFactory {
@@ -43,19 +43,19 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
 
     public override fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory {
         var off = 0
-        val type = ByteArrayHelper.readInt4(buffer, off)
+        val type = ByteArrayHelper2.readInt4(buffer, off)
         off += 4
         when (type) {
             ETripleStoreIndexDescriptionPartitionedTypeExt.Simple -> {
-                val idx = ByteArrayHelper.readInt4(buffer, off)
+                val idx = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val tmp = TripleStoreIndexDescriptionSimple(idx, instance)
-                val l1 = ByteArrayHelper.readInt4(buffer, off)
+                val l1 = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val buf1 = ByteArray(l1)
                 buffer.copyInto(buf1, 0, off, off + l1)
                 off += l1
-                val l2 = ByteArrayHelper.readInt4(buffer, off)
+                val l2 = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val buf2 = ByteArray(l2)
                 buffer.copyInto(buf2, 0, off, off + l2)
@@ -65,20 +65,20 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
                 res = tmp
             }
             ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID -> {
-                val idx = ByteArrayHelper.readInt4(buffer, off)
+                val idx = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
-                val partitionCount = ByteArrayHelper.readInt4(buffer, off)
+                val partitionCount = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
-                val partitionColumn = ByteArrayHelper.readInt4(buffer, off)
+                val partitionColumn = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val tmp = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn, instance)
                 for (i in 0 until partitionCount) {
-                    val l1 = ByteArrayHelper.readInt4(buffer, off)
+                    val l1 = ByteArrayHelper2.readInt4(buffer, off)
                     off += 4
                     val buf1 = ByteArray(l1)
                     buffer.copyInto(buf1, 0, off, off + l1)
                     off += l1
-                    val l2 = ByteArrayHelper.readInt4(buffer, off)
+                    val l2 = ByteArrayHelper2.readInt4(buffer, off)
                     off += 4
                     val buf2 = ByteArray(l2)
                     buffer.copyInto(buf2, 0, off, off + l2)
@@ -89,18 +89,18 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
                 res = tmp
             }
             ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByKey -> {
-                val idx = ByteArrayHelper.readInt4(buffer, off)
+                val idx = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
-                val partitionCount = ByteArrayHelper.readInt4(buffer, off)
+                val partitionCount = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val tmp = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount, instance)
                 for (i in 0 until partitionCount) {
-                    val l1 = ByteArrayHelper.readInt4(buffer, off)
+                    val l1 = ByteArrayHelper2.readInt4(buffer, off)
                     off += 4
                     val buf1 = ByteArray(l1)
                     buffer.copyInto(buf1, 0, off, off + l1)
                     off += l1
-                    val l2 = ByteArrayHelper.readInt4(buffer, off)
+                    val l2 = ByteArrayHelper2.readInt4(buffer, off)
                     off += 4
                     val buf2 = ByteArray(l2)
                     buffer.copyInto(buf2, 0, off, off + l2)

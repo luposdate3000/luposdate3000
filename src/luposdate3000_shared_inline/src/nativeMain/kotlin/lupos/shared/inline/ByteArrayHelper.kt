@@ -16,7 +16,7 @@
  */
 package lupos.shared.inline
 
-internal actual object ByteArrayHelper {
+internal actual object ByteArrayHelper2 {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()

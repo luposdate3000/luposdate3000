@@ -17,7 +17,7 @@
 package lupos.shared.inline.dynamicArray
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-
+import lupos.shared.inline.ByteArrayHelper2
 public object ByteArrayWrapperExt {
     @Suppress("NOTHING_TO_INLINE")
     public inline fun getSize(data: ByteArrayWrapper): Int {
@@ -109,5 +109,75 @@ public object ByteArrayWrapperExt {
             i++
         }
         return res
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readDouble8(data: ByteArrayWrapper, offset: Int): Double {
+        return ByteArrayHelper2.readDouble8(ByteArrayWrapperExt.getBuf(data), offset)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readInt1(data: ByteArrayWrapper, offset: Int): Int {
+        return ByteArrayHelper2.readInt1(ByteArrayWrapperExt.getBuf(data), offset)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readInt4(data: ByteArrayWrapper, offset: Int): Int {
+        return ByteArrayHelper2.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readIntX(data: ByteArrayWrapper, offset: Int, count: Int): Int {
+        return ByteArrayHelper2.readIntX(ByteArrayWrapperExt.getBuf(data), offset, count)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readLong6(data: ByteArrayWrapper, offset: Int): Long {
+        return ByteArrayHelper2.readLong6(ByteArrayWrapperExt.getBuf(data), offset)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readLong8(data: ByteArrayWrapper, offset: Int): Long {
+        return ByteArrayHelper2.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun readLongX(data: ByteArrayWrapper, offset: Int, count: Int): Long {
+        return ByteArrayHelper2.readLongX(ByteArrayWrapperExt.getBuf(data), offset, count)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeDouble8(data: ByteArrayWrapper, offset: Int, value: Double) {
+        ByteArrayHelper2.writeDouble8(ByteArrayWrapperExt.getBuf(data), offset, value)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeInt1(data: ByteArrayWrapper, offset: Int, value: Int) {
+        ByteArrayHelper2.writeInt1(ByteArrayWrapperExt.getBuf(data), offset, value)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeInt4(data: ByteArrayWrapper, offset: Int, value: Int) {
+        ByteArrayHelper2.writeInt4(ByteArrayWrapperExt.getBuf(data), offset, value)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeIntX(data: ByteArrayWrapper, offset: Int, value: Int, count: Int) {
+        ByteArrayHelper2.writeIntX(ByteArrayWrapperExt.getBuf(data), offset, value, count)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeLong6(data: ByteArrayWrapper, offset: Int, value: Long) {
+        ByteArrayHelper2.writeLong6(ByteArrayWrapperExt.getBuf(data), offset, value)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeLong8(data: ByteArrayWrapper, offset: Int, value: Long) {
+        ByteArrayHelper2.writeLong8(ByteArrayWrapperExt.getBuf(data), offset, value)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeLongX(data: ByteArrayWrapper, offset: Int, value: Long, count: Int) {
+        ByteArrayHelper2.writeLongX(ByteArrayWrapperExt.getBuf(data), offset, value, count)
     }
 }

@@ -27,7 +27,7 @@ public external class Float64Array(buffer: ArrayBuffer) {
     public operator fun set(i: Int, v: Double)
 }
 
-internal actual object ByteArrayHelper {
+internal actual object ByteArrayHelper2 {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readDouble8(data: ByteArray, offset: Int): Double {
         var buffer = ArrayBuffer(8)

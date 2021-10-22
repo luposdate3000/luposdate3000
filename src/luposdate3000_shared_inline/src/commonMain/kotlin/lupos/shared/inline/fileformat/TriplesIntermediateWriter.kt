@@ -21,9 +21,9 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class TriplesIntermediateWriter : TriplesIntermediate {
@@ -83,7 +83,7 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
             val rel0 = counter0 + 1
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
-            ByteArrayHelper.writeInt1(buf, 0, header)
+            ByteArrayWrapperExt.writeInt1(bufWrapper, 0, header)
             DictionaryValueHelper.toByteArrayX(bufWrapper, 1, b0, counter0)
             DictionaryValueHelper.toByteArrayX(bufWrapper, rel0, b1, counter1)
             DictionaryValueHelper.toByteArrayX(bufWrapper, rel1, b2, counter2)

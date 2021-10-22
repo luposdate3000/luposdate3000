@@ -95,13 +95,13 @@ internal object DictionaryValueHelperInt {
     internal inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int) = BufferManagerPage.writeInt4(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int) = ByteArrayHelper.writeIntX(ByteArrayWrapperExt.getBuf(buffer), off, value, count)
+    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int) = ByteArrayWrapperExt.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) = BufferManagerPage.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) = ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(buffer), off, value)
+    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int) = ByteArrayWrapperExt.writeInt4(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Int = BufferManagerPage.readInt4(buffer, off)
@@ -110,10 +110,10 @@ internal object DictionaryValueHelperInt {
     internal inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Int = BufferManagerPage.readIntX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Int = ByteArrayHelper.readInt4(ByteArrayWrapperExt.getBuf(buffer), off)
+    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Int = ByteArrayWrapperExt.readInt4(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int = ByteArrayHelper.readIntX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
+    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Int = ByteArrayWrapperExt.readIntX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun getSize(): Int = 4

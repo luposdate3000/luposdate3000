@@ -56,7 +56,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
@@ -85,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:87"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:86"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val dict = instance.nodeGlobalDictionary!!
@@ -131,7 +130,7 @@ public object LuposdateEndpoint {
             ByteArrayWrapperExt.setSize(data2, c2, true)
             DictionaryValueHelper.toByteArray(data2, c1, key)
             c1 += DictionaryValueHelper.getSize()
-            ByteArrayHelper.writeInt4(ByteArrayWrapperExt.getBuf(data2), c1, ByteArrayWrapperExt.getSize(value))
+            ByteArrayWrapperExt.writeInt4(data2, c1, ByteArrayWrapperExt.getSize(value))
             ByteArrayWrapperExt.appendTo(value, data2)
         }
         val c3 = ByteArrayWrapperExt.getSize(data2)
@@ -278,7 +277,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:280"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:279"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -287,17 +286,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:289"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:288"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:294"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:293"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:299"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:298"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )

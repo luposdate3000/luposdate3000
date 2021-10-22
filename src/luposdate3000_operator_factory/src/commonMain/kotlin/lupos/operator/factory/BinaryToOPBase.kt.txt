@@ -17,13 +17,12 @@
 package lupos.operator.factory
 import lupos.operator.base.Query
 import lupos.shared.dynamicArray.ByteArrayWrapper
-
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper) -> Int/*offset*/
 
 public object BinaryToOPBase {
-    public var operatorMapDecode: Array< BinaryToOPBaseMap?> = Array(0) { null }
-    public var operatorMapEncode: Array< OPBaseToBinaryMap?> = Array(0) { null }
+    public var operatorMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
+    public var operatorMapEncode: Array<OPBaseToBinaryMap?> = Array(0) { null }
     public fun assignOperatorDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
         if (operatorMapDecode.size <= operatorID) {
             val s = operatorMapDecode.size
@@ -33,7 +32,7 @@ public object BinaryToOPBase {
             while (s <operatorID) {
                 s = s * 2
             }
-            val tmp = Array< BinaryToOPBaseMap?>(s) { null }
+            val tmp = Array<BinaryToOPBaseMap?>(s) { null }
             operatorMapDecode.copyInto(tmp)
             operatorMapDecode = tmp
         }
@@ -48,7 +47,7 @@ public object BinaryToOPBase {
             while (s <operatorID) {
                 s = s * 2
             }
-            val tmp = Array< BinaryToOPBaseMap?>(s) { null }
+            val tmp = Array<BinaryToOPBaseMap?>(s) { null }
             operatorMapEncode.copyInto(tmp)
             operatorMapEncode = tmp
         }
@@ -62,13 +61,15 @@ public object BinaryToOPBase {
         assignOperator(
             EOperatorIDExt.POPTripleStoreIterator,
             { op, data ->
-/*
-write the id first
-        target: Pair<LuposHostname, LuposStoreKey>,
-        query: IQuery,
-        index: Int,
-        children: Array<IOPBase>,
-*/
+                var off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 4, true)
+
+//write the id first
+//        target: Pair<LuposHostname, LuposStoreKey>,
+//        query: IQuery,
+//        index: Int,
+//        children: Array<IOPBase>,
+
             },
             { query, data, offset ->
             }

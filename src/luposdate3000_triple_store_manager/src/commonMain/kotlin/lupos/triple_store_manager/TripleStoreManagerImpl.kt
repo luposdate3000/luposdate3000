@@ -40,7 +40,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
-import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.ByteArrayHelper2
 import lupos.shared.inline.File
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
@@ -100,30 +100,30 @@ public class TripleStoreManagerImpl public constructor(
         }
         val buffer = ByteArray(size)
         var off = 0
-        ByteArrayHelper.writeInt4(buffer, off, localStores_.size)
+        ByteArrayHelper2.writeInt4(buffer, off, localStores_.size)
         off += 4
         for ((key, index) in localStores_) {
             val buf = key.encodeToByteArray()
-            ByteArrayHelper.writeInt4(buffer, off, index.getRootPageID())
+            ByteArrayHelper2.writeInt4(buffer, off, index.getRootPageID())
             off += 4
-            ByteArrayHelper.writeInt4(buffer, off, buf.size)
+            ByteArrayHelper2.writeInt4(buffer, off, buf.size)
             off += 4
             buf.copyInto(buffer, off)
             off += buf.size
         }
-        ByteArrayHelper.writeInt4(buffer, off, metadata_.size)
+        ByteArrayHelper2.writeInt4(buffer, off, metadata_.size)
         off += 4
         for ((name, description) in metadata_) {
             val buf = name.encodeToByteArray()
-            ByteArrayHelper.writeInt4(buffer, off, buf.size)
+            ByteArrayHelper2.writeInt4(buffer, off, buf.size)
             off += 4
             buf.copyInto(buffer, off)
             off += buf.size
-            ByteArrayHelper.writeInt4(buffer, off, description.indices.size)
+            ByteArrayHelper2.writeInt4(buffer, off, description.indices.size)
             off += 4
             for (index in description.indices) {
                 val buf2 = index.toByteArray()
-                ByteArrayHelper.writeInt4(buffer, off, buf2.size)
+                ByteArrayHelper2.writeInt4(buffer, off, buf2.size)
                 off += 4
                 buf2.copyInto(buffer, off)
                 off += buf2.size
@@ -135,12 +135,12 @@ public class TripleStoreManagerImpl public constructor(
     @Suppress("NOTHING_TO_INLINE")
     private inline fun initFromByteArray(buffer: ByteArray) {
         var off = 0
-        val l1 = ByteArrayHelper.readInt4(buffer, off)
+        val l1 = ByteArrayHelper2.readInt4(buffer, off)
         off += 4
         for (i in 0 until l1) {
-            val pageid = ByteArrayHelper.readInt4(buffer, off)
+            val pageid = ByteArrayHelper2.readInt4(buffer, off)
             off += 4
-            val l2 = ByteArrayHelper.readInt4(buffer, off)
+            val l2 = ByteArrayHelper2.readInt4(buffer, off)
             off += 4
             val buf = ByteArray(l2)
             buffer.copyInto(buf, 0, off, off + l2)
@@ -149,20 +149,20 @@ public class TripleStoreManagerImpl public constructor(
             val key = buf.decodeToString()
             localStores_[key] = store
         }
-        val l3 = ByteArrayHelper.readInt4(buffer, off)
+        val l3 = ByteArrayHelper2.readInt4(buffer, off)
         off += 4
         for (i in 0 until l3) {
-            val l4 = ByteArrayHelper.readInt4(buffer, off)
+            val l4 = ByteArrayHelper2.readInt4(buffer, off)
             off += 4
             val buf = ByteArray(l4)
             buffer.copyInto(buf, 0, off, off + l4)
             off += l4
             val name = buf.decodeToString()
-            val l5 = ByteArrayHelper.readInt4(buffer, off)
+            val l5 = ByteArrayHelper2.readInt4(buffer, off)
             off += 4
             val description = TripleStoreDescriptionFactory(instance)
             for (j in 0 until l5) {
-                val l6 = ByteArrayHelper.readInt4(buffer, off)
+                val l6 = ByteArrayHelper2.readInt4(buffer, off)
                 off += 4
                 val buf2 = ByteArray(l6)
                 buffer.copyInto(buf2, 0, off, off + l6)

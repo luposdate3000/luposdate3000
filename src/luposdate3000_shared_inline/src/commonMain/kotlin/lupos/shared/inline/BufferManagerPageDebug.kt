@@ -68,7 +68,7 @@ internal object BufferManagerPageDebug {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun getPageID(data2: BufferManagerPageWrapperDebug): Int {
         val data = data2.data
-        return ByteArrayHelper.readInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        return ByteArrayHelper2.readInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -78,7 +78,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:77"/*SOURCE_FILE_END*/ },
             { value == -1 || getPageID(data2) == -1 }
         )
-        ByteArrayHelper.writeInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
+        ByteArrayHelper2.writeInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -96,7 +96,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:95"/*SOURCE_FILE_END*/ },
             { offset < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeInt1(data, offset, value)
+        ByteArrayHelper2.writeInt1(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -114,7 +114,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:113"/*SOURCE_FILE_END*/ },
             { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeInt2(data, offset, value)
+        ByteArrayHelper2.writeInt2(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -132,7 +132,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:131"/*SOURCE_FILE_END*/ },
             { offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeInt3(data, offset, value)
+        ByteArrayHelper2.writeInt3(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -150,7 +150,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:149"/*SOURCE_FILE_END*/ },
             { offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeInt4(data, offset, value)
+        ByteArrayHelper2.writeInt4(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -168,7 +168,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:167"/*SOURCE_FILE_END*/ },
             { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeIntX(data, offset, value, count)
+        ByteArrayHelper2.writeIntX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -186,7 +186,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:185"/*SOURCE_FILE_END*/ },
             { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeLongX(data, offset, value, count)
+        ByteArrayHelper2.writeLongX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -204,7 +204,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:203"/*SOURCE_FILE_END*/ },
             { offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeLong8(data, offset, value)
+        ByteArrayHelper2.writeLong8(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -222,7 +222,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:221"/*SOURCE_FILE_END*/ },
             { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        ByteArrayHelper.writeChar(data, offset, value)
+        ByteArrayHelper2.writeChar(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -240,7 +240,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:239"/*SOURCE_FILE_END*/ },
             { offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readLong8(data, offset)
+        return ByteArrayHelper2.readLong8(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -258,7 +258,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:257"/*SOURCE_FILE_END*/ },
             { offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readInt4(data, offset)
+        return ByteArrayHelper2.readInt4(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -276,7 +276,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:275"/*SOURCE_FILE_END*/ },
             { offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readInt3(data, offset)
+        return ByteArrayHelper2.readInt3(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -294,7 +294,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:293"/*SOURCE_FILE_END*/ },
             { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readInt2(data, offset)
+        return ByteArrayHelper2.readInt2(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -312,7 +312,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:311"/*SOURCE_FILE_END*/ },
             { offset < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readInt1(data, offset)
+        return ByteArrayHelper2.readInt1(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -330,7 +330,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:329"/*SOURCE_FILE_END*/ },
             { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readIntX(data, offset, count)
+        return ByteArrayHelper2.readIntX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -348,7 +348,7 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:347"/*SOURCE_FILE_END*/ },
             { offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readLongX(data, offset, count)
+        return ByteArrayHelper2.readLongX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -366,6 +366,6 @@ internal object BufferManagerPageDebug {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:365"/*SOURCE_FILE_END*/ },
             { offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         )
-        return ByteArrayHelper.readChar(data, offset)
+        return ByteArrayHelper2.readChar(data, offset)
     }
 }

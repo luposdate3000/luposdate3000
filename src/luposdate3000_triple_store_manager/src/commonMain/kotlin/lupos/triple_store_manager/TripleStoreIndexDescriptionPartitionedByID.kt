@@ -28,7 +28,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ByteArrayHelper
+import lupos.shared.inline.ByteArrayHelper2
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
@@ -57,22 +57,22 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         val byteArray2 = ByteArray(size)
         byteArray = byteArray2
         var off = 0
-        ByteArrayHelper.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
+        ByteArrayHelper2.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
         off += 4
-        ByteArrayHelper.writeInt4(byteArray2, off, idx_set.first())
+        ByteArrayHelper2.writeInt4(byteArray2, off, idx_set.first())
         off += 4
-        ByteArrayHelper.writeInt4(byteArray2, off, partitionCount)
+        ByteArrayHelper2.writeInt4(byteArray2, off, partitionCount)
         off += 4
-        ByteArrayHelper.writeInt4(byteArray2, off, partitionColumn)
+        ByteArrayHelper2.writeInt4(byteArray2, off, partitionColumn)
         off += 4
         for (i in 0 until partitionCount) {
             val buf1 = hostnames[i].encodeToByteArray()
-            ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
+            ByteArrayHelper2.writeInt4(byteArray2, off, buf1.size)
             off += 4
             buf1.copyInto(byteArray2, off)
             off += buf1.size
             val buf2 = keys[i].encodeToByteArray()
-            ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
+            ByteArrayHelper2.writeInt4(byteArray2, off, buf2.size)
             off += 4
             buf2.copyInto(byteArray2, off)
             off += buf2.size

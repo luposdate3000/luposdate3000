@@ -30,7 +30,6 @@ import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 internal class FilterFunc(val j: Int, val index: TripleStoreIndexDescription, val action: (DictionaryValueTypeArray, Int, TripleStoreIndexDescription) -> Boolean)
@@ -120,16 +119,16 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             val bytes2 = key.encodeToByteArray()
                             var off = ByteArrayWrapperExt.getSize(conn.header)
                             ByteArrayWrapperExt.setSize(conn.header, off + 4 + 4 + 4 + bytes.size + bytes2.size, true)
-                            val buf = ByteArrayWrapperExt.getBuf(conn.header) // after changing the size
-                            ByteArrayHelper.writeInt4(buf, off, bytes.size)
+                            ByteArrayWrapperExt.writeInt4(conn.header, off, bytes.size)
                             off += 4
+                            val buf = ByteArrayWrapperExt.getBuf(conn.header) // after changing the size
                             bytes.copyInto(buf, off)
                             off += bytes.size
-                            ByteArrayHelper.writeInt4(buf, off, bytes2.size)
+                            ByteArrayWrapperExt.writeInt4(conn.header, off, bytes2.size)
                             off += 4
                             bytes2.copyInto(buf, off)
                             off += bytes2.size
-                            ByteArrayHelper.writeInt4(buf, off, idx)
+                            ByteArrayWrapperExt.writeInt4(conn.header, off, idx)
                         }
                     }
                     j++
@@ -139,17 +138,16 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         for (conn in allConnMap.values) {
             var off = ByteArrayWrapperExt.getSize(conn.header)
             ByteArrayWrapperExt.setSize(conn.header, off + 4, true)
-            val buf = ByteArrayWrapperExt.getBuf(conn.header) // after changing the size
-            ByteArrayHelper.writeInt4(buf, off, -1)
+            ByteArrayWrapperExt.writeInt4(conn.header, off, -1)
             allConn.add(conn)
         }
         allConn.addAll(allConnLocal)
     }
 
     public override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:149"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:150"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:151"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:147"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:148"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:149"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
         var i = 0
         loop@ for (c in allConn) {
             i++

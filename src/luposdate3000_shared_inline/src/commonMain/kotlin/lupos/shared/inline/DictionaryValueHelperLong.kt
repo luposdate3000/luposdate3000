@@ -96,10 +96,10 @@ internal object DictionaryValueHelperLong {
     internal inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Long) = BufferManagerPage.writeLong8(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) = ByteArrayHelper.writeLong8(ByteArrayWrapperExt.getBuf(buffer), off, value)
+    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long) = ByteArrayWrapperExt.writeLong8(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long, count: Int) = ByteArrayHelper.writeLongX(ByteArrayWrapperExt.getBuf(buffer), off, value, count)
+    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long, count: Int) = ByteArrayWrapperExt.writeLongX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Long, count: Int) = BufferManagerPage.writeLongX(buffer, off, value, count)
@@ -108,10 +108,10 @@ internal object DictionaryValueHelperLong {
     internal inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Long = BufferManagerPage.readLong8(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long = ByteArrayHelper.readLong8(ByteArrayWrapperExt.getBuf(buffer), off)
+    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int): Long = ByteArrayWrapperExt.readLong8(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Long = ByteArrayHelper.readLongX(ByteArrayWrapperExt.getBuf(buffer), off, bytes)
+    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int): Long = ByteArrayWrapperExt.readLongX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Long = BufferManagerPage.readLongX(buffer, off, bytes)
