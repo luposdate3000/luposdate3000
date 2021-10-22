@@ -22,15 +22,15 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
-@file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
-@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt") 
+@file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
-@file:CompilerOptions("-Xmulti-platform")
+@file:CompilerOptions("-Xmulti-platform") 
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
