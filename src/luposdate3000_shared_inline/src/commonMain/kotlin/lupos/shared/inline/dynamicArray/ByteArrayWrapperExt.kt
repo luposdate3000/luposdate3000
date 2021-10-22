@@ -180,4 +180,9 @@ public object ByteArrayWrapperExt {
     fun writeLongX(data: ByteArrayWrapper, offset: Int, value: Long, count: Int) {
         ByteArrayHelper2.writeLongX(ByteArrayWrapperExt.getBuf(data), offset, value, count)
     }
+
+    @Suppress("NOTHING_TO_INLINE")internal inline
+    fun writeBuf(data: ByteArrayWrapper, offset: Int, value: ByteArray) {
+        value.copyInto(data.buf_, offset, 0, value.size)
+    }
 }
