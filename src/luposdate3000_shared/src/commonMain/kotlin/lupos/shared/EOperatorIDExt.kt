@@ -161,8 +161,9 @@ public object EOperatorIDExt {
     public const val POPSplitPartitionPassThroughID: EOperatorID = 139 // 0x0000008b
     public const val POPTripleStoreIterator: EOperatorID = 140 // 0x0000008c
     public const val POPUnionID: EOperatorID = 141 // 0x0000008d
-    public const val POPValuesID: EOperatorID = 142 // 0x0000008e
-    public const val values_size: Int = 143
+    public const val POPValuesCountID: EOperatorID = 142 // 0x0000008e
+    public const val POPValuesID: EOperatorID = 143 // 0x0000008f
+    public const val values_size: Int = 144
     public const val values_mask: Int = 255 // 0x000000ff
     public const val values_mask_inversed: Int = 2147483392 // 0x7fffff00
 
@@ -310,6 +311,7 @@ public object EOperatorIDExt {
         "POPSplitPartitionPassThroughID",
         "POPTripleStoreIterator",
         "POPUnionID",
+        "POPValuesCountID",
         "POPValuesID",
     )
 }

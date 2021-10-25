@@ -31,7 +31,13 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPBind public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPBindID, "POPBind", arrayOf(child, value), ESortPriorityExt.BIND) {
+public class POPBind public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val name: AOPVariable,
+    value: AOPBase,
+    child: IOPBase
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPBindID, "POPBind", arrayOf(child, value), ESortPriorityExt.BIND) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == name.name) {
             1
@@ -60,5 +66,5 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(), children[0].getProvidedVariableNames().size, name, (children[1] as AOPBase))
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(), name.name, (children[1] as AOPBase))
 }

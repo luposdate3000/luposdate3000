@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
 import lupos.operator.base.Query
@@ -40,6 +41,8 @@ import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
+import lupos.operator.physical.singleinput.EvalBind
+import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -146,7 +149,20 @@ public object BinaryToOPBase {
             return decodeString(data, off)
         }
     }
+    private inline fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+        TODO()
+    }
+    private inline fun decodeAOP(data: ByteArrayWrapper, off: Int): AOPBase {
+        TODO()
+    }
     init {
+/*
+ EOperatorIDExt.POPDistributedReceiveMultiCountID,
+ EOperatorIDExt.POPDistributedReceiveMultiID,
+ EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
+ EOperatorIDExt.POPDistributedReceiveSingleCountID,
+ EOperatorIDExt.POPDistributedReceiveSingleID,
+*/
         assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
             { op, data, parent, mapping ->
@@ -285,7 +301,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:286"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:303"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -659,6 +675,34 @@ public object BinaryToOPBase {
                     index,
                     arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v))
                 )
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPBindID,
+            { op, data, parent, mapping ->
+                op as POPBind
+                val variablesOut = op.getProvidedVariableNames()
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 20 + variablesOut.size * 4, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPBindID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping))
+                ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.name.name, data, mapping))
+                ByteArrayWrapperExt.writeInt4(data, off + 16, variablesOut.size)
+                for (i in 0 until variablesOut.size) {
+                    ByteArrayWrapperExt.writeInt4(data, off + 20 + 4 * i, encodeString(variablesOut[i], data, mapping))
+                }
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val variablesOut = mutableListOf<String>()
+                val len = ByteArrayWrapperExt.readInt4(data, off + 16)
+                for (i in 0 until len) {
+                    variablesOut.add(decodeString(data, off + 2 + i * 4))
+                }
+                EvalBind(child, variablesOut, decodeString(data, off + 12), decodeAOP(data, off + 8))
             },
         )
     }

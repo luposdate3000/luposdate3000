@@ -17,7 +17,6 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
@@ -32,26 +31,26 @@ public object EvalBind {
     public operator fun invoke(
         child: IteratorBundle,
         variablesOut: List<String>,
-        variablesInCount: Int,
-        name: AOPVariable,
+        name: String,
         value: AOPBase,
     ): IteratorBundle {
-        val variablesLocal = (child.columns.keys + name.name).toList()
+        val variablesInCount = child.names.size
+        val variablesLocal = (child.columns.keys + name).toList()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
         var expression: () -> DictionaryValueType = { DictionaryValueHelper.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && variablesInCount == 0) {
-            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), expression())
+            outMap[name] = ColumnIteratorRepeatValue(child.count(), expression())
         } else {
             var boundIndex = -1
             for (variableIndex in variablesLocal.indices) {
-                if (variablesLocal[variableIndex] == name.name) {
+                if (variablesLocal[variableIndex] == name) {
                     boundIndex = variableIndex
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:53"/*SOURCE_FILE_END*/ }, { boundIndex != -1 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:52"/*SOURCE_FILE_END*/ }, { boundIndex != -1 })
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
@@ -68,7 +67,7 @@ public object EvalBind {
                                     if (boundIndex != variableIndex2) {
                                         val value = columnsIn[variableIndex2]!!.next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:70"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:69"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
@@ -107,7 +106,7 @@ public object EvalBind {
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = value.evaluateID(IteratorBundle(localMap))
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:109"/*SOURCE_FILE_END*/ }, { variablesLocal.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:108"/*SOURCE_FILE_END*/ }, { variablesLocal.isNotEmpty() })
         return IteratorBundle(outMap)
     }
 }

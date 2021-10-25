@@ -1208,7 +1208,6 @@ fun onGenerateEnums() {
         listOf("EVariablePlaceholder", "lupos.code_generator_shared", "internal", "src/luposdate3000_code_generator_shared/src/commonMain/kotlin/lupos/code_generator_shared/EVariablePlaceholder"),
         listOf("EQueryDistributionMode", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EQueryDistributionMode"),
         listOf("EPredefinedPartitionSchemes", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPredefinedPartitionSchemes"),
-        listOf("EDatabaseHopFlag", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EDatabaseHopFlag"),
     )
     for (args in turtleGeneratingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
