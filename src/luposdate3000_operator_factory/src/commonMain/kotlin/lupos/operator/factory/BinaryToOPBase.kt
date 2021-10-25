@@ -38,7 +38,7 @@ import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
-public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, parent: Partition) -> Int/*offset*/
+public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>) -> Int/*offset*/
 
 public object BinaryToOPBase {
     public var operatorMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
@@ -83,23 +83,40 @@ public object BinaryToOPBase {
     public fun convertToByteArray(op: IOPBase): ByteArrayWrapper {
         val res = ByteArrayWrapper()
         ByteArrayWrapperExt.setSize(res, 4, false)
-        val off = convertToByteArrayHelper(op, res, Partition())
+        val off = convertToByteArrayHelper(op, res, Partition(), mutableMapOf())
         ByteArrayWrapperExt.writeInt4(res, 0, off)
         return res
     }
 
-    private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition): Int {
-        return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent)
+    private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
+        return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
     }
     private fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
+    private fun encodeString(s: String, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+        val r = mapping[s]
+        if (r != null) {
+            return r
+        } else {
+            val off = ByteArrayWrapperExt.getSize(data)
+            mapping[s] = off
+            val b = s.encodeToByteArray()
+            ByteArrayWrapperExt.setSize(data, off + 4 + b.size, false)
+            ByteArrayWrapperExt.writeInt4(data, off, b.size)
+            ByteArrayWrapperExt.writeBuf(data, off + 4, b)
+            return off
+        }
+    }
+    private fun decodeString(data: ByteArrayWrapper, off: Int): String {
+        return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off))
+    }
     init {
         assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent)
+                convertToByteArrayHelper(op.children[0], data, parent, mapping)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -107,9 +124,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent)
+                convertToByteArrayHelper(op.children[0], data, parent, mapping)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -117,9 +134,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPSplitMergePartitionFromStoreID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent)
+                convertToByteArrayHelper(op.children[0], data, parent, mapping)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -127,10 +144,10 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPJoinCartesianProductID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as POPJoinCartesianProduct
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent)
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 13, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID)
@@ -147,9 +164,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPLimitID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as POPLimit
-                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPLimitID)
@@ -164,9 +181,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPOffsetID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as POPOffset
-                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPOffsetID)
@@ -181,9 +198,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPReducedID,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as POPReduced
-                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID)
@@ -198,13 +215,9 @@ public object BinaryToOPBase {
         )
         assignOperator(
             EOperatorIDExt.POPTripleStoreIterator,
-            { op, data, parent ->
+            { op, data, parent, mapping ->
                 op as POPTripleStoreIterator
-                val off = ByteArrayWrapperExt.getSize(data)
-                val target = op.getTarget(parent)
-                val buf1 = target.first.encodeToByteArray()
-                val buf2 = target.second.encodeToByteArray()
-                var size = off + 17 + buf1.size + buf2.size
+                var size = 0
                 for (i in 0 until 3) {
                     val child = op.children[i]
                     when (child) {
@@ -212,19 +225,23 @@ public object BinaryToOPBase {
                             size += DictionaryValueHelper.getSize()
                         }
                         is IAOPVariable -> {
-                            size += child.getName().encodeToByteArray().size + 4
+                            encodeString(child.getName(), data, mapping)
+                            size += 4
                         }
                     }
                 }
+                val off = ByteArrayWrapperExt.getSize(data)
+                val target = op.getTarget(parent)
+                val buf1 = encodeString(target.first, data, mapping)
+                val buf2 = encodeString(target.second, data, mapping)
+                size += off + 17
                 var childFlag = 0
                 ByteArrayWrapperExt.setSize(data, size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, buf1.size)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, buf2.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, buf1)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, buf2)
                 ByteArrayWrapperExt.writeInt4(data, off + 12, op.getIndexPattern())
-                ByteArrayWrapperExt.writeBuf(data, off + 17, buf1)
-                ByteArrayWrapperExt.writeBuf(data, off + 17 + buf1.size, buf2)
-                var o = off + 17 + buf1.size + buf2.size
+                var o = off + 17
                 for (i in 0 until 3) {
                     val child = op.children[i]
                     when (child) {
@@ -235,11 +252,8 @@ public object BinaryToOPBase {
                         }
                         else -> {
                             child as IAOPVariable
-                            val b = child.getName().encodeToByteArray()
-                            val len = ByteArrayWrapperExt.writeInt4(data, o, b.size)
+                            ByteArrayWrapperExt.writeInt4(data, o, encodeString(child.getName(), data, mapping))
                             o += 4
-                            ByteArrayWrapperExt.writeBuf(data, o, b)
-                            o += b.size
                         }
                     }
                 }
@@ -247,13 +261,11 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                val len1 = ByteArrayWrapperExt.readInt4(data, off + 4)
-                val len2 = ByteArrayWrapperExt.readInt4(data, off + 8)
+                val buf1 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val buf2 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8))
                 val index = ByteArrayWrapperExt.readInt4(data, off + 12)
                 val childFlag = ByteArrayWrapperExt.readInt1(data, off + 16)
-                val buf1 = ByteArrayWrapperExt.getBuf(data).decodeToString(off + 17, off + 28 + len1)
-                val buf2 = ByteArrayWrapperExt.getBuf(data).decodeToString(off + 17 + len1, off + 28 + len1 + len2)
-                var o = off + 17 + len1 + len2
+                var o = off + 17
                 val child0f = (childFlag and 0x1) > 0
                 val child1f = (childFlag and 0x2) > 0
                 val child2f = (childFlag and 0x4) > 0
@@ -265,8 +277,7 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child0v = if (child0f) {
-                    val len = ByteArrayWrapperExt.readInt4(data, o)
-                    ByteArrayWrapperExt.getBuf(data).decodeToString(o + 4, o + 4 + len)
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
                 } else {
                     ""
                 }
@@ -278,8 +289,7 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child1v = if (child1f) {
-                    val len = ByteArrayWrapperExt.readInt4(data, o)
-                    ByteArrayWrapperExt.getBuf(data).decodeToString(o + 4, o + 4 + len)
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
                 } else {
                     ""
                 }
@@ -292,8 +302,7 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child2v = if (child2f) {
-                    val len = ByteArrayWrapperExt.readInt4(data, o)
-                    ByteArrayWrapperExt.getBuf(data).decodeToString(o + 4, o + 4 + len)
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
                 } else {
                     ""
                 }
