@@ -19,8 +19,20 @@ import lupos.operator.base.OPBase
 import lupos.operator.base.Query
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
 import lupos.operator.physical.multiinput.EvalJoinHashMap
+import lupos.operator.physical.multiinput.EvalJoinMerge
+import lupos.operator.physical.multiinput.EvalJoinMergeOptional
+import lupos.operator.physical.multiinput.EvalJoinMergeSingleColumn
+import lupos.operator.physical.multiinput.EvalMinus
+import lupos.operator.physical.multiinput.EvalUnion
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.multiinput.POPJoinHashMap
+import lupos.operator.physical.multiinput.POPJoinMerge
+import lupos.operator.physical.multiinput.POPJoinMergeOptional
+import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
+import lupos.operator.physical.multiinput.POPMinus
+import lupos.operator.physical.multiinput.POPUnion
+import lupos.operator.physical.noinput.EvalGraphOperation
+import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -90,31 +102,41 @@ public object BinaryToOPBase {
         return res
     }
 
-    private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
+    private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
         return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
     }
-    private fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
+    private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
-    private fun encodeString(s: String, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
-        val r = mapping[s]
-        if (r != null) {
-            return r
+    private inline fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+        if (s == null) {
+            return -1
         } else {
-            val off = ByteArrayWrapperExt.getSize(data)
-            mapping[s] = off
-            val b = s.encodeToByteArray()
-            ByteArrayWrapperExt.setSize(data, off + 4 + b.size, false)
-            ByteArrayWrapperExt.writeInt4(data, off, b.size)
-            ByteArrayWrapperExt.writeBuf(data, off + 4, b)
-            return off
+            val r = mapping[s]
+            if (r != null) {
+                return r
+            } else {
+                val off = ByteArrayWrapperExt.getSize(data)
+                mapping[s] = off
+                val b = s.encodeToByteArray()
+                ByteArrayWrapperExt.setSize(data, off + 4 + b.size, false)
+                ByteArrayWrapperExt.writeInt4(data, off, b.size)
+                ByteArrayWrapperExt.writeBuf(data, off + 4, b)
+                return off
+            }
         }
     }
-    private fun decodeString(data: ByteArrayWrapper, off: Int): String {
+    private inline fun decodeString(data: ByteArrayWrapper, off: Int): String {
         return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off))
     }
+    private inline fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
+        if (off <0) {
+            return null
+        } else {
+            return decodeString(data, off)
+        }
+    }
     init {
-
         assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
             { op, data, parent, mapping ->
@@ -146,6 +168,184 @@ public object BinaryToOPBase {
             },
         )
         assignOperator(
+            EOperatorIDExt.POPGraphOperationID,
+            { op, data, parent, mapping ->
+                op as POPGraphOperation
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 25, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type)
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action)
+                ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping))
+                ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping))
+                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent)1 else 0)
+                off
+            },
+            { query, data, off ->
+                EvalGraphOperation(
+                    ByteArrayWrapperExt.readInt1(data, off + 24) == 1,
+                    ByteArrayWrapperExt.readInt4(data, off + 4),
+                    decodeStringNull(data, off + 16),
+                    ByteArrayWrapperExt.readInt4(data, off + 8),
+                    decodeStringNull(data, off + 20),
+                    ByteArrayWrapperExt.readInt4(data, off + 12),
+                    query,
+                )
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPEmptyRowID,
+            { op, data, parent, mapping ->
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 4, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID)
+                off
+            },
+            { query, data, off ->
+                IteratorBundle(1)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPUnionID,
+            { op, data, parent, mapping ->
+                op as POPUnion
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPUnionID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                var o = off + 16
+                for (s in op.projectedVariables) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    o += 4
+                }
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var projectedVariables = mutableListOf<String>()
+                for (i in 0 until l) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                }
+                EvalUnion(child0, child1, projectedVariables)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPMinusID,
+            { op, data, parent, mapping ->
+                op as POPMinus
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMinusID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                var o = off + 16
+                for (s in op.projectedVariables) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    o += 4
+                }
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var projectedVariables = mutableListOf<String>()
+                for (i in 0 until l) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                }
+                EvalMinus(child0, child1, projectedVariables)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPJoinMergeSingleColumnID,
+            { op, data, parent, mapping ->
+                op as POPJoinMergeSingleColumn
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                EvalJoinMergeSingleColumn(child0, child1)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPJoinMergeOptionalID,
+            { op, data, parent, mapping ->
+                op as POPJoinMergeOptional
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeOptionalID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                var o = off + 16
+                for (s in op.projectedVariables) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    o += 4
+                }
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var projectedVariables = mutableListOf<String>()
+                for (i in 0 until l) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                }
+                EvalJoinMergeOptional(arrayOf(child0, child1), projectedVariables)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPJoinMergeID,
+            { op, data, parent, mapping ->
+                op as POPJoinMerge
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                var o = off + 16
+                for (s in op.projectedVariables) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    o += 4
+                }
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var projectedVariables = mutableListOf<String>()
+                for (i in 0 until l) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                }
+                EvalJoinMerge(child0, child1, projectedVariables)
+            },
+        )
+        assignOperator(
             EOperatorIDExt.POPJoinHashMapID,
             { op, data, parent, mapping ->
                 op as POPJoinHashMap
@@ -153,7 +353,7 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID)
                 ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
                 ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
                 ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional)1 else 0)
