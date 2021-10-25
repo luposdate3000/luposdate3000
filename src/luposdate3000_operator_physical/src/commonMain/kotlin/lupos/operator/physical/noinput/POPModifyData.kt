@@ -35,7 +35,12 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+public class POPModifyData public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField public val type: EModifyType,
+    @JvmField public val data: List<LOPTriple>
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP(): IOPBase = POPModifyData(query, projectedVariables, type, data)
@@ -59,7 +64,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             if (c.graphVar) {
                 TODO()
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:61"/*SOURCE_FILE_END*/ }, { !c.graphVar })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:66"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }

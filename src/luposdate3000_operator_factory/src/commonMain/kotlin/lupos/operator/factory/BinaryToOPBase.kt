@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
 import lupos.operator.base.Query
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
@@ -32,7 +33,9 @@ import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
 import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.EvalGraphOperation
+import lupos.operator.physical.noinput.EvalModifyData
 import lupos.operator.physical.noinput.POPGraphOperation
+import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -40,6 +43,7 @@ import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -165,6 +169,40 @@ public object BinaryToOPBase {
             },
             { query, data, off ->
                 TODO("unreachable")
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPModifyDataID,
+            { op, data, parent, mapping ->
+                op as POPModifyData
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 4 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size)
+                var o = off + 8
+                for (t in op.data) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(t.graph, data, mapping))
+                    o += 4
+                    for (i in 0 until 3) {
+                        DictionaryValueHelper.toByteArray(data, o, (t.children[i] as AOPConstant).value)
+                        o += DictionaryValueHelper.getSize()
+                    }
+                }
+                off
+            },
+            { query, data, off ->
+                val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
+                val l = ByteArrayWrapperExt.readInt4(data, off + 4)
+                var o = off + 8
+                for (i in 0 until l) {
+                    val arr = DictionaryValueTypeArray(3)
+                    for (i in 0 until 3) {
+                        arr[i] = DictionaryValueHelper.fromByteArray(data, o + 4 + i * DictionaryValueHelper.getSize())
+                    }
+                    d.add(decodeString(data, o) to arr)
+                    o += DictionaryValueHelper.getSize() * 3 + 4
+                }
+                EvalModifyData(d, query)
             },
         )
         assignOperator(
