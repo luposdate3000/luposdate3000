@@ -17,6 +17,12 @@
 package lupos.operator.factory
 import lupos.operator.base.OPBase
 import lupos.operator.base.Query
+import lupos.operator.physical.singleinput.modifiers.EvalLimit
+import lupos.operator.physical.singleinput.modifiers.EvalOffset
+import lupos.operator.physical.singleinput.modifiers.EvalReduced
+import lupos.operator.physical.singleinput.modifiers.POPLimit
+import lupos.operator.physical.singleinput.modifiers.POPOffset
+import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
@@ -83,8 +89,61 @@ public object BinaryToOPBase {
     private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition): Int {
         return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent)
     }
-
+    private fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
+        return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
+    }
     init {
+        assignOperator(
+            EOperatorIDExt.POPLimitID,
+            { op, data, parent ->
+                op as POPLimit
+                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPLimitID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.limit)
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPOffsetID,
+            { op, data, parent ->
+                op as POPOffset
+                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPOffsetID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.offset)
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                EvalOffset(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPReducedID,
+            { op, data, parent ->
+                op as POPReduced
+                val child = convertToByteArrayHelper(op.children[0], data, parent)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                EvalReduced(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+            },
+        )
         assignOperator(
             EOperatorIDExt.POPTripleStoreIterator,
             { op, data, parent ->
@@ -192,7 +251,7 @@ public object BinaryToOPBase {
                     index,
                     arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v))
                 )
-            }
+            },
         )
     }
 }
