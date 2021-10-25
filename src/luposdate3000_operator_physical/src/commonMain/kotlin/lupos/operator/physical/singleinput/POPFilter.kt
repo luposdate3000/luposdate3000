@@ -25,7 +25,12 @@ import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class POPFilter public constructor(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
+public class POPFilter public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    filter: AOPBase,
+    child: IOPBase
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
@@ -40,5 +45,5 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalFilter(children[0].evaluate(parent), getProvidedVariableNames(), (children[1] as AOPBase), children[0].getProvidedVariableNames())
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalFilter(children[0].evaluate(parent), getProvidedVariableNames(), (children[1] as AOPBase))
 }

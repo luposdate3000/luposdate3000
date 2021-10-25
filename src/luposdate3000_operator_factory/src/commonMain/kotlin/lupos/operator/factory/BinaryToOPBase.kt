@@ -42,7 +42,9 @@ import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.singleinput.EvalBind
+import lupos.operator.physical.singleinput.EvalFilter
 import lupos.operator.physical.singleinput.POPBind
+import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -152,7 +154,7 @@ public object BinaryToOPBase {
     private inline fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         TODO()
     }
-    private inline fun decodeAOP(data: ByteArrayWrapper, off: Int): AOPBase {
+    private inline fun decodeAOP(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
         TODO()
     }
     init {
@@ -301,7 +303,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:303"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:305"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -700,9 +702,36 @@ public object BinaryToOPBase {
                 val variablesOut = mutableListOf<String>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 16)
                 for (i in 0 until len) {
-                    variablesOut.add(decodeString(data, off + 2 + i * 4))
+                    variablesOut.add(decodeString(data, off + 20 + i * 4))
                 }
-                EvalBind(child, variablesOut, decodeString(data, off + 12), decodeAOP(data, off + 8))
+                EvalBind(child, variablesOut, decodeString(data, off + 12), decodeAOP(query, data, off + 8))
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPFilterID,
+            { op, data, parent, mapping ->
+                op as POPFilter
+                val variablesOut = op.getProvidedVariableNames()
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * variablesOut.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPFilterID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping))
+                ByteArrayWrapperExt.writeInt4(data, off + 12, variablesOut.size)
+                for (i in 0 until variablesOut.size) {
+                    ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * i, encodeString(variablesOut[i], data, mapping))
+                }
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val variablesOut = mutableListOf<String>()
+                val len = ByteArrayWrapperExt.readInt4(data, off + 12)
+                for (i in 0 until len) {
+                    variablesOut.add(decodeString(data, off + 16 + i * 4))
+                }
+                EvalFilter(child, variablesOut, decodeAOP(query, data, off + 8))
             },
         )
     }

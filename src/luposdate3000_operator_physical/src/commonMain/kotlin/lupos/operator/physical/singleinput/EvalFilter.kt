@@ -30,8 +30,8 @@ public object EvalFilter {
         child: IteratorBundle,
         variablesOut: List<String>,
         filterExpression: AOPBase,
-        variables: List<String>,
     ): IteratorBundle {
+        val variables = child.names
         // TODO not-equal shortcut during evaluation based on integer-ids
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
