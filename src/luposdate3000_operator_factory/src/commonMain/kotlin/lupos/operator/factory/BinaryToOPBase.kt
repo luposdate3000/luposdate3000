@@ -34,8 +34,12 @@ import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.EvalGraphOperation
 import lupos.operator.physical.noinput.EvalModifyData
+import lupos.operator.physical.noinput.EvalNothing
+import lupos.operator.physical.noinput.EvalValues
 import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
+import lupos.operator.physical.noinput.POPNothing
+import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -43,9 +47,11 @@ import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
+import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
@@ -232,6 +238,91 @@ public object BinaryToOPBase {
                 )
             },
         )
+        assignOperator(
+            EOperatorIDExt.POPNothingID,
+            { op, data, parent, mapping ->
+                op as POPNothing
+                val n = op.getProvidedVariableNames()
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8 + 4 * n.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPNothingID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, n.size)
+                var i = 0
+                for (s in n) {
+                    ByteArrayWrapperExt.writeInt4(data, off + 8 + i * 4, encodeString(s, data, mapping))
+                    i++
+                }
+                off
+            },
+            { query, data, off ->
+                val len = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val list = mutableListOf<String>()
+                for (i in 0 until len) {
+                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i)))
+                }
+                EvalNothing(list)
+            },
+        )
+        assignOperatorEncode(
+            EOperatorIDExt.POPValuesID,
+            { op, data, parent, mapping ->
+                op as POPValues
+                val off = ByteArrayWrapperExt.getSize(data)
+                if (op.rows == -1) {
+                    val size = op.data[op.variables.first()]!!.size
+                    ByteArrayWrapperExt.setSize(data, off + 12 + op.data.size * (4 + size * DictionaryValueHelper.getSize()), true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, size)
+                    var o = off + 12
+                    for ((col, rows) in op.data) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(col, data, mapping))
+                        o += 4
+                        var i = 0
+                        for (row in rows) {
+                            i++
+                            DictionaryValueHelper.toByteArray(data, o, row)
+                            o += DictionaryValueHelper.getSize()
+                        }
+                        SanityCheck.check(
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:286"/*SOURCE_FILE_END*/ },
+                            { i == size }
+                        )
+                    }
+                } else {
+                    ByteArrayWrapperExt.setSize(data, off + 8, true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesCountID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.rows)
+                }
+                off
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPValuesCountID,
+            { query, data, off ->
+                IteratorBundle(ByteArrayWrapperExt.readInt4(data, off + 4))
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPValuesID,
+            { query, data, off ->
+                val columns = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val row_count = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val dd = mutableMapOf<String, MutableList<DictionaryValueType>>()
+                var o = off + 12
+                for (c in 0 until columns) {
+                    val rows = mutableListOf<DictionaryValueType>()
+                    dd[decodeString(data, o)] = rows
+                    o += 4
+                    for (i in 0 until row_count) {
+                        rows.add(DictionaryValueHelper.fromByteArray(data, o))
+                        o += DictionaryValueHelper.getSize()
+                    }
+                }
+                EvalValues(dd)
+            },
+        )
+
         assignOperator(
             EOperatorIDExt.POPEmptyRowID,
             { op, data, parent, mapping ->

@@ -24,7 +24,10 @@ import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class POPNothing public constructor(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorIDExt.POPNothingID, "POPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+public class POPNothing public constructor(
+    query: IQuery,
+    projectedVariables: List<String>
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPNothingID, "POPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun getProvidedVariableNames(): List<String> = projectedVariables
     override fun toSparql(): String = "{}"

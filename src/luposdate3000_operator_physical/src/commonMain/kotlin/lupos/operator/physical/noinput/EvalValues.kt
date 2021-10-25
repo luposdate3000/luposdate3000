@@ -22,15 +22,22 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalValues {
-    public operator fun invoke(rows: Int, variables: List<String>, data: Map<String, MutableList<DictionaryValueType>>): IteratorBundle {
+    public operator fun invoke(rows: Int, data: Map<String, MutableList<DictionaryValueType>>): IteratorBundle {
         return if (rows == -1) {
             val outMap = mutableMapOf<String, ColumnIterator>()
-            for (name in variables) {
+            for (name in data.keys) {
                 outMap[name] = ColumnIteratorMultiValue(data[name]!!)
             }
             IteratorBundle(outMap)
         } else {
             IteratorBundle(rows)
         }
+    }
+    public operator fun invoke(data: Map<String, MutableList<DictionaryValueType>>): IteratorBundle {
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        for (name in data.keys) {
+            outMap[name] = ColumnIteratorMultiValue(data[name]!!)
+        }
+        return IteratorBundle(outMap)
     }
 }

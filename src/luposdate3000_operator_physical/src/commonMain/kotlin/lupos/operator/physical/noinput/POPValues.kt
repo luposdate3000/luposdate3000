@@ -173,7 +173,7 @@ public open class POPValues : POPBase {
 
     override fun getProvidedVariableNamesInternal(): List<String> = variables.distinct()
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalValues(rows, variables, data)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalValues(rows, data)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlvariables = XMLElement("variables")
