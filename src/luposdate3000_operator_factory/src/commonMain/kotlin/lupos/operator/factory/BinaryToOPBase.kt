@@ -93,6 +93,24 @@ public object BinaryToOPBase {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
     init {
+        for (
+            noop in arrayOf(
+                EOperatorIDExt.POPSplitPartitionFromStoreCountID,
+                EOperatorIDExt.POPSplitPartitionFromStoreID,
+                EOperatorIDExt.POPSplitMergePartitionFromStoreID,
+            )
+        ) {
+            assignOperator(
+                noop,
+                { op, data, parent ->
+                    op as OPBase
+                    convertToByteArrayHelper(op.children[0], data, parent)
+                },
+                { query, data, off ->
+                    TODO("unreachable")
+                },
+            )
+        }
         assignOperator(
             EOperatorIDExt.POPLimitID,
             { op, data, parent ->
