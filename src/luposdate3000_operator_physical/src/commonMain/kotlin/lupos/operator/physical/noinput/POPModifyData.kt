@@ -16,8 +16,10 @@
  */
 package lupos.operator.physical.noinput
 
+import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
@@ -57,7 +59,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             if (c.graphVar) {
                 TODO()
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:59"/*SOURCE_FILE_END*/ }, { !c.graphVar })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:61"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
@@ -77,7 +79,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(data, query)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } }, query)
     public override fun usesDictionary(): Boolean {
         return true
     }

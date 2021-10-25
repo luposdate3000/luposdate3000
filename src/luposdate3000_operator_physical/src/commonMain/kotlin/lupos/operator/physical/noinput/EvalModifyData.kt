@@ -16,31 +16,30 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IQuery
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalModifyData {
     public operator fun invoke(
-        data: List<LOPTriple>,
+        data: List<Pair<String, DictionaryValueTypeArray>>,
         query: IQuery,
     ): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<DictionaryValueType>>>()
         val dictionary = query.getDictionary()
         for (t in data) {
             for (i in 0 until 3) {
-                var tmp = iteratorDataMap[t.graph]
+                var tmp = iteratorDataMap[t.first]
                 if (tmp == null) {
                     tmp = Array(3) { mutableListOf() }
-                    iteratorDataMap[t.graph] = tmp
+                    iteratorDataMap[t.first] = tmp
                 }
-                tmp[i].add(dictionary.valueToGlobal((t.children[i] as AOPConstant).value))
+                tmp[i].add(dictionary.valueToGlobal(t.second[i]))
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
