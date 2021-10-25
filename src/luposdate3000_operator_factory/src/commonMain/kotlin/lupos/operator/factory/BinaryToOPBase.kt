@@ -17,6 +17,8 @@
 package lupos.operator.factory
 import lupos.operator.base.OPBase
 import lupos.operator.base.Query
+import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
+import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -93,24 +95,56 @@ public object BinaryToOPBase {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
     init {
-        for (
-            noop in arrayOf(
-                EOperatorIDExt.POPSplitPartitionFromStoreCountID,
-                EOperatorIDExt.POPSplitPartitionFromStoreID,
-                EOperatorIDExt.POPSplitMergePartitionFromStoreID,
-            )
-        ) {
-            assignOperator(
-                noop,
-                { op, data, parent ->
-                    op as OPBase
-                    convertToByteArrayHelper(op.children[0], data, parent)
-                },
-                { query, data, off ->
-                    TODO("unreachable")
-                },
-            )
-        }
+        assignOperator(
+            EOperatorIDExt.POPSplitPartitionFromStoreCountID,
+            { op, data, parent ->
+                op as OPBase
+                convertToByteArrayHelper(op.children[0], data, parent)
+            },
+            { query, data, off ->
+                TODO("unreachable")
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPSplitPartitionFromStoreID,
+            { op, data, parent ->
+                op as OPBase
+                convertToByteArrayHelper(op.children[0], data, parent)
+            },
+            { query, data, off ->
+                TODO("unreachable")
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPSplitMergePartitionFromStoreID,
+            { op, data, parent ->
+                op as OPBase
+                convertToByteArrayHelper(op.children[0], data, parent)
+            },
+            { query, data, off ->
+                TODO("unreachable")
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPJoinCartesianProductID,
+            { op, data, parent ->
+                op as POPJoinCartesianProduct
+                val child0 = convertToByteArrayHelper(op.children[0], data, parent)
+                val child1 = convertToByteArrayHelper(op.children[1], data, parent)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 13, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional)1 else 0)
+                off
+            },
+            { query, data, off ->
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                EvalJoinCartesianProduct(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12) == 1)
+            },
+        )
         assignOperator(
             EOperatorIDExt.POPLimitID,
             { op, data, parent ->
