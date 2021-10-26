@@ -29,7 +29,6 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
@@ -53,9 +52,7 @@ public object EvalGroup {
     public operator fun invoke(
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
-        projectedVariables: List<String>,
         keyColumnNames: Array<String>,
-        sortPriority: MutableList<SortHelper>,
         dict: IDictionary,
         localVariables: List<String>,
     ): IteratorBundle {
@@ -76,18 +73,6 @@ public object EvalGroup {
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-        val tmpSortPriority = sortPriority.map { it.variableName }
-        var canUseSortedInput = true
-        if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
-            canUseSortedInput = false
-        } else {
-            for (element in keyColumnNames) {
-                if (!tmpSortPriority.contains(element)) {
-                    canUseSortedInput = false
-                    break
-                }
-            }
-        }
         if (bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT &&
 // simplicity ->
             keyColumnNames.size == 1 && valueColumnNames.size == 0
@@ -132,7 +117,7 @@ public object EvalGroup {
                         for (element in valueColumns) {
                             element.close()
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:134"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:120"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         break@loop
                     }
                     currentKey[columnIndex] = value

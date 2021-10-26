@@ -25,9 +25,6 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
-import lupos.shared.dictionary.IDictionary
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -51,11 +48,8 @@ public object EvalGroupSorted {
         bindings: MutableList<Pair<String, AOPBase>>,
         projectedVariables: List<String>,
         keyColumnNames: Array<String>,
-        sortPriority: MutableList<SortHelper>,
-        dict: IDictionary,
         localVariables: List<String>,
     ): IteratorBundle {
-        val buffer = ByteArrayWrapper()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
@@ -72,18 +66,6 @@ public object EvalGroupSorted {
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-        val tmpSortPriority = sortPriority.map { it.variableName }
-        var canUseSortedInput = true
-        if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
-            canUseSortedInput = false
-        } else {
-            for (element in keyColumnNames) {
-                if (!tmpSortPriority.contains(element)) {
-                    canUseSortedInput = false
-                    break
-                }
-            }
-        }
         var currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
         var nextKey: DictionaryValueTypeArray? = null
         // first row ->
@@ -97,7 +79,7 @@ public object EvalGroupSorted {
                 for (element in valueColumns) {
                     element.close()
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:99"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:82"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                 emptyResult = true
                 break
             }
@@ -178,7 +160,7 @@ public object EvalGroupSorted {
                                             for (element in valueColumns) {
                                                 element.close()
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:180"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:163"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             for (columnIndex2 in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                     output[columnIndex2].queue.add(currentKey[columnIndex2])

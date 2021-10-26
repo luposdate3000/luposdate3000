@@ -31,9 +31,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -68,7 +66,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:70"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:68"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -128,7 +126,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:130"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:128"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -191,8 +189,6 @@ public class POPGroup : POPBase {
 
     public fun canUseSortedInput(): Boolean {
         val keyColumnNames = by.map { it.name }.toTypedArray()
-        val buffer = ByteArrayWrapper()
-        val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
@@ -213,7 +209,6 @@ public class POPGroup : POPBase {
             for (element in keyColumnNames) {
                 if (!tmpSortPriority.contains(element)) {
                     return false
-                    break
                 }
             }
         }
@@ -235,17 +230,13 @@ public class POPGroup : POPBase {
                 bindings,
                 projectedVariables,
                 by.map { it.name }.toTypedArray(),
-                children[0].getMySortPriority(),
-                query.getDictionary(),
                 children[0].getProvidedVariableNames()
             )
         } else {
             return EvalGroup(
                 children[0].evaluate(parent),
                 bindings,
-                projectedVariables,
                 by.map { it.name }.toTypedArray(),
-                children[0].getMySortPriority(),
                 query.getDictionary(),
                 children[0].getProvidedVariableNames()
             )
