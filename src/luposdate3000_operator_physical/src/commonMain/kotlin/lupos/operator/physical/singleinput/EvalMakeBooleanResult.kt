@@ -24,8 +24,8 @@ import lupos.shared.operator.iterator.IteratorBundle
 public object EvalMakeBooleanResult {
     public operator fun invoke(
         child: IteratorBundle,
-        variables: List<String>,
     ): IteratorBundle {
+        val variables = child.names
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         if (variables.isNotEmpty()) {

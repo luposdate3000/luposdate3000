@@ -60,14 +60,8 @@ public object EvalModify {
                 }
             }
             for ((first, second) in modify) {
-                var graphVarIdx = 0
-                if (first.graphVar) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:64"/*SOURCE_FILE_END*/ }, { variables.contains(first.graph) })
-                    while (variables[graphVarIdx] != first.graph) {
-                        graphVarIdx++
-                    }
-                }
                 val graphName: String = if (first.graphVar) {
+                    var graphVarIdx = variables.indexOf(first.graph)
                     query.getDictionary().getValue(buffer, row[graphVarIdx])
                     DictionaryHelper.byteArrayToSparql(buffer)
                 } else {

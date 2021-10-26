@@ -15,11 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBase
 import lupos.operator.base.Query
+import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
 import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.physical.multiinput.EvalJoinMerge
@@ -49,9 +50,13 @@ import lupos.operator.physical.singleinput.EvalGroupCount0
 import lupos.operator.physical.singleinput.EvalGroupCount1
 import lupos.operator.physical.singleinput.EvalGroupSorted
 import lupos.operator.physical.singleinput.EvalGroupWithoutKeyColumn
+import lupos.operator.physical.singleinput.EvalMakeBooleanResult
+import lupos.operator.physical.singleinput.EvalModify
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPGroup
+import lupos.operator.physical.singleinput.POPMakeBooleanResult
+import lupos.operator.physical.singleinput.POPModify
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -61,6 +66,7 @@ import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -332,7 +338,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:334"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:340"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -607,6 +613,22 @@ public object BinaryToOPBase {
             },
         )
         assignOperator(
+            EOperatorIDExt.POPMakeBooleanResultID,
+            { op, data, parent, mapping ->
+                op as POPMakeBooleanResult
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMakeBooleanResultID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                EvalMakeBooleanResult(child)
+            },
+        )
+        assignOperator(
             EOperatorIDExt.POPReducedID,
             { op, data, parent, mapping ->
                 op as POPReduced
@@ -855,26 +877,6 @@ public object BinaryToOPBase {
                 off
             },
         )
-/*
-public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        projectedVariables: List<String>,
-    ): IteratorBundle {
-// EvalGroupSorted
-public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        projectedVariables: List<String>,
-        keyColumnNames: Array<String>,
-    ): IteratorBundle {
-//EvalGroup
-public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        keyColumnNames: Array<String>,
-    ): IteratorBundle {
-*/
         assignOperatorDecode(
             EOperatorIDExt.POPGroupCount0ID,
             { query, data, off ->
@@ -965,6 +967,87 @@ public operator fun invoke(
                     bindings.add(k to v)
                 }
                 EvalGroupWithoutKeyColumn(child, bindings, projectedVariables)
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPModifyID,
+            { op, data, parent, mapping ->
+                op as POPModify
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12 + op.modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyID)
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.modify.size)
+                val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
+                val step = 9 + 3 * steph
+                var i = 0
+                for ((k, v) in op.modify) {
+                    var o = off + 12 + i * step
+                    ByteArrayWrapperExt.writeInt4(data, o, v)
+                    ByteArrayWrapperExt.writeInt4(data, o + 4, encodeString(k.graph, data, mapping))
+                    var flag = 0
+                    if (k.graphVar) {
+                        flag += 0x1
+                    }
+                    val s = k.children[0]
+                    val p = k.children[1]
+                    val oo = k.children[2]
+                    if (s is AOPConstant) {
+                        flag += 0x2
+                        DictionaryValueHelper.toByteArray(data, o + 9, s.value)
+                    } else {
+                        s as AOPVariable
+                        ByteArrayWrapperExt.writeInt4(data, o + 9, encodeString(s.name, data, mapping))
+                    }
+                    if (p is AOPConstant) {
+                        flag += 0x4
+                        DictionaryValueHelper.toByteArray(data, o + 9 + steph, p.value)
+                    } else {
+                        p as AOPVariable
+                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph, encodeString(p.name, data, mapping))
+                    }
+                    if (oo is AOPConstant) {
+                        flag += 0x8
+                        DictionaryValueHelper.toByteArray(data, o + 9 + steph + steph, oo.value)
+                    } else {
+                        oo as AOPVariable
+                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph + steph, encodeString(oo.name, data, mapping))
+                    }
+                    ByteArrayWrapperExt.writeInt1(data, o + 8, v)
+                    i++
+                }
+                off
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
+                val step = 9 + 3 * steph
+                val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 8)) { it ->
+                    val o = off + 12 + it * step
+                    val v = ByteArrayWrapperExt.readInt4(data, o)
+                    val flag = ByteArrayWrapperExt.readInt1(data, o + 8)
+                    val graph = decodeString(data, o + 4)
+                    val s = if ((flag and 0x2) != 0) {
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9))
+                    } else {
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9)))
+                    }
+                    val p = if ((flag and 0x4) != 0) {
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph))
+                    } else {
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph)))
+                    }
+                    val oo = if ((flag and 0x8) != 0) {
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph + steph))
+                    } else {
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph + steph)))
+                    }
+                    val graphVar = (flag and 0x1) != 0
+                    val k = LOPTriple(query, s, p, oo, graph, graphVar)
+                    k to v
+                }
+                EvalModify(child, query, modify)
             },
         )
     }
