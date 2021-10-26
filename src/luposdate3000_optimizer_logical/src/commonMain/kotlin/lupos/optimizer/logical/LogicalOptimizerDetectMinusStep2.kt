@@ -21,7 +21,7 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.singleinput.LOPBind
-import lupos.shared.ValueUndef
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID, "LogicalOptimizerDetectMinusStep2") {
@@ -32,7 +32,7 @@ public class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(quer
             tmp.removeAll(node.getChildren()[0].getProvidedVariableNames())
             if (tmp.size > 0) {
                 for (v in tmp) {
-                    res = LOPBind(query, AOPVariable(query, v), AOPConstant(query, ValueUndef()), res)
+                    res = LOPBind(query, AOPVariable(query, v), AOPConstant(query, DictionaryValueHelper.undefValue), res)
                 }
                 onChange()
                 node.tmpFakeVariables = listOf()

@@ -96,8 +96,6 @@ import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeOptional
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
-import lupos.operator.physical.multiinput.POPJoinWithStore
-import lupos.operator.physical.multiinput.POPJoinWithStoreExists
 import lupos.operator.physical.multiinput.POPMinus
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.noinput.POPEmptyRow
@@ -162,7 +160,7 @@ public object XMLElementToOPBase {
 
     public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:164"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:162"/*SOURCE_FILE_END*/ }, { node["projectedVariables"] != null })
         for (c in node["projectedVariables"]!!.childs) {
             res.add(c.attributes["name"]!!)
         }
@@ -965,12 +963,6 @@ public object XMLElementToOPBase {
         operatorMap["POPJoinMergeSingleColumn"] = { query, node, mapping, recursionFunc ->
             POPJoinMergeSingleColumn(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
         }
-        operatorMap["POPJoinWithStore"] = { query, node, mapping, recursionFunc ->
-            POPJoinWithStore(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as LOPTriple, node.attributes["optional"]!!.toBoolean())
-        }
-        operatorMap["POPJoinWithStoreExists"] = { query, node, mapping, recursionFunc ->
-            POPJoinWithStoreExists(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as LOPTriple, node.attributes["optional"]!!.toBoolean())
-        }
         operatorMap["POPTripleStoreIterator"] = { query, node, mapping, recursionFunc ->
             val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
             val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping, recursionFunc) as IAOPBase
@@ -1001,7 +993,7 @@ public object XMLElementToOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1003"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:995"/*SOURCE_FILE_END*/ },
             { theOperator != null },
             { node.tag }
         )

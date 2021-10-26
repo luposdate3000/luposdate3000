@@ -27,8 +27,6 @@ import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeOptional
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
-import lupos.operator.physical.multiinput.POPJoinWithStore
-import lupos.operator.physical.multiinput.POPJoinWithStoreExists
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
@@ -147,14 +145,6 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                     val keepOrder = node.getMySortPriority().size != 0
                     res = if (node.optional) {
                         embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) }, keepOrder, node.getMySortPriority())
-                    } else if (node.partOfAskQuery && projectedVariables.isEmpty() && childA is LOPTriple) {
-                        POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
-                    } else if (node.partOfAskQuery && projectedVariables.isEmpty() && childB is LOPTriple) {
-                        POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
-                    } else if (node.partOfAskQuery && childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
-                        POPJoinWithStore(query, projectedVariables, childB, childA, false)
-                    } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
-                        POPJoinWithStore(query, projectedVariables, childA, childB, false)
                     } else if ((childB is POPTripleStoreIterator || childB is LOPTriple) && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                         embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder, node.getMySortPriority())
                     } else {

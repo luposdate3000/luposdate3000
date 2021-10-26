@@ -15,27 +15,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueError
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPBuildInCallIF public constructor(query: IQuery, child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIFID, "AOPBuildInCallIF", arrayOf(child, childA, childB)) {
     override fun toSparql(): String = "IF(" + children[0].toSparql() + ", " + children[1].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIF && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         val childC = (children[2] as AOPBase).evaluate(row)
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.errorToByteArray(buffer)
         return {
-            var res: ValueDefinition = ValueError()
+            var res = buffer
             try {
-                res = if (childA().toBoolean()) {
+                res = if (DictionaryHelper.byteArrayAsBoolean(childA())) {
                     childB()
                 } else {
                     childC()

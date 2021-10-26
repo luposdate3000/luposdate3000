@@ -15,12 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueSimpleLiteral
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -35,7 +34,8 @@ public class AOPBuildInCallSTRUUID public constructor(query: IQuery) : AOPBase(q
         }
     }
 
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
+        val buffer = ByteArrayWrapper()
         return {
             val s = StringBuilder()
             s.append("00000000-0000-0000-0000-0000")
@@ -48,7 +48,8 @@ public class AOPBuildInCallSTRUUID public constructor(query: IQuery) : AOPBase(q
             s.append(byteToHexMap[(uuid shr 16) and 0xff])
             s.append(byteToHexMap[(uuid shr 8) and 0xff])
             s.append(byteToHexMap[uuid and 0xff])
-            ValueSimpleLiteral("\"", "" + s.toString())
+            DictionaryHelper.stringToByteArray(buffer, s.toString())
+            buffer
         }
     }
 

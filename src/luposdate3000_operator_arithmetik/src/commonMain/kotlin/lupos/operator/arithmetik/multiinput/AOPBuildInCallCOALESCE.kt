@@ -15,17 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
+import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueError
-import lupos.shared.ValueUndef
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-
 public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCOALESCEID, "AOPBuildInCallCOALESCE", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         val res = StringBuilder()
@@ -44,14 +42,17 @@ public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: Li
     }
 
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCOALESCE && children.contentEquals(other.children)
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val tmpChilds = children.map { (it as AOPBase).evaluate(row) }
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.errorToByteArray(buffer)
         return {
-            var res: ValueDefinition = ValueError()
+            var res = buffer
             for (c in tmpChilds) {
                 try {
                     val value = c()
-                    if (value !is ValueError && value !is ValueUndef) {
+                    val type = DictionaryHelper.byteArrayToType(value)
+                    if (type != ETripleComponentTypeExt.ERROR && type != ETripleComponentTypeExt.UNDEF) {
                         res = value
                         break
                     }

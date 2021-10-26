@@ -70,15 +70,15 @@ public class ApplicationStack_RPL_RoutingTable(
         return fallbackHop
     }
 
-    internal fun getNextFeatureHop(destinationAddress: Int, flag: Int): Int =
+    internal fun getNextFeatureHop(destinationAddress: Int): Int =
         if (destinationAddress < nextDatabaseHops.size) {
             nextDatabaseHops[destinationAddress]
         } else {
             -1 // tell the caller that we dont know it
         }
 
-    internal fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray =
-        IntArray(destinationAddresses.size) { getNextFeatureHop(destinationAddresses[it], flag) }
+    internal fun getNextFeatureHops(destinationAddresses: IntArray): IntArray =
+        IntArray(destinationAddresses.size) { getNextFeatureHop(destinationAddresses[it]) }
 
     internal fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false

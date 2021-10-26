@@ -89,13 +89,13 @@ internal class ApplicationStack_AllShortestPath(
                 routingTable[i] = i // the next hops write down their own address
             }
         }
-        var changed = true
-        while (changed) {
-            changed = false
+        var changed2 = true
+        while (changed2) {
+            changed2 = false
             for (i in 0 until config.devices.size) {
                 if (routingTable[i] == -1 && routingTable[globalParentTable[i]] != -1) {
                     routingTable[i] = routingTable[globalParentTable[i]] // their next hop is known, so use it
-                    changed = true
+                    changed2 = true
                 }
             }
         }

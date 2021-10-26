@@ -24,7 +24,6 @@ import lupos.shared.IQuery
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
@@ -47,7 +46,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
                 DictionaryValueHelper.undefValue
             }
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:49"/*SOURCE_FILE_END*/ }, { tmp is ColumnIteratorQueue })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:48"/*SOURCE_FILE_END*/ }, { tmp is ColumnIteratorQueue })
             val column = tmp as ColumnIteratorQueue
             {
                 column.tmp
@@ -56,7 +55,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     }
 
     public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:58"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:57"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name == name) {
             return AOPVariable(query, name2)
         }
@@ -78,7 +77,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
 
     public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         if (this.name == name) {
-            return AOPConstant(query, DictionaryExt.undefValue2)
+            return AOPConstant(query, DictionaryValueHelper.undefValue)
         }
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)

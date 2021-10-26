@@ -15,12 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.noinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
-import lupos.shared.ValueBnode
-import lupos.shared.ValueDefinition
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -31,9 +30,11 @@ public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(qu
     @JvmField
     internal var localbnode = 0L
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallBNODE0
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
+        val buffer = ByteArrayWrapper()
         return {
-            ValueBnode("" + uuid + localbnode++)
+            DictionaryHelper.iriToByteArray(buffer, "" + uuid + localbnode++)
+            buffer
         }
     }
 

@@ -22,7 +22,6 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.PartitionHelper
-import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
@@ -35,12 +34,6 @@ public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: DictionaryValueType
     override fun getValue(): DictionaryValueType = value
-
-    public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
-        val buffer = ByteArrayWrapper()
-        DictionaryHelper.valueDefinitionToByteArray(buffer, value2)
-        value = query.getDictionary().createValue(buffer)
-    }
 
     public constructor(query: IQuery, buffer: ByteArrayWrapper) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(buffer)

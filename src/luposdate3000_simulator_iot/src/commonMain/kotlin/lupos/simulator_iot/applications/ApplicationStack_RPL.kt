@@ -81,7 +81,7 @@ public class ApplicationStack_RPL(
 
     private fun sendPackage_ApplicationStack_RPL_DAO(destinationAddress: Int) {
         val destinations = routingTable.getDestinations()
-        val nextDatabaseHops = routingTable.getNextFeatureHops(destinations, 0)
+        val nextDatabaseHops = routingTable.getNextFeatureHops(destinations)
         val dao = Package_ApplicationStack_RPL_DAO(true, destinations, hasDatabase(), nextDatabaseHops)
         sendUnRoutedPackage(destinationAddress, dao)
     }
@@ -174,7 +174,9 @@ public class ApplicationStack_RPL(
     }
 
     private fun getNextHop(destinationAddress: Int): Int = routingTable.getNextHop(destinationAddress)
-    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray = routingTable.getNextFeatureHops(destinationAddresses, flag)
+    override fun getNextFeatureHops(destinationAddresses: IntArray, flag: Int): IntArray {
+        return routingTable.getNextFeatureHops(destinationAddresses)
+    }
 
     override fun toString(): String {
         val strBuilder = StringBuilder()

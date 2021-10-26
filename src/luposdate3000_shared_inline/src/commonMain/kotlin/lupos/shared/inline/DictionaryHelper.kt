@@ -26,19 +26,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
-import lupos.shared.ValueBnode
-import lupos.shared.ValueDateTime
-import lupos.shared.ValueDecimal
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueDouble
-import lupos.shared.ValueFloat
-import lupos.shared.ValueInteger
-import lupos.shared.ValueIri
-import lupos.shared.ValueLanguageTaggedLiteral
-import lupos.shared.ValueSimpleLiteral
-import lupos.shared.ValueTypedLiteral
 import lupos.shared.XMLElement
-import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
@@ -142,9 +130,9 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun headerEncode(buffer: ByteArrayWrapper, type: ETripleComponentType, flag: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:144"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:145"/*SOURCE_FILE_END*/ }, { (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:146"/*SOURCE_FILE_END*/ }, { (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:132"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:133"/*SOURCE_FILE_END*/ }, { (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:134"/*SOURCE_FILE_END*/ }, { (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
         ByteArrayWrapperExt.writeInt1(buffer, 0, type or flag)
     }
 
@@ -213,7 +201,7 @@ internal object DictionaryHelper {
             off += l1
             val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 28
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:215"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) }, { "$off vs ${ByteArrayWrapperExt.getSize(buffer)}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:203"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) }, { "$off vs ${ByteArrayWrapperExt.getSize(buffer)}" })
             val year = helper_intFromByteArray(buf1)
             return year
         }
@@ -306,7 +294,7 @@ internal object DictionaryHelper {
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
             buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:308"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:296"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
             val seconds = helper_decimalFromByteArray(buf2)
             return seconds
         }
@@ -380,13 +368,21 @@ internal object DictionaryHelper {
         } else {
             headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x00)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:382"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:370"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun byteArrayAsBoolean(buffer: ByteArrayWrapper): Boolean {
+        return when (byteArrayToType(buffer)) {
+            ETripleComponentTypeExt.BOOLEAN -> byteArrayToBoolean(buffer)
+            else -> TODO()
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
         val flag = headerDecodeFlag(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:388"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:384"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
         return flag == 0x80
     }
 
@@ -496,8 +492,8 @@ internal object DictionaryHelper {
         ByteArrayWrapperExt.writeInt4(buffer, headerSize() + buf1.size + buf2.size, buf1.size)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:498"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:499"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:494"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:495"/*SOURCE_FILE_END*/ }, { lang == byteArrayToLang_Lang(buffer) }, { "$lang vs ${byteArrayToLang_Lang(buffer)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -646,15 +642,10 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun valueDefinitionToByteArray(buffer: ByteArrayWrapper, value: ValueDefinition) {
-        sparqlToByteArray(buffer, value.valueToString())
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
         val res = headerDecodeType(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:655"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:656"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:646"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:647"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
         return res
     }
 
@@ -702,33 +693,6 @@ internal object DictionaryHelper {
             ETripleComponentTypeExt.STRING_LANG -> "\"" + byteArrayToLang_Content(buffer) + "\"@" + byteArrayToLang_Lang(buffer)
             ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"^^<" + byteArrayToTyped_Type(buffer) + ">"
             ETripleComponentTypeExt.DATE_TIME -> "\"" + byteArrayToDateTimeAsTyped_Content(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-            else -> throw Exception("unreachable $type")
-        }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun byteArrayToValueDefinition(buffer: ByteArrayWrapper): ValueDefinition {
-        val type = byteArrayToType(buffer)
-        return when (type) {
-            ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
-            ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
-            ETripleComponentTypeExt.BLANK_NODE -> ValueBnode("" + byteArrayToBnode_I(buffer))
-            ETripleComponentTypeExt.BOOLEAN -> {
-                if (byteArrayToBoolean(buffer)) {
-                    DictionaryExt.booleanTrueValue2
-                } else {
-                    DictionaryExt.booleanFalseValue2
-                }
-            }
-            ETripleComponentTypeExt.DOUBLE -> ValueDouble(byteArrayToDouble_I(buffer))
-            ETripleComponentTypeExt.FLOAT -> ValueFloat(byteArrayToFloat_I(buffer))
-            ETripleComponentTypeExt.INTEGER -> ValueInteger(byteArrayToInteger_I(buffer))
-            ETripleComponentTypeExt.DECIMAL -> ValueDecimal(byteArrayToDecimal_I(buffer))
-            ETripleComponentTypeExt.IRI -> ValueIri(byteArrayToIri(buffer))
-            ETripleComponentTypeExt.STRING -> ValueSimpleLiteral("\"", byteArrayToString(buffer))
-            ETripleComponentTypeExt.STRING_LANG -> ValueLanguageTaggedLiteral("\"", byteArrayToLang_Content(buffer), byteArrayToLang_Lang(buffer))
-            ETripleComponentTypeExt.STRING_TYPED -> ValueTypedLiteral("\"", byteArrayToTyped_Content(buffer), byteArrayToTyped_Type(buffer))
-            ETripleComponentTypeExt.DATE_TIME -> ValueDateTime(byteArrayToSparql(buffer))
             else -> throw Exception("unreachable $type")
         }
     }

@@ -116,8 +116,6 @@ POPJoinCartesianProductID
 POPJoinMergeID
 POPJoinMergeOptionalID
 POPJoinMergeSingleColumnID
-POPJoinWithStoreID
-POPJoinWithStoreExistsID
 POPLimitID
 POPMakeBooleanResultID
 POPModifyDataID

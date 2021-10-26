@@ -15,14 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueDefinition
-import lupos.shared.ValueError
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -30,12 +28,13 @@ import lupos.shared.operator.iterator.IteratorBundle
 public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorIDExt.AOPInID, "AOPIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
     override fun equals(other: Any?): Boolean = other is AOPIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val childA = (children[0] as AOPBase).evaluate(row)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPIn.kt:34"/*SOURCE_FILE_END*/ }, { children[1] is AOPSet })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPIn.kt:32"/*SOURCE_FILE_END*/ }, { children[1] is AOPSet })
         val childsB = Array(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
+        val buffer = ByteArrayWrapper()
         return {
-            var res: ValueDefinition = ValueError()
+            DictionaryHelper.errorToByteArray(buffer)
             val a = childA()
             var found = false
             var noError = true
@@ -51,9 +50,9 @@ public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: I
                 }
             }
             if (found || noError) {
-                res = ValueBoolean(found)
+                DictionaryHelper.booleanToByteArray(buffer, found)
             }
-            res
+            buffer
         }
     }
 

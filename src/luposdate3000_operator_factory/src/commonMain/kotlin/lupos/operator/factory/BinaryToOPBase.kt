@@ -211,6 +211,16 @@ public object BinaryToOPBase {
             },
         )
         assignOperator(
+            EOperatorIDExt.POPDebugID,
+            { op, data, parent, mapping ->
+                op as OPBase
+                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+            },
+            { query, data, off ->
+                TODO("unreachable")
+            },
+        )
+        assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -351,7 +361,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:353"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:363"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }

@@ -123,9 +123,9 @@ public class Application_ReceiveParkingSampleSOSA(private val ownAddress: Int) :
                 idSampleInserted2.add(sensorID)
                 idCacheRequested.remove(pck.queryID)
                 for (i in 0 until pendingPackages.size) {
-                    val pck = pendingPackages[pendingPackages.size - 1 - i]
-                    if (idSampleInserted2.contains(pck.sensorID)) {
-                        sendPackage(pck)
+                    val pck3 = pendingPackages[pendingPackages.size - 1 - i]
+                    if (idSampleInserted2.contains(pck3.sensorID)) {
+                        sendPackage(pck3)
                         pendingPackages.removeAt(i)
                     }
                 }

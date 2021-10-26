@@ -53,7 +53,7 @@ class RoutingSimulationTest {
         // Send data from the leaf F to the root A
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/upwardRouteForwarding.json")
-        simRun.simMaxClock = 300 * 1000 * 1000 * 1000
+        simRun.simMaxClock = 300L * 1000 * 1000 * 1000
         simRun.startSimulation(config)
 
         config.getDeviceByName("A")
@@ -64,7 +64,7 @@ class RoutingSimulationTest {
         // Send data from the root A to the leaf F
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/downwardRouteForwarding.json")
-        simRun.simMaxClock = 200 * 1000 * 1000 * 1000
+        simRun.simMaxClock = 200L * 1000 * 1000 * 1000
         simRun.startSimulation(config)
 
         config.getDeviceByName("F")
@@ -75,7 +75,7 @@ class RoutingSimulationTest {
         // Send data from the leaf F to the leaf D
         val simRun = SimulationRun()
         val config = simRun.parseConfig("$prefix/upAndDownwardRouteForwarding.json")
-        simRun.simMaxClock = 800 * 1000 * 1000 * 1000
+        simRun.simMaxClock = 800L * 1000 * 1000 * 1000
         simRun.startSimulation(config)
 
         config.getDeviceByName("D")

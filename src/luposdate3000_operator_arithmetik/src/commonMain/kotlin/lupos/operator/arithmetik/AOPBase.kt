@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik
-
 import lupos.operator.base.OPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -24,7 +23,6 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
-import lupos.shared.ValueDefinition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.HistogramResult
@@ -49,8 +47,7 @@ public abstract class AOPBase public constructor(
             val tmp = evaluate(row)
             return {
                 var res: Boolean = try {
-                    val value = tmp()
-                    value.toBoolean()
+                    DictionaryHelper.byteArrayAsBoolean(tmp())
                 } catch (e: EvaluationException) {
                     e.printStackTrace()
                     false
@@ -63,19 +60,19 @@ public abstract class AOPBase public constructor(
         }
     }
 
-    public open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    public open fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val buffer = ByteArrayWrapper()
+        val tmp = evaluateID(row)
         return {
-            query.getDictionary().getValue(buffer, evaluateID(row)())
-            DictionaryHelper.byteArrayToValueDefinition(buffer)
+            query.getDictionary().getValue(buffer, tmp())
+            buffer
         }
     }
 
     public open fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
-        val buffer = ByteArrayWrapper()
+        val tmp = evaluate(row)
         return {
-            DictionaryHelper.valueDefinitionToByteArray(buffer, evaluate(row)())
-            query.getDictionary().createValue(buffer)
+            query.getDictionary().createValue(tmp())
         }
     }
 

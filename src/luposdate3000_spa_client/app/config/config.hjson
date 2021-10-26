@@ -123,8 +123,6 @@
         POPJoinMerge_Iterator: "rgb(232,223,144)",
         POPJoinMergeOptional: "rgb(219,197,201)",
         POPJoinMergeSingleColumn: "rgb(178,241,202)",
-        POPJoinWithStore: "rgb(204,172,142)",
-        POPJoinWithStoreExists: "rgb(186,106,247)",
         POPLimit: "rgb(66,0,25)",
         POPMakeBooleanResult: "rgb(37,10,247)",
         POPMergePartition: "rgb(179,133,29)",

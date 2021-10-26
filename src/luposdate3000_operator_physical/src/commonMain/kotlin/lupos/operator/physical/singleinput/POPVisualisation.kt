@@ -35,7 +35,11 @@ import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
-public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
+public class POPVisualisation public constructor(
+    query: IQuery,
+    projectedVariables: List<String>,
+    child: IOPBase
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public var visualTest: IVisualisation? = null
 
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
