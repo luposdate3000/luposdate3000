@@ -44,8 +44,10 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
+import lupos.operator.physical.singleinput.EvalGroupWithoutKeyColumn
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
+import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -326,7 +328,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:328"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:330"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -760,21 +762,74 @@ public object BinaryToOPBase {
         assignOperatorEncode(
             intArrayOf(
                 EOperatorIDExt.POPGroupID,
+                EOperatorIDExt.POPGroupCountID,
                 EOperatorIDExt.POPGroupSortedID,
                 EOperatorIDExt.POPGroupWithoutKeyColumnID,
             ),
             { op, data, parent, mapping ->
                 op as POPGroup
-                val keyColumnNames = op.map { it.name }
+                val keyColumnNames = op.by.map { it.name }
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val off = ByteArrayWrapperExt.getSize(data)
                 if (op.by.isEmpty()) {
-
-// EvalGroupWithoutKeyColumn
+                    ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupWithoutKeyColumnID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 16, keyColumnNames.size)
+                    var o = 20
+                    for (s in op.projectedVariables) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for (s in keyColumnNames) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for ((k, v) in op.bindings) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        o += 4
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        o += 4
+                    }
                 } else if (op.canUseSortedInput()) {
 // EvalGroupSorted
+                } else if (op.isCountOnly()) {
+// EvalGroupCount
                 } else {
 // EvalGroup
                 }
+                off
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPGroupWithoutKeyColumnID,
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 8)
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val klen = ByteArrayWrapperExt.readInt4(data, off + 16)
+                var o = 20
+                val projectedVariables = mutableListOf<String>()
+                for (i in 0 until plen) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    o += 4
+                }
+                val keyColumnNames = Array<String>(klen) { "" }
+                for (i in 0 until klen) {
+                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    o += 4
+                }
+                val bindings = mutableListOf<Pair<String, AOPBase>>()
+                for (i in 0 until blen) {
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    o += 4
+                    val v = decodeAOP(query, data, o)
+                    o += 4
+                    bindings.add(k to v)
+                }
+                EvalGroupWithoutKeyColumn(child, bindings, projectedVariables, keyColumnNames)
             },
         )
     }
@@ -787,16 +842,15 @@ public operator fun invoke(
         projectedVariables: List<String>,
         keyColumnNames: Array<String>,
     ): IteratorBundle {
-public operator fun invoke(
+ public operator fun invoke(
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
-        projectedVariables: List<String>,
         keyColumnNames: Array<String>,
+        dict: IDictionary,
     ): IteratorBundle {
 public operator fun invoke(
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
         keyColumnNames: Array<String>,
-        dict: IDictionary,
     ): IteratorBundle {
 */

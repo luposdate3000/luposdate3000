@@ -26,8 +26,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
-import lupos.shared.dictionary.IDictionary
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
@@ -49,10 +47,8 @@ public object EvalGroup {
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
         keyColumnNames: Array<String>,
-        dict: IDictionary,
     ): IteratorBundle {
         val localVariables = child.names
-        val buffer = ByteArrayWrapper()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
@@ -78,7 +74,7 @@ public object EvalGroup {
                     for (element in valueColumns) {
                         element.close()
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:80"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:76"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                     break@loop
                 }
                 currentKey[columnIndex] = value

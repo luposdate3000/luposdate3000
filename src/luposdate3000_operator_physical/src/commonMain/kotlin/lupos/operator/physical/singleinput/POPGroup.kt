@@ -249,7 +249,6 @@ public class POPGroup : POPBase {
                 children[0].evaluate(parent),
                 bindings,
                 by.map { it.name }.toTypedArray(),
-                query.getDictionary(),
             )
         }
     }

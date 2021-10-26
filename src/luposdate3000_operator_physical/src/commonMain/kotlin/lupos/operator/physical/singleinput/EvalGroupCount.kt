@@ -36,18 +36,9 @@ public object EvalGroupCount {
         keyColumnNames: Array<String>,
         dict: IDictionary,
     ): IteratorBundle {
-        val localVariables = child.names
         val buffer = ByteArrayWrapper()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
-        val valueColumnNames = mutableListOf<String>()
-        for (name in localVariables) {
-            if (!keyColumnNames.contains(name)) {
-                valueColumnNames.add(name)
-            }
-        }
-        val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-        val iterator = keyColumns[0]
+        val iterator = child.columns.values.first()
         val map = mutableMapOf<DictionaryValueType, Int>()
         while (true) {
             val value = iterator.next()
