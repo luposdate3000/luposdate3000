@@ -16,12 +16,10 @@
  */
 package lupos.operator.physical.singleinput
 
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.iterator.ColumnIteratorMerge
 import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.shared.DictionaryValueType
 import lupos.shared.IQuery
-import lupos.shared.SortHelper
 import lupos.shared.ValueComparatorASC
 import lupos.shared.ValueComparatorDESC
 import lupos.shared.operator.iterator.IteratorBundle
@@ -29,9 +27,9 @@ import lupos.shared.operator.iterator.IteratorBundle
 public object EvalSort {
     public operator fun invoke(
         child: IteratorBundle,
-        mySortPriority: MutableList<SortHelper>,
+        mySortPriority: List<String>,
         query: IQuery,
-        sortBy: Array<AOPVariable>,
+        sortBy: Array<String>,
         variablesOut: List<String>,
         sortOrder: Boolean,
     ): IteratorBundle {
@@ -41,9 +39,6 @@ public object EvalSort {
             ValueComparatorDESC(query)
         }
         when {
-            variablesOut.isEmpty() -> {
-                return child
-            }
             variablesOut.size == 1 -> {
                 return if (sortBy.size == 1) {
                     IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
@@ -54,9 +49,9 @@ public object EvalSort {
             else -> {
                 val columnNamesTmp = mutableListOf<String>()
                 for (v in sortBy) {
-                    columnNamesTmp.add(v.name)
+                    columnNamesTmp.add(v)
                 }
-                for (v in mySortPriority.map { it.variableName }) {
+                for (v in mySortPriority) {
                     if (variablesOut.contains(v)) {
                         if (!columnNamesTmp.contains(v)) {
                             columnNamesTmp.add(v)

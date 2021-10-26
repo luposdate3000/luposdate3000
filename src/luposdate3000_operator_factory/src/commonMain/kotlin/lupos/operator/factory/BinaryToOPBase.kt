@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -43,6 +44,8 @@ import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
+import lupos.operator.physical.singleinput.POPSort
+import lupos.operator.physical.singleinput.EvalSort
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
 import lupos.operator.physical.singleinput.EvalGroup
@@ -198,6 +201,16 @@ public object BinaryToOPBase {
  EOperatorIDExt.POPDistributedReceiveSingleID,
 */
         assignOperator(
+            EOperatorIDExt.POPProjectionID,
+            { op, data, parent, mapping ->
+                op as OPBase
+                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+            },
+            { query, data, off ->
+                TODO("unreachable")
+            },
+        )
+        assignOperator(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -338,7 +351,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:340"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:353"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -593,6 +606,63 @@ public object BinaryToOPBase {
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
                 EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+            },
+        )
+        assignOperator(
+            EOperatorIDExt.POPSortID,
+            { op, data, parent, mapping ->
+                op as POPSort
+                if (op.getProvidedVariableNames().size == 0) {
+                    convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                } else {
+                    val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                    val off = ByteArrayWrapperExt.getSize(data)
+                    ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (op.mySortPriority. size + op.getProvidedVariableNames().size + op.sortBy.size), true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPSortID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.mySortPriority. size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.getProvidedVariableNames().size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 16, op.sortBy.size)
+                    ByteArrayWrapperExt.writeInt1(data, off + 20, if (op.sortOrder) 1 else 0)
+                    var o = 21
+                    for (s in op.mySortPriority.map { it.variableName }) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for (s in op.sortBy.map { it.name }) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for (s in op.getProvidedVariableNames()) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    off
+                }
+            },
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val splen = ByteArrayWrapperExt.readInt4(data, off + 8)
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val sblen = ByteArrayWrapperExt.readInt4(data, off + 16)
+                val sortOrder = ByteArrayWrapperExt.readInt1(data, off + 20) != 0
+                var o = 21
+                val spList = mutableListOf<String>()
+                val pList = mutableListOf<String>()
+                val sbList = mutableListOf<String>()
+                for (i in 0 until splen) {
+                    spList.add(decodeString(data, o))
+                    o += 4
+                }
+                for (i in 0 until sblen) {
+                    sbList.add(decodeString(data, o))
+                    o += 4
+                }
+                for (i in 0 until plen) {
+                    pList.add(decodeString(data, o))
+                    o += 4
+                }
+                EvalSort(child, spList, query, sbList.toTypedArray(), pList, sortOrder)
             },
         )
         assignOperator(

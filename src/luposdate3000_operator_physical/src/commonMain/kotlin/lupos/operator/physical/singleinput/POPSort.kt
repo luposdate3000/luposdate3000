@@ -108,7 +108,20 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalSort(children[0].evaluate(parent), mySortPriority, query, sortBy, getProvidedVariableNames(), sortOrder)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        if (getProvidedVariableNames().size == 0) {
+            return children[0].evaluate(parent)
+        } else {
+            return EvalSort(
+                children[0].evaluate(parent),
+                mySortPriority.map { it.variableName },
+                query,
+                sortBy.map { it.name }.toTypedArray(),
+                getProvidedVariableNames(),
+                sortOrder
+            )
+        }
+    }
     public override fun usesDictionary(): Boolean {
         return true
     }
