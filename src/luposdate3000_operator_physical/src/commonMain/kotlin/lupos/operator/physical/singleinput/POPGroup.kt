@@ -176,13 +176,25 @@ public class POPGroup : POPBase {
         return true
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGroup(
-        children[0].evaluate(parent),
-        bindings,
-        projectedVariables,
-        by,
-        children[0].getMySortPriority(),
-        query.getDictionary(),
-        children[0].getProvidedVariableNames()
-    )
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        if (by.isEmpty()) {
+            return EvalGroupWithoutKeyColumn(
+                children[0].evaluate(parent),
+                bindings,
+                projectedVariables,
+                by.map { it.name }.toTypedArray(),
+                children[0].getProvidedVariableNames()
+            )
+        } else {
+            return EvalGroup(
+                children[0].evaluate(parent),
+                bindings,
+                projectedVariables,
+                by.map { it.name }.toTypedArray(),
+                children[0].getMySortPriority(),
+                query.getDictionary(),
+                children[0].getProvidedVariableNames()
+            )
+        }
+    }
 }
