@@ -236,11 +236,10 @@ private fun writeOperatorGraph(
         is AOPConstant -> {
             // Creating a new operator with the AOPConstant constructor
             operator.getQuery().getDictionary().getValue(tmpBuf, operator.getValue())
-            val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)
-            operatorsBuffer.println(
-                "    val operator${operator.uuid} = AOPConstant(query," +
-                    "ValueDefinition(\"${value.valueToString()?.replace("\"", "\\\"")}\"))"
-            )
+            val value = DictionaryHelper.byteArrayToSparql(tmpBuf).replace("\"", "\\\"")
+            operatorsBuffer.println("    val bbbbuffer=ByteArrayWrapper()")
+            operatorsBuffer.println("    DictionaryHelper.sparqlToByteArray(bbbbuffer,\"$value\")")
+            operatorsBuffer.println("    val operator${operator.uuid} = AOPConstant(query,bbbbuffer)")
             imports.add("lupos.operator.arithmetik.noinput.AOPConstant")
             imports.add("lupos.shared.ValueDefinition")
         }
@@ -541,37 +540,6 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
         }
     }
     // Variables != null means we want to create variables for comparison
-    else if (variables != null) {
-        if (child is AOPConstant) {
-            child.getQuery().getDictionary().getValue(tmpBuf, child.getValue())
-            when (val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)) {
-                is ValueBoolean -> {
-                    variables.add("        val child${child.uuid} = ${value.value}")
-                }
-                is ValueInteger -> {
-                    variables.add("        val child${child.uuid} = BigInteger.fromInt(${value.value})")
-                }
-                is ValueDecimal -> {
-                    variables.add("        val child${child.uuid} = MyBigDecimal.fromBigDecimal(${value.value})")
-                }
-                is ValueStringBase -> {
-                    // Erkennt noch nicht, dass es ein String ist?
-                    // Abfragen wie equals/!equals werden noch als == und != übersetzt
-                    variables.add(
-                        "        val child${child.uuid} = \"${
-                        value.valueToString()!!.replace("\"", "")
-                        }\""
-                    )
-                }
-                is ValueIri -> {
-                    throw Exception("to do")
-                }
-                else -> {
-                    throw Exception(value.toString())
-                }
-            }
-        }
-    }
 }
 
 // Containers to store the different parts of the generated operator

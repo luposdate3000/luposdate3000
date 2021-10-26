@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
@@ -28,7 +27,7 @@ import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.shared.ValueBoolean
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalID, "LogicalOptimizerFilterOptional") {
@@ -104,7 +103,7 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                                     query,
                                     listOf(
                                         filterOutside,
-                                        AOPConstant(query, ValueBoolean(false))
+                                        AOPConstant(query, DictionaryValueHelper.booleanFalseValue)
                                     )
                                 )
                             ),

@@ -257,7 +257,6 @@ public fun generateMethod(
             // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
             // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?
             builder.appendLine("query.getDictionary().getValue(buffer, row${child.getName()})")
-            // builder.appendLine("                        val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(buffer)")
             builder.appendLine("val child${child.getUUID()} = buffer")
             confType.add(Array(ETripleComponentTypeExt.values_size) { it }.toMutableSet())
             builder.appendLine("var child${child.getUUID()}_type = DictionaryHelper.byteArrayToType(buffer)")
@@ -284,30 +283,16 @@ public fun generateMethod(
             val type = DictionaryHelper.byteArrayToType(tmpBuf2)
             builder.appendLine("var child${child.getUUID()}_type : ETripleComponentType = ETripleComponentTypeExt.${ETripleComponentTypeExt.names[type]}")
             confType.add(mutableSetOf(type))
-            when (val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf2)) {
-                is ValueBoolean -> {
-                    builder.appendLine("        val child${child.getUUID()}Boolean = ${value.value}")
+            when (type) {
+                ETripleComponentTypeExt.BOOLEAN -> builder.appendLine("        val child${child.getUUID()}Boolean = ${DictionaryHelper.byteArrayToBoolean(tmpBuf2)}")
+                ETripleComponentTypeExt.INTEGER -> {
+                    builder.appendLine("        val child${child.getUUID()}Integer = BigInteger.fromInt(${DictionaryHelper.byteArrayToInteger_S(tmpBuf2)})")
                 }
-                is ValueInteger -> {
-                    builder.appendLine("        val child${child.getUUID()}Integer = BigInteger.fromInt(${value.value})")
-                }
-                is ValueDecimal -> {
-                    builder.appendLine("        val child${child.getUUID()}Decimal = MyBigDecimal.fromBigDecimal(${value.value})")
-                }
-                is ValueStringBase -> {
-                    // Erkennt noch nicht, dass es ein String ist?
-                    // Abfragen wie equals/!equals werden noch als == und != übersetzt
-                    builder.appendLine(
-                        "        val child${child.getUUID()}_String_Content = \"${
-                        value.valueToString()!!.replace("\"", "")
-                        }\""
-                    )
-                }
-                is ValueIri -> {
-                    TODO()
+                ETripleComponentTypeExt.DECIMAL -> {
+                    builder.appendLine("        val child${child.getUUID()}Decimal = MyBigDecimal.fromBigDecimal(${DictionaryHelper.byteArrayToDecimal_S(tmpBuf2)})")
                 }
                 else -> {
-                    throw Exception(value.toString())
+                    TODO()
                 }
             }
         }

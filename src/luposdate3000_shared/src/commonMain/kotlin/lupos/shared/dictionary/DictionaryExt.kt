@@ -16,26 +16,11 @@
  */
 package lupos.shared.dictionary
 
-import lupos.shared.ValueBoolean
-import lupos.shared.ValueError
-import lupos.shared.ValueUndef
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public object DictionaryExt {
-
-    @JvmField
-    public val booleanTrueValue2: ValueBoolean = ValueBoolean(true)
-
-    @JvmField
-    public val booleanFalseValue2: ValueBoolean = ValueBoolean(false)
-
-    @JvmField
-    public val errorValue2: ValueError = ValueError()
-
-    @JvmField
-    public val undefValue2: ValueUndef = ValueUndef()
 
     @JvmField
     public val booleanTrueValue3: ByteArrayWrapper = ByteArrayWrapper()
