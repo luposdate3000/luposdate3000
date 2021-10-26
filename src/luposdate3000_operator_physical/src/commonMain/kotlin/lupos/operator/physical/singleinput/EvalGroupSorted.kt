@@ -23,7 +23,6 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.IOPBase
@@ -48,15 +47,12 @@ public object EvalGroupSorted {
         bindings: MutableList<Pair<String, AOPBase>>,
         projectedVariables: List<String>,
         keyColumnNames: Array<String>,
-        localVariables: List<String>,
     ): IteratorBundle {
+        val localVariables = child.names
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
-        }
-        if (keyColumnNames.size != keyColumnNames.distinct().size) {
-            throw GroupByDuplicateColumnException()
         }
         val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
         val valueColumnNames = mutableListOf<String>()
@@ -79,7 +75,7 @@ public object EvalGroupSorted {
                 for (element in valueColumns) {
                     element.close()
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:82"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:77"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                 emptyResult = true
                 break
             }
@@ -160,7 +156,7 @@ public object EvalGroupSorted {
                                             for (element in valueColumns) {
                                                 element.close()
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:163"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:158"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             for (columnIndex2 in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                     output[columnIndex2].queue.add(currentKey[columnIndex2])

@@ -21,7 +21,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -45,15 +44,12 @@ public object EvalGroupWithoutKeyColumn {
         bindings: MutableList<Pair<String, AOPBase>>,
         projectedVariables: List<String>,
         keyColumnNames: Array<String>,
-        localVariables: List<String>,
     ): IteratorBundle {
+        val localVariables = child.names
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
-        }
-        if (keyColumnNames.size != keyColumnNames.distinct().size) {
-            throw GroupByDuplicateColumnException()
         }
         val valueColumnNames = mutableListOf<String>()
         for (name in localVariables) {
@@ -85,7 +81,7 @@ public object EvalGroupWithoutKeyColumn {
                 for (columnIndex in 0 until valueColumnNames.size) {
                     val value = valueColumns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:87"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:83"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         for (closeIndex in 0 until valueColumnNames.size) {
                             valueColumns[closeIndex].close()
                         }

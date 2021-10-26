@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
@@ -37,16 +37,6 @@ import kotlin.jvm.JvmField
 
 // TODO refactor such that the optimizer may choose which strategy to use
 public class POPGroup : POPBase {
-    private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
-        val res = mutableListOf<AOPAggregationBase>()
-        for (n in node.getChildren()) {
-            res.addAll(getAggregations(n))
-        }
-        if (node is AOPAggregationBase) {
-            res.add(node)
-        }
-        return res
-    }
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -66,7 +56,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:68"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:58"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -99,7 +89,13 @@ public class POPGroup : POPBase {
         }
     }
 
-    public constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorIDExt.POPGroupID, "POPGroup", arrayOf(child), ESortPriorityExt.GROUP) {
+    public constructor(
+        query: IQuery,
+        projectedVariables: List<String>,
+        by: List<AOPVariable>,
+        bindings: POPBind?,
+        child: IOPBase
+    ) : super(query, projectedVariables, EOperatorIDExt.POPGroupID, "POPGroup", arrayOf(child), ESortPriorityExt.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
@@ -126,7 +122,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:128"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:124"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -189,13 +185,6 @@ public class POPGroup : POPBase {
 
     public fun canUseSortedInput(): Boolean {
         val keyColumnNames = by.map { it.name }.toTypedArray()
-        val aggregations = mutableListOf<AOPAggregationBase>()
-        for (b in bindings) {
-            aggregations.addAll(getAggregations(b.second))
-        }
-        if (keyColumnNames.size != keyColumnNames.distinct().size) {
-            throw GroupByDuplicateColumnException()
-        }
         val valueColumnNames = mutableListOf<String>()
         for (name in children[0].getProvidedVariableNames()) {
             if (!keyColumnNames.contains(name)) {
@@ -214,15 +203,32 @@ public class POPGroup : POPBase {
         }
         return true
     }
+    public fun isCountOnly(): Boolean {
+        val keyColumnNames = by.map { it.name }
+        val localVariables = children[0].getProvidedVariableNames()
+        val valueColumnNames = mutableListOf<String>()
+        for (name in localVariables) {
+            if (!keyColumnNames.contains(name)) {
+                valueColumnNames.add(name)
+            }
+        }
+        return bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT &&
+// simplicity ->
+            keyColumnNames.size == 1 && valueColumnNames.size == 0
+// <- simplicity
+    }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        val keyColumnNames = by.map { it.name }.toTypedArray()
+        if (keyColumnNames.size != keyColumnNames.distinct().size) {
+            throw GroupByDuplicateColumnException()
+        }
         if (by.isEmpty()) {
             return EvalGroupWithoutKeyColumn(
                 children[0].evaluate(parent),
                 bindings,
                 projectedVariables,
                 by.map { it.name }.toTypedArray(),
-                children[0].getProvidedVariableNames()
             )
         } else if (canUseSortedInput()) {
             return EvalGroupSorted(
@@ -230,7 +236,13 @@ public class POPGroup : POPBase {
                 bindings,
                 projectedVariables,
                 by.map { it.name }.toTypedArray(),
-                children[0].getProvidedVariableNames()
+            )
+        } else if (isCountOnly()) {
+            return EvalGroupCount(
+                children[0].evaluate(parent),
+                bindings,
+                by.map { it.name }.toTypedArray(),
+                query.getDictionary(),
             )
         } else {
             return EvalGroup(
@@ -238,7 +250,6 @@ public class POPGroup : POPBase {
                 bindings,
                 by.map { it.name }.toTypedArray(),
                 query.getDictionary(),
-                children[0].getProvidedVariableNames()
             )
         }
     }

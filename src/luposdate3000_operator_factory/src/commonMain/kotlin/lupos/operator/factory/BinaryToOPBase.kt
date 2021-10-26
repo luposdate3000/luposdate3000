@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
@@ -72,6 +73,12 @@ public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, paren
 public object BinaryToOPBase {
     public var operatorMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
     public var operatorMapEncode: Array<OPBaseToBinaryMap?> = Array(0) { null }
+    public fun assignOperatorDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
+        for (operatorID in operatorIDs) {
+            assignOperatorDecode(operatorID, operator)
+        }
+    }
+
     public fun assignOperatorDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
         if (operatorMapDecode.size <= operatorID) {
             var s = operatorMapDecode.size
@@ -86,6 +93,12 @@ public object BinaryToOPBase {
             operatorMapDecode = tmp
         }
         operatorMapDecode[operatorID] = operator
+    }
+
+    public fun assignOperatorEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
+        for (operatorID in operatorIDs) {
+            assignOperatorEncode(operatorID, operator)
+        }
     }
 
     public fun assignOperatorEncode(operatorID: Int, operator: OPBaseToBinaryMap) {
@@ -120,9 +133,11 @@ public object BinaryToOPBase {
     private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
         return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
     }
+
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
+
     private inline fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         if (s == null) {
             return -1
@@ -141,22 +156,27 @@ public object BinaryToOPBase {
             }
         }
     }
+
     private inline fun decodeString(data: ByteArrayWrapper, off: Int): String {
         return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off))
     }
+
     private inline fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
-        if (off <0) {
+        if (off < 0) {
             return null
         } else {
             return decodeString(data, off)
         }
     }
+
     private inline fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         TODO()
     }
+
     private inline fun decodeAOP(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
         TODO()
     }
+
     init {
 /*
  EOperatorIDExt.POPDistributedReceiveMultiCountID,
@@ -241,7 +261,7 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.writeInt4(data, off + 12, op.action)
                 ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping))
                 ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping))
-                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent)1 else 0)
+                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0)
                 off
             },
             { query, data, off ->
@@ -282,7 +302,10 @@ public object BinaryToOPBase {
             },
         )
         assignOperatorEncode(
-            EOperatorIDExt.POPValuesID,
+            intArrayOf(
+                EOperatorIDExt.POPValuesID,
+                EOperatorIDExt.POPValuesCountID,
+            ),
             { op, data, parent, mapping ->
                 op as POPValues
                 val off = ByteArrayWrapperExt.getSize(data)
@@ -303,7 +326,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:305"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:328"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -503,7 +526,7 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID)
                 ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
                 ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional)1 else 0)
+                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0)
                 ByteArrayWrapperExt.writeInt4(data, off + 13, op.projectedVariables.size)
                 var o = off + 17
                 for (s in op.projectedVariables) {
@@ -534,7 +557,7 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID)
                 ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
                 ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional)1 else 0)
+                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0)
                 off
             },
             { query, data, off ->
@@ -599,7 +622,7 @@ public object BinaryToOPBase {
             { op, data, parent, mapping ->
                 op as POPTripleStoreIterator
                 val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize()> 4)DictionaryValueHelper.getSize() else 4, true)
+                ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4, true)
                 val target = op.getTarget(parent)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator)
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(target.first, data, mapping))
@@ -734,5 +757,46 @@ public object BinaryToOPBase {
                 EvalFilter(child, variablesOut, decodeAOP(query, data, off + 8))
             },
         )
+        assignOperatorEncode(
+            intArrayOf(
+                EOperatorIDExt.POPGroupID,
+                EOperatorIDExt.POPGroupSortedID,
+                EOperatorIDExt.POPGroupWithoutKeyColumnID,
+            ),
+            { op, data, parent, mapping ->
+                op as POPGroup
+                val keyColumnNames = op.map { it.name }
+                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                if (op.by.isEmpty()) {
+
+// EvalGroupWithoutKeyColumn
+                } else if (op.canUseSortedInput()) {
+// EvalGroupSorted
+                } else {
+// EvalGroup
+                }
+            },
+        )
     }
 }
+
+/*
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        projectedVariables: List<String>,
+        keyColumnNames: Array<String>,
+    ): IteratorBundle {
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        projectedVariables: List<String>,
+        keyColumnNames: Array<String>,
+    ): IteratorBundle {
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        keyColumnNames: Array<String>,
+        dict: IDictionary,
+    ): IteratorBundle {
+*/

@@ -107,6 +107,8 @@ POPEmptyRowID
 POPFilterID
 POPGraphOperationID
 POPGroupID
+POPGroupSortedID
+POPGroupWithoutKeyColumnID
 POPJoinHashMapID
 POPJoinCartesianProductID
 POPJoinMergeID
