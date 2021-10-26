@@ -44,6 +44,10 @@ import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
+import lupos.operator.physical.singleinput.EvalGroup
+import lupos.operator.physical.singleinput.EvalGroupCount0
+import lupos.operator.physical.singleinput.EvalGroupCount1
+import lupos.operator.physical.singleinput.EvalGroupSorted
 import lupos.operator.physical.singleinput.EvalGroupWithoutKeyColumn
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
@@ -328,7 +332,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:330"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:334"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
@@ -762,7 +766,8 @@ public object BinaryToOPBase {
         assignOperatorEncode(
             intArrayOf(
                 EOperatorIDExt.POPGroupID,
-                EOperatorIDExt.POPGroupCountID,
+                EOperatorIDExt.POPGroupCount0ID,
+                EOperatorIDExt.POPGroupCount1ID,
                 EOperatorIDExt.POPGroupSortedID,
                 EOperatorIDExt.POPGroupWithoutKeyColumnID,
             ),
@@ -771,9 +776,28 @@ public object BinaryToOPBase {
                 val keyColumnNames = op.by.map { it.name }
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
+                var done = false
                 if (op.by.isEmpty()) {
                     ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
                     ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupWithoutKeyColumnID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size)
+                    var o = 16
+                    for (s in op.projectedVariables) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for ((k, v) in op.bindings) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        o += 4
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        o += 4
+                    }
+                    done = true
+                } else if (op.canUseSortedInput()) {
+                    ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupSortedID)
                     ByteArrayWrapperExt.writeInt4(data, off + 4, child)
                     ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
                     ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size)
@@ -793,18 +817,83 @@ public object BinaryToOPBase {
                         ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
                         o += 4
                     }
-                } else if (op.canUseSortedInput()) {
-// EvalGroupSorted
+                    done = true
                 } else if (op.isCountOnly()) {
-// EvalGroupCount
-                } else {
-// EvalGroup
+                    if (op.by.size == 0) {
+                        ByteArrayWrapperExt.setSize(data, off + 12, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount0ID)
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping))
+                        done = true
+                    } else if (op.by.size == 1) {
+                        ByteArrayWrapperExt.setSize(data, off + 16, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount1ID)
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.by[0].name, data, mapping))
+                        done = true
+                    }
+                }
+                if (!done) {
+                    ByteArrayWrapperExt.setSize(data, off + 16 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupID)
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.bindings.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, keyColumnNames.size)
+                    var o = 16
+                    for (s in keyColumnNames) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        o += 4
+                    }
+                    for ((k, v) in op.bindings) {
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        o += 4
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        o += 4
+                    }
                 }
                 off
             },
         )
+/*
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        projectedVariables: List<String>,
+    ): IteratorBundle {
+// EvalGroupSorted
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        projectedVariables: List<String>,
+        keyColumnNames: Array<String>,
+    ): IteratorBundle {
+//EvalGroup
+public operator fun invoke(
+        child: IteratorBundle,
+        bindings: MutableList<Pair<String, AOPBase>>,
+        keyColumnNames: Array<String>,
+    ): IteratorBundle {
+*/
         assignOperatorDecode(
-            EOperatorIDExt.POPGroupWithoutKeyColumnID,
+            EOperatorIDExt.POPGroupCount0ID,
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val binding = decodeString( data, off + 8)
+                EvalGroupCount0(child, binding, query.getDictionary())
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPGroupCount1ID,
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val binding = decodeString(data, off + 8)
+                val name = decodeString(data, off + 12)
+                EvalGroupCount1(child, binding, name, query.getDictionary())
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPGroupSortedID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 8)
@@ -829,28 +918,54 @@ public object BinaryToOPBase {
                     o += 4
                     bindings.add(k to v)
                 }
-                EvalGroupWithoutKeyColumn(child, bindings, projectedVariables, keyColumnNames)
+                EvalGroupSorted(child, bindings, projectedVariables, keyColumnNames)
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPGroupID,
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 8)
+                val klen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var o = 16
+                val keyColumnNames = Array<String>(klen) { "" }
+                for (i in 0 until klen) {
+                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    o += 4
+                }
+                val bindings = mutableListOf<Pair<String, AOPBase>>()
+                for (i in 0 until blen) {
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    o += 4
+                    val v = decodeAOP(query, data, o)
+                    o += 4
+                    bindings.add(k to v)
+                }
+                EvalGroup(child, bindings, keyColumnNames)
+            },
+        )
+        assignOperatorDecode(
+            EOperatorIDExt.POPGroupWithoutKeyColumnID,
+            { query, data, off ->
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 8)
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                var o = 16
+                val projectedVariables = mutableListOf<String>()
+                for (i in 0 until plen) {
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    o += 4
+                }
+                val bindings = mutableListOf<Pair<String, AOPBase>>()
+                for (i in 0 until blen) {
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    o += 4
+                    val v = decodeAOP(query, data, o)
+                    o += 4
+                    bindings.add(k to v)
+                }
+                EvalGroupWithoutKeyColumn(child, bindings, projectedVariables)
             },
         )
     }
 }
-
-/*
-public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        projectedVariables: List<String>,
-        keyColumnNames: Array<String>,
-    ): IteratorBundle {
- public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        keyColumnNames: Array<String>,
-        dict: IDictionary,
-    ): IteratorBundle {
-public operator fun invoke(
-        child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        keyColumnNames: Array<String>,
-    ): IteratorBundle {
-*/

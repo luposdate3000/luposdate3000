@@ -212,9 +212,9 @@ public class POPGroup : POPBase {
                 valueColumnNames.add(name)
             }
         }
-        return bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT &&
+        return bindings.size == 1 && bindings.first().second is AOPAggregationCOUNT &&
 // simplicity ->
-            keyColumnNames.size == 1 && valueColumnNames.size == 0
+            valueColumnNames.size == 0
 // <- simplicity
     }
 
@@ -228,7 +228,6 @@ public class POPGroup : POPBase {
                 children[0].evaluate(parent),
                 bindings,
                 projectedVariables,
-                by.map { it.name }.toTypedArray(),
             )
         } else if (canUseSortedInput()) {
             return EvalGroupSorted(
@@ -238,18 +237,25 @@ public class POPGroup : POPBase {
                 by.map { it.name }.toTypedArray(),
             )
         } else if (isCountOnly()) {
-            return EvalGroupCount(
-                children[0].evaluate(parent),
-                bindings,
-                by.map { it.name }.toTypedArray(),
-                query.getDictionary(),
-            )
-        } else {
-            return EvalGroup(
-                children[0].evaluate(parent),
-                bindings,
-                by.map { it.name }.toTypedArray(),
-            )
+            if (by.size == 0) {
+                return EvalGroupCount0(
+                    children[0].evaluate(parent),
+                    bindings.first().first,
+                    query.getDictionary(),
+                )
+            } else if (by.size == 1) {
+                return EvalGroupCount1(
+                    children[0].evaluate(parent),
+                    bindings.first().first,
+                    by[0].name,
+                    query.getDictionary(),
+                )
+            }
         }
+        return EvalGroup(
+            children[0].evaluate(parent),
+            bindings,
+            by.map { it.name }.toTypedArray(),
+        )
     }
 }

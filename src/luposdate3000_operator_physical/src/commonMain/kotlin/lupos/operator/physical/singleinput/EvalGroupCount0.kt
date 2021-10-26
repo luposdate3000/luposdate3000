@@ -15,55 +15,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.base.iterator.ColumnIteratorMultiValue
+import lupos.shared.ColumnIteratorValue
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 
-public object EvalGroupCount {
+public object EvalGroupCount0 {
 
     public operator fun invoke(
         child: IteratorBundle,
-        bindings: MutableList<Pair<String, AOPBase>>,
-        keyColumnNames: Array<String>,
+        binding: String,
         dict: IDictionary,
     ): IteratorBundle {
         val buffer = ByteArrayWrapper()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val iterator = child.columns.values.first()
-        val map = mutableMapOf<DictionaryValueType, Int>()
+        var counter = DictionaryValueHelper.NULL
         while (true) {
             val value = iterator.next()
             if (value == DictionaryValueHelper.nullValue) {
                 iterator.close()
                 break
             }
-            val v = map[value]
-            if (v == null) {
-                map[value] = 1
-            } else {
-                map[value] = v + 1
-            }
+            counter++
         }
-        val arrK = DictionaryValueTypeArray(map.size)
-        val arrV = DictionaryValueTypeArray(map.size)
-        var i = 0
-        for ((k, v) in map) {
-            arrK[i] = k
-            DictionaryHelper.integerToByteArray(buffer, BigInteger(v))
-            arrV[i] = dict.createValue(buffer)
-            i++
-        }
-        outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
-        outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
+        val res = DictionaryHelper.integerToByteArray(buffer, BigInteger(counter))
+        outMap[binding] = ColumnIteratorValue(dict.createValue(buffer))
         return IteratorBundle(outMap)
     }
 }

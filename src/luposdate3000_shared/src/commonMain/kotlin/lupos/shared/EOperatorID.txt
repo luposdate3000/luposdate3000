@@ -107,7 +107,8 @@ POPEmptyRowID
 POPFilterID
 POPGraphOperationID
 POPGroupID
-POPGroupCountID
+POPGroupCount1ID
+POPGroupCount0ID
 POPGroupSortedID
 POPGroupWithoutKeyColumnID
 POPJoinHashMapID

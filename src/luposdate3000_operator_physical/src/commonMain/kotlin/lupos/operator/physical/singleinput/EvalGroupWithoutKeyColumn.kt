@@ -43,19 +43,12 @@ public object EvalGroupWithoutKeyColumn {
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
         projectedVariables: List<String>,
-        keyColumnNames: Array<String>,
     ): IteratorBundle {
-        val localVariables = child.names
+        val valueColumnNames = child.names
         val outMap = mutableMapOf<String, ColumnIterator>()
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
-        }
-        val valueColumnNames = mutableListOf<String>()
-        for (name in localVariables) {
-            if (!keyColumnNames.contains(name)) {
-                valueColumnNames.add(name)
-            }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         val localMap = mutableMapOf<String, ColumnIterator>()
@@ -81,7 +74,7 @@ public object EvalGroupWithoutKeyColumn {
                 for (columnIndex in 0 until valueColumnNames.size) {
                     val value = valueColumns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:83"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:76"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         for (closeIndex in 0 until valueColumnNames.size) {
                             valueColumns[closeIndex].close()
                         }
