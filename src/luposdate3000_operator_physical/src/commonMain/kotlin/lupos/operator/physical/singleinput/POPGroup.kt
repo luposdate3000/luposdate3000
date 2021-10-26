@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-
+import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.noinput.OPEmptyRow
@@ -23,6 +23,7 @@ import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
+import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -30,12 +31,24 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 // TODO refactor such that the optimizer may choose which strategy to use
 public class POPGroup : POPBase {
+    private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
+        val res = mutableListOf<AOPAggregationBase>()
+        for (n in node.getChildren()) {
+            res.addAll(getAggregations(n))
+        }
+        if (node is AOPAggregationBase) {
+            res.add(node)
+        }
+        return res
+    }
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -55,7 +68,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:57"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:70"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -115,7 +128,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:117"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:130"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -176,6 +189,37 @@ public class POPGroup : POPBase {
         return true
     }
 
+    public fun canUseSortedInput(): Boolean {
+        val keyColumnNames = by.map { it.name }.toTypedArray()
+        val buffer = ByteArrayWrapper()
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        val aggregations = mutableListOf<AOPAggregationBase>()
+        for (b in bindings) {
+            aggregations.addAll(getAggregations(b.second))
+        }
+        if (keyColumnNames.size != keyColumnNames.distinct().size) {
+            throw GroupByDuplicateColumnException()
+        }
+        val valueColumnNames = mutableListOf<String>()
+        for (name in children[0].getProvidedVariableNames()) {
+            if (!keyColumnNames.contains(name)) {
+                valueColumnNames.add(name)
+            }
+        }
+        val tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
+        if ((!children[0].getProvidedVariableNames().containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
+            return false
+        } else {
+            for (element in keyColumnNames) {
+                if (!tmpSortPriority.contains(element)) {
+                    return false
+                    break
+                }
+            }
+        }
+        return true
+    }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (by.isEmpty()) {
             return EvalGroupWithoutKeyColumn(
@@ -183,6 +227,16 @@ public class POPGroup : POPBase {
                 bindings,
                 projectedVariables,
                 by.map { it.name }.toTypedArray(),
+                children[0].getProvidedVariableNames()
+            )
+        } else if (canUseSortedInput()) {
+            return EvalGroupSorted(
+                children[0].evaluate(parent),
+                bindings,
+                projectedVariables,
+                by.map { it.name }.toTypedArray(),
+                children[0].getMySortPriority(),
+                query.getDictionary(),
                 children[0].getProvidedVariableNames()
             )
         } else {

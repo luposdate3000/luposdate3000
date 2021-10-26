@@ -32,7 +32,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -89,284 +88,107 @@ public object EvalGroup {
                 }
             }
         }
-        if (canUseSortedInput) {
-            var currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
-            var nextKey: DictionaryValueTypeArray? = null
-            // first row ->
-            var emptyResult = false
-            for (columnIndex in keyColumnNames.indices) {
-                val value = keyColumns[columnIndex].next()
+        if (bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT &&
+// simplicity ->
+            keyColumnNames.size == 1 && valueColumnNames.size == 0
+// <- simplicity
+        ) {
+            val iterator = keyColumns[0]
+            val map = mutableMapOf<DictionaryValueType, Int>()
+            while (true) {
+                val value = iterator.next()
                 if (value == DictionaryValueHelper.nullValue) {
-                    for (element in keyColumns) {
-                        element.close()
-                    }
-                    for (element in valueColumns) {
-                        element.close()
-                    }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:105"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
-                    emptyResult = true
+                    iterator.close()
                     break
                 }
-                currentKey[columnIndex] = value
-            }
-            if (emptyResult) {
-                // there is no first row
-                for (v in keyColumnNames) {
-                    if (projectedVariables.contains(v)) {
-                        outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
-                    }
-                }
-                for ((first) in bindings) {
-                    if (projectedVariables.contains(first)) {
-                        outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
-                    }
-                }
-            } else {
-                val localMap = mutableMapOf<String, ColumnIterator>()
-                var localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                for (columnIndex in keyColumnNames.indices) {
-                    val tmp = ColumnIteratorQueueEmpty()
-                    tmp.tmp = currentKey[columnIndex]
-                    localMap[keyColumnNames[columnIndex]] = tmp
-                }
-                for (columnIndex in 0 until valueColumnNames.size) {
-                    localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
-                }
-                var localRowIterators = IteratorBundle(localMap)
-                var localRowAggregates = Array(aggregations.size) {
-                    val tmp = aggregations[it].createIterator(localRowIterators)
-                    localMap["#" + aggregations[it].uuid] = tmp
-                    tmp
-                }
-                for (columnIndex in 0 until valueColumnNames.size) {
-                    localRowColumns[columnIndex].tmp = valueColumns[columnIndex].next()
-                }
-                for (aggregate in localRowAggregates) {
-                    aggregate.evaluate()
-                }
-                // first row <-
-                val output = mutableListOf<ColumnIteratorQueue>()
-                for (outIndex in 0 until keyColumnNames.size + bindings.size) {
-                    val iterator = object : ColumnIteratorQueue() {
-                        override /*suspend*/ fun close() {
-                            __close()
-                        }
-
-                        @Suppress("NOTHING_TO_INLINE")
-                        /*suspend*/ inline fun __close() {
-                            if (label != 0) {
-                                ColumnIteratorQueueExt._close(this)
-                                for (element in keyColumns) {
-                                    element.close()
-                                }
-                                for (element in valueColumns) {
-                                    element.close()
-                                }
-                            }
-                        }
-
-                        override /*suspend*/ fun next(): DictionaryValueType {
-                            return ColumnIteratorQueueExt.nextHelper(
-                                this,
-                                {
-                                    loop@ while (true) {
-                                        var changedKey = false
-                                        if (nextKey != null) {
-                                            currentKey = nextKey!!
-                                            nextKey = null
-                                        }
-                                        for (columnIndex in keyColumnNames.indices) {
-                                            val value = keyColumns[columnIndex].next()
-                                            if (value == DictionaryValueHelper.nullValue) {
-                                                for (element in keyColumns) {
-                                                    element.close()
-                                                }
-                                                for (element in valueColumns) {
-                                                    element.close()
-                                                }
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:186"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
-                                                for (columnIndex2 in keyColumnNames.indices) {
-                                                    if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
-                                                        output[columnIndex2].queue.add(currentKey[columnIndex2])
-                                                    }
-                                                }
-                                                for (columnIndex2 in 0 until bindings.size) {
-                                                    if (projectedVariables.contains(bindings[columnIndex2].first)) {
-                                                        output[columnIndex2 + keyColumnNames.size].queue.add(bindings[columnIndex2].second.evaluateID(localRowIterators)())
-                                                    }
-                                                }
-                                                for (outIndex2 in 0 until output.size) {
-                                                    ColumnIteratorQueueExt.closeOnEmptyQueue(output[outIndex2])
-                                                }
-                                                break@loop
-                                            }
-                                            if (nextKey != null) {
-                                                nextKey!![columnIndex] = value
-                                            } else if (currentKey[columnIndex] != value) {
-                                                nextKey = DictionaryValueTypeArray(keyColumnNames.size) { currentKey[it] }
-                                                nextKey!![columnIndex] = value
-                                                changedKey = true
-                                            }
-                                        }
-                                        if (changedKey) {
-                                            for (columnIndex in keyColumnNames.indices) {
-                                                if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                                                    output[columnIndex].queue.add(currentKey[columnIndex])
-                                                }
-                                            }
-                                            for (columnIndex in 0 until bindings.size) {
-                                                if (projectedVariables.contains(bindings[columnIndex].first)) {
-                                                    output[columnIndex + keyColumnNames.size].queue.add(bindings[columnIndex].second.evaluateID(localRowIterators)())
-                                                }
-                                            }
-                                            localMap.clear()
-                                            localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                                            for (columnIndex in keyColumnNames.indices) {
-                                                val tmp = ColumnIteratorQueueEmpty()
-                                                tmp.tmp = currentKey[columnIndex]
-                                                localMap[keyColumnNames[columnIndex]] = tmp
-                                            }
-                                            for (columnIndex in 0 until valueColumnNames.size) {
-                                                localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
-                                            }
-                                            localRowIterators = IteratorBundle(localMap)
-                                            localRowAggregates = Array(aggregations.size) {
-                                                val tmp = aggregations[it].createIterator(localRowIterators)
-                                                localMap["#" + aggregations[it].uuid] = tmp
-                                                tmp
-                                            }
-                                        }
-                                        for (columnIndex in 0 until valueColumnNames.size) {
-                                            localRowColumns[columnIndex].tmp = valueColumns[columnIndex].next()
-                                        }
-                                        for (aggregate in localRowAggregates) {
-                                            aggregate.evaluate()
-                                        }
-                                        if (changedKey) {
-                                            break@loop
-                                        }
-                                    }
-                                },
-                                { __close() }
-                            )
-                        }
-                    }
-                    output.add(iterator)
-                }
-                for (columnIndex in keyColumnNames.indices) {
-                    if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                        outMap[keyColumnNames[columnIndex]] = output[columnIndex]
-                    }
-                }
-                for (columnIndex in 0 until bindings.size) {
-                    if (projectedVariables.contains(bindings[columnIndex].first)) {
-                        outMap[bindings[columnIndex].first] = output[columnIndex + keyColumnNames.size]
-                    }
+                val v = map[value]
+                if (v == null) {
+                    map[value] = 1
+                } else {
+                    map[value] = v + 1
                 }
             }
+            val arrK = DictionaryValueTypeArray(map.size)
+            val arrV = DictionaryValueTypeArray(map.size)
+            var i = 0
+            for ((k, v) in map) {
+                arrK[i] = k
+                DictionaryHelper.integerToByteArray(buffer, BigInteger(v))
+                arrV[i] = dict.createValue(buffer)
+                i++
+            }
+            outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
+            outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
         } else {
-            if (bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT &&
-// simplicity ->
-                keyColumnNames.size == 1 && valueColumnNames.size == 0
-// <- simplicity
-            ) {
-                val iterator = keyColumns[0]
-                val map = mutableMapOf<DictionaryValueType, Int>()
-                while (true) {
-                    val value = iterator.next()
+            val map = mutableMapOf<MapKey, POPGroup_Row>()
+            loop@ while (true) {
+                val currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
+                for (columnIndex in keyColumnNames.indices) {
+                    val value = keyColumns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        iterator.close()
-                        break
+                        for (element in keyColumns) {
+                            element.close()
+                        }
+                        for (element in valueColumns) {
+                            element.close()
+                        }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:134"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        break@loop
                     }
-                    val v = map[value]
-                    if (v == null) {
-                        map[value] = 1
-                    } else {
-                        map[value] = v + 1
-                    }
+                    currentKey[columnIndex] = value
                 }
-                val arrK = DictionaryValueTypeArray(map.size)
-                val arrV = DictionaryValueTypeArray(map.size)
-                var i = 0
-                for ((k, v) in map) {
-                    arrK[i] = k
-                    DictionaryHelper.integerToByteArray(buffer, BigInteger(v))
-                    arrV[i] = dict.createValue(buffer)
-                    i++
-                }
-                outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
-                outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
-            } else {
-                val map = mutableMapOf<MapKey, POPGroup_Row>()
-                loop@ while (true) {
-                    val currentKey = DictionaryValueTypeArray(keyColumnNames.size) { DictionaryValueHelper.undefValue }
+                val key = MapKey(currentKey)
+                var localRow = map[key]
+                if (localRow == null) {
+                    val localMap = mutableMapOf<String, ColumnIterator>()
+                    val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                     for (columnIndex in keyColumnNames.indices) {
-                        val value = keyColumns[columnIndex].next()
-                        if (value == DictionaryValueHelper.nullValue) {
-                            for (element in keyColumns) {
-                                element.close()
-                            }
-                            for (element in valueColumns) {
-                                element.close()
-                            }
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroup.kt:311"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
-                            break@loop
-                        }
-                        currentKey[columnIndex] = value
-                    }
-                    val key = MapKey(currentKey)
-                    var localRow = map[key]
-                    if (localRow == null) {
-                        val localMap = mutableMapOf<String, ColumnIterator>()
-                        val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                        for (columnIndex in keyColumnNames.indices) {
-                            val tmp = ColumnIteratorQueueEmpty()
-                            tmp.tmp = currentKey[columnIndex]
-                            localMap[keyColumnNames[columnIndex]] = tmp
-                        }
-                        for (columnIndex in 0 until valueColumnNames.size) {
-                            localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
-                        }
-                        val row = IteratorBundle(localMap)
-                        val localAggregations = Array(aggregations.size) {
-                            val tmp = aggregations[it].createIterator(row)
-                            localMap["#" + aggregations[it].uuid] = tmp
-                            tmp
-                        }
-                        localRow = POPGroup_Row(row, localAggregations, localColumns)
-                        map[key] = localRow
+                        val tmp = ColumnIteratorQueueEmpty()
+                        tmp.tmp = currentKey[columnIndex]
+                        localMap[keyColumnNames[columnIndex]] = tmp
                     }
                     for (columnIndex in 0 until valueColumnNames.size) {
-                        localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
+                        localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
                     }
-                    for (aggregate in localRow.aggregates) {
-                        aggregate.evaluate()
+                    val row = IteratorBundle(localMap)
+                    val localAggregations = Array(aggregations.size) {
+                        val tmp = aggregations[it].createIterator(row)
+                        localMap["#" + aggregations[it].uuid] = tmp
+                        tmp
                     }
+                    localRow = POPGroup_Row(row, localAggregations, localColumns)
+                    map[key] = localRow
                 }
-                if (map.isEmpty()) {
-                    for (v in keyColumnNames) {
-                        outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
-                    }
-                    for ((first) in bindings) {
-                        outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
-                    }
-                } else {
-                    val outKeys = Array(keyColumnNames.size) { mutableListOf<DictionaryValueType>() }
-                    val outValues = Array(bindings.size) { mutableListOf<DictionaryValueType>() }
-                    for ((k, v) in map) {
-                        for (columnIndex in keyColumnNames.indices) {
-                            outKeys[columnIndex].add(k.data[columnIndex])
-                        }
-                        for (columnIndex in 0 until bindings.size) {
-                            outValues[columnIndex].add(bindings[columnIndex].second.evaluateID(v.iterators)())
-                        }
-                    }
+                for (columnIndex in 0 until valueColumnNames.size) {
+                    localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
+                }
+                for (aggregate in localRow.aggregates) {
+                    aggregate.evaluate()
+                }
+            }
+            if (map.isEmpty()) {
+                for (v in keyColumnNames) {
+                    outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
+                }
+                for ((first) in bindings) {
+                    outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
+                }
+            } else {
+                val outKeys = Array(keyColumnNames.size) { mutableListOf<DictionaryValueType>() }
+                val outValues = Array(bindings.size) { mutableListOf<DictionaryValueType>() }
+                for ((k, v) in map) {
                     for (columnIndex in keyColumnNames.indices) {
-                        outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
+                        outKeys[columnIndex].add(k.data[columnIndex])
                     }
                     for (columnIndex in 0 until bindings.size) {
-                        outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
+                        outValues[columnIndex].add(bindings[columnIndex].second.evaluateID(v.iterators)())
                     }
+                }
+                for (columnIndex in keyColumnNames.indices) {
+                    outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
+                }
+                for (columnIndex in 0 until bindings.size) {
+                    outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
                 }
             }
         }

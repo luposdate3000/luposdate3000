@@ -85,7 +85,7 @@ public object EvalGroupWithoutKeyColumn {
                 for (columnIndex in 0 until valueColumnNames.size) {
                     val value = valueColumns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:90"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupWithoutKeyColumn.kt:87"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                         for (closeIndex in 0 until valueColumnNames.size) {
                             valueColumns[closeIndex].close()
                         }
