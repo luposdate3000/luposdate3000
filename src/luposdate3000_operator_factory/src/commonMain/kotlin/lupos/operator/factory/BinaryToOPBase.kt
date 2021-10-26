@@ -879,7 +879,7 @@ public operator fun invoke(
             EOperatorIDExt.POPGroupCount0ID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val binding = decodeString( data, off + 8)
+                val binding = decodeString(data, off + 8)
                 EvalGroupCount0(child, binding, query.getDictionary())
             },
         )

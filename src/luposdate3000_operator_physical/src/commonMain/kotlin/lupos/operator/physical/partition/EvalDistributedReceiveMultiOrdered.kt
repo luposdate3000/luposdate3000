@@ -42,7 +42,6 @@ public object EvalDistributedReceiveMultiOrdered {
         }
         val openInputs = Array<IMyInputStream?>(inputs.size) { inputs[it] }
         val openOutputs = Array<IMyOutputStream?>(inputs.size) { outputs[it] }
-        var openConnections = BooleanArray(inputs.size) { true }
         val openInputMappings = IntArray(inputs.size * variables.size)
         val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
         val debugbuffer = DictionaryValueTypeArray(inputs.size * variables.size)
