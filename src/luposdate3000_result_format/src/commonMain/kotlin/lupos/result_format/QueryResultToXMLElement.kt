@@ -16,22 +16,19 @@
  */
 package lupos.result_format
 
-import lupos.operator.base.OPBaseCompound
-import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EPartitionModeExt
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
-import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public object QueryResultToXMLElement {
-    public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
+    public /*suspend*/ fun toXML(rootNode: IteratorBundleRoot): XMLElement {
         val buffer = ByteArrayWrapper()
-        val query = rootNode.getQuery()
+        val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"
         if (flag) {
@@ -39,102 +36,83 @@ public object QueryResultToXMLElement {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         val res = mutableListOf<XMLElement>()
-        val nodes: Array<IOPBase>
-        val columnProjectionOrder: List<List<String>>
-        if (rootNode is OPBaseCompound) {
-            nodes = Array(rootNode.children.size) { rootNode.children[it] }
-            columnProjectionOrder = rootNode.columnProjectionOrder
-        } else {
-            nodes = arrayOf(rootNode)
-            columnProjectionOrder = listOf(listOf())
-        }
-        for (i in nodes.indices) {
-            val node = nodes[i]
+        for ((columnProjectionOrder, child) in rootNode.nodes) {
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
             nodeSparql.addContent(nodeHead)
-            if (node is POPNothing) {
+            val columnNames: List<String>
+            if (columnProjectionOrder.isNotEmpty()) {
+                columnNames = columnProjectionOrder
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:45"/*SOURCE_FILE_END*/ }, { child.names.toSet().containsAll(columnNames) })
+            } else {
+                columnNames = child.names.toList()
+            }
+            val variables = columnNames.toTypedArray()
+            if (variables.size == 1 && variables[0] == "?boolean") {
+                query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
+                val value = DictionaryHelper.byteArrayToSparql(buffer)
+                val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:54"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
+                nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
+                child.columns["?boolean"]!!.close()
+            } else {
+                val bnodeMap = mutableMapOf<String, String>()
                 val nodeResults = XMLElement("results")
                 nodeSparql.addContent(nodeResults)
-                for (variable in node.getProvidedVariableNames()) {
+                for (variable in variables) {
                     nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
                 }
-            } else {
-                val columnNames: List<String>
-                if (columnProjectionOrder[i].isNotEmpty()) {
-                    columnNames = columnProjectionOrder[i]
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:65"/*SOURCE_FILE_END*/ }, { node.getProvidedVariableNames().containsAll(columnNames) })
-                } else {
-                    columnNames = node.getProvidedVariableNames()
-                }
-                val child = node.evaluateRoot(Partition())
-                val variables = columnNames.toTypedArray()
-                if (variables.size == 1 && variables[0] == "?boolean") {
-                    query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
-                    val value = DictionaryHelper.byteArrayToSparql(buffer)
-                    val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:75"/*SOURCE_FILE_END*/ }, { value.endsWith("\"^^<$datatype>") })
-                    nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
-                    child.columns["?boolean"]!!.close()
-                } else {
-                    val bnodeMap = mutableMapOf<String, String>()
-                    val nodeResults = XMLElement("results")
-                    nodeSparql.addContent(nodeResults)
-                    for (variable in variables) {
-                        nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
+                if (variables.isEmpty()) {
+                    for (j in 0 until child.count()) {
+                        val nodeResult = XMLElement("result")
+                        nodeResults.addContent(nodeResult)
                     }
-                    if (variables.isEmpty()) {
-                        for (j in 0 until child.count()) {
-                            val nodeResult = XMLElement("result")
-                            nodeResults.addContent(nodeResult)
-                        }
-                    } else {
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        loop@ while (true) {
-                            val nodeResult = XMLElement("result")
-                            for (variableIndex in variables.indices) {
-                                val valueID = columns[variableIndex].next()
-                                if (valueID == DictionaryValueHelper.nullValue) {
-                                    for (element in columns) {
-                                        element.close()
-                                    }
-                                    break@loop
+                } else {
+                    val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                    loop@ while (true) {
+                        val nodeResult = XMLElement("result")
+                        for (variableIndex in variables.indices) {
+                            val valueID = columns[variableIndex].next()
+                            if (valueID == DictionaryValueHelper.nullValue) {
+                                for (element in columns) {
+                                    element.close()
                                 }
-                                if (valueID != DictionaryValueHelper.undefValue && valueID != DictionaryValueHelper.errorValue) {
-                                    query.getDictionary().getValue(buffer, valueID)
-                                    val value = DictionaryHelper.byteArrayToSparql(buffer)
-                                    val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
-                                    if (value.length > 1) {
-                                        if (value.startsWith("\"") && !value.endsWith("\"")) {
-                                            val idx = value.lastIndexOf("\"^^<")
-                                            if (idx >= 0) {
-                                                val data = value.substring(1, idx)
-                                                val type = value.substring(idx + 4, value.length - 1)
-                                                nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
-                                            } else {
-                                                val idx2 = value.lastIndexOf("\"@")
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:115"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
-                                                val data = value.substring(1, idx2)
-                                                val lang = value.substring(idx2 + 2, value.length)
-                                                nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                            }
-                                        } else if (value.startsWith("<") && value.endsWith(">")) {
-                                            nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                                        } else if (value.startsWith("_:")) {
-                                            if (bnodeMap[value] == null) {
-                                                bnodeMap[value] = "" + bnodeMap.keys.size
-                                            }
-                                            val name = bnodeMap[value]!!
-                                            nodeBinding.addContent(XMLElement("bnode").addContent(name))
-                                        } else {
-                                            nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-                                        }
-                                    }
-                                    nodeResult.addContent(nodeBinding)
-                                }
+                                break@loop
                             }
-                            nodeResults.addContent(nodeResult)
+                            if (valueID != DictionaryValueHelper.undefValue && valueID != DictionaryValueHelper.errorValue) {
+                                query.getDictionary().getValue(buffer, valueID)
+                                val value = DictionaryHelper.byteArrayToSparql(buffer)
+                                val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
+                                if (value.length > 1) {
+                                    if (value.startsWith("\"") && !value.endsWith("\"")) {
+                                        val idx = value.lastIndexOf("\"^^<")
+                                        if (idx >= 0) {
+                                            val data = value.substring(1, idx)
+                                            val type = value.substring(idx + 4, value.length - 1)
+                                            nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
+                                        } else {
+                                            val idx2 = value.lastIndexOf("\"@")
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLElement.kt:94"/*SOURCE_FILE_END*/ }, { idx2 >= 0 })
+                                            val data = value.substring(1, idx2)
+                                            val lang = value.substring(idx2 + 2, value.length)
+                                            nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                                        }
+                                    } else if (value.startsWith("<") && value.endsWith(">")) {
+                                        nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                                    } else if (value.startsWith("_:")) {
+                                        if (bnodeMap[value] == null) {
+                                            bnodeMap[value] = "" + bnodeMap.keys.size
+                                        }
+                                        val name = bnodeMap[value]!!
+                                        nodeBinding.addContent(XMLElement("bnode").addContent(name))
+                                    } else {
+                                        nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                                    }
+                                }
+                                nodeResult.addContent(nodeBinding)
+                            }
                         }
+                        nodeResults.addContent(nodeResult)
                     }
                 }
             }

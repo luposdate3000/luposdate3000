@@ -23,6 +23,7 @@ import lupos.shared.PartitionHelper
 import lupos.shared.SortHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public interface IOPBase {
     public fun usesDictionary(): Boolean
@@ -73,4 +74,7 @@ public interface IOPBase {
     public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
     public fun changePartitionID(idFrom: Int, idTo: Int)
     public fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase
+
+    public fun evaluateRootBundle(): IteratorBundleRoot
+    public fun evaluateBundle(): IteratorBundleRoot
 }

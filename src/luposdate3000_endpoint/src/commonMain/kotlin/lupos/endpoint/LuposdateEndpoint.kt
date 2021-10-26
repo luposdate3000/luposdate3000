@@ -65,6 +65,7 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
@@ -84,7 +85,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:86"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:87"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val dict = instance.nodeGlobalDictionary!!
@@ -277,7 +278,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:279"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:280"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -286,17 +287,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:288"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:289"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:293"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:294"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:298"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:299"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
@@ -333,6 +334,11 @@ public object LuposdateEndpoint {
             throw e
         }
 /*Coverage Unreachable*/
+    }
+
+    @JsName("evaluate_sparql_to_iteratorbundle_a")
+    /*suspend*/ public fun evaluateSparqlToIteratorBundleA(instance: Luposdate3000Instance, query: String): IteratorBundleRoot {
+        return evaluateSparqlToOperatorgraphA(instance, query).evaluateRootBundle()
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_a")
@@ -441,12 +447,27 @@ public object LuposdateEndpoint {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+    /*suspend*/ private inline fun evaluateOperatorGraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+        evaluateIteratorBundleToResultInternal(
+            instance,
+            if (asRoot) {
+                node.evaluateRootBundle()
+            } else {
+                node.evaluateBundle()
+            },
+            output,
+            evaluator,
+            timeoutInMs
+        )
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ private inline fun evaluateIteratorBundleToResultInternal(instance: Luposdate3000Instance, node: IteratorBundleRoot, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
         val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluator]]
         if (evaluatorInstance == null) {
             TODO(EQueryResultToStreamExt.names[evaluator])
         }
-        val res = evaluatorInstance(node, output, timeoutInMs, asRoot)
+        val res = evaluatorInstance(node, output, timeoutInMs)
         instance.tripleStoreManager!!.commit(node.getQuery())
         node.getQuery().setCommited()
         return res

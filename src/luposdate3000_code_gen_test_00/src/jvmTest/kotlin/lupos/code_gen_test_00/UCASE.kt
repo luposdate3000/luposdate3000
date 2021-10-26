@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
+import lupos.operator.factory.BinaryToOPBase
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EPartitionModeExt
@@ -27,6 +27,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
@@ -65,7 +66,7 @@ public class UCASE {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
+            normalHelper(instance, false)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -80,7 +81,7 @@ public class UCASE {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
+            normalHelper(instance, false)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -95,7 +96,7 @@ public class UCASE {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
+            normalHelper(instance, false)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -110,7 +111,7 @@ public class UCASE {
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
+            normalHelper(instance, false)
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -1987,7 +1988,6 @@ public class UCASE {
             "AllShortestPath",
         )
     }
-
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
@@ -2002,7 +2002,7 @@ public class UCASE {
         simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
         simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
         simRun.sim.startUp()
-        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
+        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
         val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
@@ -2020,8 +2020,7 @@ public class UCASE {
             fail("pck2 not verified")
         }
     }
-
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance: Luposdate3000Instance, binaryTest: Boolean) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
             LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
@@ -2037,8 +2036,14 @@ public class UCASE {
         if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
-        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val operator1: IteratorBundle = if (binaryTest) {
+            val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+            val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1)
+            BinaryToOPBase.convertToIteratorBundle(Query(instance), operatorTmp21)
+        } else {
+            LuposdateEndpoint.evaluateSparqlToIteratorBundleA(instance, query)
+        }
+        val actual1 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
         if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {

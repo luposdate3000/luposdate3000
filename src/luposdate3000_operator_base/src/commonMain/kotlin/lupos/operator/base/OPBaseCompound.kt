@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base
-
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -24,6 +23,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundleRoot
 import kotlin.jvm.JvmField
 
 public class OPBaseCompound public constructor(
@@ -85,5 +85,33 @@ public class OPBaseCompound public constructor(
             res.append(c.toSparqlQuery() + "\n")
         }
         return res.toString()
+    }
+    override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
+        return IteratorBundleRoot(
+            query,
+            Array(children.size) {
+                val k = if (columnProjectionOrder.size> it) {
+                    columnProjectionOrder[it]
+                } else {
+                    listOf()
+                }
+                val v = children[it].evaluateRoot()
+                k to v
+            }
+        )
+    }
+    override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
+        return IteratorBundleRoot(
+            query,
+            Array(children.size) {
+                val k = if (columnProjectionOrder.size> it) {
+                    columnProjectionOrder[it]
+                } else {
+                    listOf()
+                }
+                val v = children[it].evaluate(Partition())
+                k to v
+            }
+        )
     }
 }

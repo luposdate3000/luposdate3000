@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.result_format
+package lupos.shared.operator.iterator
 
-import lupos.shared.IMyOutputStream
-import lupos.shared.operator.iterator.IteratorBundleRoot
-
-public interface IResultFormat {
-    public operator fun invoke(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long): Any
-    public operator fun invoke(rootNode: IteratorBundleRoot, output: IMyOutputStream): Any
-    public operator fun invoke(rootNode: IteratorBundleRoot): Any
-}
+import lupos.shared.IQuery
+import kotlin.jvm.JvmField
+public class IteratorBundleRoot(
+    @JvmField
+    public val query: IQuery,
+    @JvmField
+    public val nodes: Array<Pair<List<String>, IteratorBundle>>,
+)

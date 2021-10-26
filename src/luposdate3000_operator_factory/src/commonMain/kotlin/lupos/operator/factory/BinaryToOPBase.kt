@@ -149,6 +149,10 @@ public object BinaryToOPBase {
         return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
     }
 
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundle {
+        return convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off))
+    }
+
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
     }
@@ -361,7 +365,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:363"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:367"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }

@@ -299,6 +299,7 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println(" */")
         fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
+        fileBufferPrefix.println("import lupos.operator.factory.BinaryToOPBase")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
         fileBufferPrefix.println("import lupos.operator.base.Query")
         fileBufferPrefix.println("import lupos.parser.JsonParser")
@@ -383,7 +384,7 @@ without minify mode only the passing tests will be added
 
         val fileBufferNormalHelper = MyPrintWriter(true)
 
-        fileBufferNormalHelper.println("    internal fun normalHelper(instance:Luposdate3000Instance) {")
+        fileBufferNormalHelper.println("    internal fun normalHelper(instance:Luposdate3000Instance,binaryTest:Boolean) {")
         fileBufferNormalHelper.println("        val buf = MyPrintWriter(false)")
         for (i in 0 until inputGraphs.size) {
             appendDistributedTest("Package_Luposdate3000_TestingImportPackage(inputDataFile[$i], inputGraph[$i], inputType[$i])", false)
@@ -400,13 +401,19 @@ without minify mode only the passing tests will be added
         val counter = localCounter++
         val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
         if (evaluateIt || expectedResult) {
-            fileBufferNormalHelper.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+            fileBufferNormalHelper.println("         val operator$counter = if (binaryTest) {")
+            fileBufferNormalHelper.println("            val operatorTmp$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
+            fileBufferNormalHelper.println("            val operatorTmp2$counter =BinaryToOPBase.convertToByteArray(operatorTmp$counter)")
+            fileBufferNormalHelper.println("            BinaryToOPBase.convertToIteratorBundle(Query(instance),operatorTmp2$counter)")
+            fileBufferNormalHelper.println("                    } else {")
+            fileBufferNormalHelper.println("            LuposdateEndpoint.evaluateSparqlToIteratorBundleA(instance, query)")
+            fileBufferNormalHelper.println("                    }")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
                 myVerifyGraph(counter, "targetData", "targetType", "\"\"", "query", false, fileBufferNormalHelper)
             } else {
                 if (evaluateIt) {
                     appendDistributedTest("Package_Luposdate3000_TestingExecute(query)", false)
-                    fileBufferNormalHelper.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                    fileBufferNormalHelper.println("        LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                 }
             }
         } else {
@@ -429,45 +436,48 @@ without minify mode only the passing tests will be added
         outerloop@ for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
             for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
                 for (useDictionaryInlineEncoding in listOf("true", "false")) {
-                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                        continue
-                    }
-                    if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
-                        continue
-                    }
-                    if (onlyFirstTest) {
-                        if (first) {
-                            first = false
-                        } else {
-                            break@outerloop
+                    for (binary in listOf(true, false)) {
+                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
+                            continue
                         }
+                        if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.None] && predefinedPartitionScheme != EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.Simple]) {
+                            continue
+                        }
+                        if (onlyFirstTest) {
+                            if (first) {
+                                first = false
+                            } else {
+                                break@outerloop
+                            }
+                        }
+                        val finalTestNameCheck = "$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
+                        val finalTestName = finalTestNameCheck + if (binary)" - binary" else ""
+                        listOfAllTests.add(finalTestName)
+                        val fileBufferTest = MyPrintWriter(true)
+                        fileBufferTests[finalTestName] = fileBufferTest
+                        if (isIgnored(finalTestNameCheck)) {
+                            fileBufferTest.println("    @Ignore")
+                        }
+                        if (minifyMode) {
+                            fileBufferTest.println("    @Test(timeout = 10000)")
+                        } else {
+                            fileBufferTest.println("    @Test")
+                        }
+                        fileBufferTest.println("    public fun `$finalTestName`() {")
+                        fileBufferTest.println("      var instance = Luposdate3000Instance()")
+                        fileBufferTest.println("      try{")
+                        fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                        fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
+                        fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
+                        fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
+                        fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
+                        fileBufferTest.println("        normalHelper(instance,$binary)")
+                        fileBufferTest.println("      }finally{")
+                        fileBufferTest.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
+                        fileBufferTest.println("      }")
+                        fileBufferTest.println("    }")
+                        distributedTestAppendFlag = false
                     }
-                    val finalTestName = "$testCaseName2 - $LUPOS_PARTITION_MODE - $predefinedPartitionScheme - $useDictionaryInlineEncoding"
-                    listOfAllTests.add(finalTestName)
-                    val fileBufferTest = MyPrintWriter(true)
-                    fileBufferTests[finalTestName] = fileBufferTest
-                    if (isIgnored(finalTestName)) {
-                        fileBufferTest.println("    @Ignore")
-                    }
-                    if (minifyMode) {
-                        fileBufferTest.println("    @Test(timeout = 10000)")
-                    } else {
-                        fileBufferTest.println("    @Test")
-                    }
-                    fileBufferTest.println("    public fun `$finalTestName`() {")
-                    fileBufferTest.println("      var instance = Luposdate3000Instance()")
-                    fileBufferTest.println("      try{")
-                    fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 128")
-                    fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
-                    fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
-                    fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
-                    fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
-                    fileBufferTest.println("        normalHelper(instance)")
-                    fileBufferTest.println("      }finally{")
-                    fileBufferTest.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
-                    fileBufferTest.println("      }")
-                    fileBufferTest.println("    }")
-                    distributedTestAppendFlag = false
                 }
             }
         }
