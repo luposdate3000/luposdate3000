@@ -44,8 +44,6 @@ import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
-import lupos.operator.physical.singleinput.POPSort
-import lupos.operator.physical.singleinput.EvalSort
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
 import lupos.operator.physical.singleinput.EvalGroup
@@ -55,11 +53,13 @@ import lupos.operator.physical.singleinput.EvalGroupSorted
 import lupos.operator.physical.singleinput.EvalGroupWithoutKeyColumn
 import lupos.operator.physical.singleinput.EvalMakeBooleanResult
 import lupos.operator.physical.singleinput.EvalModify
+import lupos.operator.physical.singleinput.EvalSort
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPMakeBooleanResult
 import lupos.operator.physical.singleinput.POPModify
+import lupos.operator.physical.singleinput.POPSort
 import lupos.operator.physical.singleinput.modifiers.EvalLimit
 import lupos.operator.physical.singleinput.modifiers.EvalOffset
 import lupos.operator.physical.singleinput.modifiers.EvalReduced
@@ -617,10 +617,10 @@ public object BinaryToOPBase {
                 } else {
                     val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                     val off = ByteArrayWrapperExt.getSize(data)
-                    ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (op.mySortPriority. size + op.getProvidedVariableNames().size + op.sortBy.size), true)
+                    ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (op.mySortPriority.size + op.getProvidedVariableNames().size + op.sortBy.size), true)
                     ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPSortID)
                     ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.mySortPriority. size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.mySortPriority.size)
                     ByteArrayWrapperExt.writeInt4(data, off + 12, op.getProvidedVariableNames().size)
                     ByteArrayWrapperExt.writeInt4(data, off + 16, op.sortBy.size)
                     ByteArrayWrapperExt.writeInt1(data, off + 20, if (op.sortOrder) 1 else 0)
