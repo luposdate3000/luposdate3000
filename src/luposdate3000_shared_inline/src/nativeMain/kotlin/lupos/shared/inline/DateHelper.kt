@@ -19,10 +19,10 @@ package lupos.shared.inline
 internal actual class DateHelper {
     actual constructor() {}
 
-    internal actual inline fun year(): Int = TODO()
-    internal actual inline fun month(): Int = TODO()
-    internal actual inline fun day(): Int = TODO()
-    internal actual inline fun hours(): Int = TODO()
-    internal actual inline fun minutes(): Int = TODO()
-    internal actual inline fun seconds(): Int = TODO()
+    internal actual inline fun year(): Int = TODO("DateHelper")
+    internal actual inline fun month(): Int = TODO("DateHelper")
+    internal actual inline fun day(): Int = TODO("DateHelper")
+    internal actual inline fun hours(): Int = TODO("DateHelper")
+    internal actual inline fun minutes(): Int = TODO("DateHelper")
+    internal actual inline fun seconds(): Int = TODO("DateHelper")
 }

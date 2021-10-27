@@ -52,7 +52,7 @@ public class RemoteDictionaryClient public constructor(
         }
     }
 
-    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO("RemoteDictionaryClient")
     override fun isInmemoryOnly(): Boolean = true
     override fun delete() {
     }

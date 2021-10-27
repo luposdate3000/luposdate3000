@@ -19,11 +19,11 @@ package lupos.shared.inline
 import lupos.shared.IMyInputStream
 
 internal actual class MyInputStream : IMyInputStream {
-    public actual override fun readByte(): Byte = TODO()
-    public actual override fun readInt(): Int = TODO()
-    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int = TODO()
-    public actual override fun read(buf: ByteArray, len: Int): Int = TODO()
-    public actual override fun read(buf: ByteArray): Int = TODO()
+    public actual override fun readByte(): Byte = TODO("MyInputStream")
+    public actual override fun readInt(): Int = TODO("MyInputStream")
+    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int = TODO("MyInputStream")
+    public actual override fun read(buf: ByteArray, len: Int): Int = TODO("MyInputStream")
+    public actual override fun read(buf: ByteArray): Int = TODO("MyInputStream")
     public actual override fun close() {
     }
 

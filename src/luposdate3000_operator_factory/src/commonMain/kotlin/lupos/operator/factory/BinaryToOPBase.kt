@@ -254,11 +254,11 @@ public object BinaryToOPBase {
     }
 
     private inline fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
-        TODO()
+        TODO("BinaryToOPBase.encodeAOP")
     }
 
     private inline fun decodeAOP(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
-        TODO()
+        TODO("BinaryToOPBase.decodeAOP")
     }
 
     init {

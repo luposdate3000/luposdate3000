@@ -28,7 +28,7 @@ public class RemoteDictionaryServer(
     private val dictionary: IDictionary,
     instance: Luposdate3000Instance,
 ) : ADictionary(instance, true) {
-    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO()
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit): Unit = TODO("RemoteDictionaryServer")
     override fun isInmemoryOnly(): Boolean = true
     override fun delete() {
     }

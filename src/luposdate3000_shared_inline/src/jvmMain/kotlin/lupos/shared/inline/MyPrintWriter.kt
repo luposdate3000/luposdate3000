@@ -48,7 +48,7 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.buffer.setLength(0)
         } else {
-            TODO()
+            TODO("MyPrintWriter")
         }
     }
 
@@ -56,7 +56,7 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
-            TODO()
+            TODO("MyPrintWriter")
         }
     }
 
@@ -114,11 +114,11 @@ internal actual open class MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun write(buf: ByteArray, len: Int): Unit = TODO()
-    actual override fun write(buf: ByteArray): Unit = TODO()
-    public actual override fun writeInt(value: Int): Unit = TODO()
-    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO()
-    public actual override fun writeLong(value: Long): Unit = TODO()
-    actual override fun close(): Unit = TODO()
-    actual override fun flush(): Unit = TODO()
+    actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
+    actual override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
+    public actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO("MyPrintWriter")
+    public actual override fun writeLong(value: Long): Unit = TODO("MyPrintWriter")
+    actual override fun close(): Unit = TODO("MyPrintWriter")
+    actual override fun flush(): Unit = TODO("MyPrintWriter")
 }

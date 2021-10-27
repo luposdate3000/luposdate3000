@@ -39,7 +39,7 @@ public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : A
 
     override fun equals(other: Any?): Boolean = other is AOPSet && children.contentEquals(other.children)
     override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
-        TODO()
+        TODO("AOPSet")
     }
 
     override fun cloneOP(): IOPBase = AOPSet(query, List(children.size) { children[it].cloneOP() as AOPBase })

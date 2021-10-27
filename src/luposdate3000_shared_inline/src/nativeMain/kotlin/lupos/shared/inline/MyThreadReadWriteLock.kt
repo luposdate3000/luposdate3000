@@ -25,12 +25,12 @@ internal actual class MyThreadReadWriteLock {
     internal val uuid = UUID_Counter.getNextUUID()
 
     internal actual inline fun getUUID() = uuid
-    internal actual inline fun downgradeToReadLock() = TODO()
-    internal actual inline fun readLock() = TODO()
-    internal actual inline fun readUnlock() = TODO()
-    internal actual inline fun writeLock() = TODO()
-    internal actual inline fun tryWriteLock(): Boolean = TODO()
-    internal actual inline fun writeUnlock() = TODO()
+    internal actual inline fun downgradeToReadLock() = TODO("MyThreadReadWriteLock")
+    internal actual inline fun readLock() = TODO("MyThreadReadWriteLock")
+    internal actual inline fun readUnlock() = TODO("MyThreadReadWriteLock")
+    internal actual inline fun writeLock() = TODO("MyThreadReadWriteLock")
+    internal actual inline fun tryWriteLock(): Boolean = TODO("MyThreadReadWriteLock")
+    internal actual inline fun writeUnlock() = TODO("MyThreadReadWriteLock")
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {

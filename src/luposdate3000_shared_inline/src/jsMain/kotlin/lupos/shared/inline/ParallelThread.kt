@@ -23,7 +23,7 @@ internal actual object ParallelThread {
         return action()
     }
 
-    internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = TODO()
+    internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = TODO("ParallelThread")
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun delay(milliseconds: Long) {

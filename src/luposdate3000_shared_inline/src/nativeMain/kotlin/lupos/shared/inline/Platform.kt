@@ -24,11 +24,11 @@ internal actual object Platform {
     val operatingSystem = EOperatingSystemExt.UNKNOWN
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getHostName(): String = TODO()
+    internal actual inline fun getHostName(): String = TODO("Platform")
     internal actual inline fun getOperatingSystem() = operatingSystem
-    internal actual inline fun getUserHome(): String = TODO()
-    internal actual inline fun getPathSeparator(): String = TODO()
-    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = TODO()
+    internal actual inline fun getUserHome(): String = TODO("Platform")
+    internal actual inline fun getPathSeparator(): String = TODO("Platform")
+    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = TODO("Platform")
     internal actual inline fun getNullFileName(): String = "/dev/null"
     internal actual inline fun getEnv(key: String, default: String?): String? {
         val tmp = getenv(key)?.toKString()

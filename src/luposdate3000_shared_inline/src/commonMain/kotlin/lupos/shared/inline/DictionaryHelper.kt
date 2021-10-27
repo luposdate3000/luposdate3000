@@ -375,7 +375,7 @@ internal object DictionaryHelper {
     internal inline fun byteArrayAsBoolean(buffer: ByteArrayWrapper): Boolean {
         return when (byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BOOLEAN -> byteArrayToBoolean(buffer)
-            else -> TODO()
+            else -> TODO("byteArrayAsBoolean ${byteArrayToType(buffer)}")
         }
     }
 

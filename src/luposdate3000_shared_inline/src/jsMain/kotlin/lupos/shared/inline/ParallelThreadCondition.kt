@@ -17,8 +17,8 @@
 package lupos.shared.inline
 
 internal actual class ParallelThreadCondition {
-    internal actual inline fun waitCondition(crossinline condition: () -> Boolean): Unit = TODO()
+    internal actual inline fun waitCondition(crossinline condition: () -> Boolean): Unit = TODO("ParallelThreadCondition")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun signal(): Unit = TODO()
+    internal actual inline fun signal(): Unit = TODO("ParallelThreadCondition")
 }
