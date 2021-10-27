@@ -144,8 +144,8 @@ public object BinaryToOPBase {
         val data = ByteArrayWrapper()
         if (op is OPBaseCompound) {
             ByteArrayWrapperExt.setSize(data, 5 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
-            ByteArrayWrapperExt.writeInt1(data, 0, 0x1)
-            ByteArrayWrapperExt.writeInt4(data, 1, op.children.size)
+            ByteArrayWrapperExt.writeInt1(data, 0, 0x1, { "convertToByteArray.isOPBaseCompound" })
+            ByteArrayWrapperExt.writeInt4(data, 1, op.children.size, { "OPBaseCompound.children.size" })
             var o = 5
             for (i in 0 until op.children.size) {
                 val k = if (op.columnProjectionOrder.size > i) {
@@ -154,44 +154,44 @@ public object BinaryToOPBase {
                     listOf()
                 }
                 val off = convertToByteArrayHelper(op.children[i], data, Partition(), mapping)
-                ByteArrayWrapperExt.writeInt4(data, o, off)
+                ByteArrayWrapperExt.writeInt4(data, o, off, { "OPBaseCompound.children[$i]" })
                 o += 4
-                ByteArrayWrapperExt.writeInt4(data, o, k.size)
+                ByteArrayWrapperExt.writeInt4(data, o, k.size, { "OPBaseCompound.columnProjectionOrder[$i].size" })
                 o += 4
                 for (j in 0 until k.size) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(k[j], data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(k[j], data, mapping), { "OPBaseCompound.columnProjectionOrder[$i][$j]" })
                     o += 4
                 }
             }
         } else {
             ByteArrayWrapperExt.setSize(data, 5, false)
             val off = convertToByteArrayHelper(op, data, Partition(), mapping)
-            ByteArrayWrapperExt.writeInt1(data, 0, 0x0)
-            ByteArrayWrapperExt.writeInt4(data, 1, off)
+            ByteArrayWrapperExt.writeInt1(data, 0, 0x0, { "convertToByteArray.isOPBaseCompound" })
+            ByteArrayWrapperExt.writeInt4(data, 1, off, { "OPBase.children[0]" })
         }
         return data
     }
 
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot {
-        if (ByteArrayWrapperExt.readInt1(data, off) == 0x1) {
-            val childCount = ByteArrayWrapperExt.readInt4(data, off + 1)
+        if (ByteArrayWrapperExt.readInt1(data, off, { "convertToByteArray.isOPBaseCompound" }) == 0x1) {
+            val childCount = ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBaseCompound.children.size" })
             var o = 5
             val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
             for (i in 0 until childCount) {
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
                 o += 4
-                val size = ByteArrayWrapperExt.readInt4(data, o)
+                val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
                 o += 4
                 val list = mutableListOf<String>()
                 for (j in 0 until size) {
-                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
                     o += 4
                 }
                 res.add(list to child)
             }
             return IteratorBundleRoot(query, res.toTypedArray())
         } else {
-            val tmp = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1))
+            val tmp = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBase.children[0]" }))
             return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
         }
     }
@@ -224,15 +224,15 @@ public object BinaryToOPBase {
                 mapping[s] = off
                 val b = s.encodeToByteArray()
                 ByteArrayWrapperExt.setSize(data, off + 4 + b.size, false)
-                ByteArrayWrapperExt.writeInt4(data, off, b.size)
-                ByteArrayWrapperExt.writeBuf(data, off + 4, b)
+                ByteArrayWrapperExt.writeInt4(data, off, b.size, { "encodeString.len" })
+                ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
                 return off
             }
         }
     }
 
     private inline fun decodeString(data: ByteArrayWrapper, off: Int): String {
-        return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off))
+        return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" }))
     }
 
     private inline fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
@@ -315,29 +315,31 @@ public object BinaryToOPBase {
                 op as POPModifyData
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 4 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size, { "POPModifyData.data.size" })
                 var o = off + 8
+                var i = 0
                 for (t in op.data) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(t.graph, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(t.graph, data, mapping), { "POPModifyData.data[$i].graph" })
                     o += 4
-                    for (i in 0 until 3) {
-                        DictionaryValueHelper.toByteArray(data, o, (t.children[i] as AOPConstant).value)
+                    for (j in 0 until 3) {
+                        DictionaryValueHelper.toByteArray(data, o, (t.children[j] as AOPConstant).value, { "POPModifyData.data[$i][$j]" })
                         o += DictionaryValueHelper.getSize()
                     }
+                    i++
                 }
                 off
             },
             { query, data, off ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
-                val l = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val l = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.data.size" })
                 var o = off + 8
                 for (i in 0 until l) {
                     val arr = DictionaryValueTypeArray(3)
-                    for (i in 0 until 3) {
-                        arr[i] = DictionaryValueHelper.fromByteArray(data, o + 4 + i * DictionaryValueHelper.getSize())
+                    for (j in 0 until 3) {
+                        arr[j] = DictionaryValueHelper.fromByteArray(data, o + 4 + j * DictionaryValueHelper.getSize(), { "POPModifyData.data[$i][$j]" })
                     }
-                    d.add(decodeString(data, o) to arr)
+                    d.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPModifyData.data[$i].graph" })) to arr)
                     o += DictionaryValueHelper.getSize() * 3 + 4
                 }
                 EvalModifyData(d, query)
@@ -349,23 +351,23 @@ public object BinaryToOPBase {
                 op as POPGraphOperation
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 25, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type)
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action)
-                ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping))
-                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type, { "POPGraphOperation.graph1type" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type, { "POPGraphOperation.graph2type" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action, { "POPGraphOperation.action" })
+                ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping), { "POPGraphOperation.graph1iri" })
+                ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping), { "POPGraphOperation.graph2iri" })
+                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0, { "POPGraphOperation.silent" })
                 off
             },
             { query, data, off ->
                 EvalGraphOperation(
-                    ByteArrayWrapperExt.readInt1(data, off + 24) == 1,
-                    ByteArrayWrapperExt.readInt4(data, off + 4),
-                    decodeStringNull(data, off + 16),
-                    ByteArrayWrapperExt.readInt4(data, off + 8),
-                    decodeStringNull(data, off + 20),
-                    ByteArrayWrapperExt.readInt4(data, off + 12),
+                    ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1,
+                    ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" }),
+                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" })),
+                    ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" }),
+                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" })),
+                    ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" }),
                     query,
                 )
             },
@@ -377,20 +379,20 @@ public object BinaryToOPBase {
                 val n = op.getProvidedVariableNames()
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8 + 4 * n.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPNothingID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, n.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPNothingID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, n.size, { "POPNothing.size" })
                 var i = 0
                 for (s in n) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 8 + i * 4, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, off + 8 + i * 4, encodeString(s, data, mapping), { "POPNothing.data[$i]" })
                     i++
                 }
                 off
             },
             { query, data, off ->
-                val len = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPNothing.size" })
                 val list = mutableListOf<String>()
                 for (i in 0 until len) {
-                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i)))
+                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPNothing.data[$i]" })))
                 }
                 EvalNothing(list)
             },
@@ -406,28 +408,30 @@ public object BinaryToOPBase {
                 if (op.rows == -1) {
                     val size = op.data[op.variables.first()]!!.size
                     ByteArrayWrapperExt.setSize(data, off + 12 + op.data.size * (4 + size * DictionaryValueHelper.getSize()), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size, { "POPValues.columns.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, size, { "POPValues.rows.size" })
                     var o = off + 12
+                    var column = 0
                     for ((col, rows) in op.data) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(col, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(col, data, mapping), { "POPValues.column[$column]" })
                         o += 4
                         var i = 0
                         for (row in rows) {
                             i++
-                            DictionaryValueHelper.toByteArray(data, o, row)
+                            DictionaryValueHelper.toByteArray(data, o, row, { "POPValues.data[$column][$i]" })
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:422"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:425"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
+                        column++
                     }
                 } else {
                     ByteArrayWrapperExt.setSize(data, off + 8, true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesCountID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.rows)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesCountID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.rows, { "POPValueCount.rows.size" })
                 }
                 off
             },
@@ -435,22 +439,22 @@ public object BinaryToOPBase {
         assignOperatorDecode(
             EOperatorIDExt.POPValuesCountID,
             { query, data, off ->
-                IteratorBundle(ByteArrayWrapperExt.readInt4(data, off + 4))
+                IteratorBundle(ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" }))
             },
         )
         assignOperatorDecode(
             EOperatorIDExt.POPValuesID,
             { query, data, off ->
-                val columns = ByteArrayWrapperExt.readInt4(data, off + 4)
-                val row_count = ByteArrayWrapperExt.readInt4(data, off + 4)
+                val columns = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValues.columns.size" })
+                val row_count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPValues.rows.size" })
                 val dd = mutableMapOf<String, MutableList<DictionaryValueType>>()
                 var o = off + 12
                 for (c in 0 until columns) {
                     val rows = mutableListOf<DictionaryValueType>()
-                    dd[decodeString(data, o)] = rows
+                    dd[decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPValues.column[$c]" }))] = rows
                     o += 4
                     for (i in 0 until row_count) {
-                        rows.add(DictionaryValueHelper.fromByteArray(data, o))
+                        rows.add(DictionaryValueHelper.fromByteArray(data, o, { "POPValues.data[$c][$i]" }))
                         o += DictionaryValueHelper.getSize()
                     }
                 }
@@ -463,7 +467,7 @@ public object BinaryToOPBase {
             { op, data, parent, mapping ->
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 4, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID, { "operatorID" })
                 off
             },
             { query, data, off ->
@@ -478,24 +482,26 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPUnionID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPUnionID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPUnion.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPUnion.child1" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPUnion.variables.size" })
                 var o = off + 16
+                var i = 0
                 for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPUnion.variables[$i]" })
                     o += 4
+                    i++
                 }
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPUnion.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPUnion.child1" }))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPUnion.variables.size" })
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPUnion.variables[$i]" })))
                 }
                 EvalUnion(child0, child1, projectedVariables)
             },
@@ -508,24 +514,26 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMinusID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMinusID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPMinus.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPMinus.child1" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPMinus.variables.size" })
                 var o = off + 16
+                var i = 0
                 for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPMinus.variables[$i]" })
                     o += 4
+                    i++
                 }
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMinus.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPMinus.child1" }))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPMinus.variables.size" })
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPMinus.variables[$i]" })))
                 }
                 EvalMinus(child0, child1, projectedVariables)
             },
@@ -538,14 +546,14 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMergeSingleColumn.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeSingleColumn.child1" })
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }))
                 EvalJoinMergeSingleColumn(child0, child1)
             },
         )
@@ -557,24 +565,26 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeOptionalID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeOptionalID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMergeOptional.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeOptional.child1" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPJoinMergeOptional.variables.size" })
                 var o = off + 16
+                var i = 0
                 for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPJoinMergeOptional.variables[$i]" })
                     o += 4
+                    i++
                 }
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeOptional.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeOptional.child1" }))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMergeOptional.variables.size" })
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMergeOptional.variables[$i]" })))
                 }
                 EvalJoinMergeOptional(arrayOf(child0, child1), projectedVariables)
             },
@@ -587,24 +597,26 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMerge.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMerge.child1" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPJoinMerge.variables.size" })
                 var o = off + 16
+                var i = 0
                 for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPJoinMerge.variables[$i]" })
                     o += 4
+                    i++
                 }
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val l = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMerge.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" }))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMerge.variables.size" })
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
                 }
                 EvalJoinMerge(child0, child1, projectedVariables)
             },
@@ -617,27 +629,29 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 4 * op.projectedVariables.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0)
-                ByteArrayWrapperExt.writeInt4(data, off + 13, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinHashMap.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinHashMap.child1" })
+                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0, { "POPJoinHashMap.optional" })
+                ByteArrayWrapperExt.writeInt4(data, off + 13, op.projectedVariables.size, { "POPJoinHashMap.variables.size" })
                 var o = off + 17
+                var i = 0
                 for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPJoinHashMap.variables[$i]" })
                     o += 4
+                    i++
                 }
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val l = ByteArrayWrapperExt.readInt4(data, off + 13)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinHashMap.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinHashMap.child1" }))
+                val l = ByteArrayWrapperExt.readInt4(data, off + 13, { "POPJoinHashMap.variables.size" })
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
-                EvalJoinHashMap(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12) == 1, projectedVariables)
+                EvalJoinHashMap(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1, projectedVariables)
             },
         )
         assignOperator(
@@ -648,16 +662,16 @@ public object BinaryToOPBase {
                 val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 13, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1)
-                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinCartesianProduct.child0" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinCartesianProduct.child1" })
+                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0, { "POPJoinCartesianProduct.optional" })
                 off
             },
             { query, data, off ->
-                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                EvalJoinCartesianProduct(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12) == 1)
+                val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
+                val child1 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }))
+                EvalJoinCartesianProduct(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1)
             },
         )
         assignOperator(
@@ -667,14 +681,14 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPLimitID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.limit)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPLimitID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPLimit.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.limit, { "POPLimit.limit" })
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
+                EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" }))
             },
         )
         assignOperator(
@@ -687,48 +701,54 @@ public object BinaryToOPBase {
                     val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                     val off = ByteArrayWrapperExt.getSize(data)
                     ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (op.mySortPriority.size + op.getProvidedVariableNames().size + op.sortBy.size), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPSortID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.mySortPriority.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.getProvidedVariableNames().size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 16, op.sortBy.size)
-                    ByteArrayWrapperExt.writeInt1(data, off + 20, if (op.sortOrder) 1 else 0)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPSortID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPSort.child" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.mySortPriority.size, { "POPSort.sp.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.getProvidedVariableNames().size, { "POPSort.p.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 16, op.sortBy.size, { "POPSort.sb.size" })
+                    ByteArrayWrapperExt.writeInt1(data, off + 20, if (op.sortOrder) 1 else 0, { "POPSort.sortOrder" })
                     var o = 21
+                    var i = 0
                     for (s in op.mySortPriority.map { it.variableName }) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPSort.sp[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for (s in op.sortBy.map { it.name }) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPSort.sb[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for (s in op.getProvidedVariableNames()) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPSort.p[$i]" })
                         o += 4
+                        i++
                     }
                     off
                 }
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val splen = ByteArrayWrapperExt.readInt4(data, off + 8)
-                val plen = ByteArrayWrapperExt.readInt4(data, off + 12)
-                val sblen = ByteArrayWrapperExt.readInt4(data, off + 16)
-                val sortOrder = ByteArrayWrapperExt.readInt1(data, off + 20) != 0
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" }))
+                val splen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPSort.sp.size" })
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPSort.p.size" })
+                val sblen = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPSort.sb.size" })
+                val sortOrder = ByteArrayWrapperExt.readInt1(data, off + 20, { "POPSort.sortOrder" }) != 0
                 var o = 21
                 val spList = mutableListOf<String>()
                 val pList = mutableListOf<String>()
                 val sbList = mutableListOf<String>()
                 for (i in 0 until splen) {
-                    spList.add(decodeString(data, o))
+                    spList.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.sp[$i]" })))
                     o += 4
                 }
                 for (i in 0 until sblen) {
-                    sbList.add(decodeString(data, o))
+                    sbList.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.sb[$i]" })))
                     o += 4
                 }
                 for (i in 0 until plen) {
-                    pList.add(decodeString(data, o))
+                    pList.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.p[$i]" })))
                     o += 4
                 }
                 EvalSort(child, spList, query, sbList.toTypedArray(), pList, sortOrder)
@@ -741,14 +761,14 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPOffsetID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.offset)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPOffsetID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPOffset.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.offset, { "POPOffset.offset" })
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                EvalOffset(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" }))
+                EvalOffset(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" }))
             },
         )
         assignOperator(
@@ -758,12 +778,12 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMakeBooleanResultID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMakeBooleanResultID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPMakeBooleanResult.child" })
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" }))
                 EvalMakeBooleanResult(child)
             },
         )
@@ -774,14 +794,14 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPReduced.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPReduced.variables.size" })
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                EvalReduced(child, ByteArrayWrapperExt.readInt4(data, off + 8))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
+                EvalReduced(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" }))
             },
         )
         assignOperator(
@@ -791,10 +811,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4, true)
                 val target = op.getTarget(parent)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(target.first, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(target.second, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.getIndexPattern())
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(target.first, data, mapping), { "POPTripleStoreIterator.target.first" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(target.second, data, mapping), { "POPTripleStoreIterator.target.second" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.getIndexPattern(), { "POPTripleStoreIterator.IndexPattern" })
                 var childFlag = 0
                 var o = off + 17
                 for (i in 0 until 3) {
@@ -802,62 +822,62 @@ public object BinaryToOPBase {
                     when (child) {
                         is IAOPConstant -> {
                             childFlag = childFlag + (1 shl i)
-                            DictionaryValueHelper.toByteArray(data, o, child.getValue())
+                            DictionaryValueHelper.toByteArray(data, o, child.getValue(), { "POPTripleStoreIterator.constant[$i]" })
                             o += DictionaryValueHelper.getSize()
                         }
                         else -> {
                             child as IAOPVariable
-                            ByteArrayWrapperExt.writeInt4(data, o, encodeString(child.getName(), data, mapping))
+                            ByteArrayWrapperExt.writeInt4(data, o, encodeString(child.getName(), data, mapping), { "POPTripleStoreIterator.variable[$i]" })
                             o += 4
                         }
                     }
                 }
-                ByteArrayWrapperExt.writeInt1(data, off + 16, childFlag)
+                ByteArrayWrapperExt.writeInt1(data, off + 16, childFlag, { "POPTripleStoreIterator.childFlag" })
                 off
             },
             { query, data, off ->
-                val buf1 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val buf2 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8))
-                val index = ByteArrayWrapperExt.readInt4(data, off + 12)
-                val childFlag = ByteArrayWrapperExt.readInt1(data, off + 16)
+                val buf1 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPTripleStoreIterator.target.first" }))
+                val buf2 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPTripleStoreIterator.target.second" }))
+                val index = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPTripleStoreIterator.IndexPattern" })
+                val childFlag = ByteArrayWrapperExt.readInt1(data, off + 16, { "POPTripleStoreIterator.childFlag" })
                 var o = off + 17
                 val child0f = (childFlag and 0x1) > 0
                 val child1f = (childFlag and 0x2) > 0
                 val child2f = (childFlag and 0x4) > 0
                 val child0c = if (child0f) {
-                    val res = DictionaryValueHelper.fromByteArray(data, o)
+                    val res = DictionaryValueHelper.fromByteArray(data, o, { "POPTripleStoreIterator.constant[0]" })
                     o += DictionaryValueHelper.getSize()
                     res
                 } else {
                     DictionaryValueHelper.nullValue
                 }
                 val child0v = if (child0f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[0]" }))
                 } else {
                     ""
                 }
                 val child1c = if (child1f) {
-                    val res = DictionaryValueHelper.fromByteArray(data, o)
+                    val res = DictionaryValueHelper.fromByteArray(data, o, { "POPTripleStoreIterator.constant[1]" })
                     o += DictionaryValueHelper.getSize()
                     res
                 } else {
                     DictionaryValueHelper.nullValue
                 }
                 val child1v = if (child1f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[1]" }))
                 } else {
                     ""
                 }
                 val child2c = if (child2f) {
                     val res =
-                        DictionaryValueHelper.fromByteArray(data, o)
+                        DictionaryValueHelper.fromByteArray(data, o, { "POPTripleStoreIterator.constant[2]" })
                     o += DictionaryValueHelper.getSize()
                     res
                 } else {
                     DictionaryValueHelper.nullValue
                 }
                 val child2v = if (child2f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[2]" }))
                 } else {
                     ""
                 }
@@ -877,24 +897,24 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 20 + variablesOut.size * 4, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPBindID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.name.name, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 16, variablesOut.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPBindID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPBind.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "POPBind.value" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.name.name, data, mapping), { "POPBind.column" })
+                ByteArrayWrapperExt.writeInt4(data, off + 16, variablesOut.size, { "POPBind.variables.size" })
                 for (i in 0 until variablesOut.size) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 20 + 4 * i, encodeString(variablesOut[i], data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, off + 20 + 4 * i, encodeString(variablesOut[i], data, mapping), { "POPBind.variables[$i]" })
                 }
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPBind.child" }))
                 val variablesOut = mutableListOf<String>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 16)
+                val len = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPBind.variables.size" })
                 for (i in 0 until len) {
-                    variablesOut.add(decodeString(data, off + 20 + i * 4))
+                    variablesOut.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 20 + i * 4, { "POPBind.variables[$i]" })))
                 }
-                EvalBind(child, variablesOut, decodeString(data, off + 12), decodeAOP(query, data, off + 8))
+                EvalBind(child, variablesOut, decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" })), decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" })))
             },
         )
         assignOperator(
@@ -905,23 +925,23 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * variablesOut.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPFilterID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping))
-                ByteArrayWrapperExt.writeInt4(data, off + 12, variablesOut.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPFilterID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPFilter.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "POPFilter.filter" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, variablesOut.size, { "POPFilter.variables.size" })
                 for (i in 0 until variablesOut.size) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * i, encodeString(variablesOut[i], data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * i, encodeString(variablesOut[i], data, mapping), { "POPFilter.variables[$i]" })
                 }
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPFilter.child" }))
                 val variablesOut = mutableListOf<String>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val len = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPFilter.variables.size" })
                 for (i in 0 until len) {
-                    variablesOut.add(decodeString(data, off + 16 + i * 4))
+                    variablesOut.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + i * 4, { "POPFilter.variables[$i]" })))
                 }
-                EvalFilter(child, variablesOut, decodeAOP(query, data, off + 8))
+                EvalFilter(child, variablesOut, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" })))
             },
         )
         assignOperatorEncode(
@@ -940,77 +960,91 @@ public object BinaryToOPBase {
                 var done = false
                 if (op.by.isEmpty()) {
                     ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupWithoutKeyColumnID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupWithoutKeyColumnID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupWithoutKeyColumn.child" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPGroupWithoutKeyColumn.variables.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size, { "POPGroupWithoutKeyColumn.bindings.size" })
                     var o = 16
+                    var i = 0
                     for (s in op.projectedVariables) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroupWithoutKeyColumn.variables[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for ((k, v) in op.bindings) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping), { "POPGroupWithoutKeyColumn.binding[$i].name" })
                         o += 4
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping), { "POPGroupWithoutKeyColumn.binding[$i].value" })
                         o += 4
+                        i++
                     }
                     done = true
                 } else if (op.canUseSortedInput()) {
                     ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupSortedID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 16, keyColumnNames.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupSortedID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupSorted.child" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPGroupSorted.variables.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size, { "POPGroupSorted.bindings.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 16, keyColumnNames.size, { "POPGroupSorted.keys.size" })
                     var o = 20
+                    var i = 0
                     for (s in op.projectedVariables) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroupSorted.variables[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for (s in keyColumnNames) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroupSorted.keys[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for ((k, v) in op.bindings) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping), { "POPGroupSorted.bindings[$i].name" })
                         o += 4
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping), { "POPGroupSorted.bindings[$i].value" })
                         o += 4
+                        i++
                     }
                     done = true
                 } else if (op.isCountOnly()) {
                     if (op.by.size == 0) {
                         ByteArrayWrapperExt.setSize(data, off + 12, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount0ID)
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount0ID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupCount0.child" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping), { "POPGroupCount0.column" })
                         done = true
                     } else if (op.by.size == 1) {
                         ByteArrayWrapperExt.setSize(data, off + 16, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount1ID)
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping))
-                        ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.by[0].name, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupCount1ID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupCount1.child" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(op.bindings.toList().first().first, data, mapping), { "POPGroupCount1.column" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, encodeString(op.by[0].name, data, mapping), { "POPGroupCount1.by" })
                         done = true
                     }
                 }
                 if (!done) {
                     ByteArrayWrapperExt.setSize(data, off + 16 + 4 * (keyColumnNames.size + op.projectedVariables.size + op.bindings.size * 2), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupID)
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.bindings.size)
-                    ByteArrayWrapperExt.writeInt4(data, off + 12, keyColumnNames.size)
+                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroup.child" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 8, op.bindings.size, { "POPGroup.bindings.size" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 12, keyColumnNames.size, { "POPGroup.keys.size" })
                     var o = 16
+                    var i = 0
                     for (s in keyColumnNames) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroup.keys[$i]" })
                         o += 4
+                        i++
                     }
+                    i = 0
                     for ((k, v) in op.bindings) {
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeString(k, data, mapping), { "POPGroup.bindings[$i].name" })
                         o += 4
-                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o, encodeAOP(v, data, mapping), { "POPGroup.bindings[$i].value" })
                         o += 4
+                        i++
                     }
                 }
                 off
@@ -1019,43 +1053,43 @@ public object BinaryToOPBase {
         assignOperatorDecode(
             EOperatorIDExt.POPGroupCount0ID,
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val binding = decodeString(data, off + 8)
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount0.child" }))
+                val binding = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount0.column" }))
                 EvalGroupCount0(child, binding, query.getDictionary())
             },
         )
         assignOperatorDecode(
             EOperatorIDExt.POPGroupCount1ID,
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val binding = decodeString(data, off + 8)
-                val name = decodeString(data, off + 12)
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount1.child" }))
+                val binding = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount1.column" }))
+                val name = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupCount1.by" }))
                 EvalGroupCount1(child, binding, name, query.getDictionary())
             },
         )
         assignOperatorDecode(
             EOperatorIDExt.POPGroupSortedID,
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val plen = ByteArrayWrapperExt.readInt4(data, off + 8)
-                val blen = ByteArrayWrapperExt.readInt4(data, off + 12)
-                val klen = ByteArrayWrapperExt.readInt4(data, off + 16)
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupSorted.child" }))
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupSorted.variables.size" })
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupSorted.bindings.size" })
+                val klen = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGroupSorted.keys.size" })
                 var o = 20
                 val projectedVariables = mutableListOf<String>()
                 for (i in 0 until plen) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupSorted.variables[$i]" })))
                     o += 4
                 }
                 val keyColumnNames = Array<String>(klen) { "" }
                 for (i in 0 until klen) {
-                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupSorted.keys[$i]" }))
                     o += 4
                 }
                 val bindings = mutableListOf<Pair<String, AOPBase>>()
                 for (i in 0 until blen) {
-                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupSorted.bindings[$i].name" }))
                     o += 4
-                    val v = decodeAOP(query, data, o)
+                    val v = decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupSorted.bindings[$i].value" }))
                     o += 4
                     bindings.add(k to v)
                 }
@@ -1115,16 +1149,16 @@ public object BinaryToOPBase {
                 val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12 + op.modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyID)
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child)
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.modify.size)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPModify.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.modify.size, { "POPModify.modify.size" })
                 val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
                 var i = 0
                 for ((k, v) in op.modify) {
                     var o = off + 12 + i * step
-                    ByteArrayWrapperExt.writeInt4(data, o, v)
-                    ByteArrayWrapperExt.writeInt4(data, o + 4, encodeString(k.graph, data, mapping))
+                    ByteArrayWrapperExt.writeInt4(data, o, v, { "POPModify.modify[$i].v" })
+                    ByteArrayWrapperExt.writeInt4(data, o + 4, encodeString(k.graph, data, mapping), { "POPModify.modify[$i].graph" })
                     var flag = 0
                     if (k.graphVar) {
                         flag += 0x1
@@ -1134,53 +1168,53 @@ public object BinaryToOPBase {
                     val oo = k.children[2]
                     if (s is AOPConstant) {
                         flag += 0x2
-                        DictionaryValueHelper.toByteArray(data, o + 9, s.value)
+                        DictionaryValueHelper.toByteArray(data, o + 9, s.value, { "POPModify.modify[$i].child[0].c" })
                     } else {
                         s as AOPVariable
-                        ByteArrayWrapperExt.writeInt4(data, o + 9, encodeString(s.name, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o + 9, encodeString(s.name, data, mapping), { "POPModify.modify[$i].child[0].v" })
                     }
                     if (p is AOPConstant) {
                         flag += 0x4
-                        DictionaryValueHelper.toByteArray(data, o + 9 + steph, p.value)
+                        DictionaryValueHelper.toByteArray(data, o + 9 + steph, p.value, { "POPModify.modify[$i].child[1].c" })
                     } else {
                         p as AOPVariable
-                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph, encodeString(p.name, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph, encodeString(p.name, data, mapping), { "POPModify.modify[$i].child[1].v" })
                     }
                     if (oo is AOPConstant) {
                         flag += 0x8
-                        DictionaryValueHelper.toByteArray(data, o + 9 + steph + steph, oo.value)
+                        DictionaryValueHelper.toByteArray(data, o + 9 + steph + steph, oo.value, { "POPModify.modify[$i].child[2].c" })
                     } else {
                         oo as AOPVariable
-                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph + steph, encodeString(oo.name, data, mapping))
+                        ByteArrayWrapperExt.writeInt4(data, o + 9 + steph + steph, encodeString(oo.name, data, mapping), { "POPModify.modify[$i].child[2].v" })
                     }
-                    ByteArrayWrapperExt.writeInt1(data, o + 8, v)
+                    ByteArrayWrapperExt.writeInt1(data, o + 8, v, { "POPModify.modify[$i].flag" })
                     i++
                 }
                 off
             },
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }))
                 val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
-                val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 8)) { it ->
+                val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.modify.size" })) { it ->
                     val o = off + 12 + it * step
-                    val v = ByteArrayWrapperExt.readInt4(data, o)
-                    val flag = ByteArrayWrapperExt.readInt1(data, o + 8)
+                    val v = ByteArrayWrapperExt.readInt4(data, o, { "POPModify.modify[$it].v" })
+                    val flag = ByteArrayWrapperExt.readInt1(data, o + 8, { "POPModify.modify[$it].flag" })
                     val graph = decodeString(data, o + 4)
                     val s = if ((flag and 0x2) != 0) {
-                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9))
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9, { "POPModify.modify[$it].child[0].c" }))
                     } else {
-                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9)))
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9, { "POPModify.modify[$it].child[0].v" })))
                     }
                     val p = if ((flag and 0x4) != 0) {
-                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph))
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph, { "POPModify.modify[$it].child[1].c" }))
                     } else {
-                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph)))
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph, { "POPModify.modify[$it].child[1].v" })))
                     }
                     val oo = if ((flag and 0x8) != 0) {
-                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph + steph))
+                        AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9 + steph + steph, { "POPModify.modify[$it].child[2].c" }))
                     } else {
-                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph + steph)))
+                        AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 9 + steph + steph, { "POPModify.modify[$it].child[2].v" })))
                     }
                     val graphVar = (flag and 0x1) != 0
                     val k = LOPTriple(query, s, p, oo, graph, graphVar)

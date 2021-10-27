@@ -18,7 +18,10 @@ package lupos.shared.inline.dynamicArray
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper2
+
 public object ByteArrayWrapperExt {
+    private const val debugByteArrayWrapperContents = true
+
     @Suppress("NOTHING_TO_INLINE")
     public inline fun getSize(data: ByteArrayWrapper): Int {
         return data.size_
@@ -111,78 +114,93 @@ public object ByteArrayWrapperExt {
         return res
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readDouble8(data: ByteArrayWrapper, offset: Int): Double {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readDouble8(data: ByteArrayWrapper, offset: Int, crossinline comment: () -> String = { "TODO" }): Double {
+        if (debugByteArrayWrapperContents) { println("$offset readDouble8 ${comment()}") }
         return ByteArrayHelper2.readDouble8(ByteArrayWrapperExt.getBuf(data), offset)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readInt1(data: ByteArrayWrapper, offset: Int): Int {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readInt1(data: ByteArrayWrapper, offset: Int, crossinline comment: () -> String = { "TODO" }): Int {
+        if (debugByteArrayWrapperContents) { println("$offset readInt1 ${comment()}") }
         return ByteArrayHelper2.readInt1(ByteArrayWrapperExt.getBuf(data), offset)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readInt4(data: ByteArrayWrapper, offset: Int): Int {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readInt4(data: ByteArrayWrapper, offset: Int, crossinline comment: () -> String = { "TODO" }): Int {
+        if (debugByteArrayWrapperContents) { println("$offset readInt4 ${comment()}") }
         return ByteArrayHelper2.readInt4(ByteArrayWrapperExt.getBuf(data), offset)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readIntX(data: ByteArrayWrapper, offset: Int, count: Int): Int {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readIntX(data: ByteArrayWrapper, offset: Int, count: Int, crossinline comment: () -> String = { "TODO" }): Int {
+        if (debugByteArrayWrapperContents) { println("$offset readIntX=$count ${comment()}") }
         return ByteArrayHelper2.readIntX(ByteArrayWrapperExt.getBuf(data), offset, count)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readLong6(data: ByteArrayWrapper, offset: Int): Long {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong6(data: ByteArrayWrapper, offset: Int, crossinline comment: () -> String = { "TODO" }): Long {
+        if (debugByteArrayWrapperContents) { println("$offset readLong6 ${comment()}") }
         return ByteArrayHelper2.readLong6(ByteArrayWrapperExt.getBuf(data), offset)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readLong8(data: ByteArrayWrapper, offset: Int): Long {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLong8(data: ByteArrayWrapper, offset: Int, crossinline comment: () -> String = { "TODO" }): Long {
+        if (debugByteArrayWrapperContents) { println("$offset readLong8 ${comment()}") }
         return ByteArrayHelper2.readLong8(ByteArrayWrapperExt.getBuf(data), offset)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun readLongX(data: ByteArrayWrapper, offset: Int, count: Int): Long {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readLongX(data: ByteArrayWrapper, offset: Int, count: Int, crossinline comment: () -> String = { "TODO" }): Long {
+        if (debugByteArrayWrapperContents) { println("$offset readLongX=$count ${comment()}") }
         return ByteArrayHelper2.readLongX(ByteArrayWrapperExt.getBuf(data), offset, count)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeDouble8(data: ByteArrayWrapper, offset: Int, value: Double) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeDouble8(data: ByteArrayWrapper, offset: Int, value: Double, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeDouble8 ${comment()}") }
         ByteArrayHelper2.writeDouble8(ByteArrayWrapperExt.getBuf(data), offset, value)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeInt1(data: ByteArrayWrapper, offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeInt1(data: ByteArrayWrapper, offset: Int, value: Int, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeInt1 ${comment()}") }
         ByteArrayHelper2.writeInt1(ByteArrayWrapperExt.getBuf(data), offset, value)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeInt4(data: ByteArrayWrapper, offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeInt4(data: ByteArrayWrapper, offset: Int, value: Int, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeInt4 ${comment()}") }
         ByteArrayHelper2.writeInt4(ByteArrayWrapperExt.getBuf(data), offset, value)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeIntX(data: ByteArrayWrapper, offset: Int, value: Int, count: Int) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeIntX(data: ByteArrayWrapper, offset: Int, value: Int, count: Int, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeIntX=$count ${comment()}") }
         ByteArrayHelper2.writeIntX(ByteArrayWrapperExt.getBuf(data), offset, value, count)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeLong6(data: ByteArrayWrapper, offset: Int, value: Long) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong6(data: ByteArrayWrapper, offset: Int, value: Long, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeLong6 ${comment()}") }
         ByteArrayHelper2.writeLong6(ByteArrayWrapperExt.getBuf(data), offset, value)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeLong8(data: ByteArrayWrapper, offset: Int, value: Long) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong8(data: ByteArrayWrapper, offset: Int, value: Long, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeLong8 ${comment()}") }
         ByteArrayHelper2.writeLong8(ByteArrayWrapperExt.getBuf(data), offset, value)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeLongX(data: ByteArrayWrapper, offset: Int, value: Long, count: Int) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLongX(data: ByteArrayWrapper, offset: Int, value: Long, count: Int, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeLongX=$count ${comment()}") }
         ByteArrayHelper2.writeLongX(ByteArrayWrapperExt.getBuf(data), offset, value, count)
     }
 
-    @Suppress("NOTHING_TO_INLINE")internal inline
-    fun writeBuf(data: ByteArrayWrapper, offset: Int, value: ByteArray) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeBuf(data: ByteArrayWrapper, offset: Int, value: ByteArray, crossinline comment: () -> String = { "TODO" }) {
+        if (debugByteArrayWrapperContents) { println("$offset writeBuf=${value.size} ${comment()}") }
         value.copyInto(data.buf_, offset, 0, value.size)
     }
 }

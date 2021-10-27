@@ -70,7 +70,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         }
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -100,7 +99,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         }
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -115,7 +113,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         }
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - Thread - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
@@ -130,7 +127,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         }
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
@@ -145,7 +141,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         }
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -161,7 +156,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -177,7 +171,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -193,7 +186,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -209,7 +201,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -225,7 +216,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -241,7 +231,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -257,7 +246,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -273,7 +261,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -289,7 +276,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -305,7 +291,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -321,7 +306,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -337,7 +321,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -353,7 +336,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -369,7 +351,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -385,7 +366,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -401,7 +381,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -417,7 +396,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -433,7 +411,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -449,7 +426,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -465,7 +441,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -481,7 +456,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -497,7 +471,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -513,7 +486,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -529,7 +501,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -545,7 +516,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -561,7 +531,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -577,7 +546,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -593,7 +561,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -609,7 +576,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -625,7 +591,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -641,7 +606,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -657,7 +621,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -673,7 +636,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -689,7 +651,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -705,7 +666,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -721,7 +681,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -737,7 +696,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -753,7 +711,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -769,7 +726,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -785,7 +741,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -801,7 +756,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -817,7 +771,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -833,7 +786,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -849,7 +801,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -865,7 +816,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -881,7 +831,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -897,7 +846,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -913,7 +861,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -929,7 +876,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -945,7 +891,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -961,7 +906,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -977,7 +921,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -993,7 +936,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1009,7 +951,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1025,7 +966,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1041,7 +981,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1057,7 +996,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1073,7 +1011,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1089,7 +1026,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1105,7 +1041,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1121,7 +1056,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1137,7 +1071,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1153,7 +1086,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1169,7 +1101,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1185,7 +1116,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1201,7 +1131,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1217,7 +1146,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1233,7 +1161,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1249,7 +1176,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1265,7 +1191,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1281,7 +1206,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1297,7 +1221,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1313,7 +1236,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1329,7 +1251,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1345,7 +1266,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1361,7 +1281,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1377,7 +1296,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -1393,7 +1311,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1409,7 +1326,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1425,7 +1341,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1441,7 +1356,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1457,7 +1371,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1473,7 +1386,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1489,7 +1401,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1505,7 +1416,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1521,7 +1431,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1537,7 +1446,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - Thread - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1553,7 +1461,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - Thread - RPL_Fast`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1569,7 +1476,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         )
     }
 
-    @Test
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - Thread - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -1587,7 +1493,8 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName, false,
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
