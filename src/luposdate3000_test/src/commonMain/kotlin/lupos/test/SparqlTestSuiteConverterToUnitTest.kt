@@ -257,11 +257,11 @@ without minify mode only the passing tests will be added
         fun myActualDataOperatorGraph(counter: Int, graph: String, out: IMyOutputStream) {
             out.println("        val query$counter = Query(instance)")
             out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
-            out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
+            out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO).evaluateRootBundle()")
         }
 
         fun myActualDataEvaluate(counter: Int, out: IMyOutputStream) {
-            out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+            out.println("        val actual$counter = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
         }
 
         fun myCompareData(counter: Int, out: IMyOutputStream) {
