@@ -140,6 +140,7 @@ public object BinaryToOPBase {
     }
 
     public fun convertToByteArray(op: IOPBase): ByteArrayWrapper {
+        println("convertToByteArray ... start")
         val mapping = mutableMapOf<String, Int>()
         val data = ByteArrayWrapper()
         if (op is OPBaseCompound) {
@@ -169,30 +170,39 @@ public object BinaryToOPBase {
             ByteArrayWrapperExt.writeInt1(data, 0, 0x0, { "convertToByteArray.isOPBaseCompound" })
             ByteArrayWrapperExt.writeInt4(data, 1, off, { "OPBase.children[0]" })
         }
+        println("convertToByteArray ... finish")
         return data
     }
 
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot {
-        if (ByteArrayWrapperExt.readInt1(data, off, { "convertToByteArray.isOPBaseCompound" }) == 0x1) {
-            val childCount = ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBaseCompound.children.size" })
-            var o = 5
-            val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
-            for (i in 0 until childCount) {
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
-                o += 4
-                val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
-                o += 4
-                val list = mutableListOf<String>()
-                for (j in 0 until size) {
-                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
+        try {
+            println("convertToIteratorBundle ... start")
+            if (ByteArrayWrapperExt.readInt1(data, off, { "convertToByteArray.isOPBaseCompound" }) == 0x1) {
+                val childCount = ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBaseCompound.children.size" })
+                var o = 5
+                val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
+                for (i in 0 until childCount) {
+                    val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
                     o += 4
+                    val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
+                    o += 4
+                    val list = mutableListOf<String>()
+                    for (j in 0 until size) {
+                        list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
+                        o += 4
+                    }
+                    res.add(list to child)
                 }
-                res.add(list to child)
+                println("convertToIteratorBundle ... finish")
+                return IteratorBundleRoot(query, res.toTypedArray())
+            } else {
+                val tmp = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBase.children[0]" }))
+                println("convertToIteratorBundle ... finish")
+                return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
             }
-            return IteratorBundleRoot(query, res.toTypedArray())
-        } else {
-            val tmp = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBase.children[0]" }))
-            return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
         }
     }
 
@@ -205,7 +215,7 @@ public object BinaryToOPBase {
     }
 
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
-        val decoder = operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]
+        val decoder = operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })]
         if (decoder == null) {
             TODO("convertToIteratorBundleHelper ${ByteArrayWrapperExt.readInt4(data, off)} -> ${EOperatorIDExt.names[ByteArrayWrapperExt.readInt4(data, off)]}")
         }
@@ -223,7 +233,7 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 mapping[s] = off
                 val b = s.encodeToByteArray()
-                ByteArrayWrapperExt.setSize(data, off + 4 + b.size, false)
+                ByteArrayWrapperExt.setSize(data, off + 4 + b.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off, b.size, { "encodeString.len" })
                 ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
                 return off
@@ -423,7 +433,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:425"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:435"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -852,9 +862,11 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child0v = if (child0f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[0]" }))
-                } else {
                     ""
+                } else {
+                    val res = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[0]" }))
+                    o += 4
+                    res
                 }
                 val child1c = if (child1f) {
                     val res = DictionaryValueHelper.fromByteArray(data, o, { "POPTripleStoreIterator.constant[1]" })
@@ -864,9 +876,11 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child1v = if (child1f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[1]" }))
-                } else {
                     ""
+                } else {
+                    val res = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[1]" }))
+                    o += 4
+                    res
                 }
                 val child2c = if (child2f) {
                     val res =
@@ -877,9 +891,11 @@ public object BinaryToOPBase {
                     DictionaryValueHelper.nullValue
                 }
                 val child2v = if (child2f) {
-                    decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[2]" }))
-                } else {
                     ""
+                } else {
+                    val res = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPTripleStoreIterator.variable[2]" }))
+                    o += 4
+                    res
                 }
                 EvalTripleStoreIterator(
                     buf1 to buf2,
@@ -1099,20 +1115,20 @@ public object BinaryToOPBase {
         assignOperatorDecode(
             EOperatorIDExt.POPGroupID,
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val blen = ByteArrayWrapperExt.readInt4(data, off + 8)
-                val klen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroup.child" }))
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroup.bindings.size" })
+                val klen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroup.keys.size" })
                 var o = 16
                 val keyColumnNames = Array<String>(klen) { "" }
                 for (i in 0 until klen) {
-                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.keys[$i]" }))
                     o += 4
                 }
                 val bindings = mutableListOf<Pair<String, AOPBase>>()
                 for (i in 0 until blen) {
-                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.bindings[$i].name" }))
                     o += 4
-                    val v = decodeAOP(query, data, o)
+                    val v = decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.bindings[$i].value" }))
                     o += 4
                     bindings.add(k to v)
                 }
@@ -1122,20 +1138,20 @@ public object BinaryToOPBase {
         assignOperatorDecode(
             EOperatorIDExt.POPGroupWithoutKeyColumnID,
             { query, data, off ->
-                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4))
-                val plen = ByteArrayWrapperExt.readInt4(data, off + 8)
-                val blen = ByteArrayWrapperExt.readInt4(data, off + 12)
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupWithoutKeyColumn.child" }))
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupWithoutKeyColumn.variables.size" })
+                val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupWithoutKeyColumn.bindings.size" })
                 var o = 16
                 val projectedVariables = mutableListOf<String>()
                 for (i in 0 until plen) {
-                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupWithoutKeyColumn.variables[$i]" })))
                     o += 4
                 }
                 val bindings = mutableListOf<Pair<String, AOPBase>>()
                 for (i in 0 until blen) {
-                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o))
+                    val k = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupWithoutKeyColumn.bindings[$i].name" }))
                     o += 4
-                    val v = decodeAOP(query, data, o)
+                    val v = decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupWithoutKeyColumn.bindings[$i].value" }))
                     o += 4
                     bindings.add(k to v)
                 }
