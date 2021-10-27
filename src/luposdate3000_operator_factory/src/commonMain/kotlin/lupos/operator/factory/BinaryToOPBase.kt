@@ -153,7 +153,7 @@ public object BinaryToOPBase {
                 } else {
                     listOf()
                 }
-                val off = convertToByteArrayHelper(op, data, Partition(), mapping)
+                val off = convertToByteArrayHelper(op.children[i], data, Partition(), mapping)
                 ByteArrayWrapperExt.writeInt4(data, o, off)
                 o += 4
                 ByteArrayWrapperExt.writeInt4(data, o, k.size)
@@ -197,11 +197,19 @@ public object BinaryToOPBase {
     }
 
     private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
-        return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
+        val encoder = operatorMapEncode[(op as OPBase).operatorID]
+        if (encoder == null) {
+            TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
+        }
+        return encoder(op, data, parent, mapping)
     }
 
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
-        return operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]!!(query, data, off)
+        val decoder = operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off)]
+        if (decoder == null) {
+            TODO("convertToIteratorBundleHelper ${ByteArrayWrapperExt.readInt4(data, off)} -> ${EOperatorIDExt.names[ByteArrayWrapperExt.readInt4(data, off)]}")
+        }
+        return decoder(query, data, off)
     }
 
     private inline fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
@@ -412,7 +420,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:414"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:422"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }
