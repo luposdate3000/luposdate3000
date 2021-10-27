@@ -27,7 +27,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
@@ -2036,7 +2036,7 @@ public class UCASE {
         if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
-        val operator1: IteratorBundle = if (binaryTest) {
+        val operator1: IteratorBundleRoot = if (binaryTest) {
             val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
             val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1)
             BinaryToOPBase.convertToIteratorBundle(Query(instance), operatorTmp21)

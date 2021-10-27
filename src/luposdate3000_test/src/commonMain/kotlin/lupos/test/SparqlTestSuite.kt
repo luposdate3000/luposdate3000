@@ -462,7 +462,7 @@ public open class SparqlTestSuite {
                         val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
                         LuposdateEndpoint.importTripleFile(instance, inputDataFileName)
                         val bulkSelect = instance.tripleStoreManager!!.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
-                        val xmlGraphBulk = QueryResultToMemoryTable()(bulkSelect)
+                        val xmlGraphBulk = QueryResultToMemoryTable()(bulkSelect.evaluateRootBundle())
                         if (xmlGraphBulk.first() != xmlQueryInput) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(BulkImport)")
@@ -621,7 +621,7 @@ public open class SparqlTestSuite {
                 val outputData = readFileOrNull(it["filename"])
                 val xmlGraphTarget = MemoryTable.parseFromAny(outputData!!, it["filename"]!!, query)!!
                 val tmp = instance.tripleStoreManager!!.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
-                val xmlGraphActual = QueryResultToMemoryTable()(tmp)
+                val xmlGraphActual = QueryResultToMemoryTable()(tmp.evaluateRootBundle())
                 if (xmlGraphTarget != xmlGraphActual.first()) {
                     println("OutputData Graph[${it["name"]}] Original")
                     println(outputData)
@@ -678,7 +678,7 @@ public open class SparqlTestSuite {
                         val x = popNodeRecovered.toString()
                         SanityCheck.println { x }
                     }
-                    val xmlQueryResultRecovered = QueryResultToMemoryTable()(popNodeRecovered)
+                    val xmlQueryResultRecovered = QueryResultToMemoryTable()(popNodeRecovered.evaluateRootBundle())
                     instance.tripleStoreManager!!.commit(query4)
                     query4.commited = true
                     val buf3 = MyPrintWriter(true)

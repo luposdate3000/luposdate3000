@@ -849,7 +849,7 @@ public class Application_Luposdate3000 public constructor(
                                     } else {
                                         val buf = MyPrintWriter(true)
                                         val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                                        evaluatorInstance(node, buf, false)
+                                        evaluatorInstance(node.evaluateBundle(), buf)
                                         if (w.onFinish != null) {
                                             receive(w.onFinish)
                                         } else {

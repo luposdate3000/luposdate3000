@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBase
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
@@ -77,6 +78,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.EvalTripleStoreIterator
@@ -138,19 +140,64 @@ public object BinaryToOPBase {
     }
 
     public fun convertToByteArray(op: IOPBase): ByteArrayWrapper {
-        val res = ByteArrayWrapper()
-        ByteArrayWrapperExt.setSize(res, 4, false)
-        val off = convertToByteArrayHelper(op, res, Partition(), mutableMapOf())
-        ByteArrayWrapperExt.writeInt4(res, 0, off)
-        return res
+        val mapping = mutableMapOf<String, Int>()
+        val data = ByteArrayWrapper()
+        if (op is OPBaseCompound) {
+            ByteArrayWrapperExt.setSize(data, 5 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
+            ByteArrayWrapperExt.writeInt1(data, 0, 0x1)
+            ByteArrayWrapperExt.writeInt4(data, 1, op.children.size)
+            var o = 5
+            for (i in 0 until op.children.size) {
+                val k = if (op.columnProjectionOrder.size > i) {
+                    op.columnProjectionOrder[i]
+                } else {
+                    listOf()
+                }
+                val off = convertToByteArrayHelper(op, data, Partition(), mapping)
+                ByteArrayWrapperExt.writeInt4(data, o, off)
+                o += 4
+                ByteArrayWrapperExt.writeInt4(data, o, k.size)
+                o += 4
+                for (j in 0 until k.size) {
+                    ByteArrayWrapperExt.writeInt4(data, o, encodeString(k[j], data, mapping))
+                    o += 4
+                }
+            }
+        } else {
+            ByteArrayWrapperExt.setSize(data, 5, false)
+            val off = convertToByteArrayHelper(op, data, Partition(), mapping)
+            ByteArrayWrapperExt.writeInt1(data, 0, 0x0)
+            ByteArrayWrapperExt.writeInt4(data, 1, off)
+        }
+        return data
+    }
+
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot {
+        if (ByteArrayWrapperExt.readInt1(data, off) == 0x1) {
+            val childCount = ByteArrayWrapperExt.readInt4(data, off + 1)
+            var o = 5
+            val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
+            for (i in 0 until childCount) {
+                val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o))
+                o += 4
+                val size = ByteArrayWrapperExt.readInt4(data, o)
+                o += 4
+                val list = mutableListOf<String>()
+                for (j in 0 until size) {
+                    list.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o)))
+                    o += 4
+                }
+                res.add(list to child)
+            }
+            return IteratorBundleRoot(query, res.toTypedArray())
+        } else {
+            val tmp = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1))
+            return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
+        }
     }
 
     private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
         return operatorMapEncode[(op as OPBase).operatorID]!!(op, data, parent, mapping)
-    }
-
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundle {
-        return convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off))
     }
 
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
@@ -365,7 +412,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:367"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:414"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                     }

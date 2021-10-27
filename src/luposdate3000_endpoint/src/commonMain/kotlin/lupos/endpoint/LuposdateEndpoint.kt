@@ -431,6 +431,11 @@ public object LuposdateEndpoint {
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, true)
     }
 
+    @JsName("evaluate_operatorgraph_to_result_a")
+    /*suspend*/ public fun evaluateIteratorBundleToResultA(instance: Luposdate3000Instance, node: IteratorBundleRoot, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
+        return evaluateIteratorBundleToResultInternal(instance, node, output, evaluator, -1)
+    }
+
     @JsName("evaluate_operatorgraph_to_result_e")
     /*suspend*/ public fun evaluateOperatorgraphToResultE(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, asRoot: Boolean): Any {
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, asRoot)
@@ -447,8 +452,8 @@ public object LuposdateEndpoint {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun evaluateOperatorGraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
-        evaluateIteratorBundleToResultInternal(
+    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+        return evaluateIteratorBundleToResultInternal(
             instance,
             if (asRoot) {
                 node.evaluateRootBundle()
@@ -468,8 +473,8 @@ public object LuposdateEndpoint {
             TODO(EQueryResultToStreamExt.names[evaluator])
         }
         val res = evaluatorInstance(node, output, timeoutInMs)
-        instance.tripleStoreManager!!.commit(node.getQuery())
-        node.getQuery().setCommited()
+        instance.tripleStoreManager!!.commit(node.query)
+        node.query.setCommited()
         return res
     }
 
