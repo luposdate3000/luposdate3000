@@ -31,6 +31,7 @@ import lupos.operator.physical.multiinput.EvalJoinMergeSingleColumn
 import lupos.operator.physical.multiinput.EvalMinus
 import lupos.operator.physical.multiinput.EvalUnion
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
+import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeOptional
@@ -86,19 +87,23 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>) -> Int/*offset*/
+public typealias BinaryToAOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> AOPBase
+public typealias AOPBaseToBinaryMap = (op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>) -> Int/*offset*/
 
 public object BinaryToOPBase {
-    public var operatorMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
-    public var operatorMapEncode: Array<OPBaseToBinaryMap?> = Array(0) { null }
-    public fun assignOperatorDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
+    public var operatorArithmetikMapDecode: Array<BinaryToAOPBaseMap?> = Array(0) { null }
+    public var operatorArithmetikMapEncode: Array<AOPBaseToBinaryMap?> = Array(0) { null }
+    public var operatorPhysicalMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
+    public var operatorPhysicalMapEncode: Array<OPBaseToBinaryMap?> = Array(0) { null }
+    public fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
         for (operatorID in operatorIDs) {
-            assignOperatorDecode(operatorID, operator)
+            assignOperatorPhysicalDecode(operatorID, operator)
         }
     }
 
-    public fun assignOperatorDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
-        if (operatorMapDecode.size <= operatorID) {
-            var s = operatorMapDecode.size
+    public fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
+        if (operatorPhysicalMapDecode.size <= operatorID) {
+            var s = operatorPhysicalMapDecode.size
             if (s < 16) {
                 s = 16
             }
@@ -106,21 +111,21 @@ public object BinaryToOPBase {
                 s = s * 2
             }
             val tmp = Array<BinaryToOPBaseMap?>(s) { null }
-            operatorMapDecode.copyInto(tmp)
-            operatorMapDecode = tmp
+            operatorPhysicalMapDecode.copyInto(tmp)
+            operatorPhysicalMapDecode = tmp
         }
-        operatorMapDecode[operatorID] = operator
+        operatorPhysicalMapDecode[operatorID] = operator
     }
 
-    public fun assignOperatorEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
+    public fun assignOperatorPhysicalEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
         for (operatorID in operatorIDs) {
-            assignOperatorEncode(operatorID, operator)
+            assignOperatorPhysicalEncode(operatorID, operator)
         }
     }
 
-    public fun assignOperatorEncode(operatorID: Int, operator: OPBaseToBinaryMap) {
-        if (operatorMapEncode.size <= operatorID) {
-            var s = operatorMapEncode.size
+    public fun assignOperatorPhysicalEncode(operatorID: Int, operator: OPBaseToBinaryMap) {
+        if (operatorPhysicalMapEncode.size <= operatorID) {
+            var s = operatorPhysicalMapEncode.size
             if (s < 16) {
                 s = 16
             }
@@ -128,15 +133,64 @@ public object BinaryToOPBase {
                 s = s * 2
             }
             val tmp = Array<OPBaseToBinaryMap?>(s) { null }
-            operatorMapEncode.copyInto(tmp)
-            operatorMapEncode = tmp
+            operatorPhysicalMapEncode.copyInto(tmp)
+            operatorPhysicalMapEncode = tmp
         }
-        operatorMapEncode[operatorID] = operator
+        operatorPhysicalMapEncode[operatorID] = operator
     }
 
-    public fun assignOperator(operatorID: Int, encode: OPBaseToBinaryMap, decode: BinaryToOPBaseMap) {
-        assignOperatorEncode(operatorID, encode)
-        assignOperatorDecode(operatorID, decode)
+    public fun assignOperatorPhysical(operatorID: Int, encode: OPBaseToBinaryMap, decode: BinaryToOPBaseMap) {
+        assignOperatorPhysicalEncode(operatorID, encode)
+        assignOperatorPhysicalDecode(operatorID, decode)
+    }
+
+    public fun assignOperatorArithmetikDecode(operatorIDs: IntArray, operator: BinaryToAOPBaseMap) {
+        for (operatorID in operatorIDs) {
+            assignOperatorArithmetikDecode(operatorID, operator)
+        }
+    }
+
+    public fun assignOperatorArithmetikDecode(operatorID: Int, operator: BinaryToAOPBaseMap) {
+        if (operatorArithmetikMapDecode.size <= operatorID) {
+            var s = operatorArithmetikMapDecode.size
+            if (s < 16) {
+                s = 16
+            }
+            while (s < operatorID) {
+                s = s * 2
+            }
+            val tmp = Array<BinaryToAOPBaseMap?>(s) { null }
+            operatorArithmetikMapDecode.copyInto(tmp)
+            operatorArithmetikMapDecode = tmp
+        }
+        operatorArithmetikMapDecode[operatorID] = operator
+    }
+
+    public fun assignOperatorArithmetikEncode(operatorIDs: IntArray, operator: AOPBaseToBinaryMap) {
+        for (operatorID in operatorIDs) {
+            assignOperatorArithmetikEncode(operatorID, operator)
+        }
+    }
+
+    public fun assignOperatorArithmetikEncode(operatorID: Int, operator: AOPBaseToBinaryMap) {
+        if (operatorArithmetikMapEncode.size <= operatorID) {
+            var s = operatorArithmetikMapEncode.size
+            if (s < 16) {
+                s = 16
+            }
+            while (s < operatorID) {
+                s = s * 2
+            }
+            val tmp = Array<AOPBaseToBinaryMap?>(s) { null }
+            operatorArithmetikMapEncode.copyInto(tmp)
+            operatorArithmetikMapEncode = tmp
+        }
+        operatorArithmetikMapEncode[operatorID] = operator
+    }
+
+    public fun assignOperatorArithmetik(operatorID: Int, encode: AOPBaseToBinaryMap, decode: BinaryToAOPBaseMap) {
+        assignOperatorArithmetikEncode(operatorID, encode)
+        assignOperatorArithmetikDecode(operatorID, decode)
     }
 
     public fun convertToByteArray(op: IOPBase): ByteArrayWrapper {
@@ -207,7 +261,10 @@ public object BinaryToOPBase {
     }
 
     private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
-        val encoder = operatorMapEncode[(op as OPBase).operatorID]
+        if ((op as OPBase).operatorID >= operatorPhysicalMapEncode.size) {
+            TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
+        }
+        val encoder = operatorPhysicalMapEncode[(op as OPBase).operatorID]
         if (encoder == null) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
@@ -215,9 +272,13 @@ public object BinaryToOPBase {
     }
 
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
-        val decoder = operatorMapDecode[ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })]
+        val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
+        if (type >= operatorPhysicalMapDecode.size) {
+            TODO("convertToIteratorBundleHelper $type -> ${EOperatorIDExt.names[type]}")
+        }
+        val decoder = operatorPhysicalMapDecode[type]
         if (decoder == null) {
-            TODO("convertToIteratorBundleHelper ${ByteArrayWrapperExt.readInt4(data, off)} -> ${EOperatorIDExt.names[ByteArrayWrapperExt.readInt4(data, off)]}")
+            TODO("convertToIteratorBundleHelper $type -> ${EOperatorIDExt.names[type]}")
         }
         return decoder(query, data, off)
     }
@@ -253,12 +314,27 @@ public object BinaryToOPBase {
         }
     }
 
-    private inline fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
-        TODO("BinaryToOPBase.encodeAOP")
+    private fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+        if (op.operatorID >= operatorArithmetikMapEncode.size) {
+            TODO("encodeAOP ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
+        }
+        val encoder = operatorArithmetikMapEncode[op.operatorID]
+        if (encoder == null) {
+            TODO("encodeAOP ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
+        }
+        return encoder(op, data, mapping)
     }
 
-    private inline fun decodeAOP(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
-        TODO("BinaryToOPBase.decodeAOP")
+    private fun decodeAOP(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
+        val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
+        if (type >= operatorArithmetikMapDecode.size) {
+            TODO("decodeAOP $type -> ${EOperatorIDExt.names[type]}")
+        }
+        val decoder = operatorArithmetikMapDecode[type]
+        if (decoder == null) {
+            TODO("decodeAOP $type -> ${EOperatorIDExt.names[type]}")
+        }
+        return decoder(query, data, off)
     }
 
     init {
@@ -269,7 +345,8 @@ public object BinaryToOPBase {
  EOperatorIDExt.POPDistributedReceiveSingleCountID,
  EOperatorIDExt.POPDistributedReceiveSingleID,
 */
-        assignOperator(
+
+        assignOperatorPhysical(
             EOperatorIDExt.POPProjectionID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -279,7 +356,7 @@ public object BinaryToOPBase {
                 TODO("unreachable")
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPDebugID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -289,7 +366,7 @@ public object BinaryToOPBase {
                 TODO("unreachable")
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -299,7 +376,7 @@ public object BinaryToOPBase {
                 TODO("unreachable")
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPSplitPartitionFromStoreID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -309,7 +386,7 @@ public object BinaryToOPBase {
                 TODO("unreachable")
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPSplitMergePartitionFromStoreID,
             { op, data, parent, mapping ->
                 op as OPBase
@@ -319,7 +396,7 @@ public object BinaryToOPBase {
                 TODO("unreachable")
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPModifyDataID,
             { op, data, parent, mapping ->
                 op as POPModifyData
@@ -355,7 +432,7 @@ public object BinaryToOPBase {
                 EvalModifyData(d, query)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPGraphOperationID,
             { op, data, parent, mapping ->
                 op as POPGraphOperation
@@ -382,7 +459,7 @@ public object BinaryToOPBase {
                 )
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPNothingID,
             { op, data, parent, mapping ->
                 op as POPNothing
@@ -407,7 +484,7 @@ public object BinaryToOPBase {
                 EvalNothing(list)
             },
         )
-        assignOperatorEncode(
+        assignOperatorPhysicalEncode(
             intArrayOf(
                 EOperatorIDExt.POPValuesID,
                 EOperatorIDExt.POPValuesCountID,
@@ -433,7 +510,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:435"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:512"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -446,13 +523,13 @@ public object BinaryToOPBase {
                 off
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesCountID,
             { query, data, off ->
                 IteratorBundle(ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" }))
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesID,
             { query, data, off ->
                 val columns = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValues.columns.size" })
@@ -472,7 +549,7 @@ public object BinaryToOPBase {
             },
         )
 
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPEmptyRowID,
             { op, data, parent, mapping ->
                 val off = ByteArrayWrapperExt.getSize(data)
@@ -484,7 +561,7 @@ public object BinaryToOPBase {
                 IteratorBundle(1)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPUnionID,
             { op, data, parent, mapping ->
                 op as POPUnion
@@ -516,7 +593,7 @@ public object BinaryToOPBase {
                 EvalUnion(child0, child1, projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPMinusID,
             { op, data, parent, mapping ->
                 op as POPMinus
@@ -548,7 +625,7 @@ public object BinaryToOPBase {
                 EvalMinus(child0, child1, projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
             { op, data, parent, mapping ->
                 op as POPJoinMergeSingleColumn
@@ -567,7 +644,7 @@ public object BinaryToOPBase {
                 EvalJoinMergeSingleColumn(child0, child1)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeOptionalID,
             { op, data, parent, mapping ->
                 op as POPJoinMergeOptional
@@ -599,7 +676,7 @@ public object BinaryToOPBase {
                 EvalJoinMergeOptional(arrayOf(child0, child1), projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeID,
             { op, data, parent, mapping ->
                 op as POPJoinMerge
@@ -631,7 +708,7 @@ public object BinaryToOPBase {
                 EvalJoinMerge(child0, child1, projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPJoinHashMapID,
             { op, data, parent, mapping ->
                 op as POPJoinHashMap
@@ -664,7 +741,7 @@ public object BinaryToOPBase {
                 EvalJoinHashMap(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1, projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPJoinCartesianProductID,
             { op, data, parent, mapping ->
                 op as POPJoinCartesianProduct
@@ -684,7 +761,7 @@ public object BinaryToOPBase {
                 EvalJoinCartesianProduct(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPLimitID,
             { op, data, parent, mapping ->
                 op as POPLimit
@@ -701,7 +778,7 @@ public object BinaryToOPBase {
                 EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" }))
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPSortID,
             { op, data, parent, mapping ->
                 op as POPSort
@@ -764,7 +841,7 @@ public object BinaryToOPBase {
                 EvalSort(child, spList, query, sbList.toTypedArray(), pList, sortOrder)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPOffsetID,
             { op, data, parent, mapping ->
                 op as POPOffset
@@ -781,7 +858,7 @@ public object BinaryToOPBase {
                 EvalOffset(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" }))
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPMakeBooleanResultID,
             { op, data, parent, mapping ->
                 op as POPMakeBooleanResult
@@ -797,7 +874,7 @@ public object BinaryToOPBase {
                 EvalMakeBooleanResult(child)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPReducedID,
             { op, data, parent, mapping ->
                 op as POPReduced
@@ -814,7 +891,7 @@ public object BinaryToOPBase {
                 EvalReduced(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" }))
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPTripleStoreIterator,
             { op, data, parent, mapping ->
                 op as POPTripleStoreIterator
@@ -905,7 +982,7 @@ public object BinaryToOPBase {
                 )
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPBindID,
             { op, data, parent, mapping ->
                 op as POPBind
@@ -933,7 +1010,7 @@ public object BinaryToOPBase {
                 EvalBind(child, variablesOut, decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" })), decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" })))
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPFilterID,
             { op, data, parent, mapping ->
                 op as POPFilter
@@ -960,7 +1037,7 @@ public object BinaryToOPBase {
                 EvalFilter(child, variablesOut, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" })))
             },
         )
-        assignOperatorEncode(
+        assignOperatorPhysicalEncode(
             intArrayOf(
                 EOperatorIDExt.POPGroupID,
                 EOperatorIDExt.POPGroupCount0ID,
@@ -1066,7 +1143,7 @@ public object BinaryToOPBase {
                 off
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount0ID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount0.child" }))
@@ -1074,7 +1151,7 @@ public object BinaryToOPBase {
                 EvalGroupCount0(child, binding, query.getDictionary())
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount1ID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount1.child" }))
@@ -1083,7 +1160,7 @@ public object BinaryToOPBase {
                 EvalGroupCount1(child, binding, name, query.getDictionary())
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupSortedID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupSorted.child" }))
@@ -1112,7 +1189,7 @@ public object BinaryToOPBase {
                 EvalGroupSorted(child, bindings, projectedVariables, keyColumnNames)
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroup.child" }))
@@ -1135,7 +1212,7 @@ public object BinaryToOPBase {
                 EvalGroup(child, bindings, keyColumnNames)
             },
         )
-        assignOperatorDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupWithoutKeyColumnID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupWithoutKeyColumn.child" }))
@@ -1158,7 +1235,7 @@ public object BinaryToOPBase {
                 EvalGroupWithoutKeyColumn(child, bindings, projectedVariables)
             },
         )
-        assignOperator(
+        assignOperatorPhysical(
             EOperatorIDExt.POPModifyID,
             { op, data, parent, mapping ->
                 op as POPModify
@@ -1239,5 +1316,28 @@ public object BinaryToOPBase {
                 EvalModify(child, query, modify)
             },
         )
+assignOperatorArithmetik(
+EOperatorIDExt.AOPAggregationCOUNTID,
+{ op, data, mapping ->
+op as AOPAggregationCOUNT
+val off = ByteArrayWrapperExt.getSize(data)
+ByteArrayWrapperExt.setSize(data, off+9+4*op.children.size,true)
+ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationCOUNTID, { "operatorID" })
+ByteArrayWrapperExt.writeInt4(data, off + 4,op.children.size,{"AOPAggregationCOUNT.children.size"})
+ByteArrayWrapperExt.writeInt1(data, off + 8,if(op.distinct) 0x1 else 0x0,{"AOPAggregationCOUNT.distinct"})
+for(i in 0 until op.children.size){
+ByteArrayWrapperExt.writeInt4(data, off + 9+4*i,encodeAOP(op.children[i]as AOPBase,data,mapping),{"AOPAggregationCOUNT.children[$i]"})
+}
+off
+},
+            { query, data, off ->
+val childs=Array(ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAggregationCOUNT.children.size" })){
+decodeAOP(query,data,off + 9+4*it)
+}
+AOPAggregationCOUNT(query,ByteArrayWrapperExt.readInt1(data, off +8,{"AOPAggregationCOUNT.distinct"})!=0x0,childs)
+},
+)
+
     }
 }
+
