@@ -1296,7 +1296,7 @@ public object BinaryToOPBase {
                     val o = off + 12 + it * step
                     val v = ByteArrayWrapperExt.readInt4(data, o, { "POPModify.modify[$it].v" })
                     val flag = ByteArrayWrapperExt.readInt1(data, o + 8, { "POPModify.modify[$it].flag" })
-                    val graph = decodeString(data, o + 4)
+                    val graph = decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 4, { "POPModify.modify[$it].graph" }))
                     val s = if ((flag and 0x2) != 0) {
                         AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9, { "POPModify.modify[$it].child[0].c" }))
                     } else {

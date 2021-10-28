@@ -330,12 +330,18 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                     }
                 }
             }
+// //////////////////////////////////////////////////////////////////////
+            root.evaluateBundle().nodes.forEach { it.second.rows.close() }
+// //////////////////////////////////////////////////////////////////////
             if (wantReturnValue) {
                 return XMLElementToOPBase(query2, res!!)
             } else {
                 return root
             }
         } else {
+// //////////////////////////////////////////////////////////////////////
+            root.evaluateBundle().nodes.forEach { it.second.rows.close() }
+// //////////////////////////////////////////////////////////////////////
             return root
         }
     }
