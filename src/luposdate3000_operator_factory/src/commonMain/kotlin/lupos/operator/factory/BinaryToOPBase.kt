@@ -88,8 +88,14 @@ import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 
+public class BinaryToOPBaseDistributionHandler {
+    internal val additionalEntryPoints = mutableSetOf<Int/*offset in data where first operator starts*/>()
+    internal var parent = Partition()
+    internal val dependenciesForEntryPoint = mutableMapOf<Int/*offset in data where first operator starts*/, MutableList<Pair<Int/*offset in data where the operator referencing it starts*/, Int/*offset in data where the target operator is*/>>>()
+}
+
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
-public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>) -> Int/*offset*/
+public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: BinaryToOPBaseDistributionHandler) -> Int/*offset*/
 public typealias BinaryToAOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> AOPBase
 public typealias AOPBaseToBinaryMap = (op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>) -> Int/*offset*/
 
@@ -196,7 +202,8 @@ public object BinaryToOPBase {
         assignOperatorArithmetikDecode(operatorID, decode)
     }
 
-    public fun convertToByteArray(op: IOPBase): ByteArrayWrapper {
+    public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
+        val handler = BinaryToOPBaseDistributionHandler()
         println("convertToByteArray ... start")
         val mapping = mutableMapOf<String, Int>()
         val data = ByteArrayWrapper()
@@ -211,7 +218,7 @@ public object BinaryToOPBase {
                 } else {
                     listOf()
                 }
-                val off = convertToByteArrayHelper(op.children[i], data, Partition(), mapping)
+                val off = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler)
                 ByteArrayWrapperExt.writeInt4(data, o, off, { "OPBaseCompound.children[$i]" })
                 o += 4
                 ByteArrayWrapperExt.writeInt4(data, o, k.size, { "OPBaseCompound.columnProjectionOrder[$i].size" })
@@ -223,7 +230,7 @@ public object BinaryToOPBase {
             }
         } else {
             ByteArrayWrapperExt.setSize(data, 5, false)
-            val off = convertToByteArrayHelper(op, data, Partition(), mapping)
+            val off = convertToByteArrayHelper(op, data, mapping, distributed, handler)
             ByteArrayWrapperExt.writeInt1(data, 0, 0x0, { "convertToByteArray.isOPBaseCompound" })
             ByteArrayWrapperExt.writeInt4(data, 1, off, { "OPBase.children[0]" })
         }
@@ -263,7 +270,7 @@ public object BinaryToOPBase {
         }
     }
 
-    private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, parent: Partition, mapping: MutableMap<String, Int>): Int {
+    private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: BinaryToOPBaseDistributionHandler): Int {
         if ((op as OPBase).operatorID >= operatorPhysicalMapEncode.size) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
@@ -271,7 +278,7 @@ public object BinaryToOPBase {
         if (encoder == null) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
-        return encoder(op, data, parent, mapping)
+        return encoder(op, data, mapping, distributed, handler)
     }
 
     private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
@@ -351,9 +358,9 @@ public object BinaryToOPBase {
 
         assignOperatorPhysical(
             EOperatorIDExt.POPProjectionID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -361,9 +368,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPDebugID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -371,9 +378,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPSplitPartitionFromStoreCountID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -381,9 +388,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPSplitPartitionFromStoreID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -391,9 +398,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPSplitMergePartitionFromStoreID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as OPBase
-                convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
             { query, data, off ->
                 TODO("unreachable")
@@ -401,7 +408,7 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPModifyDataID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPModifyData
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 4 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
@@ -437,7 +444,7 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPGraphOperationID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPGraphOperation
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 25, true)
@@ -464,7 +471,7 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPNothingID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPNothing
                 val n = op.getProvidedVariableNames()
                 val off = ByteArrayWrapperExt.getSize(data)
@@ -492,7 +499,7 @@ public object BinaryToOPBase {
                 EOperatorIDExt.POPValuesID,
                 EOperatorIDExt.POPValuesCountID,
             ),
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPValues
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (op.rows == -1) {
@@ -513,7 +520,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:515"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:522"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -554,7 +561,7 @@ public object BinaryToOPBase {
 
         assignOperatorPhysical(
             EOperatorIDExt.POPEmptyRowID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 4, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID, { "operatorID" })
@@ -566,10 +573,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPUnionID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPUnion
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPUnionID, { "operatorID" })
@@ -598,10 +605,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPMinusID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPMinus
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMinusID, { "operatorID" })
@@ -630,10 +637,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPJoinMergeSingleColumn
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID, { "operatorID" })
@@ -649,10 +656,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeOptionalID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPJoinMergeOptional
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeOptionalID, { "operatorID" })
@@ -681,10 +688,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPJoinMergeID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPJoinMerge
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeID, { "operatorID" })
@@ -713,10 +720,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPJoinHashMapID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPJoinHashMap
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 4 * op.projectedVariables.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID, { "operatorID" })
@@ -746,10 +753,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPJoinCartesianProductID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPJoinCartesianProduct
-                val child0 = convertToByteArrayHelper(op.children[0], data, parent, mapping)
-                val child1 = convertToByteArrayHelper(op.children[1], data, parent, mapping)
+                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 13, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinCartesianProductID, { "operatorID" })
@@ -766,9 +773,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPLimitID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPLimit
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPLimitID, { "operatorID" })
@@ -783,12 +790,12 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPSortID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPSort
                 if (op.getProvidedVariableNames().size == 0) {
-                    convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                    convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 } else {
-                    val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                    val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                     val off = ByteArrayWrapperExt.getSize(data)
                     ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (op.mySortPriority.size + op.getProvidedVariableNames().size + op.sortBy.size), true)
                     ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPSortID, { "operatorID" })
@@ -846,9 +853,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPOffsetID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPOffset
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPOffsetID, { "operatorID" })
@@ -863,9 +870,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPMakeBooleanResultID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPMakeBooleanResult
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMakeBooleanResultID, { "operatorID" })
@@ -879,9 +886,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPReducedID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPReduced
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID, { "operatorID" })
@@ -896,11 +903,11 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPTripleStoreIterator,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPTripleStoreIterator
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4, true)
-                val target = op.getTarget(parent)
+                val target = op.getTarget(handler.parent)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(target.first, data, mapping), { "POPTripleStoreIterator.target.first" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(target.second, data, mapping), { "POPTripleStoreIterator.target.second" })
@@ -987,10 +994,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPBindID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPBind
                 val variablesOut = op.getProvidedVariableNames()
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 20 + variablesOut.size * 4, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPBindID, { "operatorID" })
@@ -1015,10 +1022,10 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPFilterID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPFilter
                 val variablesOut = op.getProvidedVariableNames()
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 16 + 4 * variablesOut.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPFilterID, { "operatorID" })
@@ -1048,10 +1055,10 @@ public object BinaryToOPBase {
                 EOperatorIDExt.POPGroupSortedID,
                 EOperatorIDExt.POPGroupWithoutKeyColumnID,
             ),
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPGroup
                 val keyColumnNames = op.by.map { it.name }
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 var done = false
                 if (op.by.isEmpty()) {
@@ -1240,9 +1247,9 @@ public object BinaryToOPBase {
         )
         assignOperatorPhysical(
             EOperatorIDExt.POPModifyID,
-            { op, data, parent, mapping ->
+            { op, data, mapping, distributed, handler ->
                 op as POPModify
-                val child = convertToByteArrayHelper(op.children[0], data, parent, mapping)
+                val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12 + op.modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyID, { "operatorID" })

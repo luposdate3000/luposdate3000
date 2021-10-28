@@ -2060,7 +2060,7 @@ public class Simpleinsertdata1 {
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         val operatorTmp0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp20 = BinaryToOPBase.convertToByteArray(operatorTmp0)
+        val operatorTmp20 = BinaryToOPBase.convertToByteArray(operatorTmp0, false)
         val operator0 = BinaryToOPBase.convertToIteratorBundle(operatorTmp0.getQuery()as Query, operatorTmp20)
         LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator0, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query1 = Query(instance)

@@ -331,7 +331,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                 }
             }
 // //////////////////////////////////////////////////////////////////////
-            BinaryToOPBase.convertToByteArray(root)
+            BinaryToOPBase.convertToByteArray(root, true)
 // //////////////////////////////////////////////////////////////////////
             if (wantReturnValue) {
                 return XMLElementToOPBase(query2, res!!)
@@ -340,7 +340,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             }
         } else {
 // //////////////////////////////////////////////////////////////////////
-            BinaryToOPBase.convertToByteArray(root)
+            BinaryToOPBase.convertToByteArray(root, true)
 // //////////////////////////////////////////////////////////////////////
             return root
         }

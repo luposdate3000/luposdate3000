@@ -926,7 +926,7 @@ public class INSERTUSING01 {
             fail(expected2.toString() + " .. " + actual2.toString() + " .. " + buf_err2.toString() + " .. " + operator2)
         }
         val operatorTmp3 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp23 = BinaryToOPBase.convertToByteArray(operatorTmp3)
+        val operatorTmp23 = BinaryToOPBase.convertToByteArray(operatorTmp3, false)
         val operator3 = BinaryToOPBase.convertToIteratorBundle(operatorTmp3.getQuery()as Query, operatorTmp23)
         LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator3, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query4 = Query(instance)

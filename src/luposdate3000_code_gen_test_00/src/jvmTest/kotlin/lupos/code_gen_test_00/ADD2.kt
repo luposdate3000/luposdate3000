@@ -904,7 +904,7 @@ public class ADD2 {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1)
+        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false)
         val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21)
         LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query2 = Query(instance)
