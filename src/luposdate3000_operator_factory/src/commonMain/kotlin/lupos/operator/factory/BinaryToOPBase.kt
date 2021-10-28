@@ -32,6 +32,9 @@ import lupos.operator.physical.multiinput.EvalMinus
 import lupos.operator.physical.multiinput.EvalUnion
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
+import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
+import lupos.operator.arithmetik.multiinput.AOPIn
+import lupos.operator.arithmetik.multiinput.AOPSet
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeOptional
@@ -510,7 +513,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:512"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:515"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1321,22 +1324,76 @@ EOperatorIDExt.AOPAggregationCOUNTID,
 { op, data, mapping ->
 op as AOPAggregationCOUNT
 val off = ByteArrayWrapperExt.getSize(data)
-ByteArrayWrapperExt.setSize(data, off+9+4*op.children.size,true)
+ByteArrayWrapperExt.setSize(data, off+5+if(op.distinct)4 else 0,true)
 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationCOUNTID, { "operatorID" })
-ByteArrayWrapperExt.writeInt4(data, off + 4,op.children.size,{"AOPAggregationCOUNT.children.size"})
-ByteArrayWrapperExt.writeInt1(data, off + 8,if(op.distinct) 0x1 else 0x0,{"AOPAggregationCOUNT.distinct"})
-for(i in 0 until op.children.size){
-ByteArrayWrapperExt.writeInt4(data, off + 9+4*i,encodeAOP(op.children[i]as AOPBase,data,mapping),{"AOPAggregationCOUNT.children[$i]"})
+ByteArrayWrapperExt.writeInt1(data, off + 4,if(op.distinct) 0x1 else 0x0,{"AOPAggregationCOUNT.distinct"})
+if(op.distinct){
+ByteArrayWrapperExt.writeInt4(data, off + 5,encodeAOP(op.children[0]as AOPBase,data,mapping),{"AOPAggregationCOUNT.child"})
 }
 off
 },
             { query, data, off ->
-val childs=Array(ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAggregationCOUNT.children.size" })){
-decodeAOP(query,data,off + 9+4*it)
+val distinct=ByteArrayWrapperExt.readInt1(data, off +4,{"AOPAggregationCOUNT.distinct"})!=0x0
+val childs=if(distinct){
+arrayOf(decodeAOP(query,data,ByteArrayWrapperExt.readInt1(data, off + 5,{"AOPAggregationCOUNT.child"})))
+}else{
+arrayOf()
 }
-AOPAggregationCOUNT(query,ByteArrayWrapperExt.readInt1(data, off +8,{"AOPAggregationCOUNT.distinct"})!=0x0,childs)
+AOPAggregationCOUNT(query,distinct,childs)
 },
 )
+assignOperatorArithmetik(
+EOperatorIDExt.AOPAggregationMAXID,
+{ op, data, mapping ->
+op as AOPAggregationMAX
+val off = ByteArrayWrapperExt.getSize(data)
+ByteArrayWrapperExt.setSize(data, off+9,true)
+ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationMAXID, { "operatorID" })
+ByteArrayWrapperExt.writeInt1(data, off + 4,if(op.distinct) 0x1 else 0x0,{"AOPAggregationMAX.distinct"})
+ByteArrayWrapperExt.writeInt4(data, off + 5,encodeAOP(op.children[0]as AOPBase,data,mapping),{"AOPAggregationMAX.child"})
+off
+},
+            { query, data, off ->
+val distinct=ByteArrayWrapperExt.readInt1(data, off +4,{"AOPAggregationMAX.distinct"})!=0x0
+val childs=arrayOf(decodeAOP(query,data,ByteArrayWrapperExt.readInt4(data, off + 5,{"AOPAggregationMAX.child"})))
+AOPAggregationMAX(query,distinct,childs)
+},
+)
+assignOperatorArithmetik(
+EOperatorIDExt.AOPVariableID,
+{ op, data, mapping ->
+op as AOPVariable
+val off = ByteArrayWrapperExt.getSize(data)
+ByteArrayWrapperExt.setSize(data, off+8,true)
+ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPVariableID, { "operatorID" })
+ByteArrayWrapperExt.writeInt4(data, off +4,encodeString(op.name,data,mapping),{"AOPVariable.name"})
+off
+},
+            { query, data, off ->
+AOPVariable(query,decodeString(data,ByteArrayWrapperExt.readInt4(data, off +4,{"AOPVariable.name"})))
+},)
+assignOperatorArithmetik(
+EOperatorIDExt.AOPInID,
+{ op, data, mapping ->
+op as AOPIn
+val off = ByteArrayWrapperExt.getSize(data)
+val collection=op.children[1].getChildren()
+ByteArrayWrapperExt.setSize(data, off+12+4*collection.size,true)
+ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPInID, { "operatorID" })
+ByteArrayWrapperExt.writeInt4(data, off + 4,encodeAOP(op.children[0]as AOPBase,data,mapping),{"AOPIn.child"})
+ByteArrayWrapperExt.writeInt4(data, off + 8,collection.size,{"AOPIn.collection.size"})
+for(i in 0 until collection.size){
+ByteArrayWrapperExt.writeInt4(data, off + 12+4*i,encodeAOP(collection[i]as AOPBase,data,mapping),{"AOPIn.collection[$i]"})
+}
+off
+},
+            { query, data, off ->
+val count=ByteArrayWrapperExt.readInt4(data, off +8,{"AOPIn.collection.size"})
+val childs=List(count){
+decodeAOP(query,data,ByteArrayWrapperExt.readInt4(data, off + 12+4*it,{"AOPAggregationMAX.collection[$it]"}))
+}
+AOPIn(query,decodeAOP(query,data,ByteArrayWrapperExt.readInt4(data, off + 4,{"AOPAggregationMAX.child"})),AOPSet(query,childs))
+},)
 
     }
 }
