@@ -1374,6 +1374,20 @@ public object BinaryToOPBase {
             },
         )
         assignOperatorArithmetik(
+            EOperatorIDExt.AOPConstantID,
+            { op, data, mapping ->
+                op as AOPConstant
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + DictionaryValueHelper.getSize(), true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPConstantID, { "operatorID" })
+                DictionaryValueHelper.toByteArray(data, off + 4, op.value, { "AOPConstant.value" })
+                off
+            },
+            { query, data, off ->
+                AOPConstant(query, DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" }))
+            },
+        )
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPInID,
             { op, data, mapping ->
                 op as AOPIn
