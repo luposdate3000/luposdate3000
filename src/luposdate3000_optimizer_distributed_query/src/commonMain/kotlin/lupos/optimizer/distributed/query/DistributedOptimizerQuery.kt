@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.distributed.query
-
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
@@ -331,7 +331,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
                 }
             }
 // //////////////////////////////////////////////////////////////////////
-            root.evaluateBundle().nodes.forEach { it.second.rows.close() }
+            BinaryToOPBase.convertToByteArray(root)
 // //////////////////////////////////////////////////////////////////////
             if (wantReturnValue) {
                 return XMLElementToOPBase(query2, res!!)
@@ -340,7 +340,7 @@ public class DistributedOptimizerQuery : IDistributedOptimizer {
             }
         } else {
 // //////////////////////////////////////////////////////////////////////
-            root.evaluateBundle().nodes.forEach { it.second.rows.close() }
+            BinaryToOPBase.convertToByteArray(root)
 // //////////////////////////////////////////////////////////////////////
             return root
         }

@@ -804,7 +804,7 @@ public class SimpleDELETEWHERE3 {
         }
         val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
         val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1)
-        val operator1 = BinaryToOPBase.convertToIteratorBundle(Query(instance), operatorTmp21)
+        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21)
         LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query2 = Query(instance)
         val graph2 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
