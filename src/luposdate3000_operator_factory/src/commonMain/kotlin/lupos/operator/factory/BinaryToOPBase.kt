@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.multiinput.AOPIn
 import lupos.operator.arithmetik.multiinput.AOPSet
 import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
@@ -89,9 +90,10 @@ import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class BinaryToOPBaseDistributionHandler {
-    internal val additionalEntryPoints = mutableSetOf<Int/*offset in data where first operator starts*/>()
     internal var parent = Partition()
-    internal val dependenciesForEntryPoint = mutableMapOf<Int/*offset in data where first operator starts*/, MutableList<Pair<Int/*offset in data where the operator referencing it starts*/, Int/*offset in data where the target operator is*/>>>()
+    internal var currentID = -1
+    internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()
+    internal val dependenciesForID = mutableMapOf<Int/*ID*/, MutableSet<Int/*ID*/>>()
 }
 
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
@@ -347,6 +349,13 @@ public object BinaryToOPBase {
         return decoder(query, data, off)
     }
 
+    internal class BinaryToOPBaseDistributionHandler2 {
+        internal var parent = Partition()
+        internal var currentID = -1
+        internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()
+        internal val dependenciesForID = mutableMapOf<Int/*ID*/, MutableSet<Int/*ID*/>>()
+    }
+
     init {
 /*
  EOperatorIDExt.POPDistributedReceiveMultiCountID,
@@ -355,6 +364,112 @@ public object BinaryToOPBase {
  EOperatorIDExt.POPDistributedReceiveSingleCountID,
  EOperatorIDExt.POPDistributedReceiveSingleID,
 */
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPMergePartitionID,
+            { op, data, mapping, distributed, handler ->
+                op as POPMergePartition
+                val currentID = handler.currentID
+                val off = ByteArrayWrapperExt.getSize(data)
+                if (distributed) {
+                    if (op.partitionCount > 1) {
+                        val childsOff = mutableListOf<Int>()
+                        val childIDs = mutableListOf<Int>()
+                        for (partition in 0 until op.partitionCount) {
+                            var childID = 0
+                            for (i in 0 until handler. idToOffset.size + 1) {
+                                if (!handler.idToOffset.contains(i)) {
+                                    childID = i
+                                    break
+                                }
+                            }
+                            handler.currentID = childID
+                            var deps = handler.dependenciesForID[currentID]
+                            if (deps == null) {
+                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                            } else {
+                                deps.add(childID)
+                            }
+if(op.partitionVariable!=null){
+handler.parent=Partition(handler.parent,op.partitionVariable!!,partition,op.partitionCount)
+}
+                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                            childsOff.add(child)
+                            childIDs.add(childID)
+                        }
+                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMulti.size" })
+                        var o = off + 8
+                        for (i in 0 until op.partitionCount) {
+                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti.key[$i]" })
+                            o += 4
+                        }
+                        for (i in 0 until op.partitionCount) {
+                            handler.idToOffset[childIDs[i]] = o
+                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
+o+=12
+                        }
+                        off
+                    } else {
+                        var childID = 0
+                        for (i in 0 until handler.idToOffset.size + 1) {
+                            if (!handler.idToOffset.contains(i)) {
+                                childID = i
+                                break
+                            }
+                        }
+                        handler.idToOffset[childID] = off + 8
+                        handler.currentID = childID
+                        var deps = handler.dependenciesForID[currentID]
+                        if (deps == null) {
+                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                        } else {
+                            deps.add(childID)
+                        }
+                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                        ByteArrayWrapperExt.setSize(data, off + 20, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(                            data, off + 16, child,                            { "POPDistributedSendSingle.child" })
+                                off
+                    }
+                } else {
+                    TODO("BinaryToOPBase.POPMergePartition")
+                }
+            },
+        )
+        assignOperatorPhysical(
+            EOperatorIDExt.POPGraphOperationID,
+            { op, data, mapping, distributed, handler ->
+                op as POPGraphOperation
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 25, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type, { "POPGraphOperation.graph1type" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type, { "POPGraphOperation.graph2type" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action, { "POPGraphOperation.action" })
+                ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping), { "POPGraphOperation.graph1iri" })
+                ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping), { "POPGraphOperation.graph2iri" })
+                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0, { "POPGraphOperation.silent" })
+                off
+            },
+            { query, data, off ->
+                EvalGraphOperation(
+                    ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1,
+                    ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" }),
+                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" })),
+                    ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" }),
+                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" })),
+                    ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" }),
+                    query,
+                )
+            },
+        )
+
 
         assignOperatorPhysical(
             EOperatorIDExt.POPProjectionID,
@@ -443,33 +558,6 @@ public object BinaryToOPBase {
             },
         )
         assignOperatorPhysical(
-            EOperatorIDExt.POPGraphOperationID,
-            { op, data, mapping, distributed, handler ->
-                op as POPGraphOperation
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 25, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type, { "POPGraphOperation.graph1type" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type, { "POPGraphOperation.graph2type" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action, { "POPGraphOperation.action" })
-                ByteArrayWrapperExt.writeInt4(data, off + 16, encodeString(op.graph1iri, data, mapping), { "POPGraphOperation.graph1iri" })
-                ByteArrayWrapperExt.writeInt4(data, off + 20, encodeString(op.graph2iri, data, mapping), { "POPGraphOperation.graph2iri" })
-                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0, { "POPGraphOperation.silent" })
-                off
-            },
-            { query, data, off ->
-                EvalGraphOperation(
-                    ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1,
-                    ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" }),
-                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" })),
-                    ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" }),
-                    decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" })),
-                    ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" }),
-                    query,
-                )
-            },
-        )
-        assignOperatorPhysical(
             EOperatorIDExt.POPNothingID,
             { op, data, mapping, distributed, handler ->
                 op as POPNothing
@@ -520,7 +608,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:522"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:610"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1336,11 +1424,11 @@ public object BinaryToOPBase {
             { op, data, mapping ->
                 op as AOPAggregationCOUNT
                 val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 5 + if (op.distinct)4 else 0, true)
+                ByteArrayWrapperExt.setSize(data, off + 5 + if (op.distinct) 4 else 0, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationCOUNTID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt1(data, off + 4, if (op.distinct) 0x1 else 0x0, { "AOPAggregationCOUNT.distinct" })
                 if (op.distinct) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0]as AOPBase, data, mapping), { "AOPAggregationCOUNT.child" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationCOUNT.child" })
                 }
                 off
             },
@@ -1362,7 +1450,7 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.setSize(data, off + 9, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationMAXID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt1(data, off + 4, if (op.distinct) 0x1 else 0x0, { "AOPAggregationMAX.distinct" })
-                ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0]as AOPBase, data, mapping), { "AOPAggregationMAX.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationMAX.child" })
                 off
             },
             { query, data, off ->
@@ -1407,10 +1495,10 @@ public object BinaryToOPBase {
                 val collection = op.children[1].getChildren()
                 ByteArrayWrapperExt.setSize(data, off + 12 + 4 * collection.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPInID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0]as AOPBase, data, mapping), { "AOPIn.child" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPIn.child" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, collection.size, { "AOPIn.collection.size" })
                 for (i in 0 until collection.size) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 12 + 4 * i, encodeAOP(collection[i]as AOPBase, data, mapping), { "AOPIn.collection[$i]" })
+                    ByteArrayWrapperExt.writeInt4(data, off + 12 + 4 * i, encodeAOP(collection[i] as AOPBase, data, mapping), { "AOPIn.collection[$i]" })
                 }
                 off
             },
