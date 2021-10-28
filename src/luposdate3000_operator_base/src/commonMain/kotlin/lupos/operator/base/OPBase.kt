@@ -177,7 +177,7 @@ public abstract class OPBase public constructor(
         return node.evaluate(partition)
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO("OPBase")
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO("OPBase .. $classname")
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -449,7 +449,7 @@ public abstract class OPBase public constructor(
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    override fun toSparql(): String = TODO("OPBase")
+    override fun toSparql(): String = TODO("OPBase .. $classname")
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement {
         return toXMLElement(partial, partition)
     }

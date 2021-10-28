@@ -1335,7 +1335,7 @@ public object BinaryToOPBase {
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationCOUNT.distinct" }) != 0x0
                 val childs = if (distinct) {
-                    arrayOf(decodeAOP(query, data, ByteArrayWrapperExt.readInt1(data, off + 5, { "AOPAggregationCOUNT.child" })))
+                    arrayOf(decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationCOUNT.child" })))
                 } else {
                     arrayOf()
                 }
@@ -1378,7 +1378,7 @@ public object BinaryToOPBase {
             { op, data, mapping ->
                 op as AOPConstant
                 val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + DictionaryValueHelper.getSize(), true)
+                ByteArrayWrapperExt.setSize(data, off + 4 + DictionaryValueHelper.getSize(), true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPConstantID, { "operatorID" })
                 DictionaryValueHelper.toByteArray(data, off + 4, op.value, { "AOPConstant.value" })
                 off
