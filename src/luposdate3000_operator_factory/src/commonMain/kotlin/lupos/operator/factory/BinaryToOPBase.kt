@@ -236,7 +236,7 @@ public object BinaryToOPBase {
             println("convertToIteratorBundle ... start")
             if (ByteArrayWrapperExt.readInt1(data, off, { "convertToByteArray.isOPBaseCompound" }) == 0x1) {
                 val childCount = ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBaseCompound.children.size" })
-                var o = 5
+                var o = off + 5
                 val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
                 for (i in 0 until childCount) {
                     val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
@@ -797,7 +797,7 @@ public object BinaryToOPBase {
                     ByteArrayWrapperExt.writeInt4(data, off + 12, op.getProvidedVariableNames().size, { "POPSort.p.size" })
                     ByteArrayWrapperExt.writeInt4(data, off + 16, op.sortBy.size, { "POPSort.sb.size" })
                     ByteArrayWrapperExt.writeInt1(data, off + 20, if (op.sortOrder) 1 else 0, { "POPSort.sortOrder" })
-                    var o = 21
+                    var o = off + 21
                     var i = 0
                     for (s in op.mySortPriority.map { it.variableName }) {
                         ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPSort.sp[$i]" })
@@ -825,7 +825,7 @@ public object BinaryToOPBase {
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPSort.p.size" })
                 val sblen = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPSort.sb.size" })
                 val sortOrder = ByteArrayWrapperExt.readInt1(data, off + 20, { "POPSort.sortOrder" }) != 0
-                var o = 21
+                var o = off + 21
                 val spList = mutableListOf<String>()
                 val pList = mutableListOf<String>()
                 val sbList = mutableListOf<String>()
@@ -1060,7 +1060,7 @@ public object BinaryToOPBase {
                     ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupWithoutKeyColumn.child" })
                     ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPGroupWithoutKeyColumn.variables.size" })
                     ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size, { "POPGroupWithoutKeyColumn.bindings.size" })
-                    var o = 16
+                    var o = off + 16
                     var i = 0
                     for (s in op.projectedVariables) {
                         ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroupWithoutKeyColumn.variables[$i]" })
@@ -1083,7 +1083,7 @@ public object BinaryToOPBase {
                     ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPGroupSorted.variables.size" })
                     ByteArrayWrapperExt.writeInt4(data, off + 12, op.bindings.size, { "POPGroupSorted.bindings.size" })
                     ByteArrayWrapperExt.writeInt4(data, off + 16, keyColumnNames.size, { "POPGroupSorted.keys.size" })
-                    var o = 20
+                    var o = off + 20
                     var i = 0
                     for (s in op.projectedVariables) {
                         ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroupSorted.variables[$i]" })
@@ -1127,7 +1127,7 @@ public object BinaryToOPBase {
                     ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroup.child" })
                     ByteArrayWrapperExt.writeInt4(data, off + 8, op.bindings.size, { "POPGroup.bindings.size" })
                     ByteArrayWrapperExt.writeInt4(data, off + 12, keyColumnNames.size, { "POPGroup.keys.size" })
-                    var o = 16
+                    var o = off + 16
                     var i = 0
                     for (s in keyColumnNames) {
                         ByteArrayWrapperExt.writeInt4(data, o, encodeString(s, data, mapping), { "POPGroup.keys[$i]" })
@@ -1170,7 +1170,7 @@ public object BinaryToOPBase {
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupSorted.variables.size" })
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupSorted.bindings.size" })
                 val klen = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGroupSorted.keys.size" })
-                var o = 20
+                var o = off + 20
                 val projectedVariables = mutableListOf<String>()
                 for (i in 0 until plen) {
                     projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupSorted.variables[$i]" })))
@@ -1198,7 +1198,7 @@ public object BinaryToOPBase {
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroup.child" }))
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroup.bindings.size" })
                 val klen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroup.keys.size" })
-                var o = 16
+                var o = off + 16
                 val keyColumnNames = Array<String>(klen) { "" }
                 for (i in 0 until klen) {
                     keyColumnNames[i] = decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.keys[$i]" }))
@@ -1221,7 +1221,7 @@ public object BinaryToOPBase {
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupWithoutKeyColumn.child" }))
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupWithoutKeyColumn.variables.size" })
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupWithoutKeyColumn.bindings.size" })
-                var o = 16
+                var o = off + 16
                 val projectedVariables = mutableListOf<String>()
                 for (i in 0 until plen) {
                     projectedVariables.add(decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroupWithoutKeyColumn.variables[$i]" })))
