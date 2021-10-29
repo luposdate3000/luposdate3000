@@ -18,26 +18,30 @@ package lupos.operator.factory
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
+import lupos.operator.arithmetik.generated.AOPAnd
+import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
+import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
+import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
 import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
+import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
 import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
+import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
 import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
+import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
-import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
-import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
-import lupos.operator.arithmetik.generated.AOPDivision
-import lupos.operator.arithmetik.generated.AOPAnd
-import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
-import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRENDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
+import lupos.operator.arithmetik.generated.AOPDivision
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
+import lupos.operator.arithmetik.multiinput.AOPGEQ
 import lupos.operator.arithmetik.multiinput.AOPGT
 import lupos.operator.arithmetik.multiinput.AOPIn
 import lupos.operator.arithmetik.multiinput.AOPLT
@@ -337,7 +341,7 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.setSize(data, off + 4 + b.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off, b.size, { "encodeString.len" })
                 println("len ... " + b.size)
-                if (b.size> 0) {
+                if (b.size > 0) {
                     ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
                 }
                 return off
@@ -393,14 +397,74 @@ public object BinaryToOPBase {
         internal val dependenciesForID = mutableMapOf<Int/*ID*/, MutableSet<Int/*ID*/>>()
     }
 
+    private fun mergePartitionEncodeHelper1(off: Int, partitionCount: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, partitionVariable: String?, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase,labelAppendixReceive:String,labelAppendixSend:String,sendID:Int,receiveID:Int) {
+        val childsOff = mutableListOf<Int>()
+        val childIDs = mutableListOf<Int>()
+        for (partition in 0 until partitionCount) {
+            var childID = 0
+            for (i in 0 until handler.idToOffset.size + 1) {
+                if (!handler.idToOffset.contains(i)) {
+                    childID = i
+                    break
+                }
+            }
+            handler.currentID = childID
+            var deps = handler.dependenciesForID[currentID]
+            if (deps == null) {
+                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+            } else {
+                deps.add(childID)
+            }
+            if (partitionVariable != null) {
+                handler.parent = Partition(handler.parent, partitionVariable!!, partition, partitionCount)
+            }
+            val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
+            childsOff.add(child)
+            childIDs.add(childID)
+        }
+        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * partitionCount, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, partitionCount, { "POPDistributedReceiveMulti${labelAppendixReceive}.size" })
+        var o = off + 8
+        for (i in 0 until partitionCount) {
+            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti${labelAppendixReceive}.key[$i]" })
+            o += 4
+        }
+        for (i in 0 until partitionCount) {
+            handler.idToOffset[childIDs[i]] = o
+            ByteArrayWrapperExt.writeInt4(data, o + 0, sendID, { "operatorID" })
+            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle${labelAppendixSend}.key" })
+            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle${labelAppendixSend}.child" })
+            o += 12
+        }
+    }
+
+    private fun mergePartitionEncodeHelper2(off: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase,labelAppendix:String,sendID:Int,receiveID:Int) {
+        var childID = 0
+        for (i in 0 until handler.idToOffset.size + 1) {
+            if (!handler.idToOffset.contains(i)) {
+                childID = i
+                break
+            }
+        }
+        handler.idToOffset[childID] = off + 8
+        handler.currentID = childID
+        var deps = handler.dependenciesForID[currentID]
+        if (deps == null) {
+            handler.dependenciesForID[currentID] = mutableSetOf(childID)
+        } else {
+            deps.add(childID)
+        }
+        val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
+        ByteArrayWrapperExt.setSize(data, off + 20, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle${labelAppendix}.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, sendID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle${labelAppendix}.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle${labelAppendix}.child" })
+    }
+
     init {
-/*
- EOperatorIDExt.POPDistributedReceiveMultiCountID,
- EOperatorIDExt.POPDistributedReceiveMultiID,
- EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
- EOperatorIDExt.POPDistributedReceiveSingleCountID,
- EOperatorIDExt.POPDistributedReceiveSingleID,
-*/
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMergePartitionCountID,
             { op, data, mapping, distributed, handler ->
@@ -409,69 +473,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount > 1) {
-                        val childsOff = mutableListOf<Int>()
-                        val childIDs = mutableListOf<Int>()
-                        for (partition in 0 until op.partitionCount) {
-                            var childID = 0
-                            for (i in 0 until handler.idToOffset.size + 1) {
-                                if (!handler.idToOffset.contains(i)) {
-                                    childID = i
-                                    break
-                                }
-                            }
-                            handler.currentID = childID
-                            var deps = handler.dependenciesForID[currentID]
-                            if (deps == null) {
-                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                            } else {
-                                deps.add(childID)
-                            }
-                            if (op.partitionVariable != null) {
-                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
-                            }
-                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                            childsOff.add(child)
-                            childIDs.add(childID)
-                        }
-                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMultiOrdered.size" })
-                        var o = off + 8
-                        for (i in 0 until op.partitionCount) {
-                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
-                            o += 4
-                        }
-                        for (i in 0 until op.partitionCount) {
-                            handler.idToOffset[childIDs[i]] = o
-                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
-                            o += 12
-                        }
+                        mergePartitionEncodeHelper1(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"Count","Count",EOperatorIDExt.POPDistributedSendSingleCountID,EOperatorIDExt.POPDistributedReceiveMultiCountID,)
                         off
                     } else {
-                        var childID = 0
-                        for (i in 0 until handler.idToOffset.size + 1) {
-                            if (!handler.idToOffset.contains(i)) {
-                                childID = i
-                                break
-                            }
-                        }
-                        handler.idToOffset[childID] = off + 8
-                        handler.currentID = childID
-                        var deps = handler.dependenciesForID[currentID]
-                        if (deps == null) {
-                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                        } else {
-                            deps.add(childID)
-                        }
-                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                        ByteArrayWrapperExt.setSize(data, off + 20, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+                        mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"Count",EOperatorIDExt.POPDistributedSendSingleCountID,EOperatorIDExt.POPDistributedReceiveSingleCountID)
                         off
                     }
                 } else {
@@ -487,69 +492,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount2 > 1) {
-                        val childsOff = mutableListOf<Int>()
-                        val childIDs = mutableListOf<Int>()
-                        for (partition in 0 until op.partitionCount2) {
-                            var childID = 0
-                            for (i in 0 until handler.idToOffset.size + 1) {
-                                if (!handler.idToOffset.contains(i)) {
-                                    childID = i
-                                    break
-                                }
-                            }
-                            handler.currentID = childID
-                            var deps = handler.dependenciesForID[currentID]
-                            if (deps == null) {
-                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                            } else {
-                                deps.add(childID)
-                            }
-                            if (op.partitionVariable != null) {
-                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount2)
-                            }
-                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                            childsOff.add(child)
-                            childIDs.add(childID)
-                        }
-                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount2, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount2, { "POPDistributedReceiveMultiOrdered.size" })
-                        var o = off + 8
-                        for (i in 0 until op.partitionCount2) {
-                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
-                            o += 4
-                        }
-                        for (i in 0 until op.partitionCount2) {
-                            handler.idToOffset[childIDs[i]] = o
-                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
-                            o += 12
-                        }
+mergePartitionEncodeHelper1(off, op.partitionCount2, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"Ordered","",EOperatorIDExt.POPDistributedSendSingleID,EOperatorIDExt.POPDistributedReceiveMultiOrderedID)
                         off
                     } else {
-                        var childID = 0
-                        for (i in 0 until handler.idToOffset.size + 1) {
-                            if (!handler.idToOffset.contains(i)) {
-                                childID = i
-                                break
-                            }
-                        }
-                        handler.idToOffset[childID] = off + 8
-                        handler.currentID = childID
-                        var deps = handler.dependenciesForID[currentID]
-                        if (deps == null) {
-                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                        } else {
-                            deps.add(childID)
-                        }
-                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                        ByteArrayWrapperExt.setSize(data, off + 20, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
@@ -565,69 +511,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount > 1) {
-                        val childsOff = mutableListOf<Int>()
-                        val childIDs = mutableListOf<Int>()
-                        for (partition in 0 until op.partitionCount) {
-                            var childID = 0
-                            for (i in 0 until handler.idToOffset.size + 1) {
-                                if (!handler.idToOffset.contains(i)) {
-                                    childID = i
-                                    break
-                                }
-                            }
-                            handler.currentID = childID
-                            var deps = handler.dependenciesForID[currentID]
-                            if (deps == null) {
-                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                            } else {
-                                deps.add(childID)
-                            }
-                            if (op.partitionVariable != null) {
-                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
-                            }
-                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                            childsOff.add(child)
-                            childIDs.add(childID)
-                        }
-                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMulti.size" })
-                        var o = off + 8
-                        for (i in 0 until op.partitionCount) {
-                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti.key[$i]" })
-                            o += 4
-                        }
-                        for (i in 0 until op.partitionCount) {
-                            handler.idToOffset[childIDs[i]] = o
-                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
-                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
-                            o += 12
-                        }
+mergePartitionEncodeHelper1(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"","",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID,)
                         off
                     } else {
-                        var childID = 0
-                        for (i in 0 until handler.idToOffset.size + 1) {
-                            if (!handler.idToOffset.contains(i)) {
-                                childID = i
-                                break
-                            }
-                        }
-                        handler.idToOffset[childID] = off + 8
-                        handler.currentID = childID
-                        var deps = handler.dependenciesForID[currentID]
-                        if (deps == null) {
-                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                        } else {
-                            deps.add(childID)
-                        }
-                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                        ByteArrayWrapperExt.setSize(data, off + 20, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
@@ -645,28 +532,7 @@ public object BinaryToOPBase {
                     if (op.partitionCount > 1) {
                         TODO("BinaryToOPBase.POPSplitPartition a")
                     } else {
-                        var childID = 0
-                        for (i in 0 until handler.idToOffset.size + 1) {
-                            if (!handler.idToOffset.contains(i)) {
-                                childID = i
-                                break
-                            }
-                        }
-                        handler.idToOffset[childID] = off + 8
-                        handler.currentID = childID
-                        var deps = handler.dependenciesForID[currentID]
-                        if (deps == null) {
-                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
-                        } else {
-                            deps.add(childID)
-                        }
-                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
-                        ByteArrayWrapperExt.setSize(data, off + 20, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
@@ -839,7 +705,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:835"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:707"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1732,10 +1598,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallSHA256(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" })),
-                )
+                AOPBuildInCallSHA256(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1749,10 +1612,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallSHA1(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" })),
-                )
+                AOPBuildInCallSHA1(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1766,10 +1626,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallROUND(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" })),
-                )
+                AOPBuildInCallROUND(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1783,10 +1640,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallMD5(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" })),
-                )
+                AOPBuildInCallMD5(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1800,10 +1654,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallDAY(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" })),
-                )
+                AOPBuildInCallDAY(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1817,10 +1668,7 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallCEIL(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" })),
-                )
+                AOPBuildInCallCEIL(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1834,81 +1682,66 @@ public object BinaryToOPBase {
                 off
             },
             { query, data, off ->
-                AOPBuildInCallSTRLEN(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" })),
-                )
+                AOPBuildInCallSTRLEN(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" })))
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallSECONDSID,
             { op, data, mapping ->
                 op as AOPBuildInCallSECONDS
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSECONDSID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSECONDS.child" >
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSECONDS.child" })
                 off
             },
             { query, data, off ->
-                AOPBuildInCallSECONDS(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" })),
-                )
+                AOPBuildInCallSECONDS(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" })))
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallLANGID,
             { op, data, mapping ->
                 op as AOPBuildInCallLANG
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallLANGID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallLANG.child" >
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallLANG.child" })
                 off
             },
             { query, data, off ->
-                AOPBuildInCallLANG(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" })),
-                )
+                AOPBuildInCallLANG(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" })))
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallMONTHID,
             { op, data, mapping ->
                 op as AOPBuildInCallMONTH
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallMONTHID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMONTH.child" >
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMONTH.child" })
                 off
             },
             { query, data, off ->
-                AOPBuildInCallMONTH(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" })),
-                )
+                AOPBuildInCallMONTH(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" })))
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallBOUNDID,
             { op, data, mapping ->
                 op as AOPBuildInCallBOUND
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallBOUNDID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallBOUND.child" >
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallBOUND.child" })
                 off
             },
             { query, data, off ->
-                AOPBuildInCallBOUND(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" })),
-                )
+                AOPBuildInCallBOUND(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" })))
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallBNODE1ID,
             { op, data, mapping ->
                 op as AOPBuildInCallBNODE1
@@ -1919,13 +1752,10 @@ assignOperatorArithmetik(
                 off
             },
             { query, data, off ->
-                AOPBuildInCallBNODE1(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBNODE1.child" })),
-                )
+                AOPBuildInCallBNODE1(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBNODE1.child" })))
             },
         )
-        
+
         assignOperatorArithmetik(
             EOperatorIDExt.AOPNotID,
             { op, data, mapping ->
@@ -1937,10 +1767,7 @@ assignOperatorArithmetik(
                 off
             },
             { query, data, off ->
-                AOPNot(
-                    query,
-                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNot.child" })),
-                )
+                AOPNot(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNot.child" })))
             },
         )
         assignOperatorArithmetik(
@@ -1989,15 +1816,15 @@ assignOperatorArithmetik(
                 )
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPGEQID,
             { op, data, mapping ->
                 op as AOPGEQ
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 12, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPGEQID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPGEQ.child[0>
-                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGEQ.child[1>
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPGEQ.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGEQ.child[1]" })
                 off
             },
             { query, data, off ->
@@ -2008,7 +1835,7 @@ assignOperatorArithmetik(
                 )
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallCONCATID,
             { op, data, mapping ->
                 op as AOPBuildInCallCONCAT
@@ -2027,7 +1854,7 @@ assignOperatorArithmetik(
                 )
             },
         )
-assignOperatorArithmetik(
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPBuildInCallSTRSTARTSID,
             { op, data, mapping ->
                 op as AOPBuildInCallSTRSTARTS
