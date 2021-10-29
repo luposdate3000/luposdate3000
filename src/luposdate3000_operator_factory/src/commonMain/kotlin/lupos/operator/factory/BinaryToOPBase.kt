@@ -17,12 +17,31 @@
 package lupos.operator.factory
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.generated.AOPAddition
+import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
+import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
+import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
+import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
+import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
+import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
+import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRENDS
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
+import lupos.operator.arithmetik.generated.AOPNot
+import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
+import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
+import lupos.operator.arithmetik.multiinput.AOPEQ
+import lupos.operator.arithmetik.multiinput.AOPGT
 import lupos.operator.arithmetik.multiinput.AOPIn
+import lupos.operator.arithmetik.multiinput.AOPLT
+import lupos.operator.arithmetik.multiinput.AOPNEQ
 import lupos.operator.arithmetik.multiinput.AOPSet
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
+import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -50,7 +69,9 @@ import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
 import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
 import lupos.operator.physical.singleinput.EvalGroup
@@ -375,6 +396,84 @@ public object BinaryToOPBase {
  EOperatorIDExt.POPDistributedReceiveSingleID,
 */
         assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPMergePartitionCountID,
+            { op, data, mapping, distributed, handler ->
+                op as POPMergePartitionCount
+                val currentID = handler.currentID
+                val off = ByteArrayWrapperExt.getSize(data)
+                if (distributed) {
+                    if (op.partitionCount > 1) {
+                        val childsOff = mutableListOf<Int>()
+                        val childIDs = mutableListOf<Int>()
+                        for (partition in 0 until op.partitionCount) {
+                            var childID = 0
+                            for (i in 0 until handler.idToOffset.size + 1) {
+                                if (!handler.idToOffset.contains(i)) {
+                                    childID = i
+                                    break
+                                }
+                            }
+                            handler.currentID = childID
+                            var deps = handler.dependenciesForID[currentID]
+                            if (deps == null) {
+                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                            } else {
+                                deps.add(childID)
+                            }
+                            if (op.partitionVariable != null) {
+                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
+                            }
+                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                            childsOff.add(child)
+                            childIDs.add(childID)
+                        }
+                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMultiOrdered.size" })
+                        var o = off + 8
+                        for (i in 0 until op.partitionCount) {
+                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                            o += 4
+                        }
+                        for (i in 0 until op.partitionCount) {
+                            handler.idToOffset[childIDs[i]] = o
+                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
+                            o += 12
+                        }
+                        off
+                    } else {
+                        var childID = 0
+                        for (i in 0 until handler.idToOffset.size + 1) {
+                            if (!handler.idToOffset.contains(i)) {
+                                childID = i
+                                break
+                            }
+                        }
+                        handler.idToOffset[childID] = off + 8
+                        handler.currentID = childID
+                        var deps = handler.dependenciesForID[currentID]
+                        if (deps == null) {
+                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                        } else {
+                            deps.add(childID)
+                        }
+                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                        ByteArrayWrapperExt.setSize(data, off + 20, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+                        off
+                    }
+                } else {
+                    TODO("BinaryToOPBase.POPMergePartitionCount")
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMergePartitionOrderedByIntIdID,
             { op, data, mapping, distributed, handler ->
                 op as POPMergePartitionOrderedByIntId
@@ -527,6 +626,45 @@ public object BinaryToOPBase {
                     }
                 } else {
                     TODO("BinaryToOPBase.POPMergePartition")
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPSplitPartitionID,
+            { op, data, mapping, distributed, handler ->
+                op as POPSplitPartition
+                val currentID = handler.currentID
+                val off = ByteArrayWrapperExt.getSize(data)
+                if (distributed) {
+                    if (op.partitionCount > 1) {
+                        TODO("BinaryToOPBase.POPSplitPartition a")
+                    } else {
+                        var childID = 0
+                        for (i in 0 until handler.idToOffset.size + 1) {
+                            if (!handler.idToOffset.contains(i)) {
+                                childID = i
+                                break
+                            }
+                        }
+                        handler.idToOffset[childID] = off + 8
+                        handler.currentID = childID
+                        var deps = handler.dependenciesForID[currentID]
+                        if (deps == null) {
+                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                        } else {
+                            deps.add(childID)
+                        }
+                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                        ByteArrayWrapperExt.setSize(data, off + 20, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+                        off
+                    }
+                } else {
+                    TODO("BinaryToOPBase.POPSplitPartition b")
                 }
             },
         )
@@ -695,7 +833,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:697"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:835"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1547,6 +1685,23 @@ public object BinaryToOPBase {
             },
         )
         assignOperatorArithmetik(
+            EOperatorIDExt.AOPAggregationSAMPLEID,
+            { op, data, mapping ->
+                op as AOPAggregationSAMPLE
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 9, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationSAMPLEID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt1(data, off + 4, if (op.distinct) 0x1 else 0x0, { "AOPAggregationSAMPLE.distinct" })
+                ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationSAMPLE.child" })
+                off
+            },
+            { query, data, off ->
+                val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationSAMPLE.distinct" }) != 0x0
+                val childs = arrayOf(decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationSAMPLE.child" })))
+                AOPAggregationSAMPLE(query, distinct, childs)
+            },
+        )
+        assignOperatorArithmetik(
             EOperatorIDExt.AOPVariableID,
             { op, data, mapping ->
                 op as AOPVariable
@@ -1558,6 +1713,340 @@ public object BinaryToOPBase {
             },
             { query, data, off ->
                 AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" })))
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallSHA256ID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSHA256
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSHA256ID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSHA256.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallSHA256(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallSHA1ID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSHA1
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSHA1ID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSHA1.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallSHA1(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallROUNDID,
+            { op, data, mapping ->
+                op as AOPBuildInCallROUND
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallROUNDID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallROUND.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallROUND(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallMD5ID,
+            { op, data, mapping ->
+                op as AOPBuildInCallMD5
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallMD5ID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMD5.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallMD5(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallDAYID,
+            { op, data, mapping ->
+                op as AOPBuildInCallDAY
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallDAYID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallDAY.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallDAY(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallCEILID,
+            { op, data, mapping ->
+                op as AOPBuildInCallCEIL
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallCEILID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallCEIL.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallCEIL(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallSTRLENID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSTRLEN
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSTRLENID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTRLEN.child" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallSTRLEN(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPNotID,
+            { op, data, mapping ->
+                op as AOPNot
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPNotID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPNot.child" })
+                off
+            },
+            { query, data, off ->
+                AOPNot(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNot.child" })),
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallIFID,
+            { op, data, mapping ->
+                op as AOPBuildInCallIF
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 16, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallIFID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallIF.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallIF.child[1]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 12, encodeAOP(op.children[2] as AOPBase, data, mapping), { "AOPBuildInCallIF.child[2]" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallIF(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIF.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallIF.child[1]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 12, { "AOPBuildInCallIF.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallCOALESCEID,
+            { op, data, mapping ->
+                op as AOPBuildInCallCOALESCE
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8 + 4 * op.children.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallCOALESCEID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.children.size, { "AOPBuildInCallCOALESCE.size" })
+                for (i in 0 until op.children.size) {
+                    ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, encodeAOP(op.children[i] as AOPBase, data, mapping), { "AOPBuildInCallCOALESCE.child[$i]" })
+                }
+                off
+            },
+            { query, data, off ->
+                val childs = mutableListOf<AOPBase>()
+                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCOALESCE.size" })
+                for (i in 0 until len) {
+                    childs.add(decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "AOPBuildInCallCOALESCE.child[$i]" })))
+                }
+                AOPBuildInCallCOALESCE(
+                    query,
+                    childs
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPAdditionID,
+            { op, data, mapping ->
+                op as AOPAddition
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAdditionID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAddition.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPAddition.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPAddition(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAddition.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAddition.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallSTRENDSID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSTRENDS
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSTRENDSID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTRENDS.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRENDS.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallSTRENDS(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRENDS.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRENDS.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPBuildInCallLANGMATCHESID,
+            { op, data, mapping ->
+                op as AOPBuildInCallLANGMATCHES
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallLANGMATCHESID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallLANGMATCHES.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallLANGMATCHES.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPBuildInCallLANGMATCHES(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANGMATCHES.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallLANGMATCHES.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPOrID,
+            { op, data, mapping ->
+                op as AOPOr
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPOrID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPOr.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPOr.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPOr(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPOr.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPOr.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPNEQID,
+            { op, data, mapping ->
+                op as AOPNEQ
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPNEQID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPNEQ.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPNEQ.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPNEQ(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNEQ.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPNEQ.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPLTID,
+            { op, data, mapping ->
+                op as AOPLT
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPLTID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPLT.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPLT.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPLT(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPLT.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLT.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPGTID,
+            { op, data, mapping ->
+                op as AOPGT
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPGTID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPGT.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGT.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPGT(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGT.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGT.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetik(
+            EOperatorIDExt.AOPEQID,
+            { op, data, mapping ->
+                op as AOPEQ
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPEQID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPEQ.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPEQ.child[1]" })
+                off
+            },
+            { query, data, off ->
+                AOPEQ(
+                    query,
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPEQ.child[0]" })),
+                    decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" }))
+                )
             },
         )
         assignOperatorArithmetik(

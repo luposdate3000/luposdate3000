@@ -405,7 +405,7 @@ without minify mode only the passing tests will be added
         if (evaluateIt || expectedResult) {
             if (evaluateIt) {
                 fileBufferNormalHelper.println("            val operatorTmp$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-                fileBufferNormalHelper.println("            val operatorTmp2$counter =BinaryToOPBase.convertToByteArray(operatorTmp$counter)")
+                fileBufferNormalHelper.println("            val operatorTmp2$counter =BinaryToOPBase.convertToByteArray(operatorTmp$counter,false)")
                 fileBufferNormalHelper.println("  val operator$counter =           BinaryToOPBase.convertToIteratorBundle(operatorTmp$counter.getQuery()as Query,operatorTmp2$counter)")
             } else {
                 fileBufferNormalHelper.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
