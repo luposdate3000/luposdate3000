@@ -309,14 +309,23 @@ public object BinaryToOPBase {
                 val b = s.encodeToByteArray()
                 ByteArrayWrapperExt.setSize(data, off + 4 + b.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off, b.size, { "encodeString.len" })
-                ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
+                println("len ... " + b.size)
+                if (b.size> 0) {
+                    ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
+                }
                 return off
             }
         }
     }
 
     private fun decodeString(data: ByteArrayWrapper, off: Int): String {
-        return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" }))
+        val len = ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" })
+        println("len ... " + len)
+        if (len == 0) {
+            return ""
+        } else {
+            return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + len)
+        }
     }
 
     private fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
@@ -604,7 +613,7 @@ public object BinaryToOPBase {
             { op, data, mapping, distributed, handler ->
                 op as POPModifyData
                 val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 4 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
+                ByteArrayWrapperExt.setSize(data, off + 8 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size, { "POPModifyData.data.size" })
                 var o = off + 8
@@ -686,7 +695,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:688"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:697"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
