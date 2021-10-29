@@ -119,7 +119,7 @@ public object BinaryToOPBase {
             if (s < 16) {
                 s = 16
             }
-            while (s < operatorID) {
+            while (s <= operatorID) {
                 s = s * 2
             }
             val tmp = Array<BinaryToOPBaseMap?>(s) { null }
@@ -141,7 +141,7 @@ public object BinaryToOPBase {
             if (s < 16) {
                 s = 16
             }
-            while (s < operatorID) {
+            while (s <= operatorID) {
                 s = s * 2
             }
             val tmp = Array<OPBaseToBinaryMap?>(s) { null }
@@ -168,7 +168,7 @@ public object BinaryToOPBase {
             if (s < 16) {
                 s = 16
             }
-            while (s < operatorID) {
+            while (s <= operatorID) {
                 s = s * 2
             }
             val tmp = Array<BinaryToAOPBaseMap?>(s) { null }
@@ -190,7 +190,7 @@ public object BinaryToOPBase {
             if (s < 16) {
                 s = 16
             }
-            while (s < operatorID) {
+            while (s <= operatorID) {
                 s = s * 2
             }
             val tmp = Array<AOPBaseToBinaryMap?>(s) { null }
@@ -273,7 +273,7 @@ public object BinaryToOPBase {
         }
     }
 
-    private inline fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: BinaryToOPBaseDistributionHandler): Int {
+    private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: BinaryToOPBaseDistributionHandler): Int {
         if ((op as OPBase).operatorID >= operatorPhysicalMapEncode.size) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
@@ -284,7 +284,7 @@ public object BinaryToOPBase {
         return encoder(op, data, mapping, distributed, handler)
     }
 
-    private inline fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
+    private fun convertToIteratorBundleHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorPhysicalMapDecode.size) {
             TODO("convertToIteratorBundleHelper $type -> ${EOperatorIDExt.names[type]}")
@@ -296,7 +296,7 @@ public object BinaryToOPBase {
         return decoder(query, data, off)
     }
 
-    private inline fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+    private fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         if (s == null) {
             return -1
         } else {
@@ -315,11 +315,11 @@ public object BinaryToOPBase {
         }
     }
 
-    private inline fun decodeString(data: ByteArrayWrapper, off: Int): String {
+    private fun decodeString(data: ByteArrayWrapper, off: Int): String {
         return ByteArrayWrapperExt.getBuf(data).decodeToString(off + 4, off + 4 + ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" }))
     }
 
-    private inline fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
+    private fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
         if (off < 0) {
             return null
         } else {
@@ -372,10 +372,10 @@ public object BinaryToOPBase {
                 val currentID = handler.currentID
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
-                    if (op.partitionCount > 1) {
+                    if (op.partitionCount2 > 1) {
                         val childsOff = mutableListOf<Int>()
                         val childIDs = mutableListOf<Int>()
-                        for (partition in 0 until op.partitionCount) {
+                        for (partition in 0 until op.partitionCount2) {
                             var childID = 0
                             for (i in 0 until handler.idToOffset.size + 1) {
                                 if (!handler.idToOffset.contains(i)) {
@@ -391,21 +391,21 @@ public object BinaryToOPBase {
                                 deps.add(childID)
                             }
                             if (op.partitionVariable != null) {
-                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
+                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount2)
                             }
                             val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                             childsOff.add(child)
                             childIDs.add(childID)
                         }
-                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
+                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount2, true)
                         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMultiOrdered.size" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount2, { "POPDistributedReceiveMultiOrdered.size" })
                         var o = off + 8
-                        for (i in 0 until op.partitionCount) {
+                        for (i in 0 until op.partitionCount2) {
                             ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
                             o += 4
                         }
-                        for (i in 0 until op.partitionCount) {
+                        for (i in 0 until op.partitionCount2) {
                             handler.idToOffset[childIDs[i]] = o
                             ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
                             ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
@@ -686,7 +686,7 @@ public object BinaryToOPBase {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:689"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:688"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
