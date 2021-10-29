@@ -20,7 +20,6 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.multiinput.AOPIn
 import lupos.operator.arithmetik.multiinput.AOPSet
 import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
@@ -50,6 +49,8 @@ import lupos.operator.physical.noinput.POPGraphOperation
 import lupos.operator.physical.noinput.POPModifyData
 import lupos.operator.physical.noinput.POPNothing
 import lupos.operator.physical.noinput.POPValues
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.singleinput.EvalBind
 import lupos.operator.physical.singleinput.EvalFilter
 import lupos.operator.physical.singleinput.EvalGroup
@@ -365,9 +366,9 @@ public object BinaryToOPBase {
  EOperatorIDExt.POPDistributedReceiveSingleID,
 */
         assignOperatorPhysicalEncode(
-            EOperatorIDExt.POPMergePartitionID,
+            EOperatorIDExt.POPMergePartitionOrderedByIntIdID,
             { op, data, mapping, distributed, handler ->
-                op as POPMergePartition
+                op as POPMergePartitionOrderedByIntId
                 val currentID = handler.currentID
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
@@ -376,7 +377,7 @@ public object BinaryToOPBase {
                         val childIDs = mutableListOf<Int>()
                         for (partition in 0 until op.partitionCount) {
                             var childID = 0
-                            for (i in 0 until handler. idToOffset.size + 1) {
+                            for (i in 0 until handler.idToOffset.size + 1) {
                                 if (!handler.idToOffset.contains(i)) {
                                     childID = i
                                     break
@@ -389,19 +390,19 @@ public object BinaryToOPBase {
                             } else {
                                 deps.add(childID)
                             }
-if(op.partitionVariable!=null){
-handler.parent=Partition(handler.parent,op.partitionVariable!!,partition,op.partitionCount)
-}
+                            if (op.partitionVariable != null) {
+                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
+                            }
                             val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
                             childsOff.add(child)
                             childIDs.add(childID)
                         }
                         ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
-                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiID, { "operatorID" })
-                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMulti.size" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMultiOrdered.size" })
                         var o = off + 8
                         for (i in 0 until op.partitionCount) {
-                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti.key[$i]" })
+                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
                             o += 4
                         }
                         for (i in 0 until op.partitionCount) {
@@ -409,7 +410,7 @@ handler.parent=Partition(handler.parent,op.partitionVariable!!,partition,op.part
                             ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
                             ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
                             ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
-o+=12
+                            o += 12
                         }
                         off
                     } else {
@@ -434,8 +435,86 @@ o+=12
                         ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
                         ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
                         ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
-                        ByteArrayWrapperExt.writeInt4(                            data, off + 16, child,                            { "POPDistributedSendSingle.child" })
-                                off
+                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+                        off
+                    }
+                } else {
+                    TODO("BinaryToOPBase.POPMergePartitionOrderedByIntId")
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPMergePartitionID,
+            { op, data, mapping, distributed, handler ->
+                op as POPMergePartition
+                val currentID = handler.currentID
+                val off = ByteArrayWrapperExt.getSize(data)
+                if (distributed) {
+                    if (op.partitionCount > 1) {
+                        val childsOff = mutableListOf<Int>()
+                        val childIDs = mutableListOf<Int>()
+                        for (partition in 0 until op.partitionCount) {
+                            var childID = 0
+                            for (i in 0 until handler.idToOffset.size + 1) {
+                                if (!handler.idToOffset.contains(i)) {
+                                    childID = i
+                                    break
+                                }
+                            }
+                            handler.currentID = childID
+                            var deps = handler.dependenciesForID[currentID]
+                            if (deps == null) {
+                                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                            } else {
+                                deps.add(childID)
+                            }
+                            if (op.partitionVariable != null) {
+                                handler.parent = Partition(handler.parent, op.partitionVariable!!, partition, op.partitionCount)
+                            }
+                            val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                            childsOff.add(child)
+                            childIDs.add(childID)
+                        }
+                        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.partitionCount, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, op.partitionCount, { "POPDistributedReceiveMulti.size" })
+                        var o = off + 8
+                        for (i in 0 until op.partitionCount) {
+                            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti.key[$i]" })
+                            o += 4
+                        }
+                        for (i in 0 until op.partitionCount) {
+                            handler.idToOffset[childIDs[i]] = o
+                            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle.key" })
+                            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle.child" })
+                            o += 12
+                        }
+                        off
+                    } else {
+                        var childID = 0
+                        for (i in 0 until handler.idToOffset.size + 1) {
+                            if (!handler.idToOffset.contains(i)) {
+                                childID = i
+                                break
+                            }
+                        }
+                        handler.idToOffset[childID] = off + 8
+                        handler.currentID = childID
+                        var deps = handler.dependenciesForID[currentID]
+                        if (deps == null) {
+                            handler.dependenciesForID[currentID] = mutableSetOf(childID)
+                        } else {
+                            deps.add(childID)
+                        }
+                        val child = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
+                        ByteArrayWrapperExt.setSize(data, off + 20, true)
+                        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 8, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle.key" })
+                        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle.child" })
+                        off
                     }
                 } else {
                     TODO("BinaryToOPBase.POPMergePartition")
@@ -469,7 +548,6 @@ o+=12
                 )
             },
         )
-
 
         assignOperatorPhysical(
             EOperatorIDExt.POPProjectionID,
@@ -608,7 +686,7 @@ o+=12
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:610"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:689"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
