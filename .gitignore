@@ -79,3 +79,6 @@ src/tmp
 *.input2.sop.triples
 *.input2.spo.triples
 *.input2.stat
+*.input.0.dictionary
+*.input.0.triples
+*.input.1.dictionary
