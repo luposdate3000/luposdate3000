@@ -122,12 +122,14 @@ import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class BinaryToOPBaseDistributionHandler {
-    internal var parent = Partition()
     internal var currentID = -1
     internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()
     internal val dependenciesForID = mutableMapOf<Int/*ID*/, MutableSet<Int/*ID*/>>()
+    internal val partitionVariables = mutableMapOf<Int, String>()/*partitionID->Variable*/
+    internal val partitionCount = mutableMapOf<Int, Int>()/*partitionID->partitionCount*/
+    internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
+    internal var currentPartition = mutableMapOf<Int, Int>()/*partitionID->partitionIndex*/
 }
-
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: BinaryToOPBaseDistributionHandler) -> Int/*offset*/
 public typealias BinaryToAOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> AOPBase
@@ -397,10 +399,85 @@ public object BinaryToOPBase {
         internal val dependenciesForID = mutableMapOf<Int/*ID*/, MutableSet<Int/*ID*/>>()
     }
 
-    private fun mergePartitionEncodeHelper1(off: Int, partitionCount: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, partitionVariable: String?, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase,labelAppendixReceive:String,labelAppendixSend:String,sendID:Int,receiveID:Int) {
+    private fun mergePartitionEncodeHelperSplit(off: Int, partitionCount: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, partitionVariable: String?, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase, labelAppendixReceive: String, labelAppendixSend: String, sendID: Int, receiveID: Int, partitionID: Int, operatorID: Long) {
+        val currentPartitionCopy = mutableMapOf<Int, Int>()
+        for ((k, v) in handler.currentPartition) {
+            currentPartitionCopy[k] = v
+        }
+        val partition = handler.currentPartition[partitionID]!!
+        handler.partitionCount[partitionID] = partitionCount
+        handler.currentPartition.remove(partitionID)
+        if (partitionVariable != null) {
+            handler.partitionVariables[partitionID] = partitionVariable
+        }
+        var childID = -1
+        loop@for (kk in handler.partitionToChildID) {
+            val thePartition = kk.first.first
+            val theOperatorID = kk.first.second
+            val theChildID = kk.second
+            if (theOperatorID != operatorID) {
+                continue@loop
+            }
+            for ((k, v) in handler.currentPartition) {
+                if (thePartition[k] != v) {
+                    continue@loop
+                }
+            }
+            for ((k, v) in thePartition) {
+                if (handler.currentPartition[k] != v) {
+                    continue@loop
+                }
+            }
+            childID = theChildID
+            break@loop
+        }
+        if (childID == -1) {
+            for (i in 0 until handler.idToOffset.size + 1) {
+                if (!handler.idToOffset.contains(i)) {
+                    childID = i
+                    break
+                }
+            }
+            handler.idToOffset[childID] = off + 8
+            handler.currentID = childID
+            var deps = handler.dependenciesForID[currentID]
+            if (deps == null) {
+                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+            } else {
+                deps.add(childID)
+            }
+            val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
+            ByteArrayWrapperExt.setSize(data, off + 8 + 12 + 4 * partitionCount, true)
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 0, sendID, { "operatorID" })
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4, child, { "POPDistributedSendMulti$labelAppendixSend.child" })
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 8, partitionCount, { "POPDistributedSendMulti$labelAppendixSend.count" })
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 12 + 4 * partition, currentID, { "POPDistributedSendMulti$labelAppendixSend.key[$partition]" })
+            handler.currentID = currentID
+        } else {
+            ByteArrayWrapperExt.setSize(data, off + 8, true)
+            var deps = handler.dependenciesForID[currentID]!!
+            deps.add(childID)
+            val childOff = handler.idToOffset[childID]!!
+            ByteArrayWrapperExt.writeInt4(data, childOff + 12 + 4 * partition, currentID, { "POPDistributedSendMulti$labelAppendixSend.key[$partition]" })
+        }
+        ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle$labelAppendixReceive.key" })
+        handler.currentPartition = currentPartitionCopy
+    }
+
+    private fun mergePartitionEncodeHelperMerge(off: Int, partitionCount: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, partitionVariable: String?, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase, labelAppendixReceive: String, labelAppendixSend: String, sendID: Int, receiveID: Int, partitionID: Int) {
+        val currentPartitionCopy = mutableMapOf<Int, Int>()
+        for ((k, v) in handler.currentPartition) {
+            currentPartitionCopy[k] = v
+        }
         val childsOff = mutableListOf<Int>()
         val childIDs = mutableListOf<Int>()
         for (partition in 0 until partitionCount) {
+            if (partitionVariable != null) {
+                handler.partitionVariables[partitionID] = partitionVariable
+            }
+            handler.partitionCount[partitionID] = partitionCount
+            handler.currentPartition[partitionID] = partition
             var childID = 0
             for (i in 0 until handler.idToOffset.size + 1) {
                 if (!handler.idToOffset.contains(i)) {
@@ -415,31 +492,30 @@ public object BinaryToOPBase {
             } else {
                 deps.add(childID)
             }
-            if (partitionVariable != null) {
-                handler.parent = Partition(handler.parent, partitionVariable!!, partition, partitionCount)
-            }
             val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
             childsOff.add(child)
             childIDs.add(childID)
         }
         ByteArrayWrapperExt.setSize(data, off + 8 + 16 * partitionCount, true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, partitionCount, { "POPDistributedReceiveMulti${labelAppendixReceive}.size" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, partitionCount, { "POPDistributedReceiveMulti$labelAppendixReceive.size" })
         var o = off + 8
         for (i in 0 until partitionCount) {
-            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti${labelAppendixReceive}.key[$i]" })
+            ByteArrayWrapperExt.writeInt4(data, o, childIDs[i], { "POPDistributedReceiveMulti$labelAppendixReceive.key[$i]" })
             o += 4
         }
         for (i in 0 until partitionCount) {
             handler.idToOffset[childIDs[i]] = o
             ByteArrayWrapperExt.writeInt4(data, o + 0, sendID, { "operatorID" })
-            ByteArrayWrapperExt.writeInt4(data, o + 4, childIDs[i], { "POPDistributedSendSingle${labelAppendixSend}.key" })
-            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle${labelAppendixSend}.child" })
+            ByteArrayWrapperExt.writeInt4(data, o + 4, currentID, { "POPDistributedSendSingle$labelAppendixSend.key" })
+            ByteArrayWrapperExt.writeInt4(data, o + 8, childsOff[i], { "POPDistributedSendSingle$labelAppendixSend.child" })
             o += 12
         }
+        handler.currentID = currentID
+        handler.currentPartition = currentPartitionCopy
     }
 
-    private fun mergePartitionEncodeHelper2(off: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase,labelAppendix:String,sendID:Int,receiveID:Int) {
+    private fun mergePartitionEncodeHelper1x1(off: Int, handler: BinaryToOPBaseDistributionHandler, currentID: Int, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, child: OPBase, labelAppendix: String, sendID: Int, receiveID: Int) {
         var childID = 0
         for (i in 0 until handler.idToOffset.size + 1) {
             if (!handler.idToOffset.contains(i)) {
@@ -458,10 +534,11 @@ public object BinaryToOPBase {
         val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
         ByteArrayWrapperExt.setSize(data, off + 20, true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle${labelAppendix}.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, childID, { "POPDistributedReceiveSingle$labelAppendix.key" })
         ByteArrayWrapperExt.writeInt4(data, off + 8, sendID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 12, childID, { "POPDistributedSendSingle${labelAppendix}.key" })
-        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle${labelAppendix}.child" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, currentID, { "POPDistributedSendSingle$labelAppendix.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 16, child, { "POPDistributedSendSingle$labelAppendix.child" })
+        handler.currentID = currentID
     }
 
     init {
@@ -473,10 +550,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount > 1) {
-                        mergePartitionEncodeHelper1(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"Count","Count",EOperatorIDExt.POPDistributedSendSingleCountID,EOperatorIDExt.POPDistributedReceiveMultiCountID,)
+                        mergePartitionEncodeHelperMerge(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "Count", "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveMultiCountID, op.partitionID)
                         off
                     } else {
-                        mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"Count",EOperatorIDExt.POPDistributedSendSingleCountID,EOperatorIDExt.POPDistributedReceiveSingleCountID)
+                        mergePartitionEncodeHelper1x1(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID)
                         off
                     }
                 } else {
@@ -492,10 +569,10 @@ public object BinaryToOPBase {
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount2 > 1) {
-mergePartitionEncodeHelper1(off, op.partitionCount2, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"Ordered","",EOperatorIDExt.POPDistributedSendSingleID,EOperatorIDExt.POPDistributedReceiveMultiOrderedID)
+                        mergePartitionEncodeHelperMerge(off, op.partitionCount2, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "Ordered", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, op.partitionID)
                         off
                     } else {
-mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
+                        mergePartitionEncodeHelper1x1(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
@@ -511,10 +588,10 @@ mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed,
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount > 1) {
-mergePartitionEncodeHelper1(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase,"","",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID,)
+                        mergePartitionEncodeHelperMerge(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID)
                         off
                     } else {
-mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
+                        mergePartitionEncodeHelper1x1(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
@@ -530,13 +607,14 @@ mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed,
                 val off = ByteArrayWrapperExt.getSize(data)
                 if (distributed) {
                     if (op.partitionCount > 1) {
-                        TODO("BinaryToOPBase.POPSplitPartition a")
+                        mergePartitionEncodeHelperSplit(off, op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID, op.uuid)
+                        off
                     } else {
-mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase,"",EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
+                        mergePartitionEncodeHelper1x1(off, handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID,)
                         off
                     }
                 } else {
-                    TODO("BinaryToOPBase.POPSplitPartition b")
+                    TODO("BinaryToOPBase.POPSplitPartition")
                 }
             },
         )
@@ -705,7 +783,7 @@ mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed,
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:707"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:785"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1092,7 +1170,23 @@ mergePartitionEncodeHelper2(off, handler, currentID, data, mapping, distributed,
                 op as POPTripleStoreIterator
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4, true)
-                val target = op.getTarget(handler.parent)
+                val parent: Partition = if (handler.currentPartition.size == 0) {
+                    Partition()
+                } else if (handler.currentPartition.size == 1) {
+                    var partitionID = 0
+                    var partitionIndex = 0
+                    for ((k, v) in handler.currentPartition) {
+                        partitionID = k
+                        partitionIndex = v
+                    }
+                    val partitionVariable = handler.partitionVariables[partitionID]!!
+                    val partitionCount = handler.partitionCount[partitionID]!!
+                    Partition(Partition(), partitionVariable, partitionIndex, partitionCount)
+                } else {
+                    TODO("??? ${handler.currentPartition}")
+                }
+
+                val target = op.getTarget(parent)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(target.first, data, mapping), { "POPTripleStoreIterator.target.first" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeString(target.second, data, mapping), { "POPTripleStoreIterator.target.second" })

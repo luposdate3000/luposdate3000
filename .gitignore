@@ -82,3 +82,4 @@ src/tmp
 *.input.0.dictionary
 *.input.0.triples
 *.input.1.dictionary
+*.input.*.dictionary
