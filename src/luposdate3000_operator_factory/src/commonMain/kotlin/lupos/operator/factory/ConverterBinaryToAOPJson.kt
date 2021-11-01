@@ -468,7 +468,7 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPConstantID,
             { query, data, off ->
-                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data,off + 4,{"AOPConstant.val ue"})}"
+                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data,off + 4,{"AOPConstant.value"})}"
             },
         )
         assignOperatorArithmetikDecode(
