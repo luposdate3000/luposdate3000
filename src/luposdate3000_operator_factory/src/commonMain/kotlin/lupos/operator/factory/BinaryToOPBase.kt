@@ -19,18 +19,16 @@ package lupos.operator.factory
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
-import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPBuildInCallABS
-import lupos.operator.arithmetik.generated.AOPBuildInCallFLOOR
-import lupos.operator.arithmetik.generated.AOPBuildInCallIsNUMERIC
-import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
 import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONTAINS
 import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
+import lupos.operator.arithmetik.generated.AOPBuildInCallFLOOR
 import lupos.operator.arithmetik.generated.AOPBuildInCallHOURS
+import lupos.operator.arithmetik.generated.AOPBuildInCallIsNUMERIC
 import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
 import lupos.operator.arithmetik.generated.AOPBuildInCallLCASE
@@ -41,12 +39,14 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRDT
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRENDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
 import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
+import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPDivision
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
@@ -63,9 +63,9 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
+import lupos.operator.arithmetik.singleinput.AOPAggregationMIN
 import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
-import lupos.operator.arithmetik.singleinput.AOPAggregationMIN
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -637,8 +637,8 @@ public object BinaryToOPBase {
                 ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0, { "POPGraphOperation.silent" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
             { query, data, off ->
                 EvalGraphOperation(
@@ -658,7 +658,7 @@ assignOperatorPhysicalDecode(
                 op as OPBase
                 convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler)
             },
-)
+        )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPDebugID,
             { op, data, mapping, distributed, handler ->
@@ -708,8 +708,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyDataID,
             { query, data, off ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
@@ -742,8 +742,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPNothingID,
             { query, data, off ->
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPNothing.size" })
@@ -780,7 +780,7 @@ assignOperatorPhysicalDecode(
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:793"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/BinaryToOPBase.kt:782"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -826,8 +826,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID, { "operatorID" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPEmptyRowID,
             { query, data, off ->
                 IteratorBundle(1)
@@ -854,8 +854,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPUnionID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPUnion.child0" }))
@@ -889,8 +889,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMinusID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMinus.child0" }))
@@ -916,8 +916,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeSingleColumn.child1" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }))
@@ -946,8 +946,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeOptionalID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeOptional.child0" }))
@@ -981,8 +981,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMerge.child0" }))
@@ -1017,8 +1017,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinHashMapID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinHashMap.child0" }))
@@ -1045,8 +1045,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0, { "POPJoinCartesianProduct.optional" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinCartesianProductID,
             { query, data, off ->
                 val child0 = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
@@ -1066,8 +1066,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, op.limit, { "POPLimit.limit" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
@@ -1112,8 +1112,8 @@ assignOperatorPhysicalDecode(
                     off
                 }
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPSortID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" }))
@@ -1152,8 +1152,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, op.offset, { "POPOffset.offset" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPOffsetID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" }))
@@ -1171,8 +1171,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPMakeBooleanResult.child" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMakeBooleanResultID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" }))
@@ -1191,8 +1191,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, op.projectedVariables.size, { "POPReduced.variables.size" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPReducedID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
@@ -1246,8 +1246,8 @@ assignOperatorPhysicalDecode(
                 ByteArrayWrapperExt.writeInt1(data, off + 16, childFlag, { "POPTripleStoreIterator.childFlag" })
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPTripleStoreIterator,
             { query, data, off ->
                 val buf1 = decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPTripleStoreIterator.target.first" }))
@@ -1327,8 +1327,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPBindID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPBind.child" }))
@@ -1357,8 +1357,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPFilterID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPFilter.child" }))
@@ -1622,8 +1622,8 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorPhysicalDecode(
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyID,
             { query, data, off ->
                 val child = convertToIteratorBundleHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }))
@@ -1670,9 +1670,9 @@ assignOperatorPhysicalDecode(
                 }
                 off
             },
-)
-assignOperatorArithmetikDecode(
-EOperatorIDExt.AOPAggregationCOUNTID,
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPAggregationCOUNTID,
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationCOUNT.distinct" }) != 0x0
                 val childs = if (distinct) {
@@ -1694,8 +1694,8 @@ EOperatorIDExt.AOPAggregationCOUNTID,
                 ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationMAX.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationMAXID,
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationMAX.distinct" }) != 0x0
@@ -1714,8 +1714,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationSAMPLE.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationSAMPLEID,
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationSAMPLE.distinct" }) != 0x0
@@ -1734,8 +1734,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationSUM.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationSUMID,
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationSUM.distinct" }) != 0x0
@@ -1743,7 +1743,7 @@ assignOperatorArithmetikDecode(
                 AOPAggregationSUM(query, distinct, childs)
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPAggregationMINID,
             { op, data, mapping ->
                 op as AOPAggregationMIN
@@ -1754,8 +1754,8 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationMIN.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationMINID,
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationMIN.distinct" }) != 0x0
@@ -1773,8 +1773,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeString(op.name, data, mapping), { "AOPVariable.name" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPVariableID,
             { query, data, off ->
                 AOPVariable(query, decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" })))
@@ -1790,8 +1790,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSHA256.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSHA256ID,
             { query, data, off ->
                 AOPBuildInCallSHA256(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" })))
@@ -1807,8 +1807,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSHA1.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSHA1ID,
             { query, data, off ->
                 AOPBuildInCallSHA1(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" })))
@@ -1824,8 +1824,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallUCASE.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSHA1ID,
             { query, data, off ->
                 AOPBuildInCallUCASE(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallUCASE.child" })))
@@ -1841,8 +1841,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallLCASE.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallLCASEID,
             { query, data, off ->
                 AOPBuildInCallLCASE(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLCASE.child" })))
@@ -1858,8 +1858,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallHOURS.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallHOURSID,
             { query, data, off ->
                 AOPBuildInCallHOURS(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallHOURS.child" })))
@@ -1875,14 +1875,14 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMINUTES.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallMINUTESID,
             { query, data, off ->
                 AOPBuildInCallMINUTES(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMINUTES.child" })))
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallSTRID,
             { op, data, mapping ->
                 op as AOPBuildInCallSTR
@@ -1892,14 +1892,14 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTR.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRID,
             { query, data, off ->
                 AOPBuildInCallSTR(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTR.child" })))
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallIsNUMERICID,
             { op, data, mapping ->
                 op as AOPBuildInCallIsNUMERIC
@@ -1909,14 +1909,14 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallIsNUMERIC.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallIsNUMERICID,
             { query, data, off ->
                 AOPBuildInCallIsNUMERIC(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIsNUMERIC.child" })))
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallFLOORID,
             { op, data, mapping ->
                 op as AOPBuildInCallFLOOR
@@ -1926,14 +1926,14 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallFLOOR.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallFLOORID,
             { query, data, off ->
                 AOPBuildInCallFLOOR(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallFLOOR.child" })))
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallABSID,
             { op, data, mapping ->
                 op as AOPBuildInCallABS
@@ -1943,14 +1943,14 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallABS.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallABSID,
             { query, data, off ->
                 AOPBuildInCallABS(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallABS.child" })))
             },
         )
-assignOperatorArithmetikEncode(
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallYEARID,
             { op, data, mapping ->
                 op as AOPBuildInCallYEAR
@@ -1960,8 +1960,8 @@ assignOperatorArithmetikEncode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallYEAR.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallYEARID,
             { query, data, off ->
                 AOPBuildInCallYEAR(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallYEAR.child" })))
@@ -1977,8 +1977,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallROUND.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallROUNDID,
             { query, data, off ->
                 AOPBuildInCallROUND(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" })))
@@ -1994,8 +1994,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMD5.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallMD5ID,
             { query, data, off ->
                 AOPBuildInCallMD5(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" })))
@@ -2011,8 +2011,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallDAY.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallDAYID,
             { query, data, off ->
                 AOPBuildInCallDAY(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" })))
@@ -2028,8 +2028,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallCEIL.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallCEILID,
             { query, data, off ->
                 AOPBuildInCallCEIL(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" })))
@@ -2045,8 +2045,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTRLEN.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRLENID,
             { query, data, off ->
                 AOPBuildInCallSTRLEN(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" })))
@@ -2062,8 +2062,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSECONDS.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSECONDSID,
             { query, data, off ->
                 AOPBuildInCallSECONDS(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" })))
@@ -2079,8 +2079,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallLANG.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallLANGID,
             { query, data, off ->
                 AOPBuildInCallLANG(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" })))
@@ -2096,8 +2096,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMONTH.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallMONTHID,
             { query, data, off ->
                 AOPBuildInCallMONTH(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" })))
@@ -2113,8 +2113,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallBOUND.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallBOUNDID,
             { query, data, off ->
                 AOPBuildInCallBOUND(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" })))
@@ -2130,8 +2130,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallBNODE1.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallBNODE1ID,
             { query, data, off ->
                 AOPBuildInCallBNODE1(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBNODE1.child" })))
@@ -2148,8 +2148,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPNot.child" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPNotID,
             { query, data, off ->
                 AOPNot(query, decodeAOP(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNot.child" })))
@@ -2167,8 +2167,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 12, encodeAOP(op.children[2] as AOPBase, data, mapping), { "AOPBuildInCallIF.child[2]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallIFID,
             { query, data, off ->
                 AOPBuildInCallIF(
@@ -2192,8 +2192,8 @@ assignOperatorArithmetikDecode(
                 }
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallCOALESCEID,
             { query, data, off ->
                 val childs = mutableListOf<AOPBase>()
@@ -2218,8 +2218,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGEQ.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPGEQID,
             { query, data, off ->
                 AOPGEQ(
@@ -2240,8 +2240,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallCONCAT.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallCONCATID,
             { query, data, off ->
                 AOPBuildInCallCONCAT(
@@ -2262,8 +2262,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRSTARTS.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRSTARTSID,
             { query, data, off ->
                 AOPBuildInCallSTRSTARTS(
@@ -2284,8 +2284,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallCONTAINS.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallCONTAINSID,
             { query, data, off ->
                 AOPBuildInCallCONTAINS(
@@ -2306,8 +2306,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRLANG.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRLANGID,
             { query, data, off ->
                 AOPBuildInCallSTRLANG(
@@ -2328,8 +2328,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRDT.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRDTID,
             { query, data, off ->
                 AOPBuildInCallSTRDT(
@@ -2350,8 +2350,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPAddition.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAdditionID,
             { query, data, off ->
                 AOPAddition(
@@ -2372,8 +2372,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRENDS.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSTRENDSID,
             { query, data, off ->
                 AOPBuildInCallSTRENDS(
@@ -2394,8 +2394,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallLANGMATCHES.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallLANGMATCHESID,
             { query, data, off ->
                 AOPBuildInCallLANGMATCHES(
@@ -2416,8 +2416,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPOr.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPOrID,
             { query, data, off ->
                 AOPOr(
@@ -2438,8 +2438,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPNEQ.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPNEQID,
             { query, data, off ->
                 AOPNEQ(
@@ -2460,8 +2460,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPLT.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPLTID,
             { query, data, off ->
                 AOPLT(
@@ -2482,8 +2482,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGT.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPGTID,
             { query, data, off ->
                 AOPGT(
@@ -2504,8 +2504,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPDivision.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPDivisionID,
             { query, data, off ->
                 AOPDivision(
@@ -2526,8 +2526,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPAnd.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAndID,
             { query, data, off ->
                 AOPAnd(
@@ -2548,8 +2548,8 @@ assignOperatorArithmetikDecode(
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPEQ.child[1]" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPEQID,
             { query, data, off ->
                 AOPEQ(
@@ -2569,8 +2569,8 @@ assignOperatorArithmetikDecode(
                 DictionaryValueHelper.toByteArray(data, off + 4, op.value, { "AOPConstant.value" })
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPConstantID,
             { query, data, off ->
                 AOPConstant(query, DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" }))
@@ -2591,8 +2591,8 @@ assignOperatorArithmetikDecode(
                 }
                 off
             },
-)
-assignOperatorArithmetikDecode(
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPInID,
             { query, data, off ->
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPIn.collection.size" })
