@@ -193,6 +193,7 @@ public object ConverterPOPBaseToBinary {
             childID = theChildID
             break@loop
         }
+        println("search for partition ... $operatorID ${handler.currentPartition} -> $partitionID:$partition = $childID")
         val off: Int
         var keys0 = handler.partitionToKey[childID]
         if (keys0 == null) {
@@ -226,16 +227,26 @@ public object ConverterPOPBaseToBinary {
             ByteArrayWrapperExt.writeInt4(data, off + 16, partitionCount, { "POPDistributedSendMulti$labelAppendixSend.count" })
             ByteArrayWrapperExt.writeInt4(data, off + 20 + 4 * partition, keys[partition], { "POPDistributedSendMulti$labelAppendixSend.key[$partition]" })
             handler.currentID = currentID
+            val cpy = mutableMapOf<Int, Int>()
+            for ((k, v) in handler.currentPartition) {
+                cpy[k] = v
+            }
+            handler.partitionToChildID.add((cpy to operatorID) to childID)
         } else {
             off = ByteArrayWrapperExt.getSize(data)
             ByteArrayWrapperExt.setSize(data, off + 8, true)
-            var deps = handler.dependenciesForID[currentID]!!
-            deps.add(childID)
+            var deps = handler.dependenciesForID[currentID]
+            if (deps == null) {
+                handler.dependenciesForID[currentID] = mutableSetOf(childID)
+            } else {
+                deps.add(childID)
+            }
             val childOff = handler.idToOffset[childID]!!
             ByteArrayWrapperExt.writeInt4(data, childOff + 12 + 4 * partition, keys[partition], { "POPDistributedSendMulti$labelAppendixSend.key[$partition]" })
         }
         ByteArrayWrapperExt.writeInt4(data, off + 0, receiveID, { "operatorID" })
         ByteArrayWrapperExt.writeInt4(data, off + 4, keys[partition], { "POPDistributedReceiveSingle$labelAppendixReceive.key" })
+
         handler.currentPartition = currentPartitionCopy
         return off
     }
@@ -505,7 +516,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:507"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:518"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
