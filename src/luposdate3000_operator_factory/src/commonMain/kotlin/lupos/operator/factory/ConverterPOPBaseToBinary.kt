@@ -99,7 +99,7 @@ public object ConverterPOPBaseToBinary {
         val data = ByteArrayWrapper()
         if (op is OPBaseCompound) {
             ByteArrayWrapperExt.setSize(data, 9 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
-            ByteArrayWrapperExt.writeInt1(data, 4, 0x1, { "OPBase.isOPBaseCompound" })
+            ByteArrayWrapperExt.writeInt1(data, 4, 0x1, { "Root.isOPBaseCompound" })
             ByteArrayWrapperExt.writeInt4(data, 5, op.children.size, { "OPBaseCompound.children.size" })
             var o = 9
             for (i in 0 until op.children.size) {
@@ -228,11 +228,11 @@ public object ConverterPOPBaseToBinary {
         }
         val childsOff = mutableListOf<Int>()
         val childIDs = mutableListOf<Int>()
+        if (partitionVariable != null) {
+            handler.partitionVariables[partitionID] = partitionVariable
+        }
+        handler.partitionCount[partitionID] = partitionCount
         for (partition in 0 until partitionCount) {
-            if (partitionVariable != null) {
-                handler.partitionVariables[partitionID] = partitionVariable
-            }
-            handler.partitionCount[partitionID] = partitionCount
             handler.currentPartition[partitionID] = partition
             var childID = 0
             for (i in 0 until handler.idToOffset.size + 1) {
@@ -249,6 +249,7 @@ public object ConverterPOPBaseToBinary {
                 deps.add(childID)
             }
             val child = convertToByteArrayHelper(child, data, mapping, distributed, handler)
+            handler.idToOffset[childID] = -1
             childsOff.add(child)
             childIDs.add(childID)
         }
@@ -482,7 +483,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:484"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:485"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++

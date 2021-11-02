@@ -72,7 +72,7 @@ public object ConverterBinaryToPOPJson {
                         }
                         res.add(list to child)
                     }
-                    result[-1] = "[${res.toTypedArray()}]"
+                    result[-1] = "[${res.map{it.second}.toTypedArray().joinToString()}]"
                 }
                 0x2 -> {
                     /*there is no query root here*/
@@ -89,6 +89,7 @@ public object ConverterBinaryToPOPJson {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                 val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
                 result [id] = "[${decodeHelper(query, data, offset)}]"
+                o += 8
             }
             println("convertToPOPJson ... finish")
             return "{${result.map{(k,v) -> "\"$k\":$v"}.joinToString()}}"
@@ -133,7 +134,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[keys.joinToString()]}"
+                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[${keys.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -144,7 +145,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[keys.joinToString()]}"
+                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[${keys.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -155,7 +156,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[keys.joinToString()]}"
+                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(

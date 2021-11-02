@@ -31,7 +31,6 @@ public object ConverterString {
                 val b = s.encodeToByteArray()
                 ByteArrayWrapperExt.setSize(data, off + 4 + b.size, true)
                 ByteArrayWrapperExt.writeInt4(data, off, b.size, { "encodeString.len" })
-                println("len ... " + b.size)
                 if (b.size > 0) {
                     ByteArrayWrapperExt.writeBuf(data, off + 4, b, { "encodeString.data" })
                 }
@@ -42,7 +41,6 @@ public object ConverterString {
 
     internal fun decodeString(data: ByteArrayWrapper, off: Int): String {
         val len = ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" })
-        println("len ... " + len)
         if (len == 0) {
             return ""
         } else {

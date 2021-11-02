@@ -119,6 +119,7 @@ public object ConverterBinaryToIteratorBundle {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                 val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
                 result [id] = IteratorBundleRoot(query, arrayOf(listOf<String>() to decodeHelper(query, data, offset)))
+                o += 8
             }
             return result
         } catch (e: Throwable) {
