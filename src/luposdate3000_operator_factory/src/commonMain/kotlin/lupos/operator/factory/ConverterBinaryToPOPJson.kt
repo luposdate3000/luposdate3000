@@ -119,6 +119,15 @@ public object ConverterBinaryToPOPJson {
             },
         )
         assignOperatorPhysicalDecode(
+            EOperatorIDExt.POPDistributedSendMultiID,
+            { query, data, off ->
+                val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }))
+                val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
+                val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
+                "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.joinToString()}]}"
+            },
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleCountID,
             { query, data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })

@@ -201,8 +201,9 @@ public object ConverterPOPBaseToBinary {
         }
         var keys = keys0[operatorID]
         if (keys == null) {
-            keys = IntArray(partitionCount) { handler.keys + it }
+            val kk = handler.keys
             handler.keys += partitionCount
+            keys = IntArray(partitionCount) { kk + it }
             keys0[operatorID] = keys
         }
         println("mergePartitionEncodeHelperSplit $currentID $childID ... ${keys[partition]}")
@@ -504,7 +505,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:506"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:507"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
