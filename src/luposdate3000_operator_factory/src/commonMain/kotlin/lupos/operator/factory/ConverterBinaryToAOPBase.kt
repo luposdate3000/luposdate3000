@@ -169,7 +169,7 @@ public object ConverterBinaryToAOPBase {
             },
         )
         assignOperatorArithmetikDecode(
-            EOperatorIDExt.AOPBuildInCallSHA1ID,
+            EOperatorIDExt.AOPBuildInCallUCASEID,
             { query, data, off ->
                 AOPBuildInCallUCASE(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallUCASE.child" })))
             },
