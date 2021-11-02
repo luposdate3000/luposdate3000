@@ -65,6 +65,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
     internal var currentPartition = mutableMapOf<Int, Int>()/*partitionID->partitionIndex*/
     internal val partitionToKey = mutableMapOf<Int, MutableMap<Long, IntArray>>()/*ID->(operatorID->keys)*/
+    internal val idToHost = mutableMapOf<Int, Pair<String, Boolean>>()/*ID->(hostname,nameValid)*/
     internal fun getNextChildID(): Int {
         for (i in 0 until idToOffset.size + 1) {
             if (!idToOffset.contains(i)) {
@@ -102,11 +103,16 @@ public object ConverterPOPBaseToBinary {
         operatorMap[operatorID] = operator
     }
 
+    private fun optimize(data: ByteArrayWrapper, handler: ConverterPOPBaseToBinaryDistributionHandler): ByteArrayWrapper {
+// .... alles mit gleichem zugewiesenen host verschmelzen .... .
+        return data
+    }
+
     public fun encode(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
         val handler = ConverterPOPBaseToBinaryDistributionHandler()
         println("encode ... start")
         val mapping = mutableMapOf<String, Int>()
-        val data = ByteArrayWrapper()
+        var data = ByteArrayWrapper()
         if (op is OPBaseCompound) {
             ByteArrayWrapperExt.setSize(data, 9 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
             ByteArrayWrapperExt.writeInt1(data, 4, 0x1, { "Root.isOPBaseCompound" })
@@ -134,6 +140,7 @@ public object ConverterPOPBaseToBinary {
             ByteArrayWrapperExt.writeInt1(data, 4, 0x0, { "OPBase.isOPBaseCompound" })
             ByteArrayWrapperExt.writeInt4(data, 5, off, { "OPBase.children[0]" })
         }
+        data = optimize(data, handler)
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.writeInt4(data, 0, off, { "OPBase.handler" })
         ByteArrayWrapperExt.setSize(data, off + 4 + 8 * handler.idToOffset.size, true)
@@ -516,7 +523,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:518"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:525"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -794,6 +801,13 @@ public object ConverterPOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, ConverterString.encodeString(target.first, data, mapping), { "POPTripleStoreIterator.target.first" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, ConverterString.encodeString(target.second, data, mapping), { "POPTripleStoreIterator.target.second" })
+                if (handler.idToHost[handler.currentID] != null) {
+                    if (handler.idToHost[handler.currentID]?.first != target.first) {
+                        handler.idToHost[handler.currentID] = target.first to false
+                    }
+                } else {
+                    handler.idToHost[handler.currentID] = target.first to true
+                }
                 ByteArrayWrapperExt.writeInt4(data, off + 12, op.getIndexPattern(), { "POPTripleStoreIterator.IndexPattern" })
                 var childFlag = 0
                 var o = off + 17

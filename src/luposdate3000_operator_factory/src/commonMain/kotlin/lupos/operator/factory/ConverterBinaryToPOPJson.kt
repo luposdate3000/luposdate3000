@@ -379,7 +379,7 @@ public object ConverterBinaryToPOPJson {
                     o += 4
                     res
                 }
-                "{\"type\":\"POPTripleStoreIterator\"}"
+                "{\"type\":\"POPTripleStoreIterator\",\"host\":\"$buf1\",\"key\":\"$buf2\"}"
             },
         )
         assignOperatorPhysicalDecode(
