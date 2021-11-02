@@ -92,7 +92,7 @@ public object EvalGraphOperation {
                             manager.createGraph(query, graph1iri!!)
                         }
                         else -> {
-                            TODO("b $graph1type")
+                            TODO("EvalGraphOperation b $graph1type")
                         }
                     }
                 }
@@ -125,7 +125,7 @@ public object EvalGraphOperation {
                     cache.close()
                 }
                 else -> {
-                    TODO("c $action")
+                    TODO("EvalGraphOperation c $action")
                 }
             }
         } catch (e: EvaluationException) {

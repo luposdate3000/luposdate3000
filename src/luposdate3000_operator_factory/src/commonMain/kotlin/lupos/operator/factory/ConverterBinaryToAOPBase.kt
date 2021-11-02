@@ -73,10 +73,10 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public typealias BinaryToAOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> AOPBase
 public object ConverterBinaryToAOPBase {
-    public var operatorArithmetikMapDecode: Array<BinaryToAOPBaseMap?> = Array(0) { null }
+    public var operatorMap: Array<BinaryToAOPBaseMap?> = Array(0) { null }
     public fun assignOperatorArithmetikDecode(operatorID: Int, operator: BinaryToAOPBaseMap) {
-        if (operatorArithmetikMapDecode.size <= operatorID) {
-            var s = operatorArithmetikMapDecode.size
+        if (operatorMap.size <= operatorID) {
+            var s = operatorMap.size
             if (s < 16) {
                 s = 16
             }
@@ -84,17 +84,17 @@ public object ConverterBinaryToAOPBase {
                 s = s * 2
             }
             val tmp = Array<BinaryToAOPBaseMap?>(s) { null }
-            operatorArithmetikMapDecode.copyInto(tmp)
-            operatorArithmetikMapDecode = tmp
+            operatorMap.copyInto(tmp)
+            operatorMap = tmp
         }
-        operatorArithmetikMapDecode[operatorID] = operator
+        operatorMap[operatorID] = operator
     }
     internal fun decode(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
-        if (type >= operatorArithmetikMapDecode.size) {
+        if (type >= operatorMap.size) {
             TODO("decode $type -> ${EOperatorIDExt.names[type]}")
         }
-        val decoder = operatorArithmetikMapDecode[type]
+        val decoder = operatorMap[type]
         if (decoder == null) {
             TODO("decode $type -> ${EOperatorIDExt.names[type]}")
         }

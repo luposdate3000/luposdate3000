@@ -72,12 +72,12 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public typealias AOPBaseToBinaryMap = (op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>) -> Int/*offset*/
 public object ConverterAOPBaseToBinary {
-    public var operatorArithmetikMapEncode: Array<AOPBaseToBinaryMap?> = Array(0) { null }
+    public var operatorMap: Array<AOPBaseToBinaryMap?> = Array(0) { null }
     internal fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
-        if (op.operatorID >= operatorArithmetikMapEncode.size) {
+        if (op.operatorID >= operatorMap.size) {
             TODO("encodeAOP ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
         }
-        val encoder = operatorArithmetikMapEncode[op.operatorID]
+        val encoder = operatorMap[op.operatorID]
         if (encoder == null) {
             TODO("encodeAOP ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
         }
@@ -89,8 +89,8 @@ public object ConverterAOPBaseToBinary {
         }
     }
     public fun assignOperatorArithmetikEncode(operatorID: Int, operator: AOPBaseToBinaryMap) {
-        if (operatorArithmetikMapEncode.size <= operatorID) {
-            var s = operatorArithmetikMapEncode.size
+        if (operatorMap.size <= operatorID) {
+            var s = operatorMap.size
             if (s < 16) {
                 s = 16
             }
@@ -98,10 +98,10 @@ public object ConverterAOPBaseToBinary {
                 s = s * 2
             }
             val tmp = Array<AOPBaseToBinaryMap?>(s) { null }
-            operatorArithmetikMapEncode.copyInto(tmp)
-            operatorArithmetikMapEncode = tmp
+            operatorMap.copyInto(tmp)
+            operatorMap = tmp
         }
-        operatorArithmetikMapEncode[operatorID] = operator
+        operatorMap[operatorID] = operator
     }
 
     public fun initEncode() {

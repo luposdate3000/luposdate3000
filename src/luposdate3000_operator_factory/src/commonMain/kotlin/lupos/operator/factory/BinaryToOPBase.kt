@@ -15,19 +15,49 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-
 import lupos.operator.base.Query
+import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public object BinaryToOPBase {
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot = ConverterBinaryToIteratorBundle.decode(query, data, off)
-    public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper = ConverterPOPBaseToBinary.encode(op, distributed)
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper): IteratorBundleRoot {
+        return ConverterBinaryToIteratorBundle.decode(query, data)[-1]!!
+    }
+    public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
+        val res = ConverterPOPBaseToBinary.encode(op, distributed)
+        println("JSON_OUT:${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,res)}")
+        return res
+    }
     init {
-        ConverterPOPBaseToBinary.initEncode()
+        println("BinaryToOPBase.init start")
         ConverterAOPBaseToBinary.initEncode()
         ConverterBinaryToAOPBase.initDecode()
+        ConverterBinaryToAOPJson.initDecode()
+val a1=IntArray(1000){it}.filter{ConverterAOPBaseToBinary.operatorMap[it]!=null}.toSet()
+val a2=IntArray(1000){it}.filter{ConverterBinaryToAOPBase.operatorMap[it]!=null}.toSet()
+val a3=IntArray(1000){it}.filter{ConverterBinaryToAOPJson.operatorMap[it]!=null}.toSet()
+val a4=IntArray(1000){it}.filter{ConverterPOPBaseToBinary.operatorMap[it]!=null}.toSet()
+val a5=IntArray(1000){it}.filter{ConverterBinaryToIteratorBundle.operatorMap[it]!=null}.toSet()
+val a6=IntArray(1000){it}.filter{ConverterBinaryToPOPJson.operatorMap[it]!=null}.toSet()
+        val aopAll = (a1 +a2 + a3).toSet()
+        val t1 = aopAll - a1
+        val t2 = aopAll -a2
+        val t3 = aopAll - a3
+        if (t1.size> 0) { println("ConverterAOPBaseToBinary is missing : \n${t1.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        if (t2.size> 0) { println("ConverterBinaryToAOPBase is missing : \n${t2.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        if (t3.size> 0) { println("ConverterBinaryToAOPJson is missing : \n${t3.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        ConverterPOPBaseToBinary.initEncode()
         ConverterBinaryToIteratorBundle.initDecode()
+        ConverterBinaryToPOPJson.initDecode()
+        val popAll = (a4 + a5 +a6).toSet()
+        val t4 = popAll - a4
+        val t5 = popAll - a5
+        val t6 = popAll -a6
+        if (t4.size> 0) { println("ConverterPOPBaseToBinary is missing : \n${t4.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        if (t5.size> 0) { println("ConverterBinaryToIteratorBundle is missing : \n${t5.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        if (t6.size> 0) { println("ConverterBinaryToPOPJson is missing : \n${t6.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        println("BinaryToOPBase.init finish")
     }
 }

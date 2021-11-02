@@ -58,15 +58,15 @@ import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> IteratorBundle
 public object ConverterBinaryToIteratorBundle {
-    public var operatorPhysicalMapDecode: Array<BinaryToOPBaseMap?> = Array(0) { null }
+    public var operatorMap: Array<BinaryToOPBaseMap?> = Array(0) { null }
     public fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
         for (operatorID in operatorIDs) {
             assignOperatorPhysicalDecode(operatorID, operator)
         }
     }
     public fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
-        if (operatorPhysicalMapDecode.size <= operatorID) {
-            var s = operatorPhysicalMapDecode.size
+        if (operatorMap.size <= operatorID) {
+            var s = operatorMap.size
             if (s < 16) {
                 s = 16
             }
@@ -74,37 +74,53 @@ public object ConverterBinaryToIteratorBundle {
                 s = s * 2
             }
             val tmp = Array<BinaryToOPBaseMap?>(s) { null }
-            operatorPhysicalMapDecode.copyInto(tmp)
-            operatorPhysicalMapDecode = tmp
+            operatorMap.copyInto(tmp)
+            operatorMap = tmp
         }
-        operatorPhysicalMapDecode[operatorID] = operator
+        operatorMap[operatorID] = operator
     }
-    public fun decode(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot {
+    public fun decode(query: Query, data: ByteArrayWrapper): Map<Int, IteratorBundleRoot> {
         try {
             println("convertToIteratorBundle ... start")
-            if (ByteArrayWrapperExt.readInt1(data, off, { "Root.isOPBaseCompound" }) == 0x1) {
-                val childCount = ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBaseCompound.children.size" })
-                var o = off + 5
-                val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
-                for (i in 0 until childCount) {
-                    val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
-                    o += 4
-                    val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
-                    o += 4
-                    val list = mutableListOf<String>()
-                    for (j in 0 until size) {
-                        list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
+            var result = mutableMapOf<Int, IteratorBundleRoot>()
+            when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
+                0x1 -> {
+                    val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
+                    var o = 9
+                    val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
+                    for (i in 0 until childCount) {
+                        val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
                         o += 4
+                        val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
+                        o += 4
+                        val list = mutableListOf<String>()
+                        for (j in 0 until size) {
+                            list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
+                            o += 4
+                        }
+                        res.add(list to child)
                     }
-                    res.add(list to child)
+                    println("convertToIteratorBundle ... finish")
+                    result[-1] = IteratorBundleRoot(query, res.toTypedArray())
                 }
-                println("convertToIteratorBundle ... finish")
-                return IteratorBundleRoot(query, res.toTypedArray())
-            } else {
-                val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 1, { "OPBase.children[0]" }))
-                println("convertToIteratorBundle ... finish")
-                return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
+                0x2 -> {
+/*there is no query root here*/
+                }
+                else -> {
+                    val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }))
+                    println("convertToIteratorBundle ... finish")
+                    result[-1] = IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
+                }
             }
+            var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
+            val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
+            var o = off + 4
+            for (i in 0 until len) {
+                val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
+                val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
+                result [id] = IteratorBundleRoot(query, arrayOf(listOf<String>() to decodeHelper(query, data, offset)))
+            }
+            return result
         } catch (e: Throwable) {
             e.printStackTrace()
             throw e
@@ -112,10 +128,10 @@ public object ConverterBinaryToIteratorBundle {
     }
     private fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int): IteratorBundle {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
-        if (type >= operatorPhysicalMapDecode.size) {
+        if (type >= operatorMap.size) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
-        val decoder = operatorPhysicalMapDecode[type]
+        val decoder = operatorMap[type]
         if (decoder == null) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }

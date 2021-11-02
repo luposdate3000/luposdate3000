@@ -21,7 +21,6 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.base.Query
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
@@ -53,7 +52,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.POPTripleStoreIterator
@@ -70,7 +68,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler) -> Int/*offset*/
 
 public object ConverterPOPBaseToBinary {
-    public var operatorPhysicalMapEncode: Array<OPBaseToBinaryMap?> = Array(0) { null }
+    public var operatorMap: Array<OPBaseToBinaryMap?> = Array(0) { null }
 
     public fun assignOperatorPhysicalEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
         for (operatorID in operatorIDs) {
@@ -79,8 +77,8 @@ public object ConverterPOPBaseToBinary {
     }
 
     public fun assignOperatorPhysicalEncode(operatorID: Int, operator: OPBaseToBinaryMap) {
-        if (operatorPhysicalMapEncode.size <= operatorID) {
-            var s = operatorPhysicalMapEncode.size
+        if (operatorMap.size <= operatorID) {
+            var s = operatorMap.size
             if (s < 16) {
                 s = 16
             }
@@ -88,10 +86,10 @@ public object ConverterPOPBaseToBinary {
                 s = s * 2
             }
             val tmp = Array<OPBaseToBinaryMap?>(s) { null }
-            operatorPhysicalMapEncode.copyInto(tmp)
-            operatorPhysicalMapEncode = tmp
+            operatorMap.copyInto(tmp)
+            operatorMap = tmp
         }
-        operatorPhysicalMapEncode[operatorID] = operator
+        operatorMap[operatorID] = operator
     }
 
     public fun encode(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
@@ -100,10 +98,10 @@ public object ConverterPOPBaseToBinary {
         val mapping = mutableMapOf<String, Int>()
         val data = ByteArrayWrapper()
         if (op is OPBaseCompound) {
-            ByteArrayWrapperExt.setSize(data, 5 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
-            ByteArrayWrapperExt.writeInt1(data, 0, 0x1, { "Root.isOPBaseCompound" })
-            ByteArrayWrapperExt.writeInt4(data, 1, op.children.size, { "OPBaseCompound.children.size" })
-            var o = 5
+            ByteArrayWrapperExt.setSize(data, 9 + 8 * op.children.size + op.columnProjectionOrder.map { it.size }.sum() * 4, false)
+            ByteArrayWrapperExt.writeInt1(data, 4, 0x1, { "OPBase.isOPBaseCompound" })
+            ByteArrayWrapperExt.writeInt4(data, 5, op.children.size, { "OPBaseCompound.children.size" })
+            var o = 9
             for (i in 0 until op.children.size) {
                 val k = if (op.columnProjectionOrder.size > i) {
                     op.columnProjectionOrder[i]
@@ -121,22 +119,32 @@ public object ConverterPOPBaseToBinary {
                 }
             }
         } else {
-            ByteArrayWrapperExt.setSize(data, 5, false)
+            ByteArrayWrapperExt.setSize(data, 9, false)
             val off = convertToByteArrayHelper(op, data, mapping, distributed, handler)
-            ByteArrayWrapperExt.writeInt1(data, 0, 0x0, { "Root.isOPBaseCompound" })
-            ByteArrayWrapperExt.writeInt4(data, 1, off, { "OPBase.children[0]" })
+            ByteArrayWrapperExt.writeInt1(data, 4, 0x0, { "OPBase.isOPBaseCompound" })
+            ByteArrayWrapperExt.writeInt4(data, 5, off, { "OPBase.children[0]" })
+        }
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.writeInt4(data, 0, off, { "OPBase.handler" })
+        ByteArrayWrapperExt.setSize(data, off + 4 + 8 * handler.idToOffset.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off, handler.idToOffset.size, { "OPBase.offsetMap.size" })
+        var o = off + 4
+        var i = 0
+        for ((k, v) in handler.idToOffset) {
+            ByteArrayWrapperExt.writeInt4(data, o, k, { "OPBase.offsetMap[$i].id" })
+            ByteArrayWrapperExt.writeInt4(data, o + 4, v, { "OPBase.offsetMap[$i].offset" })
+            o += 8
+            i++
         }
         println("encode ... finish")
         return data
     }
 
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, off: Int = 0): IteratorBundleRoot = ConverterBinaryToIteratorBundle.decode(query, data, off)
-
     private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler): Int {
-        if ((op as OPBase).operatorID >= operatorPhysicalMapEncode.size) {
+        if ((op as OPBase).operatorID >= operatorMap.size) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
-        val encoder = operatorPhysicalMapEncode[(op as OPBase).operatorID]
+        val encoder = operatorMap[(op as OPBase).operatorID]
         if (encoder == null) {
             TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
         }
@@ -478,7 +486,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:480"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:488"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
