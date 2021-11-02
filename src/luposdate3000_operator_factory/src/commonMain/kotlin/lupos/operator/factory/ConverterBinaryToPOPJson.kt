@@ -75,7 +75,7 @@ public object ConverterBinaryToPOPJson {
                     result[-1] = "[${res.toTypedArray()}]"
                 }
                 0x2 -> {
-/*there is no query root here*/
+                    /*there is no query root here*/
                 }
                 else -> {
                     val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }))
@@ -110,6 +110,22 @@ public object ConverterBinaryToPOPJson {
     }
     public fun initDecode() {
         assignOperatorPhysicalDecode(
+            EOperatorIDExt.POPDistributedSendSingleID,
+            { query, data, off ->
+                val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
+                val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }))
+                "{\"type\":\"POPDistributedSendSingle\",\"child\":$child,\"key\":$key}"
+            },
+        )
+        assignOperatorPhysicalDecode(
+            EOperatorIDExt.POPDistributedSendSingleCountID,
+            { query, data, off ->
+                val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
+                val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }))
+                "{\"type\":\"POPDistributedSendSingleCount\",\"child\":$child,\"key\":$key}"
+            },
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiID,
             { query, data, off ->
                 var keys = mutableListOf<Int>()
@@ -118,6 +134,17 @@ public object ConverterBinaryToPOPJson {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                 }
                 "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[keys.joinToString()]}"
+            },
+        )
+        assignOperatorPhysicalDecode(
+            EOperatorIDExt.POPDistributedReceiveMultiCountID,
+            { query, data, off ->
+                var keys = mutableListOf<Int>()
+                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
+                for (i in 0 until len) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
+                }
+                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[keys.joinToString()]}"
             },
         )
         assignOperatorPhysicalDecode(

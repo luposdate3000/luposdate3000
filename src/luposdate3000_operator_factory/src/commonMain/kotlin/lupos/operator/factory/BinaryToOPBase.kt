@@ -38,9 +38,6 @@ public object BinaryToOPBase {
         val a1 = IntArray(ConverterAOPBaseToBinary.operatorMap.size) { it }.filter { ConverterAOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a2 = IntArray(ConverterBinaryToAOPBase.operatorMap.size) { it }.filter { ConverterBinaryToAOPBase.operatorMap[it] != null }.toSet()
         val a3 = IntArray(ConverterBinaryToAOPJson.operatorMap.size) { it }.filter { ConverterBinaryToAOPJson.operatorMap[it] != null }.toSet()
-        val a4 = IntArray(ConverterPOPBaseToBinary.operatorMap.size) { it }.filter { ConverterPOPBaseToBinary.operatorMap[it] != null }.toSet()
-        val a5 = IntArray(ConverterBinaryToIteratorBundle.operatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.operatorMap[it] != null }.toSet()
-        val a6 = IntArray(ConverterBinaryToPOPJson.operatorMap.size) { it }.filter { ConverterBinaryToPOPJson.operatorMap[it] != null }.toSet()
         val aopAll = (a1 + a2 + a3).toSet()
         val t1 = aopAll - a1
         val t2 = aopAll - a2
@@ -51,6 +48,9 @@ public object BinaryToOPBase {
         ConverterPOPBaseToBinary.initEncode()
         ConverterBinaryToIteratorBundle.initDecode()
         ConverterBinaryToPOPJson.initDecode()
+        val a4 = IntArray(ConverterPOPBaseToBinary.operatorMap.size) { it }.filter { ConverterPOPBaseToBinary.operatorMap[it] != null }.toSet()
+        val a5 = IntArray(ConverterBinaryToIteratorBundle.operatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.operatorMap[it] != null }.toSet()
+        val a6 = IntArray(ConverterBinaryToPOPJson.operatorMap.size) { it }.filter { ConverterBinaryToPOPJson.operatorMap[it] != null }.toSet()
         val popAll = (a4 + a5 + a6).toSet()
         val t4 = popAll - a4
         val t5 = popAll - a5
