@@ -61,7 +61,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()
 
     // for writing it down
-    internal var currentID = -1
+    internal var currentID = -1 //
     internal val partitionVariables = mutableMapOf<Int, String>()/*partitionID->Variable*/
     internal val partitionCount = mutableMapOf<Int, Int>()/*partitionID->partitionCount*/
     internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
@@ -70,7 +70,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal var keys = 0
 
     // for optimization
-    internal val idToHost = mutableMapOf<Int, Pair<String, Boolean>>()/*ID->(hostname,nameValid)*/
+    internal val idToHost = mutableMapOf<Int, MutableSet<String>>()/*ID->(hostname)*/
     internal val dependenciesForID = mutableMapOf<Int, MutableMap<Int, Int>>()/*parentID->childID->key*/
     internal val keyLocationSrc = mutableMapOf<Int, Int>()/*key->off*/
     internal val keyLocationDest = mutableMapOf<Int, Int>()/*key->offset, where the offset points to the operator, to enable efficient replacement*/
@@ -115,7 +115,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int) -> Int/*offset*/
 
 public object ConverterPOPBaseToBinary {
-    private const val enableOptimiation = true
+    internal var enableOptimiation = true
     public var operatorMap: Array<OPBaseToBinaryMap?> = Array(0) { null }
 
     public fun assignOperatorPhysicalEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
@@ -139,23 +139,21 @@ public object ConverterPOPBaseToBinary {
         }
         operatorMap[operatorID] = operator
     }
-    public var optimizationLimit: Int = 0
     private fun optimize(data: ByteArrayWrapper, handler: ConverterPOPBaseToBinaryDistributionHandler): ByteArrayWrapper {
         if (enableOptimiation) {
-            var counter = 0
             // alle hosts zuweisen
             var queue = handler.idToHost.keys.toMutableList()
             while (!queue.isEmpty()) {
                 val childID = queue.removeAt(0)
-                val hostname = handler.idToHost[childID]!!
+                val hostnames = handler.idToHost[childID]!!
                 var parentID = handler.getParentForID(childID)
                 var parentHost = handler.idToHost[parentID]
                 if (parentHost == null) {
-                    parentHost = hostname
+                    parentHost = mutableSetOf<String>()
                     handler.idToHost[parentID] = parentHost
-                    queue.add(parentID)
-                } else if (parentHost.second && (!hostname.second || hostname.first != parentHost.first)) {
-                    handler.idToHost[parentID] = hostname.first to false
+                }
+                if (!parentHost.containsAll(hostnames)) {
+                    parentHost.addAll(hostnames)
                     queue.add(parentID)
                 }
             }
@@ -166,7 +164,7 @@ public object ConverterPOPBaseToBinary {
                 val hostname = handler.idToHost[childID]
                 var parentID = handler.getParentForID(childID)
                 var parentHost = handler.idToHost[parentID]
-                if ((hostname != null && parentHost != null) && ((parentHost.second && hostname.second && parentHost.first == hostname.first) || (!parentHost.second && !hostname.second))) {
+                if ((hostname != null && parentHost != null) && (hostname.size == parentHost.size && parentHost.containsAll(hostname))) {
                     val key = handler.dependenciesForID[parentID]!![childID]!!
                     val parentOffOff = handler.keyLocationDest[key]!!
                     val parentOff = ByteArrayWrapperExt.readInt4(data, parentOffOff, { "*.child" })
@@ -174,12 +172,14 @@ public object ConverterPOPBaseToBinary {
                     val parentType = ByteArrayWrapperExt.readInt4(data, parentOff, { "operatorID" })
                     val childType = ByteArrayWrapperExt.readInt4(data, childOff, { "operatorID" })
                     if (parentType == EOperatorIDExt.POPDistributedReceiveSingleID && childType == EOperatorIDExt.POPDistributedSendSingleID) {
-                        if (counter <optimizationLimit) {
-                            counter++
-                            val childrensOff = ByteArrayWrapperExt.readInt4(data, childOff + 8, { "*.child" })
-                            ByteArrayWrapperExt.writeInt4(data, parentOffOff, childrensOff, { "*.child" })
-                            fixAfterMerge(data, handler, childrensOff, parentOffOff, key, childID, parentID)
-                        }
+                        val childrensOff = ByteArrayWrapperExt.readInt4(data, childOff + 8, { "*.child" })
+                        ByteArrayWrapperExt.writeInt4(data, parentOffOff, childrensOff, { "*.child" })
+                        fixAfterMerge(data, handler, childrensOff, parentOffOff, key, childID, parentID)
+                    }
+                    if (parentType == EOperatorIDExt.POPDistributedReceiveSingleCountID && childType == EOperatorIDExt.POPDistributedSendSingleCountID) {
+                        val childrensOff = ByteArrayWrapperExt.readInt4(data, childOff + 8, { "*.child" })
+                        ByteArrayWrapperExt.writeInt4(data, parentOffOff, childrensOff, { "*.child" })
+                        fixAfterMerge(data, handler, childrensOff, parentOffOff, key, childID, parentID)
                     }
                 }
             }
@@ -228,7 +228,7 @@ public object ConverterPOPBaseToBinary {
                     handler.keyLocationDest[key] = parentOffOff
                 }
             }
-            else -> println("TODO childrensType ${EOperatorIDExt.names[childrensType]}")
+            else -> println("TODO2 childrensType ${EOperatorIDExt.names[childrensType]}")
         }
     }
     public fun encode(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
@@ -569,7 +569,7 @@ public object ConverterPOPBaseToBinary {
                 op as OPBase
                 val currentID = handler.currentID
                 if (distributed) {
-                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
+                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr)
                 } else {
                     convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, offPtr)
                 }
@@ -581,7 +581,7 @@ public object ConverterPOPBaseToBinary {
                 op as OPBase
                 val currentID = handler.currentID
                 if (distributed) {
-                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr)
+                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
                 } else {
                     convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, offPtr)
                 }
@@ -942,12 +942,12 @@ public object ConverterPOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPTripleStoreIterator, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, ConverterString.encodeString(target.first, data, mapping), { "POPTripleStoreIterator.target.first" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, ConverterString.encodeString(target.second, data, mapping), { "POPTripleStoreIterator.target.second" })
-                if (handler.idToHost[handler.currentID] != null) {
-                    if (handler.idToHost[handler.currentID]?.first != target.first) {
-                        handler.idToHost[handler.currentID] = target.first to false
-                    }
+                var hostsTmp = handler.idToHost[handler.currentID]
+                if (hostsTmp != null) {
+                    hostsTmp.add(target.first)
                 } else {
-                    handler.idToHost[handler.currentID] = target.first to true
+                    hostsTmp = mutableSetOf(target.first)
+                    handler.idToHost[handler.currentID] = hostsTmp
                 }
                 ByteArrayWrapperExt.writeInt4(data, off + 12, op.getIndexPattern(), { "POPTripleStoreIterator.IndexPattern" })
                 var childFlag = 0

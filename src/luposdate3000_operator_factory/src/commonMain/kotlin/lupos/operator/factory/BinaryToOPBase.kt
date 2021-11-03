@@ -27,11 +27,7 @@ public object BinaryToOPBase {
     }
     public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
         val res = ConverterPOPBaseToBinary.encode(op, distributed)
-        for (i in 0 until 20) {
-            ConverterPOPBaseToBinary.optimizationLimit = i
-            val res2 = ConverterPOPBaseToBinary.encode(op, distributed)
-            println("JSON_OUT$i:${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,res2)}")
-        }
+        println("JSON_OUT:${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,res)}")
         return res
     }
     init {
