@@ -124,7 +124,7 @@ public object ConverterBinaryToPOPJson {
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }))
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
                 val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
-                "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.joinToString()}]}"
+                "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -143,7 +143,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[${keys.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -168,7 +168,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[${keys.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -179,7 +179,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -386,7 +386,7 @@ public object ConverterBinaryToPOPJson {
                     o += 4
                     res
                 }
-                "{\"type\":\"POPTripleStoreIterator\",\"host\":\"$buf1\",\"key\":\"$buf2\"}"
+                "{\"type\":\"POPTripleStoreIterator\",\"storehost\":\"$buf1\",\"storekey\":\"$buf2\"}"
             },
         )
         assignOperatorPhysicalDecode(

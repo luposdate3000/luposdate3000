@@ -72,8 +72,8 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     // for optimization
     internal val idToHost = mutableMapOf<Int, Pair<String, Boolean>>()/*ID->(hostname,nameValid)*/
     internal val dependenciesForID = mutableMapOf<Int, MutableMap<Int, Int>>()/*parentID->childID->key*/
-    internal val keyLocationSrc = mutableMapOf<Int, Int>()/*ID->off*/
-    internal val keyLocationDest = mutableMapOf<Int, Int>()/*ID->offset, where the offset points to the operator, to enable efficient replacement*/
+    internal val keyLocationSrc = mutableMapOf<Int, Int>()/*key->off*/
+    internal val keyLocationDest = mutableMapOf<Int, Int>()/*key->offset, where the offset points to the operator, to enable efficient replacement*/
 
     internal fun keyLocationSend(id: Int, off: Int) {
         if (keyLocationSrc[id] != null) {
@@ -115,6 +115,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int) -> Int/*offset*/
 
 public object ConverterPOPBaseToBinary {
+    private const val enableOptimiation = true
     public var operatorMap: Array<OPBaseToBinaryMap?> = Array(0) { null }
 
     public fun assignOperatorPhysicalEncode(operatorIDs: IntArray, operator: OPBaseToBinaryMap) {
@@ -138,46 +139,98 @@ public object ConverterPOPBaseToBinary {
         }
         operatorMap[operatorID] = operator
     }
-
+    public var optimizationLimit: Int = 0
     private fun optimize(data: ByteArrayWrapper, handler: ConverterPOPBaseToBinaryDistributionHandler): ByteArrayWrapper {
-// alle hosts zuweisen
-        var queue = handler.idToHost.keys.toMutableList()
-        while (!queue.isEmpty()) {
-            val childID = queue.removeAt(0)
-            val hostname = handler.idToHost[childID]!!
-            var parentID = handler.getParentForID(childID)
-            var parentHost = handler.idToHost[parentID]
-            if (parentHost == null) {
-                parentHost = hostname
-                handler.idToHost[parentID] = parentHost
-                queue.add(parentID)
-            } else if (parentHost.second && (!hostname.second || hostname.first != parentHost.first)) {
-                handler.idToHost[parentID] = hostname.first to false
-                queue.add(parentID)
+        if (enableOptimiation) {
+            var counter = 0
+            // alle hosts zuweisen
+            var queue = handler.idToHost.keys.toMutableList()
+            while (!queue.isEmpty()) {
+                val childID = queue.removeAt(0)
+                val hostname = handler.idToHost[childID]!!
+                var parentID = handler.getParentForID(childID)
+                var parentHost = handler.idToHost[parentID]
+                if (parentHost == null) {
+                    parentHost = hostname
+                    handler.idToHost[parentID] = parentHost
+                    queue.add(parentID)
+                } else if (parentHost.second && (!hostname.second || hostname.first != parentHost.first)) {
+                    handler.idToHost[parentID] = hostname.first to false
+                    queue.add(parentID)
+                }
             }
-        }
-// mergen wenn beide gleichen (oder gar keinen) host haben
-        queue = handler.idToOffset.keys.toMutableList()
-        while (!queue.isEmpty()) {
-            val childID = queue.removeAt(0)
-            val hostname = handler.idToHost[childID]!!
-            var parentID = handler.getParentForID(childID)
-            var parentHost = handler.idToHost[parentID]!!
-            if ((parentHost.second && hostname.second && parentHost.first == hostname.first) || (!parentHost.second && !hostname.second)) {
-                val key = handler.dependenciesForID[parentID]!![childID]!!
-                val parentOffOff = handler.keyLocationDest[key]!!
-                val parentOff = ByteArrayWrapperExt.readInt4(data, parentOffOff, { "*.child" })
-                val childOff = handler.keyLocationSrc[key]!!
-                val parentType = ByteArrayWrapperExt.readInt4(data, parentOff, { "operatorID" })
-                val childType = ByteArrayWrapperExt.readInt4(data, childOff, { "operatorID" })
-                if ((parentType == EOperatorIDExt.POPDistributedReceiveSingleID) && childType == EOperatorIDExt.POPDistributedSendSingleID) {
-                    ByteArrayWrapperExt.writeInt4(data, parentOffOff, ByteArrayWrapperExt.readInt4(data, childOff + 8, { "*.child" }), { "*.child" })
+            // mergen wenn beide gleichen (oder gar keinen) host haben
+            queue = handler.idToOffset.keys.toMutableList()
+            while (!queue.isEmpty()) {
+                val childID = queue.removeAt(0)
+                val hostname = handler.idToHost[childID]
+                var parentID = handler.getParentForID(childID)
+                var parentHost = handler.idToHost[parentID]
+                if ((hostname != null && parentHost != null) && ((parentHost.second && hostname.second && parentHost.first == hostname.first) || (!parentHost.second && !hostname.second))) {
+                    val key = handler.dependenciesForID[parentID]!![childID]!!
+                    val parentOffOff = handler.keyLocationDest[key]!!
+                    val parentOff = ByteArrayWrapperExt.readInt4(data, parentOffOff, { "*.child" })
+                    val childOff = handler.keyLocationSrc[key]!!
+                    val parentType = ByteArrayWrapperExt.readInt4(data, parentOff, { "operatorID" })
+                    val childType = ByteArrayWrapperExt.readInt4(data, childOff, { "operatorID" })
+                    if (parentType == EOperatorIDExt.POPDistributedReceiveSingleID && childType == EOperatorIDExt.POPDistributedSendSingleID) {
+                        if (counter <optimizationLimit) {
+                            counter++
+                            val childrensOff = ByteArrayWrapperExt.readInt4(data, childOff + 8, { "*.child" })
+                            ByteArrayWrapperExt.writeInt4(data, parentOffOff, childrensOff, { "*.child" })
+                            fixAfterMerge(data, handler, childrensOff, parentOffOff, key, childID, parentID)
+                        }
+                    }
                 }
             }
         }
         return data
     }
-
+    private fun fixAfterMerge(data: ByteArrayWrapper, handler: ConverterPOPBaseToBinaryDistributionHandler, childOff: Int, parentOffOff: Int, theKey: Int, childID: Int, parentID: Int) {
+        handler.idToOffset.remove(childID)
+        handler.idToHost.remove(childID)
+        val depa = handler.dependenciesForID[parentID]!!
+        val depb = handler.dependenciesForID[childID]
+        if (depb != null) {
+            depa.putAll(depb)
+        }
+        depa.remove(childID)
+        handler.keyLocationSrc.remove(theKey)
+        handler.keyLocationDest.remove(theKey)
+        val childrensType = ByteArrayWrapperExt.readInt4(data, childOff, { "operatorID" })
+        when (childrensType) {
+            EOperatorIDExt.POPDistributedReceiveSingleID -> {
+                val key = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveSingle.key" })
+                handler.keyLocationDest[key] = parentOffOff
+            }
+            EOperatorIDExt.POPDistributedReceiveSingleCountID -> {
+                val key = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveSingleCount.key" })
+                handler.keyLocationDest[key] = parentOffOff
+            }
+            EOperatorIDExt.POPDistributedReceiveMultiID -> {
+                val len = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveMulti.size" })
+                for (i in 0 until len) {
+                    val key = ByteArrayWrapperExt.readInt4(data, childOff + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" })
+                    handler.keyLocationDest[key] = parentOffOff
+                }
+            }
+            EOperatorIDExt.POPDistributedReceiveMultiCountID -> {
+                val len = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveMultiCount.size" })
+                for (i in 0 until len) {
+                    val key = ByteArrayWrapperExt.readInt4(data, childOff + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" })
+                    handler.keyLocationDest[key] = parentOffOff
+                }
+            }
+            EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
+                val len = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
+                for (i in 0 until len) {
+                    val key = ByteArrayWrapperExt.readInt4(data, childOff + 8 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                    handler.keyLocationDest[key] = parentOffOff
+                }
+            }
+            else -> println("TODO childrensType ${EOperatorIDExt.names[childrensType]}")
+        }
+    }
     public fun encode(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
         val handler = ConverterPOPBaseToBinaryDistributionHandler()
         println("encode ... start")
@@ -611,7 +664,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:613"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:666"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
