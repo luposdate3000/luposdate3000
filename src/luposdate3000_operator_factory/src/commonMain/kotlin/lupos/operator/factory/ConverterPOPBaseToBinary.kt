@@ -16,6 +16,7 @@
  */
 package lupos.operator.factory
 import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -43,6 +44,7 @@ import lupos.operator.physical.singleinput.POPSort
 import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -626,7 +628,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPModifyDataID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPModifyData
-                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data)
+                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i]as AOPConstant).value } })
             },
         )
         assignOperatorPhysicalEncode(
@@ -644,7 +646,7 @@ public object ConverterPOPBaseToBinary {
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPValues
                 if (op.rows == -1) {
-                    ConverterBinaryEncoder.encodePOPValues(data, mapping, op.data, op.variables)
+                    ConverterBinaryEncoder.encodePOPValues(data, mapping, op.data)
                 } else {
                     ConverterBinaryEncoder.encodePOPValuesCount(data, mapping, op.rows)
                 }
@@ -918,7 +920,6 @@ public object ConverterPOPBaseToBinary {
                         data,
                         mapping,
                         { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
-                        keyColumnNames,
                         op.projectedVariables,
                         op.bindings.map { it -> it.first to ConverterAOPBaseToBinary.encodeAOP(it.second, data, mapping) },
                     )

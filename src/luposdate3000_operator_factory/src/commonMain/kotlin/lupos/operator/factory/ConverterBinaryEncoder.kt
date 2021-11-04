@@ -15,11 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphRefType
 import lupos.shared.EModifyType
@@ -29,7 +31,89 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public object ConverterBinaryEncoder {
-    public fun encodePOPModifyData(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, data2: List<LOPTriple>): Int {
+    public fun encodePOPDistributedReceiveMultiOrdered(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "POPDistributedReceiveMultiOrdered.size" })
+        for (i in 0 until keys.size) {
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
+        }
+        return off
+    }
+
+    public fun encodePOPDistributedReceiveMultiCount(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiCountID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "POPDistributedReceiveMultiCount.size" })
+        for (i in 0 until keys.size) {
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPDistributedReceiveMultiCount.key[$i]" })
+        }
+        return off
+    }
+
+    public fun encodePOPDistributedReceiveSingleCount(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, key: Int): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleCountID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, key, { "POPDistributedReceiveSingleCount.key" })
+        return off
+    }
+
+    public fun encodePOPDistributedReceiveSingle(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, key: Int): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveSingleID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, key, { "POPDistributedReceiveSingle.key" })
+        return off
+    }
+
+    public fun encodePOPDistributedReceiveMulti(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "POPDistributedReceiveMulti.size" })
+        for (i in 0 until keys.size) {
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPDistributedReceiveMulti.key[$i]" })
+        }
+        return off
+    }
+
+    public fun encodePOPDistributedSendSingleCount(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, key: Int, childf: (Int) -> Int): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 12, true)
+        val child = childf(off + 8)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedSendSingleCountID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, key, { "POPDistributedSendSingleCount.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, child, { "POPDistributedSendSingleCount.child" })
+        return off
+    }
+
+    public fun encodePOPDistributedSendMulti(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>, childf: (Int) -> Int): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 12 + 4 * keys.size, true)
+        val child = childf(off + 4)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedSendMultiID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPDistributedSendMulti.child" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, keys.size, { "POPDistributedSendMulti.count" })
+        for (i in 0 until keys.size) {
+            ByteArrayWrapperExt.writeInt4(data, off + 12 + 4 * i, keys[i], { "POPDistributedSendMulti.key[$i]" })
+        }
+        return off
+    }
+
+    public fun encodePOPDistributedSendSingle(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, key: Int, childf: (Int) -> Int): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 12, true)
+        val child = childf(off + 8)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, key, { "POPDistributedSendSingle.key" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, child, { "POPDistributedSendSingle.child" })
+        return off
+    }
+
+    public fun encodePOPModifyData(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, data2: List<Pair<String, DictionaryValueTypeArray>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 8 + data2.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
@@ -37,16 +121,17 @@ public object ConverterBinaryEncoder {
         var o = off + 8
         var i = 0
         for (t in data2) {
-            ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(t.graph, data, mapping), { "POPModifyData.data[$i].graph" })
+            ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(t.first, data, mapping), { "POPModifyData.data[$i].graph" })
             o += 4
             for (j in 0 until 3) {
-                DictionaryValueHelper.toByteArray(data, o, (t.children[j] as AOPConstant).value, { "POPModifyData.data[$i][$j]" })
+                DictionaryValueHelper.toByteArray(data, o, t.second[j], { "POPModifyData.data[$i][$j]" })
                 o += DictionaryValueHelper.getSize()
             }
             i++
         }
         return off
     }
+
     public fun encodePOPNothing(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, projectedVariables: List<String>): Int {
         val n = projectedVariables
         val off = ByteArrayWrapperExt.getSize(data)
@@ -60,6 +145,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPValuesCount(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, rows: Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 8, true)
@@ -67,9 +153,10 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 4, rows, { "POPValueCount.rows.size" })
         return off
     }
-    public fun encodePOPValues(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, data2: Map<String, MutableList<DictionaryValueType>>, variables: List<String>): Int {
+
+    public fun encodePOPValues(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, data2: Map<String, MutableList<DictionaryValueType>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        val size = data2[variables.first()]!!.size
+        val size = data2[data2.keys.first()]!!.size
         ByteArrayWrapperExt.setSize(data, off + 12 + data2.size * (4 + size * DictionaryValueHelper.getSize()), true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesID, { "operatorID" })
         ByteArrayWrapperExt.writeInt4(data, off + 4, data2.size, { "POPValues.columns.size" })
@@ -89,12 +176,14 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
-    public fun encodePOPEmptyRow(data: ByteArrayWrapper, mapping: MutableMap<String, Int>,): Int {
+
+    public fun encodePOPEmptyRow(data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 4, true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID, { "operatorID" })
         return off
     }
+
     public fun encodePOPUnion(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * projectedVariables.size, true)
@@ -113,6 +202,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPMinus(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * projectedVariables.size, true)
@@ -131,6 +221,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPJoinMergeSingleColumn(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
@@ -141,6 +232,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeSingleColumn.child1" })
         return off
     }
+
     public fun encodePOPJoinMergeOptional(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * projectedVariables.size, true)
@@ -159,6 +251,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPJoinMerge(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * projectedVariables.size, true)
@@ -177,6 +270,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPJoinHashMap(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, optional: Boolean, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 17 + 4 * projectedVariables.size, true)
@@ -196,6 +290,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPGraphOperation(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, graph1type: EGraphRefType, graph2type: EGraphRefType, action: EGraphOperationType, graph1iri: String?, graph2iri: String?, silent: Boolean): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 25, true)
@@ -208,6 +303,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt1(data, off + 24, if (silent) 1 else 0, { "POPGraphOperation.silent" })
         return off
     }
+
     public fun encodePOPJoinCartesianProduct(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, optional: Boolean): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 13, true)
@@ -219,6 +315,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt1(data, off + 12, if (optional) 1 else 0, { "POPJoinCartesianProduct.optional" })
         return off
     }
+
     public fun encodePOPLimit(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, limit: Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
@@ -228,6 +325,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 8, limit, { "POPLimit.limit" })
         return off
     }
+
     public fun encodePOPGroup(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, keyColumnNames: List<String>, bindings: List<Pair<String, Int>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * (keyColumnNames.size + bindings.size * 2), true)
@@ -253,6 +351,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPGroupCount1(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, column: String, by: String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16, true)
@@ -263,7 +362,8 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 12, ConverterString.encodeString(by, data, mapping), { "POPGroupCount1.by" })
         return off
     }
-    public fun encodePOPGroupCount0(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, column: String,): Int {
+
+    public fun encodePOPGroupCount0(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, column: String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
         val child = childf(off + 4)
@@ -272,6 +372,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 8, ConverterString.encodeString(column, data, mapping), { "POPGroupCount0.column" })
         return off
     }
+
     public fun encodePOPGroupSorted(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, keyColumnNames: List<String>, projectedVariables: List<String>, bindings: List<Pair<String, Int>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + projectedVariables.size + bindings.size * 2), true)
@@ -304,9 +405,10 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
-    public fun encodePOPGroupWithoutKeyColumn(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, keyColumnNames: List<String>, projectedVariables: List<String>, bindings: List<Pair<String, Int>>): Int {
+
+    public fun encodePOPGroupWithoutKeyColumn(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, projectedVariables: List<String>, bindings: List<Pair<String, Int>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (keyColumnNames.size + projectedVariables.size + bindings.size * 2), true)
+        ByteArrayWrapperExt.setSize(data, off + 20 + 4 * (projectedVariables.size + bindings.size * 2), true)
         val child = childf(off + 4)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGroupWithoutKeyColumnID, { "operatorID" })
         ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPGroupWithoutKeyColumn.child" })
@@ -329,6 +431,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPSort(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, mySortPriority: List<String>, projectedVariables: List<String>, sortBy: List<String>, sortOrder: Boolean): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 21 + 4 * (mySortPriority.size + projectedVariables.size + sortBy.size), true)
@@ -360,6 +463,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPOffset(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, offset: Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
@@ -369,7 +473,8 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 8, offset, { "POPOffset.offset" })
         return off
     }
-    public fun encodePOPMakeBooleanResult(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int,): Int {
+
+    public fun encodePOPMakeBooleanResult(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 8, true)
         val child = childf(off + 4)
@@ -377,6 +482,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPMakeBooleanResult.child" })
         return off
     }
+
     public fun encodePOPReduced(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, projectedVariablesSize: Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
@@ -386,6 +492,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt4(data, off + 8, projectedVariablesSize, { "POPReduced.variables.size" })
         return off
     }
+
     public fun encodePOPTripleStoreIterator(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, target: Pair<String, String>, index: Int, child0f: Boolean, child0c: DictionaryValueType?, child0v: String?, child1f: Boolean, child1c: DictionaryValueType?, child1v: String?, child2f: Boolean, child2c: DictionaryValueType?, child2v: String?): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 17 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4, true)
@@ -422,6 +529,7 @@ public object ConverterBinaryEncoder {
         ByteArrayWrapperExt.writeInt1(data, off + 16, childFlag, { "POPTripleStoreIterator.childFlag" })
         return off
     }
+
     public fun encodePOPBind(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, variablesOut: List<String>, valueOff: Int, name: String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 20 + variablesOut.size * 4, true)
@@ -436,6 +544,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPFilter(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, variablesOut: List<String>, filterOff: Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * variablesOut.size, true)
@@ -449,6 +558,7 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+
     public fun encodePOPModify(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, modify: Array<Pair<LOPTriple, EModifyType /* = Int */>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12 + modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)

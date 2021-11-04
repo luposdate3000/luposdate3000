@@ -58,16 +58,20 @@ public object BinaryToOPBase {
         ConverterPOPBaseToBinary.initEncode()
         ConverterBinaryToIteratorBundle.initDecode()
         ConverterBinaryToPOPJson.initDecode()
+        ConverterBinaryToBinary.initRecode()
         val a4 = IntArray(ConverterPOPBaseToBinary.operatorMap.size) { it }.filter { ConverterPOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a5 = IntArray(ConverterBinaryToIteratorBundle.operatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.operatorMap[it] != null }.toSet()
         val a6 = IntArray(ConverterBinaryToPOPJson.operatorMap.size) { it }.filter { ConverterBinaryToPOPJson.operatorMap[it] != null }.toSet()
+        val a7 = IntArray(ConverterBinaryToBinary.operatorMap.size) { it }.filter { ConverterBinaryToBinary.operatorMap[it] != null }.toSet()
         val popAll = (a4 + a5 + a6).toSet()
         val t4 = popAll - a4
         val t5 = popAll - a5
         val t6 = popAll - a6
+        val t7 = popAll - a7
         if (t4.size> 0) { println("ConverterPOPBaseToBinary is missing : \n${t4.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t5.size> 0) { println("ConverterBinaryToIteratorBundle is missing : \n${t5.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t6.size> 0) { println("ConverterBinaryToPOPJson is missing : \n${t6.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+        if (t7.size> 0) { println("ConverterBinaryToBinary is missing : \n${t7.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         println("BinaryToOPBase.init finish")
     }
 }
