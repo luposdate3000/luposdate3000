@@ -26,14 +26,14 @@ public object BinaryToOPBase {
         return ConverterBinaryToIteratorBundle.decode(query, data)[-1]!!
     }
     public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
-return convertToByteArrayAndMeta(op,distributed).first
+        return convertToByteArrayAndMeta(op, distributed).first
     }
-public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper ,BinaryMetadataHandler>{
+    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
         val res = ConverterPOPBaseToBinary.encode(op, distributed)
         println("JSON_OUT:${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,res.first)}")
         return res
     }
-    
+
     init {
         println("BinaryToOPBase.init start")
         ConverterAOPBaseToBinary.initEncode()

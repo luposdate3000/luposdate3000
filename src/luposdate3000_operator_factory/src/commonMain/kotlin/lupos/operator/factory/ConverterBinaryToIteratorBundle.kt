@@ -81,7 +81,6 @@ public object ConverterBinaryToIteratorBundle {
     }
     public fun decode(query: Query, data: ByteArrayWrapper): Map<Int, IteratorBundleRoot> {
         try {
-            println("convertToIteratorBundle ... start")
             var result = mutableMapOf<Int, IteratorBundleRoot>()
             when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
                 0x1 -> {
@@ -100,7 +99,6 @@ public object ConverterBinaryToIteratorBundle {
                         }
                         res.add(list to child)
                     }
-                    println("convertToIteratorBundle ... finish")
                     result[-1] = IteratorBundleRoot(query, res.toTypedArray())
                 }
                 0x2 -> {
@@ -108,7 +106,6 @@ public object ConverterBinaryToIteratorBundle {
                 }
                 else -> {
                     val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }))
-                    println("convertToIteratorBundle ... finish")
                     result[-1] = IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
                 }
             }
@@ -142,15 +139,13 @@ public object ConverterBinaryToIteratorBundle {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
             { query, data, off ->
-                EvalGraphOperation(
-                    ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1,
-                    ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" }),
-                    ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" })),
-                    ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" }),
-                    ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" })),
-                    ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" }),
-                    query,
-                )
+                val silent = ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1
+                val graph1type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" })
+                val graph1iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" }))
+                val graph2type = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" })
+                val graph2iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" }))
+                val action = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" })
+                EvalGraphOperation(silent, graph1type, graph1iri, graph2type, graph2iri, action, query,)
             },
         )
         assignOperatorPhysicalDecode(
@@ -407,7 +402,7 @@ public object ConverterBinaryToIteratorBundle {
                     o += 4
                     res
                 }
-                EvalTripleStoreIterator(                    buf1 to buf2,                    query,                    index,                    arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v))                )
+                EvalTripleStoreIterator(buf1 to buf2, query, index, arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v)))
             },
         )
         assignOperatorPhysicalDecode(
@@ -539,7 +534,6 @@ public object ConverterBinaryToIteratorBundle {
                     val o = off + 12 + it * step
                     val v = ByteArrayWrapperExt.readInt4(data, o, { "POPModify.modify[$it].v" })
                     val flag = ByteArrayWrapperExt.readInt1(data, o + 8, { "POPModify.modify[$it].flag" })
-                    println("flag $o d ... $flag")
                     val graph = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 4, { "POPModify.modify[$it].graph" }))
                     val s = if ((flag and 0x2) != 0) {
                         AOPConstant(query, DictionaryValueHelper.fromByteArray(data, o + 9, { "POPModify.modify[$it].child[0].c" }))
