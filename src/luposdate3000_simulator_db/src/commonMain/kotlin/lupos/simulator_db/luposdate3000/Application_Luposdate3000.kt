@@ -291,35 +291,33 @@ public class Application_Luposdate3000 public constructor(
                 nextHops[i] = rootAddressInt
             }
         }
-var myIdsOnTargetMap=mutableMapOf<Int,MutableSet<Int>>()
-for((k,v) in pck.handler.idToHost){
-val targets=v.map{nextHops[it.toInt()]}.toSet()
-val target=if(targets.size==1){
-targets.first()
-}else{
-ownAdress
-}
-val mm=myIdsOnTargetMap[target]
-if(mm!=null){
-mm.add(k)
-}else{
-myIdsOnTargetMap[target]=mutableSetOf(k)
-}
-}
+        var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
+        for ((k, v) in pck.handler.idToHost) {
+            val targets = v.map { nextHops[it.toInt()] }.toSet()
+            val target = if (targets.size == 1) {
+                targets.first()
+            } else {
+                ownAdress
+            }
+            val mm = myIdsOnTargetMap[target]
+            if (mm != null) {
+                mm.add(k)
+            } else {
+                myIdsOnTargetMap[target] = mutableSetOf(k)
+            }
+        }
         val packages = mutableMapOf<Int, Package_Luposdate3000_Operatorgraph>()
         for (i in nextHops.toSet()) {
             packages[i] = Package_Luposdate3000_Operatorgraph(
                 pck.queryID,
                 ByteArrayWrapper(),
-                BinaryMetadataHandler(mutableMapOf(),mutableMapOf(),mutableMapOf(),mutableMapOf(),mutableMapOf()),
+                BinaryMetadataHandler(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf()),
                 pck.onFinish,
                 pck.expectedResult,
                 pck.verifyAction,
                 pck.query,
             )
         }
-
-
 
         for ((k, v) in packageMap) {
             val p = packages[v]
@@ -624,7 +622,7 @@ myIdsOnTargetMap[target]=mutableSetOf(k)
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:680"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:624"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
