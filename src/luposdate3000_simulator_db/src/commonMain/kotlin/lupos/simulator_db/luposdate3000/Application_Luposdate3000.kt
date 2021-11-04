@@ -25,6 +25,7 @@ import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.factory.BinaryMetadataHandler
 import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
@@ -244,7 +245,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:246"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:247"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -282,7 +283,7 @@ public class Application_Luposdate3000 public constructor(
         val mapTopDown = mutableMapOf<Int, MutableSet<Int>>()
         val mapBottomUpThis = mutableMapOf<Int, MutableSet<Int>>()
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
-        operatorGraphPartsToHostMapTmp.addAll(pck.operatorGraphPartsToHostMap.values)
+        operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
         val nextHops = myGetNextHop(allHostAdresses, featureID_any)
         for (i in 0 until nextHops.size) {
@@ -290,91 +291,36 @@ public class Application_Luposdate3000 public constructor(
                 nextHops[i] = rootAddressInt
             }
         }
+var myIdsOnTargetMap=mutableMapOf<Int,MutableSet<Int>>()
+for((k,v) in pck.handler.idToHost){
+val targets=v.map{nextHops[it.toInt()]}.toSet()
+val target=if(targets.size==1){
+targets.first()
+}else{
+ownAdress
+}
+val mm=myIdsOnTargetMap[target]
+if(mm!=null){
+mm.add(k)
+}else{
+myIdsOnTargetMap[target]=mutableSetOf(k)
+}
+}
         val packages = mutableMapOf<Int, Package_Luposdate3000_Operatorgraph>()
         for (i in nextHops.toSet()) {
             packages[i] = Package_Luposdate3000_Operatorgraph(
                 pck.queryID,
-                mutableMapOf(),
-                mutableMapOf(),
-                mutableMapOf(),
+                ByteArrayWrapper(),
+                BinaryMetadataHandler(mutableMapOf(),mutableMapOf(),mutableMapOf(),mutableMapOf(),mutableMapOf()),
                 pck.onFinish,
                 pck.expectedResult,
                 pck.verifyAction,
                 pck.query,
             )
         }
-        for ((k, v) in pck.operatorGraph) {
-            mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
-            mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:309"/*SOURCE_FILE_END*/ },
-                { mapBottomUpThis[k]!!.contains(k) },
-                { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:314"/*SOURCE_FILE_END*/ },
-                { !mapTopDown[k]!!.contains(k) },
-                { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:319"/*SOURCE_FILE_END*/ },
-                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
-                { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
-            )
-        }
-        val packageMap = mutableMapOf<Int, Int>()
-        for ((k, v) in pck.operatorGraphPartsToHostMap) {
-            val target = nextHops[allHostAdresses.indexOf(v.toInt())]
-            for (i in mapBottomUpThis[k]!!) {
-                packageMap[i] = target // required for Send-Multi-operator
-            }
-        }
-        var changed = true
-        while (changed) {
-            changed = false
-            loop@ for ((k, v) in mapTopDown) {
-// k benötigt alle Ergebnisse von v
-                if (!packageMap.contains(k)) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:338"/*SOURCE_FILE_END*/ },
-                        { v.isNotEmpty() },
-                        {
-                            "${pck.operatorGraph[k]}"
-                        }
-                    )
-                    var dest = -1
-                    innerloop@ for (key in v) {
-                        val d = packageMap[key]
-// d ist der Ort wo eine dependency von k ausgeführt wird
-                        if (d != null) {
-                            if (dest == -1) {
-                                dest = d
-                            } else if (dest != d) {
-                                dest = ownAdress
-                                break@innerloop
-                            }
-                        } else {
-// die abhängigkeiten stehen noch nicht alle fest, daher jetzt kein assignment
-                            continue@loop
-                        }
-                    }
-// alle abhängigkeiten werden in dest berechnet, daher dies jetzt auch
-// oder die abhängigkeiten kommen von unterschiedlichen quellen
-                    for (i in mapBottomUpThis[k]!!) { // required for send-multi-operator
-                        packageMap[i] = dest
-                    }
-                    for (i in mapTopDown[k]!!) {
-                        pck.destinations[i] = dest
-                    }
-                    changed = true
-                }
-            }
-        }
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:373"/*SOURCE_FILE_END*/ },
-            { packageMap.keys.containsAll(pck.operatorGraph.keys) },
-            { "${(pck.operatorGraph.keys - packageMap.keys).map { "$it\n" }} ${packageMap.map { "$it\n" }} ${pck.operatorGraph.map { "$it\n" }}" }
-        )
+
+
+
         for ((k, v) in packageMap) {
             val p = packages[v]
             val g = pck.operatorGraph[k]

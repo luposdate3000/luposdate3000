@@ -25,8 +25,8 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_iot.IPackage_Database
 public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
-    data: ByteArrayWrapper,
-    handler: BinaryMetadataHandler,
+    public val data: ByteArrayWrapper,
+    public val handler: BinaryMetadataHandler,
     public val onFinish: IPackage_Database?,
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,
