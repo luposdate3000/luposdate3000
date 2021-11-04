@@ -16,21 +16,27 @@
  */
 package lupos.operator.factory
 import lupos.operator.base.Query
+import lupos.optimizer.physical.PhysicalOptimizerSplitMergePartition
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
-
 public object BinaryToOPBase {
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper): IteratorBundleRoot {
         return ConverterBinaryToIteratorBundle.decode(query, data)[-1]!!
     }
-    public fun convertToByteArray(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
-        return convertToByteArrayAndMeta(op, distributed).first
+    public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {
+        return convertToByteArrayAndMeta(op, distributed, splitEverything).first
     }
-    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
-        val res = ConverterPOPBaseToBinary.encode(op, distributed)
-        println("JSON_OUT:${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,res.first)}")
+    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
+        val query = op.getQuery() as Query
+        val op2 = if (splitEverything) {
+            PhysicalOptimizerSplitMergePartition(query).optimizeCall(op)
+        } else {
+            op
+        }
+        val res = ConverterPOPBaseToBinary.encode(op2, distributed)
+        println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
         return res
     }
 

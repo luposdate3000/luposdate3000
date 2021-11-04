@@ -38,9 +38,6 @@ public class Luposdate3000Instance {
     public var tripleStoreManager: TripleStoreManager? = Luposdate3000Config.tripleStoreManager
 
     @JvmField
-    public var distributedOptimizerQueryFactory: FuncIDistributedOptimizer? = Luposdate3000Config.distributedOptimizerQueryFactory
-
-    @JvmField
     public var LUPOS_BUFFER_SIZE: Int = Luposdate3000Config.LUPOS_BUFFER_SIZE
 
     @JvmField

@@ -40,9 +40,6 @@ public object Luposdate3000Config {
     public var tripleStoreManager: TripleStoreManager? = null
 
     @JvmField
-    public var distributedOptimizerQueryFactory: FuncIDistributedOptimizer? = null
-
-    @JvmField
     public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM
 
     @JvmField

@@ -17,7 +17,6 @@
 package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
-import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyLock
@@ -124,17 +123,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         transactionID = UUID_Counter.getNextUUID()
         commited = false
         partitions.clear()
-        val factory = instance.distributedOptimizerQueryFactory
-        return if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process && factory != null) {
-            operatorgraphParts = mutableMapOf()
-            operatorgraphPartsToHostMap = mutableMapOf()
-            dependenciesMapTopDown = mutableMapOf()
-            dependenciesMapBottomUp = mutableMapOf()
-            keyRepresentative = mutableMapOf()
-            factory().optimize(this, wantReturnValue, splitEverything)
-        } else {
-            newroot
-        }
+        return newroot
     }
 
     public fun getNextPartitionOperatorID(): Int {
@@ -150,7 +139,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:152"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:141"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -158,7 +147,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:160"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:149"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

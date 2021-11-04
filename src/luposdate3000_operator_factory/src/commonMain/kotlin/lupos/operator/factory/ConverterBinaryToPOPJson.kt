@@ -16,13 +16,13 @@
  */
 package lupos.operator.factory
 
-import lupos.shared.DictionaryValueType
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
@@ -263,7 +263,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPUnion.variables[$i]" })))
                 }
-                "{\"type\":\"POPUnion\",\"childs\":[${child0}, ${child1}]}"
+                "{\"type\":\"POPUnion\",\"childs\":[$child0, $child1]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -276,7 +276,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPMinus.variables[$i]" })))
                 }
-                "{\"type\":\"POPMinus\",\"childs\":[${child0}, ${child1}]}"
+                "{\"type\":\"POPMinus\",\"childs\":[$child0, $child1]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -289,7 +289,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMergeOptional.variables[$i]" })))
                 }
-                "{\"type\":\"POPJoinMergeOptional\",\"childs\":[${child0}, ${child1}]}"
+                "{\"type\":\"POPJoinMergeOptional\",\"childs\":[$child0, $child1]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -302,7 +302,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
                 }
-                "{\"type\":\"POPJoinMerge\",\"childs\":[${child0}, ${child1}]}"
+                "{\"type\":\"POPJoinMerge\",\"childs\":[$child0, $child1]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -310,7 +310,7 @@ public object ConverterBinaryToPOPJson {
             { query, data, off ->
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }))
-                "{\"type\":\"POPJoinMergeSingleColumn\",\"childs\":[${child0}, ${child1}]}"
+                "{\"type\":\"POPJoinMergeSingleColumn\",\"childs\":[$child0, $child1]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -324,7 +324,7 @@ public object ConverterBinaryToPOPJson {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                "{\"type\":\"POPJoinHashMap\",\"childs\":[${child0}, ${child1}],\"optional\":$optional}"
+                "{\"type\":\"POPJoinHashMap\",\"childs\":[$child0, $child1],\"optional\":$optional}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -333,7 +333,7 @@ public object ConverterBinaryToPOPJson {
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }))
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
-                "{\"type\":\"POPJoinCartesianProduct\",\"childs\":[${child0}, ${child1}],\"optional\":$optional}"
+                "{\"type\":\"POPJoinCartesianProduct\",\"childs\":[$child0, $child1],\"optional\":$optional}"
             },
         )
         assignOperatorPhysicalDecode(
