@@ -35,9 +35,5 @@ public class Package_Query(
         return query.size + 4
     }
 
-    public override fun getContentLogString(): String {
-        return "Package_Query($sourceAddress,'${query.decodeToString()}')"
-    }
-
     override fun getTopic(): String = "SPARQL-Query"
 }

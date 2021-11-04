@@ -16,17 +16,17 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.operator.factory.BinaryMetadataHandler
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
-import lupos.shared.XMLElement
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_iot.IPackage_Database
-
 public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
-    public val operatorGraph: MutableMap<Int, XMLElement>,
-    public val destinations: MutableMap<Int, Int>,
-    public val operatorGraphPartsToHostMap: MutableMap<Int, Int>,
+    data: ByteArrayWrapper,
+    handler: BinaryMetadataHandler,
     public val onFinish: IPackage_Database?,
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,
@@ -36,20 +36,12 @@ public class Package_Luposdate3000_Operatorgraph(
     override fun getPackageID(): Long = pckID
 
     override fun getSizeInBytes(): Int {
-        var size = 0
-        for ((key, value) in operatorGraph)
-            size += 4 + value.toString().encodeToByteArray().size
-        size += 4 * destinations.size
-        size += 8 * operatorGraphPartsToHostMap.size
+        var size = ByteArrayWrapperExt.getSize(data)
         return size
     }
 
-    override fun getContentLogString(): String {
-        return "OperatorGraphPck(graph $operatorGraph, dests $destinations, parts $operatorGraphPartsToHostMap)"
-    }
-
     override fun toString(): String {
-        return "Package_Luposdate3000_Operatorgraph($queryID $operatorGraphPartsToHostMap $operatorGraph)"
+        return "Package_Luposdate3000_Operatorgraph($queryID)"
     }
 
     override fun getTopic(): String = "Database-Operatorgraph"

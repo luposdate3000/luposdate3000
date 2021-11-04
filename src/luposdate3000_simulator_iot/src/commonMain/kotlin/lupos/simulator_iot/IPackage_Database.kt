@@ -19,5 +19,4 @@ package lupos.simulator_iot
 
 public interface IPackage_Database : IPayload {
     public fun getPackageID(): Long // for message tracing only, this does not affect the simulated data volume
-    public fun getContentLogString(): String
 }

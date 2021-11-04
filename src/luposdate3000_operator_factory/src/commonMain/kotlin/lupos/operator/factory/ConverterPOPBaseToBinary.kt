@@ -162,9 +162,11 @@ public object ConverterPOPBaseToBinary {
         operatorMap[operatorID] = operator
     }
     public fun optimize(data: ByteArrayWrapper, handler: BinaryMetadataHandler, query: Query): ByteArrayWrapper {
-        if (enableOptimiation) {
-            // alle hosts zuweisen
-            var queue = handler.idToHost.keys.toMutableList()
+        // alle hosts zuweisen
+        var queue: MutableList<Int>
+        for (i in 0 until 2) {
+// the first section needs to be done twice
+            queue = handler.idToHost.keys.toMutableList()
             while (!queue.isEmpty()) {
                 val childID = queue.removeAt(0)
                 val hostnames = handler.idToHost[childID]!!
@@ -189,6 +191,16 @@ public object ConverterPOPBaseToBinary {
                     handler.idToHost[childID] = mutableSetOf(localhost)
                 }
             }
+        }
+        val rootAddress = query.getInstance().LUPOS_PROCESS_URLS_STORE[0]
+        queue = handler.idToOffset.keys.toMutableList()
+        while (!queue.isEmpty()) {
+            val childID = queue.removeAt(0)
+            if (handler.idToHost[childID]!!.contains(rootAddress)) {
+                handler.idToHost[childID] = mutableSetOf(rootAddress)
+            }
+        }
+        if (enableOptimiation) {
             // mergen wenn beide gleichen (oder gar keinen) host haben
             queue = handler.idToOffset.keys.toMutableList()
             while (!queue.isEmpty()) {
@@ -688,7 +700,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:690"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:702"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++
@@ -1010,6 +1022,14 @@ public object ConverterPOPBaseToBinary {
                 for (i in 0 until variablesOut.size) {
                     ByteArrayWrapperExt.writeInt4(data, off + 20 + 4 * i, ConverterString.encodeString(variablesOut[i], data, mapping), { "POPBind.variables[$i]" })
                 }
+                var hostsTmp = handler.idToHost[handler.currentID]
+                val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
+                if (hostsTmp != null) {
+                    hostsTmp!!.add(rootAddress)
+                } else {
+                    hostsTmp = mutableSetOf(rootAddress)
+                    handler.idToHost[handler.currentID] = hostsTmp!!
+                }
                 off
             },
         )
@@ -1027,6 +1047,14 @@ public object ConverterPOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 12, variablesOut.size, { "POPFilter.variables.size" })
                 for (i in 0 until variablesOut.size) {
                     ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * i, ConverterString.encodeString(variablesOut[i], data, mapping), { "POPFilter.variables[$i]" })
+                }
+                var hostsTmp = handler.idToHost[handler.currentID]
+                val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
+                if (hostsTmp != null) {
+                    hostsTmp!!.add(rootAddress)
+                } else {
+                    hostsTmp = mutableSetOf(rootAddress)
+                    handler.idToHost[handler.currentID] = hostsTmp!!
                 }
                 off
             },

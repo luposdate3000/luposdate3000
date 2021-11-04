@@ -35,9 +35,5 @@ public class Package_DatabaseDummy_Result(
         return dummySize
     }
 
-    override fun getContentLogString(): String {
-        return "Package_DatabaseDummy_Result(result=${result.contentToString()}, destinationAddress=$destinationAddress, senderAddress=$senderAddress, queryID=$queryID, operatorID=$operatorID)"
-    }
-
     override fun getTopic(): String = "Database-Intermediate-Result"
 }

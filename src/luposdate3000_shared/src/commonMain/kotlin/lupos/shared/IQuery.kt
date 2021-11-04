@@ -30,17 +30,12 @@ public interface IQuery {
     public fun getTransactionID(): Long
     public fun setTransactionID(id: Long)
 
-    public fun getDependenciesMapTopDown(): MutableMap<Int, Set<Int>>
-
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
     public fun setDictionary(dict: IDictionary)
 
     public fun getRoot(): IOPBase
     public fun setRoot(node: IOPBase)
-
-    public fun getOperatorgraphParts(): MutableMap<Int, XMLElement>
-    public fun getOperatorgraphPartsToHostMap(): MutableMap<Int, String>
 
     public fun createPartitionKey(): Int
     public fun getPartitionedBy(): MutableMap<String, Int>

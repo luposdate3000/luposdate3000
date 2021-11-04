@@ -94,10 +94,6 @@ public class Package_Luposdate3000_TestingCompareGraphPackage(
         return 0
     }
 
-    override fun getContentLogString(): String {
-        return "Package_Luposdate3000_TestingCompareGraphPackage($query)"
-    }
-
     override fun toString(): String {
         return getContentLogString()
     }

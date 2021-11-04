@@ -35,9 +35,5 @@ public class Package_DatabaseDummy_ChoosenOperator(
         return dummySize
     }
 
-    override fun getContentLogString(): String {
-        return "Package_DatabaseDummy_ChoosenOperator(dests=$destinationAddress, senderAddress=$senderAddress, operators=${operators.contentToString()}, queryID=$queryID)"
-    }
-
     override fun getTopic(): String = "Database-Choosen-Operator"
 }

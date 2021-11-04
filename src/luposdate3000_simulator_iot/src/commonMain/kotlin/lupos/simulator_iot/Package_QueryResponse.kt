@@ -30,9 +30,5 @@ public class Package_QueryResponse(
         return result.size
     }
 
-    public override fun getContentLogString(): String {
-        return "Package_QueryResponse('${result.decodeToString()}')"
-    }
-
     override fun getTopic(): String = "SPARQL-Response"
 }

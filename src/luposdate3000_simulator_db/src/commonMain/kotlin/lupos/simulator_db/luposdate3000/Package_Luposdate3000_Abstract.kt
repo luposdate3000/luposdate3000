@@ -35,10 +35,6 @@ public class Package_Luposdate3000_Abstract(
     }
 
     override fun toString(): String = "Package_Luposdate3000_Abstract $path"
-    override fun getContentLogString(): String {
-        return "AbstractPck(path '$path', params $params, data $data)"
-    }
-
     private fun getParamsSizeInBytes(): Int {
         var size = 0
         for ((key, value) in params)

@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_db.luposdate3000
-
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -26,6 +25,7 @@ import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.physical.noinput.POPNothing
@@ -51,7 +51,6 @@ import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyInputStreamFromByteArray
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
@@ -206,148 +205,12 @@ public class Application_Luposdate3000 public constructor(
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
-        logger.addOperatorGraph(pck.queryID, q.getOperatorgraphParts())
-        val parts = q.getOperatorgraphParts()
-        var hostMap = mutableMapOf<Int, Int>()
-        if (parts.size <= 1) {
-            parts[-1] = q.getRoot().toXMLElement(false, PartitionHelper())
-            if (!hostMap.contains(-1)) {
-                hostMap[-1] = ownAdress
-            }
-        }
-// calculating all dependencies --->>>
-        val mapTopDown = mutableMapOf<Int, MutableSet<Int>>()
-        val mapBottomUpThis = mutableMapOf<Int, MutableSet<Int>>()
-        val mapBottomUpAbove = mutableMapOf<Int, MutableSet<Int>>()
-        for ((k, v) in parts) {
-            mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
-            mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:225"/*SOURCE_FILE_END*/ },
-                { mapBottomUpThis[k]!!.contains(k) },
-                { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:230"/*SOURCE_FILE_END*/ },
-                { !mapTopDown[k]!!.contains(k) },
-                { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:235"/*SOURCE_FILE_END*/ },
-                { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
-                { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
-            )
-        }
-        for ((k, v1) in mapBottomUpThis) {
-            for (v in v1) { // für jedes ergebnis v von k
-                for ((k2, v2) in mapTopDown) {
-                    if (v2.contains(v)) { // benötigt k2 ein ergebnis von k?
-                        var a = mapBottomUpAbove[k]
-                        if (a == null) {
-                            a = mutableSetOf()
-                            mapBottomUpAbove[k] = a
-                        }
-                        a.add(k2)
-                    }
-                }
-            }
-        }
-// calculating all dependencies <<<---
-// assign hostnames where necessary --->>>
-        val destinations = mutableMapOf(-1 to pck.sourceAddress) // not the operatorgraph key, but the connection key
-        when (instance.queryDistributionMode) {
-            EQueryDistributionModeExt.Routing -> {
-                // only define the explicit triple-store access
-                for ((key, value) in q.getOperatorgraphPartsToHostMap()) {
-                    val part = parts[key]!!
-                    if (containsTripleStoreAccess(part)) {
-                        hostMap[key] = value.toInt()
-                    }
-                }
-            }
-            EQueryDistributionModeExt.Centralized -> {
-                // define everything as in the DB outside of the simulator - later in the execution-pass there are some overrides due to the not implemented distributed dictionary in the simulator for example
-                for ((k, v) in q.getOperatorgraphPartsToHostMap()) {
-                    hostMap[k] = v.toInt()
-                }
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:273"/*SOURCE_FILE_END*/ },
-                    { hostMap.size == parts.size },
-                    { "${hostMap.size} ${parts.size} ... $hostMap $parts" }
-                )
-                for ((k, v) in hostMap) {
-                    for (d in mapTopDown[k]!!) {
-                        destinations[d] = v
-                    }
-                }
-            }
-        }
-// assign hostnames where necessary <<<---
-// this fixes the inability of the simulator for an distributed dictionary --->>>
-        val assignToRootDueToDictionary = mutableSetOf<Int>()
-        for ((k, v) in parts) {
-            if (containsRemoteDictAccess(v)) {
-                assignToRootDueToDictionary.add(k)
-            }
-        }
-        loop2@ while (assignToRootDueToDictionary.size > 0) {
-            val k = assignToRootDueToDictionary.first()
-            hostMap[k] = rootAddressInt
-            for (v in mapTopDown[k]!!) {
-                destinations[v] = rootAddressInt
-            }
-            assignToRootDueToDictionary.remove(k)
-            val bUp = mapBottomUpAbove[k]
-            if (bUp != null) {
-                for (v in bUp) {
-                    if (hostMap[v] != rootAddressInt) {
-                        assignToRootDueToDictionary.add(v)
-                    }
-                }
-            }
-        }
-// this fixes the inability of the simulator for an distributed dictionary <<<---
-// remove unnecessary query parts, which just receive and send from and to single locations --->>>
-        var changed = true
-        loop3@ while (changed) {
-            changed = false
-            for ((k, p) in parts) {
-                if (p.tag == "POPDistributedSendSingle") {
-                    var c = p["children"]!!.childs[0]
-                    while (c.tag == "POPDebug") {
-                        c = c["children"]!!.childs[0]
-                    }
-                    if (c.tag == "POPDistributedReceiveSingle") {
-                        val receiverKey = c["partitionDistributionKey"]!!.attributes["key"]!!.toInt()
-                        val senderKey = k
-// replace senderkey with receiverKey
-// remove the senderkey entirely
-                        // println("initial merge $senderKey -> $receiverKey")
-                        val p = parts[mapBottomUpAbove[k]!!.first()]!!
-                        replacereceiverKey(p!!, receiverKey, senderKey)
-                        val d = destinations[senderKey]
-                        if (d != null) {
-                            destinations[receiverKey] = d
-                        } else {
-                            destinations.remove(receiverKey) // is this required?
-                        }
-                        parts.remove(senderKey)
-                        hostMap.remove(senderKey)
-                        destinations.remove(senderKey)
-                        changed = true
-                        continue@loop3
-                    }
-                }
-            }
-        }
-// remove unnecessary query parts, which just receive and send from and to single locations <<<---
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString $op $parts $hostMap $mapBottomUpAbove $mapTopDown")
-        for (k in parts.keys) {
-            if (!hostMap.keys.contains(k)) {
-                // println("not assigned $k $v")
-            }
-        }
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, parts, destinations, hostMap, onFinish, expectedResult, verifyAction, q))
+
+        val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
+        val data = binaryPair.first
+        val handler = binaryPair.second
+
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun replacereceiverKey(node: XMLElement, receiverKey: Int, senderKey: Int): Boolean {
@@ -381,7 +244,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:383"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:246"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -444,17 +307,17 @@ public class Application_Luposdate3000 public constructor(
             mapTopDown[k] = extractKey(v, "POPDistributedReceive", "").toMutableSet()
             mapBottomUpThis[k] = (extractKey(v, "POPDistributedSend", "") + setOf(k)).toMutableSet()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:446"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:309"/*SOURCE_FILE_END*/ },
                 { mapBottomUpThis[k]!!.contains(k) },
                 { "loop-dependency bottomUp $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:451"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:314"/*SOURCE_FILE_END*/ },
                 { !mapTopDown[k]!!.contains(k) },
                 { "loop-dependency topDown $k ${mapBottomUpThis[k]} ${mapTopDown[k]} $v" }
             )
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:456"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:319"/*SOURCE_FILE_END*/ },
                 { !(!extractKey(v, "POPDistributedSend", "").contains(k) && k != -1) },
                 { "something suspicious ... $k ${extractKey(v, "POPDistributedSend", "")} $v" }
             )
@@ -473,7 +336,7 @@ public class Application_Luposdate3000 public constructor(
 // k benötigt alle Ergebnisse von v
                 if (!packageMap.contains(k)) {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:475"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:338"/*SOURCE_FILE_END*/ },
                         { v.isNotEmpty() },
                         {
                             "${pck.operatorGraph[k]}"
@@ -508,7 +371,7 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:510"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:373"/*SOURCE_FILE_END*/ },
             { packageMap.keys.containsAll(pck.operatorGraph.keys) },
             { "${(pck.operatorGraph.keys - packageMap.keys).map { "$it\n" }} ${packageMap.map { "$it\n" }} ${pck.operatorGraph.map { "$it\n" }}" }
         )
@@ -815,7 +678,7 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:817"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:680"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")

@@ -34,9 +34,5 @@ public class Package_DatabaseDummy_Preprocessing(
         return dummySize
     }
 
-    override fun getContentLogString(): String {
-        return "Package_DatabaseDummy_Preprocessing(dests=${destinationAddresses.contentToString()}, operatorGraphParts=${operatorGraphParts.contentToString()}, senderAddress=$senderAddress, queryID=$queryID)"
-    }
-
     override fun getTopic(): String = "Database-Preprocessing"
 }
