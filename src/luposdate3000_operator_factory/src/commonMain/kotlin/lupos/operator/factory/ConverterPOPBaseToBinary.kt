@@ -572,16 +572,16 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPGraphOperationID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPGraphOperation
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 25, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.graph1type, { "POPGraphOperation.graph1type" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, op.graph2type, { "POPGraphOperation.graph2type" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.action, { "POPGraphOperation.action" })
-                ByteArrayWrapperExt.writeInt4(data, off + 16, ConverterString.encodeString(op.graph1iri, data, mapping), { "POPGraphOperation.graph1iri" })
-                ByteArrayWrapperExt.writeInt4(data, off + 20, ConverterString.encodeString(op.graph2iri, data, mapping), { "POPGraphOperation.graph2iri" })
-                ByteArrayWrapperExt.writeInt1(data, off + 24, if (op.silent) 1 else 0, { "POPGraphOperation.silent" })
-                off
+                ConverterBinaryEncoder.encodePOPGraphOperation(
+                    data,
+                    mapping,
+                    op.graph1type,
+                    op.graph2type,
+                    op.action,
+                    op.graph1iri,
+                    op.graph2iri,
+                    op.silent,
+                )
             },
         )
         assignOperatorPhysicalEncode(

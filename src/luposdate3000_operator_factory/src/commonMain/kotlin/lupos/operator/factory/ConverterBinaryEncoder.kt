@@ -20,12 +20,27 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.EGraphOperationType
+import lupos.shared.EGraphRefType
 import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
+
 public object ConverterBinaryEncoder {
+    public fun encodePOPGraphOperation(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, graph1type: EGraphRefType, graph2type: EGraphRefType, action: EGraphOperationType, graph1iri: String?, graph2iri: String?, silent: Boolean): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 25, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPGraphOperationID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, graph1type, { "POPGraphOperation.graph1type" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, graph2type, { "POPGraphOperation.graph2type" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, action, { "POPGraphOperation.action" })
+        ByteArrayWrapperExt.writeInt4(data, off + 16, ConverterString.encodeString(graph1iri, data, mapping), { "POPGraphOperation.graph1iri" })
+        ByteArrayWrapperExt.writeInt4(data, off + 20, ConverterString.encodeString(graph2iri, data, mapping), { "POPGraphOperation.graph2iri" })
+        ByteArrayWrapperExt.writeInt1(data, off + 24, if (silent) 1 else 0, { "POPGraphOperation.silent" })
+        return off
+    }
     public fun encodePOPJoinCartesianProduct(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, optional: Boolean): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 13, true)
