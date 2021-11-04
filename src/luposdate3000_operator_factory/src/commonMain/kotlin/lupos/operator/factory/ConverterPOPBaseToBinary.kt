@@ -56,6 +56,14 @@ import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.POPTripleStoreIterator
 
+public class BinaryMetadataHandler(
+    internal val idToOffset: MutableMap<Int, Int>,
+    internal val idToHost: MutableMap<Int, MutableSet<String>>,
+    internal val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>,
+    internal val keyLocationSrc: MutableMap<Int, Int>,
+    internal val keyLocationDest: MutableMap<Int, Int>,
+)
+
 public class ConverterPOPBaseToBinaryDistributionHandler {
     // entry points into binary
     internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()
@@ -243,7 +251,7 @@ public object ConverterPOPBaseToBinary {
             else -> println("TODO childrensType ${EOperatorIDExt.names[childrensType]}")
         }
     }
-    public fun encode(op: IOPBase, distributed: Boolean): ByteArrayWrapper {
+    public fun encode(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
         val handler = ConverterPOPBaseToBinaryDistributionHandler()
         println("encode ... start")
         val mapping = mutableMapOf<String, Int>()
@@ -289,7 +297,7 @@ public object ConverterPOPBaseToBinary {
             i++
         }
         println("encode ... finish")
-        return data
+        return data to BinaryMetadataHandler(handler.idToOffset, handler.idToHost, handler.dependenciesForID, handler.keyLocationSrc, handler.keyLocationDest)
     }
 
     private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int): Int {
@@ -669,7 +677,7 @@ public object ConverterPOPBaseToBinary {
                             o += DictionaryValueHelper.getSize()
                         }
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:671"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:679"/*SOURCE_FILE_END*/ },
                             { i == size }
                         )
                         column++

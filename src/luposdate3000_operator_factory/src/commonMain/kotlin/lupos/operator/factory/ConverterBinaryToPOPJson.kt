@@ -219,7 +219,8 @@ public object ConverterBinaryToPOPJson {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesCountID,
             { query, data, off ->
-                "{\"type\":\"POPValuesCount\",\"count\":${ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" })}}"
+                val size = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" })
+                "{\"type\":\"POPValuesCount\",\"count\":$size}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -285,7 +286,8 @@ public object ConverterBinaryToPOPJson {
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinHashMap.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinHashMap.child1" }))
                 val childs = arrayOf(child0, child1)
-                "{\"type\":\"POPJoinHashMap\",\"childs\":[${childs.joinToString()}],\"optional\":${ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1}}"
+                val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
+                "{\"type\":\"POPJoinHashMap\",\"childs\":[${childs.joinToString()}],\"optional\":$optional}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -294,20 +296,42 @@ public object ConverterBinaryToPOPJson {
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }))
                 val childs = arrayOf(child0, child1)
-                "{\"type\":\"POPJoinCartesianProduct\",\"childs\":[${childs.joinToString()}],\"optional\":${ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1}}"
+                val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
+                "{\"type\":\"POPJoinCartesianProduct\",\"childs\":[${childs.joinToString()}],\"optional\":$optional}"
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
-                "{\"type\":\"POPLimit\",\"child\":$child,\"limit\":${ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })}}"
+                val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
+                "{\"type\":\"POPLimit\",\"child\":$child,\"limit\":$limit}"
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPSortID,
             { query, data, off ->
-                val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" }))
+ val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" }))
+                val splen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPSort.sp.size" })
+                val plen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPSort.p.size" })
+                val sblen = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPSort.sb.size" })
+                val sortOrder = ByteArrayWrapperExt.readInt1(data, off + 20, { "POPSort.sortOrder" }) != 0
+                var o = off + 21
+                val spList = mutableListOf<String>()
+                val pList = mutableListOf<String>()
+                val sbList = mutableListOf<String>()
+                for (i in 0 until splen) {
+                    spList.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.sp[$i]" })))
+                    o += 4
+                }
+                for (i in 0 until sblen) {
+                    sbList.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.sb[$i]" })))
+                    o += 4
+                }
+                for (i in 0 until plen) {
+                    pList.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.p[$i]" })))
+                    o += 4
+                }
                 "{\"type\":\"POPSort\",\"child\":$child}"
             },
         )
@@ -315,7 +339,8 @@ public object ConverterBinaryToPOPJson {
             EOperatorIDExt.POPOffsetID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" }))
-                "{\"type\":\"POPOffset\",\"child\":$child,\"offset\":${ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" })}}"
+                val offset = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" })
+                "{\"type\":\"POPOffset\",\"child\":$child,\"offset\":$offset}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -329,6 +354,7 @@ public object ConverterBinaryToPOPJson {
             EOperatorIDExt.POPReducedID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
+ val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
                 "{\"type\":\"POPReduced\",\"child\":$child}"
             },
         )
@@ -398,7 +424,9 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 20 + i * 4, { "POPBind.variables[$i]" })))
                 }
-                "{\"type\":\"POPBind\",\"child\":$child,\"name\":\"${ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" }))}\",\"value\":${ConverterBinaryToAOPJson.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" }))}}"
+                val column = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" }))
+                val value = ConverterBinaryToAOPJson.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" }))
+                "{\"type\":\"POPBind\",\"child\":$child,\"name\":\"${column}\",\"value\":$value}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -410,7 +438,8 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + i * 4, { "POPFilter.variables[$i]" })))
                 }
-                "{\"type\":\"POPFilter\",\"child\":$child,\"filter\":${ConverterBinaryToAOPJson.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" }))}}"
+                val filter = ConverterBinaryToAOPJson.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" }))
+                "{\"type\":\"POPFilter\",\"child\":$child,\"filter\":$filter}"
             },
         )
         assignOperatorPhysicalDecode(

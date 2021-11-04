@@ -282,7 +282,8 @@ public object ConverterBinaryToIteratorBundle {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
-                EvalJoinHashMap(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1, projectedVariables)
+                val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
+                EvalJoinHashMap(child0, child1, optional, projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -290,14 +291,16 @@ public object ConverterBinaryToIteratorBundle {
             { query, data, off ->
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }))
-                EvalJoinCartesianProduct(child0, child1, ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1)
+                val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
+                EvalJoinCartesianProduct(child0, child1, optional)
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
-                EvalLimit(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" }))
+                val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
+                EvalLimit(child, limit)
             },
         )
         assignOperatorPhysicalDecode(
@@ -331,7 +334,8 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPOffsetID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" }))
-                EvalOffset(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" }))
+                val offset = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" })
+                EvalOffset(child, offset)
             },
         )
         assignOperatorPhysicalDecode(
@@ -345,7 +349,8 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPReducedID,
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
-                EvalReduced(child, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" }))
+                val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
+                EvalReduced(child, size)
             },
         )
         assignOperatorPhysicalDecode(
@@ -402,12 +407,7 @@ public object ConverterBinaryToIteratorBundle {
                     o += 4
                     res
                 }
-                EvalTripleStoreIterator(
-                    buf1 to buf2,
-                    query,
-                    index,
-                    arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v))
-                )
+                EvalTripleStoreIterator(                    buf1 to buf2,                    query,                    index,                    arrayOf(child0f to (child0c to child0v), child1f to (child1c to child1v), child2f to (child2c to child2v))                )
             },
         )
         assignOperatorPhysicalDecode(
@@ -419,7 +419,9 @@ public object ConverterBinaryToIteratorBundle {
                 for (i in 0 until len) {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 20 + i * 4, { "POPBind.variables[$i]" })))
                 }
-                EvalBind(child, variablesOut, ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" })), ConverterBinaryToAOPBase.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" })))
+                val column = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" }))
+                val value = ConverterBinaryToAOPBase.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPBind.value" }))
+                EvalBind(child, variablesOut, column, value)
             },
         )
         assignOperatorPhysicalDecode(
@@ -431,7 +433,8 @@ public object ConverterBinaryToIteratorBundle {
                 for (i in 0 until len) {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + i * 4, { "POPFilter.variables[$i]" })))
                 }
-                EvalFilter(child, variablesOut, ConverterBinaryToAOPBase.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" })))
+                val filter = ConverterBinaryToAOPBase.decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPFilter.filter" }))
+                EvalFilter(child, variablesOut, filter)
             },
         )
         assignOperatorPhysicalDecode(
