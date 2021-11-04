@@ -16,7 +16,6 @@
  */
 package lupos.operator.factory
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -44,10 +43,8 @@ import lupos.operator.physical.singleinput.POPSort
 import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
@@ -572,16 +569,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPGraphOperationID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPGraphOperation
-                ConverterBinaryEncoder.encodePOPGraphOperation(
-                    data,
-                    mapping,
-                    op.graph1type,
-                    op.graph2type,
-                    op.action,
-                    op.graph1iri,
-                    op.graph2iri,
-                    op.silent,
-                )
+                ConverterBinaryEncoder.encodePOPGraphOperation(data, mapping, op.graph1type, op.graph2type, op.action, op.graph1iri, op.graph2iri, op.silent,)
             },
         )
         assignOperatorPhysicalEncode(
@@ -638,39 +626,14 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPModifyDataID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPModifyData
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 8 + op.data.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size, { "POPModifyData.data.size" })
-                var o = off + 8
-                var i = 0
-                for (t in op.data) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(t.graph, data, mapping), { "POPModifyData.data[$i].graph" })
-                    o += 4
-                    for (j in 0 until 3) {
-                        DictionaryValueHelper.toByteArray(data, o, (t.children[j] as AOPConstant).value, { "POPModifyData.data[$i][$j]" })
-                        o += DictionaryValueHelper.getSize()
-                    }
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data)
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPNothingID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPNothing
-                val n = op.getProvidedVariableNames()
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 8 + 4 * n.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPNothingID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, n.size, { "POPNothing.size" })
-                var i = 0
-                for (s in n) {
-                    ByteArrayWrapperExt.writeInt4(data, off + 8 + i * 4, ConverterString.encodeString(s, data, mapping), { "POPNothing.data[$i]" })
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPNothing(data, mapping, op.getProvidedVariableNames())
             },
         )
         assignOperatorPhysicalEncode(
@@ -680,170 +643,95 @@ public object ConverterPOPBaseToBinary {
             ),
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPValues
-                val off = ByteArrayWrapperExt.getSize(data)
                 if (op.rows == -1) {
-                    val size = op.data[op.variables.first()]!!.size
-                    ByteArrayWrapperExt.setSize(data, off + 12 + op.data.size * (4 + size * DictionaryValueHelper.getSize()), true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesID, { "operatorID" })
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.data.size, { "POPValues.columns.size" })
-                    ByteArrayWrapperExt.writeInt4(data, off + 8, size, { "POPValues.rows.size" })
-                    var o = off + 12
-                    var column = 0
-                    for ((col, rows) in op.data) {
-                        ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(col, data, mapping), { "POPValues.column[$column]" })
-                        o += 4
-                        var i = 0
-                        for (row in rows) {
-                            i++
-                            DictionaryValueHelper.toByteArray(data, o, row, { "POPValues.data[$column][$i]" })
-                            o += DictionaryValueHelper.getSize()
-                        }
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:701"/*SOURCE_FILE_END*/ },
-                            { i == size }
-                        )
-                        column++
-                    }
+                    ConverterBinaryEncoder.encodePOPValues(data, mapping, op.data, op.variables)
                 } else {
-                    ByteArrayWrapperExt.setSize(data, off + 8, true)
-                    ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPValuesCountID, { "operatorID" })
-                    ByteArrayWrapperExt.writeInt4(data, off + 4, op.rows, { "POPValueCount.rows.size" })
+                    ConverterBinaryEncoder.encodePOPValuesCount(data, mapping, op.rows)
                 }
-                off
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPEmptyRowID,
             { op, data, mapping, distributed, handler, offPtr ->
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 4, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPEmptyRowID, { "operatorID" })
-                off
+                ConverterBinaryEncoder.encodePOPEmptyRow(data, mapping)
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPUnionID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPUnion
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPUnionID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPUnion.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPUnion.child1" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPUnion.variables.size" })
-                var o = off + 16
-                var i = 0
-                for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPUnion.variables[$i]" })
-                    o += 4
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPUnion(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                    op.projectedVariables,
+                )
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMinusID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPMinus
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPMinusID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPMinus.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPMinus.child1" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPMinus.variables.size" })
-                var o = off + 16
-                var i = 0
-                for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPMinus.variables[$i]" })
-                    o += 4
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPMinus(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                    op.projectedVariables,
+                )
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPJoinMergeSingleColumn
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 12, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMergeSingleColumn.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeSingleColumn.child1" })
-                off
+                ConverterBinaryEncoder.encodePOPJoinMergeSingleColumn(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                )
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeOptionalID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPJoinMergeOptional
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeOptionalID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMergeOptional.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMergeOptional.child1" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPJoinMergeOptional.variables.size" })
-                var o = off + 16
-                var i = 0
-                for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPJoinMergeOptional.variables[$i]" })
-                    o += 4
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPJoinMergeOptional(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                    op.projectedVariables,
+                )
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPJoinMerge
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 16 + 4 * op.projectedVariables.size, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinMerge.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinMerge.child1" })
-                ByteArrayWrapperExt.writeInt4(data, off + 12, op.projectedVariables.size, { "POPJoinMerge.variables.size" })
-                var o = off + 16
-                var i = 0
-                for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPJoinMerge.variables[$i]" })
-                    o += 4
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPJoinMerge(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                    op.projectedVariables,
+                )
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinHashMapID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPJoinHashMap
-                val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 17 + 4 * op.projectedVariables.size, true)
-                val child0 = convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, off + 4)
-                val child1 = convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, off + 8)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinHashMapID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, child0, { "POPJoinHashMap.child0" })
-                ByteArrayWrapperExt.writeInt4(data, off + 8, child1, { "POPJoinHashMap.child1" })
-                ByteArrayWrapperExt.writeInt1(data, off + 12, if (op.optional) 1 else 0, { "POPJoinHashMap.optional" })
-                ByteArrayWrapperExt.writeInt4(data, off + 13, op.projectedVariables.size, { "POPJoinHashMap.variables.size" })
-                var o = off + 17
-                var i = 0
-                for (s in op.projectedVariables) {
-                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPJoinHashMap.variables[$i]" })
-                    o += 4
-                    i++
-                }
-                off
+                ConverterBinaryEncoder.encodePOPJoinHashMap(
+                    data,
+                    mapping,
+                    { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
+                    { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
+                    op.optional,
+                    op.projectedVariables,
+                )
             },
         )
         assignOperatorPhysicalEncode(
