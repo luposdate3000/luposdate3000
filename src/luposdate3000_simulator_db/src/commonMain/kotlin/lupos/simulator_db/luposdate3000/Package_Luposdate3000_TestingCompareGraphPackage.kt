@@ -95,7 +95,7 @@ public class Package_Luposdate3000_TestingCompareGraphPackage(
     }
 
     override fun toString(): String {
-        return getContentLogString()
+        return ""
     }
 
     override fun getTopic(): String = "Testing"

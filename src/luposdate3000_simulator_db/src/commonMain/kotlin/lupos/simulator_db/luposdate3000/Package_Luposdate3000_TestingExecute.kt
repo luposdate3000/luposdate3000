@@ -40,7 +40,7 @@ public class Package_Luposdate3000_TestingExecute(
     }
 
     override fun toString(): String {
-        return getContentLogString()
+        return ""
     }
 
     override fun getTopic(): String = "Testing"
