@@ -18,15 +18,14 @@ package lupos.simulator_db.luposdate3000
 
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
-import lupos.shared.XMLElement
 import lupos.simulator_iot.IPackage_Database
 
 internal class PendingWork(
     val queryID: Int,
-    val operatorGraph: XMLElement,
-    val destinations: IntArray,
-    val dependencies: IntArray,
-    val keys: IntArray,
+    val data: ByteArrayWrapper,
+    val dataID: Int,
+    val destinations: Map<Int, Int>,
+    val dependencies: Set<Int>,
     val onFinish: IPackage_Database?,
     val expectedResult: MemoryTable?,
     val verifyAction: () -> Unit,

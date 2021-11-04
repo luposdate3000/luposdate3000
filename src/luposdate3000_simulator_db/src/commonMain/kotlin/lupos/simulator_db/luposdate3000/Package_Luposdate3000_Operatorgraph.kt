@@ -27,6 +27,7 @@ public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
     public val data: ByteArrayWrapper,
     public val handler: BinaryMetadataHandler,
+    public val destinations: MutableMap<Int, Int>,
     public val onFinish: IPackage_Database?,
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,

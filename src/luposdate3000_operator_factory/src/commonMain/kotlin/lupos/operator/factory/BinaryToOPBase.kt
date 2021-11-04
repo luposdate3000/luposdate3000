@@ -39,7 +39,9 @@ public object BinaryToOPBase {
         println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
         return res
     }
-
+    public fun copyByteArray(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
+        return ConverterBinaryToBinary.decode(query, data, filter)
+    }
     init {
         println("BinaryToOPBase.init start")
         ConverterAOPBaseToBinary.initEncode()

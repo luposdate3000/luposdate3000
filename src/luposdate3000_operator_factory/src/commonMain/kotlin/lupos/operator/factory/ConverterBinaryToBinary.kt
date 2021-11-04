@@ -29,7 +29,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
 
-public typealias BinaryToBinaryMap = (query: Query, offset: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, handler: BinaryMetadataHandler, offPtr: Int) -> Int/*offset*/
+public typealias BinaryToBinaryMap = (query: Query, offset: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int) -> Int/*offset*/
 
 public object ConverterBinaryToBinary {
     public var operatorMap: Array<BinaryToBinaryMap?> = Array(0) { null }
@@ -53,10 +53,9 @@ public object ConverterBinaryToBinary {
         }
         operatorMap[operatorID] = operator
     }
-    public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
+    public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
         try {
             val dataOut = ByteArrayWrapper()
-            val handler = BinaryMetadataHandler(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf())
             val mapping = mutableMapOf<String, Int>()
             var result = mutableMapOf<Int, String>()
             if (filter.contains(-1)) {
@@ -85,7 +84,7 @@ public object ConverterBinaryToBinary {
                         o = 9
                         for (i in 0 until childCount) {
                             val k = columnProjectionOrder[i]
-                            val child = recodeHelper(query, childs[i], data, dataOut, mapping, handler, o)
+                            val child = recodeHelper(query, childs[i], data, dataOut, mapping, o)
                             ByteArrayWrapperExt.writeInt4(dataOut, o, child, { "OPBaseCompound.children[$i]" })
                             o += 4
                             ByteArrayWrapperExt.writeInt4(dataOut, o, k.size, { "OPBaseCompound.columnProjectionOrder[$i].size" })
@@ -100,15 +99,13 @@ public object ConverterBinaryToBinary {
                         /*there is no query root here*/
                     }
                     else -> {
-                        val tmp = recodeHelper(query, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }), data, dataOut, mapping, handler, 5)
-
+                        val tmp = recodeHelper(query, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }), data, dataOut, mapping, 5)
                         ByteArrayWrapperExt.setSize(dataOut, 9, false)
                         ByteArrayWrapperExt.writeInt1(dataOut, 4, 0x0, { "OPBase.isOPBaseCompound" })
                         ByteArrayWrapperExt.writeInt4(dataOut, 5, tmp, { "OPBase.children[0]" })
                     }
                 }
             }
-
             var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
             val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
             var o = off + 4
@@ -128,19 +125,19 @@ public object ConverterBinaryToBinary {
             var oOut = offOut + 4
             var i = 0
             for ((k, oldOff) in childs) {
-                val v = recodeHelper(query, oldOff, data, dataOut, mapping, handler, oOut + 4)
+                val v = recodeHelper(query, oldOff, data, dataOut, mapping, oOut + 4)
                 ByteArrayWrapperExt.writeInt4(dataOut, oOut, k, { "OPBase.offsetMap[$i].id" })
                 ByteArrayWrapperExt.writeInt4(dataOut, oOut + 4, v, { "OPBase.offsetMap[$i].offset" })
                 oOut += 8
                 i++
             }
-            return data to handler
+            return data
         } catch (e: Throwable) {
             e.printStackTrace()
             throw e
         }
     }
-    private fun recodeHelper(query: Query, off: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, handler: BinaryMetadataHandler, offPtr: Int): Int {
+    private fun recodeHelper(query: Query, off: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int): Int {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
             TODO("recodeHelper $type -> ${EOperatorIDExt.names[type]}")
@@ -149,25 +146,25 @@ public object ConverterBinaryToBinary {
         if (recoder == null) {
             TODO("recodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
-        return recoder(query, off, data, dataOut, mapping, handler, offPtr)
+        return recoder(query, off, data, dataOut, mapping, offPtr)
     }
     public fun initRecode() {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
                 val child = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" })
                 ConverterBinaryEncoder.encodePOPDistributedSendSingle(
                     dataOut,
                     mapping,
                     key,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendMultiID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" })
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
                 val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
@@ -175,26 +172,26 @@ public object ConverterBinaryToBinary {
                     dataOut,
                     mapping,
                     keys.toList(),
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleCountID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
                 val child = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" })
                 ConverterBinaryEncoder.encodePOPDistributedSendSingleCount(
                     dataOut,
                     mapping,
                     key,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 var keys = mutableListOf<Int>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
                 for (i in 0 until len) {
@@ -205,21 +202,21 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveSingleID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
                 ConverterBinaryEncoder.encodePOPDistributedReceiveSingle(dataOut, mapping, key)
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveSingleCountID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
                 ConverterBinaryEncoder.encodePOPDistributedReceiveSingleCount(dataOut, mapping, key)
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiCountID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 var keys = mutableListOf<Int>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
                 for (i in 0 until len) {
@@ -230,7 +227,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 var keys = mutableListOf<Int>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.size" })
                 for (i in 0 until len) {
@@ -241,7 +238,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val silent = ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1
                 val graph1type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" })
                 val graph1iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" }))
@@ -262,7 +259,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyDataID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
                 val l = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.data.size" })
                 var o = off + 8
@@ -283,7 +280,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPNothingID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPNothing.size" })
                 val list = mutableListOf<String>()
                 for (i in 0 until len) {
@@ -298,7 +295,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesCountID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val size = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" })
                 ConverterBinaryEncoder.encodePOPValuesCount(
                     dataOut,
@@ -309,7 +306,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val columns = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValues.columns.size" })
                 val row_count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPValues.rows.size" })
                 val dd = mutableMapOf<String, MutableList<DictionaryValueType>>()
@@ -332,7 +329,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPEmptyRowID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 ConverterBinaryEncoder.encodePOPEmptyRow(
                     dataOut,
                     mapping,
@@ -341,7 +338,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPUnionID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPUnion.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPUnion.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPUnion.variables.size" })
@@ -352,15 +349,15 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPUnion(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     projectedVariables,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMinusID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMinus.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPMinus.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPMinus.variables.size" })
@@ -371,15 +368,15 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPMinus(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     projectedVariables,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeOptionalID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeOptional.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeOptional.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMergeOptional.variables.size" })
@@ -390,15 +387,15 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPJoinMergeOptional(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     projectedVariables,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMerge.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMerge.variables.size" })
@@ -409,28 +406,28 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPJoinMerge(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     projectedVariables,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" })
                 ConverterBinaryEncoder.encodePOPJoinMergeSingleColumn(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinHashMapID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinHashMap.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinHashMap.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 13, { "POPJoinHashMap.variables.size" })
@@ -442,8 +439,8 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPJoinHashMap(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     optional,
                     projectedVariables,
                 )
@@ -451,35 +448,35 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinCartesianProductID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child0 = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" })
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" })
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
                 ConverterBinaryEncoder.encodePOPJoinCartesianProduct(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, handler, parentOffOff) },
-                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
                     optional,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" })
                 val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
                 ConverterBinaryEncoder.encodePOPOffset(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     limit,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPSortID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" })
                 val splen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPSort.sp.size" })
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPSort.p.size" })
@@ -504,7 +501,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPSort(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     spList,
                     pList,
                     sbList,
@@ -514,44 +511,44 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPOffsetID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" })
                 val offset = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPOffset.offset" })
                 ConverterBinaryEncoder.encodePOPOffset(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     offset,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMakeBooleanResultID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" })
                 ConverterBinaryEncoder.encodePOPMakeBooleanResult(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPReducedID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" })
                 val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
                 ConverterBinaryEncoder.encodePOPReduced(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     size,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPTripleStoreIterator,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val buf1 = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPTripleStoreIterator.target.first" }))
                 val buf2 = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPTripleStoreIterator.target.second" }))
                 val index = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPTripleStoreIterator.IndexPattern" })
@@ -622,7 +619,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPBindID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPBind.child" })
                 val variablesOut = mutableListOf<String>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 16, { "POPBind.variables.size" })
@@ -635,7 +632,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPBind(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     variablesOut,
                     valueOff,
                     column,
@@ -644,7 +641,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPFilterID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPFilter.child" })
                 val variablesOut = mutableListOf<String>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPFilter.variables.size" })
@@ -656,7 +653,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPFilter(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     variablesOut,
                     filterOff,
                 )
@@ -664,27 +661,27 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount0ID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount0.child" })
                 val binding = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount0.column" }))
                 ConverterBinaryEncoder.encodePOPGroupCount0(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     binding,
                 )
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount1ID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount1.child" })
                 val binding = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount1.column" }))
                 val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupCount1.by" }))
                 ConverterBinaryEncoder.encodePOPGroupCount1(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     binding,
                     name,
                 )
@@ -692,7 +689,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupSortedID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupSorted.child" })
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupSorted.variables.size" })
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupSorted.bindings.size" })
@@ -720,7 +717,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPGroupSorted(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     keyColumnNames.toList(),
                     projectedVariables,
                     bindings,
@@ -729,7 +726,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroup.child" })
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroup.bindings.size" })
                 val klen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroup.keys.size" })
@@ -751,7 +748,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPGroup(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     keyColumnNames.toList(),
                     bindings,
                 )
@@ -759,7 +756,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupWithoutKeyColumnID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupWithoutKeyColumn.child" })
                 val plen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupWithoutKeyColumn.variables.size" })
                 val blen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupWithoutKeyColumn.bindings.size" })
@@ -781,7 +778,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPGroupWithoutKeyColumn(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     projectedVariables,
                     bindings,
                 )
@@ -789,7 +786,7 @@ public object ConverterBinaryToBinary {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyID,
-            { query, off, data, dataOut, mapping, handler, offPtr ->
+            { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" })
                 val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
@@ -820,7 +817,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPModify(
                     dataOut,
                     mapping,
-                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, handler, parentOffOff) },
+                    { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     modify
                 )
             },

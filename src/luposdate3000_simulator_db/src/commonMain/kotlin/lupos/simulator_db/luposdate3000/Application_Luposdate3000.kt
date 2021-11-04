@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -210,8 +211,14 @@ public class Application_Luposdate3000 public constructor(
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
         val data = binaryPair.first
         val handler = binaryPair.second
-
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, onFinish, expectedResult, verifyAction, q))
+        val destinations = mutableMapOf<Int, Int>()
+        val dep = handler.dependenciesForID[-1]
+        if (dep != null) {
+            for (d in dep.values) {
+                destinations[d] = ownAdress
+            }
+        }
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun replacereceiverKey(node: XMLElement, receiverKey: Int, senderKey: Int): Boolean {
@@ -245,7 +252,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:247"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:254"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -299,6 +306,14 @@ public class Application_Luposdate3000 public constructor(
             } else {
                 ownAdress
             }
+            if (target == ownAdress) {
+                val dep = pck.handler.dependenciesForID[k]
+                if (dep != null) {
+                    for (d in dep.values) {
+                        pck.destinations[d] = ownAdress
+                    }
+                }
+            }
             val mm = myIdsOnTargetMap[target]
             if (mm != null) {
                 mm.add(k)
@@ -306,90 +321,21 @@ public class Application_Luposdate3000 public constructor(
                 myIdsOnTargetMap[target] = mutableSetOf(k)
             }
         }
-        val packages = mutableMapOf<Int, Package_Luposdate3000_Operatorgraph>()
-        for (i in nextHops.toSet()) {
-            packages[i] = Package_Luposdate3000_Operatorgraph(
-                pck.queryID,
-                ByteArrayWrapper(),
-                BinaryMetadataHandler(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf()),
-                pck.onFinish,
-                pck.expectedResult,
-                pck.verifyAction,
-                pck.query,
-            )
-        }
-
-        for ((k, v) in packageMap) {
-            val p = packages[v]
-            val g = pck.operatorGraph[k]
-            if (p != null && g != null) {
-// p must not be null - otherwise packages are not sent and therefore lost
-// g may be null for sendmulti???
-                p.operatorGraph[k] = g
-                val h = pck.operatorGraphPartsToHostMap[k]
-                if (h != null) {
-                    p.operatorGraphPartsToHostMap[k] = h // this allows to keep the final destination, while sending the package only to the next hop
-                }
-                for (i in mapBottomUpThis[k]!!) {
-                    val d = pck.destinations[i]
-                    if (d != null) {
-                        p.destinations[i] = d
+        for ((targetHost, filter) in myIdsOnTargetMap) {
+            if (targetHost == ownAdress) {
+                for (id in filter) {
+                    var dependencies2 = pck.handler.dependenciesForID[id]
+                    val dependencies = if (dependencies2 == null) {
+                        setOf<Int>()
                     } else {
-                        p.destinations[i] = ownAdress
+                        dependencies2.values.toSet()
                     }
-                }
-            } else if (p == null) {
-                TODO()
-            }
-        }
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph ${allHostAdresses.map{it}}:${nextHops.map{it}} ${pck.operatorGraphPartsToHostMap}->$packageMap")
-        for ((k, p) in packages) {
-            if (k != ownAdress) {
-                if (p.operatorGraph.size > 0) {
-                    router!!.send(k, p)
-                }
-            } else {
-                if (instance.mergeLocalOperatorgraphs) {
-// try to merge operatorgraphs for local queries
-                    loop@ for (k5 in p.operatorGraph.keys.toSet()) {
-                        if (mapBottomUpThis[k5]!!.size > 1) {
-                            continue@loop
-                        }
-                        for (v in mapBottomUpThis[k5]!!) { // what is provided ... often k5==v
-                            for ((k6, k7) in mapTopDown) { // what is required
-                                if (k7.contains(v)) {
-// merge now !!
-                                    val kk6 = p.operatorGraph[k6]
-                                    val kk5 = p.operatorGraph[k5]
-                                    if (kk5 != null && kk6 != null) {
-                                        var res = mergeOperatorGraphLocally(kk6, null, 0, kk6, kk5, k5)
-                                        if (res) {
-                                            // println("node local merge $k5 into $k6")
-                                            p.operatorGraph.remove(k5) // remove the entire child
-                                            p.destinations.remove(k5) // remove the entire child
-                                            mapTopDown[k6]!!.remove(k5) // remove the child dependency from the parent
-                                            mapTopDown[k6]!!.addAll(mapTopDown[k5]!!)
-                                            mapTopDown.remove(k5) // remove the entire child
-                                        }
-                                    }
-                                    continue@loop
-                                }
-                            }
-                        }
-                    }
-                }
-                for (k2 in p.operatorGraph.keys) {
-                    val graph = p.operatorGraph[k2]!!
-                    logger.addWork(p.queryID, ownAdress, graph, mapTopDown[k2]!!, mapBottomUpThis[k2]!!)
-                    val dep = mapTopDown[k2]!!.toIntArray()
-                    val keys = mapBottomUpThis[k2]!!.toIntArray()
-                    val dest = IntArray(keys.size) { p.destinations[keys[it]]!! }
                     val w = PendingWork(
-                        p.queryID,
-                        p.operatorGraph[k2]!!,
-                        dest,
-                        dep,
-                        keys,
+                        pck.queryID,
+                        pck.data,
+                        id,
+                        pck.destinations,
+                        dependencies,
                         pck.onFinish,
                         pck.expectedResult,
                         pck.verifyAction,
@@ -397,6 +343,25 @@ public class Application_Luposdate3000 public constructor(
                     )
                     myPendingWork.add(w)
                 }
+            } else {
+                val data = BinaryToOPBase.copyByteArray(pck.query as Query, pck.data, filter.toIntArray())
+                val idToHost = mutableMapOf<Int, MutableSet<String>>()
+                for ((k, v) in pck.handler.idToHost) {
+                    if (filter.contains(k)) {
+                        idToHost[k] = v
+                    }
+                }
+                val pck2 = Package_Luposdate3000_Operatorgraph(
+                    pck.queryID,
+                    data,
+                    BinaryMetadataHandler(mutableMapOf(), idToHost, mutableMapOf(), mutableMapOf(), mutableMapOf()),
+                    pck.destinations,
+                    pck.onFinish,
+                    pck.expectedResult,
+                    pck.verifyAction,
+                    pck.query,
+                )
+                router!!.send(targetHost, pck2)
             }
         }
     }
@@ -622,7 +587,7 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 is POPDistributedSendMulti -> {
                                     SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:624"/*SOURCE_FILE_END*/ },
+                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:589"/*SOURCE_FILE_END*/ },
                                         { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
                                     )
                                     // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
