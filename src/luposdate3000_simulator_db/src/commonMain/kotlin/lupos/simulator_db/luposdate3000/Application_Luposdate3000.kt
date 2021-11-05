@@ -38,6 +38,7 @@ import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
 import lupos.operator.physical.partition.EvalDistributedReceiveSingle
 import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
+import lupos.operator.physical.partition.EvalDistributedSendMulti
 import lupos.operator.physical.partition.EvalDistributedSendSingle
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -414,6 +415,14 @@ public class Application_Luposdate3000 public constructor(
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
+        }
+        assignOP(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap ->
+            val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }), operatorMap)
+            val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
+            val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
+            val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
+            val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}"), router!!) }
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })

@@ -109,15 +109,16 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPDistributedSendMulti(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>, childf: (Int) -> Int): Int {
+    public fun encodePOPDistributedSendMulti(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>, childf: (Int) -> Int, column: String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 12 + 4 * keys.size, true)
+        ByteArrayWrapperExt.setSize(data, off + 16 + 4 * keys.size, true)
         val child = childf(off + 4)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedSendMultiID, { "operatorID" })
         ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPDistributedSendMulti.child" })
         ByteArrayWrapperExt.writeInt4(data, off + 8, keys.size, { "POPDistributedSendMulti.count" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, ConverterString.encodeString(column, data, mapping), { "POPDistributedSendMulti.name" })
         for (i in 0 until keys.size) {
-            ByteArrayWrapperExt.writeInt4(data, off + 12 + 4 * i, keys[i], { "POPDistributedSendMulti.key[$i]" })
+            ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * i, keys[i], { "POPDistributedSendMulti.key[$i]" })
         }
         return off
     }

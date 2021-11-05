@@ -122,7 +122,8 @@ public object ConverterBinaryToPOPJson {
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }))
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
-                val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
+                val name = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" })
+                val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
                 "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },
         )

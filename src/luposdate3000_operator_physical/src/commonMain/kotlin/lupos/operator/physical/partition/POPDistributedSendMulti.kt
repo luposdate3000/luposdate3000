@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
@@ -48,7 +47,7 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -66,61 +65,6 @@ public class POPDistributedSendMulti public constructor(
         for ((k, v) in partitionedBy) {
             partition = Partition(partition, k, v, -1)
         }
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:69"/*SOURCE_FILE_END*/ },
-            { partitionCount != 0 }
-        )
-        val variables = Array(projectedVariables.size) { "" }
-        var i = 0
-        for (connectionOut in data) {
-            connectionOut!!.writeInt(variables.size)
-        }
-// the partition column first
-        variables[i++] = partitionVariable
-        val buf2 = partitionVariable.encodeToByteArray()
-        for (connectionOut in data) {
-            connectionOut!!.writeInt(buf2.size)
-            connectionOut.write(buf2)
-        }
-// all other columns
-        for (v in projectedVariables) {
-            if (v != partitionVariable) {
-                variables[i++] = v
-                val buf = v.encodeToByteArray()
-                for (connectionOut in data) {
-                    connectionOut!!.writeInt(buf.size)
-                    connectionOut.write(buf)
-                }
-            }
-        }
-        // println("POPDistributedSendMulti $uuid columns ${variables.map{it}}")
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:96"/*SOURCE_FILE_END*/ }, { i == variables.size })
-        val bundle = children[0].evaluate(partition)
-        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = columns[0].next()
-        while (buf != DictionaryValueHelper.nullValue) {
-// the partition column
-            // var debugBuf = ""
-//                 debugBuf += ",$buf"
-            val connectionOut = data[DictionaryValueHelper.toInt(buf % partitionCount)]
-            connectionOut!!.writeDictionaryValueType(buf)
-// all other columns
-            for (j in 1 until variables.size) {
-                buf = columns[j].next()
-                // debugBuf += ",$buf"
-                connectionOut.writeDictionaryValueType(buf)
-            }
-            // println("POPDistributedSendMulti $uuid writing row $debugBuf")
-            buf = columns[0].next()
-        }
-        // println("POPDistributedSendMulti $uuid writing end")
-        for (connectionOut in data) {
-            for (j in 0 until variables.size) {
-                connectionOut!!.writeDictionaryValueType(buf)
-            }
-        }
-        for (connectionOut in data) {
-            connectionOut!!.flush()
-        }
+        EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable)
     }
 }

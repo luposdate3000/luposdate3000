@@ -170,12 +170,14 @@ public object ConverterBinaryToBinary {
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" })
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
-                val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
+                val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
+                val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
                 ConverterBinaryEncoder.encodePOPDistributedSendMulti(
                     dataOut,
                     mapping,
                     keys.toList(),
                     { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
+                    name,
                 )
             },
         )
