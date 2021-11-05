@@ -30,78 +30,32 @@ import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcesbtc029sparql1198 {
+public class resourcesmyqueriessimulatorparkingquery212sparql2502simulatorparkinginputttl {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcesbtc029sparql1198.input").readAsString(),
+        File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery212sparql2502simulatorparkinginputttl.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcesbtc029sparql1198.input",
+        "src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery212sparql2502simulatorparkinginputttl.input",
     )
     internal val inputGraph = arrayOf(
         "",
     )
     internal val inputType = arrayOf(
-        ".n3",
+        ".ttl",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcesbtc029sparql1198.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery212sparql2502simulatorparkinginputttl.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012 \n" +
-        "SELECT ?p ?a WHERE { \n" +
-        " ?p <http://purl.uniprot.org/core/annotation> ?a . \n" +
-        " ?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> . \n" +
-        " ?p <http://purl.uniprot.org/core/organism> <http://purl.uniprot.org/taxonomy/9606> . \n" +
-        " ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Disease_Annotation> . \n" +
-        " ?a <http://www.w3.org/2000/01/rdf-schema#comment> ?text . \n" +
+    internal val query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "PREFIX parking: <https://github.com/luposdate3000/parking#> \n" +
+        "select * \n" +
+        "where { \n" +
+        "  ?b a parking:Observation . \n" +
         "} \n" +
         ""
 
     @Test
-    public fun `resourcesbtc029sparql1198 - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test
-    public fun `resourcesbtc029sparql1198 - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test
-    public fun `resourcesbtc029sparql1198 - Thread - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
-    }
-
-    @Test
-    public fun `resourcesbtc029sparql1198 - Thread - Simple - false`() {
+    public fun `resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
             instance.LUPOS_BUFFER_SIZE = 128
@@ -131,8 +85,8 @@ public class resourcesbtc029sparql1198 {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false)
-        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21)
+        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false, true)
+        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21, -1)
         val actual1 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()

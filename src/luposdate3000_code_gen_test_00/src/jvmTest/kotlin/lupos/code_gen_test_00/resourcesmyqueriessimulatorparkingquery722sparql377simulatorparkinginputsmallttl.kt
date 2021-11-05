@@ -1467,8 +1467,7 @@ public class resourcesmyqueriessimulatorparkingquery722sparql377simulatorparking
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
@@ -1513,8 +1512,8 @@ public class resourcesmyqueriessimulatorparkingquery722sparql377simulatorparking
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false)
-        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21)
+        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false, true)
+        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21, -1)
         val actual1 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()

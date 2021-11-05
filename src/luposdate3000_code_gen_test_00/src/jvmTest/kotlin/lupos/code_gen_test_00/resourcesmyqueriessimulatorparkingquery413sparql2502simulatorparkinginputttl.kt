@@ -30,63 +30,37 @@ import lupos.shared.inline.MyPrintWriter
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcesbsbmbiquery71853sparql1853 {
+public class resourcesmyqueriessimulatorparkingquery413sparql2502simulatorparkinginputttl {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcesbsbmbiquery71853sparql1853.input").readAsString(),
+        File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery413sparql2502simulatorparkinginputttl.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcesbsbmbiquery71853sparql1853.input",
+        "src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery413sparql2502simulatorparkinginputttl.input",
     )
     internal val inputGraph = arrayOf(
         "",
     )
     internal val inputType = arrayOf(
-        ".n3",
+        ".ttl",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcesbsbmbiquery71853sparql1853.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery413sparql2502simulatorparkinginputttl.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
-        "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
-        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   \n" +
-        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>   \n" +
-        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>   \n" +
-        "PREFIX dc: <http://purl.org/dc/elements/1.1/>   \n" +
-        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>   \n" +
-        "PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>   \n" +
-        "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
-        "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
-        "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
-        "  Select ?product \n" +
-        "  { \n" +
-        "    { Select ?product \n" +
-        "      {  \n" +
-        "        { Select ?product (count(?offer) As ?offerCount) \n" +
-        "          {  \n" +
-        "            ?product a bsbm-inst:ProductType5 . \n" +
-        "            ?offer bsbm:product ?product . \n" +
-        "          } \n" +
-        "          Group By ?product \n" +
-        "        } \n" +
-        "      } \n" +
-        "      Order By desc(?offerCount) \n" +
-        "      Limit 1000 \n" +
-        "    } \n" +
-        "    FILTER NOT EXISTS \n" +
-        "    { \n" +
-        "      ?offer bsbm:product ?product . \n" +
-        "      ?offer bsbm:vendor ?vendor . \n" +
-        "      ?vendor bsbm:country ?country . \n" +
-        "      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#US>) \n" +
-        "    } \n" +
-        "  } \n" +
+    internal val query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
+        "PREFIX parking: <https://github.com/luposdate3000/parking#> \n" +
+        "select * \n" +
+        "where { \n" +
+        "  ?b a parking:Observation ; \n" +
+        "  parking:spotInArea 11 . \n" +
+        "} \n" +
         ""
 
     @Test
-    public fun `resourcesbsbmbiquery71853sparql1853 - Thread - Simple - true`() {
+    public fun `resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - None - Simple - true`() {
         var instance = Luposdate3000Instance()
         try {
             instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = true
             instance = LuposdateEndpoint.initializeB(instance)
@@ -97,11 +71,11 @@ public class resourcesbsbmbiquery71853sparql1853 {
     }
 
     @Test
-    public fun `resourcesbsbmbiquery71853sparql1853 - Thread - Simple - false`() {
+    public fun `resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - None - Simple - false`() {
         var instance = Luposdate3000Instance()
         try {
             instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
             instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
             instance.useDictionaryInlineEncoding = false
             instance = LuposdateEndpoint.initializeB(instance)
@@ -127,8 +101,8 @@ public class resourcesbsbmbiquery71853sparql1853 {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false)
-        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21)
+        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false, true)
+        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21, -1)
         val actual1 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
