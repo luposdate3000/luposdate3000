@@ -20,7 +20,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper2
 
 internal object ByteArrayWrapperExt {
-    private const val debugByteArrayWrapperContents = true
+    private const val debugByteArrayWrapperContents = false
     private const val debugByteArrayWrapperContentsVerbose = false && debugByteArrayWrapperContents
 
     @Suppress("NOTHING_TO_INLINE")

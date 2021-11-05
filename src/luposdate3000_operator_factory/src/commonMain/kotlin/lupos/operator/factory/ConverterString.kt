@@ -18,7 +18,7 @@ package lupos.operator.factory
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public object ConverterString {
-    internal fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
+    public fun encodeString(s: String?, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
         if (s == null) {
             return -1
         } else {
@@ -39,7 +39,7 @@ public object ConverterString {
         }
     }
 
-    internal fun decodeString(data: ByteArrayWrapper, off: Int): String {
+    public fun decodeString(data: ByteArrayWrapper, off: Int): String {
         val len = ByteArrayWrapperExt.readInt4(data, off, { "encodeString.len" })
         if (len == 0) {
             return ""
@@ -48,7 +48,7 @@ public object ConverterString {
         }
     }
 
-    internal fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
+    public fun decodeStringNull(data: ByteArrayWrapper, off: Int): String? {
         if (off < 0) {
             return null
         } else {

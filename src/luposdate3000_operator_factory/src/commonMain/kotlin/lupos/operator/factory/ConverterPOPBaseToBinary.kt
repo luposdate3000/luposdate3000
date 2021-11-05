@@ -267,7 +267,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
                 val len = ByteArrayWrapperExt.readInt4(data, childOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
                 for (i in 0 until len) {
-                    val key = ByteArrayWrapperExt.readInt4(data, childOff + 8 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                    val key = ByteArrayWrapperExt.readInt4(data, childOff + 16 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
                     handler.keyLocationDest[key] = parentOffOff
                 }
             }

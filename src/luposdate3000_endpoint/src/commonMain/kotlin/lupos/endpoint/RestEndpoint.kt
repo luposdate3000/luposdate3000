@@ -447,13 +447,13 @@ public object RestEndpoint {
 // evaluate
                     when (node) {
                         is POPDistributedSendSingle -> {
-                            node.evaluate(connectionOutMy)
+                            TODO("node.evaluate(connectionOutMy)")
                         }
                         is POPDistributedSendSingleCount -> {
-                            node.evaluate(connectionOutMy)
+                            TODO("node.evaluate(connectionOutMy)")
                         }
                         is POPDistributedSendMulti -> {
-                            node.evaluate(queryContainer.outputStreams)
+                            TODO("node.evaluate(queryContainer.outputStreams)")
                         }
                         else -> throw Exception("unexpected node '${node.classname}'")
                     }
@@ -495,20 +495,20 @@ public object RestEndpoint {
                 if (k.length > 1) {
                     val formId = k.replace("/", "_")
                     connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
-                    connectionOutMy.println("           var formData = {")
+                    connectionOutMy.println(" var formData = {")
                     for ((first) in v.params.keys) {
-                        connectionOutMy.println("               '$first': $('#$formId [name=$first]').val(),")
+                        connectionOutMy.println("     '$first': $('#$formId [name=$first]').val(),")
                     }
-                    connectionOutMy.println("           };")
-                    connectionOutMy.println("           $.ajax({")
-                    connectionOutMy.println("                   type: 'POST',")
-                    connectionOutMy.println("                   url: '${k.substring(1)}',")
-                    connectionOutMy.println("                   data: formData")
-                    connectionOutMy.println("               })")
-                    connectionOutMy.println("               .done(function(data) {")
-                    connectionOutMy.println("                   $('#responseDiv').text(data);")
-                    connectionOutMy.println("               });")
-                    connectionOutMy.println("           event.preventDefault();")
+                    connectionOutMy.println(" };")
+                    connectionOutMy.println(" $.ajax({")
+                    connectionOutMy.println("         type: 'POST',")
+                    connectionOutMy.println("         url: '${k.substring(1)}',")
+                    connectionOutMy.println("         data: formData")
+                    connectionOutMy.println("     })")
+                    connectionOutMy.println("     .done(function(data) {")
+                    connectionOutMy.println("         $('#responseDiv').text(data);")
+                    connectionOutMy.println("     });")
+                    connectionOutMy.println(" event.preventDefault();")
                     connectionOutMy.println("       });")
                 }
             }

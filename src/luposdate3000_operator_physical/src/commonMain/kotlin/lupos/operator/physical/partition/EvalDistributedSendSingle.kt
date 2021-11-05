@@ -43,6 +43,6 @@ public object EvalDistributedSendSingle {
             } else {
             }
         }
-        connectionOut.flush()
+        connectionOut.close()
     }
 }

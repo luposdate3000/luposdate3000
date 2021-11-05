@@ -174,9 +174,23 @@ public object ConverterBinaryToPOPJson {
             EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
             { query, data, off ->
                 var keys = mutableListOf<Int>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.size" })
-                for (i in 0 until len) {
-                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" }))
+                var orderedBy = mutableListOf<String>()
+                var variablesOut = mutableListOf<String>()
+                val keysLen = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
+                val orderedByLen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+                val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+                var o = 16
+                for (i in 0 until keysLen) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
+                    o += 4
+                }
+                for (i in 0 until orderedByLen) {
+                    orderedBy.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                    o += 4
+                }
+                for (i in 0 until variablesOutLen) {
+                    variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
+                    o += 4
                 }
                 "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
             },

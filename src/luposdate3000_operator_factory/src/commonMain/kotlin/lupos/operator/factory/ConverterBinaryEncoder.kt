@@ -31,13 +31,31 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public object ConverterBinaryEncoder {
-    public fun encodePOPDistributedReceiveMultiOrdered(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+    public fun encodePOPDistributedReceiveMultiOrdered(
+        data: ByteArrayWrapper,
+        mapping: MutableMap<String, Int>,
+        keys: List<Int>,
+        orderedBy: List<String>,
+        variablesOut: List<String>,
+    ): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
+        ByteArrayWrapperExt.setSize(data, off + 16 + 4 * (keys.size + orderedBy.size + variablesOut.size), true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "POPDistributedReceiveMultiOrdered.size" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "POPDistributedReceiveMultiOrdered.keys.size" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, orderedBy.size, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, variablesOut.size, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+        var o = off + 16
         for (i in 0 until keys.size) {
-            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPDistributedReceiveMultiOrdered.key[$i]" })
+            ByteArrayWrapperExt.writeInt4(data, o, keys[i], { "POPDistributedReceiveMultiOrdered.keys[$i]" })
+            o += 4
+        }
+        for (i in 0 until orderedBy.size) {
+            ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(orderedBy[i], data, mapping), { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
+            o += 4
+        }
+        for (i in 0 until variablesOut.size) {
+            ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(variablesOut[i], data, mapping), { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
+            o += 4
         }
         return off
     }

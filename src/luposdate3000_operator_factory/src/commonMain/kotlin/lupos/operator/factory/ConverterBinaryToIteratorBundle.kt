@@ -125,7 +125,7 @@ public object ConverterBinaryToIteratorBundle {
             throw e
         }
     }
-    private fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int, operatorMap: Array<Any?>): IteratorBundle {
+    public fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int, operatorMap: Array<Any?>): IteratorBundle {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")

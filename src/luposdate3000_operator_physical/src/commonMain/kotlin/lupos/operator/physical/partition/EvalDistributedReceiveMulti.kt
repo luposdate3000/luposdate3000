@@ -28,16 +28,14 @@ public object EvalDistributedReceiveMulti {
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
-        projectedVariables: List<String>,
     ): IteratorBundle {
         val variables = mutableListOf<String>()
-        variables.addAll(projectedVariables)
-        val buffer = DictionaryValueTypeArray(inputs.size * variables.size)
         val connectionsIn = Array<IMyInputStream?>(inputs.size) { null }
         val connectionsMapping = Array<IntArray?>(inputs.size) { null }
         val connectionsOut = Array<IMyOutputStream?>(inputs.size) { null }
 
         var openConnections = 0
+        var buffer = DictionaryValueTypeArray(inputs.size * 1)
 
         for (k in 0 until inputs.size) {
             val conn = inputs[k]
@@ -48,11 +46,17 @@ public object EvalDistributedReceiveMulti {
                 val buf = ByteArray(len)
                 conn.read(buf, len)
                 val name = buf.decodeToString()
-                val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:51"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                var j = variables.indexOf(name)
+                if (j <0) {
+                    j = variables.size
+                    variables.add(name)
+                }
                 mapping[i] = j
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:54"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            if (k == 0) {
+                buffer = DictionaryValueTypeArray(inputs.size * variables.size)
+            }
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:58"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()
