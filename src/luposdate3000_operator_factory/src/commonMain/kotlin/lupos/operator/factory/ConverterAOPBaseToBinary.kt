@@ -103,8 +103,7 @@ public object ConverterAOPBaseToBinary {
         }
         operatorMap[operatorID] = operator
     }
-
-    public fun initEncode() {
+    init {
         assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPAggregationCOUNTID,
             { op, data, mapping ->

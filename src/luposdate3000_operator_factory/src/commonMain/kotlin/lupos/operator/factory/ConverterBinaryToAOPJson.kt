@@ -60,7 +60,7 @@ public object ConverterBinaryToAOPJson {
         }
     }
 
-    public fun initDecode() {
+    init {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationCOUNTID,
             { query, data, off ->

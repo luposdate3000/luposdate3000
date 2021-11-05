@@ -502,7 +502,7 @@ public object ConverterPOPBaseToBinary {
         return off
     }
 
-    public fun initEncode() {
+    init {
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMergePartitionCountID,
             { op, data, mapping, distributed, handler, offPtr ->

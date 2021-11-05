@@ -16,10 +16,8 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -46,7 +44,7 @@ public class POPDistributedSendSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:47"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -59,35 +57,4 @@ public class POPDistributedSendSingle public constructor(
     override fun getPartitionCount(variable: String): Int = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
-
-    public fun evaluate(connectionOut: IMyOutputStream) {
-        var partition = Partition()
-        for ((k, v) in partitionedBy) {
-            partition = Partition(partition, k, v, -1)
-        }
-        val variables = Array(projectedVariables.size) { "" }
-        var i = 0
-        connectionOut.writeInt(variables.size)
-        for (v in projectedVariables) {
-            variables[i++] = v
-            val buf = v.encodeToByteArray()
-            connectionOut.writeInt(buf.size)
-            connectionOut.write(buf)
-        }
-        val bundle = children[0].evaluate(partition)
-        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var flag = true
-        while (true) {
-            for (j in 0 until variables.size) {
-                val buf = columns[j].next()
-                flag = flag && buf != DictionaryValueHelper.nullValue
-                connectionOut.writeDictionaryValueType(buf)
-            }
-            if (!flag) {
-                break
-            } else {
-            }
-        }
-        connectionOut.flush()
-    }
 }

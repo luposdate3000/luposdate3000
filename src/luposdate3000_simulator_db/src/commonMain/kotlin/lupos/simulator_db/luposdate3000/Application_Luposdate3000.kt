@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_db.luposdate3000
-
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -28,6 +27,7 @@ import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.BinaryMetadataHandler
 import lupos.operator.factory.BinaryToOPBase
+import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.factory.XMLElementToOPBaseMap
 import lupos.operator.physical.noinput.POPNothing
@@ -39,6 +39,7 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
+import lupos.shared.EOperatorIDExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
@@ -59,6 +60,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.IPackage_DatabaseTesting
 import lupos.simulator_iot.IPayload
@@ -243,7 +245,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:245"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:247"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -398,6 +400,16 @@ public class Application_Luposdate3000 public constructor(
         return res
     }
 
+    private fun localConvertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>): IteratorBundleRoot {
+        val operatorMap = ConverterBinaryToIteratorBundle.defaultOperatorMap
+        operatorMap[EOperatorIDExt.POPDistributedSendSingleID] = { query, data, off, operatorMap ->
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
+            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }))
+            val out = OutputStreamToPackage(queryID, destinations[dataID]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
+            EvalDistributedSendWrapper(child, EvalDistributedSendSingle(out, child))
+        }
+        return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
+    }
     private fun localXMLElementToOPBase(query2: IQuery, node2: XMLElement): IOPBase {
         val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
         operatorMap.putAll(XMLElementToOPBase.operatorMap)
@@ -561,7 +573,7 @@ public class Application_Luposdate3000 public constructor(
                             } else {
                                 query = w.query as Query
                             }
-                            val iteratorBundle = BinaryToOPBase.convertToIteratorBundle(query, w.data, w.dataID)
+                            val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {
                                 // println("$ownAdress root executing .. $iteratorBundle")
@@ -590,7 +602,6 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 // println("done executing")
                             } else {
-// val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
                                 for ((columnNames, nodes) in iteratorBundle.nodes) {
                                     val iter = nodes.rows
                                     do {

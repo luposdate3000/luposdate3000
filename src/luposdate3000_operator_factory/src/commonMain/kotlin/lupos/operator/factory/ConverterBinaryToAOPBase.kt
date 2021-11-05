@@ -105,7 +105,7 @@ public object ConverterBinaryToAOPBase {
             assignOperatorArithmetikDecode(operatorID, operator)
         }
     }
-    public fun initDecode() {
+    init {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationCOUNTID,
             { query, data, off ->

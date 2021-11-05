@@ -108,7 +108,7 @@ public object ConverterBinaryToPOPJson {
         }
         return decoder(query, data, off)
     }
-    public fun initDecode() {
+    init {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleID,
             { query, data, off ->

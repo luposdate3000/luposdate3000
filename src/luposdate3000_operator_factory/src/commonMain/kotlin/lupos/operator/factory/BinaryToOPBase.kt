@@ -22,6 +22,9 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 public object BinaryToOPBase {
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?>): IteratorBundleRoot {
+        return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
+    }
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int): IteratorBundleRoot {
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID)
     }
@@ -44,9 +47,6 @@ public object BinaryToOPBase {
     }
     init {
         println("BinaryToOPBase.init start")
-        ConverterAOPBaseToBinary.initEncode()
-        ConverterBinaryToAOPBase.initDecode()
-        ConverterBinaryToAOPJson.initDecode()
         val a1 = IntArray(ConverterAOPBaseToBinary.operatorMap.size) { it }.filter { ConverterAOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a2 = IntArray(ConverterBinaryToAOPBase.operatorMap.size) { it }.filter { ConverterBinaryToAOPBase.operatorMap[it] != null }.toSet()
         val a3 = IntArray(ConverterBinaryToAOPJson.operatorMap.size) { it }.filter { ConverterBinaryToAOPJson.operatorMap[it] != null }.toSet()
@@ -57,12 +57,8 @@ public object BinaryToOPBase {
         if (t1.size> 0) { println("ConverterAOPBaseToBinary is missing : \n${t1.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t2.size> 0) { println("ConverterBinaryToAOPBase is missing : \n${t2.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t3.size> 0) { println("ConverterBinaryToAOPJson is missing : \n${t3.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        ConverterPOPBaseToBinary.initEncode()
-        ConverterBinaryToIteratorBundle.initDecode()
-        ConverterBinaryToPOPJson.initDecode()
-        ConverterBinaryToBinary.initRecode()
         val a4 = IntArray(ConverterPOPBaseToBinary.operatorMap.size) { it }.filter { ConverterPOPBaseToBinary.operatorMap[it] != null }.toSet()
-        val a5 = IntArray(ConverterBinaryToIteratorBundle.operatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.operatorMap[it] != null }.toSet()
+        val a5 = IntArray(ConverterBinaryToIteratorBundle.defaultOperatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.defaultOperatorMap[it] != null }.toSet()
         val a6 = IntArray(ConverterBinaryToPOPJson.operatorMap.size) { it }.filter { ConverterBinaryToPOPJson.operatorMap[it] != null }.toSet()
         val a7 = IntArray(ConverterBinaryToBinary.operatorMap.size) { it }.filter { ConverterBinaryToBinary.operatorMap[it] != null }.toSet()
         val popAll = (a4 + a5 + a6).toSet()

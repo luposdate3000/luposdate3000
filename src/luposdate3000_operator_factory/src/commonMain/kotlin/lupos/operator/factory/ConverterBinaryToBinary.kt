@@ -148,7 +148,7 @@ public object ConverterBinaryToBinary {
         }
         return recoder(query, off, data, dataOut, mapping, offPtr)
     }
-    public fun initRecode() {
+    init {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleID,
             { query, off, data, dataOut, mapping, offPtr ->
