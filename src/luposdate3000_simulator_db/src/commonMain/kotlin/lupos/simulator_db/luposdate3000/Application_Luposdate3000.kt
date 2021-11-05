@@ -38,7 +38,6 @@ import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
 import lupos.operator.physical.partition.EvalDistributedReceiveSingle
 import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
-import lupos.operator.physical.partition.EvalDistributedReceiveWrapper
 import lupos.operator.physical.partition.EvalDistributedSendSingle
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -420,13 +419,13 @@ public class Application_Luposdate3000 public constructor(
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveSingle(input, null) }
+            EvalDistributedReceiveSingle(input, null)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveSingleCount(input, null) }
+            EvalDistributedReceiveSingleCount(input, null)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, operatorMap ->
             var keys = mutableListOf<Int>()
@@ -440,7 +439,7 @@ public class Application_Luposdate3000 public constructor(
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveMulti(inputs, outputs) }
+            EvalDistributedReceiveMulti(inputs, outputs)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, operatorMap ->
             var keys = mutableListOf<Int>()
@@ -454,7 +453,7 @@ public class Application_Luposdate3000 public constructor(
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveMultiCount(inputs, outputs) }
+            EvalDistributedReceiveMultiCount(inputs, outputs)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { query, data, off, operatorMap ->
             var keys = mutableListOf<Int>()
@@ -482,7 +481,7 @@ public class Application_Luposdate3000 public constructor(
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut) }
+            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
         }
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
     }

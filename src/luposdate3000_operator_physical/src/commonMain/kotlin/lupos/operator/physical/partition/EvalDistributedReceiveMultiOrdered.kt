@@ -149,6 +149,7 @@ public object EvalDistributedReceiveMultiOrdered {
                 openOutputs[i] = null
             }
         }
+        println("EvalDistributedReceiveMultiOrdered.vairables= ${variables.toList()}")
         return IteratorBundle(iterator)
     }
 }
