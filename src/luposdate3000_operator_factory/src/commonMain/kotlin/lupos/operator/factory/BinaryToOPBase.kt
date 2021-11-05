@@ -46,7 +46,6 @@ public object BinaryToOPBase {
         return ConverterBinaryToBinary.decode(query, data, filter)
     }
     init {
-        println("BinaryToOPBase.init start")
         val a1 = IntArray(ConverterAOPBaseToBinary.operatorMap.size) { it }.filter { ConverterAOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a2 = IntArray(ConverterBinaryToAOPBase.operatorMap.size) { it }.filter { ConverterBinaryToAOPBase.operatorMap[it] != null }.toSet()
         val a3 = IntArray(ConverterBinaryToAOPJson.operatorMap.size) { it }.filter { ConverterBinaryToAOPJson.operatorMap[it] != null }.toSet()
@@ -70,6 +69,5 @@ public object BinaryToOPBase {
         if (t5.size> 0) { println("ConverterBinaryToIteratorBundle is missing : \n${t5.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t6.size> 0) { println("ConverterBinaryToPOPJson is missing : \n${t6.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         if (t7.size> 0) { println("ConverterBinaryToBinary is missing : \n${t7.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        println("BinaryToOPBase.init finish")
     }
 }

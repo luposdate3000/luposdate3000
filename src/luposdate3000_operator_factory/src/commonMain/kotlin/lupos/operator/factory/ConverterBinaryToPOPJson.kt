@@ -181,7 +181,6 @@ public object ConverterBinaryToPOPJson {
                 val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
                 var o = off + 16
                 for (i in 0 until keysLen) {
-                    println("reading key at $o A")
                     keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
                     o += 4
                 }

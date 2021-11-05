@@ -20,7 +20,6 @@ package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.factory.ConverterString
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
@@ -30,22 +29,18 @@ import lupos.operator.base.Query
 import lupos.operator.factory.BinaryMetadataHandler
 import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.BinaryToOPBaseMap
+import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
-import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.factory.XMLElementToOPBaseMap
-import lupos.operator.physical.noinput.POPNothing
-import lupos.operator.physical.partition.EvalDistributedReceiveWrapper
-import lupos.operator.physical.partition.EvalDistributedReceiveSingle
-import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
+import lupos.operator.factory.ConverterBinaryToPOPJson
+import lupos.operator.factory.ConverterString
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
+import lupos.operator.physical.partition.EvalDistributedReceiveSingle
+import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
+import lupos.operator.physical.partition.EvalDistributedReceiveWrapper
 import lupos.operator.physical.partition.EvalDistributedSendSingle
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
-import lupos.operator.physical.partition.POPDistributedReceiveMulti
-import lupos.operator.physical.partition.POPDistributedReceiveMultiCount
-import lupos.operator.physical.partition.POPDistributedReceiveMultiOrdered
-import lupos.operator.physical.partition.POPDistributedReceiveSingle
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
@@ -56,7 +51,6 @@ import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.IQuery
 import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
@@ -71,7 +65,6 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.IPackage_DatabaseTesting
@@ -255,9 +248,9 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            //     println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
+            // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:259"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -349,7 +342,7 @@ public class Application_Luposdate3000 public constructor(
                     myPendingWork.add(w)
                 }
             } else {
-                val data = BinaryToOPBase.copyByteArray(pck.query as Query, pck.data, filter.toIntArray())
+                val data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
                 val idToHost = mutableMapOf<Int, MutableSet<String>>()
                 for ((k, v) in pck.handler.idToHost) {
                     if (filter.contains(k)) {
@@ -430,7 +423,7 @@ public class Application_Luposdate3000 public constructor(
             EvalDistributedReceiveWrapper { EvalDistributedReceiveSingle(input, null) }
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
-val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             EvalDistributedReceiveWrapper { EvalDistributedReceiveSingleCount(input, null) }
@@ -450,11 +443,11 @@ val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSi
             EvalDistributedReceiveWrapper { EvalDistributedReceiveMulti(inputs, outputs) }
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, operatorMap ->
-var keys = mutableListOf<Int>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
-                for (i in 0 until len) {
-                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
-                }
+            var keys = mutableListOf<Int>()
+            val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
+            for (i in 0 until len) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
+            }
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
@@ -464,148 +457,34 @@ var keys = mutableListOf<Int>()
             EvalDistributedReceiveWrapper { EvalDistributedReceiveMultiCount(inputs, outputs) }
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { query, data, off, operatorMap ->
-var keys = mutableListOf<Int>()
-                var orderedBy = mutableListOf<String>()
-                var variablesOut = mutableListOf<String>()
-                val keysLen = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
-                val orderedByLen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
-                val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
-                var o = off+16
-                for (i in 0 until keysLen) {
-println("reading key at $o E")
-                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
-                    o += 4
-                }
-                for (i in 0 until orderedByLen) {
-                    orderedBy.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
-                    o += 4
-                }
-                for (i in 0 until variablesOutLen) {
-                    variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
-                    o += 4
-                }
+            var keys = mutableListOf<Int>()
+            var orderedBy = mutableListOf<String>()
+            var variablesOut = mutableListOf<String>()
+            val keysLen = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
+            val orderedByLen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+            val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+            var o = off + 16
+            for (i in 0 until keysLen) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
+                o += 4
+            }
+            for (i in 0 until orderedByLen) {
+                orderedBy.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                o += 4
+            }
+            for (i in 0 until variablesOutLen) {
+                variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
+                o += 4
+            }
             val inputs = keys.map { key ->
-println("${myPendingWorkData.keys} .. $key")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveWrapper { EvalDistributedReceiveMultiOrdered(inputs, outputs,orderedBy,variablesOut) }
+            EvalDistributedReceiveWrapper { EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut) }
         }
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
-    }
-
-    private fun localXMLElementToOPBase(query2: IQuery, node2: XMLElement): IOPBase {
-        val operatorMap = mutableMapOf<String, XMLElementToOPBaseMap>()
-        operatorMap.putAll(XMLElementToOPBase.operatorMap)
-        operatorMap["POPDistributedReceiveSingle"] = { query, node, mapping, recursionFunc ->
-            val id = node.attributes["partitionID"]!!.toInt()
-            var key: Int = -1
-            for (c in node.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    key = c.attributes["key"]!!.toInt()
-                    break
-                }
-            }
-            val keyData = myPendingWorkData[key]!!
-            val input = MyInputStreamFromByteArray(keyData)
-            myPendingWorkData.remove(key)
-            val res = POPDistributedReceiveSingle(
-                query,
-                XMLElementToOPBase.createProjectedVariables(node),
-                id,
-                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                input,
-                null,
-                key to "",
-            )
-            query.addPartitionOperator(res.uuid, id)
-            res
-        }
-        operatorMap["POPDistributedReceiveMulti"] = { query, node, mapping, recursionFunc ->
-            val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableMapOf<Int, String>()
-            for (c in node.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
-                }
-            }
-            val inputs = hosts.keys.map { key ->
-                val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
-                myPendingWorkData.remove(key)
-                input
-            }.toTypedArray()
-            val res = POPDistributedReceiveMulti(
-                query,
-                XMLElementToOPBase.createProjectedVariables(node),
-                id,
-                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                inputs,
-                Array<IMyOutputStream?>(inputs.size) { null },
-                hosts,
-            )
-            query.addPartitionOperator(res.uuid, id)
-            res
-        }
-        operatorMap["POPDistributedReceiveMultiCount"] = { query, node, mapping, recursionFunc ->
-            val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableMapOf<Int, String>()
-            for (c in node.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
-                }
-            }
-            val inputs = hosts.keys.map { key ->
-                val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
-                myPendingWorkData.remove(key)
-                input
-            }.toTypedArray()
-            val res = POPDistributedReceiveMultiCount(
-                query,
-                XMLElementToOPBase.createProjectedVariables(node),
-                id,
-                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                inputs,
-                Array<IMyOutputStream?>(inputs.size) { null },
-                hosts,
-            )
-            query.addPartitionOperator(res.uuid, id)
-            res
-        }
-        operatorMap["POPDistributedReceiveMultiOrdered"] = { query, node, mapping, recursionFunc ->
-            val id = node.attributes["partitionID"]!!.toInt()
-            val hosts = mutableMapOf<Int, String>()
-            val orderedBy = mutableListOf<String>()
-            for (c in node.childs) {
-                when (c.tag) {
-                    "partitionDistributionKey" -> {
-                        hosts[c.attributes["key"]!!.toInt()] = c.attributes["host"]!!
-                    }
-                    "orderedBy" -> {
-                        orderedBy.add(c.attributes["name"]!!)
-                    }
-                }
-            }
-            val inputs = hosts.keys.map { key ->
-                val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
-                myPendingWorkData.remove(key)
-                input
-            }.toTypedArray()
-            val res = POPDistributedReceiveMultiOrdered(
-                query,
-                XMLElementToOPBase.createProjectedVariables(node),
-                id,
-                POPNothing(query, XMLElementToOPBase.createProjectedVariables(node)),
-                inputs,
-                Array<IMyOutputStream?>(inputs.size) { null },
-                hosts,
-                orderedBy,
-            )
-            query.addPartitionOperator(res.uuid, id)
-            res
-        }
-        return XMLElementToOPBase(query2 as Query, node2, mutableMapOf(), operatorMap)
     }
 
     private fun containsTripleStoreAccess(node: XMLElement): Boolean {
@@ -650,7 +529,6 @@ println("${myPendingWorkData.keys} .. $key")
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
                         if (flag) {
-println("the dependencies ${w.dependencies} are provided by ${myPendingWorkData.keys}")
                             myPendingWork.remove(w)
                             changed = true
                             val query: Query
@@ -660,6 +538,7 @@ println("the dependencies ${w.dependencies} are provided by ${myPendingWorkData.
                             } else {
                                 query = w.query as Query
                             }
+                            println("JSON_OUT_EVAL ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {
@@ -692,14 +571,13 @@ println("the dependencies ${w.dependencies} are provided by ${myPendingWorkData.
                                 for ((columnNames, nodes) in iteratorBundle.nodes) {
                                     val iter = nodes.rows
                                     do {
-                                        println("Application_Luposdate3000 calling next")
                                         val res = iter.next()
                                     } while (res != -1)
                                 }
                             }
                             break
                         } else {
-                            //     println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet()} > ${myPendingWorkData.keys} is missing")
+                            // println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet()} > ${myPendingWorkData.keys} is missing")
                         }
                     }
                 }

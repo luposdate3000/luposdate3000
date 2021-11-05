@@ -105,6 +105,9 @@ public object ConverterBinaryToBinary {
                         ByteArrayWrapperExt.writeInt4(dataOut, 5, tmp, { "OPBase.children[0]" })
                     }
                 }
+            } else {
+                ByteArrayWrapperExt.setSize(dataOut, 5, false)
+                ByteArrayWrapperExt.writeInt1(dataOut, 4, 0x2, { "OPBase.isOPBaseCompound" })
             }
             var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
             val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
@@ -131,7 +134,7 @@ public object ConverterBinaryToBinary {
                 oOut += 8
                 i++
             }
-            return data
+            return dataOut
         } catch (e: Throwable) {
             e.printStackTrace()
             throw e
@@ -236,7 +239,6 @@ public object ConverterBinaryToBinary {
                 val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
                 var o = off + 16
                 for (i in 0 until keysLen) {
-                    println("reading key at $o C")
                     keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
                     o += 4
                 }
