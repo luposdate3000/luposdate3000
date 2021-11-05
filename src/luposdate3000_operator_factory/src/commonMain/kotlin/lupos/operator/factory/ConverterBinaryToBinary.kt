@@ -114,8 +114,8 @@ public object ConverterBinaryToBinary {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                 if (filter.contains(id) && id != -1) {
                     val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
+                    childs [id] = offset
                 }
-                childs [id] = off
                 o += 8
             }
             val offOut = ByteArrayWrapperExt.getSize(dataOut)
