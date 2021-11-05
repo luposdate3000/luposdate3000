@@ -173,7 +173,7 @@ public class QueryResultToMemoryTable : IResultFormat {
                 SanityCheck.check(
                     { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:173"/*SOURCE_FILE_END*/ },
                     { child.names.toSet().containsAll(columnNames) },
-                    { "${columnNames.map { it }} vs ${child.names}" }
+                    { "${columnNames.map { it }} vs ${child.names.toList()}" }
                 )
             } else {
                 columnNames = child.names.toList()

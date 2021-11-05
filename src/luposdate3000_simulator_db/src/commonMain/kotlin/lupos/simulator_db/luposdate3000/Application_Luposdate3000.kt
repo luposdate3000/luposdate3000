@@ -470,8 +470,9 @@ var keys = mutableListOf<Int>()
                 val keysLen = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
                 val orderedByLen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
                 val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
-                var o = 16
+                var o = off+16
                 for (i in 0 until keysLen) {
+println("reading key at $o E")
                     keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
                     o += 4
                 }
@@ -484,6 +485,7 @@ var keys = mutableListOf<Int>()
                     o += 4
                 }
             val inputs = keys.map { key ->
+println("${myPendingWorkData.keys} .. $key")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
                 myPendingWorkData.remove(key)
                 input
@@ -648,6 +650,7 @@ var keys = mutableListOf<Int>()
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
                         if (flag) {
+println("the dependencies ${w.dependencies} are provided by ${myPendingWorkData.keys}")
                             myPendingWork.remove(w)
                             changed = true
                             val query: Query
