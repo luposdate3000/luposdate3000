@@ -440,6 +440,11 @@ public object LuposdateEndpoint {
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, asRoot)
     }
 
+    @JsName("evaluate_operatorgraph_to_result_e")
+    /*suspend*/ public fun evaluateIteratorBundleToResultE(instance: Luposdate3000Instance, node: IteratorBundleRoot, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
+        return evaluateIteratorBundleToResultInternal(instance, node, output, evaluator, -1)
+    }
+
     @JsName("evaluate_operatorgraph_to_result_c")
     /*suspend*/ public fun evaluateOperatorgraphToResultC(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, timeoutInMs, true)

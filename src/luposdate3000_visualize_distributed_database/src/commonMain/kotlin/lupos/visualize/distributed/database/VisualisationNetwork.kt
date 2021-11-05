@@ -555,7 +555,7 @@ public class VisualisationNetwork : ILogger {
                 }
             }
             is Package_Luposdate3000_Operatorgraph -> {
-                addMessage(VisualisationMessage(src, dest, clock, "operatorgraph ${pck.queryID} .. ${pck.operatorGraph.keys}"))
+                addMessage(VisualisationMessage(src, dest, clock, "operatorgraph ${pck.queryID}"))
             }
             is Package_QueryResponse -> {
                 addMessage(VisualisationMessage(src, dest, clock, "response ${pck.queryID} .. ${pck.result.size}"))

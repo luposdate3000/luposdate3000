@@ -55,13 +55,13 @@ import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class BinaryMetadataHandler(
-    internal val idToOffset: MutableMap<Int, Int>,
-    internal val idToHost: MutableMap<Int, MutableSet<String>>,
-    internal val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>,
-    internal val keyLocationSrc: MutableMap<Int, Int>,
-    internal val keyLocationDest: MutableMap<Int, Int>,
+    public val idToOffset: MutableMap<Int, Int>,
+    public val idToHost: MutableMap<Int, MutableSet<String>>,
+    public val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>,
+    public val keyLocationSrc: MutableMap<Int, Int>,
+    public val keyLocationDest: MutableMap<Int, Int>,
 ) {
-    internal fun getParentsForID(childID: Int): Set<Int> {
+    public fun getParentsForID(childID: Int): Set<Int> {
         var res = mutableSetOf<Int>()
         if (childID != -1) {
             loop@ for ((parentID, vv) in dependenciesForID) {

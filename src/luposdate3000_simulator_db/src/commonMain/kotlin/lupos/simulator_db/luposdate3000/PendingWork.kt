@@ -18,6 +18,7 @@ package lupos.simulator_db.luposdate3000
 
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.simulator_iot.IPackage_Database
 
 internal class PendingWork(

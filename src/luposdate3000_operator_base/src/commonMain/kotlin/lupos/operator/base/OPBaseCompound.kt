@@ -98,7 +98,7 @@ public class OPBaseCompound public constructor(
                 }
                 val v = children[it].evaluateRoot()
                 k to v
-            }
+            },
         )
     }
     override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
@@ -112,7 +112,7 @@ public class OPBaseCompound public constructor(
                 }
                 val v = children[it].evaluate(Partition())
                 k to v
-            }
+            },
         )
     }
 }

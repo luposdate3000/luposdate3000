@@ -35,9 +35,6 @@ import lupos.operator.physical.partition.POPDistributedReceiveMulti
 import lupos.operator.physical.partition.POPDistributedReceiveMultiCount
 import lupos.operator.physical.partition.POPDistributedReceiveMultiOrdered
 import lupos.operator.physical.partition.POPDistributedReceiveSingle
-import lupos.operator.physical.partition.POPDistributedSendMulti
-import lupos.operator.physical.partition.POPDistributedSendSingle
-import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.JsonParserObject
 import lupos.result_format.EQueryResultToStreamExt
@@ -211,13 +208,7 @@ public class Application_Luposdate3000 public constructor(
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
         val data = binaryPair.first
         val handler = binaryPair.second
-        val destinations = mutableMapOf<Int, Int>()
-        val dep = handler.dependenciesForID[-1]
-        if (dep != null) {
-            for (d in dep.values) {
-                destinations[d] = ownAdress
-            }
-        }
+        val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
         receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
@@ -252,7 +243,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:254"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:245"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -354,7 +345,7 @@ public class Application_Luposdate3000 public constructor(
                 val pck2 = Package_Luposdate3000_Operatorgraph(
                     pck.queryID,
                     data,
-                    BinaryMetadataHandler(mutableMapOf(), idToHost, mutableMapOf(), mutableMapOf(), mutableMapOf()),
+                    BinaryMetadataHandler(mutableMapOf(), idToHost, pck.handler.dependenciesForID, mutableMapOf(), mutableMapOf()),
                     pck.destinations,
                     pck.onFinish,
                     pck.expectedResult,
@@ -563,70 +554,49 @@ public class Application_Luposdate3000 public constructor(
                         if (flag) {
                             myPendingWork.remove(w)
                             changed = true
-                            val query: IQuery
-                            if (ownAdress != rootAddressInt || w.operatorGraph.tag != "OPBaseCompound") {
+                            val query: Query
+                            if (ownAdress != rootAddressInt || w.dataID != -1) {
                                 query = Query(instance)
                                 query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
                             } else {
-                                query = w.query
+                                query = w.query as Query
                             }
-                            val node = localXMLElementToOPBase(query, w.operatorGraph)
-                            // println(node)
-                            when (node) {
-                                is POPDistributedSendSingle -> {
-                                    // println("$ownAdress ${w.keys.map{it}} executing .. $node")
-                                    val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
-                                    node.evaluate(out)
-                                    out.close()
-                                }
-                                is POPDistributedSendSingleCount -> {
-                                    // println("$ownAdress ${w.keys.map{it}} executing .. $node")
-                                    val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
-                                    node.evaluate(out)
-                                    out.close()
-                                }
-                                is POPDistributedSendMulti -> {
-                                    SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:589"/*SOURCE_FILE_END*/ },
-                                        { w.keys.size == node.keys.size && w.keys.toSet().containsAll(node.keys.toSet()) }
-                                    )
-                                    // println("$ownAdress ${w.keys.map{it}}->${w.destinations.map{it}} executing .. $node")
-                                    val out = Array<IMyOutputStream?>(w.keys.size) {
-                                        OutputStreamToPackage(w.queryID, w.destinations[it], "simulator-intermediate-result", mapOf("key" to w.keys[it].toString()), router!!)
+                            val iteratorBundle = BinaryToOPBase.convertToIteratorBundle(query, w.data, w.dataID)
+                            // println(iteratorBundle)
+                            if (w.dataID == -1) {
+                                // println("$ownAdress root executing .. $iteratorBundle")
+                                if (w.expectedResult != null) {
+                                    val buf = MyPrintWriter(false)
+                                    val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                                    val buf_err = MyPrintWriter()
+                                    if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
+                                        throw Exception(buf_err.toString())
                                     }
-                                    node.evaluate(out)
-                                    for (o in out) {
-                                        o?.close()
-                                    }
-                                }
-                                is OPBaseCompound -> {
-                                    // println("$ownAdress root executing .. $node")
-                                    if (w.expectedResult != null) {
-                                        val buf = MyPrintWriter(false)
-                                        val result = (LuposdateEndpoint.evaluateOperatorgraphToResultE(instance, node, buf, EQueryResultToStreamExt.MEMORY_TABLE, false) as List<MemoryTable>).first()
-                                        val buf_err = MyPrintWriter()
-                                        if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
-                                            throw Exception(buf_err.toString())
-                                        }
-                                        w.verifyAction()
-                                        if (w.onFinish != null) {
-                                            receive(w.onFinish)
-                                        } else {
-                                            router!!.send(w.destinations[0], Package_QueryResponse("success".encodeToByteArray(), w.queryID))
-                                        }
+                                    w.verifyAction()
+                                    if (w.onFinish != null) {
+                                        receive(w.onFinish)
                                     } else {
-                                        val buf = MyPrintWriter(true)
-                                        val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                                        evaluatorInstance(node.evaluateBundle(), buf)
-                                        if (w.onFinish != null) {
-                                            receive(w.onFinish)
-                                        } else {
-                                            router!!.send(w.destinations[0], Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
-                                        }
+                                        router!!.send(w.destinations[-1]!!, Package_QueryResponse("success".encodeToByteArray(), w.queryID))
                                     }
-                                    // println("done executing")
+                                } else {
+                                    val buf = MyPrintWriter(true)
+                                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                                    evaluatorInstance(iteratorBundle, buf)
+                                    if (w.onFinish != null) {
+                                        receive(w.onFinish)
+                                    } else {
+                                        router!!.send(w.destinations[-1]!!, Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
+                                    }
                                 }
-                                else -> TODO(node.toString())
+                                // println("done executing")
+                            } else {
+// val out = OutputStreamToPackage(w.queryID, w.destinations[0], "simulator-intermediate-result", mapOf("key" to "${w.keys[0]}"), router!!)
+                                for ((columnNames, nodes) in iteratorBundle.nodes) {
+                                    val iter = nodes.rows
+                                    do {
+                                        val res = iter.next()
+                                    } while (res != -1)
+                                }
                             }
                             break
                         } else {

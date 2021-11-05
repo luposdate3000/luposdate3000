@@ -22,8 +22,8 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 public object BinaryToOPBase {
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper): IteratorBundleRoot {
-        return ConverterBinaryToIteratorBundle.decode(query, data)[-1]!!
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int): IteratorBundleRoot {
+        return ConverterBinaryToIteratorBundle.decode(query, data, dataID)
     }
     public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {
         return convertToByteArrayAndMeta(op, distributed, splitEverything).first
