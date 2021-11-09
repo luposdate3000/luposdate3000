@@ -31,7 +31,6 @@ import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
-import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -249,9 +248,9 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
+            //  println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:253"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -553,7 +552,7 @@ public class Application_Luposdate3000 public constructor(
                             } else {
                                 query = w.query as Query
                             }
-                            println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+//                            println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {
@@ -592,7 +591,7 @@ public class Application_Luposdate3000 public constructor(
                             }
                             break
                         } else {
-                            println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
+                            //     println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                         }
                     }
                 }
