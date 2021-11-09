@@ -18,7 +18,6 @@ package lupos.operator.physical.partition
 
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -53,13 +52,4 @@ public class POPDistributedSendSingleCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
-    public fun evaluate(connectionOut: IMyOutputStream) {
-        var partition = Partition()
-        for ((k, v) in partitionedBy) {
-            partition = Partition(partition, k, v, -1)
-        }
-        val bundle = children[0].evaluate(partition)
-        connectionOut.writeInt(bundle.count())
-        connectionOut.flush()
-    }
 }

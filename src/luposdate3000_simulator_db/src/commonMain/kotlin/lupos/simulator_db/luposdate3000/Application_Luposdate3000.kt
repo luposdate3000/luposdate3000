@@ -40,6 +40,7 @@ import lupos.operator.physical.partition.EvalDistributedReceiveSingle
 import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
 import lupos.operator.physical.partition.EvalDistributedSendMulti
 import lupos.operator.physical.partition.EvalDistributedSendSingle
+import lupos.operator.physical.partition.EvalDistributedSendSingleCount
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.JsonParserObject
@@ -250,7 +251,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
             println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:253"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -415,6 +416,12 @@ public class Application_Luposdate3000 public constructor(
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
+        }
+        assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
+            val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap)
+            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingleCount(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap ->
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }), operatorMap)
