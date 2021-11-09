@@ -29,7 +29,7 @@ public object ConverterBinaryToAOPJson {
     public fun assignOperatorArithmetikDecode(operatorID: Int, operator: BinaryToAOPJSONMap) {
         if (operatorMap.size <= operatorID) {
             var s = operatorMap.size
-            if (s <16) {
+            if (s < 16) {
                 s = 16
             }
             while (s <= operatorID) {
@@ -108,14 +108,14 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPVariableID,
             { query, data, off ->
-                "{\"type\":\"AOPVariable\",\"name\":\"${ConverterString.decodeString(data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPVariable.name"}))}\""
+                "{\"type\":\"AOPVariable\",\"name\":\"${ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" }))}\""
             },
         )
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallSHA256ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSHA256\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallSHA256.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" }))
                 }}"
             },
         )
@@ -123,7 +123,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSHA1ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSHA1\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallSHA1.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" }))
                 }}"
             },
         )
@@ -131,7 +131,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallUCASEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallUCASE\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallUCASE.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallUCASE.child" }))
                 }}"
             },
         )
@@ -139,7 +139,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallLCASEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallLCASE\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallLCASE.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLCASE.child" }))
                 }}"
             },
         )
@@ -147,7 +147,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallHOURSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallHOURS\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallHOURS.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallHOURS.child" }))
                 }}"
             },
         )
@@ -155,7 +155,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMINUTESID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMINUTES\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallMINUTES.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMINUTES.child" }))
                 }}"
             },
         )
@@ -163,7 +163,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSTRID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSTR\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallSTR.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTR.child" }))
                 }}"
             },
         )
@@ -171,7 +171,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallIsNUMERICID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallIsNUMERIC\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallIsNUMERIC.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIsNUMERIC.child" }))
                 }}"
             },
         )
@@ -179,7 +179,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallFLOORID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallFLOOR\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallFLOOR.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallFLOOR.child" }))
                 }}"
             },
         )
@@ -187,7 +187,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallABSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallABS\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallABS.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallABS.child" }))
                 }}"
             },
         )
@@ -195,7 +195,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallYEARID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallYEAR\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallYEAR.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallYEAR.child" }))
                 }}"
             },
         )
@@ -203,7 +203,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallROUNDID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallROUND\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallROUND.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" }))
                 }}"
             },
         )
@@ -211,7 +211,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMD5ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMD5\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallMD5.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" }))
                 }}"
             },
         )
@@ -219,7 +219,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallDAYID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallDAY\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallDAY.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" }))
                 }}"
             },
         )
@@ -227,7 +227,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallCEILID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallCEIL\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallCEIL.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" }))
                 }}"
             },
         )
@@ -235,7 +235,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSTRLENID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSTRLEN\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallSTRLEN.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" }))
                 }}"
             },
         )
@@ -243,7 +243,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSECONDSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSECONDS\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallSECONDS.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" }))
                 }}"
             },
         )
@@ -251,7 +251,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallLANGID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallLANG\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallLANG.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" }))
                 }}"
             },
         )
@@ -259,7 +259,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMONTHID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMONTH\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallMONTH.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" }))
                 }}"
             },
         )
@@ -267,20 +267,20 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallBOUNDID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallBOUND\",\"child\",${
-                decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallBOUND.child"}))
+                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" }))
                 }}"
             },
         )
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallBNODE1ID,
             { query, data, off ->
-                "{\"type\":\"AOPBuildInCallBNODE1\",\"child\",${decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPBuildInCallBNODE1.child"}))}}"
+                "{\"type\":\"AOPBuildInCallBNODE1\",\"child\",${decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBNODE1.child" }))}}"
             },
         )
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPNotID,
             { query, data, off ->
-                "{\"type\":\"AOPNot\",\"child\",${decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPNot.child"}))}}"
+                "{\"type\":\"AOPNot\",\"child\",${decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNot.child" }))}}"
             },
         )
         assignOperatorArithmetikDecode(
@@ -468,7 +468,7 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPConstantID,
             { query, data, off ->
-                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data,off + 4,{"AOPConstant.value"})}"
+                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" })}"
             },
         )
         assignOperatorArithmetikDecode(
@@ -478,7 +478,7 @@ public object ConverterBinaryToAOPJson {
                 val childs = List(count) {
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 12 + 4 * it, { "AOPAggregationMAX.collection[$it]" }))
                 }
-                "{\"type\":\"AOPIn\",\"child\":${decode(query,data,ByteArrayWrapperExt.readInt4(data,off + 4,{"AOPAggregationMAX.child"}))},\"childs\":[${childs.joinToString()}])"
+                "{\"type\":\"AOPIn\",\"child\":${decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAggregationMAX.child" }))},\"childs\":[${childs.joinToString()}])"
             },
         )
     }

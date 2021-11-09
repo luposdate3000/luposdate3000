@@ -71,7 +71,9 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+
 public typealias BinaryToAOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> AOPBase
+
 public object ConverterBinaryToAOPBase {
     public var operatorMap: Array<BinaryToAOPBaseMap?> = Array(0) { null }
     public fun assignOperatorArithmetikDecode(operatorID: Int, operator: BinaryToAOPBaseMap) {
@@ -89,6 +91,7 @@ public object ConverterBinaryToAOPBase {
         }
         operatorMap[operatorID] = operator
     }
+
     internal fun decode(query: Query, data: ByteArrayWrapper, off: Int): AOPBase {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
@@ -100,11 +103,13 @@ public object ConverterBinaryToAOPBase {
         }
         return decoder(query, data, off)
     }
+
     public fun assignOperatorArithmetikDecode(operatorIDs: IntArray, operator: BinaryToAOPBaseMap) {
         for (operatorID in operatorIDs) {
             assignOperatorArithmetikDecode(operatorID, operator)
         }
     }
+
     init {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAggregationCOUNTID,

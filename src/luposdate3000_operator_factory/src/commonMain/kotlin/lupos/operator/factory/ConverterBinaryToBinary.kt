@@ -38,6 +38,7 @@ public object ConverterBinaryToBinary {
             assignOperatorPhysicalDecode(operatorID, operator)
         }
     }
+
     public fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToBinaryMap) {
         if (operatorMap.size <= operatorID) {
             var s = operatorMap.size
@@ -53,6 +54,7 @@ public object ConverterBinaryToBinary {
         }
         operatorMap[operatorID] = operator
     }
+
     public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
         try {
             val dataOut = ByteArrayWrapper()
@@ -117,7 +119,7 @@ public object ConverterBinaryToBinary {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                 if (filter.contains(id) && id != -1) {
                     val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-                    childs [id] = offset
+                    childs[id] = offset
                 }
                 o += 8
             }
@@ -140,6 +142,7 @@ public object ConverterBinaryToBinary {
             throw e
         }
     }
+
     private fun recodeHelper(query: Query, off: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int): Int {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
@@ -151,6 +154,7 @@ public object ConverterBinaryToBinary {
         }
         return recoder(query, off, data, dataOut, mapping, offPtr)
     }
+
     init {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleID,

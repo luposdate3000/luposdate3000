@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
@@ -159,6 +160,7 @@ public object ConverterPOPBaseToBinary {
         }
         operatorMap[operatorID] = operator
     }
+
     public fun optimize(data: ByteArrayWrapper, handler: BinaryMetadataHandler, query: Query): ByteArrayWrapper {
         // alle hosts zuweisen
         var queue: MutableList<Int>
@@ -229,6 +231,7 @@ public object ConverterPOPBaseToBinary {
         }
         return data
     }
+
     private fun fixAfterMerge(data: ByteArrayWrapper, handler: BinaryMetadataHandler, childOff: Int, parentOffOff: Int, theKey: Int, childID: Int, parentID: Int) {
         handler.idToOffset.remove(childID)
         handler.idToHost.remove(childID)
@@ -273,6 +276,7 @@ public object ConverterPOPBaseToBinary {
             }
         }
     }
+
     public fun encode(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
         val handler = ConverterPOPBaseToBinaryDistributionHandler()
         val mapping = mutableMapOf<String, Int>()
@@ -588,14 +592,21 @@ public object ConverterPOPBaseToBinary {
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPMergePartitionCount
                 val currentID = handler.currentID
-                if (distributed) {
-                    if (op.partitionCount > 1) {
-                        mergePartitionEncodeHelperMerge(op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "Count", "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveMultiCountID, op.partitionID, op.uuid, offPtr)
-                    } else {
-                        mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr)
-                    }
+                if (op.partitionCount > 1) {
+                    mergePartitionEncodeHelperMerge(
+                        op.partitionCount,
+                        handler,
+                        currentID, data, op.partitionVariable,
+                        mapping, distributed, op.children[0] as OPBase,
+                        "Count", "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveMultiCountID, op.partitionID, op.uuid, offPtr
+                    )
                 } else {
-                    TODO("ConverterPOPBaseToBinary.POPMergePartitionCount")
+                    mergePartitionEncodeHelper1x1(
+                        handler,
+                        currentID, data,
+                        mapping, distributed, op.children[0] as OPBase,
+                        "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                    )
                 }
             },
         )
@@ -604,14 +615,19 @@ public object ConverterPOPBaseToBinary {
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPMergePartitionOrderedByIntId
                 val currentID = handler.currentID
-                if (distributed) {
-                    if (op.partitionCount2 > 1) {
-                        mergePartitionEncodeHelperMergeOrdered(op.partitionCount2, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, op.partitionID, op.uuid, offPtr, op.mySortPriority.map { it.variableName }, op.projectedVariables)
-                    } else {
-                        mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
-                    }
+                if (op.partitionCount2 > 1) {
+                    mergePartitionEncodeHelperMergeOrdered(
+                        op.partitionCount2,
+                        handler, currentID,
+                        data, op.partitionVariable, mapping, distributed,
+                        op.children[0] as OPBase, op.partitionID, op.uuid, offPtr, op.mySortPriority.map { it.variableName }, op.projectedVariables
+                    )
                 } else {
-                    TODO("ConverterPOPBaseToBinary.POPMergePartitionOrderedByIntId")
+                    mergePartitionEncodeHelper1x1(
+                        handler, currentID, data,
+                        mapping, distributed,
+                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                    )
                 }
             },
         )
@@ -620,14 +636,19 @@ public object ConverterPOPBaseToBinary {
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPMergePartition
                 val currentID = handler.currentID
-                if (distributed) {
-                    if (op.partitionCount > 1) {
-                        mergePartitionEncodeHelperMerge(op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID, op.uuid, offPtr)
-                    } else {
-                        mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
-                    }
+                if (op.partitionCount > 1) {
+                    mergePartitionEncodeHelperMerge(
+                        op.partitionCount,
+                        handler, currentID,
+                        data, op.partitionVariable, mapping, distributed,
+                        op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID, op.uuid, offPtr
+                    )
                 } else {
-                    TODO("ConverterPOPBaseToBinary.POPMergePartition")
+                    mergePartitionEncodeHelper1x1(
+                        handler, currentID,
+                        data, mapping, distributed,
+                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                    )
                 }
             },
         )
@@ -636,14 +657,84 @@ public object ConverterPOPBaseToBinary {
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPSplitPartition
                 val currentID = handler.currentID
-                if (distributed) {
-                    if (op.partitionCount > 1) {
-                        mergePartitionEncodeHelperSplit(op.partitionCount, handler, currentID, data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendMultiID, EOperatorIDExt.POPDistributedReceiveSingleID, op.partitionID, op.uuid, offPtr, op.partitionVariable!!)
-                    } else {
-                        mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
-                    }
+                if (op.partitionCount > 1) {
+                    mergePartitionEncodeHelperSplit(
+                        op.partitionCount,
+                        handler, currentID,
+                        data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendMultiID, EOperatorIDExt.POPDistributedReceiveSingleID, op.partitionID, op.uuid, offPtr, op.partitionVariable!!
+                    )
                 } else {
-                    TODO("ConverterPOPBaseToBinary.POPSplitPartition")
+                    mergePartitionEncodeHelper1x1(
+                        handler, currentID,
+                        data, mapping,
+                        distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                    )
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPSplitPartitionFromStoreCountID,
+            { op, data, mapping, distributed, handler, offPtr ->
+                op as OPBase
+                val currentID = handler.currentID
+                if (distributed) {
+                    mergePartitionEncodeHelper1x1(
+                        handler,
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                    )
+                } else {
+                    convertToByteArrayHelper(
+                        op.children[0],
+                        data,
+                        mapping,
+                        distributed,
+                        handler,
+                        offPtr
+                    )
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPSplitPartitionFromStoreID,
+            { op, data, mapping, distributed, handler, offPtr ->
+                op as OPBase
+                val currentID = handler.currentID
+                if (distributed) {
+                    mergePartitionEncodeHelper1x1(
+                        handler,
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                    )
+                } else {
+                    convertToByteArrayHelper(
+                        op.children[0],
+                        data,
+                        mapping,
+                        distributed,
+                        handler,
+                        offPtr
+                    )
+                }
+            },
+        )
+        assignOperatorPhysicalEncode(
+            EOperatorIDExt.POPSplitMergePartitionFromStoreID,
+            { op, data, mapping, distributed, handler, offPtr ->
+                op as OPBase
+                val currentID = handler.currentID
+                if (distributed) {
+                    mergePartitionEncodeHelper1x1(
+                        handler,
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                    )
+                } else {
+                    convertToByteArrayHelper(
+                        op.children[0],
+                        data,
+                        mapping,
+                        distributed,
+                        handler,
+                        offPtr
+                    )
                 }
             },
         )
@@ -651,7 +742,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPGraphOperationID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPGraphOperation
-                ConverterBinaryEncoder.encodePOPGraphOperation(data, mapping, op.graph1type, op.graph2type, op.action, op.graph1iri, op.graph2iri, op.silent,)
+                ConverterBinaryEncoder.encodePOPGraphOperation(data, mapping, op.graph1type, op.graph2type, op.action, op.graph1iri, op.graph2iri, op.silent)
             },
         )
         assignOperatorPhysicalEncode(
@@ -669,46 +760,10 @@ public object ConverterPOPBaseToBinary {
             },
         )
         assignOperatorPhysicalEncode(
-            EOperatorIDExt.POPSplitPartitionFromStoreCountID,
-            { op, data, mapping, distributed, handler, offPtr ->
-                op as OPBase
-                val currentID = handler.currentID
-                if (distributed) {
-                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr)
-                } else {
-                    convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, offPtr)
-                }
-            },
-        )
-        assignOperatorPhysicalEncode(
-            EOperatorIDExt.POPSplitPartitionFromStoreID,
-            { op, data, mapping, distributed, handler, offPtr ->
-                op as OPBase
-                val currentID = handler.currentID
-                if (distributed) {
-                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr)
-                } else {
-                    convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, offPtr)
-                }
-            },
-        )
-        assignOperatorPhysicalEncode(
-            EOperatorIDExt.POPSplitMergePartitionFromStoreID,
-            { op, data, mapping, distributed, handler, offPtr ->
-                op as OPBase
-                val currentID = handler.currentID
-                if (distributed) {
-                    mergePartitionEncodeHelper1x1(handler, currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr)
-                } else {
-                    convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, offPtr)
-                }
-            },
-        )
-        assignOperatorPhysicalEncode(
             EOperatorIDExt.POPModifyDataID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPModifyData
-                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i]as AOPConstant).value } })
+                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
             },
         )
         assignOperatorPhysicalEncode(

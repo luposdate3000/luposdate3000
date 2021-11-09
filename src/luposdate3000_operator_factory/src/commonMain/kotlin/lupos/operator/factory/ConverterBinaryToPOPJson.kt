@@ -29,7 +29,9 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.triple_store_manager.POPTripleStoreIterator
+
 public typealias BinaryToPOPJsonMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> String
+
 public object ConverterBinaryToPOPJson {
     public var operatorMap: Array<BinaryToPOPJsonMap?> = Array(0) { null }
     public fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToPOPJsonMap) {
@@ -37,6 +39,7 @@ public object ConverterBinaryToPOPJson {
             assignOperatorPhysicalDecode(operatorID, operator)
         }
     }
+
     public fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToPOPJsonMap) {
         if (operatorMap.size <= operatorID) {
             var s = operatorMap.size
@@ -52,6 +55,7 @@ public object ConverterBinaryToPOPJson {
         }
         operatorMap[operatorID] = operator
     }
+
     public fun decode(query: Query, data: ByteArrayWrapper): String {
         try {
             var result = mutableMapOf<Int, String>()
@@ -72,7 +76,7 @@ public object ConverterBinaryToPOPJson {
                         }
                         res.add(list to child)
                     }
-                    result[-1] = "[${res.map{it.second}.toTypedArray().joinToString()}]"
+                    result[-1] = "[${res.map { it.second }.toTypedArray().joinToString()}]"
                 }
                 0x2 -> {
                     /*there is no query root here*/
@@ -88,15 +92,16 @@ public object ConverterBinaryToPOPJson {
             for (i in 0 until len) {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                 val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-                result [id] = "[${decodeHelper(query, data, offset)}]"
+                result[id] = "[${decodeHelper(query, data, offset)}]"
                 o += 8
             }
-            return "{${result.map{(k,v) -> "\"$k\":$v"}.joinToString()}}"
+            return "{${result.map { (k, v) -> "\"$k\":$v" }.joinToString()}}"
         } catch (e: Throwable) {
             e.printStackTrace()
             throw e
         }
     }
+
     private fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int): String {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
@@ -108,6 +113,7 @@ public object ConverterBinaryToPOPJson {
         }
         return decoder(query, data, off)
     }
+
     init {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendSingleID,
@@ -124,7 +130,7 @@ public object ConverterBinaryToPOPJson {
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
                 val name = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" })
                 val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
-                "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
+                "{\"type\":\"POPDistributedSendMulti\",\"child\":$child,\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -143,7 +149,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMulti\",\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -168,7 +174,7 @@ public object ConverterBinaryToPOPJson {
                 for (i in 0 until len) {
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
                 }
-                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMultiCount\",\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -193,7 +199,7 @@ public object ConverterBinaryToPOPJson {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
                     o += 4
                 }
-                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.map{"{\"key\":$it}"}.joinToString()}]}"
+                "{\"type\":\"POPDistributedReceiveMultiOrdered\",\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
             },
         )
         assignOperatorPhysicalDecode(

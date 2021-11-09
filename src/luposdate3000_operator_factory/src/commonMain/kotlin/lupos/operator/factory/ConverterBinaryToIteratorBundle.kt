@@ -56,7 +56,9 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
+
 public typealias BinaryToOPBaseMap = (query: Query, data: ByteArrayWrapper, offset: Int, Array<Any?>) -> IteratorBundle
+
 public object ConverterBinaryToIteratorBundle {
     public var defaultOperatorMap: Array<Any?> = Array(0) { null }
     public fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
@@ -64,6 +66,7 @@ public object ConverterBinaryToIteratorBundle {
             assignOperatorPhysicalDecode(operatorID, operator)
         }
     }
+
     public fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
         if (defaultOperatorMap.size <= operatorID) {
             var s = defaultOperatorMap.size
@@ -79,6 +82,7 @@ public object ConverterBinaryToIteratorBundle {
         }
         defaultOperatorMap[operatorID] = operator
     }
+
     public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap): IteratorBundleRoot {
         try {
             if (dataID == -1) {
@@ -125,6 +129,7 @@ public object ConverterBinaryToIteratorBundle {
             throw e
         }
     }
+
     public fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int, operatorMap: Array<Any?>): IteratorBundle {
         val type = ByteArrayWrapperExt.readInt4(data, off, { "operatorID" })
         if (type >= operatorMap.size) {
@@ -137,6 +142,7 @@ public object ConverterBinaryToIteratorBundle {
         decoder as BinaryToOPBaseMap
         return decoder(query, data, off, operatorMap)
     }
+
     init {
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
@@ -147,7 +153,7 @@ public object ConverterBinaryToIteratorBundle {
                 val graph2type = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" })
                 val graph2iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" }))
                 val action = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" })
-                EvalGraphOperation(silent, graph1type, graph1iri, graph2type, graph2iri, action, query,)
+                EvalGraphOperation(silent, graph1type, graph1iri, graph2type, graph2iri, action, query)
             },
         )
         assignOperatorPhysicalDecode(

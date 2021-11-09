@@ -71,6 +71,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public typealias AOPBaseToBinaryMap = (op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>) -> Int/*offset*/
+
 public object ConverterAOPBaseToBinary {
     public var operatorMap: Array<AOPBaseToBinaryMap?> = Array(0) { null }
     internal fun encodeAOP(op: AOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>): Int {
@@ -83,11 +84,13 @@ public object ConverterAOPBaseToBinary {
         }
         return encoder(op, data, mapping)
     }
+
     public fun assignOperatorArithmetikEncode(operatorIDs: IntArray, operator: AOPBaseToBinaryMap) {
         for (operatorID in operatorIDs) {
             assignOperatorArithmetikEncode(operatorID, operator)
         }
     }
+
     public fun assignOperatorArithmetikEncode(operatorID: Int, operator: AOPBaseToBinaryMap) {
         if (operatorMap.size <= operatorID) {
             var s = operatorMap.size
@@ -103,6 +106,7 @@ public object ConverterAOPBaseToBinary {
         }
         operatorMap[operatorID] = operator
     }
+
     init {
         assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPAggregationCOUNTID,
