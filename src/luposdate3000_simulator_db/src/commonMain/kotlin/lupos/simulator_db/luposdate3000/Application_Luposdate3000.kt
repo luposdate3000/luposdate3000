@@ -31,6 +31,7 @@ import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
+import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -199,7 +200,7 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
+        println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
@@ -216,20 +217,15 @@ public class Application_Luposdate3000 public constructor(
         val data = binaryPair.first
         val handler = binaryPair.second
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
-    }
-
-    private fun replacereceiverKey(node: XMLElement, receiverKey: Int, senderKey: Int): Boolean {
-        if (node.tag == "partitionDistributionKey" && node.attributes["key"]!!.toInt() == senderKey) {
-            node.attributes["key"] = "$receiverKey"
-            return true
-        }
-        for (c in node.childs) {
-            if (replacereceiverKey(c, receiverKey, senderKey)) {
-                return true
+        for (i in handler.idToOffset.keys) {
+            if (handler.idToHost[i] == null) {
+                handler.idToHost[i] = mutableSetOf(ownAdress.toString())
             }
         }
-        return false
+        if (handler.idToHost[-1] == null) {
+            handler.idToHost[-1] = mutableSetOf(ownAdress.toString())
+        }
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun receive(pck: Package_Luposdate3000_Abstract) {
@@ -248,9 +244,9 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            //  println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
+            println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:249"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -298,6 +294,7 @@ public class Application_Luposdate3000 public constructor(
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
         for ((k, v) in pck.handler.idToHost) {
+            println("$k $v")
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
                 targets.first()
@@ -320,6 +317,7 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         for ((targetHost, filter) in myIdsOnTargetMap) {
+            println("sending something to §targetHost")
             if (targetHost == ownAdress) {
                 for (id in filter) {
                     var dependencies2 = pck.handler.dependenciesForID[id]
@@ -390,19 +388,6 @@ public class Application_Luposdate3000 public constructor(
             }
             return false
         }
-    }
-
-    private fun extractKey(node: XMLElement, targetTag: String, parentTag: String): Set<Int> {
-        val res = mutableSetOf<Int>()
-        if (parentTag.startsWith(targetTag)) {
-            if (node.tag == "partitionDistributionKey") {
-                res.add(node.attributes["key"]!!.toInt())
-            }
-        }
-        for (c in node.childs) {
-            res.addAll(extractKey(c, targetTag, node.tag))
-        }
-        return res
     }
 
     private fun localConvertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>): IteratorBundleRoot {
@@ -501,35 +486,6 @@ public class Application_Luposdate3000 public constructor(
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
     }
 
-    private fun containsTripleStoreAccess(node: XMLElement): Boolean {
-        var res = false
-        when (node.tag) {
-            "POPTripleStoreIterator" -> {
-                res = true
-            }
-        }
-        for (c in node.childs) {
-            res = res || containsTripleStoreAccess(c)
-        }
-        return res
-    }
-
-    private fun containsRemoteDictAccess(node: XMLElement): Boolean {
-        if (hasOntology) {
-            return false
-        }
-        var res = false
-        when (node.tag) {
-            "POPBind", "POPGroup", "POPFilter", "POPModifyData" -> { // POPFilter does not matter, because they do not calculate relevant values, BUT popfilter does create temporary values until the new arithmetic calculation is applied
-                res = true
-            }
-        }
-        for (c in node.childs) {
-            res = res || containsRemoteDictAccess(c)
-        }
-        return res
-    }
-
     private fun doWork() {
         if (!doWorkFlag) {
             doWorkFlag = true // only one exeution at a time
@@ -552,7 +508,7 @@ public class Application_Luposdate3000 public constructor(
                             } else {
                                 query = w.query as Query
                             }
-//                            println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+                            println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {
@@ -591,7 +547,7 @@ public class Application_Luposdate3000 public constructor(
                             }
                             break
                         } else {
-                            //     println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
+                            println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                         }
                     }
                 }
