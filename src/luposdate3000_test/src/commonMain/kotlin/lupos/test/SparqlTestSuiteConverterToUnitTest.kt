@@ -257,11 +257,11 @@ without minify mode only the passing tests will be added
         fun myActualDataOperatorGraph(counter: Int, graph: String, out: IMyOutputStream) {
             out.println("        val query$counter = Query(instance)")
             out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
-            out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO).evaluateRootBundle()")
+            out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
         }
 
         fun myActualDataEvaluate(counter: Int, out: IMyOutputStream) {
-            out.println("        val actual$counter = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
+            out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
         }
 
         fun myCompareData(counter: Int, out: IMyOutputStream) {
@@ -299,7 +299,6 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println(" */")
         fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
-        fileBufferPrefix.println("import lupos.operator.factory.BinaryToOPBase")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
         fileBufferPrefix.println("import lupos.operator.base.Query")
         fileBufferPrefix.println("import lupos.parser.JsonParser")
@@ -320,8 +319,6 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Application_Luposdate3000")
         fileBufferPrefix.println("import lupos.simulator_iot.SimulationRun")
-        fileBufferPrefix.println("import lupos.shared.operator.iterator.IteratorBundle")
-        fileBufferPrefix.println("import lupos.shared.operator.iterator.IteratorBundleRoot")
         fileBufferPrefix.println("")
         fileBufferPrefix.println("import kotlin.test.Ignore")
         fileBufferPrefix.println("import kotlin.test.Test")
@@ -403,19 +400,13 @@ without minify mode only the passing tests will be added
         val counter = localCounter++
         val evaluateIt = outputGraphs.isNotEmpty() || mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT
         if (evaluateIt || expectedResult) {
-            if (evaluateIt) {
-                fileBufferNormalHelper.println("            val operatorTmp$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-                fileBufferNormalHelper.println("            val operatorTmp2$counter =BinaryToOPBase.convertToByteArray(operatorTmp$counter,false,true)")
-                fileBufferNormalHelper.println("  val operator$counter =           BinaryToOPBase.convertToIteratorBundle(operatorTmp$counter.getQuery()as Query,operatorTmp2$counter,-1)")
-            } else {
-                fileBufferNormalHelper.println("            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
-            }
+            fileBufferNormalHelper.println("        val operator$counter = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
                 myVerifyGraph(counter, "targetData", "targetType", "\"\"", "query", false, fileBufferNormalHelper)
             } else {
                 if (evaluateIt) {
                     appendDistributedTest("Package_Luposdate3000_TestingExecute(query)", false)
-                    fileBufferNormalHelper.println("        LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                    fileBufferNormalHelper.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                 }
             }
         } else {

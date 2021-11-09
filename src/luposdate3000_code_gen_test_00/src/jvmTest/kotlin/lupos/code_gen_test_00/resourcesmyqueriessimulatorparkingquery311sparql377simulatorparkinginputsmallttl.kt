@@ -18,7 +18,6 @@ package lupos.code_gen_test_00
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
-import lupos.operator.factory.BinaryToOPBase
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EPartitionModeExt
@@ -1947,8 +1946,7 @@ public class resourcesmyqueriessimulatorparkingquery311sparql377simulatorparking
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
@@ -1985,17 +1983,15 @@ public class resourcesmyqueriessimulatorparkingquery311sparql377simulatorparking
         }
         val query0 = Query(instance)
         val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO).evaluateRootBundle()
-        val actual0 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
         if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
-        val operatorTmp1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
-        val operatorTmp21 = BinaryToOPBase.convertToByteArray(operatorTmp1, false, true)
-        val operator1 = BinaryToOPBase.convertToIteratorBundle(operatorTmp1.getQuery()as Query, operatorTmp21, -1)
-        val actual1 = (LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
         val buf_err1 = MyPrintWriter()
         if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
