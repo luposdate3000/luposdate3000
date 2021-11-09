@@ -164,6 +164,11 @@ public object ConverterPOPBaseToBinary {
     public fun optimize(data: ByteArrayWrapper, handler: BinaryMetadataHandler, query: Query): ByteArrayWrapper {
         // alle hosts zuweisen
         var queue: MutableList<Int>
+        val fixedIDs = mutableMapOf<Int, Boolean>(-1 to false)
+        for (i in handler.idToOffset.keys) {
+            fixedIDs[i] = handler.idToHost[i] != null
+        }
+
         for (i in 0 until 2) {
 // the first section needs to be done twice
             queue = handler.idToHost.keys.toMutableList()
@@ -173,13 +178,15 @@ public object ConverterPOPBaseToBinary {
                 var parentIDs = handler.getParentsForID(childID)
                 for (parentID in parentIDs) {
                     var parentHost = handler.idToHost[parentID]
-                    if (parentHost == null) {
-                        parentHost = mutableSetOf<String>()
-                        handler.idToHost[parentID] = parentHost
-                    }
-                    if (!parentHost.containsAll(hostnames)) {
-                        parentHost.addAll(hostnames)
-                        queue.add(parentID)
+                    if (!fixedIDs[parentID]!!) {
+                        if (parentHost == null) {
+                            parentHost = mutableSetOf<String>()
+                            handler.idToHost[parentID] = parentHost
+                        }
+                        if (!parentHost.containsAll(hostnames)) {
+                            parentHost.addAll(hostnames)
+                            queue.add(parentID)
+                        }
                     }
                 }
             }
