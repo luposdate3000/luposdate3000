@@ -72,7 +72,7 @@ public object EvalDistributedSendMulti {
             }
         }
         for (connectionOut in data) {
-            connectionOut!!.flush()
+            connectionOut!!.close()
         }
     }
 }
