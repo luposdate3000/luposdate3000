@@ -47,6 +47,7 @@ public class OPBaseCompound public constructor(
                 z.addContent(cpo)
             }
         }
+        res.addContent(childrenToXML(partial, partition))
         return res
     }
 

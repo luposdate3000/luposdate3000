@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
-
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
@@ -109,17 +109,44 @@ public open class IteratorBundle {
     }
 
     /*suspend*/ public fun count(): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:111"/*SOURCE_FILE_END*/ }, { mode == IteratorBundleModeExt.COUNT })
-        return if (counter > 0) {
-            counter
-        } else {
-            var res = 0
-            while (hasNext2()) {
-                res++
+        return when (mode) {
+            IteratorBundleModeExt.COLUMN -> {
+                if (names.size == 0) {
+                    0
+                } else {
+                    var res = 0
+                    val col = _columns!![_columns!!.keys.first()]!!
+                    while (col.next() != DictionaryValueHelper.nullValue) {
+                        res++
+                    }
+                    res
+                }
             }
-            hasNext2Close()
-            counter = res
-            res
+            IteratorBundleModeExt.ROW -> {
+                if (names.size == 0) {
+                    0
+                } else {
+                    var res = 0
+                    while (_rows!!.next() != -1) {
+                        res++
+                    }
+                    res
+                }
+            }
+            IteratorBundleModeExt.COUNT -> {
+                if (counter > 0) {
+                    counter
+                } else {
+                    var res = 0
+                    while (hasNext2()) {
+                        res++
+                    }
+                    hasNext2Close()
+                    counter = res
+                    res
+                }
+            }
+            else -> TODO("")
         }
     }
 }
