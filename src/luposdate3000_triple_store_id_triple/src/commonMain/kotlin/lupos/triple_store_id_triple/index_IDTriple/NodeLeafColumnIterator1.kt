@@ -143,7 +143,7 @@ internal class NodeLeafColumnIterator1(node: BufferManagerPageWrapper, nodeid: I
             __init()
         }
         if (label != 0) {
-            var toSkip = skipCount
+            var toSkip = skipCount + 1
             while (toSkip >= remaining) {
                 toSkip -= remaining
                 remaining = 1
