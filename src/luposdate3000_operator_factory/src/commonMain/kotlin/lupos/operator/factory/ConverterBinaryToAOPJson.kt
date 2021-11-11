@@ -108,7 +108,7 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPVariableID,
             { query, data, off ->
-                "{\"type\":\"AOPVariable\",\"name\":\"${ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" }))}\""
+                "{\"type\":\"AOPVariable\",\"name\":\"${ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" }))}\"}"
             },
         )
         assignOperatorArithmetikDecode(
@@ -186,9 +186,9 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallABSID,
             { query, data, off ->
-                "{\"type\":\"AOPBuildInCallABS\",\"child\",${
+                "{\"type\":\"AOPBuildInCallABS\",\"child\":${
                 decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallABS.child" }))
-                }}"
+                }"
             },
         )
         assignOperatorArithmetikDecode(
@@ -468,7 +468,7 @@ public object ConverterBinaryToAOPJson {
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPConstantID,
             { query, data, off ->
-                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" })}"
+                "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" })}}"
             },
         )
         assignOperatorArithmetikDecode(

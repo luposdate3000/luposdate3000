@@ -750,29 +750,58 @@ internal object DictionaryHelper {
         val typeA = byteArrayToType(a)
         val typeB = byteArrayToType(b)
         if (typeA != typeB) {
-            if (typeA == ETripleComponentTypeExt.UNDEF) {
-                return -1
-            } else if (typeB == ETripleComponentTypeExt.UNDEF) {
-                return 1
-            } else if (typeA == ETripleComponentTypeExt.ERROR) {
-                return -1
-            } else if (typeB == ETripleComponentTypeExt.ERROR) {
-                return 1
-            } else if (typeA == ETripleComponentTypeExt.BLANK_NODE) {
-                return -1
-            } else if (typeB == ETripleComponentTypeExt.BLANK_NODE) {
-                return 1
-            } else if (typeA == ETripleComponentTypeExt.IRI) {
-                return -1
-            } else if (typeB == ETripleComponentTypeExt.IRI) {
-                return 1
-            } else if (typeA == ETripleComponentTypeExt.STRING) {
-                return -1
-            } else if (typeB == ETripleComponentTypeExt.STRING) {
-                return 1
+            val reverse = typeB < typeA
+            val typeC = if (reverse) typeB else typeA
+            val typeD = if (reverse) typeA else typeB
+            val c = if (reverse) b else a
+            val d = if (reverse) a else b
+            val res = if (typeC == ETripleComponentTypeExt.UNDEF) {
+                -1
+            } else if (typeD == ETripleComponentTypeExt.UNDEF) {
+                1
+            } else if (typeC == ETripleComponentTypeExt.ERROR) {
+                -1
+            } else if (typeD == ETripleComponentTypeExt.ERROR) {
+                1
+            } else if (typeC == ETripleComponentTypeExt.BLANK_NODE) {
+                -1
+            } else if (typeD == ETripleComponentTypeExt.BLANK_NODE) {
+                1
+            } else if (typeC == ETripleComponentTypeExt.IRI) {
+                -1
+            } else if (typeD == ETripleComponentTypeExt.IRI) {
+                1
+            } else if (typeC == ETripleComponentTypeExt.DECIMAL) {
+                val cv = byteArrayToDecimal_I(c)
+                if (typeD == ETripleComponentTypeExt.DOUBLE) {
+                    cv.compareTo(byteArrayToDouble_I(d))
+                } else if (typeD == ETripleComponentTypeExt.FLOAT) {
+                    cv.compareTo(byteArrayToFloat_I(d))
+                } else if (typeD == ETripleComponentTypeExt.INTEGER) {
+                    cv.compareTo(BigDecimal.fromBigInteger(byteArrayToInteger_I(d)))
+                } else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                }
+            } else if (typeC == ETripleComponentTypeExt.DOUBLE) {
+                val cv = byteArrayToDouble_I(c)
+                if (typeD == ETripleComponentTypeExt.FLOAT) {
+                    cv.compareTo(byteArrayToFloat_I(d))
+                } else if (typeD == ETripleComponentTypeExt.INTEGER) {
+                    -byteArrayToInteger_I(d).compareTo(cv)
+                } else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                }
+            } else if (typeC == ETripleComponentTypeExt.FLOAT) {
+                val cv = byteArrayToFloat_I(c)
+                if (typeD == ETripleComponentTypeExt.INTEGER) {
+                    -byteArrayToInteger_I(d).compareTo(cv)
+                } else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                }
             } else {
-                return typeA - typeB
+                TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
             }
+            return if (reverse) -res else res
         } else {
             if (typeA == ETripleComponentTypeExt.UNDEF || typeA == ETripleComponentTypeExt.ERROR) {
                 return 0

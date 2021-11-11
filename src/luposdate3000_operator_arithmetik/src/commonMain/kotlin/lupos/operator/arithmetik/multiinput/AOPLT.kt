@@ -22,6 +22,8 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -30,14 +32,18 @@ public class AOPLT public constructor(query: IQuery, childA: AOPBase, childB: AO
     override fun equals(other: Any?): Boolean = other is AOPLT && children[0] == other.children[0] && children[1] == other.children[1]
 
     override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
-        val childA = (children[0] as AOPBase).evaluate(row)
-        val childB = (children[1] as AOPBase).evaluate(row)
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
+        val bufferA = ByteArrayWrapper()
+        val bufferB = ByteArrayWrapper()
         return {
             var res: DictionaryValueType = DictionaryValueHelper.errorValue
             val a = childA()
             val b = childB()
             try {
-                res = if (a < b) {
+                query.getDictionary().getValue(bufferA, a)
+                query.getDictionary().getValue(bufferB, b)
+                res = if (DictionaryHelper.byteArrayCompareAny(bufferA, bufferB) <0) {
                     DictionaryValueHelper.booleanTrueValue
                 } else {
                     DictionaryValueHelper.booleanFalseValue
