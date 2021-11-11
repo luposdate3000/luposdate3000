@@ -33,7 +33,7 @@ public class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOpti
                 res = child
                 onChange()
             } else if (child is LOPSortAny || child is LOPSort) {
-                node.getChildren()[0] = child.getChildren()[0]
+                res = child
                 onChange()
             } else if (child is LOPReduced) {
                 node.getChildren()[0] = child.getChildren()[0]

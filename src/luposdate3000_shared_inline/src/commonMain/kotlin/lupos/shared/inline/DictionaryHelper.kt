@@ -749,7 +749,7 @@ internal object DictionaryHelper {
     internal inline fun byteArrayCompareAny(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         val typeA = byteArrayToType(a)
         val typeB = byteArrayToType(b)
-        if (typeA != typeB) {
+        val result = if (typeA != typeB) {
             val reverse = typeB < typeA
             val typeC = if (reverse) typeB else typeA
             val typeD = if (reverse) typeA else typeB
@@ -801,36 +801,39 @@ internal object DictionaryHelper {
             } else {
                 TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
             }
-            return if (reverse) -res else res
+            if (reverse) -res else res
         } else {
             if (typeA == ETripleComponentTypeExt.UNDEF || typeA == ETripleComponentTypeExt.ERROR) {
-                return 0
+                0
             } else if (typeA == ETripleComponentTypeExt.BLANK_NODE) {
-                return a.compareTo(b)
+                a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.BOOLEAN) {
-                return a.compareTo(b)
+                a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.DATE_TIME) {
-                return a.compareTo(b)
+                a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.DECIMAL) {
                 val av = byteArrayToDecimal_I(a)
                 val bv = byteArrayToDecimal_I(b)
-                return av.compareTo(bv)
+                av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.DOUBLE) {
                 val av = byteArrayToDouble_I(a)
                 val bv = byteArrayToDouble_I(b)
-                return av.compareTo(bv)
+                av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.FLOAT) {
                 val av = byteArrayToFloat_I(a)
                 val bv = byteArrayToFloat_I(b)
-                return av.compareTo(bv)
+                av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.INTEGER) {
                 val av = byteArrayToInteger_I(a)
                 val bv = byteArrayToInteger_I(b)
-                return av.compareTo(bv)
+                av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.STRING_LANG || typeA == ETripleComponentTypeExt.STRING_TYPED || typeA == ETripleComponentTypeExt.IRI || typeA == ETripleComponentTypeExt.STRING) {
-                return a.compareTo(b)
+                a.compareTo(b)
+            } else {
+                TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeA]} vs ${ETripleComponentTypeExt.names[typeB]}")
             }
         }
-        throw Exception("can not compare $typeA $typeB")
+        //println("compare ${byteArrayToSparql(a)} to  ${byteArrayToSparql(b)} -> $result")
+        return result
     }
 }

@@ -489,7 +489,7 @@ public object ConverterBinaryToBinary {
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" })
                 val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
-                ConverterBinaryEncoder.encodePOPOffset(
+                ConverterBinaryEncoder.encodePOPLimit(
                     dataOut,
                     mapping,
                     { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
