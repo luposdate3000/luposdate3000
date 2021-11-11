@@ -46,6 +46,7 @@ public object EvalModify {
             if (!__first) {
                 return DictionaryValueHelper.nullValue
             }
+            // println("EvalModify ${modify.map{it.first.toString() + EModifyTypeExt.names[it.second]}}")
             __first = false
             val variables = child.columns.keys.toList()
             val columns = Array(variables.size) { child.columns[variables[it]]!! }
@@ -57,7 +58,7 @@ public object EvalModify {
                     for (columnIndex in variables.indices) {
                         val value = columns[columnIndex].next()
                         if (value == DictionaryValueHelper.nullValue) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:59"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:60"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                             break@loop
                         }
                         row[columnIndex] = value
