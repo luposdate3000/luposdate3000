@@ -1054,6 +1054,14 @@ public object ConverterPOPBaseToBinary {
             ),
             { op, data, mapping, distributed, handler, offPtr ->
                 op as POPGroup
+                var hostsTmp = handler.idToHost[handler.currentID]
+                val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
+                if (hostsTmp != null) {
+                    hostsTmp!!.add(rootAddress)
+                } else {
+                    hostsTmp = mutableSetOf(rootAddress)
+                    handler.idToHost[handler.currentID] = hostsTmp!!
+                }
                 val keyColumnNames = op.by.map { it.name }
                 var off = -1
                 var done = false
