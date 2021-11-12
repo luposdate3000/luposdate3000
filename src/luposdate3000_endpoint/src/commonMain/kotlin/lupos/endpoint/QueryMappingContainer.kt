@@ -16,23 +16,26 @@
  */
 package lupos.endpoint
 
+import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
-import lupos.shared.XMLElement
-import lupos.operator.base.Query
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
 internal class QueryMappingContainer(
-@JvmField internal val data:ByteArrayWrapper,
-@JvmField internal val dataID:Int,
- @JvmField internal var inputStreams: Array<IMyInputStream?>,
- @JvmField internal var outputStreams: Array<IMyOutputStream?>
+    @JvmField internal val data: ByteArrayWrapper,
+    @JvmField internal val dataID: Int,
+    @JvmField internal val keys: MutableSet<Int>,
 ) {
- @JvmField
-    internal var query:Query?=null
+    @JvmField internal var inputStreams = mutableMapOf<Int, IMyInputStream>()
+
+    @JvmField internal var outputStreams = mutableMapOf<Int, IMyOutputStream>()
+
+    @JvmField
+    internal var query: Query? = null
+
     @JvmField
     internal var instance: POPBase? = null
 
