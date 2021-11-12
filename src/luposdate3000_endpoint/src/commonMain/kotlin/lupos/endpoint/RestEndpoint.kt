@@ -17,7 +17,6 @@
 package lupos.endpoint
 
 import lupos.dictionary.DictionaryCache
-import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.RemoteDictionaryClient
 import lupos.dictionary.RemoteDictionaryServer
@@ -34,7 +33,6 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
-import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -483,23 +481,18 @@ public object RestEndpoint {
 // init node
                     val query = Query(instance)
 // init dictionary
-                    val requireDictionary = node.usesDictionary()
-                    if (requireDictionary) {
-                        val idx2 = dictionaryURL.indexOf("/")
-                        val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
-                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
-                        query.setDictionary(remoteDictionary)
-                    } else {
-                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
-                    }
+                    val idx2 = dictionaryURL.indexOf("/")
+                    val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
+                    val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
+                    query.setDictionary(remoteDictionary)
                     query.setDictionaryUrl(dictionaryURL)
 // evaluate
-                    val node = BinaryToOPBase.convertToIteratorBundle(query, queryContainer.data, queryContainer.dataID, operatorMap)
-                    node.rows.next()
-// release
-                    if (requireDictionary) {
-                        query.getDictionary().close()
+                    val node = BinaryToOPBase.convertToIteratorBundle(query, queryContainer.data, queryContainer.dataID, localOperatorMap)
+                    for (n in node.nodes) {
+                        n.second.rows.next()
                     }
+// release
+                    query.getDictionary().close()
                     for ((k, c) in queryContainer.outputStreams) {
                         c!!.close()
                     }
@@ -509,7 +502,7 @@ public object RestEndpoint {
                 }
 // done
             }
-            queryMappings.remove(key)
+            queryMappings.remove("$transactionID-$key")
             false
         }
         paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
