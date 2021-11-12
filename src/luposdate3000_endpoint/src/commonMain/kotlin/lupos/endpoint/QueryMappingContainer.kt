@@ -21,9 +21,18 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
 import lupos.shared.XMLElement
+import lupos.operator.base.Query
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
-internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>) {
+internal class QueryMappingContainer(
+@JvmField internal val data:ByteArrayWrapper,
+@JvmField internal val dataID:Int,
+ @JvmField internal var inputStreams: Array<IMyInputStream?>,
+ @JvmField internal var outputStreams: Array<IMyOutputStream?>
+) {
+ @JvmField
+    internal var query:Query?=null
     @JvmField
     internal var instance: POPBase? = null
 

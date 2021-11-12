@@ -16,6 +16,8 @@
  */
 package lupos.endpoint
 
+import lupos.operator.factory.BinaryToOPBase
+import lupos.operator.factory.BinaryMetadataHandler
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
@@ -55,6 +57,7 @@ public object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
+internal var localOperatorMap=ConverterBinaryToIteratorBundle.operatorMap
     public fun registerDictionary(key: String, instance: Luposdate3000Instance): IDictionary {
         return registerDictionary(key, DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), instance)
     }
@@ -234,303 +237,359 @@ public object RestEndpoint {
                 }
             }
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            printHeaderSuccess(connectionOutMy)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
-            true
+            val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true)
+            val binary = binaryAndMeta.first
+            val meta = binaryAndMeta.second
+            for ((k, v) in meta.idToOffset) {
+                val v = meta.idToHost[k]
+                meta.idToHost[k] = mutableSetOf(
+                    if (v == null) {
+                        node.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
+                    } else {
+                        v.first()
+                    }
+                )
+            }
+TODO("send dependenciesForID together with binary to hosts")
         }
-        paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
-            val e = params["evaluator"]
-            val evaluator = if (e == null) {
-                EQueryResultToStreamExt.DEFAULT_STREAM
+        printHeaderSuccess(connectionOutMy)
+//        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
+BinaryToOPBase.convertToIteratorBundle(node.getQuery(),binary,-1,localOperatorMap)
+        true
+    }
+    paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt))
+    {
+        params, _, connectionOutMy ->
+        val e = params["evaluator"]
+        val evaluator = if (e == null) {
+            EQueryResultToStreamExt.DEFAULT_STREAM
+        } else {
+            val e2 = EQueryResultToStreamExt.names.indexOf(e)
+            if (e2 >= 0) {
+                e2
             } else {
-                val e2 = EQueryResultToStreamExt.names.indexOf(e)
-                if (e2 >= 0) {
-                    e2
-                } else {
-                    EQueryResultToStreamExt.DEFAULT_STREAM
-                }
+                EQueryResultToStreamExt.DEFAULT_STREAM
             }
-            val e3 = params["minimumTime"]
-            val minimumTime = try {
-                e3!!.toDouble()
-            } catch (e: Throwable) {
-                10.0
+        }
+        val e3 = params["minimumTime"]
+        val minimumTime = try {
+            e3!!.toDouble()
+        } catch (e: Throwable) {
+            10.0
+        }
+        val writer = MyPrintWriter(false)
+        val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
+        printHeaderSuccess(connectionOutMy)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, evaluator)
+        val timer = DateHelperRelative.markNow()
+        var time: Double
+        var counter = 0
+        while (true) {
+            counter++
+            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+            time = DateHelperRelative.elapsedSeconds(timer)
+            if (time > minimumTime) {
+                break
             }
-            val writer = MyPrintWriter(false)
-            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            printHeaderSuccess(connectionOutMy)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, evaluator)
-            val timer = DateHelperRelative.markNow()
-            var time: Double
-            var counter = 0
-            while (true) {
-                counter++
-                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-                time = DateHelperRelative.elapsedSeconds(timer)
-                if (time > minimumTime) {
+        }
+        connectionOutMy.println("$counter,${time * 1000.0},${counter / time},${params["query"]!!}")
+        true
+    }
+    paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt))
+    {
+        params, _, connectionOutMy ->
+        val e = params["evaluator"]
+        val evaluator = if (e == null) {
+            EQueryResultToStreamExt.DEFAULT_STREAM
+        } else {
+            val e2 = EQueryResultToStreamExt.names.indexOf(e)
+            if (e2 >= 0) {
+                e2
+            } else {
+                EQueryResultToStreamExt.DEFAULT_STREAM
+            }
+        }
+        val query = Query(instance)
+        val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
+        printHeaderSuccess(connectionOutMy)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
+        true
+    }
+    paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        printHeaderSuccess(connectionOutMy)
+        connectionOutMy.print(LuposdateEndpoint.importTripleFile(instance, params["file"]!!))
+        true
+    }
+    paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        printHeaderSuccess(connectionOutMy)
+        connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
+        true
+    }
+    paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf())
+    {
+        params, connectionInMy, connectionOutMy ->
+        val dict = dictionaryMapping[params["key"]!!]!!
+        dict.connect(connectionInMy, connectionOutMy)
+        true
+    }
+    paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        val key = params["key"]!!
+        registerDictionary(key, instance)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        val key = params["key"]!!
+        removeDictionary(key)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        distributed_graph_create(params, instance)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        val query = Query(instance)
+        val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+        instance.tripleStoreManager!!.remoteCommit(query, origin)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        val query = Query(instance)
+        val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+        instance.tripleStoreManager!!.remoteDropGraph(query, params["name"]!!, origin)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement))
+    {
+        params, _, connectionOutMy ->
+        val query = Query(instance)
+        val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+        instance.tripleStoreManager!!.remoteClearGraph(query, params["name"]!!, origin)
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf())
+    {
+        params, connectionInMy, connectionOutMy ->
+        val query = Query(instance)
+        val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+        val graph = params["graph"]!!
+        val isSorted = params["isSorted"]!!.toBoolean()
+        val sortedBy = params["sortedBy"]!!.toInt()
+        instance.tripleStoreManager!!.remoteModify(query, mode, connectionInMy, isSorted, sortedBy, graph)
+        true
+    }
+    paths["/debugLocalStore"] = PathMappingHelper(false, mapOf())
+    {
+        params, _, connectionOutMy ->
+        instance.tripleStoreManager!!.debugAllLocalStoreContent()
+        printHeaderSuccess(connectionOutMy)
+        true
+    }
+    paths["/distributed/query/histogram"] = PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement))
+    {
+        params, connectionInMy, connectionOutMy ->
+        val cnt = connectionInMy.readInt()
+        val filter = DictionaryValueTypeArray(cnt)
+        for (i in 0 until cnt) {
+            filter[i] = connectionInMy.readDictionaryValueType()
+        }
+        val tmp = instance.tripleStoreManager!!.remoteHistogram(params["tag"]!!, filter)
+        connectionOutMy.writeInt(tmp.first)
+        connectionOutMy.writeInt(tmp.second)
+        connectionOutMy.flush()
+        true
+    }
+    paths["/distributed/query/register"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        val xml = XMLParser(MyStringStream(params["query"]!!))
+        val keys = mutableListOf<String>()
+        for (c in xml.childs) {
+            if (c.tag == "partitionDistributionKey") {
+                keys.add(c.attributes["key"]!!)
+            }
+        }
+        val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null })
+        for (key in keys) {
+            queryMappings[key] = container
+        }
+        connectionOutMy.print("HTTP/1.1 200 OK\n\n")
+        true
+    }
+    paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf())
+    {
+        params, connectionInMy, connectionOutMy ->
+        val key = params["key"]!!
+        val queryContainer = queryMappings[key]!!
+        val queryXML = queryContainer.xml
+        val dictionaryURL = params["dictionaryURL"]!!
+        val comm = instance.communicationHandler!!
+// calculate current partition
+        var partitionNumber: Int = 0
+        if (queryContainer.inputStreams.size > 1) {
+            for (k in key.split(":")) {
+                val s = queryXML.attributes["partitionVariable"] + "="
+                if (k.startsWith(s)) {
+                    partitionNumber = k.substring(s.length).toInt()
                     break
                 }
             }
-            connectionOutMy.println("$counter,${time * 1000.0},${counter / time},${params["query"]!!}")
-            true
         }
-        paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
-            val e = params["evaluator"]
-            val evaluator = if (e == null) {
-                EQueryResultToStreamExt.DEFAULT_STREAM
-            } else {
-                val e2 = EQueryResultToStreamExt.names.indexOf(e)
-                if (e2 >= 0) {
-                    e2
-                } else {
-                    EQueryResultToStreamExt.DEFAULT_STREAM
+        queryContainer.instanceLock.withLock {
+            queryContainer.outputStreams[partitionNumber] = connectionOutMy
+            queryContainer.inputStreams[partitionNumber] = connectionInMy
+            var flag = true
+            for (c in queryContainer.outputStreams) {
+                if (c == null) {
+                    flag = false
+                    break
                 }
             }
-            val query = Query(instance)
-            val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
-            printHeaderSuccess(connectionOutMy)
-            LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, connectionOutMy, evaluator)
-            true
-        }
-        paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3") to ::inputElement)) { params, _, connectionOutMy ->
-            printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTripleFile(instance, params["file"]!!))
-            true
-        }
-        paths["/import/partition/scheme"] = PathMappingHelper(true, mapOf(Pair("file", "") to ::inputElement)) { params, _, connectionOutMy ->
-            LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) { params, _, connectionOutMy ->
-            printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleString(instance, params["data"]!!))
-            true
-        }
-        paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "${instance.LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/1024/complete.n3.partitions") to ::inputElement)) { params, _, connectionOutMy ->
-            LuposdateEndpoint.setEstimatedPartitionsFromFile(instance, params["file"]!!)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            val dict = dictionaryMapping[params["key"]!!]!!
-            dict.connect(connectionInMy, connectionOutMy)
-            true
-        }
-        paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            val key = params["key"]!!
-            registerDictionary(key, instance)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            val key = params["key"]!!
-            removeDictionary(key)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
-            distributed_graph_create(params, instance)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            val query = Query(instance)
-            val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            instance.tripleStoreManager!!.remoteCommit(query, origin)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
-            val query = Query(instance)
-            val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            instance.tripleStoreManager!!.remoteDropGraph(query, params["name"]!!, origin)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) { params, _, connectionOutMy ->
-            val query = Query(instance)
-            val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-            instance.tripleStoreManager!!.remoteClearGraph(query, params["name"]!!, origin)
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            val query = Query(instance)
-            val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-            val graph = params["graph"]!!
-            val isSorted = params["isSorted"]!!.toBoolean()
-            val sortedBy = params["sortedBy"]!!.toInt()
-            instance.tripleStoreManager!!.remoteModify(query, mode, connectionInMy, isSorted, sortedBy, graph)
-            true
-        }
-        paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, _, connectionOutMy ->
-            instance.tripleStoreManager!!.debugAllLocalStoreContent()
-            printHeaderSuccess(connectionOutMy)
-            true
-        }
-        paths["/distributed/query/histogram"] = PathMappingHelper(false, mapOf(Pair("tag", "") to ::inputElement)) { params, connectionInMy, connectionOutMy ->
-            val cnt = connectionInMy.readInt()
-            val filter = DictionaryValueTypeArray(cnt)
-            for (i in 0 until cnt) {
-                filter[i] = connectionInMy.readDictionaryValueType()
-            }
-            val tmp = instance.tripleStoreManager!!.remoteHistogram(params["tag"]!!, filter)
-            connectionOutMy.writeInt(tmp.first)
-            connectionOutMy.writeInt(tmp.second)
-            connectionOutMy.flush()
-            true
-        }
-        paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            val xml = XMLParser(MyStringStream(params["query"]!!))
-            val keys = mutableListOf<String>()
-            for (c in xml.childs) {
-                if (c.tag == "partitionDistributionKey") {
-                    keys.add(c.attributes["key"]!!)
-                }
-            }
-            val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null })
-            for (key in keys) {
-                queryMappings[key] = container
-            }
-            connectionOutMy.print("HTTP/1.1 200 OK\n\n")
-            true
-        }
-        paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            val key = params["key"]!!
-            val queryContainer = queryMappings[key]!!
-            val queryXML = queryContainer.xml
-            val dictionaryURL = params["dictionaryURL"]!!
-            val comm = instance.communicationHandler!!
-// calculate current partition
-            var partitionNumber: Int = 0
-            if (queryContainer.inputStreams.size > 1) {
-                for (k in key.split(":")) {
-                    val s = queryXML.attributes["partitionVariable"] + "="
-                    if (k.startsWith(s)) {
-                        partitionNumber = k.substring(s.length).toInt()
-                        break
-                    }
-                }
-            }
-            queryContainer.instanceLock.withLock {
-                queryContainer.outputStreams[partitionNumber] = connectionOutMy
-                queryContainer.inputStreams[partitionNumber] = connectionInMy
-                var flag = true
-                for (c in queryContainer.outputStreams) {
-                    if (c == null) {
-                        flag = false
-                        break
-                    }
-                }
-                if (flag) {
+            if (flag) {
 // only launch if all receivers are started
 // init node
-                    val query = Query(instance)
-                    var node = queryContainer.instance
-                    if (node == null) {
-                        node = XMLElementToOPBase(query, queryXML) as POPBase
-                        queryContainer.instance = node
-                    }
-                    query.root = node
+                val query = Query(instance)
+                var node = queryContainer.instance
+                if (node == null) {
+                    node = XMLElementToOPBase(query, queryXML) as POPBase
+                    queryContainer.instance = node
+                }
+                query.root = node
 // init dictionary
-                    val requireDictionary = node.usesDictionary()
-                    if (requireDictionary) {
-                        val idx2 = dictionaryURL.indexOf("/")
-                        val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
-                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
-                        query.setDictionary(remoteDictionary)
-                    } else {
-                        query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
-                    }
-                    query.setDictionaryUrl(dictionaryURL)
+                val requireDictionary = node.usesDictionary()
+                if (requireDictionary) {
+                    val idx2 = dictionaryURL.indexOf("/")
+                    val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())
+                    val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, true)
+                    query.setDictionary(remoteDictionary)
+                } else {
+                    query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
+                }
+                query.setDictionaryUrl(dictionaryURL)
 // evaluate
-                    when (node) {
-                        is POPDistributedSendSingle -> {
-                            TODO("node.evaluate(connectionOutMy)")
-                        }
-                        is POPDistributedSendSingleCount -> {
-                            TODO("node.evaluate(connectionOutMy)")
-                        }
-                        is POPDistributedSendMulti -> {
-                            TODO("node.evaluate(queryContainer.outputStreams)")
-                        }
-                        else -> throw Exception("unexpected node '${node.classname}'")
+                when (node) {
+                    is POPDistributedSendSingle -> {
+                        TODO("node.evaluate(connectionOutMy)")
                     }
+                    is POPDistributedSendSingleCount -> {
+                        TODO("node.evaluate(connectionOutMy)")
+                    }
+                    is POPDistributedSendMulti -> {
+                        TODO("node.evaluate(queryContainer.outputStreams)")
+                    }
+                    else -> throw Exception("unexpected node '${node.classname}'")
+                }
 // release
-                    if (requireDictionary) {
-                        query.getDictionary().close()
-                    }
-                    for (c in queryContainer.outputStreams) {
-                        c!!.close()
-                    }
-                    for (c in queryContainer.inputStreams) {
-                        c!!.close()
-                    }
+                if (requireDictionary) {
+                    query.getDictionary().close()
                 }
+                for (c in queryContainer.outputStreams) {
+                    c!!.close()
+                }
+                for (c in queryContainer.inputStreams) {
+                    c!!.close()
+                }
+            }
 // done
-            }
-            queryMappings.remove(key)
-            false
         }
-        paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            printHeaderSuccess(connectionOutMy)
-            for ((k, v) in queryMappings) {
-                connectionOutMy.println("<p> $k :: $v </p>")
-            }
-            true
-        }
-        paths["/debug.html"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
-            connectionOutMy.println("HTTP/1.1 200 OK")
-            connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
-            connectionOutMy.println()
-            connectionOutMy.println("<!DOCTYPE html>")
-            connectionOutMy.println("<html lang=\"en\">")
-            connectionOutMy.println("   <head>")
-            connectionOutMy.println("   <title>Luposdate3000</title>")
-            connectionOutMy.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
-            connectionOutMy.println("<script>")
-            connectionOutMy.println("   $(document).ready(function() {")
-            for ((k, v) in paths) {
-                if (k.length > 1) {
-                    val formId = k.replace("/", "_")
-                    connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
-                    connectionOutMy.println(" var formData = {")
-                    for ((first) in v.params.keys) {
-                        connectionOutMy.println("     '$first': $('#$formId [name=$first]').val(),")
-                    }
-                    connectionOutMy.println(" };")
-                    connectionOutMy.println(" $.ajax({")
-                    connectionOutMy.println("         type: 'POST',")
-                    connectionOutMy.println("         url: '${k.substring(1)}',")
-                    connectionOutMy.println("         data: formData")
-                    connectionOutMy.println("     })")
-                    connectionOutMy.println("     .done(function(data) {")
-                    connectionOutMy.println("         $('#responseDiv').text(data);")
-                    connectionOutMy.println("     });")
-                    connectionOutMy.println(" event.preventDefault();")
-                    connectionOutMy.println("       });")
-                }
-            }
-            connectionOutMy.println("   });")
-            connectionOutMy.println("</script>")
-            connectionOutMy.println("   </head>")
-            connectionOutMy.println("   <body>")
-            for ((k, v) in paths) {
-                if (k.length > 1) {
-                    val formId = k.replace("/", "_")
-                    connectionOutMy.println("<form id=\"$formId\" >")
-                    for ((p, q) in v.params) {
-                        connectionOutMy.println(q(p.first, p.second))
-                    }
-                    connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
-                    connectionOutMy.println("</form>")
-                }
-            }
-            connectionOutMy.println("   <div id=\"responseDiv\"></div>")
-            connectionOutMy.println("   </body>")
-            connectionOutMy.println("</html>")
-            true
-        }
+        queryMappings.remove(key)
+        false
     }
+    paths["/distributed/query/list"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        printHeaderSuccess(connectionOutMy)
+        for ((k, v) in queryMappings) {
+            connectionOutMy.println("<p> $k :: $v </p>")
+        }
+        true
+    }
+    paths["/debug.html"] = PathMappingHelper(true, mapOf())
+    {
+        params, _, connectionOutMy ->
+        connectionOutMy.println("HTTP/1.1 200 OK")
+        connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
+        connectionOutMy.println()
+        connectionOutMy.println("<!DOCTYPE html>")
+        connectionOutMy.println("<html lang=\"en\">")
+        connectionOutMy.println("   <head>")
+        connectionOutMy.println("   <title>Luposdate3000</title>")
+        connectionOutMy.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
+        connectionOutMy.println("<script>")
+        connectionOutMy.println("   $(document).ready(function() {")
+        for ((k, v) in paths) {
+            if (k.length > 1) {
+                val formId = k.replace("/", "_")
+                connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
+                connectionOutMy.println(" var formData = {")
+                for ((first) in v.params.keys) {
+                    connectionOutMy.println("     '$first': $('#$formId [name=$first]').val(),")
+                }
+                connectionOutMy.println(" };")
+                connectionOutMy.println(" $.ajax({")
+                connectionOutMy.println("         type: 'POST',")
+                connectionOutMy.println("         url: '${k.substring(1)}',")
+                connectionOutMy.println("         data: formData")
+                connectionOutMy.println("     })")
+                connectionOutMy.println("     .done(function(data) {")
+                connectionOutMy.println("         $('#responseDiv').text(data);")
+                connectionOutMy.println("     });")
+                connectionOutMy.println(" event.preventDefault();")
+                connectionOutMy.println("       });")
+            }
+        }
+        connectionOutMy.println("   });")
+        connectionOutMy.println("</script>")
+        connectionOutMy.println("   </head>")
+        connectionOutMy.println("   <body>")
+        for ((k, v) in paths) {
+            if (k.length > 1) {
+                val formId = k.replace("/", "_")
+                connectionOutMy.println("<form id=\"$formId\" >")
+                for ((p, q) in v.params) {
+                    connectionOutMy.println(q(p.first, p.second))
+                }
+                connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
+                connectionOutMy.println("</form>")
+            }
+        }
+        connectionOutMy.println("   <div id=\"responseDiv\"></div>")
+        connectionOutMy.println("   </body>")
+        connectionOutMy.println("</html>")
+        true
+    }
+}
 }
