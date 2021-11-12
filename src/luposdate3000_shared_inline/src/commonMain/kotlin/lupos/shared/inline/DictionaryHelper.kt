@@ -833,7 +833,7 @@ internal object DictionaryHelper {
                 TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeA]} vs ${ETripleComponentTypeExt.names[typeB]}")
             }
         }
-        //println("compare ${byteArrayToSparql(a)} to  ${byteArrayToSparql(b)} -> $result")
+        // println("compare ${byteArrayToSparql(a)} to  ${byteArrayToSparql(b)} -> $result")
         return result
     }
 }
