@@ -152,14 +152,14 @@ public object RestEndpoint {
             val comm = instance.communicationHandler!!
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val host = query.keyToHostMap[key]!!
-            val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+            val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
             EvalDistributedReceiveSingle(conn.first, conn.second)
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
             val comm = instance.communicationHandler!!
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val host = query.keyToHostMap[key]!!
-            val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+            val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
             EvalDistributedReceiveSingleCount(conn.first, conn.second)
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, operatorMap ->
@@ -172,9 +172,8 @@ public object RestEndpoint {
             val outputsList = mutableListOf<IMyOutputStream?>()
             val comm = instance.communicationHandler!!
             for (key in keys) {
-                println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
                 val host = query.keyToHostMap[key]!!
-                val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
                 inputsList.add(conn.first)
                 outputsList.add(conn.second)
             }
@@ -192,9 +191,8 @@ public object RestEndpoint {
             val outputsList = mutableListOf<IMyOutputStream?>()
             val comm = instance.communicationHandler!!
             for (key in keys) {
-                println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
                 val host = query.keyToHostMap[key]!!
-                val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
                 inputsList.add(conn.first)
                 outputsList.add(conn.second)
             }
@@ -228,9 +226,8 @@ public object RestEndpoint {
                 val outputsList = mutableListOf<IMyOutputStream?>()
                 val comm = instance.communicationHandler!!
                 for (key in keys) {
-                    println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
                     val host = query.keyToHostMap[key]!!
-                    val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                    val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
                     inputsList.add(conn.first)
                     outputsList.add(conn.second)
                 }
@@ -383,7 +380,7 @@ public object RestEndpoint {
             val query = node.getQuery() as Query
             val key = "${query.getTransactionID()}"
             try {
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                 query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
                 for (k in meta.idToHost.keys) {
                     val v = meta.idToHost[k]
@@ -436,17 +433,17 @@ public object RestEndpoint {
                     conn.first.close()
                 }
                 printHeaderSuccess(connectionOutMy)
-                    for ((childID, key) in meta.dependenciesForID[-1]!!) {
-                        val h = meta.idToHost[childID]!!.first()
-                        query.keyToHostMap[key] = h
-                    }
-                    
+                for ((childID, key) in meta.dependenciesForID[-1]!!) {
+                    val h = meta.idToHost[childID]!!.first()
+                    query.keyToHostMap[key] = h
+                }
+
                 val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap)
                 LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             } catch (e: Throwable) {
                 e.printStackTrace()
-                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             }
             true
         }
@@ -525,6 +522,7 @@ public object RestEndpoint {
             true
         }
         paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+            println("/distributed/query/dictionary $params")
             val dict = dictionaryMapping[params["key"]!!]!!
             dict.connect(connectionInMy, connectionOutMy)
             true
@@ -659,7 +657,10 @@ public object RestEndpoint {
 // release
                     query.getDictionary().close()
                     for ((k, c) in queryContainer.outputStreams) {
-                        c!!.close()
+                        try {
+                            c!!.close()
+                        } catch (e: Throwable) {
+                        }
                     }
                     for ((k, c) in queryContainer.inputStreams) {
                         c!!.close()

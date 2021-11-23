@@ -17,7 +17,6 @@
 package lupos.operator.factory
 import lupos.operator.base.Query
 import lupos.optimizer.physical.PhysicalOptimizerSplitMergePartition
-import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
@@ -53,9 +52,9 @@ public object BinaryToOPBase {
         val t1 = aopAll - a1
         val t2 = aopAll - a2
         val t3 = aopAll - a3
-        if (t1.size> 0) { println("ConverterAOPBaseToBinary is missing : \n${t1.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        if (t2.size> 0) { println("ConverterBinaryToAOPBase is missing : \n${t2.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        if (t3.size> 0) { println("ConverterBinaryToAOPJson is missing : \n${t3.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t1.size> 0) { println("ConverterAOPBaseToBinary is missing : \n${t1.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t2.size> 0) { println("ConverterBinaryToAOPBase is missing : \n${t2.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t3.size> 0) { println("ConverterBinaryToAOPJson is missing : \n${t3.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
         val a4 = IntArray(ConverterPOPBaseToBinary.operatorMap.size) { it }.filter { ConverterPOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a5 = IntArray(ConverterBinaryToIteratorBundle.defaultOperatorMap.size) { it }.filter { ConverterBinaryToIteratorBundle.defaultOperatorMap[it] != null }.toSet()
         val a6 = IntArray(ConverterBinaryToPOPJson.operatorMap.size) { it }.filter { ConverterBinaryToPOPJson.operatorMap[it] != null }.toSet()
@@ -65,9 +64,9 @@ public object BinaryToOPBase {
         val t5 = popAll - a5
         val t6 = popAll - a6
         val t7 = popAll - a7
-        if (t4.size> 0) { println("ConverterPOPBaseToBinary is missing : \n${t4.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        if (t5.size> 0) { println("ConverterBinaryToIteratorBundle is missing : \n${t5.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        if (t6.size> 0) { println("ConverterBinaryToPOPJson is missing : \n${t6.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
-        if (t7.size> 0) { println("ConverterBinaryToBinary is missing : \n${t7.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t4.size> 0) { println("ConverterPOPBaseToBinary is missing : \n${t4.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t5.size> 0) { println("ConverterBinaryToIteratorBundle is missing : \n${t5.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t6.size> 0) { println("ConverterBinaryToPOPJson is missing : \n${t6.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
+//        if (t7.size> 0) { println("ConverterBinaryToBinary is missing : \n${t7.map{EOperatorIDExt.names[it]}.joinToString("\n")}") }
     }
 }

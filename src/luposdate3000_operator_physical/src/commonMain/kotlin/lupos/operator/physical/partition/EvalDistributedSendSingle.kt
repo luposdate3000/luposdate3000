@@ -32,17 +32,16 @@ public object EvalDistributedSendSingle {
             connectionOut.write(buf)
         }
         var flag = true
-        while (true) {
+        while (flag) {
             for (j in 0 until variables.size) {
                 val buf = columns[j].next()
                 flag = flag && buf != DictionaryValueHelper.nullValue
                 connectionOut.writeDictionaryValueType(buf)
             }
-            if (!flag) {
-                break
-            } else {
-            }
         }
-        connectionOut.close()
+        try {
+            connectionOut.close()
+        } catch (e: Throwable) {
+        }
     }
 }
