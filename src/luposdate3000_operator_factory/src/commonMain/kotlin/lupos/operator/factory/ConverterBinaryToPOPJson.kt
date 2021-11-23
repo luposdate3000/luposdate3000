@@ -143,7 +143,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiID,
-            { query, data, off ->
+            { _, data, off ->
                 var keys = mutableListOf<Int>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
                 for (i in 0 until len) {
@@ -154,21 +154,21 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveSingleID,
-            { query, data, off ->
+            { _, data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
                 "{\"type\":\"POPDistributedReceiveSingle\",\"key\":$key}"
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveSingleCountID,
-            { query, data, off ->
+            { _, data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
                 "{\"type\":\"POPDistributedReceiveSingleCount\",\"key\":$key}"
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiCountID,
-            { query, data, off ->
+            { _, data, off ->
                 var keys = mutableListOf<Int>()
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
                 for (i in 0 until len) {
@@ -179,7 +179,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
-            { query, data, off ->
+            { _, data, off ->
                 var keys = mutableListOf<Int>()
                 var orderedBy = mutableListOf<String>()
                 var variablesOut = mutableListOf<String>()
@@ -204,7 +204,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
-            { query, data, off ->
+            { _, data, off ->
                 val silent = ByteArrayWrapperExt.readInt1(data, off + 24, { "POPGraphOperation.silent" }) == 1
                 val graph1type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGraphOperation.graph1type" })
                 val graph1iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 16, { "POPGraphOperation.graph1iri" }))
@@ -216,7 +216,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyDataID,
-            { query, data, off ->
+            { _, data, off ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
                 val l = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.data.size" })
                 var o = off + 8
@@ -233,7 +233,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPNothingID,
-            { query, data, off ->
+            { _, data, off ->
                 val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPNothing.size" })
                 val list = mutableListOf<String>()
                 for (i in 0 until len) {
@@ -244,14 +244,14 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesCountID,
-            { query, data, off ->
+            { _, data, off ->
                 val size = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValueCount.rows.size" })
                 "{\"type\":\"POPValuesCount\",\"count\":$size}"
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesID,
-            { query, data, off ->
+            { _, data, off ->
                 val columns = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPValues.columns.size" })
                 val row_count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPValues.rows.size" })
                 val dd = mutableMapOf<String, MutableList<DictionaryValueType>>()
@@ -270,7 +270,7 @@ public object ConverterBinaryToPOPJson {
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPEmptyRowID,
-            { query, data, off ->
+            { _, data, off ->
                 "{\"type\":\"POPEmptyRow\"}"
             },
         )

@@ -40,7 +40,6 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
 
     // Load turtle data
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
-    val time = DateHelperRelative.elapsedSeconds(timer)
 
     // avoid unnecessary overhead during measurement
     val groupSize = IntArray(queryFiles2.size) { 1 }
@@ -56,7 +55,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     val query = File(queryFile).readAsString()
 
                     // Optimize query and convert to operatorgraph
-                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query, true)
+                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query)
                     var lopjoin0 = node.getChildren() // lopjoin
 
                     // ERROR : this is NOT typesafe, and may error. Especially for more than 2 Joins. Please Check for the Class-Types here !!
@@ -100,17 +99,17 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
 
                     // Benchmark
-                    val timer = DateHelperRelative.markNow()
-                    var time: Double
+                    val timer2 = DateHelperRelative.markNow()
+                    var time2: Double
                     var counter = 0 // counts how often the query gets executed
                     do {
                         counter += groupSize[queryFileIdx]
                         for (i in 0 until groupSize[queryFileIdx]) {
                             LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                         }
-                        time = DateHelperRelative.elapsedSeconds(timer)
-                    } while (time <minimumTime2)
-                    benchOut.println("$queryFile $joinOrder ${counter / time}")
+                        time2 = DateHelperRelative.elapsedSeconds(timer2)
+                    } while (time2 <minimumTime2)
+                    benchOut.println("$queryFile $joinOrder ${counter / time2}")
                 }
             }
         }

@@ -78,7 +78,7 @@ public class PartitionHelper() {
 
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean, filterIndiceesFunc: (Int) -> IntArray): IntArray {
         val filterIndicees = filterIndiceesFunc(partition[partitionid]!!)
-        val res = getKeysForInternal(uuid, partitionid, query, count, isSender)
+        val res = getKeysForInternal(uuid, partitionid, query, count)
         val myList = IntArray(filterIndicees.size) { res.keys[filterIndicees[it]] }
         // println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
         SanityCheck(
@@ -93,7 +93,7 @@ public class PartitionHelper() {
     }
 
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): IntArray {
-        val res = getKeysForInternal(uuid, partitionid, query, count, isSender)
+        val res = getKeysForInternal(uuid, partitionid, query, count)
         // println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:98"/*SOURCE_FILE_END*/ },
@@ -106,7 +106,7 @@ public class PartitionHelper() {
         return res.keys
     }
 
-    private fun getKeysForInternal(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): PartitionHelper3 {
+    private fun getKeysForInternal(uuid: Long, partitionid: Int, query: IQuery, count: Int): PartitionHelper3 {
         loop@ for (key in keys) {
             if (key.uuid != uuid) {
                 continue@loop
@@ -140,7 +140,7 @@ public class PartitionHelper() {
     }
 
     public fun getKeyFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): Int {
-        val r = getKeysForInternal(uuid, partitionid, query, count, isSender)
+        val r = getKeysForInternal(uuid, partitionid, query, count)
         val res = r.keys
         val p = partition[partitionid]
         if (p == null) {

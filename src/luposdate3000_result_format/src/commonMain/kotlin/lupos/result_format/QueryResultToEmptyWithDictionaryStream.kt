@@ -21,7 +21,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
@@ -53,11 +52,11 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     }
 
     override operator fun invoke(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
-        invokeInternal(rootNode, output, timeoutInMs)
+        invokeInternal(rootNode, timeoutInMs)
     }
 
     override operator fun invoke(rootNode: IteratorBundleRoot, output: IMyOutputStream) {
-        invokeInternal(rootNode, output, -1)
+        invokeInternal(rootNode, -1)
     }
 
     override operator fun invoke(rootNode: IteratorBundleRoot) {
@@ -65,7 +64,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
+    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long) {
         val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"
@@ -78,7 +77,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:80"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyWithDictionaryStream.kt:79"/*SOURCE_FILE_END*/ },
                     { child.names.toSet().containsAll(columnNames) },
                     { "${columnNames.map { it }} vs ${child.names}" }
                 )
@@ -94,7 +93,6 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
                 if (variables.isEmpty()) {
                     child.count()
                 } else {
-                    val parent = Partition()
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, rootNode.query.getDictionary(), timeoutInMs)
                 }

@@ -24,7 +24,6 @@ public object EvalDistributedSendSingle {
     public operator fun invoke(connectionOut: IMyOutputStream, child: IteratorBundle) {
         val variables = child.names
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        var i = 0
         connectionOut.writeInt(variables.size)
         for (v in variables) {
             val buf = v.encodeToByteArray()

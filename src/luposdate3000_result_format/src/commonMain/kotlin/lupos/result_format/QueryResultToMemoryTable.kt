@@ -23,7 +23,6 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MemoryTable
 import lupos.shared.MyLock
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
@@ -157,7 +156,6 @@ public class QueryResultToMemoryTable : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long): List<MemoryTable> {
-        val partition = Partition()
         val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"
@@ -171,7 +169,7 @@ public class QueryResultToMemoryTable : IResultFormat {
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:173"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:171"/*SOURCE_FILE_END*/ },
                     { child.names.toSet().containsAll(columnNames) },
                     { "${columnNames.map { it }} vs ${child.names.toList()}" }
                 )
@@ -199,7 +197,6 @@ public class QueryResultToMemoryTable : IResultFormat {
                 } else {
                     val output = MemoryTable(variables)
                     output.query = rootNode.query
-                    val parent = Partition()
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, rootNode.query.getDictionary(), null, output, timeoutInMs)
                     resultList.add(output)

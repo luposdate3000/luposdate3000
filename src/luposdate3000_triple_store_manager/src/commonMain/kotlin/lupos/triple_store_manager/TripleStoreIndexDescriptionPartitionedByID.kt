@@ -87,7 +87,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         var data = -1
         var flag = false
-        for ((k, v) in partition.data) {
+        for (v in partition.data.values) {
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:91"/*SOURCE_FILE_END*/ },
                 { flag == false }

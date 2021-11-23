@@ -21,10 +21,8 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import kotlin.jvm.JvmField
 
 public class DictionaryNotImplemented public constructor(
-    @JvmField
     private val instance: Luposdate3000Instance,
 ) : IDictionary {
     internal val bnodeMapToGlobal = mutableMapOf<DictionaryValueType, DictionaryValueType>()

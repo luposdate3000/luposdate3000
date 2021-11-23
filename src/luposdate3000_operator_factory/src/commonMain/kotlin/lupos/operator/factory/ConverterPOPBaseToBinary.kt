@@ -334,11 +334,11 @@ public object ConverterPOPBaseToBinary {
 
     private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int): Int {
         if ((op as OPBase).operatorID >= operatorMap.size) {
-            TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
+            TODO("convertToByteArrayHelper ${op .operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
         }
-        val encoder = operatorMap[(op as OPBase).operatorID]
+        val encoder = operatorMap[op.operatorID]
         if (encoder == null) {
-            TODO("convertToByteArrayHelper ${(op as OPBase).operatorID} -> ${EOperatorIDExt.names[(op as OPBase).operatorID]}")
+            TODO("convertToByteArrayHelper ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
         }
         return encoder(op, data, mapping, distributed, handler, offPtr)
     }
@@ -402,9 +402,9 @@ public object ConverterPOPBaseToBinary {
             handler.idToOffset[childID] = off + 8
             handler.keyLocationSend(keys[partition], off + 8)
             ByteArrayWrapperExt.setSize(data, off + 24 + 4 * partitionCount, true)
-            val child = convertToByteArrayHelper(child, data, mapping, distributed, handler, off + 12)
+            val child2 = convertToByteArrayHelper(child, data, mapping, distributed, handler, off + 12)
             ByteArrayWrapperExt.writeInt4(data, off + 8, sendID, { "operatorID" })
-            ByteArrayWrapperExt.writeInt4(data, off + 12, child, { "POPDistributedSendMulti$labelAppendixSend.child" })
+            ByteArrayWrapperExt.writeInt4(data, off + 12, child2, { "POPDistributedSendMulti$labelAppendixSend.child" })
             ByteArrayWrapperExt.writeInt4(data, off + 16, partitionCount, { "POPDistributedSendMulti$labelAppendixSend.count" })
             ByteArrayWrapperExt.writeInt4(data, off + 20, ConverterString.encodeString(partitionColumn, data, mapping), { "POPDistributedSendMulti$labelAppendixSend.name" })
             ByteArrayWrapperExt.writeInt4(data, off + 24 + 4 * partition, keys[partition], { "POPDistributedSendMulti$labelAppendixSend.key[$partition]" })
@@ -440,7 +440,6 @@ public object ConverterPOPBaseToBinary {
         for ((k, v) in handler.currentPartition) {
             currentPartitionCopy[k] = v
         }
-        val childsOff = mutableListOf<Int>()
         val childIDs = mutableListOf<Int>()
         if (partitionVariable != null) {
             handler.partitionVariables[partitionID] = partitionVariable
@@ -507,7 +506,6 @@ public object ConverterPOPBaseToBinary {
         for ((k, v) in handler.currentPartition) {
             currentPartitionCopy[k] = v
         }
-        val childsOff = mutableListOf<Int>()
         val childIDs = mutableListOf<Int>()
         if (partitionVariable != null) {
             handler.partitionVariables[partitionID] = partitionVariable
@@ -747,7 +745,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPGraphOperationID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, _, _ ->
                 op as POPGraphOperation
                 ConverterBinaryEncoder.encodePOPGraphOperation(data, mapping, op.graph1type, op.graph2type, op.action, op.graph1iri, op.graph2iri, op.silent)
             },
@@ -768,14 +766,14 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPModifyDataID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, _, _ ->
                 op as POPModifyData
                 ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPNothingID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, _, _ ->
                 op as POPNothing
                 ConverterBinaryEncoder.encodePOPNothing(data, mapping, op.getProvidedVariableNames())
             },
@@ -785,7 +783,7 @@ public object ConverterPOPBaseToBinary {
                 EOperatorIDExt.POPValuesID,
                 EOperatorIDExt.POPValuesCountID,
             ),
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, _, _ ->
                 op as POPValues
                 if (op.rows == -1) {
                     ConverterBinaryEncoder.encodePOPValues(data, mapping, op.data)
@@ -796,13 +794,13 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPEmptyRowID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, _, _ ->
                 ConverterBinaryEncoder.encodePOPEmptyRow(data, mapping)
             },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPUnionID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPUnion
                 ConverterBinaryEncoder.encodePOPUnion(
                     data,
@@ -815,7 +813,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMinusID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPMinus
                 ConverterBinaryEncoder.encodePOPMinus(
                     data,
@@ -828,7 +826,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinMergeSingleColumn
                 ConverterBinaryEncoder.encodePOPJoinMergeSingleColumn(
                     data,
@@ -840,7 +838,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeOptionalID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinMergeOptional
                 ConverterBinaryEncoder.encodePOPJoinMergeOptional(
                     data,
@@ -853,7 +851,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinMerge
                 ConverterBinaryEncoder.encodePOPJoinMerge(
                     data,
@@ -866,7 +864,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinHashMapID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinHashMap
                 ConverterBinaryEncoder.encodePOPJoinHashMap(
                     data,
@@ -880,7 +878,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinCartesianProductID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinCartesianProduct
                 ConverterBinaryEncoder.encodePOPJoinCartesianProduct(
                     data,
@@ -893,7 +891,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPLimitID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPLimit
                 ConverterBinaryEncoder.encodePOPLimit(
                     data,
@@ -924,7 +922,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPOffsetID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPOffset
                 ConverterBinaryEncoder.encodePOPOffset(
                     data,
@@ -936,7 +934,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPMakeBooleanResultID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPMakeBooleanResult
                 ConverterBinaryEncoder.encodePOPMakeBooleanResult(
                     data,
@@ -947,7 +945,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPReducedID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPReduced
                 ConverterBinaryEncoder.encodePOPReduced(
                     data,
@@ -959,7 +957,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPTripleStoreIterator,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, _, handler, _ ->
                 op as POPTripleStoreIterator
                 val parent: Partition = if (handler.currentPartition.size == 0) {
                     Partition()
@@ -1003,7 +1001,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPBindID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPBind
                 var hostsTmp = handler.idToHost[handler.currentID]
                 val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
@@ -1025,7 +1023,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPFilterID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPFilter
                 var hostsTmp = handler.idToHost[handler.currentID]
                 val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
@@ -1052,7 +1050,7 @@ public object ConverterPOPBaseToBinary {
                 EOperatorIDExt.POPGroupSortedID,
                 EOperatorIDExt.POPGroupWithoutKeyColumnID,
             ),
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPGroup
                 var hostsTmp = handler.idToHost[handler.currentID]
                 val rootAddress = op.getQuery().getInstance().LUPOS_PROCESS_URLS_STORE[0]
@@ -1118,7 +1116,7 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPModifyID,
-            { op, data, mapping, distributed, handler, offPtr ->
+            { op, data, mapping, distributed, handler, _ ->
                 op as POPModify
                 ConverterBinaryEncoder.encodePOPModify(
                     data,

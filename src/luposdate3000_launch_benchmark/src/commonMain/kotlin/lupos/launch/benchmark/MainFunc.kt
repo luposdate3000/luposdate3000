@@ -56,20 +56,20 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             LuposdateEndpoint.evaluateSparqlToResultC(instance, query, true)
             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
             groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-            val timer = DateHelperRelative.markNow()
-            var time: Double
+            val timer2 = DateHelperRelative.markNow()
+            var time2: Double
             var counter = 0
             while (true) {
                 counter += groupSize[queryFileIdx]
                 for (i in 0 until groupSize[queryFileIdx]) {
                     LuposdateEndpoint.evaluateSparqlToResultB(instance, query)
                 }
-                time = DateHelperRelative.elapsedSeconds(timer)
-                if (time > minimumTime2) {
+                time2 = DateHelperRelative.elapsedSeconds(timer2)
+                if (time2 > minimumTime2) {
                     break
                 }
             }
-            println("$queryFile,$numberOfTriples2,0,$counter,${time * 1000.0},${counter / time},WithOptimizer")
+            println("$queryFile,$numberOfTriples2,0,$counter,${time2 * 1000.0},${counter / time2},WithOptimizer")
         }
     }
     if (optimizerMode2 != OptimizerMode.OnlyWith) {
@@ -83,20 +83,20 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
             groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-            val timer = DateHelperRelative.markNow()
-            var time: Double
+            val timer2 = DateHelperRelative.markNow()
+            var time2: Double
             var counter = 0
             while (true) {
                 counter += groupSize[queryFileIdx]
                 for (i in 0 until groupSize[queryFileIdx]) {
                     LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                 }
-                time = DateHelperRelative.elapsedSeconds(timer)
-                if (time > minimumTime2) {
+                time2 = DateHelperRelative.elapsedSeconds(timer2)
+                if (time2 > minimumTime2) {
                     break
                 }
             }
-            println("$queryFile,$numberOfTriples2,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+            println("$queryFile,$numberOfTriples2,0,$counter,${time2 * 1000.0},${counter / time2},NoOptimizer")
         }
     }
 }

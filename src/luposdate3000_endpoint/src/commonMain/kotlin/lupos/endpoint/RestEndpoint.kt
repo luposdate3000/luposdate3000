@@ -148,21 +148,21 @@ public object RestEndpoint {
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
         }
 
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, operatorMap ->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, _ ->
             val comm = instance.communicationHandler!!
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val host = query.keyToHostMap[key]!!
             val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
             EvalDistributedReceiveSingle(conn.first, conn.second)
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, _ ->
             val comm = instance.communicationHandler!!
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val host = query.keyToHostMap[key]!!
             val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
             EvalDistributedReceiveSingleCount(conn.first, conn.second)
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, operatorMap ->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
             for (i in 0 until len) {
@@ -181,7 +181,7 @@ public object RestEndpoint {
             val outputs = outputsList.toTypedArray()
             EvalDistributedReceiveMulti(inputs, outputs)
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, operatorMap ->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
             for (i in 0 until len) {
@@ -202,7 +202,7 @@ public object RestEndpoint {
         }
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
-            { query, data, off, operatorMap ->
+            { query, data, off, _ ->
                 var keys = mutableListOf<Int>()
                 var orderedBy = mutableListOf<String>()
                 var variablesOut = mutableListOf<String>()
@@ -255,7 +255,7 @@ public object RestEndpoint {
             connectionOutMy.print(key.toString())
             true
         }
-        paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, _, connectionOutMy ->
+        paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, _, _ ->
             if (instance.LUPOS_PROCESS_ID == 0) {
                 LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
             } else {
@@ -263,7 +263,7 @@ public object RestEndpoint {
             }
             true
         }
-        paths["/shacl/ontology/load"] = PathMappingHelper(true, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/shacl/ontology/load"] = PathMappingHelper(true, mapOf()) { _, connectionInMy, _ ->
             val data = ByteArrayWrapper()
             val cache2 = instance.nodeGlobalOntologyCache
             val cache = if (cache2 == null) {
@@ -412,9 +412,9 @@ public object RestEndpoint {
                     val deps = mutableMapOf<Int, String>() // key->host
                     val alldeps = meta.dependenciesForID[id]
                     if (alldeps != null) {
-                        for ((childID, key) in alldeps) {
+                        for ((childID, key2) in alldeps) {
                             val h = meta.idToHost[childID]!!.first()
-                            deps[key] = h
+                            deps[key2] = h
                         }
                     }
                     conn.second.writeInt(query.getTransactionID().toInt())
@@ -438,9 +438,9 @@ public object RestEndpoint {
                 printHeaderSuccess(connectionOutMy)
                 val alldeps = meta.dependenciesForID[-1]
                 if (alldeps != null) {
-                    for ((childID, key) in alldeps) {
+                    for ((childID, key2) in alldeps) {
                         val h = meta.idToHost[childID]!!.first()
-                        query.keyToHostMap[key] = h
+                        query.keyToHostMap[key2] = h
                     }
                 }
                 val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap)
@@ -570,7 +570,7 @@ public object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
             true
         }
-        paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, _ ->
             val query = Query(instance)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
             val graph = params["graph"]!!
@@ -579,7 +579,7 @@ public object RestEndpoint {
             instance.tripleStoreManager!!.remoteModify(query, mode, connectionInMy, isSorted, sortedBy, graph)
             true
         }
-        paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { params, _, connectionOutMy ->
+        paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) { _, _, connectionOutMy ->
             instance.tripleStoreManager!!.debugAllLocalStoreContent()
             printHeaderSuccess(connectionOutMy)
             true
@@ -596,7 +596,7 @@ public object RestEndpoint {
             connectionOutMy.flush()
             true
         }
-        paths["/distributed/query/register"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/register"] = PathMappingHelper(false, mapOf()) { _, connectionInMy, connectionOutMy ->
             val transactionID = connectionInMy.readInt()
             val keysSize = connectionInMy.readInt()
             val keys = mutableSetOf<Int>()
@@ -661,13 +661,13 @@ public object RestEndpoint {
                     }
 // release
                     query.getDictionary().close()
-                    for ((k, c) in queryContainer.outputStreams) {
+                    for (c in queryContainer.outputStreams.values) {
                         try {
                             c!!.close()
                         } catch (e: Throwable) {
                         }
                     }
-                    for ((k, c) in queryContainer.inputStreams) {
+                    for (c in queryContainer.inputStreams.values) {
                         c!!.close()
                     }
                 }
@@ -676,14 +676,14 @@ public object RestEndpoint {
             queryMappings.remove("$transactionID-$key")
             false
         }
-        paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
+        paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) { _, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             for ((k, v) in queryMappings) {
                 connectionOutMy.println("<p> $k :: $v </p>")
             }
             true
         }
-        paths["/debug.html"] = PathMappingHelper(true, mapOf()) { params, _, connectionOutMy ->
+        paths["/debug.html"] = PathMappingHelper(true, mapOf()) { _, _, connectionOutMy ->
             connectionOutMy.println("HTTP/1.1 200 OK")
             connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
             connectionOutMy.println()

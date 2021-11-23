@@ -480,7 +480,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("            it.kotlinOptions {")
 //                    out.println("                jvmTarget = \"14\"")
                     out.println("                jvmTarget = \"1.8\"")
-                    out.println("                useIR = true")
+//                    out.println("                useIR = true")
                     out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
                     out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
                     out.println("                freeCompilerArgs += \"-Xnew-inference\"")

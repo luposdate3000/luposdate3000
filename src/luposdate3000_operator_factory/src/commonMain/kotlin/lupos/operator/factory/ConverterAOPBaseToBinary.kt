@@ -644,7 +644,7 @@ public object ConverterAOPBaseToBinary {
         )
         assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPConstantID,
-            { op, data, mapping ->
+            { op, data, _ ->
                 op as AOPConstant
                 val off = ByteArrayWrapperExt.getSize(data)
                 ByteArrayWrapperExt.setSize(data, off + 4 + DictionaryValueHelper.getSize(), true)

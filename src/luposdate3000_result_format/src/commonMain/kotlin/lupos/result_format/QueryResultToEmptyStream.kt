@@ -21,7 +21,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.operator.iterator.ColumnIterator
@@ -72,7 +71,7 @@ public class QueryResultToEmptyStream : IResultFormat {
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyStream.kt:74"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyStream.kt:73"/*SOURCE_FILE_END*/ },
                     { child.names.toSet().containsAll(columnNames) },
                     { "$columnNames vs ${child.names}" }
                 )
@@ -86,7 +85,6 @@ public class QueryResultToEmptyStream : IResultFormat {
                 if (variables.isEmpty()) {
                     child.count()
                 } else {
-                    val parent = Partition()
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, timeoutInMs)
                 }

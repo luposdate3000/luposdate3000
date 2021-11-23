@@ -43,7 +43,7 @@ public object EvalGroupCount0 {
             }
             counter++
         }
-        val res = DictionaryHelper.integerToByteArray(buffer, BigInteger(counter))
+        DictionaryHelper.integerToByteArray(buffer, BigInteger(counter))
         outMap[binding] = ColumnIteratorValue(dict.createValue(buffer))
         return IteratorBundle(outMap)
     }

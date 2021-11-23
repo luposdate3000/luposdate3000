@@ -28,7 +28,7 @@ public abstract class TripleStoreManager {
     public abstract fun debugAllLocalStoreContent()
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
-    public abstract fun remoteModify(query: IQuery, mode: EModifyType, stream: IMyInputStream, isSorted: Boolean, sortedBy: EIndexPattern, graph: String)
+    public abstract fun remoteModify(query: IQuery, type: EModifyType, stream: IMyInputStream, isSorted: Boolean, sortedBy: EIndexPattern, graph: String)
     public abstract fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription
     public abstract fun resetDefaultTripleStoreLayout()
     public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)

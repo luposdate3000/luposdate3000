@@ -236,13 +236,13 @@ public class Application_Luposdate3000 public constructor(
         val paths = mutableMapOf<String, PathMappingHelper>()
         RestEndpoint.initialize(instance, paths)
         WebRootEndpoint.initialize(paths)
-        paths["/distributed/query/dictionary/register"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/dictionary/register"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             true
         }
-        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["/distributed/query/dictionary/remove"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             true
         }
-        paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
+        paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:247"/*SOURCE_FILE_END*/ },
@@ -280,8 +280,7 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
-        val mapTopDown = mutableMapOf<Int, MutableSet<Int>>()
-        val mapBottomUpThis = mutableMapOf<Int, MutableSet<Int>>()
+
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -389,10 +388,10 @@ public class Application_Luposdate3000 public constructor(
         }
     }
 
-    private fun localConvertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>): IteratorBundleRoot {
-        val operatorMap = ConverterBinaryToIteratorBundle.defaultOperatorMap
+    private fun localConvertToIteratorBundle(query2: Query, data2: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>): IteratorBundleRoot {
+        val operatorMap2 = ConverterBinaryToIteratorBundle.defaultOperatorMap
         fun assignOP(idx: Int, action: BinaryToOPBaseMap) {
-            operatorMap[idx] = action
+            operatorMap2[idx] = action
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
@@ -414,19 +413,19 @@ public class Application_Luposdate3000 public constructor(
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}"), router!!) }
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
         }
-        assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, operatorMap ->
+        assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             EvalDistributedReceiveSingle(input, null)
         }
-        assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
+        assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
             EvalDistributedReceiveSingleCount(input, null)
         }
-        assignOP(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, operatorMap ->
+        assignOP(EOperatorIDExt.POPDistributedReceiveMultiID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
             for (i in 0 until len) {
@@ -440,7 +439,7 @@ public class Application_Luposdate3000 public constructor(
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMulti(inputs, outputs)
         }
-        assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, operatorMap ->
+        assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
             for (i in 0 until len) {
@@ -454,7 +453,7 @@ public class Application_Luposdate3000 public constructor(
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMultiCount(inputs, outputs)
         }
-        assignOP(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { query, data, off, operatorMap ->
+        assignOP(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
             var orderedBy = mutableListOf<String>()
             var variablesOut = mutableListOf<String>()
@@ -482,7 +481,7 @@ public class Application_Luposdate3000 public constructor(
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
         }
-        return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
+        return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
 
     private fun doWork() {
@@ -537,8 +536,8 @@ public class Application_Luposdate3000 public constructor(
                                 }
                                 // println("done executing")
                             } else {
-                                for ((columnNames, nodes) in iteratorBundle.nodes) {
-                                    val iter = nodes.rows
+                                for (nodes in iteratorBundle.nodes) {
+                                    val iter = nodes.second.rows
                                     do {
                                         val res = iter.next()
                                     } while (res != -1)
@@ -562,7 +561,6 @@ public class Application_Luposdate3000 public constructor(
     override fun receive(pck: IPayload): IPayload? {
         try {
             if (!hadInitDatabaseHopsWithinLuposdate3000) {
-                val names = instance.LUPOS_PROCESS_URLS_ALL.map { it.toInt() }.toIntArray()
                 instance.LUPOS_PROCESS_URLS_ALL_NEXT_HOP = { arr -> // contains indices of luposdate3000
                     val arr2 = arr.map { instance.LUPOS_PROCESS_URLS_ALL[it].toInt() }.toIntArray() // contains device ids
                     val res = myGetNextHop(arr2, featureID_any) // res contains device ids

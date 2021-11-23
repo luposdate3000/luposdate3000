@@ -65,8 +65,8 @@ public object EvalBind {
                                 var done = false
                                 for (variableIndex2 in variablesLocal.indices) {
                                     if (boundIndex != variableIndex2) {
-                                        val value = columnsIn[variableIndex2]!!.next()
-                                        if (value == DictionaryValueHelper.nullValue) {
+                                        val value2 = columnsIn[variableIndex2]!!.next()
+                                        if (value2 == DictionaryValueHelper.nullValue) {
                                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:69"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
@@ -80,7 +80,7 @@ public object EvalBind {
                                             break
                                         }
 // point each iterator to the current value
-                                        columnsLocal[variableIndex2].tmp = value
+                                        columnsLocal[variableIndex2].tmp = value2
                                     }
                                 }
                                 if (!done) {

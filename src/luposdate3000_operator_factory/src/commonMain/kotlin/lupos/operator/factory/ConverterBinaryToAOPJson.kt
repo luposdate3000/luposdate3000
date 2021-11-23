@@ -107,7 +107,7 @@ public object ConverterBinaryToAOPJson {
         )
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPVariableID,
-            { query, data, off ->
+            { _, data, off ->
                 "{\"type\":\"AOPVariable\",\"name\":\"${ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPVariable.name" }))}\"}"
             },
         )
@@ -467,7 +467,7 @@ public object ConverterBinaryToAOPJson {
         )
         assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPConstantID,
-            { query, data, off ->
+            { _, data, off ->
                 "{\"type\":\"AOPConstant\",\"value\":${DictionaryValueHelper.fromByteArray(data, off + 4, { "AOPConstant.value" })}}"
             },
         )

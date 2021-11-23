@@ -22,7 +22,6 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock
-import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
@@ -167,7 +166,7 @@ public class QueryResultToXMLStream : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:169"/*SOURCE_FILE_END*/ }, { child.names.toSet().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${child.names}" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:168"/*SOURCE_FILE_END*/ }, { child.names.toSet().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${child.names}" })
             } else {
                 columnNames = child.names.toList()
             }
@@ -195,7 +194,6 @@ public class QueryResultToXMLStream : IResultFormat {
                         output.print("\"/>\n")
                     }
                     output.print(" </head>\n <results>\n")
-                    val parent = Partition()
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, rootNode.query.getDictionary(), null, output, timeoutInMs)
                     output.print(" </results>\n")
