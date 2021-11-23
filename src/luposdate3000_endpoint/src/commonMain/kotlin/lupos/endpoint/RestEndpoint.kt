@@ -410,9 +410,12 @@ public object RestEndpoint {
                     )
                     val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
                     val deps = mutableMapOf<Int, String>() // key->host
-                    for ((childID, key) in meta.dependenciesForID[id]!!) {
-                        val h = meta.idToHost[childID]!!.first()
-                        deps[key] = h
+                    val alldeps = meta.dependenciesForID[id]
+                    if (alldeps != null) {
+                        for ((childID, key) in alldeps) {
+                            val h = meta.idToHost[childID]!!.first()
+                            deps[key] = h
+                        }
                     }
                     conn.second.writeInt(query.getTransactionID().toInt())
                     conn.second.writeInt(keys.size)
@@ -433,11 +436,13 @@ public object RestEndpoint {
                     conn.first.close()
                 }
                 printHeaderSuccess(connectionOutMy)
-                for ((childID, key) in meta.dependenciesForID[-1]!!) {
-                    val h = meta.idToHost[childID]!!.first()
-                    query.keyToHostMap[key] = h
+                val alldeps = meta.dependenciesForID[-1]
+                if (alldeps != null) {
+                    for ((childID, key) in alldeps) {
+                        val h = meta.idToHost[childID]!!.first()
+                        query.keyToHostMap[key] = h
+                    }
                 }
-
                 val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap)
                 LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
