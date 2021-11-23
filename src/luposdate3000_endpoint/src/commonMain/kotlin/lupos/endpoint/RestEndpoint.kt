@@ -23,13 +23,26 @@ import lupos.dictionary.RemoteDictionaryServer
 import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query
 import lupos.operator.factory.BinaryToOPBase
+import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
+import lupos.operator.factory.ConverterString
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator.physical.partition.EvalDistributedReceiveMulti
+import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
+import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
+import lupos.operator.physical.partition.EvalDistributedReceiveSingle
+import lupos.operator.physical.partition.EvalDistributedReceiveSingleCount
+import lupos.operator.physical.partition.EvalDistributedSendMulti
+import lupos.operator.physical.partition.EvalDistributedSendSingle
+import lupos.operator.physical.partition.EvalDistributedSendSingleCount
+import lupos.operator.physical.partition.EvalDistributedSendWrapper
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyTypeExt
+import lupos.shared.EOperatorIDExt
+import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.XMLElementFromXML
@@ -90,7 +103,142 @@ public object RestEndpoint {
         return res
     }
 
+    private fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToOPBaseMap) {
+        for (operatorID in operatorIDs) {
+            assignOperatorPhysicalDecode(operatorID, operator)
+        }
+    }
+
+    private fun assignOperatorPhysicalDecode(operatorID: Int, operator: BinaryToOPBaseMap) {
+        if (localOperatorMap.size <= operatorID) {
+            var s = localOperatorMap.size
+            if (s < 16) {
+                s = 16
+            }
+            while (s <= operatorID) {
+                s = s * 2
+            }
+            val tmp = Array<Any?>(s) { null }
+            localOperatorMap.copyInto(tmp)
+            localOperatorMap = tmp
+        }
+        localOperatorMap[operatorID] = operator
+    }
+
     public fun initialize(instance: Luposdate3000Instance, paths: MutableMap<String, PathMappingHelper>) {
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
+            val container = query.container as QueryMappingContainer
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
+            val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(container.outputStreams[key]!!, child) })
+        }
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
+            val container = query.container as QueryMappingContainer
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
+            val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap)
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingleCount(container.outputStreams[key]!!, child) })
+        }
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap ->
+            val container = query.container as QueryMappingContainer
+            val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }), operatorMap)
+            val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
+            val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
+            val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
+            val out = Array<IMyOutputStream?>(keys.size) { container.outputStreams[keys[it]]!! }
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
+        }
+
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, operatorMap ->
+            val comm = instance.communicationHandler!!
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
+            val host = query.keyToHostMap[key]!!
+            val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+            EvalDistributedReceiveSingle(conn.first, conn.second)
+        }
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, operatorMap ->
+            val comm = instance.communicationHandler!!
+            val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
+            val host = query.keyToHostMap[key]!!
+            val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+            EvalDistributedReceiveSingleCount(conn.first, conn.second)
+        }
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { query, data, off, operatorMap ->
+            var keys = mutableListOf<Int>()
+            val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
+            for (i in 0 until len) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
+            }
+            val inputsList = mutableListOf<IMyInputStream>()
+            val outputsList = mutableListOf<IMyOutputStream?>()
+            val comm = instance.communicationHandler!!
+            for (key in keys) {
+                println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
+                val host = query.keyToHostMap[key]!!
+                val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                inputsList.add(conn.first)
+                outputsList.add(conn.second)
+            }
+            val inputs = inputsList.toTypedArray()
+            val outputs = outputsList.toTypedArray()
+            EvalDistributedReceiveMulti(inputs, outputs)
+        }
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, operatorMap ->
+            var keys = mutableListOf<Int>()
+            val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
+            for (i in 0 until len) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
+            }
+            val inputsList = mutableListOf<IMyInputStream>()
+            val outputsList = mutableListOf<IMyOutputStream?>()
+            val comm = instance.communicationHandler!!
+            for (key in keys) {
+                println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
+                val host = query.keyToHostMap[key]!!
+                val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                inputsList.add(conn.first)
+                outputsList.add(conn.second)
+            }
+            val inputs = inputsList.toTypedArray()
+            val outputs = outputsList.toTypedArray()
+            EvalDistributedReceiveMultiCount(inputs, outputs)
+        }
+        assignOperatorPhysicalDecode(
+            EOperatorIDExt.POPDistributedReceiveMultiOrderedID,
+            { query, data, off, operatorMap ->
+                var keys = mutableListOf<Int>()
+                var orderedBy = mutableListOf<String>()
+                var variablesOut = mutableListOf<String>()
+                val keysLen = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
+                val orderedByLen = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+                val variablesOutLen = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+                var o = off + 16
+                for (i in 0 until keysLen) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.keys[$i]" }))
+                    o += 4
+                }
+                for (i in 0 until orderedByLen) {
+                    orderedBy.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                    o += 4
+                }
+                for (i in 0 until variablesOutLen) {
+                    variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
+                    o += 4
+                }
+                val inputsList = mutableListOf<IMyInputStream>()
+                val outputsList = mutableListOf<IMyOutputStream?>()
+                val comm = instance.communicationHandler!!
+                for (key in keys) {
+                    println("assignOperatorPhysicalDecode ... $key ${query.keyToHostMap}")
+                    val host = query.keyToHostMap[key]!!
+                    val conn = comm.openConnection(host, "POST /distributed/query/execute?key=$key&transactionID=${query.getTransactionID()}&dictionaryURL=${query.getDictionaryUrl()!!}" + "\n\n", query.getTransactionID().toInt())
+                    inputsList.add(conn.first)
+                    outputsList.add(conn.second)
+                }
+                val inputs = inputsList.toTypedArray()
+                val outputs = outputsList.toTypedArray()
+                EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
+            },
+        )
         paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) { params, _, connectionOutMy ->
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
@@ -233,59 +381,73 @@ public object RestEndpoint {
             val binary = binaryAndMeta.first
             val meta = binaryAndMeta.second
             val query = node.getQuery() as Query
-            for ((k, v) in meta.idToOffset) {
-                val v = meta.idToHost[k]
-                meta.idToHost[k] = mutableSetOf(
-                    if (v == null) {
+            val key = "${query.getTransactionID()}"
+            try {
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
+                query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
+                for (k in meta.idToHost.keys) {
+                    val v = meta.idToHost[k]
+                    val vv = if (v == null) {
                         query.getInstance().LUPOS_PROCESS_URLS_STORE[0]
                     } else {
                         v.first()
                     }
-                )
+                    meta.idToHost[k] = mutableSetOf(
+                        vv
+                    )
+                }
+                val handler = instance.communicationHandler!!
+                for ((id, hosts) in meta.idToHost) {
+                    val host = hosts.first()
+                    val keys = mutableSetOf<Int>()
+                    for (parentID in meta.getParentsForID(id)) {
+                        keys.add(meta.dependenciesForID[parentID]!![id]!!)
+                    }
+                    val conn = handler.openConnection(
+                        host,
+                        "/distributed/query/register",
+                        mapOf(
+                            "dictionaryURL" to query.getDictionaryUrl()!!
+                        ),
+                        query.getTransactionID().toInt()
+                    )
+                    val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
+                    val deps = mutableMapOf<Int, String>() // key->host
+                    for ((childID, key) in meta.dependenciesForID[id]!!) {
+                        val h = meta.idToHost[childID]!!.first()
+                        deps[key] = h
+                    }
+                    conn.second.writeInt(query.getTransactionID().toInt())
+                    conn.second.writeInt(keys.size)
+                    for (k in keys) {
+                        conn.second.writeInt(k)
+                    }
+                    conn.second.writeInt(id)
+                    conn.second.writeInt(deps.size)
+                    for ((k, v) in deps) {
+                        conn.second.writeInt(k)
+                        val b = v.encodeToByteArray()
+                        conn.second.writeInt(b.size)
+                        conn.second.write(b)
+                    }
+                    conn.second.writeInt(ByteArrayWrapperExt.getSize(bin))
+                    conn.second.write(ByteArrayWrapperExt.getBuf(bin), ByteArrayWrapperExt.getSize(bin))
+                    conn.second.close()
+                    conn.first.close()
+                }
+                printHeaderSuccess(connectionOutMy)
+                    for ((childID, key) in meta.dependenciesForID[-1]!!) {
+                        val h = meta.idToHost[childID]!!.first()
+                        query.keyToHostMap[key] = h
+                    }
+                    
+                val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap)
+                LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
-            val handler = instance.communicationHandler!!
-            for ((id, hosts) in meta.idToHost) {
-                val host = hosts.first()
-                val keys = mutableSetOf<Int>()
-                for (parentID in meta.getParentsForID(id)) {
-                    keys.add(meta.dependenciesForID[parentID]!![id]!!)
-                }
-                val conn = handler.openConnection(
-                    host,
-                    "/distributed/query/register",
-                    mapOf(
-                        "dictionaryURL" to query.getDictionaryUrl()!!
-                    ),
-                    query.getTransactionID().toInt()
-                )
-                val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
-                val deps = mutableMapOf<Int, String>() // key->host
-                for ((childID, key) in meta.dependenciesForID[id]!!) {
-                    val h = meta.idToHost[childID]!!.first()
-                    deps[key] = h
-                }
-                conn.second.writeInt(query.getTransactionID().toInt())
-                conn.second.writeInt(keys.size)
-                for (k in keys) {
-                    conn.second.writeInt(k)
-                }
-
-                conn.second.writeInt(id)
-                conn.second.writeInt(deps.size)
-                for ((k, v) in deps) {
-                    conn.second.writeInt(k)
-                    val b = v.encodeToByteArray()
-                    conn.second.writeInt(b.size)
-                    conn.second.write(b)
-                }
-                conn.second.writeInt(ByteArrayWrapperExt.getSize(bin))
-                conn.second.write(ByteArrayWrapperExt.getBuf(bin), ByteArrayWrapperExt.getSize(bin))
-                conn.second.close()
-                conn.first.close()
-            }
-            printHeaderSuccess(connectionOutMy)
-            val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap)
-            LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
             true
         }
         paths["/sparql/benchmark"] = PathMappingHelper(true, mapOf(Pair("minimumTime", "10") to ::inputElement, Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement, Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt)) { params, _, connectionOutMy ->
@@ -453,6 +615,7 @@ public object RestEndpoint {
             connectionInMy.read(d, l)
             val bin = ByteArrayWrapper(d)
             val container = QueryMappingContainer(bin, id, keys)
+            container.keyToHostMap.putAll(deps)
             for (key in keys) {
                 queryMappings["$transactionID-$key"] = container
             }
@@ -480,6 +643,8 @@ public object RestEndpoint {
 // only launch if all receivers are started
 // init node
                     val query = Query(instance)
+                    query.container = queryContainer
+                    query.keyToHostMap.putAll(queryContainer.keyToHostMap)
 // init dictionary
                     val idx2 = dictionaryURL.indexOf("/")
                     val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n", query.getTransactionID().toInt())

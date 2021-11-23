@@ -39,7 +39,7 @@ public object BinaryToOPBase {
             op
         }
         val res = ConverterPOPBaseToBinary.encode(op2, distributed)
-        // println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
+        println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
         return res
     }
     public fun copyByteArray(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {

@@ -34,6 +34,9 @@ internal class QueryMappingContainer(
     @JvmField internal var outputStreams = mutableMapOf<Int, IMyOutputStream>()
 
     @JvmField
+    public var keyToHostMap: MutableMap<Int, String> = mutableMapOf()
+
+    @JvmField
     internal var query: Query? = null
 
     @JvmField
