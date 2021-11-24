@@ -49,6 +49,7 @@ public class Package_Luposdate3000_Abstract(
             "/distributed/graph/modify" -> "Database-Graph-Modify"
             "simulator-intermediate-result" -> "Database-Intermadiate-Result"
             "/shacl/ontology/load" -> "Database-Ontology-Load"
+            "/shacl/ontology/import" -> "Database-Ontology-Import"
             else -> TODO(path)
         }
     }

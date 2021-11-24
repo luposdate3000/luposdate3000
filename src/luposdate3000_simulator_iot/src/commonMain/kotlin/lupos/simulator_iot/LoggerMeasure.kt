@@ -47,6 +47,7 @@ public class LoggerMeasure : ILogger {
 
         public val StatNetworkTrafficForwarded: Int = StatCounter++
         public val StatNetworkTraffic: Int = StatCounter++
+        public val StatNetworkTrafficIncludingLocalMessages: Int = StatCounter++
     }
 
     private val data: DoubleArray = DoubleArray(StatCounter)
@@ -65,7 +66,7 @@ public class LoggerMeasure : ILogger {
 
             StatNetworkTrafficForwarded -> "network traffic forwarded(Bytes)"
             StatNetworkTraffic -> "network traffic total (Bytes)"
-
+            StatNetworkTrafficIncludingLocalMessages -> "package size aggregated (Bytes)"
             else -> TODO("$it")
         }
     }
@@ -153,10 +154,16 @@ public class LoggerMeasure : ILogger {
             packageSize[id] += size
         }
         packageSizeAggregated[id] += size
+        data[StatNetworkTrafficIncludingLocalMessages] += size
     }
 
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
+        if (src == dest) {
+            // self messages never produce network packages .. therefore catch them here
+            onSendNetworkPackageInternal(src, dest, dest, pck, 0)
+        }
+    }
     override fun onReceivePackage(address: Int, pck: IPayload) {}
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}

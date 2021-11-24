@@ -31,4 +31,5 @@ public class Package_QueryResponse(
     }
 
     override fun getTopic(): String = "SPARQL-Response"
+    override fun toString(): String = "Package_QueryResponse ${result.size}"
 }
