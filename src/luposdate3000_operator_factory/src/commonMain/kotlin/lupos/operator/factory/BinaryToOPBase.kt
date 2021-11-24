@@ -38,6 +38,7 @@ public object BinaryToOPBase {
             op
         }
         val res = ConverterPOPBaseToBinary.encode(op2, distributed)
+        // println(op)
         // println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
         return res
     }

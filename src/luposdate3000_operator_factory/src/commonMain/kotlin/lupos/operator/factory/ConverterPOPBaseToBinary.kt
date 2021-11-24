@@ -729,7 +729,7 @@ public object ConverterPOPBaseToBinary {
                 if (distributed) {
                     mergePartitionEncodeHelper1x1(
                         handler,
-                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
                     )
                 } else {
                     convertToByteArrayHelper(
