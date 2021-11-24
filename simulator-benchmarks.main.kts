@@ -82,7 +82,7 @@ val queryDistributionList = listOf(
     "luposdate3000_distribution_routing.json",
 )
 val networkTopologyList = mutableListOf<String>()
-for (i in listOf(4)) {
+for (i in listOf(16)) {
     networkTopologyList.add("scenarioParkingFull$i.json")
     networkTopologyList.add("scenarioParkingRandom$i.json")
     networkTopologyList.add("scenarioParkingRing$i.json")
