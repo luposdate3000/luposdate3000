@@ -73,6 +73,11 @@ val databaseTopologyList = listOf(
 val dataDistributionList = listOf(
     "luposdate3000_by_key.json",
     "luposdate3000_by_id_S_all_collations.json",
+"luposdate3000_by_id_1_all_collations.json",
+"luposdate3000_by_id_2_all_collations.json",
+"luposdate3000_by_id_O_all_collations.json",
+"luposdate3000_by_id_twice_all_collations.json",
+"luposdate3000_by_simple.json",
 )
 val multicastList = listOf(
     "luposdate3000MulticastDisabled.json",
