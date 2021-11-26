@@ -306,6 +306,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
+val useKover=true
     var dummy = 0
     val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
@@ -422,6 +423,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("plugins {")
+if(useKover){
+out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"0.4.2\"")
+}
                 if (!onWindows) {
                     if (useKTLint) {
                         out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
@@ -799,6 +803,34 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        events.add(TestLogEvent.STANDARD_ERROR)")
                 out.println("    }")
                 out.println("}")
+if(useKover){ 
+out.println("    tasks.test {")
+out.println("        extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {")
+out.println("            isEnabled = true")
+out.println("            binaryReportFile.set(file(\"\$buildDir/custom/kover_result.bin\"))")
+out.println("            includes = listOf(\"lupos\\\\..*\")")
+out.println("            excludes = listOf(\"java\\\\..*\")")
+out.println("        }")
+out.println("    }")
+out.println("    tasks.koverHtmlReport {")
+out.println("        isEnabled = true                        ")
+out.println("        htmlReportDir.set(layout.buildDirectory.dir(\"my-reports/html-result\"))")
+out.println("    }")
+out.println("    tasks.koverXmlReport {")
+out.println("        isEnabled = true                        ")
+out.println("        xmlReportFile.set(layout.buildDirectory.file(\"my-reports/result.xml\"))")
+out.println("    }")
+out.println("    tasks.koverCollectReports {")
+out.println("        outputDir.set(layout.buildDirectory.dir(\"my-reports-dir\"))")
+out.println("    }")
+out.println("    kover {")
+out.println("        isEnabled = true                        ")
+out.println("        coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ) ")
+out.println("        intellijEngineVersion.set(\"1.0.637\")    ")
+out.println("        jacocoEngineVersion.set(\"0.8.7\")        ")
+out.println("        generateReportOnCheck.set(true)         ")
+out.println("    }")
+}
             }
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()

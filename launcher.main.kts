@@ -21,7 +21,7 @@
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
-@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt") 
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
