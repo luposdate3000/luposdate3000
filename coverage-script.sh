@@ -9,10 +9,11 @@ for f in $(ls src \
 	| grep -v luposdate3000_buffer_manager_persistent \
 	| grep -v luposdate3000_endpoint_launcher_none \
 	| grep -v luposdate3000_jena_wrapper_off \
+	| grep -v xxx_generated_xxx \
 	)
 do
 echo $f
-cp -r src/$f/* src/luposdate3000_coverage_merged
+cp -r src/$f/* src/luposdate3000_coverage_merged/
 done
 cat src/*/module_config | sort | uniq | grep dependency > src/luposdate3000_coverage_merged/module_config
 ./launcher.main.kts --setup --intellijMode=Disable
@@ -23,6 +24,7 @@ cat src/luposdate3000_coverage_merged/build.gradle.kts \
 	> src/luposdate3000_coverage_merged/build.gradle.kts2
 mv src/luposdate3000_coverage_merged/build.gradle.kts2 src/luposdate3000_coverage_merged/build.gradle.kts
 
+#rm -rf src/luposdate3000_coverage_merged/src/jvmTest/kotlin/lupos/code_gen_test_00
 cd src/luposdate3000_coverage_merged
 grep -rl "\*suspend\*" --include *.kt | xargs sed -i "s-/\*suspend\* /--g" $f
 grep -rl "\*suspend\*" --include *.kt | xargs sed -i "s-/\*suspend\*/--g" $f

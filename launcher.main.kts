@@ -29,12 +29,12 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt") 
 @file:CompilerOptions("-Xmulti-platform")  
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
-import launcher.EDictionaryValueMode
+import launcher.EDictionaryValueMode 
 import launcher.ExecMode
 import launcher.InlineMode
 import launcher.IntellijMode 

@@ -38,14 +38,14 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun helper_intCheckString(value: String): String {
-if (value.length == 0) {
+        if (value.length == 0) {
             return "0"
         }
         var v = value
         var negative = false
-        if (v[0]=='+') {
+        if (v[0] == '+') {
             v = v.substring(1)
-        } else if (v[0]=='-') {
+        } else if (v[0] == '-') {
             negative = true
             v = v.substring(1)
         }
@@ -83,14 +83,14 @@ if (value.length == 0) {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun helper_decimalCheckString(value: String): String {
-if (value.length == 0) {
+        if (value.length == 0) {
             return "0.0"
         }
         var v = value
         var negative = false
-        if (v[0]=='+') {
+        if (v[0] == '+') {
             v = v.substring(1)
-        } else if (v[0]=='-') {
+        } else if (v[0] == '-') {
             negative = true
             v = v.substring(1)
         }

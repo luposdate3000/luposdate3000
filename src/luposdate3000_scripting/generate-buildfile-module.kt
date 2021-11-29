@@ -424,7 +424,7 @@ val useKover=true
                 }
                 out.println("plugins {")
 if(useKover){
-out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"0.4.2\"")
+out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
 }
                 if (!onWindows) {
                     if (useKTLint) {
@@ -825,8 +825,8 @@ out.println("    tasks.koverCollectReports {")
 out.println("    }")
 out.println("    kover {")
 out.println("        isEnabled = true                        ")
-out.println("        //coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ) ")
-out.println("        coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO) ")
+out.println("        coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ) ")
+out.println("        //coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO) ")
 out.println("        intellijEngineVersion.set(\"1.0.637\")    ")
 out.println("        jacocoEngineVersion.set(\"0.8.7\")        ")
 out.println("        generateReportOnCheck.set(true)         ")

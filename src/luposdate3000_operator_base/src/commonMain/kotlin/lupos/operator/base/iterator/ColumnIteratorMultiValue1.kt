@@ -24,6 +24,7 @@ import kotlin.jvm.JvmField
 public class ColumnIteratorMultiValue1(@JvmField public val values: MutableList<DictionaryValueType>) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
+
     /*suspend*/ override fun close() {
         index = values.size
     }
