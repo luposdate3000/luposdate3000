@@ -37,13 +37,13 @@ import launcher.DryMode
 import launcher.EDictionaryValueMode
 import launcher.ExecMode
 import launcher.InlineMode
-import launcher.IntellijMode
+import launcher.IntellijMode 
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
-import launcher.fixPathNames
+import launcher.fixPathNames  
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
