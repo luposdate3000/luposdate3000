@@ -24,7 +24,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt") 
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
