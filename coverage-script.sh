@@ -5,6 +5,10 @@ for f in $(ls src \
 	| grep -v luposdate3000_scripting \
 	| grep -v luposdate3000_spa_client \
 	| grep -v luposdate3000_launch \
+	| grep -v luposdate3000_coverage_merged \
+	| grep -v luposdate3000_buffer_manager_persistent \
+	| grep -v luposdate3000_endpoint_launcher_none \
+	| grep -v luposdate3000_jena_wrapper_off \
 	)
 do
 echo $f
@@ -18,3 +22,4 @@ cat src/luposdate3000_coverage_merged/build.gradle.kts \
 	| grep -v srcDir.*luposdate3000_shared_inline \
 	> src/luposdate3000_coverage_merged/build.gradle.kts2
 mv src/luposdate3000_coverage_merged/build.gradle.kts2 src/luposdate3000_coverage_merged/build.gradle.kts
+./gradlew :src:luposdate3000_coverage_merged:assemble
