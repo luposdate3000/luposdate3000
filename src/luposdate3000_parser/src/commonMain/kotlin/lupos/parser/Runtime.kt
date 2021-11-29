@@ -208,7 +208,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
 }
 
 public abstract class Token(@JvmField public val image: String, @JvmField public val index: Int) {
-    public override fun toString(): String {
+    override fun toString(): String {
         return super.toString() + ": " + image
     }
 }

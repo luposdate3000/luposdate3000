@@ -26,7 +26,7 @@ import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplication_Factory
 
 public class ApplicationFactory_OntologySender : IApplication_Factory {
-    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
+    override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {

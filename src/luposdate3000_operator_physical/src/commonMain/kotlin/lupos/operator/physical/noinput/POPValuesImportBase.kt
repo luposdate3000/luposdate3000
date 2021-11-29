@@ -45,7 +45,7 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
         }
     }
 
-    public override fun usesDictionary(): Boolean {
+    override fun usesDictionary(): Boolean {
         return true
     }
 }

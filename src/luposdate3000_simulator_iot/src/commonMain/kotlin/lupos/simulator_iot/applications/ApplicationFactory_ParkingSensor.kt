@@ -23,12 +23,12 @@ import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.RandomGenerator
 
 public class ApplicationFactory_ParkingSensorFeature : IApplicationFeature {
-    public override fun getName(): String = "Sensor"
-    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_ParkingSensor
+    override fun getName(): String = "Sensor"
+    override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_ParkingSensor
 }
 
 public class ApplicationFactory_ParkingSensor : IApplication_Factory {
-    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {
+    override fun registerFeatures(features: MutableList<IApplicationFeature>) {
         features.add(ApplicationFactory_ParkingSensorFeature())
     }
 

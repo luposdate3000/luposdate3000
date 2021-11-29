@@ -74,7 +74,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
         TODO()
     }
 
-    public override fun toXMLElement(): XMLElement {
+    override fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIndexDescription")
         val manager = (instance.tripleStoreManager!!) as TripleStoreManagerImpl
         for ((k, v) in manager.metadataGet()) {

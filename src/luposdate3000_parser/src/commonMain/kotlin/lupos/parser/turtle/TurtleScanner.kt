@@ -25,7 +25,7 @@ import kotlin.jvm.JvmField
 
 public class EOF(index: Int) : Token("EOF", index)
 public abstract class InBraces(@JvmField public val content: String, index: Int, @JvmField public val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
-    public override fun toString(): String {
+    override fun toString(): String {
         return super.toString() + ": " + this.image
     }
 }
@@ -74,13 +74,13 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
         }
     }
 
-    public override fun getIndex(): Int {
+    override fun getIndex(): Int {
         return this.iterator.index
     }
 
-    public override fun getLineNumber(): Int = this.iterator.lineNumber
-    public override fun getColumnNumber(): Int = this.iterator.columnNumber
-    public override fun nextToken(): Token {
+    override fun getLineNumber(): Int = this.iterator.lineNumber
+    override fun getColumnNumber(): Int = this.iterator.columnNumber
+    override fun nextToken(): Token {
         try {
             skip()
         } catch (e: UnexpectedEndOfFile) {

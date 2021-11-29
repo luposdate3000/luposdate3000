@@ -32,39 +32,39 @@ internal actual class MyInputStream : IMyInputStream {
         tmp = JSInputStream(fd)
     }
 
-    public actual override fun readInt(): Int {
+    actual override fun readInt(): Int {
         return tmp.readInt()
     }
 
-    public actual override fun readDictionaryValueType(): DictionaryValueType {
+    actual override fun readDictionaryValueType(): DictionaryValueType {
         return DictionaryValueHelper.readFromStream(this)
     }
 
-    public actual override fun readLong(): Long {
+    actual override fun readLong(): Long {
         return tmp.readLong()
     }
 
-    public actual override fun readByte(): Byte {
+    actual override fun readByte(): Byte {
         return tmp.readByte()
     }
 
-    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
+    actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
         return tmp.read(buf, off, len)
     }
 
-    public actual override fun read(buf: ByteArray, len: Int): Int {
+    actual override fun read(buf: ByteArray, len: Int): Int {
         return tmp.read(buf, len)
     }
 
-    public actual override fun read(buf: ByteArray): Int {
+    actual override fun read(buf: ByteArray): Int {
         return tmp.read(buf)
     }
 
-    public actual override fun close() {
+    actual override fun close() {
         tmp.close()
     }
 
-    public actual override fun readLine(): String? {
+    actual override fun readLine(): String? {
         return tmp.readLine()
     }
 }

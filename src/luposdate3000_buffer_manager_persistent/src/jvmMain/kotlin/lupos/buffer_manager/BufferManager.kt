@@ -84,7 +84,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         onNotFound()
     }
 
-    public actual override fun flushPage(call_location: String, pageid: Int) {
+    actual override fun flushPage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:88"/*SOURCE_FILE_END*/ }, { !closed })
         lock.withWriteLock {
@@ -122,7 +122,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         }
     }
 
-    public actual override fun releasePage(call_location: String, pageid: Int) {
+    actual override fun releasePage(call_location: String, pageid: Int) {
         SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:126"/*SOURCE_FILE_END*/ }, { !closed })
         lock.withWriteLock {
@@ -172,7 +172,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         }
     }
 
-    public actual override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
+    actual override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:176"/*SOURCE_FILE_END*/ }, { !closed })
         var openId2 = -1
@@ -217,7 +217,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         return openPages[openId2]
     }
 
-    public actual /*suspend*/ override fun allocPage(call_location: String): Int {
+    actual /*suspend*/ override fun allocPage(call_location: String): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:220"/*SOURCE_FILE_END*/ }, { !closed })
         var pageid: Int = -1
         lock.withWriteLock {
@@ -251,7 +251,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
         return pageid
     }
 
-    public actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+    actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:256"/*SOURCE_FILE_END*/ },
@@ -296,7 +296,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     }
 
     @ProguardTestAnnotation
-    public actual override fun close() {
+    actual override fun close() {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:299"/*SOURCE_FILE_END*/ }, { !closed })
         closed = true
         SanityCheck(
@@ -312,10 +312,10 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     }
 
     @ProguardTestAnnotation
-    public actual override fun getNumberOfAllocatedPages(): Int = counter - freeArrayLength
+    actual override fun getNumberOfAllocatedPages(): Int = counter - freeArrayLength
 
     @ProguardTestAnnotation
-    public actual override fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
+    actual override fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
         File(instance.BUFFER_HOME).mkdirs()

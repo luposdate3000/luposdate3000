@@ -24,11 +24,11 @@ import kotlin.jvm.JvmField
 public class ColumnIteratorMultiValue1(@JvmField public val values: MutableList<DictionaryValueType>) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
-    public /*suspend*/ override fun close() {
+    /*suspend*/ override fun close() {
         index = values.size
     }
 
-    public /*suspend*/ override fun next(): DictionaryValueType {
+    /*suspend*/ override fun next(): DictionaryValueType {
         return if (index == values.size) {
             DictionaryValueHelper.nullValue
         } else {

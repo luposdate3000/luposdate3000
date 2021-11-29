@@ -19,7 +19,7 @@ package lupos.parser.sparql1_1
 import kotlin.jvm.JvmField
 
 public abstract class ASTNode(@JvmField public val children: Array<ASTNode>) {
-    public override fun toString(): String {
+    override fun toString(): String {
         return toString("")
     }
 

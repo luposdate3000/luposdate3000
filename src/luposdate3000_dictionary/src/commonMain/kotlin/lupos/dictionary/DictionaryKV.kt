@@ -67,7 +67,7 @@ public class DictionaryKV internal constructor(
 
     @JvmField
     internal var closed = false
-    public override fun close() {
+    override fun close() {
         lock.withWriteLock {
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:71"/*SOURCE_FILE_END*/ }, { !closed })
             closed = true
@@ -77,7 +77,7 @@ public class DictionaryKV internal constructor(
         }
     }
 
-    public override fun delete() {
+    override fun delete() {
         lock.withWriteLock {
             kv.delete()
             vk.delete()
@@ -86,8 +86,8 @@ public class DictionaryKV internal constructor(
         }
     }
 
-    public override fun isInmemoryOnly(): Boolean = false
-    public override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
+    override fun isInmemoryOnly(): Boolean = false
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
         lock.withReadLock {
             var flag: DictionaryValueType = DictionaryValueHelper.flagNoBNode
             var flag2: DictionaryValueType = 0
@@ -169,7 +169,7 @@ public class DictionaryKV internal constructor(
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
     }
 
-    public override fun createNewBNode(): DictionaryValueType {
+    override fun createNewBNode(): DictionaryValueType {
         var res: DictionaryValueType = bNodeCounter
         lock.withWriteLock {
             res = bNodeCounter
@@ -183,7 +183,7 @@ public class DictionaryKV internal constructor(
         return res
     }
 
-    public override fun createNewUUID(): Int {
+    override fun createNewUUID(): Int {
         var res: Int = uuidCounter
         lock.withWriteLock {
             res = uuidCounter
@@ -197,7 +197,7 @@ public class DictionaryKV internal constructor(
         return res
     }
 
-    public override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:202"/*SOURCE_FILE_END*/ },
@@ -217,7 +217,7 @@ public class DictionaryKV internal constructor(
         }
     }
 
-    public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
+    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var res = 0
         lock.withWriteLock {
             SanityCheck.check(
@@ -239,7 +239,7 @@ public class DictionaryKV internal constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
+    override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         var mymapping = DictionaryValueTypeArray(0)
         var lastid = DictionaryValueHelper.NULL
         lock.withWriteLock {
@@ -311,7 +311,7 @@ public class DictionaryKV internal constructor(
         return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }
 
-    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         val type = DictionaryHelper.byteArrayToType(buffer)
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {

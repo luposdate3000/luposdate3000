@@ -25,7 +25,7 @@ import java.net.Socket
 import java.net.URLEncoder
 
 public class CommunicationHandler : ICommunicationHandler {
-    public override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
+    override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
         val content = StringBuilder()
         var first = true
         for ((k, v) in params) {
@@ -68,7 +68,7 @@ public class CommunicationHandler : ICommunicationHandler {
         }
     }
 
-    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
+    override fun openConnection(targetHost: String, path: String, params: Map<String, String>, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
         var p = "POST $path"
         var first = true
         for ((k, v) in params) {
@@ -83,7 +83,7 @@ public class CommunicationHandler : ICommunicationHandler {
         return openConnection(targetHost, "$p\n\n", queryID)
     }
 
-    public override fun openConnection(targetHost: String, header: String/*caller MUST finish the header by appending an empty line*/, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
+    override fun openConnection(targetHost: String, header: String/*caller MUST finish the header by appending an empty line*/, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
         val target = targetHost.split(":")
         val targetName = target[0]
         val targetPort = if (target.size > 1) {

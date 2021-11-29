@@ -53,7 +53,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:52"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
-    public override fun changePartitionID(idFrom: Int, idTo: Int) {
+    override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
 

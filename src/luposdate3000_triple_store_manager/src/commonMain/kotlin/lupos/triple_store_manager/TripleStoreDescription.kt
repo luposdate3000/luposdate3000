@@ -44,7 +44,7 @@ public class TripleStoreDescription(
     @JvmField internal val instance: Luposdate3000Instance,
 ) : ITripleStoreDescription {
     override fun getIndices(): List<ITripleStoreIndexDescription> = indices.map { it as ITripleStoreIndexDescription }
-    public override fun toMetaString(): String {
+    override fun toMetaString(): String {
         val res = StringBuilder()
         res.append(graph)
         res.append("|")
@@ -128,11 +128,11 @@ public class TripleStoreDescription(
         return res
     }
 
-    public override fun modify_create_cache(query: IQuery, type: EModifyType, sortedBy: EIndexPattern, isSorted: Boolean): ITripleStoreDescriptionModifyCache {
+    override fun modify_create_cache(query: IQuery, type: EModifyType, sortedBy: EIndexPattern, isSorted: Boolean): ITripleStoreDescriptionModifyCache {
         return TripleStoreDescriptionModifyCache(query, this, type, sortedBy, instance, isSorted, null)
     }
 
-    public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
+    override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
         for (index in indices) {
             if (index.hasPattern(idx)) {
                 val projectedVariables = mutableListOf<String>()
@@ -147,7 +147,7 @@ public class TripleStoreDescription(
         throw Exception("no valid index found")
     }
 
-    public override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         var variableCount = 0
         val filter2 = mutableListOf<DictionaryValueType>()
         for (ii in 0 until 3) {

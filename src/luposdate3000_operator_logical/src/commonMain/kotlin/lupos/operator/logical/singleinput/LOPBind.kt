@@ -58,7 +58,7 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
         return res
     }
 
-    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPBind.kt:61"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name.name == name) {
             val exp = this.getChildren()[1]
@@ -76,7 +76,7 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
         return this
     }
 
-    public override fun syntaxVerifyAllVariableExistsAutocorrect() {
+    override fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false
             for (prov in getProvidedVariableNames()) {

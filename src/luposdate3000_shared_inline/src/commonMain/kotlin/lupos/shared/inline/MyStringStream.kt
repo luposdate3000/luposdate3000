@@ -35,7 +35,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
     public var pos = 0
-    public override fun close() {
+    override fun close() {
     }
 
     override fun read(buf: ByteArray): Int {
@@ -94,7 +94,7 @@ internal class MyStringStream(str: String) : IMyInputStream {
         return buf8[0]
     }
 
-    public override fun readLine(): String? {
+    override fun readLine(): String? {
 // TODO this may break on utf-8
         var buf = mutableListOf<Byte>()
         try {

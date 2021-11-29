@@ -38,11 +38,11 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
         // kotlin.io.println("MyInputStream.constructor $this")
     }
 
-    public actual override fun read(buf: ByteArray): Int {
+    actual override fun read(buf: ByteArray): Int {
         return read(buf, buf.size)
     }
 
-    public actual override fun read(buf: ByteArray, len: Int): Int {
+    actual override fun read(buf: ByteArray, len: Int): Int {
         var o = 0
         var s = len
         while (s > 0) {
@@ -56,7 +56,7 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
         return len
     }
 
-    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
+    actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
         var o = off
         var s = len
         while (s > 0) {
@@ -70,34 +70,34 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
         return len
     }
 
-    public actual override fun readInt(): Int {
+    actual override fun readInt(): Int {
         read(buf8, 4)
         return ByteArrayHelper2.readInt4(buf8, 0)
     }
 
-    public actual override fun readDictionaryValueType(): DictionaryValueType {
+    actual override fun readDictionaryValueType(): DictionaryValueType {
         read(buf8, DictionaryValueHelper.getSize())
         return DictionaryValueHelper.fromByteArray(buf8Wrapper, 0)
     }
 
-    public actual override fun readLong(): Long {
+    actual override fun readLong(): Long {
         read(buf8, 8)
         return ByteArrayHelper2.readLong8(buf8, 0)
     }
 
-    public actual override fun readByte(): Byte {
+    actual override fun readByte(): Byte {
         read(buf8, 1)
         return buf8[0]
     }
 
-    public actual override fun close() {
+    actual override fun close() {
         // kotlin.io.println("MyInputStream.close $this")
         stream.close()
     }
 
     @JvmField
     internal var buffer = ByteArray(1)
-    public actual override fun readLine(): String? {
+    actual override fun readLine(): String? {
 // TODO this may break on utf-8 if '\r' or '\0' is part of another char
         var len = 0
         try {

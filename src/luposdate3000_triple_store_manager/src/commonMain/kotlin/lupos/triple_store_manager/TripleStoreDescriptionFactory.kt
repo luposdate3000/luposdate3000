@@ -24,7 +24,7 @@ import kotlin.jvm.JvmField
 public class TripleStoreDescriptionFactory(@JvmField internal val instance: Luposdate3000Instance) : ITripleStoreDescriptionFactory {
     @JvmField
     internal var indices = mutableListOf<TripleStoreIndexDescription>()
-    public override fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
+    override fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
         val factory = TripleStoreIndexDescriptionFactory(instance)
         action(factory)
         val index = factory.build()
@@ -32,7 +32,7 @@ public class TripleStoreDescriptionFactory(@JvmField internal val instance: Lupo
         return this
     }
 
-    public override fun apply(other: ITripleStoreDescriptionFactory): ITripleStoreDescriptionFactory {
+    override fun apply(other: ITripleStoreDescriptionFactory): ITripleStoreDescriptionFactory {
         indices.clear()
         for (idx in (other as TripleStoreDescriptionFactory).indices) {
             when (idx) {

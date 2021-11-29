@@ -40,7 +40,7 @@ public abstract class ADictionary(
     @JvmField
     internal val bnodeMapLocal = mutableMapOf<String, DictionaryValueType>()
 
-    public override fun createNewBNode(s: String): DictionaryValueType {
+    override fun createNewBNode(s: String): DictionaryValueType {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:43"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var res = bnodeMapLocal[s]
         if (res != null) {
@@ -55,7 +55,7 @@ public abstract class ADictionary(
         return (value and DictionaryValueHelper.flagNoBNode) != DictionaryValueHelper.flagNoBNode
     }
 
-    public override fun isLocalValue(value: DictionaryValueType): Boolean {
+    override fun isLocalValue(value: DictionaryValueType): Boolean {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:58"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
@@ -104,7 +104,7 @@ public abstract class ADictionary(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
+    override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:107"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) })
         var mymapping = DictionaryValueTypeArray(0)
         var lastid = DictionaryValueHelper.NULL

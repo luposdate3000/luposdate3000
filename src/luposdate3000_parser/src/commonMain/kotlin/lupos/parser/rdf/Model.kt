@@ -25,24 +25,24 @@ public abstract class RDFTerm {
 
 public abstract class RDFResource : RDFTerm()
 public class IRI(@JvmField public val iri: String) : RDFResource() {
-    public override fun toN3String(): String = "<$iri>"
+    override fun toN3String(): String = "<$iri>"
 }
 
 public class BlankNode(@JvmField public val local_name: String) : RDFResource() {
     public constructor() : this("_" + UUID_Counter.getNextUUID())
 
-    public override fun toN3String(): String = "_:$local_name"
+    override fun toN3String(): String = "_:$local_name"
 }
 
 public abstract class Literal(@JvmField public val content: String, @JvmField public val delimiter: String) : RDFTerm() {
-    public override fun toN3String(): String = delimiter + content + delimiter
+    override fun toN3String(): String = delimiter + content + delimiter
 }
 
 public class SimpleLiteral(content: String, delimiter: String) : Literal(content, delimiter)
 public class LanguageTaggedLiteral(content: String, delimiter: String, @JvmField public val language: String) : Literal(content, delimiter) {
-    public override fun toN3String(): String = super.toN3String() + "@" + language
+    override fun toN3String(): String = super.toN3String() + "@" + language
 }
 
 public class TypedLiteral(content: String, delimiter: String, @JvmField public val type: String) : Literal(content, delimiter) {
-    public override fun toN3String(): String = super.toN3String() + "^^<" + type + ">"
+    override fun toN3String(): String = super.toN3String() + "^^<" + type + ">"
 }

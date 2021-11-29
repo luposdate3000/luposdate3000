@@ -21,9 +21,9 @@ import lupos.shared.IMyOutputStream
 internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {}
 
-    public actual override fun writeInt(value: Int): Unit = TODO("MyOutputStream")
-    public actual override fun close(): Unit = TODO("MyOutputStream")
-    public actual override fun flush(): Unit = TODO("MyOutputStream")
-    public actual override fun write(buf: ByteArray): Unit = write(buf, 0, buf.size)
-    public actual override fun write(buf: ByteArray, len: Int): Unit = write(buf, 0, len)
+    actual override fun writeInt(value: Int): Unit = TODO("MyOutputStream")
+    actual override fun close(): Unit = TODO("MyOutputStream")
+    actual override fun flush(): Unit = TODO("MyOutputStream")
+    actual override fun write(buf: ByteArray): Unit = write(buf, 0, buf.size)
+    actual override fun write(buf: ByteArray, len: Int): Unit = write(buf, 0, len)
 }

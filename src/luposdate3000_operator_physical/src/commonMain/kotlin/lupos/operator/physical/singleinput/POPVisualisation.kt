@@ -50,7 +50,7 @@ public class POPVisualisation public constructor(
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override fun evaluate(parent: Partition): IteratorBundle = EvalVisualisation(getChildren()[0].evaluate(parent), visualTest, query, getChildren()[0].getVisualUUUID(), getParent().getVisualUUUID())
-    public override fun usesDictionary(): Boolean {
+    override fun usesDictionary(): Boolean {
         return true
     }
 }

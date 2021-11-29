@@ -200,7 +200,7 @@ public open class POPValues : POPBase {
         return res
     }
 
-    public override fun usesDictionary(): Boolean {
+    override fun usesDictionary(): Boolean {
         return true
     }
 }

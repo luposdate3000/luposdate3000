@@ -54,7 +54,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         }
     }
 
-    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/noinput/AOPVariable.kt:57"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.name == name) {
             return AOPVariable(query, name2)
@@ -65,7 +65,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         return this
     }
 
-    public override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
+    override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         if (this.name == name) {
             return AOPConstant(query, value)
         }
@@ -75,7 +75,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         return this
     }
 
-    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+    override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         if (this.name == name) {
             return AOPConstant(query, DictionaryValueHelper.undefValue)
         }

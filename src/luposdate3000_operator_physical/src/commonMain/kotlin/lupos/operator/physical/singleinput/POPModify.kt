@@ -128,7 +128,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent), query, modify)
-    public override fun usesDictionary(): Boolean {
+    override fun usesDictionary(): Boolean {
         return true
     }
 }

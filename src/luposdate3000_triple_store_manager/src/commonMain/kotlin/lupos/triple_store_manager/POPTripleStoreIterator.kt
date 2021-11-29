@@ -148,7 +148,7 @@ public class POPTripleStoreIterator(
 
     public fun getDesiredHostnameFor(parent: Partition): LuposHostname = getTarget(parent).first
     public fun getTarget(parent: Partition): Pair<LuposHostname, LuposStoreKey> = tripleStoreIndexDescription.getStore(query, children, parent)
-    public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
+    override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalTripleStoreIterator(
         getTarget(parent),
         query,
@@ -162,7 +162,7 @@ public class POPTripleStoreIterator(
             }
         }.toTypedArray()
     )
-    public override fun usesDictionary(): Boolean {
+    override fun usesDictionary(): Boolean {
         return false
     }
 }

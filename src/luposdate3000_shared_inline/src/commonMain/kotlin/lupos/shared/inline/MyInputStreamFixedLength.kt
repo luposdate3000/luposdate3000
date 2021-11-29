@@ -22,7 +22,7 @@ import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 
 internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
-    public override fun readDictionaryValueType(): DictionaryValueType {
+    override fun readDictionaryValueType(): DictionaryValueType {
         if (remainingBytes >= DictionaryValueHelper.getSize()) {
             remainingBytes -= DictionaryValueHelper.getSize()
             return stream.readDictionaryValueType()
@@ -31,7 +31,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun readInt(): Int {
+    override fun readInt(): Int {
         if (remainingBytes >= 4) {
             remainingBytes -= 4
             return stream.readInt()
@@ -40,7 +40,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun readLong(): Long {
+    override fun readLong(): Long {
         if (remainingBytes >= 8) {
             remainingBytes -= 8
             return stream.readLong()
@@ -49,7 +49,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun readByte(): Byte {
+    override fun readByte(): Byte {
         if (remainingBytes >= 1) {
             remainingBytes -= 1
             return stream.readByte()
@@ -58,7 +58,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun read(buf: ByteArray): Int {
+    override fun read(buf: ByteArray): Int {
         if (remainingBytes >= buf.size) {
             remainingBytes -= buf.size
             return stream.read(buf)
@@ -67,7 +67,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun read(buf: ByteArray, len: Int): Int {
+    override fun read(buf: ByteArray, len: Int): Int {
         if (remainingBytes >= len) {
             remainingBytes -= len
             return stream.read(buf, len)
@@ -76,7 +76,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun read(buf: ByteArray, off: Int, len: Int): Int {
+    override fun read(buf: ByteArray, off: Int, len: Int): Int {
         if (remainingBytes >= len) {
             remainingBytes -= len
             return stream.read(buf, off, len)
@@ -85,11 +85,11 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
         }
     }
 
-    public override fun close() {
+    override fun close() {
         stream.close()
     }
 
-    public override fun readLine(): String? {
+    override fun readLine(): String? {
 // TODO this may break on utf-8
         var buf = mutableListOf<Byte>()
         try {

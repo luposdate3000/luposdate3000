@@ -72,7 +72,7 @@ public class TripleStoreIndexDescriptionSimple(
         return 0
     }
 
-    public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+    override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:75"/*SOURCE_FILE_END*/ }, { partition.limit.isEmpty() })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:76"/*SOURCE_FILE_END*/ }, { partition.data.isEmpty() })
         return Pair(hostname, key)
@@ -98,11 +98,11 @@ public class TripleStoreIndexDescriptionSimple(
         key = tmp.second
     }
 
-    public override fun getPartitionCount(params: Array<IOPBase>): Int {
+    override fun getPartitionCount(params: Array<IOPBase>): Int {
         return 1
     }
 
-    public override fun getDistributionCount(): Int {
+    override fun getDistributionCount(): Int {
         return 1
     }
 
@@ -110,7 +110,7 @@ public class TripleStoreIndexDescriptionSimple(
         return listOf(Pair(hostname, key))
     }
 
-    public override fun toXMLElement(): XMLElement {
+    override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("type", "TripleStoreIndexDescriptionSimple")
         res.addAttribute("hostname", "$hostname")

@@ -31,11 +31,11 @@ public class ColumnIteratorMultiValue3(@JvmField public val values: DictionaryVa
         size = newsize
     }
 
-    public /*suspend*/ override fun close() {
+    /*suspend*/ override fun close() {
         index = size
     }
 
-    public /*suspend*/ override fun next(): DictionaryValueType {
+    /*suspend*/ override fun next(): DictionaryValueType {
         return if (index == size) {
             DictionaryValueHelper.nullValue
         } else {

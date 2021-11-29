@@ -30,7 +30,7 @@ public class AOPBuildInCallExists public constructor(query: IQuery, @JvmField pu
     override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType = TODO("AOPBuildInCallExists")
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallExists(query, children[0].cloneOP())
-    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+    override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         if (!existsClauses) {
             return this
         }

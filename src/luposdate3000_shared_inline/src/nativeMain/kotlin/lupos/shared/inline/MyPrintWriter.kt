@@ -24,7 +24,7 @@ internal actual class MyPrintWriter : IMyOutputStream {
     actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
     actual override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
     actual override fun clearBuffer(): Unit = TODO("MyPrintWriter")
-    public actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
+    actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
     actual override fun toString(): String = TODO("MyPrintWriter")
     actual override fun println(x: String): Unit = TODO("MyPrintWriter")
     actual override fun print(x: String): Unit = TODO("MyPrintWriter")

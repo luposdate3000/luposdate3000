@@ -26,18 +26,18 @@ import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplication_Factory
 
 public class ApplicationFactory_Luposdate3000FeatureStore : IApplicationFeature {
-    public override fun getName(): String = "DatabaseStore"
-    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasStoreCapability()
+    override fun getName(): String = "DatabaseStore"
+    override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasStoreCapability()
 }
 
 public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
-    public override fun getName(): String = "DatabaseQuery"
-    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasQueryCapability()
+    override fun getName(): String = "DatabaseQuery"
+    override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasQueryCapability()
 }
 
 public class ApplicationFactory_Luposdate3000FeatureAny : IApplicationFeature {
-    public override fun getName(): String = "Database"
-    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000
+    override fun getName(): String = "Database"
+    override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000
 }
 
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
@@ -46,7 +46,7 @@ public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
     private var featureIDStore = -1
     private var featureIDQuery = -1
     private var featureIDAny = -1
-    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {
+    override fun registerFeatures(features: MutableList<IApplicationFeature>) {
         featureIDStore = features.size
         features.add(ApplicationFactory_Luposdate3000FeatureStore())
         featureIDQuery = features.size

@@ -20,13 +20,13 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 
 internal expect class MyInputStream : IMyInputStream {
-    public override fun readInt(): Int
-    public override fun readDictionaryValueType(): DictionaryValueType
-    public override fun readLong(): Long
-    public override fun readByte(): Byte
-    public override fun read(buf: ByteArray): Int
-    public override fun read(buf: ByteArray, len: Int): Int
-    public override fun read(buf: ByteArray, off: Int, len: Int): Int
-    public override fun close(): Unit
-    public override fun readLine(): String?
+    override fun readInt(): Int
+    override fun readDictionaryValueType(): DictionaryValueType
+    override fun readLong(): Long
+    override fun readByte(): Byte
+    override fun read(buf: ByteArray): Int
+    override fun read(buf: ByteArray, len: Int): Int
+    override fun read(buf: ByteArray, off: Int, len: Int): Int
+    override fun close(): Unit
+    override fun readLine(): String?
 }

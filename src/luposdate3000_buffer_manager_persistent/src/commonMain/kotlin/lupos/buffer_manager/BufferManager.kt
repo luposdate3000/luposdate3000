@@ -23,20 +23,20 @@ import lupos.shared.Luposdate3000Instance
 
 public expect class BufferManager public constructor(instance: Luposdate3000Instance) : IBufferManager {
 
-    public override fun releasePage(call_location: String, pageid: Int)
-    public override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper
+    override fun releasePage(call_location: String, pageid: Int)
+    override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper
 
-    /*suspend*/ public override fun allocPage(call_location: String): Int
+    /*suspend*/ override fun allocPage(call_location: String): Int
 
-    /*suspend*/ public override fun deletePage(call_location: String, pageid: Int)
-    public override fun flushPage(call_location: String, pageid: Int)
-
-    @ProguardTestAnnotation
-    public override fun close()
+    /*suspend*/ override fun deletePage(call_location: String, pageid: Int)
+    override fun flushPage(call_location: String, pageid: Int)
 
     @ProguardTestAnnotation
-    public override fun getNumberOfAllocatedPages(): Int
+    override fun close()
 
     @ProguardTestAnnotation
-    public override fun getNumberOfReferencedPages(): Int
+    override fun getNumberOfAllocatedPages(): Int
+
+    @ProguardTestAnnotation
+    override fun getNumberOfReferencedPages(): Int
 }

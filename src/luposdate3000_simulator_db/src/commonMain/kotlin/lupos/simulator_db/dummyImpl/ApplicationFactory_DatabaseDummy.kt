@@ -26,15 +26,15 @@ import lupos.simulator_iot.applications.IApplicationStack_Actuator
 import lupos.simulator_iot.applications.IApplication_Factory
 
 public class ApplicationFactory_DatabaseDummyFeature : IApplicationFeature {
-    public override fun getName(): String = "Database"
-    public override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_DatabaseDummy
+    override fun getName(): String = "Database"
+    override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_DatabaseDummy
 }
 
 public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
     private var featureID = -1
-    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {
+    override fun registerFeatures(features: MutableList<IApplicationFeature>) {
         featureID = features.size
         features.add(ApplicationFactory_DatabaseDummyFeature())
     }

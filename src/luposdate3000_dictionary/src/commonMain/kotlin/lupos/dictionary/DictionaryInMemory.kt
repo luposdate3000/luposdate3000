@@ -70,7 +70,7 @@ public class DictionaryInMemory internal constructor(
     @JvmField
     internal var uuidCounter: Int = 0
 
-    public override fun isInmemoryOnly(): Boolean = true
+    override fun isInmemoryOnly(): Boolean = true
 
     init {
         if (instance.allowDistributedBNodeAssignment) {
@@ -82,14 +82,14 @@ public class DictionaryInMemory internal constructor(
         }
     }
 
-    public override fun close() {
+    override fun close() {
     }
 
-    public override fun delete() {
+    override fun delete() {
         close()
     }
 
-    public override fun createNewBNode(): DictionaryValueType {
+    override fun createNewBNode(): DictionaryValueType {
         var res: DictionaryValueType = bNodeCounter
         lock.withWriteLock {
             res = bNodeCounter
@@ -105,7 +105,7 @@ public class DictionaryInMemory internal constructor(
         return res
     }
 
-    public override fun createNewUUID(): Int {
+    override fun createNewUUID(): Int {
         var res = uuidCounter
         lock.withWriteLock {
             res = uuidCounter
@@ -118,7 +118,7 @@ public class DictionaryInMemory internal constructor(
         return res
     }
 
-    public override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
+    override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
         lock.withReadLock {
             var flag: DictionaryValueType = DictionaryValueHelper.flagNoBNode
             var flag2: DictionaryValueType = 0
@@ -147,7 +147,7 @@ public class DictionaryInMemory internal constructor(
         }
     }
 
-    public override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
+    override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:152"/*SOURCE_FILE_END*/ },
@@ -172,7 +172,7 @@ public class DictionaryInMemory internal constructor(
         }
     }
 
-    public override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
+    override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withWriteLock {
             SanityCheck.check(
@@ -204,7 +204,7 @@ public class DictionaryInMemory internal constructor(
         return r
     }
 
-    public override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
+    override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
             SanityCheck.check(

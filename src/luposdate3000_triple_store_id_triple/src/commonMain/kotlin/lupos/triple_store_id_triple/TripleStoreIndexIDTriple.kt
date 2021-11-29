@@ -106,7 +106,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal val cachedHistograms2Response: IntArray = IntArray(200)
 
-    public override fun getRootPageID(): Int = rootPageID
+    override fun getRootPageID(): Int = rootPageID
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean, instance: Luposdate3000Instance) : this(instance.bufferManager!!, rootPageID, initFromRootPage)
 

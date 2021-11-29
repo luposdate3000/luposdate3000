@@ -67,7 +67,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
         return res
     }
 
-    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPProjection.kt:70"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in 0 until this.variables.size) {
             if (this.variables[i].name == name) {

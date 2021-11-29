@@ -112,12 +112,12 @@ public abstract class OPBase public constructor(
         mySortPriority = value
     }
 
-    public override fun setParent(parent: IOPBase) {
+    override fun setParent(parent: IOPBase) {
         this.parentNode = parent
     }
 
-    public override fun getParent(): IOPBase = parentNode!!
-    public override fun setVisualUUID(newUUID: Long) {
+    override fun getParent(): IOPBase = parentNode!!
+    override fun setVisualUUID(newUUID: Long) {
         this.visualUUID = newUUID
     }
 
@@ -397,7 +397,7 @@ public abstract class OPBase public constructor(
         children[i] = child
     }
 
-    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+    override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)
         }
@@ -409,7 +409,7 @@ public abstract class OPBase public constructor(
         return replaceVariableWithAnother(name, name2, tmp, 0)
     }
 
-    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:412"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
@@ -417,7 +417,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    public override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
+    override fun replaceVariableWithConstant(name: String, value: DictionaryValueType): IOPBase {
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithConstant(name, value)
         }
@@ -545,8 +545,8 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    public override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
-    public override fun usesDictionary(): Boolean {
+    override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
+    override fun usesDictionary(): Boolean {
         for (c in children) {
             if (c.usesDictionary()) {
                 return true

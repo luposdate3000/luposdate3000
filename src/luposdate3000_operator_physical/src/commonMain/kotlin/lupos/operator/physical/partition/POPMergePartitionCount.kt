@@ -43,7 +43,7 @@ public class POPMergePartitionCount public constructor(
     arrayOf(child),
     ESortPriorityExt.PREVENT_ANY
 ) {
-    public override fun changePartitionID(idFrom: Int, idTo: Int) {
+    override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo
     }
 

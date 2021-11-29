@@ -109,19 +109,19 @@ internal actual class File {
     internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream {
         return object : IMyOutputStream {
             val tmp = ExternalModule_fs.openOutputStream(filename, append)
-            public override fun writeInt(value: Int): Unit = tmp.writeInt(value)
-            public override fun writeLong(value: Long) = tmp.writeLong(value)
-            public override fun writeDictionaryValueType(value: DictionaryValueType) = DictionaryValueHelper.sendToStream(this, value)
-            public override fun write(buf: ByteArray): Unit = tmp.write(buf)
-            public override fun write(buf: ByteArray, len: Int): Unit = tmp.write(buf, len)
-            public override fun close(): Unit = tmp.close()
-            public override fun flush(): Unit = tmp.flush()
-            public override fun println(x: String) = tmp.println(x)
-            public override fun print(x: String) = tmp.print(x)
-            public override fun print(x: Boolean) = tmp.print(x)
-            public override fun print(x: Int) = tmp.print(x)
-            public override fun print(x: Double) = tmp.print(x)
-            public override fun println() = tmp.println()
+            override fun writeInt(value: Int): Unit = tmp.writeInt(value)
+            override fun writeLong(value: Long) = tmp.writeLong(value)
+            override fun writeDictionaryValueType(value: DictionaryValueType) = DictionaryValueHelper.sendToStream(this, value)
+            override fun write(buf: ByteArray): Unit = tmp.write(buf)
+            override fun write(buf: ByteArray, len: Int): Unit = tmp.write(buf, len)
+            override fun close(): Unit = tmp.close()
+            override fun flush(): Unit = tmp.flush()
+            override fun println(x: String) = tmp.println(x)
+            override fun print(x: String) = tmp.print(x)
+            override fun print(x: Boolean) = tmp.print(x)
+            override fun print(x: Int) = tmp.print(x)
+            override fun print(x: Double) = tmp.print(x)
+            override fun println() = tmp.println()
         }
     }
 }

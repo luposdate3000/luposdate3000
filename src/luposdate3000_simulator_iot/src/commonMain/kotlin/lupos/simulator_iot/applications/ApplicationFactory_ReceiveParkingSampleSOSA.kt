@@ -23,7 +23,7 @@ import lupos.simulator_iot.ILogger
 import lupos.simulator_iot.RandomGenerator
 
 public class ApplicationFactory_ReceiveParkingSampleSOSA : IApplication_Factory {
-    public override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
+    override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {

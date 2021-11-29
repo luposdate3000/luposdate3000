@@ -26,7 +26,7 @@ public class Package_QueryResponse(
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 
-    public override fun getSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         return result.size
     }
 

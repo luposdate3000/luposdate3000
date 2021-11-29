@@ -208,7 +208,7 @@ public class TripleStoreManagerImpl public constructor(
         keysOnHostname_ = Array(instance.LUPOS_PROCESS_URLS_STORE.size) { mutableSetOf() }
     }
 
-    public override fun initialize() {
+    override fun initialize() {
         val file = File(instance.BUFFER_HOME + globalManagerRootFileName)
         var pageid = -1
         if (BufferManagerExt.allowInitFromDisk && instance.allowInitFromDisk && file.exists()) {
@@ -323,8 +323,8 @@ public class TripleStoreManagerImpl public constructor(
         bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:322"/*SOURCE_FILE_END*/, rootPageID)
     }
 
-    public override fun getLocalhost(): LuposHostname = localhost
-    public override fun debugAllLocalStoreContent() {
+    override fun getLocalhost(): LuposHostname = localhost
+    override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
             for ((k, v) in metadata_) {
                 out.println("graphname : '$k'")
@@ -357,7 +357,7 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public override fun resetDefaultTripleStoreLayout() {
+    override fun resetDefaultTripleStoreLayout() {
         var partitionCount = 4
         while (partitionCount < instance.LUPOS_PROCESS_URLS_STORE.size) {
             partitionCount *= 2
@@ -440,7 +440,7 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
+    override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
         val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
         defaultTripleStoreLayout = factory
@@ -467,15 +467,15 @@ public class TripleStoreManagerImpl public constructor(
         return Pair(instance.LUPOS_PROCESS_URLS_ALL[hostidx], "$key")
     }
 
-    public override fun createGraph(query: IQuery, graphName: LuposGraphName) {
+    override fun createGraph(query: IQuery, graphName: LuposGraphName) {
         createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
     }
 
-    public override fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int> {
+    override fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int> {
         return localStoresGet()[tag]!!.getHistogram(Query(instance), filter)
     }
 
-    public override fun remoteModify(query: IQuery, type: EModifyType, stream: IMyInputStream, isSorted: Boolean, sortedBy: EIndexPattern, graph: String) {
+    override fun remoteModify(query: IQuery, type: EModifyType, stream: IMyInputStream, isSorted: Boolean, sortedBy: EIndexPattern, graph: String) {
 // read broadcast header
         var filterList = mutableListOf<TripleStoreDescriptionModifyCacheFilterEntry>()
         while (true) {
@@ -509,7 +509,7 @@ public class TripleStoreManagerImpl public constructor(
         cache.close()
     }
 
-    public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
+    override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
         if (origin) {
             createGraph(query, graphName)
         } else {
@@ -563,16 +563,16 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
+    override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
         dropGraph(query, graphName)
         createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
     }
 
-    public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
+    override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
         remoteClearGraph(query, graphName, true)
     }
 
-    public override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
+    override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
             createGraph(query, graphName)
         } else {
@@ -601,11 +601,11 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public override fun dropGraph(query: IQuery, graphName: LuposGraphName) {
+    override fun dropGraph(query: IQuery, graphName: LuposGraphName) {
         remoteDropGraph(query, graphName, true)
     }
 
-    public override fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
+    override fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
         val graph = metadata_[graphName]
         if (graph != null) {
             for (index in graph.indices) {
@@ -631,11 +631,11 @@ public class TripleStoreManagerImpl public constructor(
         metadataRemove(graphName)
     }
 
-    public override fun getGraphNames(): List<LuposGraphName> {
+    override fun getGraphNames(): List<LuposGraphName> {
         return getGraphNames(false)
     }
 
-    public override fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
+    override fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
         val res = mutableListOf<LuposGraphName>()
         if (includeDefault) {
             res.add(DEFAULT_GRAPH_NAME)
@@ -648,11 +648,11 @@ public class TripleStoreManagerImpl public constructor(
         return res
     }
 
-    public override fun getDefaultGraph(): TripleStoreDescription {
+    override fun getDefaultGraph(): TripleStoreDescription {
         return getGraph(DEFAULT_GRAPH_NAME)
     }
 
-    public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription {
+    override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription {
         val node2 = node["TripleStoreIndexDescription"]!!
         val graph = metadata_[node2.attributes["graphName"]]!!
         val idx = EIndexPatternExt.names.indexOf(node2.attributes["pattern"]!!)
@@ -687,7 +687,7 @@ public class TripleStoreManagerImpl public constructor(
         throw Exception("desired index not found")
     }
 
-    public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
+    override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
             val query = Query(instance)
             createGraph(query, graphName)
@@ -696,7 +696,7 @@ public class TripleStoreManagerImpl public constructor(
         return res!!
     }
 
-    public override fun remoteCommit(query: IQuery, origin: Boolean) {
+    override fun remoteCommit(query: IQuery, origin: Boolean) {
         for (graph in metadata_.values) {
             for (index in graph.indices) {
                 for ((first, second) in index.getAllLocations()) {
@@ -722,7 +722,7 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public override fun commit(query: IQuery) {
+    override fun commit(query: IQuery) {
         remoteCommit(query, true)
     }
 }

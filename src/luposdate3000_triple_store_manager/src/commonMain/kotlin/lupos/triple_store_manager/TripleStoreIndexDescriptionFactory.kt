@@ -26,22 +26,22 @@ import kotlin.jvm.JvmField
 public open class TripleStoreIndexDescriptionFactory(@JvmField internal var instance: Luposdate3000Instance) : ITripleStoreIndexDescriptionFactory {
     @JvmField
     internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO, instance)
-    public override fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory {
+    override fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionSimple(idx, instance)
         return this
     }
 
-    public override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory {
+    override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn, instance)
         return this
     }
 
-    public override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
+    override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount, instance)
         return this
     }
 
-    public override fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory {
+    override fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory {
         var off = 0
         val type = ByteArrayHelper2.readInt4(buffer, off)
         off += 4

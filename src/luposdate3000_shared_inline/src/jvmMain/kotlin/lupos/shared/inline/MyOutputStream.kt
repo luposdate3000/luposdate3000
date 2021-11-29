@@ -44,11 +44,11 @@ internal actual class MyOutputStream : IMyOutputStream {
         buffer = ByteArray(8192)
     }
 
-    public actual override fun writeDictionaryValueType(value: DictionaryValueType) {
+    actual override fun writeDictionaryValueType(value: DictionaryValueType) {
         DictionaryValueHelper.sendToStream(this, value)
     }
 
-    public actual override fun writeInt(value: Int) {
+    actual override fun writeInt(value: Int) {
         if (bufferPos + 4 > buffer.size) {
             localFlush()
         }
@@ -56,7 +56,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         bufferPos += 4
     }
 
-    public actual override fun writeLong(value: Long) {
+    actual override fun writeLong(value: Long) {
         if (bufferPos + 8 > buffer.size) {
             localFlush()
         }
@@ -64,7 +64,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         bufferPos += 8
     }
 
-    public actual override fun close() {
+    actual override fun close() {
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:68"/*SOURCE_FILE_END*/ },
             {
@@ -98,7 +98,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         }
     }
 
-    public actual override fun flush() {
+    actual override fun flush() {
         // kotlin.io.println("MyOutputStream.flush $this")
         localFlush()
         stream!!.flush()
@@ -118,11 +118,11 @@ internal actual class MyOutputStream : IMyOutputStream {
         }
     }
 
-    public actual override fun write(buf: ByteArray) {
+    actual override fun write(buf: ByteArray) {
         _write(buf, 0, buf.size)
     }
 
-    public actual override fun write(buf: ByteArray, len: Int) {
+    actual override fun write(buf: ByteArray, len: Int) {
         _write(buf, 0, len)
     }
 
@@ -132,10 +132,10 @@ internal actual class MyOutputStream : IMyOutputStream {
         _write(buf, 0, buf.size)
     }
 
-    public actual override fun println(x: String) = _print("$x\n")
-    public actual override fun print(x: String) = _print(x)
-    public actual override fun print(x: Boolean) = _print("$x")
-    public actual override fun print(x: Int) = _print("$x")
-    public actual override fun print(x: Double) = _print("$x")
-    public actual override fun println() = _print("\n")
+    actual override fun println(x: String) = _print("$x\n")
+    actual override fun print(x: String) = _print(x)
+    actual override fun print(x: Boolean) = _print("$x")
+    actual override fun print(x: Int) = _print("$x")
+    actual override fun print(x: Double) = _print("$x")
+    actual override fun println() = _print("\n")
 }

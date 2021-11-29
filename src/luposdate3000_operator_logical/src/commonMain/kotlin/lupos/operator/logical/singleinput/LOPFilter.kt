@@ -40,7 +40,7 @@ public class LOPFilter public constructor(query: IQuery, filter: AOPBase, child:
         return children[0].getHistogram()
     }
 
-    public override fun syntaxVerifyAllVariableExistsAutocorrect() {
+    override fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false
             for (prov in getProvidedVariableNames()) {

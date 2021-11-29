@@ -229,7 +229,7 @@ public class ImageHelper {
         }
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val buffer = StringBuilder()
         val x = minX - margin
         val y = minY - margin

@@ -718,7 +718,7 @@ public class MyOperatorPart(
     public val generateInstantiated: GenerateFunc,
     public val generateByteArrayWrapper: GenerateFunc? = null,
 ) : Comparable<MyOperatorPart> {
-    public override fun compareTo(other: MyOperatorPart): Int {
+    override fun compareTo(other: MyOperatorPart): Int {
         var res = 0
         var i = 0
         while (i < childrenTypes.size && res == 0) {

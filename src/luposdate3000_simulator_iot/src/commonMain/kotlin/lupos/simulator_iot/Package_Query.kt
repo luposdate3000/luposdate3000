@@ -31,7 +31,7 @@ public class Package_Query(
         private var idCounter: Int = 0
     }
 
-    public override fun getSizeInBytes(): Int {
+    override fun getSizeInBytes(): Int {
         return query.size + 4
     }
 

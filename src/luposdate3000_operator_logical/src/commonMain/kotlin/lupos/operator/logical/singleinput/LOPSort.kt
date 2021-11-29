@@ -73,7 +73,7 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
         return res
     }
 
-    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+    override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/singleinput/LOPSort.kt:76"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         if (this.by.name == name) {
             this.by = AOPVariable(query, name2)

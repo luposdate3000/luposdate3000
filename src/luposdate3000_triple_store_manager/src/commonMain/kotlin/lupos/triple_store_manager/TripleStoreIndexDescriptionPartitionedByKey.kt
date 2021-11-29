@@ -106,7 +106,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         }
     }
 
-    public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+    override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         val triple = DictionaryValueTypeArray(3) { -1 }
         var counter = 0
         for (i in 0 until 3) {
@@ -173,11 +173,11 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         }
     }
 
-    public override fun getPartitionCount(params: Array<IOPBase>): Int {
+    override fun getPartitionCount(params: Array<IOPBase>): Int {
         return 1
     }
 
-    public override fun getDistributionCount(): Int {
+    override fun getDistributionCount(): Int {
         return partitionCount
     }
 
@@ -189,7 +189,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         return res
     }
 
-    public override fun toXMLElement(): XMLElement {
+    override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("type", "TripleStoreIndexDescriptionPartitionedByKey")
         res.addAttribute("partitionCount", "$partitionCount")
