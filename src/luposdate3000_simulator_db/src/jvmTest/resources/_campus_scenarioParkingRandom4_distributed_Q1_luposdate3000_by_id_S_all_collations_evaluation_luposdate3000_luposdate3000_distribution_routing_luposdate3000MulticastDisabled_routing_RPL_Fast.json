@@ -1,0 +1,143 @@
+{
+    "applications": {
+        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+            "REPLACE_STORE_WITH_VALUES": false,
+            "SharedMemoryDictionaryCheat": false,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "enabled": false,
+            "mergeLocalOperatorgraphs": true,
+            "predefinedPartitionScheme": "PartitionByID_S_AllCollations",
+            "queryDistributionMode": "Routing",
+            "useDictionaryInlineEncoding": true,
+        },
+        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
+                    "enabled": true,
+                    "fileName": "../luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
+                    "sendStartClockInSec": 10,
+                },
+                "lupos.simulator_iot.applications.ApplicationFactory_QuerySender": [
+                    {
+                        "maxNumberOfQueries": 1,
+                        "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+                        "sendRateInSeconds": 1,
+                        "sendStartClockInSec": 9000,
+                    },
+                ],
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+            },
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {},
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                    "maxSamples": 5,
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "patterns": [
+                {
+                    "density": 2.0E-6,
+                    "deviceType": "Mesh Hop",
+                    "mode": "density",
+                    "radius": 0.0025,
+                    "type": "random_fill",
+                },
+                {
+                    "count": 3,
+                    "deviceType": "Database Device",
+                    "mode": "count",
+                    "patterns": [
+                        {
+                            "count": 10,
+                            "deviceType": "Sensor Device",
+                            "mode": "count",
+                            "provideCounterAs": "spotInArea",
+                            "radius": 5.0E-4,
+                            "type": "random_fill",
+                        },
+                    ],
+                    "provideCounterAs": "area",
+                    "radius": 0.0025,
+                    "type": "random_fill",
+                },
+            ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 150,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 60,
+        },
+    },
+    "logging": {
+        "lupos.simulator_iot.LoggerMeasure": {
+            "enabled": false,
+        },
+        "lupos.simulator_iot.LoggerStdout": {
+            "enabled": false,
+        },
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
+            "enabled": false,
+        },
+    },
+    "outputDirectory": "simulator_output//_campus_scenarioParkingRandom4_distributed_Q1_luposdate3000_by_id_S_all_collations_evaluation_luposdate3000_luposdate3000_distribution_routing_luposdate3000MulticastDisabled_routing_RPL_Fast",
+    "rootRouter": "Fog",
+    "routing": {
+        "compatibilityMode": false,
+        "multicast": "None",
+        "protocol": "RPL_Fast",
+    },
+}

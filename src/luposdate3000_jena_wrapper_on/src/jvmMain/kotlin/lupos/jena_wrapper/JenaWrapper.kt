@@ -28,10 +28,10 @@ import org.apache.jena.update.UpdateAction
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-actual public object JenaWrapper {
+public actual object JenaWrapper {
     @JvmField
     internal var dataset = DatasetFactory.createTxnMem()!!
-    actual public fun dropAll() {
+    public actual fun dropAll() {
         updateQuery("DROP SILENT ALL")
     }
 
@@ -53,7 +53,7 @@ actual public object JenaWrapper {
         }
     }
 
-    actual public fun execQuery(queryString: String): String {
+    public actual fun execQuery(queryString: String): String {
         return execQuery(queryString, true)
     }
 
@@ -109,7 +109,7 @@ actual public object JenaWrapper {
         return res
     }
 
-    actual public fun loadFromFile(fileNames: String, graph: String) {
+    public actual fun loadFromFile(fileNames: String, graph: String) {
         var graph2 = graph
         if (!graph2.startsWith("<")) {
             graph2 = "<$graph2>"
@@ -121,7 +121,7 @@ actual public object JenaWrapper {
         updateQuery(updateString.toString())
     }
 
-    actual public fun loadFromFile(fileNames: String) {
+    public actual fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
             updateString.append("load <file://${File(fileName).absolutePath}> ;")

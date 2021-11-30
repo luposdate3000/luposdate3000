@@ -16,9 +16,9 @@
  */
 package lupos.jena_wrapper
 
-expect public object JenaWrapper {
-    public fun dropAll() 
-    public fun execQuery( queryString: String): String 
-    public fun loadFromFile( fileNames: String) 
-    public fun loadFromFile( fileNames: String,  graph: String) 
+public expect object JenaWrapper {
+    public fun dropAll()
+    public fun execQuery(queryString: String): String
+    public fun loadFromFile(fileNames: String)
+    public fun loadFromFile(fileNames: String, graph: String)
 }
