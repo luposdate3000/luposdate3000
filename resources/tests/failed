@@ -1,6 +1,15 @@
-[31;1m> Task :src:luposdate3000_code_gen_test_00:allTests[0;39m FAILED
-[31;1m> Task :src:luposdate3000_simulator_core:allTests[0;39m FAILED
-[31;1m> Task :src:luposdate3000_simulator_db:allTests[0;39m FAILED
+DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
 ABS - Thread - PartitionByID_1_AllCollations - false
 ABS - Thread - PartitionByID_1_AllCollations - true
 ABS - Thread - PartitionByID_2_AllCollations - false
