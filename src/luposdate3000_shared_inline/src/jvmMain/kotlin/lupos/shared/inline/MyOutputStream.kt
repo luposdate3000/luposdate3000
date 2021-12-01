@@ -52,7 +52,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         if (bufferPos + 4 > buffer.size) {
             localFlush()
         }
-        ByteArrayHelper2.writeInt4(buffer, bufferPos, value)
+        ByteArrayHelper.writeInt4(buffer, bufferPos, value)
         bufferPos += 4
     }
 
@@ -60,7 +60,7 @@ internal actual class MyOutputStream : IMyOutputStream {
         if (bufferPos + 8 > buffer.size) {
             localFlush()
         }
-        ByteArrayHelper2.writeLong8(buffer, bufferPos, value)
+        ByteArrayHelper.writeLong8(buffer, bufferPos, value)
         bufferPos += 8
     }
 

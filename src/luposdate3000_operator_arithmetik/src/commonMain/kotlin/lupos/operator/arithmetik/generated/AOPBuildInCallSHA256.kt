@@ -17,7 +17,7 @@
 package lupos.operator.arithmetik.generated
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.shared.Crypto
+import lupos.shared.Crypto_SHA256
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EOperatorIDExt
@@ -47,21 +47,21 @@ public class AOPBuildInCallSHA256 public constructor(query: IQuery, child0: AOPB
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_13: String = Crypto.sha256(tmp_12)
+                    val tmp_13: String = Crypto_SHA256.sha256(tmp_12)
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     val tmp_15_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_15_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_16: String = Crypto.sha256(tmp_15_content)
+                    val tmp_16: String = Crypto_SHA256.sha256(tmp_15_content)
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_16)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_18_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_19: String = Crypto.sha256(tmp_18_content)
+                    val tmp_19: String = Crypto_SHA256.sha256(tmp_18_content)
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_19)
                     res = query.getDictionary().createValue(tmp_2)
                 }

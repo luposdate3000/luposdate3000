@@ -26,7 +26,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ByteArrayHelper2
+import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
@@ -53,15 +53,15 @@ public class TripleStoreIndexDescriptionSimple(
         val byteArray2 = ByteArray(size)
         byteArray = byteArray2
         var off = 0
-        ByteArrayHelper2.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.Simple)
+        ByteArrayHelper.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.Simple)
         off += 4
-        ByteArrayHelper2.writeInt4(byteArray2, off, idx_set.first())
+        ByteArrayHelper.writeInt4(byteArray2, off, idx_set.first())
         off += 4
-        ByteArrayHelper2.writeInt4(byteArray2, off, buf1.size)
+        ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
         off += 4
         buf1.copyInto(byteArray2, off)
         off += buf1.size
-        ByteArrayHelper2.writeInt4(byteArray2, off, buf2.size)
+        ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
         off += 4
         buf2.copyInto(byteArray2, off)
         off += buf2.size

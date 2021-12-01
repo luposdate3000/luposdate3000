@@ -349,7 +349,7 @@ val useKover=true
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
         val enableProguard = !onWindows && enableJVM && !buildLibrary && moduleArgs.compilerVersion == "1.5.0"
-
+useKTLint=useKTLint && !onWindows
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
             if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
@@ -396,7 +396,6 @@ val useKover=true
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        mavenLocal()")
-                out.println("        jcenter()")
                 out.println("        google()")
                 out.println("        mavenCentral()")
                 out.println("    }")
@@ -426,11 +425,9 @@ val useKover=true
 if(useKover){
 out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
 }
-                if (!onWindows) {
                     if (useKTLint) {
                         out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
                     }
-                }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
@@ -457,7 +454,6 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                 }
                 out.println("}")
                 out.println("repositories {")
-                out.println("    jcenter()")
                 out.println("    mavenLocal()")
                 out.println("    google()")
                 out.println("    mavenCentral()")
@@ -657,11 +653,9 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
-                if (!onWindows) {
                     if (useKTLint) {
                         out.println("    dependsOn(\"ktlintFormat\")")
                     }
-                }
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -717,6 +711,24 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                     out.println("        }")
                     out.println("    }")
                     out.println("}")
+if (useKTLint) {
+		    out.println("tasks.named(\"sourcesJar\") {")
+                    out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
+                    out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
+                    out.println("    dependsOn(\"runKtlintFormatOverCommonTestSourceSet\")")
+                    out.println("}")
+if(!buildLibrary){
+		    out.println("tasks.named(\"startScripts\") {")
+                    out.println("    dependsOn(\"metadataJar\")")
+                    out.println("}")
+}
+		    out.println("tasks.named(\"compileKotlinMetadata\") {")
+                    out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
+                    out.println("}")
+		    out.println("tasks.named(\"allMetadataJar\") {")
+                    out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                    out.println("}")
+}
                 }
                 if (enableJS) {
                     out.println("tasks.named(\"compileKotlinJs\") {")
@@ -739,7 +751,6 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                 }
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
-                if (!onWindows) {
                     if (useKTLint) {
                         out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
                         out.println("    enableExperimentalRules.set(true)")
@@ -749,7 +760,6 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                         out.println("    }")
                         out.println("}")
                     }
-                }
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")

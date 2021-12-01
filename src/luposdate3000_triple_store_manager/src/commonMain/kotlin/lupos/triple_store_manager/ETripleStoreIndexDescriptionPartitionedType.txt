@@ -1,3 +1,4 @@
 PartitionedByID
+PartitionedByAll
 PartitionedByKey
 Simple

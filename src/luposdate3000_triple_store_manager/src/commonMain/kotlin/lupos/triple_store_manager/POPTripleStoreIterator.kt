@@ -92,9 +92,12 @@ public class POPTripleStoreIterator(
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
         if (column.startsWith("?")) {
             val tmp = requiresPartitioning()
-            if (tmp != null) {
-                partitionColumn = tmp.first
-                return tmp.second
+            if (tmp.size != 0) {
+                for ((key, count) in tmp) {
+                    partitionColumn = key
+                    return count
+                }
+                return -1 // unreachable
             } else {
                 return 1
             }
@@ -125,12 +128,12 @@ public class POPTripleStoreIterator(
     override fun getPartitionCount(variable: String): Int {
         if (variable.startsWith("?")) {
             return tripleStoreIndexDescription.getPartitionCount(children)
-        } else if(tripleStoreIndexDescription is TripleStoreIndexDescriptionPartitionedByAll){
-return tripleStoreIndexDescription.getPartitionCount(children)
-}else{
+        } else if (tripleStoreIndexDescription is TripleStoreIndexDescriptionPartitionedByAll) {
+            return tripleStoreIndexDescription.getPartitionCount(children)
+        } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:130"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:135"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {

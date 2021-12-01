@@ -19,15 +19,17 @@ package lupos.triple_store_manager
 import kotlin.jvm.JvmField
 
 public object ETripleStoreIndexDescriptionPartitionedTypeExt {
-    public const val PartitionedByID: ETripleStoreIndexDescriptionPartitionedType = 0 // 0x00000000
-    public const val PartitionedByKey: ETripleStoreIndexDescriptionPartitionedType = 1 // 0x00000001
-    public const val Simple: ETripleStoreIndexDescriptionPartitionedType = 2 // 0x00000002
-    public const val values_size: Int = 3
+    public const val PartitionedByAll: ETripleStoreIndexDescriptionPartitionedType = 0 // 0x00000000
+    public const val PartitionedByID: ETripleStoreIndexDescriptionPartitionedType = 1 // 0x00000001
+    public const val PartitionedByKey: ETripleStoreIndexDescriptionPartitionedType = 2 // 0x00000002
+    public const val Simple: ETripleStoreIndexDescriptionPartitionedType = 3 // 0x00000003
+    public const val values_size: Int = 4
     public const val values_mask: Int = 3 // 0x00000003
     public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
 
     @JvmField
     public val names: Array<String> = arrayOf(
+        "PartitionedByAll",
         "PartitionedByID",
         "PartitionedByKey",
         "Simple",

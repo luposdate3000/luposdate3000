@@ -17,16 +17,16 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")  
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt") 
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt") 
-@file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
-@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt") 
+@file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt") 
+@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")  
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt") 
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt") 
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")  
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt") 
@@ -41,7 +41,7 @@ import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
-import launcher.TargetMode2
+import launcher.TargetMode2 
 import launcher.createBuildFileForModule
 import launcher.fixPathNames  
 import launcher.targetModeCompatible

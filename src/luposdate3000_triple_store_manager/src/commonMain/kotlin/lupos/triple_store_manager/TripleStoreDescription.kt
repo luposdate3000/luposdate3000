@@ -59,7 +59,7 @@ public class TripleStoreDescription(
                 }
                 is TripleStoreIndexDescriptionPartitionedByAll -> {
                     res.append("PartitionedByAll;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.partitionCount}")
-val i3=idx.partitionCount*idx.partitionCount*idx.partitionCount
+                    val i3 = idx.partitionCount * idx.partitionCount * idx.partitionCount
                     for (i in 0 until i3) {
                         res.append(";${idx.hostnames[i]};${idx.keys[i]}")
                     }
@@ -103,8 +103,8 @@ val i3=idx.partitionCount*idx.partitionCount*idx.partitionCount
                             }
                             "PartitionedByAll" -> {
                                 val idx = TripleStoreIndexDescriptionPartitionedByAll(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), instance)
-val i=args[2].toInt()
-val i3=i*i*i
+                                val i = args[2].toInt()
+                                val i3 = i * i * i
                                 for (i in 0 until i3) {
                                     idx.hostnames[i] = args[3 + i * 2]
                                     idx.keys[i] = args[3 + i * 2 + 1]
@@ -172,7 +172,7 @@ val i3=i*i*i
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:156"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:174"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {

@@ -16,11 +16,12 @@
  */
 package lupos.triple_store_manager
 
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EIndexPatternHelper
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
@@ -28,7 +29,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
-import lupos.shared.inline.ByteArrayHelper2
+import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
@@ -37,7 +38,7 @@ public class TripleStoreIndexDescriptionPartitionedByAll(
     @JvmField internal val partitionCount: Int, // count for each column
     instance: Luposdate3000Instance,
 ) : TripleStoreIndexDescription(instance) {
-internal val partitionCount3=partitionCount*partitionCount*partitionCount
+    internal val partitionCount3 = partitionCount * partitionCount * partitionCount
     internal val hostnames = Array(partitionCount3) { "" }
     internal val keys = Array(partitionCount3) { "" }
     internal val fixedPartitionNameS = "?PartitionedByAllS"
@@ -59,20 +60,20 @@ internal val partitionCount3=partitionCount*partitionCount*partitionCount
         val byteArray2 = ByteArray(size)
         byteArray = byteArray2
         var off = 0
-        ByteArrayHelper2.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
+        ByteArrayHelper.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
         off += 4
-        ByteArrayHelper2.writeInt4(byteArray2, off, idx_set.first())
+        ByteArrayHelper.writeInt4(byteArray2, off, idx_set.first())
         off += 4
-        ByteArrayHelper2.writeInt4(byteArray2, off, partitionCount)
+        ByteArrayHelper.writeInt4(byteArray2, off, partitionCount)
         off += 4
         for (i in 0 until partitionCount3) {
             val buf1 = hostnames[i].encodeToByteArray()
-            ByteArrayHelper2.writeInt4(byteArray2, off, buf1.size)
+            ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
             off += 4
             buf1.copyInto(byteArray2, off)
             off += buf1.size
             val buf2 = keys[i].encodeToByteArray()
-            ByteArrayHelper2.writeInt4(byteArray2, off, buf2.size)
+            ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
             off += 4
             buf2.copyInto(byteArray2, off)
             off += buf2.size
@@ -81,57 +82,57 @@ internal val partitionCount3=partitionCount*partitionCount*partitionCount
     }
 
     override fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int {
-val s=DictionaryValueHelper.toInt(triple[0]) % partitionCount
-val p=DictionaryValueHelper.toInt(triple[1]) % partitionCount
-val o=DictionaryValueHelper.toInt(triple[2]) % partitionCount
-return myHashG(s,p,o)
+        val s = DictionaryValueHelper.toInt(triple[0]) % partitionCount
+        val p = DictionaryValueHelper.toInt(triple[1]) % partitionCount
+        val o = DictionaryValueHelper.toInt(triple[2]) % partitionCount
+        return myHashG(s, p, o)
     }
-internal inline fun myHashG(s:Int,p:Int,o:Int):Int=s*partitionCount*partitionCount+p*partitionCount+o
+    internal inline fun myHashG(s: Int, p: Int, o: Int): Int = s * partitionCount * partitionCount + p * partitionCount + o
 
     override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-var s=(params[0] as? AOPConstant).value
-var p=(params[0] as? AOPConstant).value
-var o=(params[0] as? AOPConstant).value
-if(s==null){
-val ns=(params[0] as? AOPVariable).name
-s=partition.data[ns]
-}
-if(p==null){
-val np=(params[1] as? AOPVariable).name
-p=partition.data[np]
-}
-if(o==null){
-val no=(params[2] as? AOPVariable).name
-o=partition.data[no]
-}
-if(s==null){
-s=partition.data[fixedPartitionNameS]
-}
-if(p==null){
-p=partition.data[fixedPartitionNameP]
-}
-if(o==null){
-o=partition.data[fixedPartitionNameO]
-}
-SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:91"/*SOURCE_FILE_END*/ },
-                { s!=null }
-            )
-SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:91"/*SOURCE_FILE_END*/ },
-                { p!=null }
-            )
-SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:91"/*SOURCE_FILE_END*/ },
-                { o!=null }
-            )
-val h=myHashG(s% partitionCount,p% partitionCount,o% partitionCount)
+        var s = (params[0] as? AOPConstant)?.value?.toInt()
+        var p = (params[0] as? AOPConstant)?.value?.toInt()
+        var o = (params[0] as? AOPConstant)?.value?.toInt()
+        if (s == null) {
+            val ns = (params[0] as? AOPVariable)?.name
+            s = partition.data[ns]
+        }
+        if (p == null) {
+            val np = (params[1] as? AOPVariable)?.name
+            p = partition.data[np]
+        }
+        if (o == null) {
+            val no = (params[2] as? AOPVariable)?.name
+            o = partition.data[no]
+        }
+        if (s == null) {
+            s = partition.data[fixedPartitionNameS]
+        }
+        if (p == null) {
+            p = partition.data[fixedPartitionNameP]
+        }
+        if (o == null) {
+            o = partition.data[fixedPartitionNameO]
+        }
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:117"/*SOURCE_FILE_END*/ },
+            { s != null }
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:121"/*SOURCE_FILE_END*/ },
+            { p != null }
+        )
+        SanityCheck.check(
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:125"/*SOURCE_FILE_END*/ },
+            { o != null }
+        )
+        val h = myHashG(s!! % partitionCount, p!! % partitionCount, o!! % partitionCount)
         return Pair(hostnames[h], keys[h])
     }
 
     init {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:107"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:134"/*SOURCE_FILE_END*/ },
             { partitionCount > 1 },
         )
         idx_set = when (idx) {
@@ -148,8 +149,8 @@ val h=myHashG(s% partitionCount,p% partitionCount,o% partitionCount)
     override fun assignHosts() {
         for (i in 0 until partitionCount3) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:132"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:133"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:151"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByAll.kt:152"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }
@@ -185,6 +186,6 @@ val h=myHashG(s% partitionCount,p% partitionCount,o% partitionCount)
 
     override fun requireSplitFromStore(): Boolean = false
     override fun requiresPartitioning(params: Array<IOPBase>): Map<String, Int> {
-	return mapOf(fixedPartitionNameS to partitionCount,fixedPartitionNameO to partitionCount,fixedPartitionNameO to partitionCount)
-}
+        return mapOf(fixedPartitionNameS to partitionCount, fixedPartitionNameO to partitionCount, fixedPartitionNameO to partitionCount)
+    }
 }

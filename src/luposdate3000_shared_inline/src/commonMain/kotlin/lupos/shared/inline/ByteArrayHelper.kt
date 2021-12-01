@@ -16,7 +16,7 @@
  */
 package lupos.shared.inline
 
-internal expect object ByteArrayHelper2 {
+internal expect object ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int)
 
