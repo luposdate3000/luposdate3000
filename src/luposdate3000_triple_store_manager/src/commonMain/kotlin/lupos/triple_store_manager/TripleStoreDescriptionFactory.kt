@@ -38,6 +38,7 @@ public class TripleStoreDescriptionFactory(@JvmField internal val instance: Lupo
             when (idx) {
                 is TripleStoreIndexDescriptionSimple -> indices.add(TripleStoreIndexDescriptionSimple(idx.idx_set[0], instance))
                 is TripleStoreIndexDescriptionPartitionedByID -> indices.add(TripleStoreIndexDescriptionPartitionedByID(idx.idx_set[0], idx.partitionCount, idx.partitionColumn, instance))
+                is TripleStoreIndexDescriptionPartitionedByAll -> indices.add(TripleStoreIndexDescriptionPartitionedByAll(idx.idx_set[0], idx.partitionCount, instance))
                 is TripleStoreIndexDescriptionPartitionedByKey -> indices.add(TripleStoreIndexDescriptionPartitionedByKey(idx.idx_set[0], idx.partitionCount, instance))
                 else -> TODO(idx.toString())
             }

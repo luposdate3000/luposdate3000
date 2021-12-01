@@ -1,6 +1,6 @@
 # compile of luposdate3000 if you dont have much RAM available
 1. Increase memory of VM
-2. Add some swap memory (this will be very very slow ...) look here for the necessary commands: https://linuxize.com/post/how-to-add-swap-space-on-ubuntu-18-04/ .
+2. Add some swap memory (this will be very very slow ...) look here for the necessary commands: [HowTo add swap-memory](https://linuxize.com/post/how-to-add-swap-space-on-ubuntu-18-04/) .
    Choose the swap space, such that you have at least 8GB available afterwards.
 3. Close all unnecessary programs
 4. Open the file gradle.properties :

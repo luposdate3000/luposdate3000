@@ -201,11 +201,11 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     }
 
     override fun requireSplitFromStore(): Boolean = true
-    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? {
+    override fun requiresPartitioning(params: Array<IOPBase>): Map<String, Int> {
         if (params.filter { it is AOPConstant }.isEmpty()) {
-            return fixedPartitionName to partitionCount
+            return mapOf(fixedPartitionName to partitionCount)
         } else {
-            return null
+            return mapOf()
         }
     }
 }

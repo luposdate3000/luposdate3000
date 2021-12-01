@@ -55,7 +55,7 @@ public class POPTripleStoreIterator(
     @JvmField
     public var hasSplitFromStore: Boolean = false
     public fun requireSplitFromStore(): Boolean = tripleStoreIndexDescription.requireSplitFromStore()
-    public fun requiresPartitioning(): Pair<String, Int>? = tripleStoreIndexDescription.requiresPartitioning(children)
+    public fun requiresPartitioning(): Map<String, Int> = tripleStoreIndexDescription.requiresPartitioning(children)
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
@@ -125,7 +125,9 @@ public class POPTripleStoreIterator(
     override fun getPartitionCount(variable: String): Int {
         if (variable.startsWith("?")) {
             return tripleStoreIndexDescription.getPartitionCount(children)
-        } else {
+        } else if(tripleStoreIndexDescription is TripleStoreIndexDescriptionPartitionedByAll){
+return tripleStoreIndexDescription.getPartitionCount(children)
+}else{
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
                 SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:130"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })

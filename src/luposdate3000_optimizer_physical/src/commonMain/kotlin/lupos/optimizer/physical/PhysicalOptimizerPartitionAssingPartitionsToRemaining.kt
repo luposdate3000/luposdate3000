@@ -54,13 +54,22 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         }
                         if (new_countMax == 1 && node.requireSplitFromStore()) {
                             val requiredPartition = node.requiresPartitioning()
+                            if (requiredPartition.size!=0) {
+res=node
+val ids=mutableListOf<Int>()
+for((key,count) in requiredPartition){
                             val partitionID = query.getNextPartitionOperatorID()
-                            if (requiredPartition != null) {
-                                res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, node)
+ids.add(partitionID)
+                                res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), key, count, partitionID, res)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
-                                res = POPMergePartition(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, res)
+}
+for((key,count) in requiredPartition){
+  val partitionID =ids.removeAt(0)
+                                res = POPMergePartition(query, res.getProvidedVariableNames(), key, count, partitionID, res)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
+}
                             } else {
+                            val partitionID = query.getNextPartitionOperatorID()
                                 res = POPSplitMergePartitionFromStore(query, res.getProvidedVariableNames(), partitionID, res)
                             }
                             node.hasSplitFromStore = true

@@ -668,6 +668,13 @@ public class TripleStoreManagerImpl public constructor(
                             }
                         }
                     }
+                    is TripleStoreIndexDescriptionPartitionedByAll -> {
+                        if (node2.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByAll") {
+                            if (index.partitionCount == node2.attributes["partitionCount"]!!.toInt()) {
+                                    return index
+                            }
+                        }
+                    }
                     is TripleStoreIndexDescriptionPartitionedByKey -> {
                         if (node2.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByKey") {
                             if (index.partitionCount == node2.attributes["partitionCount"]!!.toInt()) {

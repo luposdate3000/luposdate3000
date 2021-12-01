@@ -119,5 +119,5 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     override fun requireSplitFromStore(): Boolean = true
-    override fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>? = null
+    override fun requiresPartitioning(params: Array<IOPBase>): Map<String, Int> = mapOf()
 }

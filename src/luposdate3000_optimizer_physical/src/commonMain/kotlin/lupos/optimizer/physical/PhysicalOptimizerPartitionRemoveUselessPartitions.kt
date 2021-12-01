@@ -49,12 +49,20 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         if (storeNode.requireSplitFromStore()) {
                             val requiredPartition = storeNode.requiresPartitioning()
-                            if (requiredPartition != null) {
+                            if (requiredPartition.size!=0) {
+var ids=mutableListOf<Int>()
+res=storeNode
+for((key,count) in requiredPartition){
                                 val partitionID = query.getNextPartitionOperatorID()
-                                res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, storeNode)
+ids.add(partitionID)
+                                res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), key, count, partitionID, res)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
-                                res = POPMergePartition(query, res.getProvidedVariableNames(), requiredPartition.first, requiredPartition.second, partitionID, res)
+}
+for((key,count) in requiredPartition){
+val partitionID=ids.removeAt(0)
+                                res = POPMergePartition(query, res.getProvidedVariableNames(), key, count, partitionID, res)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
+}
                             } else {
                                 res = POPSplitMergePartitionFromStore(query, res.getProvidedVariableNames(), node.partitionID, res)
                             }

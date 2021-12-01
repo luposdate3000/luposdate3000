@@ -34,7 +34,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
 
     internal lateinit var tripleStoreDescription: TripleStoreDescription
     internal abstract fun requireSplitFromStore(): Boolean
-    internal abstract fun requiresPartitioning(params: Array<IOPBase>): Pair<String, Int>?
+    internal abstract fun requiresPartitioning(params: Array<IOPBase>): Map<String, Int>
     internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
