@@ -29,7 +29,6 @@ classpath="$classpath:/src/luposdate3000/src/luposdate3000_vk/build/libs/luposda
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_test_buffermanager/build/libs/luposdate3000_test_buffermanager-jvm-0.0.1.jar"
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_triple_store_id_triple/build/libs/luposdate3000_triple_store_id_triple-jvm-0.0.1.jar"
 classpath="$classpath:/src/luposdate3000/src/luposdate3000_shared/build/libs/luposdate3000_shared-jvm-0.0.1.jar"
-classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/com.soywiz.korlibs.krypto/krypto-jvm/1.9.1/4b5015389842f05ff9f7edfed791ccfc5b74dafa/krypto-jvm-1.9.1.jar"
 classpath="$classpath:/root/.m2/repository/com/ionspin/kotlin/bignum-jvm/0.3.1-SNAPSHOT/bignum-jvm-0.3.1-SNAPSHOT.jar"
 classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.5.10/3f4af7aff21c4ec46e3cdd645639d0a63a68d3d0/kotlin-stdlib-jdk8-1.5.10.jar"
 classpath="$classpath:/root/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-common/1.5.0/76b8f329f75b3d9116dda879b2c85e68035599b7/kotlin-test-common-1.5.0.jar"

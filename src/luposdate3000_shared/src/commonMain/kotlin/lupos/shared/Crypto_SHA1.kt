@@ -22,11 +22,13 @@ import kotlin.math.min
 public class Crypto_SHA1 {
 
     public companion object {
+        private const val digestSize: Int = 20
         public fun sha1(value: String): String {
             val data = value.encodeToByteArray()
             val t = Crypto_SHA1()
             t.update(data, 0, data.size)
-            val tmp = t.digest()
+            val tmp = ByteArray(digestSize)
+            t.digestOut(tmp)
             val sb = StringBuilder()
             for (b in tmp) {
                 sb.append(lookupTable[b.toInt() and 0xff])
@@ -54,10 +56,8 @@ public class Crypto_SHA1 {
     private fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
     private fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
-    private fun coreReset() { arraycopy(H, 0, h, 0, 5) }
-    private fun digest(): ByteArray = ByteArray(digestSize).also { digestOut(it) }
     init {
-        coreReset()
+        arraycopy(H, 0, h, 0, 5)
     }
     private fun digestOut(out: ByteArray) {
         val pad = corePadding(totalWritten)
@@ -70,16 +70,15 @@ public class Crypto_SHA1 {
             padPos += padSize
         }
 
-        coreDigest(out)
-        coreReset()
+        for (n in out.indices) out[n] = (h[n / 4] ushr (24 - 8 * (n % 4))).toByte()
+        arraycopy(H, 0, h, 0, 5)
     }
     private inline fun Int.ext8(offset: Int) = (this ushr offset) and 0xFF
 
     private fun Int.rotateRight(amount: Int): Int = (this ushr amount) or (this shl (32 - amount))
     private fun Int.rotateLeft(bits: Int): Int = ((this shl bits) or (this ushr (32 - bits)))
     private fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
-    private fun ByteArray.readS32_be(o: Int): Int =
-        (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
+    private fun ByteArray.readS32_be(o: Int): Int = (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
 
     private fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA1 {
         var curr = offset
@@ -100,7 +99,7 @@ public class Crypto_SHA1 {
         return this
     }
     private fun reset(): Crypto_SHA1 {
-        coreReset()
+        arraycopy(H, 0, h, 0, 5)
         writtenInChunk = 0
         totalWritten = 0L
         return this
@@ -109,7 +108,6 @@ public class Crypto_SHA1 {
     private val chunk = ByteArray(chunkSize)
     private var writtenInChunk = 0
     private var totalWritten = 0L
-    private val digestSize: Int = 20
     private fun corePadding(totalWritten: Long): ByteArray {
         val tail = totalWritten % 64
         val padding = (if (64 - tail >= 9) 64 - tail else 128 - tail)
@@ -148,9 +146,5 @@ public class Crypto_SHA1 {
         h[2] += c
         h[3] += d
         h[4] += e
-    }
-
-    private fun coreDigest(out: ByteArray) {
-        for (n in out.indices) out[n] = (h[n / 4] ushr (24 - 8 * (n % 4))).toByte()
     }
 }
