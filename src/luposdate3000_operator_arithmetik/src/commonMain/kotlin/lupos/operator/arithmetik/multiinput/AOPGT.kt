@@ -43,7 +43,7 @@ public class AOPGT public constructor(query: IQuery, childA: AOPBase, childB: AO
             try {
                 query.getDictionary().getValue(bufferA, a)
                 query.getDictionary().getValue(bufferB, b)
-                res = if (DictionaryHelper.byteArrayCompareAny(bufferA, bufferB)> 0) {
+                res = if (DictionaryHelper.byteArrayCompareAny(bufferA, bufferB) > 0) {
                     DictionaryValueHelper.booleanTrueValue
                 } else {
                     DictionaryValueHelper.booleanFalseValue

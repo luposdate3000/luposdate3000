@@ -47,7 +47,7 @@ public object EvalDistributedReceiveMulti {
                 conn.read(buf, len)
                 val name = buf.decodeToString()
                 var j = variables.indexOf(name)
-                if (j <0) {
+                if (j < 0) {
                     j = variables.size
                     variables.add(name)
                 }

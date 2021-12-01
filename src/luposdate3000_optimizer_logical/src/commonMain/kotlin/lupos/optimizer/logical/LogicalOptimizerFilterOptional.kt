@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND

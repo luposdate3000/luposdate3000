@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 import kotlin.math.min
+
 // code modified from https://github.com/korlibs/korge-next/blob/master/krypto/src/commonMain/kotlin/com/soywiz/krypto/SHA1.kt
 
 @OptIn(ExperimentalStdlibApi::class)

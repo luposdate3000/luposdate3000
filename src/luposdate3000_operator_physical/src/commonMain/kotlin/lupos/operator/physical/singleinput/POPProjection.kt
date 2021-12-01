@@ -50,6 +50,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
             return EvalProjection(children[0].evaluate(parent), getProvidedVariableNames())
         }
     }
+
     public fun passThroughChild(): Boolean {
         return getProvidedVariableNames().containsAll(children[0].getProvidedVariableNames())
     }

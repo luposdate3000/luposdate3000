@@ -164,6 +164,7 @@ public class LoggerMeasure : ILogger {
             onSendNetworkPackageInternal(src, dest, dest, pck, 0)
         }
     }
+
     override fun onReceivePackage(address: Int, pck: IPayload) {}
     override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {}
     override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {}

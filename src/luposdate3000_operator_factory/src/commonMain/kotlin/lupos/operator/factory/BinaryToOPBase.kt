@@ -15,21 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+
 import lupos.operator.base.Query
 import lupos.optimizer.physical.PhysicalOptimizerSplitMergePartition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
+
 public object BinaryToOPBase {
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?>): IteratorBundleRoot {
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
     }
+
     public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int): IteratorBundleRoot {
         return ConverterBinaryToIteratorBundle.decode(query, data, dataID)
     }
+
     public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {
         return convertToByteArrayAndMeta(op, distributed, splitEverything).first
     }
+
     public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
         val query = op.getQuery() as Query
         val op2 = if (splitEverything) {
@@ -42,9 +47,11 @@ public object BinaryToOPBase {
         // println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")
         return res
     }
+
     public fun copyByteArray(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
         return ConverterBinaryToBinary.decode(query, data, filter)
     }
+
     init {
         val a1 = IntArray(ConverterAOPBaseToBinary.operatorMap.size) { it }.filter { ConverterAOPBaseToBinary.operatorMap[it] != null }.toSet()
         val a2 = IntArray(ConverterBinaryToAOPBase.operatorMap.size) { it }.filter { ConverterBinaryToAOPBase.operatorMap[it] != null }.toSet()

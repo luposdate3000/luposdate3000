@@ -33,6 +33,7 @@ public object EvalValues {
             IteratorBundle(rows)
         }
     }
+
     public operator fun invoke(data: Map<String, MutableList<DictionaryValueType>>): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (name in data.keys) {

@@ -401,7 +401,7 @@ public class TripleStoreManagerImpl public constructor(
             }
             EPredefinedPartitionSchemesExt.PartitionByAll -> {
                 partitionCount = 2
-                while (partitionCount * partitionCount * partitionCount <instance.LUPOS_PROCESS_URLS_STORE.size) {
+                while (partitionCount * partitionCount * partitionCount < instance.LUPOS_PROCESS_URLS_STORE.size) {
                     partitionCount *= 2
                 }
                 defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)

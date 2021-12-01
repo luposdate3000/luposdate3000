@@ -1,5 +1,5 @@
-#!/usr/bin/env kotlin   
-/*    
+#!/usr/bin/env kotlin
+/*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -17,33 +17,33 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")  
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt") 
-@file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt") 
-@file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt") 
-@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")  
-@file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt") 
-@file:Import("src/luposdate3000_scripting/parsergenerator.kt") 
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt") 
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt") 
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")  
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
+@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt") 
-@file:CompilerOptions("-Xmulti-platform")  
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
+@file:CompilerOptions("-Xmulti-platform")
 
 import launcher.CreateModuleArgs
 import launcher.DryMode
-import launcher.EDictionaryValueMode 
+import launcher.EDictionaryValueMode
 import launcher.ExecMode
 import launcher.InlineMode
-import launcher.IntellijMode 
+import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
-import launcher.TargetMode2 
+import launcher.TargetMode2
 import launcher.createBuildFileForModule
-import launcher.fixPathNames  
+import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
@@ -58,6 +58,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
+
 object LauncherConfig {
     val configFileName = "build.config"
     val config = readConfig()
@@ -73,6 +74,7 @@ object LauncherConfig {
         }
         return res
     }
+
     fun writeConfig(cfg: MutableMap<String, String>) {
         File(configFileName).printWriter().use { out ->
             for ((k, v) in cfg) {
@@ -80,10 +82,12 @@ object LauncherConfig {
             }
         }
     }
+
     fun setConfigValue(key: String, value: String) {
         config[key] = value
         writeConfig(config)
     }
+
     fun getConfigValue(key: String, defaultValue: String): String {
         val res = config[key]
         if (res == null) {
@@ -94,6 +98,7 @@ object LauncherConfig {
             return res
         }
     }
+
     fun getConfigValue(key: String): String {
         val res = config[key]
         if (res == null) {
@@ -103,6 +108,7 @@ object LauncherConfig {
         }
     }
 }
+
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 val jsBrowserMode = true
 var skipArgs = false
@@ -423,7 +429,7 @@ class ParamClass : Comparable<ParamClass> {
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
 
-    constructor (name: String, default: String, values: Map<String, ()->Unit>, hidden: Boolean) {
+    constructor (name: String, default: String, values: Map<String, () -> Unit>, hidden: Boolean) {
         this.hidden = hidden
         this.name = name
         this.default = LauncherConfig.getConfigValue(name, default)
@@ -452,6 +458,7 @@ class ParamClass : Comparable<ParamClass> {
         this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
+
     constructor(name: String, default: String, action: (String) -> Unit, hidden: Boolean) {
         this.hidden = hidden
         this.name = name
@@ -461,6 +468,7 @@ class ParamClass : Comparable<ParamClass> {
         this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
+
     constructor(name: String, default: String, hidden: Boolean) {
         this.hidden = hidden
         this.name = name

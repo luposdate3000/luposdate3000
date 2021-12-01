@@ -25,6 +25,7 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalTripleStoreIterator {
     public operator fun invoke(
         target: Pair<LuposHostname, LuposStoreKey>,
@@ -40,7 +41,7 @@ public object EvalTripleStoreIterator {
             val i = EIndexPatternHelper.tripleIndicees[index][ii]
             val param = children[i]
             if (param.first) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:42"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:43"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 val v = param.second.first
                 if (query.getDictionary().isLocalValue(v)) {
                     filter2.add(DictionaryValueHelper.nullValue)

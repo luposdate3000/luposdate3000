@@ -108,7 +108,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                             LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                         }
                         time2 = DateHelperRelative.elapsedSeconds(timer2)
-                    } while (time2 <minimumTime2)
+                    } while (time2 < minimumTime2)
                     benchOut.println("$queryFile $joinOrder ${counter / time2}")
                 }
             }

@@ -18,6 +18,7 @@ package lupos.shared.operator.iterator
 
 import lupos.shared.IQuery
 import kotlin.jvm.JvmField
+
 public class IteratorBundleRoot(
     @JvmField
     public val query: IQuery,

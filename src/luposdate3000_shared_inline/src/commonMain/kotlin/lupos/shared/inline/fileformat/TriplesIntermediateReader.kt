@@ -16,6 +16,7 @@
  */
 
 package lupos.shared.inline.fileformat
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern

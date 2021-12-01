@@ -306,7 +306,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-val useKover=true
+    val useKover = true
     var dummy = 0
     val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
@@ -349,7 +349,7 @@ val useKover=true
         }
         val onWindows = System.getProperty("os.name").contains("Windows")
         val enableProguard = !onWindows && enableJVM && !buildLibrary && moduleArgs.compilerVersion == "1.5.0"
-useKTLint=useKTLint && !onWindows
+        useKTLint = useKTLint && !onWindows
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
             if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
@@ -422,12 +422,12 @@ useKTLint=useKTLint && !onWindows
                     }
                 }
                 out.println("plugins {")
-if(useKover){
-out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
-}
-                    if (useKTLint) {
-                        out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
-                    }
+                if (useKover) {
+                    out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
+                }
+                if (useKTLint) {
+                    out.println("    id(\"org.jlleitschuh.gradle.ktlint\") version \"10.1.0\"")
+                }
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
@@ -653,9 +653,9 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
-                    if (useKTLint) {
-                        out.println("    dependsOn(\"ktlintFormat\")")
-                    }
+                if (useKTLint) {
+                    out.println("    dependsOn(\"ktlintFormat\")")
+                }
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -711,28 +711,52 @@ out.println("    id(\"org.jetbrains.kotlinx.kover\") version \"SNAPSHOT-255\"")
                     out.println("        }")
                     out.println("    }")
                     out.println("}")
-if (useKTLint) {
-		    out.println("tasks.named(\"sourcesJar\") {")
-                    out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
-                    out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
-                    out.println("    dependsOn(\"runKtlintFormatOverCommonTestSourceSet\")")
-                    out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
-                    out.println("}")
-if(!buildLibrary){
-		    out.println("tasks.named(\"startScripts\") {")
-                    out.println("    dependsOn(\"metadataJar\")")
-                    out.println("}")
-		    out.println("tasks.named(\"jar\") {")
-                    out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                    out.println("}")
-}
-		    out.println("tasks.named(\"compileKotlinMetadata\") {")
-                    out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
-                    out.println("}")
-		    out.println("tasks.named(\"allMetadataJar\") {")
-                    out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                    out.println("}")
-}
+                    if (useKTLint) {
+                        if (!buildLibrary) {
+                            out.println("tasks.named(\"startScripts\") {")
+                            out.println("    dependsOn(\"metadataJar\")")
+                            out.println("}")
+                            out.println("tasks.named(\"jar\") {")
+                            out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                            out.println("}")
+                            out.println("tasks.named(\"ktlintKotlinScriptCheck\") {")
+                            out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                            out.println("}")
+                        }
+                        out.println("tasks.named(\"sourcesJar\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverCommonTestSourceSet\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
+                        out.println("}")
+                        out.println("tasks.named(\"compileKotlinMetadata\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
+                        out.println("}")
+                        out.println("tasks.named(\"allMetadataJar\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("}")
+                        out.println("tasks.named(\"runKtlintCheckOverKotlinScripts\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("}")
+                        out.println("tasks.named(\"jvmTestProcessResources\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("}")
+                        out.println("tasks.named(\"jvmProcessResources\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("}")
+                        out.println("tasks.named(\"runKtlintCheckOverJvmTestSourceSet\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
+                        out.println("}")
+                        out.println("tasks.named(\"runKtlintCheckOverJvmMainSourceSet\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
+                        out.println("}")
+                        out.println("tasks.named(\"runKtlintCheckOverCommonMainSourceSet\") {")
+                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
+                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
+                        out.println("}")
+                    }
                 }
                 if (enableJS) {
                     out.println("tasks.named(\"compileKotlinJs\") {")
@@ -755,15 +779,15 @@ if(!buildLibrary){
                 }
                 out.println("tasks.named(\"build\") {")
                 out.println("}")
-                    if (useKTLint) {
-                        out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
-                        out.println("    enableExperimentalRules.set(true)")
-                        out.println("    ignoreFailures.set(true)")
-                        out.println("    filter {")
-                        out.println("        exclude(\"**/build/**\")")
-                        out.println("    }")
-                        out.println("}")
-                    }
+                if (useKTLint) {
+                    out.println("configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {")
+                    out.println("    enableExperimentalRules.set(true)")
+                    out.println("    ignoreFailures.set(true)")
+                    out.println("    filter {")
+                    out.println("        exclude(\"**/build/**\")")
+                    out.println("    }")
+                    out.println("}")
+                }
                 if (enableProguard) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
@@ -816,36 +840,36 @@ if(!buildLibrary){
                 out.println("        events.add(TestLogEvent.STANDARD_OUT)")
                 out.println("        events.add(TestLogEvent.STANDARD_ERROR)")
                 out.println("    }")
-if(useKover){ 
-out.println("        extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {")
-out.println("            isEnabled = true")
+                if (useKover) {
+                    out.println("        extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {")
+                    out.println("            isEnabled = true")
 //out.println("            binaryReportFile.set(file(\"\$buildDir/custom/kover_result.bin\"))")
-out.println("            includes = listOf(\"lupos\\\\..*\")")
-out.println("            excludes = listOf(\"java\\\\..*\")")
-out.println("        }")
-}
+                    out.println("            includes = listOf(\"lupos\\\\..*\")")
+                    out.println("            excludes = listOf(\"java\\\\..*\")")
+                    out.println("        }")
+                }
                 out.println("}")
-if(useKover){ 
-out.println("    tasks.koverHtmlReport {")
-out.println("        isEnabled = true                        ")
+                if (useKover) {
+                    out.println("    tasks.koverHtmlReport {")
+                    out.println("        isEnabled = true                        ")
 //out.println("        htmlReportDir.set(layout.buildDirectory.dir(\"my-reports/html-result\"))")
-out.println("    }")
-out.println("    tasks.koverXmlReport {")
-out.println("        isEnabled = true                        ")
+                    out.println("    }")
+                    out.println("    tasks.koverXmlReport {")
+                    out.println("        isEnabled = true                        ")
 //out.println("        xmlReportFile.set(layout.buildDirectory.file(\"my-reports/result.xml\"))")
-out.println("    }")
-out.println("    tasks.koverCollectReports {")
+                    out.println("    }")
+                    out.println("    tasks.koverCollectReports {")
 //out.println("        outputDir.set(layout.buildDirectory.dir(\"my-reports-dir\"))")
-out.println("    }")
-out.println("    kover {")
-out.println("        isEnabled = true                        ")
-out.println("        coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ) ")
-out.println("        //coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO) ")
-out.println("        intellijEngineVersion.set(\"1.0.637\")    ")
-out.println("        jacocoEngineVersion.set(\"0.8.7\")        ")
-out.println("        generateReportOnCheck.set(true)         ")
-out.println("    }")
-}
+                    out.println("    }")
+                    out.println("    kover {")
+                    out.println("        isEnabled = true                        ")
+                    out.println("        coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ) ")
+                    out.println("        //coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO) ")
+                    out.println("        intellijEngineVersion.set(\"1.0.637\")    ")
+                    out.println("        jacocoEngineVersion.set(\"0.8.7\")        ")
+                    out.println("        generateReportOnCheck.set(true)         ")
+                    out.println("    }")
+                }
             }
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
@@ -867,12 +891,12 @@ out.println("    }")
 
         if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOff")
-typeAliasAll["BufferManagerPageWrapper"]=Pair("BufferManagerPageWrapper","lupos.shared.BufferManagerPageWrapperRelease")
-typeAliasAll["BufferManagerPage"]=Pair("BufferManagerPage","lupos.shared.inline.BufferManagerPageRelease")
+            typeAliasAll["BufferManagerPageWrapper"] = Pair("BufferManagerPageWrapper", "lupos.shared.BufferManagerPageWrapperRelease")
+            typeAliasAll["BufferManagerPage"] = Pair("BufferManagerPage", "lupos.shared.inline.BufferManagerPageRelease")
         } else {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOn")
-typeAliasAll["BufferManagerPageWrapper"]=Pair("BufferManagerPageWrapper","lupos.shared.BufferManagerPageWrapperDebug")
-typeAliasAll["BufferManagerPage"]=Pair("BufferManagerPage","lupos.shared.inline.BufferManagerPageDebug")
+            typeAliasAll["BufferManagerPageWrapper"] = Pair("BufferManagerPageWrapper", "lupos.shared.BufferManagerPageWrapperDebug")
+            typeAliasAll["BufferManagerPage"] = Pair("BufferManagerPage", "lupos.shared.inline.BufferManagerPageDebug")
         }
         if (moduleArgs.suspendMode == SuspendMode.Enable) {
             typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelCoroutine")

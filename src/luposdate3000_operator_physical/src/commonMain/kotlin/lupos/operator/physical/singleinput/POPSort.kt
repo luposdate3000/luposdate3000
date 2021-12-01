@@ -122,6 +122,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
             )
         }
     }
+
     override fun usesDictionary(): Boolean {
         return true
     }

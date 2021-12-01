@@ -29,9 +29,11 @@ internal class QueryMappingContainer(
     @JvmField internal val dataID: Int,
     @JvmField internal val keys: MutableSet<Int>,
 ) {
-    @JvmField internal var inputStreams = mutableMapOf<Int, IMyInputStream>()
+    @JvmField
+    internal var inputStreams = mutableMapOf<Int, IMyInputStream>()
 
-    @JvmField internal var outputStreams = mutableMapOf<Int, IMyOutputStream>()
+    @JvmField
+    internal var outputStreams = mutableMapOf<Int, IMyOutputStream>()
 
     @JvmField
     public var keyToHostMap: MutableMap<Int, String> = mutableMapOf()

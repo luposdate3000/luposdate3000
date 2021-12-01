@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
+
 import kotlin.math.min
+
 // code modified from https://github.com/korlibs/korge-next/blob/master/krypto/src/commonMain/kotlin/com/soywiz/krypto/SHA256.kt
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -69,6 +71,7 @@ public class Crypto_SHA256 {
         )
         private const val K6080: Int = 0xCA62C1D6L.toInt()
     }
+
     private val h = IntArray(8)
     private val r = IntArray(8)
     private val w = IntArray(64)

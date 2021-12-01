@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.operator.iterator
+
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
@@ -64,7 +65,7 @@ public open class IteratorBundle {
         get() {
             return when (mode) {
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:66"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:67"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
                     _columns!!
                 }
                 IteratorBundleModeExt.ROW -> {
@@ -85,7 +86,7 @@ public open class IteratorBundle {
                     _rows!!
                 }
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:87"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:88"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
                     if (_rows == null) {
                         _rows = RowIteratorFromColumn(this)
                     }

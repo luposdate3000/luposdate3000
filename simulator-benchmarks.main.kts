@@ -18,6 +18,7 @@
 
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
+
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
@@ -73,11 +74,11 @@ val databaseTopologyList = listOf(
 val dataDistributionList = listOf(
     "luposdate3000_by_key.json",
     "luposdate3000_by_id_S_all_collations.json",
-"luposdate3000_by_id_1_all_collations.json",
-"luposdate3000_by_id_2_all_collations.json",
-"luposdate3000_by_id_O_all_collations.json",
-"luposdate3000_by_id_twice_all_collations.json",
-"luposdate3000_by_simple.json",
+    "luposdate3000_by_id_1_all_collations.json",
+    "luposdate3000_by_id_2_all_collations.json",
+    "luposdate3000_by_id_O_all_collations.json",
+    "luposdate3000_by_id_twice_all_collations.json",
+    "luposdate3000_by_simple.json",
 )
 val multicastList = listOf(
     "luposdate3000MulticastDisabled.json",
@@ -130,21 +131,21 @@ loop@ for (campus in campusList) {
                             val json_multicast = "$BASE_PATH/$multicast"
                             for (queryDistribution in queryDistributionList) {
                                 val json_queryDistribution = "$BASE_PATH/$queryDistribution"
-                                if (databaseTopology == "central.json" && query !in listOf("Q0.json","Q_SOSA_0.json")) {
+                                if (databaseTopology == "central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
                                     // centralized has only traffic during initialization, afterwards all zero
                                     continue
                                 }
-                                if (multicast == "luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json","Q_SOSA_0.json")) {
+                                if (multicast == "luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
-                                if (campus in listOf("campusNoSamples.json","campusSOSANoSamples.json") && (
-                                    multicast != "luposdate3000MulticastEnabled.json" ||
-                                        databaseTopology != "distributedWithQueryHops.json" ||
-                                        routing != "routing_RPL_Fast.json" ||
-                                        dataDistribution != "luposdate3000_by_id_S_all_collations.json" ||
-                                        query !in listOf("Q0.json","Q_SOSA_0.json")
-                                    )
+                                if (campus in listOf("campusNoSamples.json", "campusSOSANoSamples.json") && (
+                                        multicast != "luposdate3000MulticastEnabled.json" ||
+                                            databaseTopology != "distributedWithQueryHops.json" ||
+                                            routing != "routing_RPL_Fast.json" ||
+                                            dataDistribution != "luposdate3000_by_id_S_all_collations.json" ||
+                                            query !in listOf("Q0.json", "Q_SOSA_0.json")
+                                        )
                                 ) {
                                     continue
                                 }

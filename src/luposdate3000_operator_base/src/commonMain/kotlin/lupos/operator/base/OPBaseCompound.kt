@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base
+
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -87,11 +88,12 @@ public class OPBaseCompound public constructor(
         }
         return res.toString()
     }
+
     override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
         return IteratorBundleRoot(
             query,
             Array(children.size) {
-                val k = if (columnProjectionOrder.size> it) {
+                val k = if (columnProjectionOrder.size > it) {
                     columnProjectionOrder[it]
                 } else {
                     listOf()
@@ -101,11 +103,12 @@ public class OPBaseCompound public constructor(
             },
         )
     }
+
     override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
         return IteratorBundleRoot(
             query,
             Array(children.size) {
-                val k = if (columnProjectionOrder.size> it) {
+                val k = if (columnProjectionOrder.size > it) {
                     columnProjectionOrder[it]
                 } else {
                     listOf()

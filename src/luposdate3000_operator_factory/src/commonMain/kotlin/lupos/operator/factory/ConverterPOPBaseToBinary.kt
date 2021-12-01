@@ -334,7 +334,7 @@ public object ConverterPOPBaseToBinary {
 
     private fun convertToByteArrayHelper(op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int): Int {
         if ((op as OPBase).operatorID >= operatorMap.size) {
-            TODO("convertToByteArrayHelper ${op .operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
+            TODO("convertToByteArrayHelper ${op.operatorID} -> ${EOperatorIDExt.names[op.operatorID]}")
         }
         val encoder = operatorMap[op.operatorID]
         if (encoder == null) {

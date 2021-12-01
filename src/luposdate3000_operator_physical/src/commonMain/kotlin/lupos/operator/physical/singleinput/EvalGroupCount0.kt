@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.ColumnIteratorValue
 import lupos.shared.DictionaryValueHelper

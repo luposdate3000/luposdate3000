@@ -167,6 +167,7 @@ public class POPTripleStoreIterator(
             }
         }.toTypedArray()
     )
+
     override fun usesDictionary(): Boolean {
         return false
     }
