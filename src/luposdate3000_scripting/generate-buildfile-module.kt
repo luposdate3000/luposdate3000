@@ -716,10 +716,14 @@ if (useKTLint) {
                     out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
                     out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
                     out.println("    dependsOn(\"runKtlintFormatOverCommonTestSourceSet\")")
+                    out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
                     out.println("}")
 if(!buildLibrary){
 		    out.println("tasks.named(\"startScripts\") {")
                     out.println("    dependsOn(\"metadataJar\")")
+                    out.println("}")
+		    out.println("tasks.named(\"jar\") {")
+                    out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
                     out.println("}")
 }
 		    out.println("tasks.named(\"compileKotlinMetadata\") {")

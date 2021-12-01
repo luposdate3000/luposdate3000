@@ -40,10 +40,6 @@ public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(quer
             val s = StringBuilder()
             s.append("00000000-0000-0000-0000-0000")
             val uuid = query.getDictionary().createNewUUID()
-            val a = (uuid shr 24) and 0xff
-            val b = (uuid shr 16) and 0xff
-            val c = (uuid shr 8) and 0xff
-            val d = uuid and 0xff
             s.append(byteToHexMap[(uuid shr 24) and 0xff])
             s.append(byteToHexMap[(uuid shr 16) and 0xff])
             s.append(byteToHexMap[(uuid shr 8) and 0xff])

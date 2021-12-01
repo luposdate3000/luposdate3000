@@ -23,14 +23,15 @@ public class Crypto_SHA1 {
 
     public companion object {
         private const val digestSize: Int = 20
+        private const val chunkSize: Int = 64
         public fun sha1(value: String): String {
             val data = value.encodeToByteArray()
             val t = Crypto_SHA1()
             t.update(data, 0, data.size)
-            val tmp = ByteArray(digestSize)
-            t.digestOut(tmp)
+            val out = ByteArray(digestSize)
+            t.digestOut(out)
             val sb = StringBuilder()
-            for (b in tmp) {
+            for (b in out) {
                 sb.append(lookupTable[b.toInt() and 0xff])
             }
             return sb.toString()
@@ -51,16 +52,29 @@ public class Crypto_SHA1 {
         private const val K6080: Int = 0xCA62C1D6L.toInt()
     }
 
+    private val chunk = ByteArray(chunkSize)
+    private var writtenInChunk = 0
+    private var totalWritten = 0L
     private val w = IntArray(80)
     private val h = IntArray(5)
-    private fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
-    private fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
     init {
         arraycopy(H, 0, h, 0, 5)
     }
-    private fun digestOut(out: ByteArray) {
-        val pad = corePadding(totalWritten)
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun digestOut(out: ByteArray) {
+        val tail = totalWritten % 64
+        val padding = (if (64 - tail >= 9) 64 - tail else 128 - tail)
+        val pad = ByteArray(padding.toInt()).apply { this[0] = 0x80.toByte() }
+        val bits = (totalWritten * 8)
+        for (i in 0 until 8) pad[pad.size - 1 - i] = ((bits ushr (8 * i)) and 0xFF).toByte()
         var padPos = 0
         while (padPos < pad.size) {
             val padSize = chunkSize - writtenInChunk
@@ -73,14 +87,18 @@ public class Crypto_SHA1 {
         for (n in out.indices) out[n] = (h[n / 4] ushr (24 - 8 * (n % 4))).toByte()
         arraycopy(H, 0, h, 0, 5)
     }
-    private inline fun Int.ext8(offset: Int) = (this ushr offset) and 0xFF
 
-    private fun Int.rotateRight(amount: Int): Int = (this ushr amount) or (this shl (32 - amount))
-    private fun Int.rotateLeft(bits: Int): Int = ((this shl bits) or (this ushr (32 - bits)))
-    private fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
-    private fun ByteArray.readS32_be(o: Int): Int = (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun Int.rotateLeft(bits: Int): Int = ((this shl bits) or (this ushr (32 - bits)))
 
-    private fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA1 {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun ByteArray.readS32_be(o: Int): Int = (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA1 {
         var curr = offset
         var left = count
         while (left > 0) {
@@ -98,25 +116,9 @@ public class Crypto_SHA1 {
         totalWritten += count
         return this
     }
-    private fun reset(): Crypto_SHA1 {
-        arraycopy(H, 0, h, 0, 5)
-        writtenInChunk = 0
-        totalWritten = 0L
-        return this
-    }
-    private val chunkSize: Int = 64
-    private val chunk = ByteArray(chunkSize)
-    private var writtenInChunk = 0
-    private var totalWritten = 0L
-    private fun corePadding(totalWritten: Long): ByteArray {
-        val tail = totalWritten % 64
-        val padding = (if (64 - tail >= 9) 64 - tail else 128 - tail)
-        val pad = ByteArray(padding.toInt()).apply { this[0] = 0x80.toByte() }
-        val bits = (totalWritten * 8)
-        for (i in 0 until 8) pad[pad.size - 1 - i] = ((bits ushr (8 * i)) and 0xFF).toByte()
-        return pad
-    }
-    private fun coreUpdate(chunk: ByteArray) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun coreUpdate(chunk: ByteArray) {
         for (j in 0 until 16) w[j] = chunk.readS32_be(j * 4)
         for (j in 16 until 80) w[j] = (w[j - 3] xor w[j - 8] xor w[j - 14] xor w[j - 16]).rotateLeft(1)
 
