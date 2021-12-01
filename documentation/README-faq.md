@@ -22,3 +22,7 @@
    Especially on Windows: Is there some Program, which has openend that File? Close that Program.  
    Do you own that file?  
    Does the file itself exist? Do you own it?
+
+7. E: compilation fails because gradle daemon dissapears unecpected
+   A: If it is killed due to out of memory, take a look at
+   [compile with a few GB of RAM](README-compile-with-too-less-RAM.md)

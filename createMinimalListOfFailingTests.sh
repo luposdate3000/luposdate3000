@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed "s/minifyMode = .*/minifyMode = true/g" -i ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt
+sed "s/minifyMode: Boolean = .*/minifyMode: Boolean = true/g" -i ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt
 
 
 rm -rf tmp

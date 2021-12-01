@@ -79,3 +79,6 @@ To open the SPARQL endpoint use:
 
 If you have choosen to include "JS" in the target, than the SPAClient is now available at "localhost:80" .
 To see the list of compatible Browsers, you may take a look at [caniuse.com](https://caniuse.com/?search=int64array) .
+
+# if you have less than 8GB of memory
+Look at this guide [compile with a few GB of RAM](README-compile-with-too-less-RAM.md)

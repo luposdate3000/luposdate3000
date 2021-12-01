@@ -26,64 +26,61 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcessp2bq91sparql1294 {
+public class bind07BINDfixeddataforOWLDL {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcessp2bq91sparql1294.input").readAsString(),
+        File("src/jvmTest/resources/bind07BINDfixeddataforOWLDL.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcessp2bq91sparql1294.input",
+        "src/jvmTest/resources/bind07BINDfixeddataforOWLDL.input",
     )
     internal val inputGraph = arrayOf(
         "",
     )
     internal val inputType = arrayOf(
-        ".n3",
+        ".ttl",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcessp2bq91sparql1294.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/bind07BINDfixeddataforOWLDL.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
-        "SELECT ?predicate \n" +
-        "WHERE { \n" +
-        "  { \n" +
-        "    ?person rdf:type foaf:Person . \n" +
-        "    ?subject ?predicate ?person \n" +
-        "  } UNION { \n" +
-        "    ?person rdf:type foaf:Person . \n" +
-        "    ?person ?predicate ?object \n" +
-        "  } \n" +
+    internal val query = "PREFIX : <http://example.org/>  \n" +
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" +
+        "SELECT ?s ?p ?o ?z \n" +
+        "{ \n" +
+        "  ?s ?p ?o . \n" +
+        "  ?p a owl:DatatypeProperty .  \n" +
+        "  { BIND(?o+1 AS ?z) } UNION { BIND(?o+2 AS ?z) } \n" +
         "} \n" +
         ""
 
     @Test
-    public fun `resourcessp2bq91sparql1294 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+
+    @Test
+    public fun `bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
-        )
-    }
-
-    @Test
-    public fun `resourcessp2bq91sparql1294 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {

@@ -70,6 +70,9 @@ git clone https://github.com/luposdate3000/luposdate3000.git
 * "LUPOS_RAM"
   specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.
 
+#if you have less than 8GB of memory  
+Look at this guide [compile with a few GB of RAM](README-compile-with-too-less-RAM.md)
+
 # usage
 
 You can compile the database in multiple different ways.

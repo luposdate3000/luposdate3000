@@ -26,12 +26,12 @@ import lupos.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcesmyqueriessimulatorparkingquery4sparql2502simulatorparkinginputttl {
+public class csv01CSVResultFormat {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery4sparql2502simulatorparkinginputttl.input").readAsString(),
+        File("src/jvmTest/resources/csv01CSVResultFormat.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery4sparql2502simulatorparkinginputttl.input",
+        "src/jvmTest/resources/csv01CSVResultFormat.input",
     )
     internal val inputGraph = arrayOf(
         "",
@@ -39,32 +39,24 @@ public class resourcesmyqueriessimulatorparkingquery4sparql2502simulatorparkingi
     internal val inputType = arrayOf(
         ".ttl",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery4sparql2502simulatorparkinginputttl.output").readAsString()
-    internal val targetType = ".srx"
-    internal val query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
-        "PREFIX parking: <https://github.com/luposdate3000/parking#> \n" +
-        "select  (count(?b) as ?count) \n" +
-        "where { \n" +
-        "  ?b a parking:Observation ; \n" +
-        "  parking:area 1 ; \n" +
-        "  parking:spotInArea 11 . \n" +
-        "} \n" +
-        ""
+    internal val targetData = File("src/jvmTest/resources/csv01CSVResultFormat.output").readAsString()
+    internal val targetType = ".csv"
+    internal val query = "PREFIX : <http://example.org/> \n" +
+        "SELECT * WHERE { ?s ?p ?o} ORDER BY ?s ?p ?o"
 
     @Test
-    public fun `resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {

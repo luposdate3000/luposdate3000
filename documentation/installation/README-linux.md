@@ -76,6 +76,9 @@ dependencieshome=/opt
 }
 ```
 
+#if you have less than 8GB of memory  
+Look at this guide [compile with a few GB of RAM](README-compile-with-too-less-RAM.md)
+
 # usage
 
 You can compile the database in multiple different ways.
