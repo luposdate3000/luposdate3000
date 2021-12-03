@@ -725,7 +725,6 @@ enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
 getAllModuleConfigurations()
 for ((k, v) in optionsChoosenForPackages) {
-println("$k .. $v")
     defaultParams.add(
         ParamClass(
             name = "--$k",
