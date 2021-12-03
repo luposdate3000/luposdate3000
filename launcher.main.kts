@@ -115,7 +115,7 @@ var skipArgs = false
 
 var runArgs = mutableListOf<String>()
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
-val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "Java_Sockets", "Jena_Wrapper" to "Off")
+val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Network_Wrapper" to "Java_Sockets", "Jena_Wrapper" to "Off")
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {
@@ -725,6 +725,7 @@ enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
 getAllModuleConfigurations()
 for ((k, v) in optionsChoosenForPackages) {
+println("$k .. $v")
     defaultParams.add(
         ParamClass(
             name = "--$k",
