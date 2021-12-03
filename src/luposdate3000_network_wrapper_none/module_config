@@ -1,0 +1,3 @@
+package=Luposdate3000_Network_Wrapper
+disableJS=true
+disableNative=true

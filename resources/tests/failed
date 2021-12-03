@@ -1,15 +1,4 @@
-DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
-bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
-bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
-bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
-csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
-bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
-bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
-bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+[31;1m> Task :src:luposdate3000_shared:compileKotlinJvm[0;39m FAILED
 ABS - Thread - PartitionByID_1_AllCollations - false
 ABS - Thread - PartitionByID_1_AllCollations - true
 ABS - Thread - PartitionByID_2_AllCollations - false
@@ -369,6 +358,7 @@ bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations 
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
 bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
 bind01  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - AllShortestPath
 bind01  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL
@@ -442,6 +432,7 @@ bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations 
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
 bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
 bind02  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - AllShortestPath
 bind02  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL
@@ -588,6 +579,8 @@ bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations 
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
 bind05  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
 bind05  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - AllShortestPath
 bind05  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL
@@ -712,6 +705,8 @@ bind07  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollati
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 bind07  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 bind07  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - AllShortestPath
@@ -751,7 +746,10 @@ bind07  BIND - Thread - PartitionByKeyAllCollations - true
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
 bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
@@ -2031,6 +2029,7 @@ csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centra
 csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
 csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL
 csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
 csv01  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
 csv01  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
 csv01  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
@@ -3000,6 +2999,7 @@ DELETE INSERT 5 - Thread - Simple - false
 DELETE INSERT 5 - Thread - Simple - true
 DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
 DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 DELETE INSERT 6b - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
 DELETE INSERT 6b - Thread - PartitionByID_1_AllCollations - false
 DELETE INSERT 6b - Thread - PartitionByID_1_AllCollations - true
@@ -23250,6 +23250,7 @@ Simple DELETE WHERE 2 - Thread - Simple - false
 Simple DELETE WHERE 2 - Thread - Simple - true
 Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
 Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
 Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
 Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
 Simple DELETE WHERE 3 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL

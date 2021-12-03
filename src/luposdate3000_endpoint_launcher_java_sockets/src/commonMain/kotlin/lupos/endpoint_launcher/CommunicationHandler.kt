@@ -21,8 +21,8 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
-import java.net.Socket
-import java.net.URLEncoder
+import lupos.network.wrapper.Socket
+import lupos.network.wrapper.URLEncoder
 
 public class CommunicationHandler : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {

@@ -30,7 +30,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         private val fastMode = false
         private val withSimulator = true
         private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
-        public val minifyMode: Boolean = false
+        public val minifyMode: Boolean = true
         private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
     }
 /*
@@ -497,7 +497,6 @@ without minify mode only the passing tests will be added
                                 listOfAllTests.add(finalTestName)
                                 val fileBufferTest = MyPrintWriter(true)
                                 fileBufferTests[finalTestName] = fileBufferTest
-                                println("XXXXXX:" + finalTestName)
                                 if (fastMode) {
                                     if (predefinedPartitionScheme != "PartitionByAll") {
                                         fileBufferTest.println("    @Ignore")

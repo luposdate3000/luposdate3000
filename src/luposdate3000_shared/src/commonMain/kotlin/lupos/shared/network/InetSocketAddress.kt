@@ -14,10 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
-
-import lupos.shared.Luposdate3000Instance
-
-public object HttpEndpointLauncher {
-    public fun start(@Suppress("UNUSED_PARAMETER") instance: Luposdate3000Instance) {}
-}
+package lupos.shared.network
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
+public class InetSocketAddress(public val host:String,public val port:Int)
