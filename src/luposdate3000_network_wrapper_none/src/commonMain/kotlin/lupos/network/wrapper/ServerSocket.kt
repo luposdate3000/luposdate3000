@@ -16,10 +16,11 @@
  */
 package lupos.network.wrapper
 
-import lupos.shared.ICommunicationHandler
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
- public class ServerSocket:AServerSocket{
+import lupos.shared.network.AServerSocket
+import lupos.shared.network.ASocket
+import lupos.shared.network.InetSocketAddress
+
+public class ServerSocket : AServerSocket() {
+    override fun bind(address: InetSocketAddress) { TODO() }
+    override fun accept(): ASocket { TODO() }
 }

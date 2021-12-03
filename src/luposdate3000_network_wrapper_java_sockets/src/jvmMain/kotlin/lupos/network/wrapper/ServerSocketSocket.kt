@@ -15,18 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.network.wrapper
-
-import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-
-actual public class ServerSocketSocket(private val input:MyInputStream,private val output:MyOutputStream):ASocket(host,port){
-actual override fun getInputStream():MyInputStream{
-return input
-}
-actual override fun getOutputStream():MyOutputStream{
-return output
-}
+import lupos.shared.network.ASocket
+public actual class ServerSocketSocket(private val input: IMyInputStream, private val output: IMyOutputStream) : ASocket("", 0) {
+    actual override fun getInputStream(): IMyInputStream {
+        return input
+    }
+    actual override fun getOutputStream(): IMyOutputStream {
+        return output
+    }
+    actual override fun close() {}
 }

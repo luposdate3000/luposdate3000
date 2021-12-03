@@ -16,13 +16,11 @@
  */
 package lupos.endpoint_launcher
 
+import lupos.network.wrapper.Socket
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-import lupos.network.wrapper.Socket
-import lupos.network.wrapper.URLEncoder
+import lupos.shared.network.URLEncoder
 
 public class CommunicationHandler : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
@@ -46,7 +44,7 @@ public class CommunicationHandler : ICommunicationHandler {
             80
         }
         val client = Socket(targetName, targetPort)
-        val input = MyInputStream(client.getInputStream())
+        val input = client.getInputStream()
         val output = client.getOutputStream()
         output.write(data.encodeToByteArray())
         output.flush()
@@ -95,8 +93,8 @@ public class CommunicationHandler : ICommunicationHandler {
         val input = client.getInputStream()
         val output = client.getOutputStream()
         val buf = header.encodeToByteArray()
-        output.write(buf, 0, buf.size)
+        output.write(buf, buf.size)
         output.flush()
-        return Pair(MyInputStream(input), MyOutputStream(output))
+        return Pair(input, output)
     }
 }

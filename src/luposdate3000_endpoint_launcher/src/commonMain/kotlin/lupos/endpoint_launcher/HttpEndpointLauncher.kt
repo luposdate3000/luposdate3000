@@ -17,23 +17,20 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.RemoteDictionaryClient
-import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
+import lupos.network.wrapper.ServerSocket
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-import lupos.network.wrapper.InetSocketAddress
-import lupos.network.wrapper.ServerSocket
-import lupos.network.wrapper.URLDecoder
-import kotlin.system.exitProcess
+import lupos.shared.network.InetSocketAddress
+import lupos.shared.network.URLDecoder
+// import kotlin.system.exitProcess
 
 @OptIn(ExperimentalStdlibApi::class)
-public  object HttpEndpointLauncher {
+public object HttpEndpointLauncher {
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
         stream.println("HTTP/1.1 200 OK")
@@ -50,7 +47,7 @@ public  object HttpEndpointLauncher {
         }
     }
 
-    public  /*suspend*/ fun start(instance: Luposdate3000Instance) {
+    public /*suspend*/ fun start(instance: Luposdate3000Instance) {
         val localhost = instance.tripleStoreManager!!.getLocalhost()
         val hosturl = localhost.split(":")
         val port = if (hosturl.size > 1) {
@@ -78,11 +75,11 @@ public  object HttpEndpointLauncher {
             }
             while (true) {
                 val connection = server.accept()
-                Thread {
+                Parallel.launch {
                     var closeSockets: Boolean = true
                     Parallel.runBlocking {
-                        val connectionInMy = MyInputStream(connection.getInputStream())
-                        val connectionOutMy = MyOutputStream(connection.getOutputStream())
+                        val connectionInMy = connection.getInputStream()
+                        val connectionOutMy = connection.getOutputStream()
                         try {
                             var line = connectionInMy.readLine()
                             var contentLength: Int? = null
@@ -110,11 +107,11 @@ public  object HttpEndpointLauncher {
                                 path = path.substring(0, idx)
                             }
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
+                            /*paths["/shutdown"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
                                 RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)
                                 LuposdateEndpoint.close()
                                 exitProcess(0)
-                            }
+                            }*/
                             RestEndpoint.initialize(instance, paths)
                             WebRootEndpoint.initialize(paths)
                             val tmpRoot = paths["/index.html"]

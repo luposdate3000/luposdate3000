@@ -16,10 +16,12 @@
  */
 package lupos.network.wrapper
 
-import lupos.shared.ICommunicationHandler
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-expect public class ServerSocket:AServerSocket{
+import lupos.shared.network.AServerSocket
+import lupos.shared.network.ASocket
+import lupos.shared.network.InetSocketAddress
+
+public expect class ServerSocket : AServerSocket {
+    public constructor()
+    override fun bind(address: InetSocketAddress)
+    override fun accept(): ASocket
 }

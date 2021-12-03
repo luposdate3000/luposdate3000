@@ -1,6 +1,6 @@
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
- * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Lue>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,13 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.network.wrapper
-
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.network.ASocket
-public expect class ServerSocketSocket : ASocket {
-    override fun getInputStream(): IMyInputStream
-    override fun getOutputStream(): IMyOutputStream
-    override fun close()
+package lupos.shared.network
+public actual object URLEncoder {
+    public actual fun encode(s: String): String = java.net.URLEncoder.encode(s)
 }

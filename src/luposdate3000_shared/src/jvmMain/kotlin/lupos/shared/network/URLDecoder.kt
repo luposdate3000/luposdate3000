@@ -14,13 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.network.wrapper
-
-import lupos.shared.ICommunicationHandler
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-
- public class ServerSocketSocket(private val input:MyInputStream,private val output:MyOutputStream):ASocket(host,port){
+package lupos.shared.network
+public actual object URLDecoder {
+    public actual fun decode(s: String): String = java.net.URLDecoder.decode(s)
 }

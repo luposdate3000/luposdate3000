@@ -15,6 +15,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-public class InetSocketAddress(public val host:String,public val port:Int)
+public class InetSocketAddress(public val host: String, public val port: Int)

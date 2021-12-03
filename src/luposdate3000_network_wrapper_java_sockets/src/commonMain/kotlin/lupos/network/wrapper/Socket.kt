@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.network.wrapper
-
-import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.inline.MyInputStream
-import lupos.shared.inline.MyOutputStream
-
-expect public class Socket(host:String,port:Int):ASocket(host,port){
+import lupos.shared.network.ASocket
+public expect class Socket : ASocket {
+    public constructor (host: String, port: Int)
+    override fun getInputStream(): IMyInputStream
+    override fun getOutputStream(): IMyOutputStream
+    override fun close()
 }

@@ -16,18 +16,20 @@
  */
 package lupos.network.wrapper
 
-import lupos.shared.ICommunicationHandler
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
 import lupos.shared.inline.MyInputStream
 import lupos.shared.inline.MyOutputStream
-actual public class ServerSocket:AServerSocket{
-val socket=java.net.ServerSocket()
-atual override fun bind(address:InetSocketAddress){
-socket.bind(java.net.InetSocketAddress(address.host,address.port))
-}
-actual override fun accept():ASocket{
-val conn=socket.accept()
-return ServerSocketSocket(MyInputStream(conn.getInputStream(),MyOutputStream(conn.getOutputStream())))
-}
+import lupos.shared.network.AServerSocket
+import lupos.shared.network.ASocket
+import lupos.shared.network.InetSocketAddress
+
+public actual class ServerSocket public actual constructor() : AServerSocket() {
+    private val socket = java.net.ServerSocket()
+    actual override fun bind(address: InetSocketAddress) {
+        socket.bind(java.net.InetSocketAddress(address.host, address.port))
+    }
+
+    actual override fun accept(): ASocket {
+        val conn = socket.accept()
+        return ServerSocketSocket(MyInputStream(conn.getInputStream()), MyOutputStream(conn.getOutputStream()))
+    }
 }
