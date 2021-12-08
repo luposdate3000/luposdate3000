@@ -30,7 +30,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         private val fastMode = false
         private val withSimulator = true
         private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
-        public val minifyMode: Boolean = true
+        public val minifyMode: Boolean = false
         private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
     }
 /*
@@ -303,6 +303,7 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
+        fileBufferPrefix.println("import simora.simulator_iot.config.addQuerySender")
         fileBufferPrefix.println("import lupos.operator.base.Query")
         fileBufferPrefix.println("import simora.parser.JsonParser")
         fileBufferPrefix.println("import lupos.parser.JsonParserObject")
@@ -484,6 +485,11 @@ without minify mode only the passing tests will be added
                                 if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Thread]) {
                                     continue // this errors ...
                                 }
+
+                                if (predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.PartitionByAll]) {
+                                    continue
+                                }
+
                                 if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
                                     continue
                                 }

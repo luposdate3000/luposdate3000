@@ -31,6 +31,7 @@ import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGrap
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import simora.simulator_core.Simulation
 import simora.simulator_iot.SimulationRun
+import simora.simulator_iot.config.addQuerySender
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -1130,8 +1131,7 @@ public class resourcessp2bq3bsparql247 {
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName,
-            false,
+            fileName, false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))

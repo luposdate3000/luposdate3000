@@ -28,31 +28,37 @@ import simora.simulator_iot.applications.IApplication_Factory
 public class ApplicationFactory_Luposdate3000FeatureStore : IApplicationFeature {
     override fun getName(): String = "DatabaseStore"
     override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasStoreCapability()
+    override fun equals(other: Any?): Boolean = other is ApplicationFactory_Luposdate3000FeatureStore
 }
 
 public class ApplicationFactory_Luposdate3000FeatureQuery : IApplicationFeature {
     override fun getName(): String = "DatabaseQuery"
     override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000 && application.hasQueryCapability()
+    override fun equals(other: Any?): Boolean = other is ApplicationFactory_Luposdate3000FeatureQuery
 }
 
 public class ApplicationFactory_Luposdate3000FeatureAny : IApplicationFeature {
     override fun getName(): String = "Database"
     override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_Luposdate3000
+    override fun equals(other: Any?): Boolean = other is ApplicationFactory_Luposdate3000FeatureAny
 }
 
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
+        internal val applicationFactory_Luposdate3000FeatureStore = ApplicationFactory_Luposdate3000FeatureStore()
+        internal val applicationFactory_Luposdate3000FeatureQuery = ApplicationFactory_Luposdate3000FeatureQuery()
+        internal val applicationFactory_Luposdate3000FeatureAny = ApplicationFactory_Luposdate3000FeatureAny()
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
     private var featureIDStore = -1
     private var featureIDQuery = -1
     private var featureIDAny = -1
     override fun registerFeatures(features: MutableList<IApplicationFeature>) {
-        featureIDStore = features.size
-        features.add(ApplicationFactory_Luposdate3000FeatureStore())
-        featureIDQuery = features.size
-        features.add(ApplicationFactory_Luposdate3000FeatureQuery())
-        featureIDAny = features.size
-        features.add(ApplicationFactory_Luposdate3000FeatureAny())
+            features.add(applicationFactory_Luposdate3000FeatureStore)
+            featureIDStore = features.indexOf(applicationFactory_Luposdate3000FeatureStore)
+            features.add(applicationFactory_Luposdate3000FeatureQuery)
+            featureIDQuery = features.indexOf(applicationFactory_Luposdate3000FeatureQuery)
+            features.add(applicationFactory_Luposdate3000FeatureAny)
+            featureIDAny = features.indexOf(applicationFactory_Luposdate3000FeatureAny)
     }
 
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {

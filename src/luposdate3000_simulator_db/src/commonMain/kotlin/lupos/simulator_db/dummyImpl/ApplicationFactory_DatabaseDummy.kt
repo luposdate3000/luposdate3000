@@ -28,15 +28,17 @@ import simora.simulator_iot.applications.IApplication_Factory
 public class ApplicationFactory_DatabaseDummyFeature : IApplicationFeature {
     override fun getName(): String = "Database"
     override fun hasFeature(application: IApplicationStack_Actuator): Boolean = application is Application_DatabaseDummy
+    override fun equals(other: Any?): Boolean = other is ApplicationFactory_DatabaseDummyFeature
 }
 
 public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
+        internal val applicationFactory_DatabaseDummyFeature = ApplicationFactory_DatabaseDummyFeature()
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
     private var featureID = -1
     override fun registerFeatures(features: MutableList<IApplicationFeature>) {
-        featureID = features.size
-        features.add(ApplicationFactory_DatabaseDummyFeature())
+            features.add(applicationFactory_DatabaseDummyFeature)
+            featureID = features.indexOf(applicationFactory_DatabaseDummyFeature)
     }
 
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
