@@ -1,0 +1,54 @@
+{
+    "deterministic": true,
+    "deviceType": {
+        "LUPOSDATE_DEVICE": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "REPLACE_STORE_WITH_VALUES": false,
+                    "SharedMemoryDictionaryCheat": true,
+                    "mergeLocalOperatorgraphs": true,
+                    "predefinedPartitionScheme": "PartitionByIDTwiceAllCollations",
+                    "queryDistributionMode": "Routing",
+                    "type": "simora.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
+                    "useDictionaryInlineEncoding": true
+                },
+                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {                }
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WIRE"
+            ]
+        }
+    },
+    "fixedDevice": {
+        "DEVICE_1": {
+            "deviceType": "LUPOSDATE_DEVICE",
+            "latitude": 53.57865430622494,
+            "longitude": 10.055537389738404
+        }
+    },
+    "fixedLink": [],
+    "linkType": {
+        "WIRE": {
+            "dataRateInKbps": 50000,
+            "rangeInMeters": 40000
+        }
+    },
+    "logging": {
+        "simora.simulator_iot.LoggerMeasure": {
+            "enabled": false
+        },
+        "simora.simulator_iot.LoggerStdout": {
+            "enabled": false
+        },
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
+            "enabled": false
+        }
+    },
+    "outputDirectory": "",
+    "randomMeshNetwork": [],
+    "randomStarNetwork": [],
+    "rootRouter": "DEVICE_1"
+},
