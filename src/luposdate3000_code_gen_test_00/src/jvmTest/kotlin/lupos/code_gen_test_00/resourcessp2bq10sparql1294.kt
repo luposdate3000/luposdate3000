@@ -18,7 +18,7 @@ package lupos.code_gen_test_00
 import lupos.operator.base.Query
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
-import lupos.simulator_core.Simulation
+import simora.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage

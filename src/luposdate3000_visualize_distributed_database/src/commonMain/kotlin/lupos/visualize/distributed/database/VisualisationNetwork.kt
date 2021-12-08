@@ -18,7 +18,6 @@ package lupos.visualize.distributed.database
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
@@ -28,9 +27,6 @@ import simora.simulator_iot.IPayload
 import simora.simulator_iot.Package_Query
 import simora.simulator_iot.Package_QueryResponse
 import simora.simulator_iot.SimulationRun
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 public class VisualisationNetwork : ILogger {
     private lateinit var simRun: SimulationRun
@@ -47,8 +43,6 @@ public class VisualisationNetwork : ILogger {
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
     private val allMessageTypes = mutableSetOf<String>()
-    private val workForQueryAtNode = mutableMapOf<Int/*query*/, MutableMap<Int/*node*/, MutableSet<Pair<String, XMLElement>>/*work-list*/>>()
-    private val fullOperatorGraph = mutableMapOf<Int/*queryID*/, MutableMap<Int, XMLElement>>()
 
     private companion object {
         const val layerConnection = 0
@@ -271,29 +265,26 @@ public class VisualisationNetwork : ILogger {
                 last++
             }
         }
-        val w = workForQueryAtNode[queryNumber]
-        if (w != null && skipQueriesWithLessPartsThan < w.values.map { it.size }.sum()) {
-            val imgOverview = imageHelperBase.deepCopy()
-            for (i in first until last) {
-                val cc = messageToRoutingPath(messages[i].source, messages[i].destination)
-                val points = mutableListOf<Pair<Double, Double>>()
-                val classes = mutableListOf<String>()
-                classes.add("message")
-                for (c in 0 until cc.size) {
-                    val a = getDeviceById(cc[c])
-                    points.add(a.xnew to a.ynew)
-                }
-                classes.add("message-${messages[i].type}")
-                imgOverview.addPath(layerMessage, points, classes, deviceRadius * 1.5, minDistToOtherPath)
+        val imgOverview = imageHelperBase.deepCopy()
+        for (i in first until last) {
+            val cc = messageToRoutingPath(messages[i].source, messages[i].destination)
+            val points = mutableListOf<Pair<Double, Double>>()
+            val classes = mutableListOf<String>()
+            classes.add("message")
+            for (c in 0 until cc.size) {
+                val a = getDeviceById(cc[c])
+                points.add(a.xnew to a.ynew)
             }
-            val name = if (queryNumber == -1) {
-                "visual-overview.svg"
-            } else {
-                "visual-overview-${queryNumber.toString().padStart(4, '0')}.svg"
-            }
-            File(simRun.config.outputDirectory + name).withOutputStream { out ->
-                out.println(imgOverview.toString())
-            }
+            classes.add("message-${messages[i].type}")
+            imgOverview.addPath(layerMessage, points, classes, deviceRadius * 1.5, minDistToOtherPath)
+        }
+        val name = if (queryNumber == -1) {
+            "visual-overview.svg"
+        } else {
+            "visual-overview-${queryNumber.toString().padStart(4, '0')}.svg"
+        }
+        File(simRun.config.outputDirectory + name).withOutputStream { out ->
+            out.println(imgOverview.toString())
         }
         return true
     }
@@ -337,78 +328,6 @@ public class VisualisationNetwork : ILogger {
         return image
     }
 
-    private fun saveWorkForQuery(imageHelperBase: ImageHelper) {
-        for ((queryID, listA) in workForQueryAtNode) {
-            if (skipQueriesWithLessPartsThan < listA.values.map { it.size }.sum()) {
-                var helperImageCounter = 0
-                var allWork = mutableListOf<VisualisationOperatorGraph>()
-                val mapOfReceivers: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
-                val mapOfSenders: MutableMap<String, Pair<Double, Double>> = mutableMapOf<String, Pair<Double, Double>>()
-                val image = imageHelperBase.deepCopy()
-                for ((deviceID, workList) in listA) {
-                    val device = getDeviceById(deviceID)
-                    var i = 1
-                    var umfang = 0.0
-                    var minR = 0.0
-                    var list = mutableListOf<VisualisationOperatorGraph>()
-                    for (work in workList) {
-                        val second = work.second
-                        val opGraph = VisualisationOperatorGraph()
-                        val opImage = opGraph.operatorGraphToImage(second)
-                        opGraph.anchorX = device.xnew
-                        opGraph.anchorY = device.ynew
-                        list.add(opGraph)
-                        if (minR < opGraph.getRadius() + deviceRadius * 1.5) {
-                            minR = opGraph.getRadius() + deviceRadius * 1.5
-                        }
-                        umfang += opGraph.getRadius()
-                        allWork.add(opGraph)
-                        File(simRun.config.outputDirectory + "visual-db-work-$queryID-$helperImageCounter.svg").withOutputStream { out ->
-                            out.println(opImage.toString())
-                        }
-                        helperImageCounter++
-                        i++
-                    }
-                    if (list.size > 1) {
-                        val dist1 = umfang / (2.0 * PI)
-                        val dist = if (dist1 > minR) {
-                            dist1
-                        } else {
-                            minR
-                        }
-                        i = 0
-                        for (opGraph in list) {
-                            opGraph.offsetX = opGraph.anchorX + sin(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
-                            opGraph.offsetY = opGraph.anchorY + cos(i.toDouble() / workList.size.toDouble() * 2.0 * PI) * dist
-                            i++
-                        }
-                    } else {
-                        for (opGraph in list) {
-                            opGraph.offsetX = opGraph.anchorX
-                            opGraph.offsetY = opGraph.anchorY
-                        }
-                    }
-                }
-                for (w in allWork) {
-                    val ox = w.myOffsetX()
-                    val oy = w.myOffsetY()
-                    for ((k, v) in w.mapOfSenders) {
-                        mapOfSenders[k] = (v.first + ox) to (v.second + oy)
-                    }
-                    for ((k, v) in w.mapOfReceivers) {
-                        mapOfReceivers[k] = (v.first + ox) to (v.second + oy)
-                    }
-                }
-                for (w in allWork) {
-                    w.toImage(image, layerWork, mapOfSenders, mapOfReceivers)
-                }
-                File(simRun.config.outputDirectory + "visual-db-work-$queryID.svg").withOutputStream { out ->
-                    out.println(image.toString())
-                }
-            }
-        }
-    }
-
     private fun toImage(): String {
         File(simRun.config.outputDirectory).mkdirs()
         val imageHelperBase = toBaseImage()
@@ -425,7 +344,6 @@ public class VisualisationNetwork : ILogger {
         }
         var flag = true
         var counter = 0
-        saveWorkForQuery(imageHelperBaseDB)
         while (flag) {
             flag = saveMessagesForQuery(imageHelperBase, counter)
             counter++
@@ -519,10 +437,10 @@ public class VisualisationNetwork : ILogger {
         if (src != dest) {
             val idx = src * simRun.config.devices.size + dest
             val size = simRun.config.devices.size * simRun.config.devices.size
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:521"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:522"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:523"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > hop })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:524"/*SOURCE_FILE_END*/ }, { src != hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:442"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:443"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:444"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > hop })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:445"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size < size) {
                 connectionTable = IntArray(size) { -1 }
             }
@@ -571,24 +489,6 @@ public class VisualisationNetwork : ILogger {
         allMessageTypes.add(message.type)
         message.messageCounter = messages.size
         messages.add(message)
-    }
-
-    override fun addWork(queryID: Int, address: Int, operatorGraph: XMLElement, keysIn: Set<Int>, keysOut: Set<Int>) {
-        var workNode = workForQueryAtNode[queryID]
-        if (workNode == null) {
-            workNode = mutableMapOf()
-            workForQueryAtNode[queryID] = workNode
-        }
-        var workquery = workNode[address]
-        if (workquery == null) {
-            workquery = mutableSetOf()
-            workNode[address] = workquery
-        }
-        workquery.add("$keysIn -> $keysOut" to operatorGraph)
-    }
-
-    override fun addOperatorGraph(queryId: Int, operatorGraph: MutableMap<Int, XMLElement>) {
-        fullOperatorGraph[queryId] = operatorGraph
     }
 
     override fun toString(): String = "${devices.map { it.toString() + "\n" }}\n${graph_index_to_key}\n${device_to_key}\n${messages.sorted().map { it.toString() + "\n" }}"

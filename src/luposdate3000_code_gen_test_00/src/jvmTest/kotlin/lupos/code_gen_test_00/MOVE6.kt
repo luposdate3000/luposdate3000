@@ -26,7 +26,7 @@ import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_core.Simulation
+import simora.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute

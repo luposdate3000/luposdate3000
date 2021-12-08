@@ -17,8 +17,8 @@
 
 package lupos.simulator_db.dummyImpl
 
-import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
+import simora.parser.JsonParserObject
 import simora.simulator_iot.ILogger
 import simora.simulator_iot.IPayload
 import simora.simulator_iot.Package_Query

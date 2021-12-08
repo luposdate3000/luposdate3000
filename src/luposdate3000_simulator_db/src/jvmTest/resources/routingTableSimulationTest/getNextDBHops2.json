@@ -61,13 +61,13 @@
     ],
     "linkType": {},
     "logging": {
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
+            "enabled": false,
+        },
         "simora.simulator_iot.LoggerMeasure": {
             "enabled": false,
         },
         "simora.simulator_iot.LoggerStdout": {
-            "enabled": false,
-        },
-        "lupos.visualize.distributed.database.VisualisationNetwork": {
             "enabled": false,
         },
     },

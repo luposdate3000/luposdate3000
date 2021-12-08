@@ -17,7 +17,7 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.shared.inline.File
-import lupos.simulator_core.ITimer
+import simora.simulator_core.ITimer
 import simora.simulator_iot.IPackage_Database
 import simora.simulator_iot.IPayload
 import simora.simulator_iot.applications.IApplicationStack_Actuator

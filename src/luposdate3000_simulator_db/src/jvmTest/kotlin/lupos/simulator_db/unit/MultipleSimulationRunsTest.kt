@@ -17,8 +17,8 @@
 
 package lupos.simulator_db.unit
 
-import lupos.parser.JsonParser
-import lupos.parser.JsonParserObject
+import simora.parser.JsonParser
+import simora.parser.JsonParserObject
 import simora.simulator_iot.MultipleSimulationRuns
 import kotlin.test.Test
 
