@@ -40,7 +40,7 @@ inline fun execute(args: List<String>): List<String> {
 val baseCmd = execute(listOf("./launcher.main.kts", "--run", "--mainClass=Launch_Simulator_Config", "--dryMode=Enable")).filter { it.contains("exec") }.first().replace("exec :: ", "").split(" ")
 
 var first = true
-val BASE_PATH = "src/luposdate3000_simulator_iot/src/jvmMain/resources"
+val BASE_PATH = "src/luposdate3000_simulator_db/src/jvmMain/resources"
 val json_evaluation = "$BASE_PATH/evaluation.json"
 val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 

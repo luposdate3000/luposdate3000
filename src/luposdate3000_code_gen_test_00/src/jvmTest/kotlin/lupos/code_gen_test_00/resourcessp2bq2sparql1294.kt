@@ -30,7 +30,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_iot.SimulationRun
+import simora.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -138,7 +138,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -154,7 +154,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -170,7 +170,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -186,7 +186,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -202,7 +202,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -218,7 +218,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -234,7 +234,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -250,7 +250,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -266,7 +266,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -282,7 +282,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -298,7 +298,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -314,7 +314,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -330,7 +330,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -346,7 +346,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -362,7 +362,7 @@ public class resourcessp2bq2sparql1294 {
     @Test
     public fun `resourcessp2bq2sparql1294 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,

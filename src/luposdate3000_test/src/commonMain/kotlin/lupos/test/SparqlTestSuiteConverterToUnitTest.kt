@@ -321,7 +321,7 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Application_Luposdate3000")
-        fileBufferPrefix.println("import lupos.simulator_iot.SimulationRun")
+        fileBufferPrefix.println("import simora.simulator_iot.SimulationRun")
         fileBufferPrefix.println("")
         fileBufferPrefix.println("import kotlin.test.Ignore")
         fileBufferPrefix.println("import kotlin.test.Test")
@@ -514,9 +514,9 @@ without minify mode only the passing tests will be added
                                 fileBufferTest.println("    public fun `$finalTestName`() {")
                                 fileBufferTest.println("        simulatorHelper(")
                                 if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                    fileBufferTest.println("            \"../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
                                 } else {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                    fileBufferTest.println("            \"../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
                                 }
                                 fileBufferTest.println("            mutableMapOf(")
                                 fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")

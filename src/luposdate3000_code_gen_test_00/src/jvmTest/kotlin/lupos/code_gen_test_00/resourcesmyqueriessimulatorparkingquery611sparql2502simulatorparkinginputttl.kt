@@ -30,7 +30,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_iot.SimulationRun
+import simora.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -80,7 +80,7 @@ public class resourcesmyqueriessimulatorparkingquery611sparql2502simulatorparkin
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
@@ -96,7 +96,7 @@ public class resourcesmyqueriessimulatorparkingquery611sparql2502simulatorparkin
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,

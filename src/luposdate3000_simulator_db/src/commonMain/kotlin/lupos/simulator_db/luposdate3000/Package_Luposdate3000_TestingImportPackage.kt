@@ -17,7 +17,7 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.shared.UUID_Counter
-import lupos.simulator_iot.IPackage_DatabaseTesting
+import simora.simulator_iot.IPackage_DatabaseTesting
 
 public class Package_Luposdate3000_TestingImportPackage(
     public val filename: String,

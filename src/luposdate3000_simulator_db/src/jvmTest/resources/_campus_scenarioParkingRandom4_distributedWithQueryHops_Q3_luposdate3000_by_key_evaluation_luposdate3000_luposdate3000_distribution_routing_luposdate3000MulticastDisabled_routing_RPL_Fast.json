@@ -11,7 +11,7 @@
             "queryDistributionMode": "Routing",
             "useDictionaryInlineEncoding": true,
         },
-        "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+        "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
     },
     "deterministic": true,
     "deviceType": {
@@ -24,10 +24,10 @@
                 },
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
                     "enabled": true,
-                    "fileName": "../luposdate3000_simulator_iot/src/jvmMain/resources/ontology.n3",
+                    "fileName": "../luposdate3000_simulator_db/src/jvmMain/resources/ontology.n3",
                     "sendStartClockInSec": 10,
                 },
-                "lupos.simulator_iot.applications.ApplicationFactory_QuerySender": [
+                "simora.simulator_iot.applications.ApplicationFactory_QuerySender": [
                     {
                         "maxNumberOfQueries": 1,
                         "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nselect  (count(distinct ?x) as ?count)\nwhere {\n  ?b a parking:Observation;\n  parking:area 9;\n  parking:spotInArea ?x.\n}",
@@ -71,7 +71,7 @@
         },
         "Sensor Device": {
             "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                "simora.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "maxSamples": 5,
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,
@@ -129,10 +129,10 @@
         },
     },
     "logging": {
-        "lupos.simulator_iot.LoggerMeasure": {
+        "simora.simulator_iot.LoggerMeasure": {
             "enabled": false,
         },
-        "lupos.simulator_iot.LoggerStdout": {
+        "simora.simulator_iot.LoggerStdout": {
             "enabled": false,
         },
         "lupos.visualize.distributed.database.VisualisationNetwork": {

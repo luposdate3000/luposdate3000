@@ -18,7 +18,7 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.UUID_Counter
-import lupos.simulator_iot.IPackage_Database
+import simora.simulator_iot.IPackage_Database
 
 public class Package_DatabaseDummy_ChoosenOperator(
     // siehe #2

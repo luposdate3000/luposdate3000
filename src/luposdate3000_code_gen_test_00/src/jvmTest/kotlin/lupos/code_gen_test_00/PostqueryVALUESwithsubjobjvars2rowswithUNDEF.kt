@@ -30,7 +30,7 @@ import lupos.simulator_core.Simulation
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_iot.SimulationRun
+import simora.simulator_iot.SimulationRun
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -96,7 +96,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - true - None - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
@@ -112,7 +112,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
@@ -128,7 +128,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
@@ -144,7 +144,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
@@ -160,7 +160,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
@@ -176,7 +176,7 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
     @Test
     public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
-            "../luposdate3000_simulator_iot/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,

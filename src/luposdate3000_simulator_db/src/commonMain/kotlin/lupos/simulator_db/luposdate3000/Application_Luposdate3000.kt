@@ -66,13 +66,13 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.iterator.IteratorBundleRoot
-import lupos.simulator_iot.ILogger
-import lupos.simulator_iot.IPackage_DatabaseTesting
-import lupos.simulator_iot.IPayload
-import lupos.simulator_iot.Package_Query
-import lupos.simulator_iot.Package_QueryResponse
-import lupos.simulator_iot.applications.IApplicationStack_Actuator
-import lupos.simulator_iot.applications.IApplicationStack_Middleware
+import simora.simulator_iot.ILogger
+import simora.simulator_iot.IPackage_DatabaseTesting
+import simora.simulator_iot.IPayload
+import simora.simulator_iot.Package_Query
+import simora.simulator_iot.Package_QueryResponse
+import simora.simulator_iot.applications.IApplicationStack_Actuator
+import simora.simulator_iot.applications.IApplicationStack_Middleware
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
 

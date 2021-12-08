@@ -5,7 +5,7 @@
         "Edge Gateway WSN 1": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 30.0,
             "supportedLinkTypes": [
@@ -15,7 +15,7 @@
         "Mesh Hop": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "lupos.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 20.0,
             "supportedLinkTypes": [
@@ -24,7 +24,7 @@
         },
         "Sensor Device WSN 1": {
             "applications": {
-                "lupos.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                "simora.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "DODAG ROOT",
                     "maxSamples": 5,
@@ -88,10 +88,10 @@
         },
     },
     "logging": {
-        "lupos.simulator_iot.LoggerMeasure": {
+        "simora.simulator_iot.LoggerMeasure": {
             "enabled": false,
         },
-        "lupos.simulator_iot.LoggerStdout": {
+        "simora.simulator_iot.LoggerStdout": {
             "enabled": false,
         },
         "lupos.visualize.distributed.database.VisualisationNetwork": {

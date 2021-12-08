@@ -19,11 +19,11 @@ package lupos.simulator_db.dummyImpl
 
 import lupos.parser.JsonParserObject
 import lupos.shared.inline.File
-import lupos.simulator_iot.ILogger
-import lupos.simulator_iot.IPayload
-import lupos.simulator_iot.Package_Query
-import lupos.simulator_iot.applications.IApplicationStack_Actuator
-import lupos.simulator_iot.applications.IApplicationStack_Middleware
+import simora.simulator_iot.ILogger
+import simora.simulator_iot.IPayload
+import simora.simulator_iot.Package_Query
+import simora.simulator_iot.applications.IApplicationStack_Actuator
+import simora.simulator_iot.applications.IApplicationStack_Middleware
 
 public class Application_DatabaseDummy public constructor(
     config: JsonParserObject,

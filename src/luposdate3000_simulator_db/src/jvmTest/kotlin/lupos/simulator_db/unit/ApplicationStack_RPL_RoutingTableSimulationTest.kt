@@ -17,8 +17,8 @@
 
 package lupos.simulator_db.unit
 
-import lupos.simulator_iot.SimulationRun
-import lupos.simulator_iot.applications.ApplicationStack_RPL
+import simora.simulator_iot.SimulationRun
+import simora.simulator_iot.applications.ApplicationStack_RPL
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

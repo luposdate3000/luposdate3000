@@ -19,11 +19,11 @@ package lupos.simulator_db.dummyImpl
 
 import lupos.parser.IJsonParserValue
 import lupos.parser.JsonParserObject
-import lupos.simulator_iot.ILogger
-import lupos.simulator_iot.RandomGenerator
-import lupos.simulator_iot.applications.IApplicationFeature
-import lupos.simulator_iot.applications.IApplicationStack_Actuator
-import lupos.simulator_iot.applications.IApplication_Factory
+import simora.simulator_iot.ILogger
+import simora.simulator_iot.RandomGenerator
+import simora.simulator_iot.applications.IApplicationFeature
+import simora.simulator_iot.applications.IApplicationStack_Actuator
+import simora.simulator_iot.applications.IApplication_Factory
 
 public class ApplicationFactory_DatabaseDummyFeature : IApplicationFeature {
     override fun getName(): String = "Database"
