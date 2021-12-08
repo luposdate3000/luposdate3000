@@ -14,7 +14,7 @@
                     "type": "simora.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {                }
+                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {                }
             },
             "performance": 100.0,
             "supportedLinkTypes": [

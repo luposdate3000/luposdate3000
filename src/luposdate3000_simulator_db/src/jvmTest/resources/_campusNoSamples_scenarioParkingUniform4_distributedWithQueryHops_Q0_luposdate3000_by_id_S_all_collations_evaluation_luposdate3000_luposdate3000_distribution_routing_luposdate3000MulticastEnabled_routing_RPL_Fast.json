@@ -11,7 +11,7 @@
             "queryDistributionMode": "Routing",
             "useDictionaryInlineEncoding": true,
         },
-        "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+        "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
     },
     "deterministic": true,
     "deviceType": {

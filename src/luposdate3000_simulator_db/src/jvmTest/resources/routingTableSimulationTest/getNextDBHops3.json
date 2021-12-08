@@ -10,7 +10,7 @@
         "FogWithDatabase": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 30.0,
             "supportedLinkTypes": [],

@@ -10,7 +10,7 @@
         "FogWithDatabase": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 40.0,
             "supportedLinkTypes": [],
@@ -18,14 +18,14 @@
         "FogWithDatabaseAndSensor": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "simora.simulator_iot.applications.ApplicationFactory_ParkingSensor": {
+                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "G",
                     "maxSamples": 8,
                     "rateInSec": 30,
                     "sendStartClockInSec": 15,
                 },
-                "simora.simulator_iot.applications.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 3.0,
             "supportedLinkTypes": [],
