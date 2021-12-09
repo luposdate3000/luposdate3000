@@ -58,6 +58,36 @@ public class constructwhere06CONSTRUCTWHERE {
     }
 
     @Test
+    public fun `constructwhere06  CONSTRUCT WHERE - Thread - PartitionByAll - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
+    public fun `constructwhere06  CONSTRUCT WHERE - Thread - PartitionByAll - false`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `constructwhere06  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

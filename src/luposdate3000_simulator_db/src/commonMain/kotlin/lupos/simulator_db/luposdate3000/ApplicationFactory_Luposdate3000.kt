@@ -44,21 +44,21 @@ public class ApplicationFactory_Luposdate3000FeatureAny : IApplicationFeature {
 }
 
 public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
-        internal val applicationFactory_Luposdate3000FeatureStore = ApplicationFactory_Luposdate3000FeatureStore()
-        internal val applicationFactory_Luposdate3000FeatureQuery = ApplicationFactory_Luposdate3000FeatureQuery()
-        internal val applicationFactory_Luposdate3000FeatureAny = ApplicationFactory_Luposdate3000FeatureAny()
+    internal val applicationFactory_Luposdate3000FeatureStore = ApplicationFactory_Luposdate3000FeatureStore()
+    internal val applicationFactory_Luposdate3000FeatureQuery = ApplicationFactory_Luposdate3000FeatureQuery()
+    internal val applicationFactory_Luposdate3000FeatureAny = ApplicationFactory_Luposdate3000FeatureAny()
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
     private var featureIDStore = -1
     private var featureIDQuery = -1
     private var featureIDAny = -1
     override fun registerFeatures(features: MutableList<IApplicationFeature>) {
-            features.add(applicationFactory_Luposdate3000FeatureStore)
-            featureIDStore = features.indexOf(applicationFactory_Luposdate3000FeatureStore)
-            features.add(applicationFactory_Luposdate3000FeatureQuery)
-            featureIDQuery = features.indexOf(applicationFactory_Luposdate3000FeatureQuery)
-            features.add(applicationFactory_Luposdate3000FeatureAny)
-            featureIDAny = features.indexOf(applicationFactory_Luposdate3000FeatureAny)
+        features.add(applicationFactory_Luposdate3000FeatureStore)
+        featureIDStore = features.indexOf(applicationFactory_Luposdate3000FeatureStore)
+        features.add(applicationFactory_Luposdate3000FeatureQuery)
+        featureIDQuery = features.indexOf(applicationFactory_Luposdate3000FeatureQuery)
+        features.add(applicationFactory_Luposdate3000FeatureAny)
+        featureIDAny = features.indexOf(applicationFactory_Luposdate3000FeatureAny)
     }
 
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {

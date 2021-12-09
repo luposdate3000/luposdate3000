@@ -32,13 +32,13 @@ public class ApplicationFactory_DatabaseDummyFeature : IApplicationFeature {
 }
 
 public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
-        internal val applicationFactory_DatabaseDummyFeature = ApplicationFactory_DatabaseDummyFeature()
+    internal val applicationFactory_DatabaseDummyFeature = ApplicationFactory_DatabaseDummyFeature()
     private val dbDeviceAddressesStoreList = mutableListOf<Int>()
     private val dbDeviceAddressesQueryList = mutableListOf<Int>()
     private var featureID = -1
     override fun registerFeatures(features: MutableList<IApplicationFeature>) {
-            features.add(applicationFactory_DatabaseDummyFeature)
-            featureID = features.indexOf(applicationFactory_DatabaseDummyFeature)
+        features.add(applicationFactory_DatabaseDummyFeature)
+        featureID = features.indexOf(applicationFactory_DatabaseDummyFeature)
     }
 
     override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {

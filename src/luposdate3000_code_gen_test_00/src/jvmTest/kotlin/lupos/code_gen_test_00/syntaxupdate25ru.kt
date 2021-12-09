@@ -62,6 +62,36 @@ public class syntaxupdate25ru {
     }
 
     @Test
+    public fun `syntaxupdate25ru - Thread - PartitionByAll - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
+    public fun `syntaxupdate25ru - Thread - PartitionByAll - false`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `syntaxupdate25ru - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {

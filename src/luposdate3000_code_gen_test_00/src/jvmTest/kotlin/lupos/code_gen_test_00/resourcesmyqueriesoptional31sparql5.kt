@@ -238,6 +238,22 @@ public class resourcesmyqueriesoptional31sparql5 {
     }
 
     @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -314,6 +330,22 @@ public class resourcesmyqueriesoptional31sparql5 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -510,6 +542,22 @@ public class resourcesmyqueriesoptional31sparql5 {
     }
 
     @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -638,6 +686,22 @@ public class resourcesmyqueriesoptional31sparql5 {
     }
 
     @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -762,6 +826,22 @@ public class resourcesmyqueriesoptional31sparql5 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -938,6 +1018,22 @@ public class resourcesmyqueriesoptional31sparql5 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriesoptional31sparql5 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1183,7 +1279,8 @@ public class resourcesmyqueriesoptional31sparql5 {
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName, false,
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))

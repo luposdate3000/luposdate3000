@@ -328,6 +328,22 @@ public class resourcesmyqueriesx7sparql4 {
     }
 
     @Test
+    public fun `resourcesmyqueriesx7sparql4 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `resourcesmyqueriesx7sparql4 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -740,6 +756,22 @@ public class resourcesmyqueriesx7sparql4 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `resourcesmyqueriesx7sparql4 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1337,7 +1369,8 @@ public class resourcesmyqueriesx7sparql4 {
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
-            fileName, false,
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))

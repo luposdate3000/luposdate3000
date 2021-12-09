@@ -57,6 +57,36 @@ public class syntaxbindings05arqwithVALUESclause {
     }
 
     @Test
+    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByAll - true`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
+    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByAll - false`() {
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.PartitionByAll
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
+    }
+
+    @Test
     public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true`() {
         var instance = Luposdate3000Instance()
         try {
