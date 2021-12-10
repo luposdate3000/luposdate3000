@@ -26,7 +26,9 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
 import lupos.shared.network.InetSocketAddress
+import lupos.shared.network.ASocket
 import lupos.shared.network.URLDecoder
+
 // import kotlin.system.exitProcess
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -74,81 +76,88 @@ public object HttpEndpointLauncher {
                 }
             }
             while (true) {
-                val connection = server.accept()
+                var connection: ASocket? = null
+                    connection = server.accept()
+                connection!!
                 Parallel.launch {
-                    var closeSockets: Boolean = true
-                    Parallel.runBlocking {
-                        val connectionInMy = connection.getInputStream()
-                        val connectionOutMy = connection.getOutputStream()
-                        try {
-                            var line = connectionInMy.readLine()
-                            var contentLength: Int? = null
-                            var path = ""
-                            var isPost = false
-                            val params = mutableMapOf<String, String>()
-                            while (line != null && line.isNotEmpty()) {
-                                if (line.startsWith("POST")) {
-                                    isPost = true
-                                    path = line.substring(5)
-                                } else if (line.startsWith("GET")) {
-                                    path = line.substring(4)
-                                } else if (line.startsWith("Content-Length: ")) {
-                                    contentLength = line.substring("Content-Length: ".length).toInt()
+                    try {
+                        var closeSockets: Boolean = true
+                        Parallel.runBlocking {
+                            val connectionInMy = connection.getInputStream()
+                            val connectionOutMy = connection.getOutputStream()
+                            try {
+                                var line: String? = null
+                                    line = connectionInMy.readLine()
+                                var contentLength: Int? = null
+                                var path = ""
+                                var isPost = false
+                                val params = mutableMapOf<String, String>()
+                                while (line != null && line.isNotEmpty()) {
+                                    if (line.startsWith("POST")) {
+                                        isPost = true
+                                        path = line.substring(5)
+                                    } else if (line.startsWith("GET")) {
+                                        path = line.substring(4)
+                                    } else if (line.startsWith("Content-Length: ")) {
+                                        contentLength = line.substring("Content-Length: ".length).toInt()
+                                    }
+                                    line = connectionInMy.readLine()
                                 }
-                                line = connectionInMy.readLine()
-                            }
-                            var idx = path.indexOf(' ')
-                            if (idx > 0) {
-                                path = path.substring(0, idx)
-                            }
-                            idx = path.indexOf('?')
-                            if (idx > 0) {
-                                extractParamsFromString(path.substring(idx + 1), params)
-                                path = path.substring(0, idx)
-                            }
-                            val paths = mutableMapOf<String, PathMappingHelper>()
-                            /*paths["/shutdown"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
-                                RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)
-                                LuposdateEndpoint.close()
-                                exitProcess(0)
-                            }*/
-                            RestEndpoint.initialize(instance, paths)
-                            WebRootEndpoint.initialize(paths)
-                            val tmpRoot = paths["/index.html"]
-                            if (tmpRoot != null) {
-                                paths[""] = tmpRoot
-                                paths["/"] = tmpRoot
-                            } else {
-                                val tmpRoot2 = paths["/debug.html"]
-                                paths[""] = tmpRoot2!!
-                                paths["/"] = tmpRoot2
-                            }
-                            val actionHelper = paths[path]
-                            if (actionHelper == null) {
-                                throw EnpointRecievedInvalidPath(path)
-                            } else {
-                                if (actionHelper.addPostParams && isPost) {
-                                    val buf = ByteArray(contentLength!!)
-                                    connectionInMy.read(buf, contentLength)
-                                    val content = buf.decodeToString()
-                                    extractParamsFromString(content, params)
+                                var idx = path.indexOf(' ')
+                                if (idx > 0) {
+                                    path = path.substring(0, idx)
                                 }
-                                closeSockets = actionHelper.action(params, connectionInMy, connectionOutMy)
-                            }
-                        } catch (e: Throwable) {
-                            e.printStackTrace()
-                            connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
-                            connectionOutMy.println()
-                            connectionOutMy.println(e.stackTraceToString())
-                        } finally {
-                            if (closeSockets) {
-                                connectionOutMy.close()
-                                connectionInMy.close()
-                                connection?.close()
+                                idx = path.indexOf('?')
+                                if (idx > 0) {
+                                    extractParamsFromString(path.substring(idx + 1), params)
+                                    path = path.substring(0, idx)
+                                }
+                                val paths = mutableMapOf<String, PathMappingHelper>()
+                                /*paths["/shutdown"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
+                                    RestEndpoint.removeDictionary(RestEndpoint.key_global_dict)
+                                    LuposdateEndpoint.close()
+                                    exitProcess(0)
+                                }*/
+                                RestEndpoint.initialize(instance, paths)
+                                WebRootEndpoint.initialize(paths)
+                                val tmpRoot = paths["/index.html"]
+                                if (tmpRoot != null) {
+                                    paths[""] = tmpRoot
+                                    paths["/"] = tmpRoot
+                                } else {
+                                    val tmpRoot2 = paths["/debug.html"]
+                                    paths[""] = tmpRoot2!!
+                                    paths["/"] = tmpRoot2
+                                }
+                                val actionHelper = paths[path]
+                                if (actionHelper == null) {
+                                    throw EnpointRecievedInvalidPath(path)
+                                } else {
+                                    if (actionHelper.addPostParams && isPost) {
+                                        val buf = ByteArray(contentLength!!)
+                                        connectionInMy.read(buf, contentLength)
+                                        val content = buf.decodeToString()
+                                        extractParamsFromString(content, params)
+                                    }
+                                    closeSockets = actionHelper.action(params, connectionInMy, connectionOutMy)
+                                }
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
+                                connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
+                                connectionOutMy.println()
+                                connectionOutMy.println(e.stackTraceToString())
+                            } finally {
+                                if (closeSockets) {
+                                    connectionOutMy.close()
+                                    connectionInMy.close()
+                                    connection?.close()
+                                }
                             }
                         }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
                     }
-                }.start()
+                }
             }
         } catch (e: Throwable) {
             e.printStackTrace()

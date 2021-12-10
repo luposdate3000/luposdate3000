@@ -306,7 +306,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-    val useKover = true
+    val useKover = false
     var dummy = 0
     val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array

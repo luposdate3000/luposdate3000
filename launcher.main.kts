@@ -30,7 +30,7 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
-@file:CompilerOptions("-Xmulti-platform")
+@file:CompilerOptions("-Xmulti-platform") 
 
 import launcher.CreateModuleArgs
 import launcher.DryMode

@@ -1,3 +1,3 @@
 enabled=never
 enabledRun=never
-dependencyCommon=com.ionspin.kotlin:bignum:0.3.3-SNAPSHOT
+dependencyCommon=com.ionspin.kotlin:bignum:0.3.3
