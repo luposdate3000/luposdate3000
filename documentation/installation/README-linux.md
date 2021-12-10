@@ -17,16 +17,11 @@ dependencieshome=/opt
 
 #Now the components are installed one by one.
 
-#bignum
+#simora
 {
     cd $dependencieshome
-    git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
-    cd kotlin-multiplatform-bignum/bignum
-    #patch the buildfile to make it executable as JS in Browsers
-    sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
-    sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
-    sed 's/version.*=.*/version = "0.3.3-SNAPSHOT"/g' -i build.gradle.kts
-    cd ..
+    git clone https://github.com/luposdate3000/SIMORA.git
+    cd SIMORA
     ./gradlew publishToMavenLocal
 }
 #kotlin

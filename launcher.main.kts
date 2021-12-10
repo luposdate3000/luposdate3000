@@ -146,7 +146,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetEnabledRunFunc { true }
 .ssetUseKTLint(LauncherConfig.getConfigValue("--useKtLint").toBoolean())
 .ssetUseKover(LauncherConfig.getConfigValue("--useKover").toBoolean())
-.ssetUseSimoraDev(LauncherConfig.getConfigValue("--useSimoraDev").toBoolean())
+//.ssetUseSimoraDev(LauncherConfig.getConfigValue("--useSimoraDev").toBoolean()) ... this does not work from github-packages
+.ssetUseSimoraDev(true)
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, MutableSet<String>>()
@@ -840,11 +841,11 @@ fun onSetupGradle() {
     }
     File("settings.gradle.kts").printWriter().use { outSettingsGradle ->
         File("src/build.gradle.kts").printWriter().use { outBuildGradle ->
-            outSettingsGradle.println("sourceControl {")
-            outSettingsGradle.println("    gitRepository(uri(\"https://github.com/luposdate3000/SIMORA.git\")){")
-            outSettingsGradle.println("        producesModule(\"simora:simoragithub\")")
-            outSettingsGradle.println("    }")
-            outSettingsGradle.println("}")
+//            outSettingsGradle.println("sourceControl {")
+//            outSettingsGradle.println("    gitRepository(uri(\"https://github.com/luposdate3000/SIMORA.git\")){")
+//            outSettingsGradle.println("        producesModule(\"simora:simora\")")
+//            outSettingsGradle.println("    }")
+//            outSettingsGradle.println("}")
             outSettingsGradle.println("pluginManagement {")
             outSettingsGradle.println("    resolutionStrategy {")
             outSettingsGradle.println("        eachPlugin {")

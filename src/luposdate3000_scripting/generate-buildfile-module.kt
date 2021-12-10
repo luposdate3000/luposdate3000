@@ -32,7 +32,7 @@ if(d.startsWith("simora:simora")){
 if(config.useSimoraDev){
 out.println("                implementation(\"$d\")")
 }else{
-out.println("                implementation(\"simora:simoragithub:latest.integration\")")
+out.println("                implementation(\"simora:simora\"){version{branch = \"master\"}}")
 }
 }else        if (d.startsWith("luposdate3000")) {
             var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
