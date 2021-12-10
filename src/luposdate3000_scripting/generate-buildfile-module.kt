@@ -107,6 +107,7 @@ class CreateModuleArgs() {
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
     var useKTLint = true
+    var useKover = false
     var disableJS = false
     var disableJSNode = false
     var disableJSBrowser = false
@@ -149,6 +150,7 @@ class CreateModuleArgs() {
         res.codegenKSP = codegenKSP
         res.args = args
         res.useKTLint = useKTLint
+        res.useKover = useKover
         return res
     }
 
@@ -161,6 +163,16 @@ class CreateModuleArgs() {
     fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
         val res = clone()
         res.compilerVersion = compilerVersion
+        return res
+    }
+    fun ssetUseKTLint(useKTLint: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.useKTLint = useKTLint
+        return res
+    }
+    fun ssetUseKover(useKover: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.useKover = useKover
         return res
     }
 
@@ -306,7 +318,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-    val useKover = false
+    val useKover = moduleArgs.useKover
     var dummy = 0
     val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
@@ -324,7 +336,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         return
     }
-    var useKTLint = moduleArgs.useKTLint && moduleArgs.target == TargetMode2.JVM
+    var useKTLint = moduleArgs.useKTLint
     try {
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
@@ -653,9 +665,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
-                if (useKTLint) {
-                    out.println("    dependsOn(\"ktlintFormat\")")
-                }
                 out.println("    fun fixPathNames(s: String): String {")
                 out.println("        var res = s.trim()")
                 out.println("        var back = \"\"")
@@ -711,52 +720,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("        }")
                     out.println("    }")
                     out.println("}")
-                    if (useKTLint) {
-                        if (!buildLibrary) {
-                            out.println("tasks.named(\"startScripts\") {")
-                            out.println("    dependsOn(\"metadataJar\")")
-                            out.println("}")
-                            out.println("tasks.named(\"jar\") {")
-                            out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                            out.println("}")
-                            out.println("tasks.named(\"ktlintKotlinScriptCheck\") {")
-                            out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                            out.println("}")
-                        }
-                        out.println("tasks.named(\"sourcesJar\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverCommonTestSourceSet\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
-                        out.println("}")
-                        out.println("tasks.named(\"compileKotlinMetadata\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
-                        out.println("}")
-                        out.println("tasks.named(\"allMetadataJar\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("}")
-                        out.println("tasks.named(\"runKtlintCheckOverKotlinScripts\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("}")
-                        out.println("tasks.named(\"jvmTestProcessResources\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("}")
-                        out.println("tasks.named(\"jvmProcessResources\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("}")
-                        out.println("tasks.named(\"runKtlintCheckOverJvmTestSourceSet\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverJvmTestSourceSet\")")
-                        out.println("}")
-                        out.println("tasks.named(\"runKtlintCheckOverJvmMainSourceSet\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverJvmMainSourceSet\")")
-                        out.println("}")
-                        out.println("tasks.named(\"runKtlintCheckOverCommonMainSourceSet\") {")
-                        out.println("    dependsOn(\"runKtlintFormatOverCommonMainSourceSet\")")
-                        out.println("    dependsOn(\"runKtlintFormatOverKotlinScripts\")")
-                        out.println("}")
-                    }
                 }
                 if (enableJS) {
                     out.println("tasks.named(\"compileKotlinJs\") {")

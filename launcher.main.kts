@@ -43,7 +43,7 @@ import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
-import launcher.fixPathNames
+import launcher.fixPathNames 
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
@@ -112,7 +112,6 @@ object LauncherConfig {
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 val jsBrowserMode = true
 var skipArgs = false
-
 var runArgs = mutableListOf<String>()
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Network_Wrapper" to "Java_Sockets", "Jena_Wrapper" to "Off")
@@ -145,6 +144,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetCompilerVersion(LauncherConfig.getConfigValue("--compilerVersion"))
         .ssetEnabledFunc { true }
         .ssetEnabledRunFunc { true }
+.ssetUseKTLint(LauncherConfig.getConfigValue("--useKtLint").toBoolean())
+.ssetUseKover(LauncherConfig.getConfigValue("--useKover").toBoolean())
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, MutableSet<String>>()
@@ -607,6 +608,17 @@ val defaultParams = mutableListOf(
         SuspendMode.Disable.toString(),
         SuspendMode.values().map { it -> it.toString() }, false,
     ),
+ParamClass(
+        "--useKtLint",
+"false",
+       listOf("true","false"), false,
+    ),
+ParamClass(
+        "--useKover",
+"false",
+       listOf("true","false"), false,
+    ),
+
     ParamClass(
         "--compilerVersion",
         "1.6.0",
