@@ -41,7 +41,7 @@ public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
         featureID = features.indexOf(applicationFactory_DatabaseDummyFeature)
     }
 
-    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator): List<IApplicationStack_Actuator> {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator,factories:MutableMap<String, IApplication_Factory>): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
             dbDeviceAddressesStoreList.add(ownAddress)
