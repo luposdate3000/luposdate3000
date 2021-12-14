@@ -25,8 +25,8 @@ import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
-import lupos.shared.network.InetSocketAddress
 import lupos.shared.network.ASocket
+import lupos.shared.network.InetSocketAddress
 import lupos.shared.network.URLDecoder
 
 // import kotlin.system.exitProcess
@@ -77,7 +77,7 @@ public object HttpEndpointLauncher {
             }
             while (true) {
                 var connection: ASocket? = null
-                    connection = server.accept()
+                connection = server.accept()
                 connection!!
                 Parallel.launch {
                     try {
@@ -87,7 +87,7 @@ public object HttpEndpointLauncher {
                             val connectionOutMy = connection.getOutputStream()
                             try {
                                 var line: String? = null
-                                    line = connectionInMy.readLine()
+                                line = connectionInMy.readLine()
                                 var contentLength: Int? = null
                                 var path = ""
                                 var isPost = false

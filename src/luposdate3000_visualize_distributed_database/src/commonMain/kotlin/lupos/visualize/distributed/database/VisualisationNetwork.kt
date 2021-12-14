@@ -24,9 +24,9 @@ import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
 import simora.simulator_iot.ILogger
 import simora.simulator_iot.IPayload
-import simora.simulator_iot.Package_Query
-import simora.simulator_iot.Package_QueryResponse
 import simora.simulator_iot.SimulationRun
+import simora.simulator_iot.applications.scenario.parking.Package_Query
+import simora.simulator_iot.applications.scenario.parking.Package_QueryResponse
 
 public class VisualisationNetwork : ILogger {
     private lateinit var simRun: SimulationRun
@@ -450,7 +450,7 @@ public class VisualisationNetwork : ILogger {
     }
 
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
-        val clock = simRun.sim.clock
+        val clock = simRun.clock
         when (pck) {
             is Package_Luposdate3000_Abstract -> {
                 when (pck.path) {

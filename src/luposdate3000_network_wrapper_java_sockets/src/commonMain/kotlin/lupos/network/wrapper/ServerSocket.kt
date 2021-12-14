@@ -22,6 +22,7 @@ import lupos.shared.network.InetSocketAddress
 
 public expect class ServerSocket : AServerSocket {
     public constructor()
+
     override fun bind(address: InetSocketAddress)
     override fun accept(): ASocket
 }

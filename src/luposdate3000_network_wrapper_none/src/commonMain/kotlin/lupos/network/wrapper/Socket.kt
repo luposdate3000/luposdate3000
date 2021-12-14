@@ -19,8 +19,17 @@ package lupos.network.wrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.network.ASocket
+
 public class Socket(host: String, port: Int) : ASocket(host, port) {
-    override fun getInputStream(): IMyInputStream { TODO() }
-    override fun getOutputStream(): IMyOutputStream { TODO() }
-    override fun close() { TODO() }
+    override fun getInputStream(): IMyInputStream {
+        TODO()
+    }
+
+    override fun getOutputStream(): IMyOutputStream {
+        TODO()
+    }
+
+    override fun close() {
+        TODO()
+    }
 }

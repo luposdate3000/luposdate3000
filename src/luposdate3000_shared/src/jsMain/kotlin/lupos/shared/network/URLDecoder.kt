@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 public actual object URLDecoder {
     public actual fun decode(s: String): String = TODO()
 }

@@ -61,7 +61,7 @@ public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
         featureIDAny = features.indexOf(applicationFactory_Luposdate3000FeatureAny)
     }
 
-    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator,factories:MutableMap<String, IApplication_Factory>): List<IApplicationStack_Actuator> {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator, factories: MutableMap<String, IApplication_Factory>): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
             val databaseQuery = json.getOrDefault("databaseQuery", true)

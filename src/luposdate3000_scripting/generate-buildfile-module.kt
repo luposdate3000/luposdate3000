@@ -26,15 +26,15 @@ import java.nio.file.Paths
 val copySelevtively = false
 
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
-private fun printDependencies(dependencies: Set<String>, out: PrintWriter,config:CreateModuleArgs) {
+private fun printDependencies(dependencies: Set<String>, out: PrintWriter, config: CreateModuleArgs) {
     for (d in dependencies) {
-if(d.startsWith("simora:simora")){
-if(config.useSimoraDev){
-out.println("                implementation(\"$d\")")
-}else{
-out.println("                implementation(\"simora:simora\"){version{branch = \"master\"}}")
-}
-}else        if (d.startsWith("luposdate3000")) {
+        if (d.startsWith("simora:simora")) {
+            if (config.useSimoraDev) {
+                out.println("                implementation(\"$d\")")
+            } else {
+                out.println("                implementation(\"simora:simora\"){version{branch = \"master\"}}")
+            }
+        } else if (d.startsWith("luposdate3000")) {
             var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).lowercase()
             if (t.contains("#")) {
                 t = t.substring(0, t.indexOf("#"))
@@ -119,7 +119,8 @@ class CreateModuleArgs() {
     var disableJSBrowser = false
     var disableJVM = false
     var disableNative = false
-var useSimoraDev=false
+    var useSimoraDev = false
+
     init {
         if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
             platform = "mingw64"
@@ -157,7 +158,7 @@ var useSimoraDev=false
         res.args = args
         res.useKTLint = useKTLint
         res.useKover = useKover
-res.useSimoraDev=useSimoraDev
+        res.useSimoraDev = useSimoraDev
         return res
     }
 
@@ -172,16 +173,19 @@ res.useSimoraDev=useSimoraDev
         res.compilerVersion = compilerVersion
         return res
     }
+
     fun ssetUseKTLint(useKTLint: Boolean): CreateModuleArgs {
         val res = clone()
         res.useKTLint = useKTLint
         return res
     }
+
     fun ssetUseSimoraDev(useSimoraDev: Boolean): CreateModuleArgs {
         val res = clone()
         res.useSimoraDev = useSimoraDev
         return res
     }
+
     fun ssetUseKover(useKover: Boolean): CreateModuleArgs {
         val res = clone()
         res.useKover = useKover
@@ -588,7 +592,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    sourceSets {")
                 out.println("        val commonMain by getting {")
                 out.println("            dependencies {")
-                printDependencies(commonDependencies, out,moduleArgs)
+                printDependencies(commonDependencies, out, moduleArgs)
                 out.println("            }")
                 out.println("        }")
                 out.println("        val commonTest by getting {")
@@ -601,12 +605,12 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJVM) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jvmDependencies, out,moduleArgs)
+                    printDependencies(jvmDependencies, out, moduleArgs)
                     if (moduleArgs.codegenKAPT) {
-                        printDependencies(moduleArgs.dependenciesJvm, out,moduleArgs)
+                        printDependencies(moduleArgs.dependenciesJvm, out, moduleArgs)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        printDependencies(moduleArgs.dependenciesJvm, out,moduleArgs)
+                        printDependencies(moduleArgs.dependenciesJvm, out, moduleArgs)
                         for (dep in moduleArgs.dependenciesJvm) {
                             if (dep.startsWith("luposdate")) {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.lowercase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
@@ -628,14 +632,14 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJS) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jsDependencies, out,moduleArgs)
+                    printDependencies(jsDependencies, out, moduleArgs)
                     out.println("            }")
                     out.println("        }")
                 }
                 if (enableNative) {
                     out.println("        val ${moduleArgs.platform}Main by getting {")
                     out.println("            dependencies {")
-                    printDependencies(nativeDependencies, out,moduleArgs)
+                    printDependencies(nativeDependencies, out, moduleArgs)
                     out.println("            }")
                     out.println("        }")
                 }

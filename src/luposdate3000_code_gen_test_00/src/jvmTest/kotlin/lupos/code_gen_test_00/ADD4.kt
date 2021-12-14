@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
@@ -30,7 +31,6 @@ import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import simora.simulator_core.Simulation
 import simora.simulator_iot.SimulationRun
 import simora.simulator_iot.config.addQuerySender
 import kotlin.test.Test
@@ -1351,6 +1351,7 @@ public class ADD4 {
             "AllShortestPath",
         )
     }
+
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         val config = simRun.parseConfig(
@@ -1361,11 +1362,11 @@ public class ADD4 {
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
             }
         )
-        simRun.sim = Simulation(config.getEntities())
-        simRun.sim.maxClock = if (simRun.simMaxClock == simRun.notInitializedClock) simRun.sim.maxClock else simRun.simMaxClock
-        simRun.sim.steadyClock = if (simRun.simSteadyClock == simRun.notInitializedClock) simRun.sim.steadyClock else simRun.simSteadyClock
-        simRun.sim.startUp()
-        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
+
+        simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock
+        simRun.steadyClock = if (simRun.steadyClock == simRun.notInitializedClock) simRun.steadyClock else simRun.steadyClock
+        simRun.startUp()
+        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         val pkg1 = Package_Luposdate3000_TestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
@@ -1387,8 +1388,8 @@ public class ADD4 {
         val pkg7 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted7++ }, outputGraph[2], instance)
         pkg6.setOnFinish(pkg7)
         config.addQuerySender(10, 1, 1, pkg0)
-        simRun.sim.run()
-        simRun.sim.shutDown()
+        simRun.run()
+        simRun.shutDown()
         if (verifyExecuted2 == 0) {
             fail("pck2 not verified")
         }
@@ -1405,6 +1406,7 @@ public class ADD4 {
             fail("pck7 not verified")
         }
     }
+
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {

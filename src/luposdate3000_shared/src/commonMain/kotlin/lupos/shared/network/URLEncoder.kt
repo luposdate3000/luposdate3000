@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 public expect object URLEncoder {
     public fun encode(s: String): String
 // java.net.URLEncoder

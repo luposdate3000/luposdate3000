@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package simora.simulator_iot.config
-import simora.simulator_iot.IPackage_Database
+
 import simora.simulator_iot.applications.scenario.parking.Application_QuerySender
+import simora.simulator_iot.applications.scenario.parking.IPackage_Database
 
 public fun Configuration.addQuerySender(
     startClockInSec: Int,

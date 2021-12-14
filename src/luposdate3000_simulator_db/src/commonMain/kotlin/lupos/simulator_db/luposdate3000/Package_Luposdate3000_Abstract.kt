@@ -19,7 +19,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import simora.simulator_iot.IPackage_Database
+import simora.simulator_iot.applications.scenario.parking.IPackage_Database
 
 public class Package_Luposdate3000_Abstract(
     public val queryID: Int,

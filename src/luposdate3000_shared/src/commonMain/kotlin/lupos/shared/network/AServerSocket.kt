@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 public abstract class AServerSocket {
     public abstract fun bind(address: InetSocketAddress)
     public abstract fun accept(): ASocket

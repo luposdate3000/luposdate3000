@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 public expect object URLDecoder {
     public fun decode(s: String): String
 // java.net.URLDecoder

@@ -18,7 +18,7 @@
 package lupos.simulator_db.dummyImpl
 
 import lupos.shared.UUID_Counter
-import simora.simulator_iot.IPackage_Database
+import simora.simulator_iot.applications.scenario.parking.IPackage_Database
 
 public class Package_DatabaseDummy_Result(
     public val result: ByteArray, // die Nutzdaten ... zurzeit alles als ein Block, später besser bidirektionales streaming, wobei primär Richtung root-node gesendet wird.

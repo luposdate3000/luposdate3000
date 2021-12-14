@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+
 public abstract class ASocket public constructor(public val host: String, public val port: Int) {
     public abstract fun getInputStream(): IMyInputStream
     public abstract fun getOutputStream(): IMyOutputStream

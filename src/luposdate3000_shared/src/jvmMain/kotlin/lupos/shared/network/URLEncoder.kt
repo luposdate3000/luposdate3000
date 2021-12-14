@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.network
+
 public actual object URLEncoder {
     public actual fun encode(s: String): String = java.net.URLEncoder.encode(s)
 }

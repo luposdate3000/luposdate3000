@@ -21,6 +21,11 @@ import lupos.shared.network.ASocket
 import lupos.shared.network.InetSocketAddress
 
 public class ServerSocket : AServerSocket() {
-    override fun bind(address: InetSocketAddress) { TODO() }
-    override fun accept(): ASocket { TODO() }
+    override fun bind(address: InetSocketAddress) {
+        TODO()
+    }
+
+    override fun accept(): ASocket {
+        TODO()
+    }
 }
