@@ -388,7 +388,7 @@ public class resourcessp2bq2sparql1294 {
 
         simRun.entities = config.getEntities()
         simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock
-        simRun.steadyClock = if (simRun.steadyClock == simRun.notInitializedClock) simRun.steadyClock else simRun.steadyClock
+        
         simRun.startUp()
         val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])

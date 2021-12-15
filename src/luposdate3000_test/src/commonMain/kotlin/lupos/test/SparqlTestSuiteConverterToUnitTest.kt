@@ -550,7 +550,7 @@ without minify mode only the passing tests will be added
         fileBufferSimulator.println("        ")
         fileBufferSimulator.println("        simRun.entities = config.getEntities()")
         fileBufferSimulator.println("        simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock")
-        fileBufferSimulator.println("        simRun.steadyClock = if (simRun.steadyClock == simRun.notInitializedClock) simRun.steadyClock else simRun.steadyClock")
+        fileBufferSimulator.println("        ")
         fileBufferSimulator.println("        simRun.startUp()")
         fileBufferSimulator.println("        val instance = (config.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance")
         fileBufferSimulator.print(str)
