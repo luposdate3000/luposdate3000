@@ -32,7 +32,7 @@ import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGrap
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import simora.simulator_iot.SimulationRun
-import simora.simulator_iot.config.addQuerySender
+import simora.simulator_iot.addQuerySender
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -1374,19 +1374,19 @@ public class CREATESILENTiri {
 
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(
-            fileName, false,
+        simRun.parseConfig(
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
             }
         )
 
-        simRun.entities = config.getEntities()
         simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock
-        
+
         simRun.startUp()
-        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
         val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
@@ -1396,7 +1396,7 @@ public class CREATESILENTiri {
         var verifyExecuted3 = 0
         val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted3++ }, outputGraph[0], instance)
         pkg2.setOnFinish(pkg3)
-        config.addQuerySender(10, 1, 1, pkg0)
+        simRun.addQuerySender(10, 1, 1, pkg0)
         simRun.run()
         simRun.shutDown()
         if (verifyExecuted1 == 0) {

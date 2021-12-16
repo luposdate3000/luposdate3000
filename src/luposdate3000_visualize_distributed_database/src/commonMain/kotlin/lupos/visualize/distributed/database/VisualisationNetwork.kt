@@ -38,7 +38,7 @@ public class VisualisationNetwork : ILogger {
     private val devices = mutableSetOf<VisualisationDevice>() // alle beteiligten Computer
     private val connectionsInRouting = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
     private val connections = mutableSetOf<VisualisationConnection>() // alle genutzten Verbindungen
-    private var connectionTable = IntArray(0) // src*simRun.config.devices.size+dest -> nexthop
+    private var connectionTable = IntArray(0) // src*simRun.devices.size+dest -> nexthop
     private val messages = mutableListOf<VisualisationMessage>() // alle gesendeten Nachrichten
     private val graph_index_to_key = mutableMapOf<String, MutableSet<String>>() // DB welche keys gehören zusammen zu einem Graphen
     private val device_to_key = mutableMapOf<Int, MutableSet<String>>() // //DB welcher key ist wo gespeichert
@@ -65,7 +65,7 @@ public class VisualisationNetwork : ILogger {
         var s = src
         while (s != dest) {
             tmp.add(s)
-            val idx = s * simRun.config.devices.size + dest
+            val idx = s * simRun.devices.size + dest
             if (idx >= connectionTable.size) {
                 break
             }
@@ -283,7 +283,7 @@ public class VisualisationNetwork : ILogger {
         } else {
             "visual-overview-${queryNumber.toString().padStart(4, '0')}.svg"
         }
-        File(simRun.config.outputDirectory + name).withOutputStream { out ->
+        File(simRun.outputDirectory + name).withOutputStream { out ->
             out.println(imgOverview.toString())
         }
         return true
@@ -329,17 +329,17 @@ public class VisualisationNetwork : ILogger {
     }
 
     private fun toImage(): String {
-        File(simRun.config.outputDirectory).mkdirs()
+        File(simRun.outputDirectory).mkdirs()
         val imageHelperBase = toBaseImage()
         val imageHelperBaseDB = toBaseImageDB()
 // ---->>>> save it as file
-        File(simRun.config.outputDirectory + "visual.svg").withOutputStream { out ->
+        File(simRun.outputDirectory + "visual.svg").withOutputStream { out ->
             out.println(imageHelperBase.toString())
         }
-        File(simRun.config.outputDirectory + "visual-db.svg").withOutputStream { out ->
+        File(simRun.outputDirectory + "visual-db.svg").withOutputStream { out ->
             out.println(imageHelperBaseDB.toString())
         }
-        File(simRun.config.outputDirectory + "visual-db-storage.svg").withOutputStream { out ->
+        File(simRun.outputDirectory + "visual-db-storage.svg").withOutputStream { out ->
             out.println(saveDBStorageLocations(imageHelperBaseDB).toString())
         }
         var flag = true
@@ -417,12 +417,12 @@ public class VisualisationNetwork : ILogger {
     }
 
     override fun addDevice(address: Int, x: Double, y: Double) {
-        val device = simRun.config.devices[address]
+        val device = simRun.devices[address]
         val d = VisualisationDevice(
             address,
-            simRun.config.hasFeature(device, simRun.config.featureIdForName2("DatabaseStore")),
-            simRun.config.hasFeature(device, simRun.config.featureIdForName2("DatabaseQuery")),
-            simRun.config.hasFeature(device, simRun.config.featureIdForName2("Sensor")),
+            simRun.hasFeature(device, simRun.featureIdForName2("DatabaseStore")),
+            simRun.hasFeature(device, simRun.featureIdForName2("DatabaseQuery")),
+            simRun.hasFeature(device, simRun.featureIdForName2("Sensor")),
         )
         d.x = x
         d.y = y
@@ -435,11 +435,11 @@ public class VisualisationNetwork : ILogger {
 
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
         if (src != dest) {
-            val idx = src * simRun.config.devices.size + dest
-            val size = simRun.config.devices.size * simRun.config.devices.size
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:439"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > src })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:440"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > dest })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:441"/*SOURCE_FILE_END*/ }, { simRun.config.devices.size > hop })
+            val idx = src * simRun.devices.size + dest
+            val size = simRun.devices.size * simRun.devices.size
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:439"/*SOURCE_FILE_END*/ }, { simRun.devices.size > src })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:440"/*SOURCE_FILE_END*/ }, { simRun.devices.size > dest })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:441"/*SOURCE_FILE_END*/ }, { simRun.devices.size > hop })
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/VisualisationNetwork.kt:442"/*SOURCE_FILE_END*/ }, { src != hop })
             if (connectionTable.size < size) {
                 connectionTable = IntArray(size) { -1 }
@@ -496,7 +496,7 @@ public class VisualisationNetwork : ILogger {
     }
 
     override fun onStopSimulation() {
-        for (device in simRun.config.devices) {
+        for (device in simRun.devices) {
             val src = device.address
             for (dest in device.linkManager.getNeighbours()) {
                 connections.add(VisualisationConnection(src, dest))

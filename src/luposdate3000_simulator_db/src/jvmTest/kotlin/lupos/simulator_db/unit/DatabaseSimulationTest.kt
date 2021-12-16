@@ -35,10 +35,10 @@ class DatabaseSimulationTest {
     @Test
     fun saveParkingSamplesInDummyTripleStore() {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig("$prefix/saveParkingSamplesInDummyTripleStore.json")
-        config.getDeviceByName("G")
+        simRun.parseConfig("$prefix/saveParkingSamplesInDummyTripleStore.json")
+        simRun.getDeviceByName("G")
 
         simRun.maxClock = 100000000
-        simRun.startSimulation(config)
+        simRun.startSimulation()
     }
 }

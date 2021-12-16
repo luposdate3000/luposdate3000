@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package simora.simulator_iot.config
+package simora.simulator_iot
 
 import simora.simulator_iot.applications.scenario.parking.Application_QuerySender
 import simora.simulator_iot.applications.scenario.parking.IPackage_Database
 
-public fun Configuration.addQuerySender(
+public fun SimulationRun.addQuerySender(
     startClockInSec: Int,
     sendRateInSec: Int,
     maxNumberOfQueries: Int,
@@ -31,7 +31,7 @@ public fun Configuration.addQuerySender(
     device.applicationStack.addChildApplication(sender)
 }
 
-public fun Configuration.addQuerySender(
+public fun SimulationRun.addQuerySender(
     startClockInSec: Int,
     sendRateInSec: Int,
     maxNumberOfQueries: Int,

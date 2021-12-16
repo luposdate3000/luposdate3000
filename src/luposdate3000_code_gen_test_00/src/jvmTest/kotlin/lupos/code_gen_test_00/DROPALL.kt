@@ -31,7 +31,7 @@ import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
 import simora.simulator_iot.SimulationRun
-import simora.simulator_iot.config.addQuerySender
+import simora.simulator_iot.addQuerySender
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -1370,19 +1370,19 @@ public class DROPALL {
 
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        val config = simRun.parseConfig(
-            fileName, false,
+        simRun.parseConfig(
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
             }
         )
 
-        simRun.entities = config.getEntities()
         simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock
-        
+
         simRun.startUp()
-        val instance = (config.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         val pkg1 = Package_Luposdate3000_TestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
@@ -1397,7 +1397,7 @@ public class DROPALL {
         var verifyExecuted5 = 0
         val pkg5 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
         pkg4.setOnFinish(pkg5)
-        config.addQuerySender(10, 1, 1, pkg0)
+        simRun.addQuerySender(10, 1, 1, pkg0)
         simRun.run()
         simRun.shutDown()
         if (verifyExecuted3 == 0) {
