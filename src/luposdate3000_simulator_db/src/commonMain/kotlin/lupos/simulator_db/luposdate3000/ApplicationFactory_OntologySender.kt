@@ -20,14 +20,14 @@ package lupos.simulator_db.luposdate3000
 import simora.parser.IJsonParserValue
 import simora.parser.JsonParserObject
 import simora.ILogger
-import simora.RandomGenerator
+import kotlin.random.Random
 import simora.applications.IApplicationFeature
 import simora.applications.IApplicationStack_Actuator
 import simora.applications.IApplication_Factory
 
 public class ApplicationFactory_OntologySender : IApplication_Factory {
     override fun registerFeatures(features: MutableList<IApplicationFeature>) {}
-    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: RandomGenerator, factories: MutableMap<String, IApplication_Factory>): List<IApplicationStack_Actuator> {
+    override fun create(json: IJsonParserValue, ownAddress: Int, logger: ILogger, outputDirectory: String, random: Random, factories: MutableMap<String, IApplication_Factory>): List<IApplicationStack_Actuator> {
         json as JsonParserObject
         if (json.getOrDefault("enabled", true)) {
             return listOf(

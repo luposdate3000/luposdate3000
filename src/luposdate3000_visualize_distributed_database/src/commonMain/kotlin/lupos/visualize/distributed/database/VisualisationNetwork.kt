@@ -498,7 +498,7 @@ public class VisualisationNetwork : ILogger {
     override fun onStopSimulation() {
         for (device in simRun.devices) {
             val src = device.address
-            for (dest in device.linkManager.getNeighbours()) {
+            for (dest in simRun.linkManager.getNeighbours(src)) {
                 connections.add(VisualisationConnection(src, dest))
             }
         }
