@@ -1,6 +1,6 @@
 {
     "applications": {
-        "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSA": {},
+        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSA": {},
     },
     "deterministic": true,
     "deviceType": {

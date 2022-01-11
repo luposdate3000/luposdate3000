@@ -17,7 +17,7 @@
 
 package lupos.simulator_db.unit
 
-import simora.simulator_iot.SimulationRun
+import simora.SimulationRun
 import kotlin.test.Test
 
 class DatabaseSimulationTest {

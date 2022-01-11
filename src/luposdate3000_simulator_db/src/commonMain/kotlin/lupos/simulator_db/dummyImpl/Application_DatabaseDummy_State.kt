@@ -17,7 +17,7 @@
 
 package lupos.simulator_db.dummyImpl
 
-import simora.simulator_iot.ILogger
+import simora.ILogger
 
 public class Application_DatabaseDummy_State(
     public val logger: ILogger,

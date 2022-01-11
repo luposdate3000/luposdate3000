@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package simora.simulator_iot
+package simora
 
-import simora.simulator_iot.applications.scenario.parking.Application_QuerySender
-import simora.simulator_iot.applications.scenario.parking.IPackage_Database
+import simora.applications.scenario.parking.Application_QuerySender
+import simora.applications.scenario.parking.IPackage_Database
 
 public fun SimulationRun.addQuerySender(
     startClockInSec: Int,

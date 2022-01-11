@@ -19,7 +19,7 @@ package lupos.simulator_db.luposdate3000
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import simora.simulator_iot.applications.scenario.parking.IPackage_Database
+import simora.applications.scenario.parking.IPackage_Database
 
 internal class PendingWork(
     val queryID: Int,

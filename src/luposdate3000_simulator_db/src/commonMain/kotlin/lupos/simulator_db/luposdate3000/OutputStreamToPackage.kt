@@ -21,7 +21,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import simora.simulator_iot.applications.IApplicationStack_Middleware
+import simora.applications.IApplicationStack_Middleware
 
 // import kotlin.io.println as kotlinprintln
 internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware) : IMyOutputStream {

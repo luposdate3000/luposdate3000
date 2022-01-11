@@ -5,7 +5,7 @@
         "DataStore": {
             "applications": {
                 "lupos.simulator_db.dummyImpl.ApplicationFactory_DatabaseDummy": {},
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
+                "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
             },
             "performance": 120.0,
             "supportedLinkTypes": [],
@@ -17,7 +17,7 @@
         },
         "SensorDevice": {
             "applications": {
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
+                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "area": 1,
                     "dataSink": "A",
                     "maxSamples": 6,
@@ -99,10 +99,10 @@
         "lupos.visualize.distributed.database.VisualisationNetwork": {
             "enabled": false,
         },
-        "simora.simulator_iot.LoggerMeasure": {
+        "simora.LoggerMeasure": {
             "enabled": false,
         },
-        "simora.simulator_iot.LoggerStdout": {
+        "simora.LoggerStdout": {
             "enabled": false,
         },
     },

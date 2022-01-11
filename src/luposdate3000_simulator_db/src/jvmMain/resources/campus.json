@@ -1,6 +1,6 @@
 {
     "applications": {
-        "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
+        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
     },
     "deterministic": true,
     "deviceType": {
@@ -35,7 +35,7 @@
         },
         "Sensor Device": {
             "applications": {
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
+                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "maxSamples": 5,
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,

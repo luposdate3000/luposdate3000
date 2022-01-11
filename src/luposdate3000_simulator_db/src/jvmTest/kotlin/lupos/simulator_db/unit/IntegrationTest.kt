@@ -18,7 +18,7 @@
 package lupos.simulator_db.unit
 
 import lupos.test.SparqlTestSuiteConverterToUnitTest
-import simora.simulator_iot.Evaluation
+import simora.Evaluation
 import kotlin.test.Test
 
 class IntegrationTest {

@@ -17,11 +17,11 @@
 package lupos.simulator_db.luposdate3000
 
 import lupos.shared.inline.File
-import simora.simulator_core.ITimer
-import simora.simulator_iot.IPayload
-import simora.simulator_iot.applications.IApplicationStack_Actuator
-import simora.simulator_iot.applications.IApplicationStack_Middleware
-import simora.simulator_iot.applications.scenario.parking.IPackage_Database
+import simora.ITimer
+import simora.IPayload
+import simora.applications.IApplicationStack_Actuator
+import simora.applications.IApplicationStack_Middleware
+import simora.applications.scenario.parking.IPackage_Database
 
 public class Application_OntologySender(
     internal val startClockInSec: Int,

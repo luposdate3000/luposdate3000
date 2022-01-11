@@ -22,11 +22,11 @@ import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Operatorgraph
-import simora.simulator_iot.ILogger
-import simora.simulator_iot.IPayload
-import simora.simulator_iot.SimulationRun
-import simora.simulator_iot.applications.scenario.parking.Package_Query
-import simora.simulator_iot.applications.scenario.parking.Package_QueryResponse
+import simora.ILogger
+import simora.IPayload
+import simora.SimulationRun
+import simora.applications.scenario.parking.Package_Query
+import simora.applications.scenario.parking.Package_QueryResponse
 
 public class VisualisationNetwork : ILogger {
     private lateinit var simRun: SimulationRun

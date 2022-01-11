@@ -17,7 +17,7 @@
 package lupos.launch.simulator.config
 
 import lupos.shared.Parallel
-import simora.simulator_iot.Evaluation
+import simora.Evaluation
 
 internal fun mainFunc(fileNames: List<String>): Unit = Parallel.runBlocking {
     Evaluation().evalConfigFileMerge(fileNames)

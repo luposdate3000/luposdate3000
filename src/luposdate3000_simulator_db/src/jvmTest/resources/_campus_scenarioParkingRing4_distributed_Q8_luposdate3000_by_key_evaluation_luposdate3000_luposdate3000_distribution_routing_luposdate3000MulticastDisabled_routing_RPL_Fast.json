@@ -11,7 +11,7 @@
             "queryDistributionMode": "Routing",
             "useDictionaryInlineEncoding": true,
         },
-        "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
+        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {},
     },
     "deterministic": true,
     "deviceType": {
@@ -27,7 +27,7 @@
                     "fileName": "../luposdate3000_simulator_db/src/jvmMain/resources/ontology.n3",
                     "sendStartClockInSec": 10,
                 },
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_QuerySender": [
+                "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
                     {
                         "maxNumberOfQueries": 1,
                         "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\n\nSELECT (count(?spot) as ?numberOfFreeSpaces)\nWHERE {\n  ?o a parking:Observation;\n  parking:spotInArea ?spot;\n  parking:area 9;\n  parking:isOccupied \"false\"^^xsd:boolean;\n  parking:resultTime ?lastObservedAt.\n  {\n    SELECT(MAX(?d) AS ?lastObservedAt) ?spot WHERE{\n      ?o2 a parking:Observation;\n      parking:spotInArea ?spot;\n      parking:area 9;\n      parking:resultTime ?d.\n    }\n    GROUP BY ?spot\n  }\n}",
@@ -65,7 +65,7 @@
         },
         "Sensor Device": {
             "applications": {
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
+                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "maxSamples": 5,
                     "rateInSec": 60,
                     "sendStartClockInSec": 15,
@@ -119,10 +119,10 @@
         "lupos.visualize.distributed.database.VisualisationNetwork": {
             "enabled": false,
         },
-        "simora.simulator_iot.LoggerMeasure": {
+        "simora.LoggerMeasure": {
             "enabled": false,
         },
-        "simora.simulator_iot.LoggerStdout": {
+        "simora.LoggerStdout": {
             "enabled": false,
         },
     },

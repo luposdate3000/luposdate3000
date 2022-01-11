@@ -20,7 +20,7 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
-import simora.simulator_iot.applications.scenario.parking.IPackage_DatabaseTesting
+import simora.applications.scenario.parking.IPackage_DatabaseTesting
 
 public class Package_Luposdate3000_TestingCompareGraphPackage(
     public val query: String,

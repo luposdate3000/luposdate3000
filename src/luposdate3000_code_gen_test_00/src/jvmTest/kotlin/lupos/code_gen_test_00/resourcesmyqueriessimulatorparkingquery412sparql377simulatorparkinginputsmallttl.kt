@@ -30,8 +30,8 @@ import lupos.shared.inline.MyPrintWriter
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import simora.simulator_iot.SimulationRun
-import simora.simulator_iot.addQuerySender
+import simora.SimulationRun
+import simora.addQuerySender
 import kotlin.test.Test
 import kotlin.test.fail
 

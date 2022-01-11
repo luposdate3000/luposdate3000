@@ -14,7 +14,7 @@
                     "type": "simora.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000",
                     "useDictionaryInlineEncoding": true
                 },
-                "simora.simulator_iot.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {                }
+                "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSample": {                }
             },
             "performance": 100.0,
             "supportedLinkTypes": [
@@ -37,10 +37,10 @@
         }
     },
     "logging": {
-        "simora.simulator_iot.LoggerMeasure": {
+        "simora.LoggerMeasure": {
             "enabled": false
         },
-        "simora.simulator_iot.LoggerStdout": {
+        "simora.LoggerStdout": {
             "enabled": false
         },
         "lupos.visualize.distributed.database.VisualisationNetwork": {
