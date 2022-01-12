@@ -57,96 +57,6 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
         return res
     }
 
-    private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
-        val res = mutableListOf<MutableList<IOPBase>>()
-        val cacheProvidedVariableNames = nodes.map { it.getProvidedVariableNames().toSet().toList() }
-        val cachePossibleSortPriorities = nodes.map { it.getPossibleSortPriorities() }
-        val allVariables = cacheProvidedVariableNames.flatten().toSet().toList()
-        val cachePossibleSortPrioritiesIdx = cachePossibleSortPriorities.map { it ->
-            val x = it.map { it2 ->
-                val f = it2.first()
-                if (f.sortType == ESortTypeExt.FAST) {
-                    allVariables.indexOf(f.variableName)
-                } else {
-                    -1
-                }
-            }.toMutableSet()
-            x.remove(-1)
-            x
-        }
-
-        var remainingNodes = IntArray(nodes.size) { it }.toMutableList()
-        while (remainingNodes.size > 0) {
-            val allVariablesSortCounters = IntArray(allVariables.size)
-            for (i in remainingNodes) {
-                for (j in cachePossibleSortPrioritiesIdx[i]) {
-                    allVariablesSortCounters[j]++
-                }
-            }
-            var max = 0
-            var maxIdx = 0
-            for (i in 0 until allVariables.size) {
-                if (allVariablesSortCounters[i] >= max) {
-                    max = allVariablesSortCounters[i]
-                    maxIdx = i
-                }
-            }
-            val current = mutableListOf<IOPBase>()
-            var groupIds = mutableSetOf<Int>()
-            for (i in remainingNodes.toList()) {
-                if (cachePossibleSortPrioritiesIdx[i].contains(maxIdx)) {
-                    val node = nodes[i]
-                    node.selectSortPriority(listOf(SortHelper(allVariables[maxIdx], ESortTypeExt.FAST)))
-                    groupIds.add(i)
-                    remainingNodes.remove(i)
-                    current.add(node)
-                }
-            }
-            if (groupIds.size == 0) {
-                val i = remainingNodes.first()
-                val node = nodes[i]
-                groupIds.add(i)
-                remainingNodes.remove(i)
-                current.add(node)
-            }
-            res.add(current)
-        }
-        return res
-    }
-
-    /*suspend*/ private fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
-        when {
-            nodes.size > 2 -> {
-                var result = LogicalOptimizerJoinOrderStore(nodes, root)
-                if (result != null) {
-                    return result
-                }
-                result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-                if (result != null) {
-                    return result
-                }
-                result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
-                if (result != null) {
-                    return result
-                }
-                SanityCheck.checkUnreachable()
-            }
-            nodes.size == 2 -> {
-                val res = LOPJoin(root.query, nodes[0], nodes[1], false)
-                res.onlyExistenceRequired = root.onlyExistenceRequired
-                return res
-            }
-            else -> {
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:140"/*SOURCE_FILE_END*/ },
-                    { nodes.size == 1 }
-                )
-                return nodes[0]
-            }
-        }
-/*Coverage Unreachable*/
-    }
-
     /*suspend*/ private fun buildJoinOrder(nodes: List<IOPBase>, root: LOPJoin, joinOrder: Int): IOPBase {
         when {
             nodes.size > 2 -> {
@@ -181,12 +91,6 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
                 if (allChilds2.size > 2) {
                     var result: IOPBase? = null
                     if (result == null) {
-//                        val allChilds3 = clusterizeChildren(allChilds2)
-//                        val allChilds4 = mutableListOf<IOPBase>()
-//                        for (child in allChilds3) {
-//                            allChilds4.add(applyOptimisation(child, node))
-//                        }
-//                        result = applyOptimisation(allChilds4, node)
                         result = buildJoinOrder(allChilds2, node, joinOrder)
                     }
                     if (result != res) {

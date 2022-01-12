@@ -23,7 +23,7 @@ import lupos.shared.operator.IOPBase
 public object LogicalOptimizerBuildCustomJoinOrderML {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int): IOPBase? {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:25"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/home/shubhadip/lupos/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:25"/*SOURCE_FILE_END*/ },
             {
                 allChilds.isNotEmpty()
             }
@@ -33,40 +33,153 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
         nodes.addAll(allChilds)
 
         when (joinOrder) {
-            // Join Pattern: 01 - 2
-            0 -> {
-                val b = nodes.removeAt(1)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                nodes.add(e)
-                return nodes[0]
-            }
-            // Join Pattern: 02 - 1
-            1 -> {
-                val b = nodes.removeAt(2)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                nodes.add(e)
-                return nodes[0]
-            }
-            // Join Pattern: 12 - 0
-            2 -> {
-                val b = nodes.removeAt(2)
-                val a = nodes.removeAt(1)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                nodes.add(e)
-                return nodes[0]
-            }
-
-            else -> return null
-        }
-
+             0 -> {
+                 val b = nodes.removeAt(1)
+                 val a = nodes.removeAt(0)
+                 val c = LOPJoin(root.query, a, b, false)
+                 val d = nodes.removeAt(0)
+                 val e = LOPJoin(root.query, c, d, false)
+                 val f = nodes.removeAt(0)
+                 val g = LOPJoin(root.query, e, f, false)
+                 nodes.add(g)
+                 return nodes[0]
+             }
+             
+             1 -> {
+                    val b = nodes.removeAt(2)
+                    val a = nodes.removeAt(0)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             2 -> {
+                    val b = nodes.removeAt(2)
+                    val a = nodes.removeAt(1)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             3 -> {
+                    val b = nodes.removeAt(3)
+                    val a = nodes.removeAt(0)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             4 -> {
+                    val b = nodes.removeAt(3)
+                    val a = nodes.removeAt(1)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             5 -> {
+                    val b = nodes.removeAt(3)
+                    val a = nodes.removeAt(2)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             6 -> {
+                    val b = nodes.removeAt(4)
+                    val a = nodes.removeAt(0)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             7 -> {
+                    val b = nodes.removeAt(4)
+                    val a = nodes.removeAt(1)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             8 -> {
+                    val b = nodes.removeAt(4)
+                    val a = nodes.removeAt(2)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             9 -> {
+                    val b = nodes.removeAt(4)
+                    val a = nodes.removeAt(3)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             10 -> {
+                    val b = nodes.removeAt(5)
+                    val a = nodes.removeAt(0)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             11 -> {
+                    val b = nodes.removeAt(5)
+                    val a = nodes.removeAt(1)
+                    val c = LOPJoin(root.query, a, b, false)
+                    val d = nodes.removeAt(0)
+                    val e = LOPJoin(root.query, c, d, false)
+                    val f = nodes.removeAt(0)
+                    val g = LOPJoin(root.query, e, f, false)
+                    nodes.add(g)
+                    return nodes[0]
+                }
+                
+             else -> return null
+         }        
+             
 //            loop2@ while (nodes.size > 1) {
 //                for (i in 0 until nodes.size) {
 //                    for (j in i + 1 until nodes.size) {
