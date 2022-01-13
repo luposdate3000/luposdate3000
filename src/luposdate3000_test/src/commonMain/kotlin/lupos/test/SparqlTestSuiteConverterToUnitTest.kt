@@ -548,7 +548,7 @@ without minify mode only the passing tests will be added
         fileBufferSimulator.println("            it.getOrEmptyObject(\"routing\").putAll(mapOf(\"protocol\" to routingProtocol))")
         fileBufferSimulator.println("        })")
         fileBufferSimulator.println("        ")
-        fileBufferSimulator.println("        simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock")
+        fileBufferSimulator.println("        ")
         fileBufferSimulator.println("        ")
         fileBufferSimulator.println("        simRun.startUp()")
         fileBufferSimulator.println("        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance")

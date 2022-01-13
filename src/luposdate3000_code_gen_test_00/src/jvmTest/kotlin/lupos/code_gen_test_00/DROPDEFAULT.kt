@@ -1396,7 +1396,7 @@ public class DROPDEFAULT {
             }
         )
 
-        simRun.maxClock = if (simRun.maxClock == simRun.notInitializedClock) simRun.maxClock else simRun.maxClock
+        
 
         simRun.startUp()
         val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
