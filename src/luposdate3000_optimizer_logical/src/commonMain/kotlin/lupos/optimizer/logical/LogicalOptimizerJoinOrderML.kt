@@ -73,7 +73,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
             }
             else -> {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:165"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:75"/*SOURCE_FILE_END*/ },
                     { nodes.size == 1 }
                 )
                 return nodes[0]
