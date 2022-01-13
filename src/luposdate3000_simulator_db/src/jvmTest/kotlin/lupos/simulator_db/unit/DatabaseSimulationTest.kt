@@ -38,7 +38,6 @@ class DatabaseSimulationTest {
         simRun.parseConfig("$prefix/saveParkingSamplesInDummyTripleStore.json")
         simRun.getDeviceByName("G")
 
-        simRun.maxClock = 100000000
         simRun.startSimulation()
     }
 }
