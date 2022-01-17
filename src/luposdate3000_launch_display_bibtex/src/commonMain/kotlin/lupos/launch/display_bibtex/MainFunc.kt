@@ -25,6 +25,7 @@ import lupos.shared.inline.DictionaryHelper
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+var errors=mutableListOf<String>()
     val instance = LuposdateEndpoint.initialize()
     LuposdateEndpoint.importTripleFile(instance, inputFileName)
     var node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, "SELECT ?s ?p ?o WHERE { ?s ?p ?o . }", false)
@@ -52,11 +53,20 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 vals = mutableMapOf()
                 values[vs] = vals
             }
+if(vp.startsWith("<bibtex_")&&vals[vp]!=null){
+errors.add("$vs $vp .. ${vals[vp]} <-> $vo")
+}
             vals[vp] = vo
         } else {
             break
         }
     }
+for(e in errors){
+println(e)
+}
+if(errors.size>0){
+TODO()
+}
     println(values)
     println("bibtex :: ")
     for ((s, vals) in values) {
@@ -64,6 +74,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             if (vals["<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"] == "<bibtex_entry>") {
                 vals.remove("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")
                 vals.remove("<comment_tag>")
+vals.remove("<bibtex_timestamp>")
+vals.remove("<bibtex_abstract>")
                 val type = extractIri(vals["<bibtex_type>"])!!
                 val label = extractIri(s)
                 println("@$type{$label,")
@@ -98,6 +110,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                         "organization" to "<bibtex_organization>",
                         "series" to "<bibtex_series>",
                         "urn" to "<bibtex_urn>",
+"bibsource" to "<bibtex_bibsource>",
+"biburl" to "<bibtex_biburl>",
+"institution" to "<bibtex_institution>",
                     )
                 ) {
                     val item = extractString(vals[second])
