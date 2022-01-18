@@ -32,7 +32,6 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public class QueryResultToMemoryTable : IResultFormat {
-    private val testingVerbose = false
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
@@ -46,93 +45,6 @@ public class QueryResultToMemoryTable : IResultFormat {
                 }
                 rowBuf[variableIndex] = valueID
             }
-
-            if (testingVerbose) {
-                val buffer = ByteArrayWrapper()
-                for (variableIndex in variables.indices) {
-                    dictionary.getValue(buffer, rowBuf[variableIndex])
-                    print("valueID :{ ${rowBuf[variableIndex]}}")
-                    DictionaryHelper.byteArrayToCallback(
-                        buffer,
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <bnode>")
-                            print(value.toString())
-                            print("</bnode>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal>")
-                            print(value.toString())
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { content, lang ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal xml:lang=\"")
-                            print(lang)
-                            print("\">")
-                            print(content)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { content ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal>")
-                            print(content)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { content, type ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal datatype=\"")
-                            print(type)
-                            print("\">")
-                            print(content)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
-                            print(value)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
-                            print(value)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
-                            print(value)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
-                            print(value)
-                            print("</literal>\n   </binding>\n")
-                        },
-                        { value ->
-                            print("   <binding name=\"")
-                            print(variables[variableIndex])
-                            print("\">\n    <uri>")
-                            print(value)
-                            print("</uri>\n   </binding>\n")
-                        },
-                        {}, {}
-                    )
-                }
-            }
-
             lock?.lock()
             output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
             lock?.unlock()
@@ -169,7 +81,7 @@ public class QueryResultToMemoryTable : IResultFormat {
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:171"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToMemoryTable.kt:83"/*SOURCE_FILE_END*/ },
                     { child.names.toSet().containsAll(columnNames) },
                     { "${columnNames.map { it }} vs ${child.names.toList()}" }
                 )

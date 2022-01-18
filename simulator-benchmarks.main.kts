@@ -22,7 +22,7 @@ import java.lang.ProcessBuilder.Redirect
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
 
-var useSOSA = false
+var ontologyVersion=2 // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
 
 inline fun execute(args: List<String>): List<String> {
     println(args.joinToString(" "))
@@ -44,13 +44,16 @@ val BASE_PATH = "src/luposdate3000_simulator_db/src/jvmMain/resources"
 val json_evaluation = "$BASE_PATH/evaluation.json"
 val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
-val campusList = if (useSOSA) {
-    listOf(
+val campusList = when (ontologyVersion) {
+2->    listOf(
+        "campusSOSANoSamplesInternalID.json",
+        "campusSOSAInternalID.json",
+    )
+1->    listOf(
         "campusSOSANoSamples.json",
         "campusSOSA.json",
     )
-} else {
-    listOf(
+0->     listOf(
         "campusNoSamples.json",
         "campus.json",
     )
@@ -60,10 +63,10 @@ val routingList = listOf(
     "routing_AllShortestPath.json",
 )
 val queryList = List(9) {
-    if (useSOSA) {
-        "Q_SOSA_$it.json"
-    } else {
-        "Q$it.json"
+    when (ontologyVersion) {
+   2->     "Q_SOSA_$it.json"
+   1->     "Q_SOSA_$it.json"
+0->        "Q$it.json"
     }
 }
 val databaseTopologyList = listOf(
