@@ -57,6 +57,7 @@ val campusList = when (ontologyVersion) {
         "campusNoSamples.json",
         "campus.json",
     )
+else->TODO()
 }
 val routingList = listOf(
     "routing_RPL_Fast.json",
@@ -67,6 +68,7 @@ val queryList = List(9) {
    2->     "Q_SOSA_$it.json"
    1->     "Q_SOSA_$it.json"
 0->        "Q$it.json"
+else->TODO()
     }
 }
 val databaseTopologyList = listOf(
