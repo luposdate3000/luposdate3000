@@ -19,7 +19,6 @@ package lupos.endpoint
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
-import lupos.shared.inline.MyStringStream
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
@@ -31,6 +30,7 @@ import lupos.parser.InputToIntermediate
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
@@ -350,19 +350,14 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
-println("##############################################################1")
-println(query)
-println("##############################################################2")
-            val parser = SPARQLParser(MyStringStream(query))
+            val lcit = LexerCharIterator(query)
+            val tit = TokenIteratorSPARQLParser(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val parser = SPARQLParser(ltit)
             val astNode = parser.expr()
-println(astNode)
-println("##############################################################3")
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(q))
-println(lopNode)
-println("##############################################################4")
-
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
@@ -409,7 +404,10 @@ println("##############################################################4")
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
-        val parser = SPARQLParser(MyStringStream(query))
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }

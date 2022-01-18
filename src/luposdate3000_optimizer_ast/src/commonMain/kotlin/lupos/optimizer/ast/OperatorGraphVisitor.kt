@@ -47,7 +47,7 @@ import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
-public class OperatorGraphVisitor(@JvmField public val query: Query) : SPARQLParser.Visitor<IOPBase> {
+public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {
     @JvmField
     public val queryExecutionStartTime: ByteArrayWrapper = ByteArrayWrapper()
 

@@ -52,11 +52,11 @@ public abstract class ASTNode(@JvmField public val children: Array<ASTNode>) {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun <T> getChildrensValues(visitor: SPARQLParser.Visitor<T>): List<T> {
+    internal inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
         return List(children.size) { children[it].visit(visitor) }
     }
 
-    public open fun <T> visit(visitor: SPARQLParser.Visitor<T>): T {
+    public open fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
