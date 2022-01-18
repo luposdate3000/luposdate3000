@@ -15,7 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.ast
-
+import lupos.parser.sparql1_1.*
+import lupos.parser.sparql1_1.SPARQLParser.*
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.*
@@ -46,7 +47,7 @@ import lupos.shared.inline.File
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
-public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {
+public class OperatorGraphVisitor(@JvmField public val query: Query) : SPARQLParser.Visitor<IOPBase> {
     @JvmField
     public val queryExecutionStartTime: ByteArrayWrapper = ByteArrayWrapper()
 
@@ -789,7 +790,7 @@ return tmp
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:791"/*SOURCE_FILE_END*/ }, { childrenValues.size == 3 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:792"/*SOURCE_FILE_END*/ }, { childrenValues.size == 3 })
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, TripleStoreManager.DEFAULT_GRAPH_NAME, false)
     }
 
@@ -807,7 +808,7 @@ return tmp
     }
 
     override fun visit(node: ASTOr, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:809"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:810"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -820,7 +821,7 @@ return tmp
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:822"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:823"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -833,47 +834,47 @@ return tmp
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:835"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:836"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:840"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:841"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:845"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:846"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:850"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:851"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:855"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:856"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:860"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:861"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:865"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:866"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:870"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:871"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:875"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:876"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -886,7 +887,7 @@ return tmp
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:888"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:889"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
@@ -900,7 +901,7 @@ return tmp
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:902"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:903"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
             res = if (res == null) {
@@ -913,7 +914,7 @@ return tmp
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:915"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:916"/*SOURCE_FILE_END*/ }, { childrenValues.size > 1 })
         var res: AOPBase? = null
         for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
@@ -927,22 +928,22 @@ return tmp
     }
 
     override fun visit(node: ASTNot, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:929"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:930"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
         return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:934"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:935"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:939"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:940"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:944"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:945"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
@@ -952,7 +953,7 @@ return tmp
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:954"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:955"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         return AOPVariable(query, query.getUniqueVariableName(node.name))
 // blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }
@@ -960,31 +961,31 @@ return tmp
     override fun visit(node: ASTBuiltInCall, childrenValues: List<IOPBase>): IOPBase {
         when (node.function) {
             BuiltInFunctionsExt.STR -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:962"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:963"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LANG -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:966"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:967"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LANGMATCHES -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:970"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:971"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.DATATYPE -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:974"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:975"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.BOUND -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:978"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:979"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.IRI -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:982"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:983"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase, "")
             }
             BuiltInFunctionsExt.URI -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:986"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:987"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase, "")
             }
             BuiltInFunctionsExt.BNODE -> {
@@ -994,23 +995,23 @@ return tmp
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctionsExt.ABS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:996"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:997"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CEIL -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1000"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1001"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.FLOOR -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1004"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1005"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.ROUND -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1008"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1009"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CONCAT -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1012"/*SOURCE_FILE_END*/ }, { childrenValues.isNotEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1013"/*SOURCE_FILE_END*/ }, { childrenValues.isNotEmpty() })
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size) {
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
@@ -1021,115 +1022,115 @@ return tmp
                 return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
             }
             BuiltInFunctionsExt.STRLEN -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1023"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1024"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.UCASE -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1027"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1028"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.LCASE -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1031"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1032"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.CONTAINS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1035"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1036"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRSTARTS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1039"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1040"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRENDS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1043"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1044"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.YEAR -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1047"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1048"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.MONTH -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1051"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1052"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.DAY -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1055"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1056"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.HOURS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1059"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1060"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.MINUTES -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1063"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1064"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SECONDS -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1067"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1068"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.TIMEZONE -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1071"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1072"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.TZ -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1075"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1076"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.NOW -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1079"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1080"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
                 return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctionsExt.UUID -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1083"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1084"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctionsExt.STRUUID -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1087"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1088"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctionsExt.MD5 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1091"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1092"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SHA1 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1095"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1096"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.SHA256 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1099"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1100"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.IF -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1103"/*SOURCE_FILE_END*/ }, { childrenValues.size == 3 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1104"/*SOURCE_FILE_END*/ }, { childrenValues.size == 3 })
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctionsExt.STRLANG -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1107"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1108"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRAFTER -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1111"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1112"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRBEFORE -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1115"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1116"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.STRDT -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1119"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1120"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctionsExt.isLITERAL -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1123"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1124"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.isIRI -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1127"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1128"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.isNUMERIC -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1131"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1132"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctionsExt.NotExists -> {
@@ -1178,7 +1179,7 @@ return tmp
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1180"/*SOURCE_FILE_END*/ }, { childrenValues.size >= 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1181"/*SOURCE_FILE_END*/ }, { childrenValues.size >= 2 })
         val tmplist = mutableListOf<IOPBase>()
         for (v in childrenValues) {
             tmplist.add(v)
@@ -1193,7 +1194,7 @@ return tmp
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1195"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1196"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first())) {
             throw AggregateNotAllowedSyntaxException()
@@ -1202,7 +1203,7 @@ return tmp
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1204"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1205"/*SOURCE_FILE_END*/ }, { childrenValues.size == 1 })
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable) {
             return LOPSort(query, node.asc, tmp)
@@ -1212,7 +1213,7 @@ return tmp
     }
 
     override fun visit(node: ASTVar, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1214"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1215"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         return AOPVariable(query, node.name)
     }
 
@@ -1343,40 +1344,40 @@ return tmp
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1345"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1346"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTMove, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1352"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1353"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1359"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1360"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTClear, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1366"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1367"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.CLEAR, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1372"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1373"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.DROP, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1378"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1379"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.silent, g1.first, g1.second)
     }
@@ -1609,7 +1610,7 @@ return tmp
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1611"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:1612"/*SOURCE_FILE_END*/ }, { childrenValues.size == 2 })
         return LOPMinus(query, childrenValues[0], childrenValues[1], listOf())
     }
 

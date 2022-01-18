@@ -19,6 +19,7 @@ package lupos.endpoint
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
+import lupos.shared.inline.MyStringStream
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
@@ -30,7 +31,6 @@ import lupos.parser.InputToIntermediate
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
-import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
@@ -350,10 +350,7 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
-            val lcit = LexerCharIterator(query)
-            val tit = TokenIteratorSPARQLParser(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val parser = SPARQLParser(ltit)
+            val parser = SPARQLParser(MyStringStream(query))
             val astNode = parser.expr()
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
@@ -404,10 +401,7 @@ public object LuposdateEndpoint {
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
+        val parser = SPARQLParser(MyStringStream(query))
         val astNode = parser.expr()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }

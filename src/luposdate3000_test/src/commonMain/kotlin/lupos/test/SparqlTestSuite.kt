@@ -34,13 +34,13 @@ import lupos.parser.rdf.Dictionary
 import lupos.parser.rdf.IRI
 import lupos.parser.rdf.SimpleLiteral
 import lupos.parser.sparql1_1.SPARQLParser
-import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.TurtleParserWithDictionary
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.QueryResultToMemoryTable
 import lupos.shared.*
 import lupos.shared.PartitionHelper
 import lupos.shared.inline.File
+import lupos.shared.inline.MyStringStream
 import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
@@ -580,22 +580,19 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------String Query" }
             println(toParse)
             SanityCheck.println { "----------Abstract Syntax Tree" }
-            val lcit = LexerCharIterator(toParse)
-            val tit = TokenIteratorSPARQLParser(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val parser = SPARQLParser(ltit)
+            val parser = SPARQLParser(MyStringStream(toParse))
             val astNode = parser.expr()
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(query))
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:590"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:587"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:597"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:594"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println { x }
@@ -603,8 +600,8 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:605"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:606"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:602"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:603"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println { x }

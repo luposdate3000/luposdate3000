@@ -26,13 +26,13 @@ import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.ASTNode
 import lupos.parser.sparql1_1.SPARQLParser
-import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
+import lupos.shared.inline.MyStringStream
 
 public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
     private var resultLog: Array<OPVisualGraph>
@@ -43,10 +43,7 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
     init {
         val query: String = input
         val q: Query = Query(instance)
-        val lcit: LexerCharIterator = LexerCharIterator(query)
-        val tit: TokenIteratorSPARQLParser = TokenIteratorSPARQLParser(lcit)
-        val ltit: LookAheadTokenIterator = LookAheadTokenIterator(tit, 3)
-        val parser: SPARQLParser = SPARQLParser(ltit)
+        val parser: SPARQLParser = SPARQLParser(MyStringStream(query))
         val astNode: ASTNode = parser.expr()
         val lopNode: IOPBase = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
         val logSteps: MutableList<IOPBase> = mutableListOf()

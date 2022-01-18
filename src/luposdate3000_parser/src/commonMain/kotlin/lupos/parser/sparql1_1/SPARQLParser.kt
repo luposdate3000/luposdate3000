@@ -18,9 +18,14 @@ package lupos.parser.sparql1_1
 
 import kotlin.jvm.JvmField
 import lupos.shared.inline.File
+import lupos.shared.IMyInputStream
+import lupos.shared.BuiltInFunctions
+import lupos.shared.Aggregation
+import lupos.shared.BuiltInFunctionsExt
+import lupos.shared.AggregationExt
 
-class SPARQLParser(kpInputstream: IMyInputStream) {
-    companion object {
+public class SPARQLParser(kpInputstream: IMyInputStream) {
+    internal companion object {
 
         private const val kpBufferSize = 16384 * 2
 
@@ -57180,164 +57185,164 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         return kpLookAheadTokens[(kpLookAheadIndex1) % kpLookAheadTokens.size]
     }
 
-    interface Visitor<T> {
-        fun visit(node: ASTNode, childrenValues: List<T>): T
-        fun visit(node: ASTBase, childrenValues: List<T>): T
-        fun visit(node: ASTPrefix, childrenValues: List<T>): T
-        fun visit(node: ASTQuery, childrenValues: List<T>): T
-        fun visit(node: ASTValues, childrenValues: List<T>): T
-        fun visit(node: ASTValue, childrenValues: List<T>): T
-        fun visit(node: ASTUndef, childrenValues: List<T>): T
-        fun visit(node: ASTQueryBaseClass, childrenValues: List<T>): T
-        fun visit(node: ASTSelectQuery, childrenValues: List<T>): T
-        fun visit(node: ASTSubSelectQuery, childrenValues: List<T>): T
-        fun visit(node: ASTConstructQuery, childrenValues: List<T>): T
-        fun visit(node: ASTDescribeQuery, childrenValues: List<T>): T
-        fun visit(node: ASTAskQuery, childrenValues: List<T>): T
-        fun visit(node: ASTAs, childrenValues: List<T>): T
-        fun visit(node: ASTDatasetClause, childrenValues: List<T>): T
-        fun visit(node: ASTDefaultGraph, childrenValues: List<T>): T
-        fun visit(node: ASTNamedGraph, childrenValues: List<T>): T
-        fun visit(node: ASTOrderCondition, childrenValues: List<T>): T
-        fun visit(node: ASTVar, childrenValues: List<T>): T
-        fun visit(node: ASTRDFTerm, childrenValues: List<T>): T
-        fun visit(node: ASTLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTSimpleLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTTypedLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTIri, childrenValues: List<T>): T
-        fun visit(node: ASTBlankNode, childrenValues: List<T>): T
-        fun visit(node: ASTBooleanLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTNumericLiteral, childrenValues: List<T>): T
-        fun visit(node: ASTInteger, childrenValues: List<T>): T
-        fun visit(node: ASTDouble, childrenValues: List<T>): T
-        fun visit(node: ASTDecimal, childrenValues: List<T>): T
-        fun visit(node: ASTFunctionCall, childrenValues: List<T>): T
-        fun visit(node: ASTTriple, childrenValues: List<T>): T
-        fun visit(node: ASTGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTIriGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTNamedIriGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTDefaultGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTNamedGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTAllGraphRef, childrenValues: List<T>): T
-        fun visit(node: ASTLoad, childrenValues: List<T>): T
-        fun visit(node: ASTGrapOperation, childrenValues: List<T>): T
-        fun visit(node: ASTClear, childrenValues: List<T>): T
-        fun visit(node: ASTDrop, childrenValues: List<T>): T
-        fun visit(node: ASTCreate, childrenValues: List<T>): T
-        fun visit(node: ASTUpdateGrapOperation, childrenValues: List<T>): T
-        fun visit(node: ASTAdd, childrenValues: List<T>): T
-        fun visit(node: ASTMove, childrenValues: List<T>): T
-        fun visit(node: ASTCopy, childrenValues: List<T>): T
-        fun visit(node: ASTGraph, childrenValues: List<T>): T
-        fun visit(node: ASTService, childrenValues: List<T>): T
-        fun visit(node: ASTModify, childrenValues: List<T>): T
-        fun visit(node: ASTDeleteData, childrenValues: List<T>): T
-        fun visit(node: ASTDeleteWhere, childrenValues: List<T>): T
-        fun visit(node: ASTInsertData, childrenValues: List<T>): T
-        fun visit(node: ASTModifyWithWhere, childrenValues: List<T>): T
-        fun visit(node: ASTPathAlternatives, childrenValues: List<T>): T
-        fun visit(node: ASTPathSequence, childrenValues: List<T>): T
-        fun visit(node: ASTPathInverse, childrenValues: List<T>): T
-        fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<T>): T
-        fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<T>): T
-        fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<T>): T
-        fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<T>): T
-        fun visit(node: ASTOptional, childrenValues: List<T>): T
-        fun visit(node: ASTMinusGroup, childrenValues: List<T>): T
-        fun visit(node: ASTUnion, childrenValues: List<T>): T
-        fun visit(node: ASTGroup, childrenValues: List<T>): T
-        fun visit(node: ASTFilter, childrenValues: List<T>): T
-        fun visit(node: ASTSet, childrenValues: List<T>): T
-        fun visit(node: ASTOr, childrenValues: List<T>): T
-        fun visit(node: ASTAnd, childrenValues: List<T>): T
-        fun visit(node: ASTEQ, childrenValues: List<T>): T
-        fun visit(node: ASTNEQ, childrenValues: List<T>): T
-        fun visit(node: ASTLEQ, childrenValues: List<T>): T
-        fun visit(node: ASTGEQ, childrenValues: List<T>): T
-        fun visit(node: ASTLT, childrenValues: List<T>): T
-        fun visit(node: ASTGT, childrenValues: List<T>): T
-        fun visit(node: ASTIn, childrenValues: List<T>): T
-        fun visit(node: ASTNotIn, childrenValues: List<T>): T
-        fun visit(node: ASTAddition, childrenValues: List<T>): T
-        fun visit(node: ASTSubtraction, childrenValues: List<T>): T
-        fun visit(node: ASTMultiplication, childrenValues: List<T>): T
-        fun visit(node: ASTDivision, childrenValues: List<T>): T
-        fun visit(node: ASTNot, childrenValues: List<T>): T
-        fun visit(node: ASTPlus, childrenValues: List<T>): T
-        fun visit(node: ASTMinus, childrenValues: List<T>): T
-        fun visit(node: ASTBuiltInCall, childrenValues: List<T>): T
-        fun visit(node: ASTAggregation, childrenValues: List<T>): T
-        fun visit(node: ASTGroupConcat, childrenValues: List<T>): T
+    public interface Visitor<T> {
+        public fun visit(node: ASTNode, childrenValues: List<T>): T
+        public fun visit(node: ASTBase, childrenValues: List<T>): T
+        public fun visit(node: ASTPrefix, childrenValues: List<T>): T
+        public fun visit(node: ASTQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTValues, childrenValues: List<T>): T
+        public fun visit(node: ASTValue, childrenValues: List<T>): T
+        public fun visit(node: ASTUndef, childrenValues: List<T>): T
+        public fun visit(node: ASTQueryBaseClass, childrenValues: List<T>): T
+        public fun visit(node: ASTSelectQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTSubSelectQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTConstructQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTDescribeQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTAskQuery, childrenValues: List<T>): T
+        public fun visit(node: ASTAs, childrenValues: List<T>): T
+        public fun visit(node: ASTDatasetClause, childrenValues: List<T>): T
+        public fun visit(node: ASTDefaultGraph, childrenValues: List<T>): T
+        public fun visit(node: ASTNamedGraph, childrenValues: List<T>): T
+        public fun visit(node: ASTOrderCondition, childrenValues: List<T>): T
+        public fun visit(node: ASTVar, childrenValues: List<T>): T
+        public fun visit(node: ASTRDFTerm, childrenValues: List<T>): T
+        public fun visit(node: ASTLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTSimpleLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTTypedLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTIri, childrenValues: List<T>): T
+        public fun visit(node: ASTBlankNode, childrenValues: List<T>): T
+        public fun visit(node: ASTBooleanLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTNumericLiteral, childrenValues: List<T>): T
+        public fun visit(node: ASTInteger, childrenValues: List<T>): T
+        public fun visit(node: ASTDouble, childrenValues: List<T>): T
+        public fun visit(node: ASTDecimal, childrenValues: List<T>): T
+        public fun visit(node: ASTFunctionCall, childrenValues: List<T>): T
+        public fun visit(node: ASTTriple, childrenValues: List<T>): T
+        public fun visit(node: ASTGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTIriGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTNamedIriGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTDefaultGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTNamedGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTAllGraphRef, childrenValues: List<T>): T
+        public fun visit(node: ASTLoad, childrenValues: List<T>): T
+        public fun visit(node: ASTGrapOperation, childrenValues: List<T>): T
+        public fun visit(node: ASTClear, childrenValues: List<T>): T
+        public fun visit(node: ASTDrop, childrenValues: List<T>): T
+        public fun visit(node: ASTCreate, childrenValues: List<T>): T
+        public fun visit(node: ASTUpdateGrapOperation, childrenValues: List<T>): T
+        public fun visit(node: ASTAdd, childrenValues: List<T>): T
+        public fun visit(node: ASTMove, childrenValues: List<T>): T
+        public fun visit(node: ASTCopy, childrenValues: List<T>): T
+        public fun visit(node: ASTGraph, childrenValues: List<T>): T
+        public fun visit(node: ASTService, childrenValues: List<T>): T
+        public fun visit(node: ASTModify, childrenValues: List<T>): T
+        public fun visit(node: ASTDeleteData, childrenValues: List<T>): T
+        public fun visit(node: ASTDeleteWhere, childrenValues: List<T>): T
+        public fun visit(node: ASTInsertData, childrenValues: List<T>): T
+        public fun visit(node: ASTModifyWithWhere, childrenValues: List<T>): T
+        public fun visit(node: ASTPathAlternatives, childrenValues: List<T>): T
+        public fun visit(node: ASTPathSequence, childrenValues: List<T>): T
+        public fun visit(node: ASTPathInverse, childrenValues: List<T>): T
+        public fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<T>): T
+        public fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<T>): T
+        public fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<T>): T
+        public fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<T>): T
+        public fun visit(node: ASTOptional, childrenValues: List<T>): T
+        public fun visit(node: ASTMinusGroup, childrenValues: List<T>): T
+        public fun visit(node: ASTUnion, childrenValues: List<T>): T
+        public fun visit(node: ASTGroup, childrenValues: List<T>): T
+        public fun visit(node: ASTFilter, childrenValues: List<T>): T
+        public fun visit(node: ASTSet, childrenValues: List<T>): T
+        public fun visit(node: ASTOr, childrenValues: List<T>): T
+        public fun visit(node: ASTAnd, childrenValues: List<T>): T
+        public fun visit(node: ASTEQ, childrenValues: List<T>): T
+        public fun visit(node: ASTNEQ, childrenValues: List<T>): T
+        public fun visit(node: ASTLEQ, childrenValues: List<T>): T
+        public fun visit(node: ASTGEQ, childrenValues: List<T>): T
+        public fun visit(node: ASTLT, childrenValues: List<T>): T
+        public fun visit(node: ASTGT, childrenValues: List<T>): T
+        public fun visit(node: ASTIn, childrenValues: List<T>): T
+        public fun visit(node: ASTNotIn, childrenValues: List<T>): T
+        public fun visit(node: ASTAddition, childrenValues: List<T>): T
+        public fun visit(node: ASTSubtraction, childrenValues: List<T>): T
+        public fun visit(node: ASTMultiplication, childrenValues: List<T>): T
+        public fun visit(node: ASTDivision, childrenValues: List<T>): T
+        public fun visit(node: ASTNot, childrenValues: List<T>): T
+        public fun visit(node: ASTPlus, childrenValues: List<T>): T
+        public fun visit(node: ASTMinus, childrenValues: List<T>): T
+        public fun visit(node: ASTBuiltInCall, childrenValues: List<T>): T
+        public fun visit(node: ASTAggregation, childrenValues: List<T>): T
+        public fun visit(node: ASTGroupConcat, childrenValues: List<T>): T
     }
 
-    class ASTBase(val iri: String) : ASTLeafNode() {
+    public class ASTBase(public val iri: String) : ASTLeafNode() {
 
-        override fun nodeToString() = "BASE <" + iri + ">";
+        override fun nodeToString(): String = "BASE <" + iri + ">";
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPrefix(val name: String, val iri: String) : ASTLeafNode() {
+    public class ASTPrefix(public val name: String, public val iri: String) : ASTLeafNode() {
 
-        override fun nodeToString() = "PREFIX " + name + ": <" + iri + ">";
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTQuery(children: Array<ASTNode>) : ASTNode(children) {
-
-        constructor(children: List<ASTNode>) : this(children.toTypedArray());
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTValues(val variables: Array<ASTVar>, children: Array<ASTNode>) : ASTNode(children) {
-
-        constructor(variable: ASTVar, children: List<ASTNode>) : this(arrayOf(variable), children.toTypedArray());
-        constructor(variables: List<ASTVar>, children: List<ASTNode>) : this(variables.toTypedArray(), children.toTypedArray());
-        override fun nodeToString() = "Values for variables: " + variables.joinToString(separator = ", ") { it.name };
+        override fun nodeToString(): String = "PREFIX " + name + ": <" + iri + ">";
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTValue(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTQuery(children: Array<ASTNode>) : ASTNode(children) {
 
-        constructor(children: List<ASTNode>) : this(children.toTypedArray());
-        constructor(child: ASTNode) : this(arrayOf(child));
+        public constructor(children: List<ASTNode>) : this(children.toTypedArray());
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTUndef() : ASTLeafNode() {
+    public class ASTValues(public val variables: Array<ASTVar>, children: Array<ASTNode>) : ASTNode(children) {
+
+        public constructor(variable: ASTVar, children: List<ASTNode>) : this(arrayOf(variable), children.toTypedArray());
+        public constructor(variables: List<ASTVar>, children: List<ASTNode>) : this(variables.toTypedArray(), children.toTypedArray());
+        override fun nodeToString(): String = "Values for variables: " + variables.joinToString(separator = ", ") { it.name };
+
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    open class ASTQueryBaseClass() : ASTLeafNode() {
+    public class ASTValue(children: Array<ASTNode>) : ASTNode(children) {
 
-        var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
-        inline fun existsDatasets() = datasets.size > 0;
-        var where: Array<ASTNode> = arrayOf<ASTNode>();
-        var groupBy: Array<ASTNode> = arrayOf<ASTNode>();
-        inline fun existsGroupBy() = groupBy.size > 0;
-        var having: Array<ASTNode> = arrayOf<ASTNode>();
-        inline fun existsHaving() = having.size > 0;
-        var orderBy: Array<ASTNode> = arrayOf<ASTNode>();
-        inline fun existsOrderBy() = orderBy.size > 0;
-        var limit: Int = -1;
-        inline fun existsLimit() = limit >= 0;
-        var offset: Int = 0;
-        inline fun existsOffset() = offset > 0;
+        public constructor(children: List<ASTNode>) : this(children.toTypedArray());
+        public constructor(child: ASTNode) : this(arrayOf(child));
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTUndef() : ASTLeafNode() {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    open public class ASTQueryBaseClass() : ASTLeafNode() {
+
+        public var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
+        public inline fun existsDatasets(): Boolean = datasets.size > 0;
+        public var where: Array<ASTNode> = arrayOf<ASTNode>();
+        public var groupBy: Array<ASTNode> = arrayOf<ASTNode>();
+        public inline fun existsGroupBy(): Boolean = groupBy.size > 0;
+        public var having: Array<ASTNode> = arrayOf<ASTNode>();
+        public inline fun existsHaving(): Boolean = having.size > 0;
+        public var orderBy: Array<ASTNode> = arrayOf<ASTNode>();
+        public inline fun existsOrderBy(): Boolean = orderBy.size > 0;
+        public var limit: Int = -1;
+        public inline fun existsLimit(): Boolean = limit >= 0;
+        public var offset: Int = 0;
+        public inline fun existsOffset(): Boolean = offset > 0;
         override fun toString(indentation: String): String {
             var result = indentation + nodeToString() + "\r\n"
             val indentation2 = indentation + "  "
@@ -57361,59 +57366,59 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    open class ASTSelectQuery(val distinct: Boolean, val reduced: Boolean, val select: Array<ASTNode>) : ASTQueryBaseClass() {
+    open public class ASTSelectQuery(public val distinct: Boolean, public val reduced: Boolean, public val select: Array<ASTNode>) : ASTQueryBaseClass() {
 
-        inline fun selectAll() = (select.size == 0)
-        override fun nodeToString() = "ASTSelectQuery" + innerNodeToString()
-        protected inline fun innerNodeToString() = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
-        override fun toString(indentation: String) = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Select", this.select)
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
-
-        var values: ASTValues? = null;
-        inline fun existsValues() = (values != null);
-        override fun nodeToString() = "ASTSubSelectQuery" + innerNodeToString()
-        override fun toString(indentation: String) = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString(indentation + "  "))
+        public inline fun selectAll(): Boolean = (select.size == 0)
+        override fun nodeToString(): String = "ASTSelectQuery" + innerNodeToString()
+        protected inline fun innerNodeToString(): String = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
+        override fun toString(indentation: String): String = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Select", this.select)
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTConstructQuery(val template: Array<ASTNode>) : ASTQueryBaseClass() {
+    public class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
 
-        override fun toString(indentation: String) = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Template", this.template)
+        public var values: ASTValues? = null;
+        public inline fun existsValues(): Boolean = (values != null);
+        override fun nodeToString(): String = "ASTSubSelectQuery" + innerNodeToString()
+        override fun toString(indentation: String): String = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString(indentation + "  "))
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDescribeQuery(val select: Array<ASTNode>) : ASTQueryBaseClass() {
+    public class ASTConstructQuery(public val template: Array<ASTNode>) : ASTQueryBaseClass() {
 
-        inline fun selectAll(): Boolean {
+        override fun toString(indentation: String): String = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Template", this.template)
+
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTDescribeQuery(public val select: Array<ASTNode>) : ASTQueryBaseClass() {
+
+        public inline fun selectAll(): Boolean {
             return select.size == 0; }
 
-        override fun nodeToString() = "ASTSelectQuery" + (if (selectAll()) " *" else "")
-        override fun toString(indentation: String) = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Select", this.select)
+        override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
+        override fun toString(indentation: String): String = super.toString(indentation) + propertyToString(indentation + "  ", indentation + "    ", "Select", this.select)
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTAskQuery() : ASTQueryBaseClass() {
+    public class ASTAskQuery() : ASTQueryBaseClass() {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTAs(val expression: ASTNode, val variable: ASTVar) : ASTLeafNode() {
+    public class ASTAs(public val expression: ASTNode, public val variable: ASTVar) : ASTLeafNode() {
 
         override fun toString(indentation: String): String {
             var result = indentation + nodeToString() + "\r\n"
@@ -57431,103 +57436,103 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    open class ASTDatasetClause(val source_iri: String) : ASTLeafNode() {
+    open public class ASTDatasetClause(public val source_iri: String) : ASTLeafNode() {
 
-        constructor(iri: ASTIri) : this(iri.iri)
+        public constructor(iri: ASTIri) : this(iri.iri)
 
-        override fun nodeToString() = super.nodeToString() + " <" + source_iri + ">"
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTDefaultGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTNamedGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTOrderCondition(val asc: Boolean, child: ASTNode) : ASTUnaryOperation(child) {
-
-        override fun toString(indentation: String) = indentation + nodeToString() + " " + (if (asc) "ASC" else "DESC") + "\r\n" + children[0].toString(indentation + "  ")
+        override fun nodeToString(): String = super.nodeToString() + " <" + source_iri + ">"
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTVar(val name: String) : ASTLeafNode() {
+    public class ASTDefaultGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
 
-        override fun nodeToString() = super.nodeToString() + " " + name
+    public class ASTNamedGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTOrderCondition(public val asc: Boolean, child: ASTNode) : ASTUnaryOperation(child) {
+
+        override fun toString(indentation: String): String = indentation + nodeToString() + " " + (if (asc) "ASC" else "DESC") + "\r\n" + children[0].toString(indentation + "  ")
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    open class ASTRDFTerm() : ASTLeafNode() {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
+    public class ASTVar(public val name: String) : ASTLeafNode() {
 
-    open class ASTLiteral(val content: String, val delimiter: String) : ASTRDFTerm() {
-
-        override fun nodeToString() = delimiter + content + delimiter
+        override fun nodeToString(): String = super.nodeToString() + " " + name
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTSimpleLiteral(content: String, delimiter: String) : ASTLiteral(content, delimiter) {
+    open public class ASTRDFTerm() : ASTLeafNode() {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTTypedLiteral(content: String, delimiter: String, val type_iri: String) : ASTLiteral(content, delimiter) {
+    open public class ASTLiteral(public val content: String, public val delimiter: String) : ASTRDFTerm() {
 
-        override fun nodeToString() = super.nodeToString() + "^^<" + type_iri + ">"
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTLanguageTaggedLiteral(content: String, delimiter: String, val language: String) : ASTLiteral(content, delimiter) {
-
-        override fun nodeToString() = super.nodeToString() + "@" + language
+        override fun nodeToString(): String = delimiter + content + delimiter
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTIri(val iri: String) : ASTRDFTerm() {
+    public class ASTSimpleLiteral(content: String, delimiter: String) : ASTLiteral(content, delimiter) {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
 
-        override fun nodeToString() = "<" + iri + ">"
+    public class ASTTypedLiteral(content: String, delimiter: String, public val type_iri: String) : ASTLiteral(content, delimiter) {
+
+        override fun nodeToString(): String = super.nodeToString() + "^^<" + type_iri + ">"
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTBlankNode(val name: String) : ASTRDFTerm() {
+    public class ASTLanguageTaggedLiteral(content: String, delimiter: String, public val language: String) : ASTLiteral(content, delimiter) {
 
-        constructor() : this(getNewName())
+        override fun nodeToString(): String = super.nodeToString() + "@" + language
 
-        override fun nodeToString() = "_:" + name
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTIri(public val iri: String) : ASTRDFTerm() {
+
+        override fun nodeToString(): String = "<" + iri + ">"
+
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTBlankNode(public val name: String) : ASTRDFTerm() {
+
+        public constructor() : this(getNewName())
+
+        override fun nodeToString(): String = "_:" + name
 
         private companion object {
-            var label_index = 0;
+            public var label_index = 0;
             fun getNewName(): String {
                 val result = "_" + label_index;
                 label_index++;
@@ -57540,112 +57545,112 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    class ASTBooleanLiteral(val value: Boolean) : ASTRDFTerm() {
+    public class ASTBooleanLiteral(public val value: Boolean) : ASTRDFTerm() {
 
-        override fun nodeToString() = if (value) "true" else "false"
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    open class ASTNumericLiteral() : ASTRDFTerm() {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTInteger(val value: Int) : ASTNumericLiteral() {
-
-        constructor(image: String) : this(image.toInt())
-
-        override fun nodeToString() = "" + value
+        override fun nodeToString(): String = if (value) "true" else "false"
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDouble(val image: String) : ASTNumericLiteral() {
+    open public class ASTNumericLiteral() : ASTRDFTerm() {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
 
-        fun toDouble(): Double = image.toDouble();
-        override fun nodeToString() = image
+    public class ASTInteger(public val value: Int) : ASTNumericLiteral() {
+
+        public constructor(image: String) : this(image.toInt())
+
+        override fun nodeToString(): String = "" + value
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDecimal(val image: String) : ASTNumericLiteral() {
+    public class ASTDouble(public val image: String) : ASTNumericLiteral() {
 
-        fun toDouble(): Double = image.toDouble();
-        override fun nodeToString() = image
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTFunctionCall(val iri: String, val distinct: Boolean, arguments: Array<ASTNode>) : ASTNode(arguments) {
-
-        override fun nodeToString() = "ASTFunctionCall <" + iri + ">" + (if (distinct) "DISTINCT" else "")
+        public fun toDouble(): Double = image.toDouble();
+        override fun nodeToString(): String = image
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTTriple(s: ASTNode, p: ASTNode, o: ASTNode) : ASTNode(arrayOf<ASTNode>(s, p, o)) {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
+    public class ASTDecimal(public val image: String) : ASTNumericLiteral() {
 
-    open class ASTGraphRef() : ASTLeafNode() {
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTIriGraphRef(val iri: String) : ASTGraphRef() {
-
-        override fun nodeToString() = super.nodeToString() + " <" + iri + ">"
+        public fun toDouble(): Double = image.toDouble();
+        override fun nodeToString(): String = image
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTNamedIriGraphRef(val iri: String) : ASTGraphRef() {
+    public class ASTFunctionCall(public val iri: String, public val distinct: Boolean, arguments: Array<ASTNode>) : ASTNode(arguments) {
 
-        override fun nodeToString() = super.nodeToString() + " <" + iri + ">"
+        override fun nodeToString(): String = "ASTFunctionCall <" + iri + ">" + (if (distinct) "DISTINCT" else "")
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDefaultGraphRef() : ASTGraphRef() {
+    public class ASTTriple(s: ASTNode, p: ASTNode, o: ASTNode) : ASTNode(arrayOf<ASTNode>(s, p, o)) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTNamedGraphRef() : ASTGraphRef() {
+    open public class ASTGraphRef() : ASTLeafNode() {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTAllGraphRef() : ASTGraphRef() {
+    public class ASTIriGraphRef(public val iri: String) : ASTGraphRef() {
+
+        override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
+
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTLoad(val silent: Boolean, val iri: String, val into: ASTGraphRef?) : ASTLeafNode() {
+    public class ASTNamedIriGraphRef(public val iri: String) : ASTGraphRef() {
 
-        override fun nodeToString() = super.nodeToString() + (if (silent) " SILENT" else "") + " <" + iri + ">"
+        override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
+
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTDefaultGraphRef() : ASTGraphRef() {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTNamedGraphRef() : ASTGraphRef() {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTAllGraphRef() : ASTGraphRef() {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTLoad(public val silent: Boolean, public val iri: String, public val into: ASTGraphRef?) : ASTLeafNode() {
+
+        override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "") + " <" + iri + ">"
         override fun toString(indentation: String): String {
             var result = indentation + nodeToString() + "\r\n"
             if (into != null) {
@@ -57659,37 +57664,37 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    open class ASTGrapOperation(val silent: Boolean, val graphref: ASTGraphRef) : ASTLeafNode() {
+    open public class ASTGrapOperation(public val silent: Boolean, public val graphref: ASTGraphRef) : ASTLeafNode() {
 
-        override fun nodeToString() = super.nodeToString() + (if (silent) " SILENT" else "")
-        override fun toString(indentation: String) = indentation + nodeToString() + "\r\n" + graphref.toString(indentation + "  ")
+        override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
+        override fun toString(indentation: String): String = indentation + nodeToString() + "\r\n" + graphref.toString(indentation + "  ")
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTClear(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
+    public class ASTClear(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDrop(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
+    public class ASTDrop(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTCreate(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
+    public class ASTCreate(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    open class ASTUpdateGrapOperation(val silent: Boolean, val fromGraph: ASTGraphRef, val toGraph: ASTGraphRef) : ASTLeafNode() {
+    open public class ASTUpdateGrapOperation(public val silent: Boolean, public val fromGraph: ASTGraphRef, public val toGraph: ASTGraphRef) : ASTLeafNode() {
 
-        override fun nodeToString() = super.nodeToString() + (if (silent) " SILENT" else "")
+        override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
         override fun toString(indentation: String): String {
             var result = indentation + nodeToString() + "\r\n"
             val indentation2 = indentation + "  "
@@ -57704,67 +57709,67 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    class ASTAdd(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
+    public class ASTAdd(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTMove(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
+    public class ASTMove(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTCopy(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
+    public class ASTCopy(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTGraph(val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
+    public class ASTGraph(public val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
 
-        override fun nodeToString() = super.nodeToString() + " " + iriOrVar.nodeToString()
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    class ASTService(val silent: Boolean, val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
-
-        override fun nodeToString() = super.nodeToString() + (if (silent) "SILENT" else "") + " " + iriOrVar.nodeToString()
+        override fun nodeToString(): String = super.nodeToString() + " " + iriOrVar.nodeToString()
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    open class ASTModify(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTService(public val silent: Boolean, public val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
+
+        override fun nodeToString(): String = super.nodeToString() + (if (silent) "SILENT" else "") + " " + iriOrVar.nodeToString()
+
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDeleteData(data: Array<ASTNode>) : ASTModify(data) {
+    open public class ASTModify(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDeleteWhere(pattern: Array<ASTNode>) : ASTModify(pattern) {
+    public class ASTDeleteData(data: Array<ASTNode>) : ASTModify(data) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTInsertData(data: Array<ASTNode>) : ASTModify(data) {
+    public class ASTDeleteWhere(pattern: Array<ASTNode>) : ASTModify(pattern) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTModifyWithWhere(val iri: String?, val delete: Array<ASTNode>, val insert: Array<ASTNode>, val using: Array<ASTGraphRef>, where: Array<ASTNode>) : ASTModify(where) {
+    public class ASTInsertData(data: Array<ASTNode>) : ASTModify(data) {
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTModifyWithWhere(public val iri: String?, public val delete: Array<ASTNode>, public val insert: Array<ASTNode>, public val using: Array<ASTGraphRef>, where: Array<ASTNode>) : ASTModify(where) {
 
         override fun toString(indentation: String): String {
             var result = indentation + nodeToString() + (if (iri != null) " <" + iri + ">" else "") + "\r\n"
@@ -57782,214 +57787,214 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         }
     }
 
-    class ASTPathAlternatives(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTPathAlternatives(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathSequence(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTPathSequence(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathInverse(child: ASTNode) : ASTUnaryOperation(child) {
+    public class ASTPathInverse(child: ASTNode) : ASTUnaryOperation(child) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathArbitraryOccurrences(child: ASTNode) : ASTUnaryOperation(child) {
+    public class ASTPathArbitraryOccurrences(child: ASTNode) : ASTUnaryOperation(child) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathOptionalOccurrence(child: ASTNode) : ASTUnaryOperation(child) {
+    public class ASTPathOptionalOccurrence(child: ASTNode) : ASTUnaryOperation(child) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathArbitraryOccurrencesNotZero(child: ASTNode) : ASTUnaryOperation(child) {
+    public class ASTPathArbitraryOccurrencesNotZero(child: ASTNode) : ASTUnaryOperation(child) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPathNegatedPropertySet(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTPathNegatedPropertySet(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTOptional(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTOptional(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTMinusGroup(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTMinusGroup(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTUnion(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTUnion(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTGroup(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTGroup(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTFilter(child: ASTNode) : ASTUnaryOperation(child) {
+    public class ASTFilter(child: ASTNode) : ASTUnaryOperation(child) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTSet(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTSet(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTOr(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTOr(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTAnd(children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTAnd(children: Array<ASTNode>) : ASTNode(children) {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "=") {
+    public class ASTEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "=") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTNEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "!=") {
+    public class ASTNEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "!=") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTLEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<=") {
+    public class ASTLEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<=") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTGEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">=") {
+    public class ASTGEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">=") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTLT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<") {
+    public class ASTLT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTGT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">") {
+    public class ASTGT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "In") {
+    public class ASTIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "In") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTNotIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "Not In") {
+    public class ASTNotIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "Not In") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTAddition(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "+") {
+    public class ASTAddition(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "+") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTSubtraction(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "-") {
+    public class ASTSubtraction(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "-") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTMultiplication(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "*") {
+    public class ASTMultiplication(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "*") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTDivision(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "/") {
+    public class ASTDivision(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "/") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTNot(child: ASTNode) : ASTUnaryOperationFixedName(child, "!") {
+    public class ASTNot(child: ASTNode) : ASTUnaryOperationFixedName(child, "!") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTPlus(child: ASTNode) : ASTUnaryOperationFixedName(child, "+") {
+    public class ASTPlus(child: ASTNode) : ASTUnaryOperationFixedName(child, "+") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTMinus(child: ASTNode) : ASTUnaryOperationFixedName(child, "-") {
+    public class ASTMinus(child: ASTNode) : ASTUnaryOperationFixedName(child, "-") {
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTBuiltInCall(val function: BuiltInFunctions, children: Array<ASTNode>) : ASTNode(children) {
+    public class ASTBuiltInCall(public val function: BuiltInFunctions, children: Array<ASTNode>) : ASTNode(children) {
 
-        constructor(function: BuiltInFunctions) : this(function, arrayOf<ASTNode>())
-        constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
-        constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
-        constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
+        public constructor(function: BuiltInFunctions) : this(function, arrayOf<ASTNode>())
+        public constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
+        public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
+        public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
 
-        override fun nodeToString() = function.name;
-
-        override fun <T> visit(visitor: Visitor<T>): T {
-            return visitor.visit(this, this.getChildrensValues(visitor))
-        }
-    }
-
-    open class ASTAggregation(val type: Aggregation, val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
-
-        constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
-
-        override fun nodeToString() = type.name + (if (distinct) " DISTINCT" else "");
+        override fun nodeToString(): String = BuiltInFunctionsExt.names[function];
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
         }
     }
 
-    class ASTGroupConcat(distinct: Boolean, child: ASTNode, val separator: String) : ASTAggregation(Aggregation.GROUP_CONCAT, distinct, child) {
+    open public class ASTAggregation(public val type: Aggregation, public val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
 
-        override fun nodeToString() = super.nodeToString() + " separator=\"" + separator + "\"";
+        public constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
+
+        override fun nodeToString(): String = AggregationExt.names[type] + (if (distinct) " DISTINCT" else "");
+
+        override fun <T> visit(visitor: Visitor<T>): T {
+            return visitor.visit(this, this.getChildrensValues(visitor))
+        }
+    }
+
+    public class ASTGroupConcat(distinct: Boolean, child: ASTNode, public val separator: String) : ASTAggregation(AggregationExt.GROUP_CONCAT, distinct, child) {
+
+        override fun nodeToString(): String = super.nodeToString() + " separator=\"" + separator + "\"";
 
         override fun <T> visit(visitor: Visitor<T>): T {
             return visitor.visit(this, this.getChildrensValues(visitor))
@@ -60657,7 +60662,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STR, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STR, param);
         throw Exception("Return of type ASTBuiltInCall in production rule STR failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60667,7 +60672,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.LANG, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.LANG, param);
         throw Exception("Return of type ASTBuiltInCall in production rule LANG failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60679,7 +60684,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.LANGMATCHES, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.LANGMATCHES, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule LANGMATCHES failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60689,7 +60694,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.DATATYPE, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.DATATYPE, param);
         throw Exception("Return of type ASTBuiltInCall in production rule DATATYPE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60699,7 +60704,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Var()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.BOUND, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.BOUND, param);
         throw Exception("Return of type ASTBuiltInCall in production rule BOUND failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60709,7 +60714,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.IRI, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.IRI, param);
         throw Exception("Return of type ASTBuiltInCall in production rule IRIFunc failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60719,7 +60724,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.URI, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.URI, param);
         throw Exception("Return of type ASTBuiltInCall in production rule URIFunc failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60732,11 +60737,11 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 token = kpLookAheadNextToken(1070)
                 val param = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTBuiltInCall(BuiltInFunctions.BNODE, param);
+                return ASTBuiltInCall(BuiltInFunctionsExt.BNODE, param);
             }
             NIL -> {
                 token = kpLookAheadNextToken(1032)
-                return ASTBuiltInCall(BuiltInFunctions.BNODE);
+                return ASTBuiltInCall(BuiltInFunctionsExt.BNODE);
             }
             else -> {
                 throw UnexpectedToken(t157, arrayOf("LBRACE", "NIL"), kpIndex, kpColumnNumber, kpLineNumber)
@@ -60749,7 +60754,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(751)
         token = kpLookAheadNextToken(1032)
-        return ASTBuiltInCall(BuiltInFunctions.RAND);
+        return ASTBuiltInCall(BuiltInFunctionsExt.RAND);
         throw Exception("Return of type ASTBuiltInCall in production rule RAND failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60759,7 +60764,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.ABS, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.ABS, param);
         throw Exception("Return of type ASTBuiltInCall in production rule ABS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60769,7 +60774,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.CEIL, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.CEIL, param);
         throw Exception("Return of type ASTBuiltInCall in production rule CEIL failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60779,7 +60784,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.FLOOR, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.FLOOR, param);
         throw Exception("Return of type ASTBuiltInCall in production rule FLOOR failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60789,7 +60794,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.ROUND, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.ROUND, param);
         throw Exception("Return of type ASTBuiltInCall in production rule ROUND failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60797,7 +60802,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(740)
         val params = ExpressionList()
-        return ASTBuiltInCall(BuiltInFunctions.CONCAT, params);
+        return ASTBuiltInCall(BuiltInFunctionsExt.CONCAT, params);
         throw Exception("Return of type ASTBuiltInCall in production rule CONCAT failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60807,7 +60812,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRLEN, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRLEN, param);
         throw Exception("Return of type ASTBuiltInCall in production rule STRLEN failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60817,7 +60822,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.UCASE, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.UCASE, param);
         throw Exception("Return of type ASTBuiltInCall in production rule UCASE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60827,7 +60832,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.LCASE, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.LCASE, param);
         throw Exception("Return of type ASTBuiltInCall in production rule LCASE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60837,7 +60842,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.ENCODE_FOR_URI, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.ENCODE_FOR_URI, param);
         throw Exception("Return of type ASTBuiltInCall in production rule ENCODE_FOR_URI failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60849,7 +60854,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.CONTAINS, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.CONTAINS, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule CONTAINS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60861,7 +60866,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRSTARTS, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRSTARTS, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRSTARTS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60873,7 +60878,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRENDS, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRENDS, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRENDS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60885,7 +60890,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRBEFORE, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRBEFORE, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRBEFORE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60897,7 +60902,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRAFTER, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRAFTER, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRAFTER failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60907,7 +60912,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.YEAR, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.YEAR, param);
         throw Exception("Return of type ASTBuiltInCall in production rule YEAR failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60917,7 +60922,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.MONTH, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.MONTH, param);
         throw Exception("Return of type ASTBuiltInCall in production rule MONTH failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60927,7 +60932,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.DAY, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.DAY, param);
         throw Exception("Return of type ASTBuiltInCall in production rule DAY failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60937,7 +60942,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.HOURS, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.HOURS, param);
         throw Exception("Return of type ASTBuiltInCall in production rule HOURS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60947,7 +60952,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.MINUTES, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.MINUTES, param);
         throw Exception("Return of type ASTBuiltInCall in production rule MINUTES failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60957,7 +60962,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SECONDS, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.SECONDS, param);
         throw Exception("Return of type ASTBuiltInCall in production rule SECONDS failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60967,7 +60972,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.TIMEZONE, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.TIMEZONE, param);
         throw Exception("Return of type ASTBuiltInCall in production rule TIMEZONE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60977,7 +60982,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.TZ, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.TZ, param);
         throw Exception("Return of type ASTBuiltInCall in production rule TZ failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60985,7 +60990,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(847)
         token = kpLookAheadNextToken(1032)
-        return ASTBuiltInCall(BuiltInFunctions.NOW);
+        return ASTBuiltInCall(BuiltInFunctionsExt.NOW);
         throw Exception("Return of type ASTBuiltInCall in production rule NOW failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -60993,7 +60998,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(709)
         token = kpLookAheadNextToken(1032)
-        return ASTBuiltInCall(BuiltInFunctions.UUID);
+        return ASTBuiltInCall(BuiltInFunctionsExt.UUID);
         throw Exception("Return of type ASTBuiltInCall in production rule UUID failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61001,7 +61006,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(718)
         token = kpLookAheadNextToken(1032)
-        return ASTBuiltInCall(BuiltInFunctions.STRUUID);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRUUID);
         throw Exception("Return of type ASTBuiltInCall in production rule STRUUID failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61011,7 +61016,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.MD5, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.MD5, param);
         throw Exception("Return of type ASTBuiltInCall in production rule MD5 failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61021,7 +61026,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SHA1, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA1, param);
         throw Exception("Return of type ASTBuiltInCall in production rule SHA1 failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61031,7 +61036,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SHA256, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA256, param);
         throw Exception("Return of type ASTBuiltInCall in production rule SHA256 failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61041,7 +61046,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SHA384, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA384, param);
         throw Exception("Return of type ASTBuiltInCall in production rule SHA384 failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61051,7 +61056,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SHA512, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA512, param);
         throw Exception("Return of type ASTBuiltInCall in production rule SHA512 failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61059,7 +61064,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(742)
         val params = ExpressionList()
-        return ASTBuiltInCall(BuiltInFunctions.COALESCE, params);
+        return ASTBuiltInCall(BuiltInFunctionsExt.COALESCE, params);
         throw Exception("Return of type ASTBuiltInCall in production rule COALESCE failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61073,7 +61078,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param3 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.IF, param1, param2, param3);
+        return ASTBuiltInCall(BuiltInFunctionsExt.IF, param1, param2, param3);
         throw Exception("Return of type ASTBuiltInCall in production rule IF failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61085,7 +61090,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRLANG, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRLANG, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRLANG failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61097,7 +61102,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.STRDT, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRDT, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule STRDT failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61109,7 +61114,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(898)
         val param2 = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.sameTerm, param1, param2);
+        return ASTBuiltInCall(BuiltInFunctionsExt.sameTerm, param1, param2);
         throw Exception("Return of type ASTBuiltInCall in production rule sameTerm failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61119,7 +61124,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.isIRI, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.isIRI, param);
         throw Exception("Return of type ASTBuiltInCall in production rule isIRI failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61129,7 +61134,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.isURI, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.isURI, param);
         throw Exception("Return of type ASTBuiltInCall in production rule isURI failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61139,7 +61144,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.isBLANK, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.isBLANK, param);
         throw Exception("Return of type ASTBuiltInCall in production rule isBLANK failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61149,7 +61154,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.isLITERAL, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.isLITERAL, param);
         throw Exception("Return of type ASTBuiltInCall in production rule isLITERAL failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61159,7 +61164,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(1070)
         val param = Expression()
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.isNUMERIC, param);
+        return ASTBuiltInCall(BuiltInFunctionsExt.isNUMERIC, param);
         throw Exception("Return of type ASTBuiltInCall in production rule isNUMERIC failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61180,7 +61185,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
             collect.add(param3);
         }
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.RegexExpression, collect.toTypedArray());
+        return ASTBuiltInCall(BuiltInFunctionsExt.RegexExpression, collect.toTypedArray());
         throw Exception("Return of type ASTBuiltInCall in production rule RegexExpression failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61201,7 +61206,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
             collect.add(param3);
         }
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.SubstringExpression, collect.toTypedArray());
+        return ASTBuiltInCall(BuiltInFunctionsExt.SubstringExpression, collect.toTypedArray());
         throw Exception("Return of type ASTBuiltInCall in production rule SubstringExpression failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61225,7 +61230,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
             collect.add(param4);
         }
         token = kpLookAheadNextToken(861)
-        return ASTBuiltInCall(BuiltInFunctions.StrReplaceExpression, collect.toTypedArray());
+        return ASTBuiltInCall(BuiltInFunctionsExt.StrReplaceExpression, collect.toTypedArray());
         throw Exception("Return of type ASTBuiltInCall in production rule StrReplaceExpression failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61233,7 +61238,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         var token: Token
         token = kpLookAheadNextToken(698)
         val params = GroupGraphPattern()
-        return ASTBuiltInCall(BuiltInFunctions.Exists, params);
+        return ASTBuiltInCall(BuiltInFunctionsExt.Exists, params);
         throw Exception("Return of type ASTBuiltInCall in production rule ExistsFunc failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61242,7 +61247,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
         token = kpLookAheadNextToken(848)
         token = kpLookAheadNextToken(698)
         val params = GroupGraphPattern()
-        return ASTBuiltInCall(BuiltInFunctions.NotExists, params);
+        return ASTBuiltInCall(BuiltInFunctionsExt.NotExists, params);
         throw Exception("Return of type ASTBuiltInCall in production rule NotExistsFunc failed. This should never happen during normal usage. Error should occur in the scanner.")
     }
 
@@ -61275,7 +61280,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                     }
                 }
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.COUNT, distinct, children);
+                return ASTAggregation(AggregationExt.COUNT, distinct, children);
             }
             STRING_103 -> {
                 token = kpLookAheadNextToken(732)
@@ -61287,7 +61292,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 }
                 val expr = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.SUM, distinct, expr);
+                return ASTAggregation(AggregationExt.SUM, distinct, expr);
             }
             STRING_104 -> {
                 token = kpLookAheadNextToken(856)
@@ -61299,7 +61304,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 }
                 val expr = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.MIN, distinct, expr);
+                return ASTAggregation(AggregationExt.MIN, distinct, expr);
             }
             STRING_105 -> {
                 token = kpLookAheadNextToken(859)
@@ -61311,7 +61316,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 }
                 val expr = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.MAX, distinct, expr);
+                return ASTAggregation(AggregationExt.MAX, distinct, expr);
             }
             STRING_106 -> {
                 token = kpLookAheadNextToken(817)
@@ -61323,7 +61328,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 }
                 val expr = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.AVG, distinct, expr);
+                return ASTAggregation(AggregationExt.AVG, distinct, expr);
             }
             STRING_107 -> {
                 token = kpLookAheadNextToken(734)
@@ -61335,7 +61340,7 @@ class SPARQLParser(kpInputstream: IMyInputStream) {
                 }
                 val expr = Expression()
                 token = kpLookAheadNextToken(861)
-                return ASTAggregation(Aggregation.SAMPLE, distinct, expr);
+                return ASTAggregation(AggregationExt.SAMPLE, distinct, expr);
             }
             STRING_108 -> {
                 token = kpLookAheadNextToken(1148)
