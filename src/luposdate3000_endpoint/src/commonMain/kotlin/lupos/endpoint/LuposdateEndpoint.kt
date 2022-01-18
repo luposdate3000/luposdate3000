@@ -350,11 +350,19 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
+println("##############################################################1")
+println(query)
+println("##############################################################2")
             val parser = SPARQLParser(MyStringStream(query))
             val astNode = parser.expr()
+println(astNode)
+println("##############################################################3")
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(q))
+println(lopNode)
+println("##############################################################4")
+
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
