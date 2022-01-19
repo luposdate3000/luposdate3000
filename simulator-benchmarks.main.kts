@@ -143,7 +143,7 @@ loop@ for (campus in campusList) {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
-                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json") && (
+                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json","ontology/campusSOSANoSamplesInternalID.json") && (
                                         multicast != "multicast/luposdate3000MulticastEnabled.json" ||
                                             databaseTopology != "programDistribution/distributedWithQueryHops.json" ||
                                             routing != "routing_RPL_Fast.json" ||

@@ -88,8 +88,10 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
     internal var currentPartition = mutableMapOf<Int, Int>()/*partitionID->partitionIndex*/
     internal val partitionToKey = mutableMapOf<Int, MutableMap<Long, IntArray>>()/*ID->(operatorID->keys)*/
-    internal var keys = 0
-
+internal companion object{
+    internal var global_keys = 0
+}
+internal fun getNextKey():Int=global_keys++
     // for optimization
     internal val idToHost = mutableMapOf<Int, MutableSet<String>>()/*ID->(hostname)*/
     internal val dependenciesForID = mutableMapOf<Int, MutableMap<Int, Int>>()/*parentID->childID->key*/
@@ -383,9 +385,7 @@ public object ConverterPOPBaseToBinary {
         }
         var keys = keys0[operatorID]
         if (keys == null) {
-            val kk = handler.keys
-            handler.keys += partitionCount
-            keys = IntArray(partitionCount) { kk + it }
+            keys = IntArray(partitionCount) { handler.getNextKey() }
             keys0[operatorID] = keys
         }
         if (childID == -1) {
@@ -452,8 +452,7 @@ public object ConverterPOPBaseToBinary {
         }
         var keys = keys0[operatorID]
         if (keys == null) {
-            keys = IntArray(partitionCount) { handler.keys + it }
-            handler.keys += partitionCount
+            keys = IntArray(partitionCount) { handler.getNextKey() }
             keys0[operatorID] = keys
         }
         val off = ByteArrayWrapperExt.getSize(data)
@@ -518,8 +517,7 @@ public object ConverterPOPBaseToBinary {
         }
         var keys = keys0[operatorID]
         if (keys == null) {
-            keys = IntArray(partitionCount) { handler.keys + it }
-            handler.keys += partitionCount
+            keys = IntArray(partitionCount) { handler.getNextKey() }
             keys0[operatorID] = keys
         }
         val off = ByteArrayWrapperExt.getSize(data)
@@ -569,7 +567,7 @@ public object ConverterPOPBaseToBinary {
         var childID = handler.getNextChildID()
         handler.idToOffset[childID] = -1
         handler.currentID = childID
-        val key = handler.keys++
+        val key = handler.getNextKey()
         var deps = handler.dependenciesForID[currentID]
         if (deps == null) {
             handler.dependenciesForID[currentID] = mutableMapOf(childID to key)
