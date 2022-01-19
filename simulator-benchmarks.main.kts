@@ -46,59 +46,58 @@ val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
 val campusList = when (ontologyVersion) {
 2->    listOf(
-        "campusSOSANoSamplesInternalID.json",
-        "campusSOSAInternalID.json",
+        "ontology/campusSOSANoSamplesInternalID.json",
+        "ontology/campusSOSAInternalID.json",
     )
 1->    listOf(
-        "campusSOSANoSamples.json",
-        "campusSOSA.json",
+        "ontology/campusSOSANoSamples.json",
+        "ontology/campusSOSA.json",
     )
 0->     listOf(
-        "campusNoSamples.json",
-        "campus.json",
+        "ontology/campusNoSamples.json",
+        "ontology/campus.json",
     )
 else->TODO()
 }
 val routingList = listOf(
-    "routing_RPL_Fast.json",
-    "routing_AllShortestPath.json",
+    "routing/routing_RPL_Fast.json",
+    "routing/routing_AllShortestPath.json",
 )
 val queryList = List(9) {
     when (ontologyVersion) {
-   2->     "Q_SOSA_$it.json"
-   1->     "Q_SOSA_$it.json"
-0->        "Q$it.json"
+   2->     "queries/Q_SOSA_$it.json"
+   1->     "queries/Q_SOSA_$it.json"
+0->        "queries/Q$it.json"
 else->TODO()
     }
 }
 val databaseTopologyList = listOf(
-    "distributed.json",
-    "distributedWithQueryHops.json",
-//    "central.json",
+    "programDistribution/distributed.json",
+    "programDistribution/distributedWithQueryHops.json",
+//    "programDistribution/central.json",
 )
 val dataDistributionList = listOf(
-    "luposdate3000_by_key.json",
-    "luposdate3000_by_id_S_all_collations.json",
-    "luposdate3000_by_id_1_all_collations.json",
-    "luposdate3000_by_id_2_all_collations.json",
-    "luposdate3000_by_id_O_all_collations.json",
-    "luposdate3000_by_id_twice_all_collations.json",
-    "luposdate3000_by_simple.json",
+    "dataDistribution/luposdate3000_by_key.json",
+    "dataDistribution/luposdate3000_by_id_S_all_collations.json",
+    "dataDistribution/luposdate3000_by_id_1_all_collations.json",
+    "dataDistribution/luposdate3000_by_id_2_all_collations.json",
+    "dataDistribution/luposdate3000_by_id_O_all_collations.json",
+    "dataDistribution/luposdate3000_by_id_twice_all_collations.json",
+    "dataDistribution/luposdate3000_by_simple.json",
 )
 val multicastList = listOf(
-    "luposdate3000MulticastDisabled.json",
-    "luposdate3000MulticastEnabled.json",
+    "multicast/luposdate3000MulticastDisabled.json",
+    "multicast/luposdate3000MulticastEnabled.json",
 )
 val queryDistributionList = listOf(
     "luposdate3000_distribution_routing.json",
 )
-val networkTopologyList = mutableListOf<String>()
-for (i in listOf(16)) {
-    networkTopologyList.add("scenarioParkingFull$i.json")
-    networkTopologyList.add("scenarioParkingRandom$i.json")
-    networkTopologyList.add("scenarioParkingRing$i.json")
-    networkTopologyList.add("scenarioParkingUniform$i.json")
-}
+val networkTopologyList = mutableListOf<String>(
+"topology/RandomDB.json",
+"topology/RingDB.json",
+"topology/FullDB.json",
+"topology/UniformDB.json",
+)
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<Double>>()
 val attributeLines = mutableListOf<MutableList<String>>()
@@ -136,19 +135,19 @@ loop@ for (campus in campusList) {
                             val json_multicast = "$BASE_PATH/$multicast"
                             for (queryDistribution in queryDistributionList) {
                                 val json_queryDistribution = "$BASE_PATH/$queryDistribution"
-                                if (databaseTopology == "central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
+                                if (databaseTopology == "programDistribution/central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
                                     // centralized has only traffic during initialization, afterwards all zero
                                     continue
                                 }
-                                if (multicast == "luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
+                                if (multicast == "multicast/luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
-                                if (campus in listOf("campusNoSamples.json", "campusSOSANoSamples.json") && (
-                                        multicast != "luposdate3000MulticastEnabled.json" ||
-                                            databaseTopology != "distributedWithQueryHops.json" ||
+                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json") && (
+                                        multicast != "multicast/luposdate3000MulticastEnabled.json" ||
+                                            databaseTopology != "programDistribution/distributedWithQueryHops.json" ||
                                             routing != "routing_RPL_Fast.json" ||
-                                            dataDistribution != "luposdate3000_by_id_S_all_collations.json" ||
+                                            dataDistribution != "dataDistribution/luposdate3000_by_id_S_all_collations.json" ||
                                             query !in listOf("Q0.json", "Q_SOSA_0.json")
                                         )
                                 ) {

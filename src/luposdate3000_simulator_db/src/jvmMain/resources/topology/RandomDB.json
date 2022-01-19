@@ -7,7 +7,14 @@
             "longitude": 10.702377248379614,
             "patterns": [
                 {
-                    "count": 7,
+                    "count": 127,
+                    "deviceType": "Mesh Hop",
+                    "mode": "count",
+                    "radius": 500,
+                    "type": "random_fill",
+                },
+                {
+                    "count": 127,
                     "deviceType": "Database Device",
                     "mode": "count",
                     "patterns": [
@@ -16,13 +23,13 @@
                             "deviceType": "Sensor Device",
                             "mode": "count",
                             "provideCounterAs": "spotInArea",
-                            "radius": 5.0E-4,
+                            "radius": 50,
                             "type": "random_fill",
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 0.004,
-                    "type": "ring",
+                    "radius": 500,
+                    "type": "random_fill",
                 },
             ],
         },
