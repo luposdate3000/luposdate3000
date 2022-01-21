@@ -86,10 +86,10 @@ internal object NodeLeaf {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:89"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:88"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
         var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:92"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:91"/*SOURCE_FILE_END*/ },
             {
                 writtenTriples = mutableListOf()
             }
@@ -101,7 +101,7 @@ internal object NodeLeaf {
         while (iterator.hasNext() && offset <= offsetEnd) {
             val tripleCurrent = iterator.next()
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:107"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:103"/*SOURCE_FILE_END*/ },
                 {
                     writtenTriples!!.add(tripleCurrent[0])
                     writtenTriples!!.add(tripleCurrent[1])
@@ -114,7 +114,7 @@ internal object NodeLeaf {
         NodeShared.setTripleCount(node, triples)
         NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:125"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:116"/*SOURCE_FILE_END*/ },
             {
                 var remaining = NodeShared.getTripleCount(node)
                 var offset2 = START_OFFSET
@@ -128,9 +128,9 @@ internal object NodeLeaf {
                         value1 = v1
                         value2 = v2
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:141"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:142"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:143"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:130"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:131"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:132"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
                     remaining--
                     i++
                 }
