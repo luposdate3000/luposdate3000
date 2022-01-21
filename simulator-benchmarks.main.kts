@@ -18,6 +18,7 @@
 
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
+import java.time.LocalDateTime
 
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()

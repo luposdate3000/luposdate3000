@@ -25,7 +25,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.inline.Compressor
 
 internal object NodeShared {
-    const val MAX_TRIPLE_SIZE = 13
+    internal val MAX_TRIPLE_SIZE = 1+3*DictionaryValueHelper.getSize()
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setNodeType(node: BufferManagerPageWrapper, type: Int) {
