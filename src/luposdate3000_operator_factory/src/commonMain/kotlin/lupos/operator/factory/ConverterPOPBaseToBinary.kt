@@ -58,7 +58,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class BinaryMetadataHandler(
     public val idToOffset: MutableMap<Int, Int>,
     public val idToHost: MutableMap<Int, MutableSet<String>>,
-    public val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>,
+    public val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>,//parentID -> (childID -> key)
     public val keyLocationSrc: MutableMap<Int, Int>,
     public val keyLocationDest: MutableMap<Int, Int>,
 ) {
@@ -91,7 +91,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
 internal companion object{
     internal var global_keys = 0
 }
-internal fun getNextKey():Int=global_keys++
+internal fun getNextKey():Int = global_keys++
     // for optimization
     internal val idToHost = mutableMapOf<Int, MutableSet<String>>()/*ID->(hostname)*/
     internal val dependenciesForID = mutableMapOf<Int, MutableMap<Int, Int>>()/*parentID->childID->key*/

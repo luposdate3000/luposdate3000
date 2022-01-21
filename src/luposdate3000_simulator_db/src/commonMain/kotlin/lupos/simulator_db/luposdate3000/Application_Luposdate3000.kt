@@ -199,7 +199,7 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-//        println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
+        //println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
@@ -303,7 +303,9 @@ public class Application_Luposdate3000 public constructor(
                 val dep = pck.handler.dependenciesForID[k]
                 if (dep != null) {
                     for (d in dep.values) {
-                        pck.destinations[d] = ownAdress
+                        pck.destinations[d] = ownAdress 
+//ein paket ist erst dann ausführbar, wenn das datenziel auch schon feststeht
+//ein problem entsteht, wenn der query nicht auf dem root-node gestartet wird, und selber ergebnisse beitragen soll
                     }
                 }
             }
@@ -314,6 +316,19 @@ public class Application_Luposdate3000 public constructor(
                 myIdsOnTargetMap[target] = mutableSetOf(k)
             }
         }
+for((host,ids) in myIdsOnTargetMap){
+//this is only a workaround ... this may yield errors, if the query is pushed further down
+for(id in ids){
+val keys=pck.handler.dependenciesForID[id]
+if(keys!=null){
+for(key in keys.values){
+if(pck.destinations[key]==null){
+pck.destinations[key]=host
+}
+}
+}
+}
+}
         for ((targetHost, filter) in myIdsOnTargetMap) {
             // println("sending something to $targetHost")
             if (targetHost == ownAdress) {
