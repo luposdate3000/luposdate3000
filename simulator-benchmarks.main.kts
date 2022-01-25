@@ -156,7 +156,13 @@ loop@ for (campus in campusList) {
                                 }
                                 val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
                                 val cmd = baseCmd + specializedCmd
-                                val measurementFile = execute(cmd).filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
+//println(cmd.joinToString(" "))
+//continue
+val result=execute(cmd)
+                                val measurementFile = result.filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
+for(l in result){
+println(l)
+}
                                 var firstLine = listOf<String>()
                                 var contentLine = mutableListOf<Double>()
                                 val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()

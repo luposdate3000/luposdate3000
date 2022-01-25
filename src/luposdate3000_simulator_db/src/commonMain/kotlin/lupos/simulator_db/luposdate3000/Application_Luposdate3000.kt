@@ -101,6 +101,7 @@ public class Application_Luposdate3000 public constructor(
     private var hadInitDatabaseHopsWithinLuposdate3000 = false
     private var doWorkFlag = false
     private var hasOntology = false
+
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
         if (dbDeviceAddressesStoreList.isEmpty()) {
@@ -199,6 +200,9 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
+if(!hasOntology){
+TODO("query before ontology ${queryString}")
+}
         //println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
@@ -245,7 +249,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:247"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:251"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
