@@ -46,6 +46,7 @@ public class QueryResultToXMLStream : IResultFormat {
                 }
                 rowBuf[variableIndex] = valueID
             }
+//resultWriter.println("QueryResultToXMLStream.writeAllRows(${List(variables.size){rowBuf[it]}.joinToString()})")
             resultWriter.print("  <result>\n")
             for (variableIndex in variables.indices) {
                 dictionary.getValue(buffer, rowBuf[variableIndex])
@@ -166,7 +167,7 @@ public class QueryResultToXMLStream : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:168"/*SOURCE_FILE_END*/ }, { child.names.toSet().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${child.names}" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToXMLStream.kt:169"/*SOURCE_FILE_END*/ }, { child.names.toSet().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${child.names}" })
             } else {
                 columnNames = child.names.toList()
             }

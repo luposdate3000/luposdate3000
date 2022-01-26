@@ -1,7 +1,7 @@
 {
     "logging": {
         "lupos.visualize.distributed.database.VisualisationNetwork": {
-            "enabled": true,
+            "enabled": false,
         },
         "simora.LoggerMeasure": {
             "enabled": true,

@@ -346,7 +346,6 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
         try {
-println("allprocessurls : ${instance.LUPOS_PROCESS_URLS_ALL.toList()}")
             val q = Query(instance)
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
@@ -359,7 +358,6 @@ println("allprocessurls : ${instance.LUPOS_PROCESS_URLS_ALL.toList()}")
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(q))
-println(lopNode)
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
