@@ -25,12 +25,14 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveMultiOrdered {
+internal var debugID=0
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
         orderedBy: List<String>,
         variablesOut: List<String>,
     ): IteratorBundle {
+var debugCurrentID=debugID++
         val variables = mutableListOf<String>()
         variables.addAll(variablesOut)
         for (i in 0 until orderedBy.size) {
@@ -50,7 +52,7 @@ public object EvalDistributedReceiveMultiOrdered {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:52"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:54"/*SOURCE_FILE_END*/ },
                 { cnt == variables.size },
                 { "$cnt vs ${variables.size}" }
             )
@@ -60,7 +62,7 @@ public object EvalDistributedReceiveMultiOrdered {
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:62"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:64"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {
@@ -83,9 +85,10 @@ public object EvalDistributedReceiveMultiOrdered {
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
+println("EvalDistributedReceiveMultiOrdered $debugCurrentID start")
             var res = -1
             for (ii in 0 until openInputs.size) {
-                if (openInputs[ii] != null) {
+                if (openInputs[ii] != null) {//looking for first non null input
                     res = 0
                     var min = ii
                     loop@ for (i in min + 1 until openInputs.size) {
@@ -102,6 +105,7 @@ public object EvalDistributedReceiveMultiOrdered {
                             }
                         }
                     }
+println("EvalDistributedReceiveMultiOrdered $debugCurrentID selected input $min")
                     val off = min * variables.size
                     for (i in 0 until variables.size) {
                         iterator.buf[i] = buffer[off + i]
@@ -109,11 +113,9 @@ public object EvalDistributedReceiveMultiOrdered {
                     for (i in 0 until variables.size) {
                         buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
                     }
-                    //  var debugtmp = ""
-                    //  for (i in 0 until variables.size) {
-                    //     debugtmp = debugtmp + ",${buffer[off + i]}"
-                    // }
-                    //  println("POPDistributedReceiveMultiOrdered $uuid row $min $debugtmp")
+SanityCheck(
+   { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:116"/*SOURCE_FILE_END*/ },
+{
                     if (buffer[off] != DictionaryValueHelper.nullValue) {
                         for (idx in 0 until orderedBy.size) {
                             val a = buffer[idx + min * variables.size]
@@ -130,6 +132,7 @@ public object EvalDistributedReceiveMultiOrdered {
                             debugbuffer[off + i] = buffer[off + i]
                         }
                     }
+})
                     if (buffer[off] == DictionaryValueHelper.nullValue) {
                         openInputs[min]!!.close()
                         openOutputs[min]?.close()
@@ -139,6 +142,7 @@ public object EvalDistributedReceiveMultiOrdered {
                     break
                 }
             }
+println("EvalDistributedReceiveMultiOrdered $debugCurrentID $variables ${if(res>=0){iterator.buf.toList().subList(res,res+variables.size).toString()}else{""}}")
             res
         }
         iterator.close = {

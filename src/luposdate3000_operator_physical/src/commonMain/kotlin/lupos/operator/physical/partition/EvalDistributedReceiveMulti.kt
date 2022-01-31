@@ -25,6 +25,8 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveMulti {
+internal var debugID=0
+
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
@@ -36,7 +38,7 @@ public object EvalDistributedReceiveMulti {
 
         var openConnections = 0
         var buffer = DictionaryValueTypeArray(inputs.size * 1)
-
+var debugCurrentID=debugID++
         for (k in 0 until inputs.size) {
             val conn = inputs[k]
             val cnt = conn.readInt()
@@ -56,7 +58,7 @@ public object EvalDistributedReceiveMulti {
             if (k == 0) {
                 buffer = DictionaryValueTypeArray(inputs.size * variables.size)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:58"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:60"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()
@@ -111,6 +113,7 @@ public object EvalDistributedReceiveMulti {
                     openConnections--
                 }
             }
+println("EvalDistributedReceiveMulti $debugCurrentID $variables ${if(res>=0){iterator.buf.toList().subList(res,res+variables.size).toString()}else{""}}")
             res
         }
         iterator.close = {

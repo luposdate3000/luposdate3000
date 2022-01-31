@@ -416,7 +416,7 @@ pck.destinations[key]=host
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
-            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child,key) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })

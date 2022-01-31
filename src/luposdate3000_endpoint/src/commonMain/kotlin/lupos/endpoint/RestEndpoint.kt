@@ -130,7 +130,7 @@ public object RestEndpoint {
             val container = query.container as QueryMappingContainer
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
-            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(container.outputStreams[key]!!, child) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(container.outputStreams[key]!!, child,-1) })
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val container = query.container as QueryMappingContainer
