@@ -25,11 +25,12 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveMulti {
-internal var debugID=0
+    internal var debugID = 0
 
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
+        debugKeys: IntArray,
     ): IteratorBundle {
         val variables = mutableListOf<String>()
         val connectionsIn = Array<IMyInputStream?>(inputs.size) { null }
@@ -38,7 +39,8 @@ internal var debugID=0
 
         var openConnections = 0
         var buffer = DictionaryValueTypeArray(inputs.size * 1)
-var debugCurrentID=debugID++
+        var debugCurrentID = debugID++
+        val keys = IntArray (inputs.size){ -1 }
         for (k in 0 until inputs.size) {
             val conn = inputs[k]
             val cnt = conn.readInt()
@@ -58,7 +60,7 @@ var debugCurrentID=debugID++
             if (k == 0) {
                 buffer = DictionaryValueTypeArray(inputs.size * variables.size)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:60"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:62"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()
@@ -67,6 +69,7 @@ var debugCurrentID=debugID++
                 conn.close()
                 outputs[k]?.close()
             } else {
+                keys[openConnections] = debugKeys[k]
                 connectionsIn[openConnections] = conn
                 connectionsOut[openConnections] = outputs[k]
                 connectionsMapping[openConnections] = mapping
@@ -106,14 +109,22 @@ var debugCurrentID=debugID++
                         connectionsIn[min] = connectionsIn[openConnections - 1]
                         connectionsOut[min] = connectionsOut[openConnections - 1]
                         connectionsMapping[min] = connectionsMapping[openConnections - 1]
+                        keys[min] = keys[openConnections - 1]
                     }
+                    keys[openConnections - 1] = -2
                     connectionsIn[openConnections - 1] = null
                     connectionsOut[openConnections - 1] = null
                     connectionsMapping[openConnections - 1] = null
                     openConnections--
                 }
             }
-println("EvalDistributedReceiveMulti $debugCurrentID $variables ${if(res>=0){iterator.buf.toList().subList(res,res+variables.size).toString()}else{""}}")
+            println("EvalDistributedReceiveMulti id=$debugCurrentID key={keys[min]} $variables ${
+                if (res >= 0) {
+                    iterator.buf.toList().subList(res, res + variables.size).toString()
+                } else {
+                    ""
+                }
+            }")
             res
         }
         iterator.close = {

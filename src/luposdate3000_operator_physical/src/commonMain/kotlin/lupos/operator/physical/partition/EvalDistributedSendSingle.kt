@@ -21,8 +21,8 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalDistributedSendSingle {
-internal var debugID=0
-    public operator fun invoke(connectionOut: IMyOutputStream, child: IteratorBundle,debugKey:Int) {
+    internal var debugID = 0
+    public operator fun invoke(connectionOut: IMyOutputStream, child: IteratorBundle, debugKey: Int) {
         val variables = child.names
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         connectionOut.writeInt(variables.size)
@@ -32,16 +32,16 @@ internal var debugID=0
             connectionOut.write(buf)
         }
         var flag = true
-var debugCurrentID=debugID++
-var debugrow=MutableList(variables.size){DictionaryValueHelper.nullValue}
+        var debugCurrentID = debugID++
+        var debugrow = MutableList(variables.size) { DictionaryValueHelper.nullValue }
         while (flag) {
             for (j in 0 until variables.size) {
                 val buf = columns[j].next()
                 flag = flag && buf != DictionaryValueHelper.nullValue
-debugrow[j]=buf
+                debugrow[j] = buf
                 connectionOut.writeDictionaryValueType(buf)
             }
-println("EvalDistributedSendSingle $debugCurrentID $debugrow")
+            println("EvalDistributedSendSingle id=$debugCurrentID key=$debugKey ${variables.toList()} $debugrow")
         }
         try {
             connectionOut.close()

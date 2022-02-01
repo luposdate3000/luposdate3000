@@ -430,13 +430,13 @@ pck.destinations[key]=host
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}"), router!!) }
-            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name,keys) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
-            EvalDistributedReceiveSingle(input, null)
+            EvalDistributedReceiveSingle(input, null,key)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
@@ -456,7 +456,7 @@ pck.destinations[key]=host
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMulti(inputs, outputs)
+            EvalDistributedReceiveMulti(inputs, outputs,keys.toIntArray())
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
@@ -498,7 +498,7 @@ pck.destinations[key]=host
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
+            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut,keys.toIntArray())
         }
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
@@ -516,6 +516,7 @@ pck.destinations[key]=host
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
                         if (flag) {
+println("start work")
                             myPendingWork.remove(w)
                             changed = true
                             val query: Query

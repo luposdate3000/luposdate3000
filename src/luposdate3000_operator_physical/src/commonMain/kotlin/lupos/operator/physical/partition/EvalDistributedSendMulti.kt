@@ -21,7 +21,8 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalDistributedSendMulti {
-    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String) {
+    internal var debugID = 0
+    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String, outputKeys: IntArray) {
         val partitionCount = data.size
         val projectedVariables = child.names
         val variables = Array(projectedVariables.size) { "" }
@@ -47,29 +48,31 @@ public object EvalDistributedSendMulti {
                 }
             }
         }
-        // println("POPDistributedSendMulti $uuid columns ${variables.map{it}}")
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         var buf = columns[0].next()
+        var debugCurrentID = debugID++
+        var debugrow = MutableList(variables.size) { DictionaryValueHelper.nullValue }
+debugrow[0] = buf
         while (buf != DictionaryValueHelper.nullValue) {
-// the partition column
-            // var debugBuf = ""
-//                 debugBuf += ",$buf"
-            val connectionOut = data[DictionaryValueHelper.toInt(buf % partitionCount)]
+            val idx = DictionaryValueHelper.toInt(buf % partitionCount)
+            val connectionOut = data[idx]
             connectionOut!!.writeDictionaryValueType(buf)
-// all other columns
             for (j in 1 until variables.size) {
                 buf = columns[j].next()
-                // debugBuf += ",$buf"
+                debugrow[j] = buf
                 connectionOut.writeDictionaryValueType(buf)
             }
-            // println("POPDistributedSendMulti $uuid writing row $debugBuf")
+            println("EvalDistributedSendMulti id=$debugCurrentID key=${outputKeys[idx]} ${variables.toList()} $debugrow")
             buf = columns[0].next()
         }
-        // println("POPDistributedSendMulti $uuid writing end")
+var idx=0
         for (connectionOut in data) {
             for (j in 0 until variables.size) {
                 connectionOut!!.writeDictionaryValueType(buf)
+debugrow[j] = buf
             }
+            println("EvalDistributedSendMulti id=$debugCurrentID key=${outputKeys[idx]} ${variables.toList()} $debugrow")
+idx++
         }
         for (connectionOut in data) {
             connectionOut!!.close()

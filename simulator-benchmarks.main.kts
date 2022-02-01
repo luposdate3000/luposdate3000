@@ -22,8 +22,8 @@ import java.time.LocalDateTime
 
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
-
-var ontologyVersion=2 // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
+var skipfirst = true
+var ontologyVersion = 2 // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
 
 inline fun execute(args: List<String>): List<String> {
     println(args.joinToString(" "))
@@ -46,19 +46,19 @@ val json_evaluation = "$BASE_PATH/evaluation.json"
 val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
 val campusList = when (ontologyVersion) {
-2->    listOf(
+    2 -> listOf(
         "ontology/campusSOSANoSamplesInternalID.json",
         "ontology/campusSOSAInternalID.json",
     )
-1->    listOf(
+    1 -> listOf(
         "ontology/campusSOSANoSamples.json",
         "ontology/campusSOSA.json",
     )
-0->     listOf(
+    0 -> listOf(
         "ontology/campusNoSamples.json",
         "ontology/campus.json",
     )
-else->TODO()
+    else -> TODO()
 }
 val routingList = listOf(
     "routing/routing_RPL_Fast.json",
@@ -66,10 +66,10 @@ val routingList = listOf(
 )
 val queryList = List(9) {
     when (ontologyVersion) {
-   2->     "queries/Q_SOSA_$it.json"
-   1->     "queries/Q_SOSA_$it.json"
-0->        "queries/Q$it.json"
-else->TODO()
+        2 -> "queries/Q_SOSA_$it.json"
+        1 -> "queries/Q_SOSA_$it.json"
+        0 -> "queries/Q$it.json"
+        else -> TODO()
     }
 }
 val databaseTopologyList = listOf(
@@ -94,10 +94,10 @@ val queryDistributionList = listOf(
     "luposdate3000_distribution_routing.json",
 )
 val networkTopologyList = mutableListOf<String>(
-"topology/RandomDB.json",
-"topology/RingDB.json",
-"topology/FullDB.json",
-"topology/UniformDB.json",
+    "topology/RandomDB.json",
+    "topology/RingDB.json",
+    "topology/FullDB.json",
+    "topology/UniformDB.json",
 )
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<Double>>()
@@ -135,6 +135,7 @@ loop@ for (campus in campusList) {
                         for (multicast in multicastList) {
                             val json_multicast = "$BASE_PATH/$multicast"
                             for (queryDistribution in queryDistributionList) {
+try{
                                 val json_queryDistribution = "$BASE_PATH/$queryDistribution"
                                 if (databaseTopology == "programDistribution/central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
                                     // centralized has only traffic during initialization, afterwards all zero
@@ -144,7 +145,7 @@ loop@ for (campus in campusList) {
                                     // multicast is only relevant for insert, everything else is the same
                                     continue
                                 }
-                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json","ontology/campusSOSANoSamplesInternalID.json") && (
+                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json", "ontology/campusSOSANoSamplesInternalID.json") && (
                                         multicast != "multicast/luposdate3000MulticastEnabled.json" ||
                                             databaseTopology != "programDistribution/distributedWithQueryHops.json" ||
                                             routing != "routing_RPL_Fast.json" ||
@@ -158,11 +159,16 @@ loop@ for (campus in campusList) {
                                 val cmd = baseCmd + specializedCmd
 //println(cmd.joinToString(" "))
 //continue
-val result=execute(cmd)
+                                val result = if (skipfirst) {
+                                    skipfirst = false
+                                    listOf<String>()
+                                } else {
+                                    execute(cmd)
+                                }
                                 val measurementFile = result.filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
-for(l in result){
-println(l)
-}
+                                for (l in result) {
+                                    println(l)
+                                }
                                 var firstLine = listOf<String>()
                                 var contentLine = mutableListOf<Double>()
                                 val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
@@ -187,6 +193,9 @@ println(l)
                                     }
                                 }
                                 contentLines.add(contentLine)
+}catch(e:Throwable){
+e.printStackTrace()
+}
                             }
                         }
                     }
