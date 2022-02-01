@@ -21,8 +21,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalDistributedSendMulti {
-    internal var debugID = 0
-    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String, outputKeys: IntArray) {
+    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String) {
         val partitionCount = data.size
         val projectedVariables = child.names
         val variables = Array(projectedVariables.size) { "" }
@@ -50,29 +49,20 @@ public object EvalDistributedSendMulti {
         }
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         var buf = columns[0].next()
-        var debugCurrentID = debugID++
-        var debugrow = MutableList(variables.size) { DictionaryValueHelper.nullValue }
-debugrow[0] = buf
         while (buf != DictionaryValueHelper.nullValue) {
             val idx = DictionaryValueHelper.toInt(buf % partitionCount)
             val connectionOut = data[idx]
             connectionOut!!.writeDictionaryValueType(buf)
             for (j in 1 until variables.size) {
                 buf = columns[j].next()
-                debugrow[j] = buf
                 connectionOut.writeDictionaryValueType(buf)
             }
-            println("EvalDistributedSendMulti id=$debugCurrentID key=${outputKeys[idx]} ${variables.toList()} $debugrow")
             buf = columns[0].next()
         }
-var idx=0
         for (connectionOut in data) {
             for (j in 0 until variables.size) {
                 connectionOut!!.writeDictionaryValueType(buf)
-debugrow[j] = buf
             }
-            println("EvalDistributedSendMulti id=$debugCurrentID key=${outputKeys[idx]} ${variables.toList()} $debugrow")
-idx++
         }
         for (connectionOut in data) {
             connectionOut!!.close()

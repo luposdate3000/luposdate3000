@@ -75,7 +75,6 @@ public class TripleStoreIndexDescriptionSimple(
     override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:75"/*SOURCE_FILE_END*/ }, { partition.limit.isEmpty() })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:76"/*SOURCE_FILE_END*/ }, { partition.data.isEmpty() })
-println("TripleStoreIndexDescriptionPartitionedBySimple.getStore")
         return Pair(hostname, key)
     }
 
@@ -92,8 +91,8 @@ println("TripleStoreIndexDescriptionPartitionedBySimple.getStore")
     }
 
     override fun assignHosts() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:94"/*SOURCE_FILE_END*/ }, { hostname == "" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:95"/*SOURCE_FILE_END*/ }, { key == "" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:93"/*SOURCE_FILE_END*/ }, { hostname == "" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionSimple.kt:94"/*SOURCE_FILE_END*/ }, { key == "" })
         val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(0)
         hostname = tmp.first
         key = tmp.second

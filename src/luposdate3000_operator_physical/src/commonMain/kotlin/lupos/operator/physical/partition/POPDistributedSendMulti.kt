@@ -65,6 +65,6 @@ public class POPDistributedSendMulti public constructor(
         for ((k, v) in partitionedBy) {
             partition = Partition(partition, k, v, -1)
         }
-        EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable,IntArray(data.size){-it})
+        EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable)
     }
 }

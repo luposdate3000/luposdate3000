@@ -24,13 +24,10 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveSingle {
-    internal var debugID = 0
     public operator fun invoke(
         input: IMyInputStream,
         output: IMyOutputStream?,
-        debugkey: Int,
     ): IteratorBundle {
-        var debugCurrentID = debugID++
         val variables = mutableListOf<String>()
         val cnt = input.readInt()
         for (i in 0 until cnt) {
@@ -58,13 +55,6 @@ public object EvalDistributedReceiveSingle {
                     res = 0
                 }
             }
-            println("EvalDistributedReceiveSingle id=$debugCurrentID key=$debugkey $variables ${
-                if (res >= 0) {
-                    iterator.buf.toList().subList(res, res + variables.size).toString()
-                } else {
-                    ""
-                }
-            }")
             res
         }
         iterator.close = {

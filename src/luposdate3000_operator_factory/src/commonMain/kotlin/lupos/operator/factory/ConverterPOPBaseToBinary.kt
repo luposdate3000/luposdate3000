@@ -287,7 +287,6 @@ public object ConverterPOPBaseToBinary {
     }
 
     public fun encode(op: IOPBase, distributed: Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
-println("encoding"+op)
         val handler = ConverterPOPBaseToBinaryDistributionHandler()
         val mapping = mutableMapOf<String, Int>()
         var data = ByteArrayWrapper()
@@ -983,6 +982,7 @@ println("target $target")
                     hostsTmp = mutableSetOf(target.first)
                     handler.idToHost[handler.currentID] = hostsTmp
                 }
+println("assignd EOperatorIDExt.POPTripleStoreIterator ${handler.currentID}")
                 ConverterBinaryEncoder.encodePOPTripleStoreIterator(
                     data,
                     mapping,

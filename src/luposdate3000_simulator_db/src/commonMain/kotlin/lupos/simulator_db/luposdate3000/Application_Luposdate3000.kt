@@ -200,9 +200,9 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-if(!hasOntology){
-TODO("query before ontology ${queryString}")
-}
+        if (!hasOntology) {
+            TODO("query before ontology ${queryString}")
+        }
         //println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
@@ -249,7 +249,7 @@ TODO("query before ontology ${queryString}")
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:251"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -284,7 +284,7 @@ TODO("query before ontology ${queryString}")
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
-
+//xxxx this function
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -307,7 +307,7 @@ TODO("query before ontology ${queryString}")
                 val dep = pck.handler.dependenciesForID[k]
                 if (dep != null) {
                     for (d in dep.values) {
-                        pck.destinations[d] = ownAdress 
+                        pck.destinations[d] = ownAdress
 //ein paket ist erst dann ausführbar, wenn das datenziel auch schon feststeht
 //ein problem entsteht, wenn der query nicht auf dem root-node gestartet wird, und selber ergebnisse beitragen soll
                     }
@@ -320,19 +320,19 @@ TODO("query before ontology ${queryString}")
                 myIdsOnTargetMap[target] = mutableSetOf(k)
             }
         }
-for((host,ids) in myIdsOnTargetMap){
+        for ((host, ids) in myIdsOnTargetMap) {
 //this is only a workaround ... this may yield errors, if the query is pushed further down
-for(id in ids){
-val keys=pck.handler.dependenciesForID[id]
-if(keys!=null){
-for(key in keys.values){
-if(pck.destinations[key]==null){
-pck.destinations[key]=host
-}
-}
-}
-}
-}
+            for (id in ids) {
+                val keys = pck.handler.dependenciesForID[id]
+                if (keys != null) {
+                    for (key in keys.values) {
+                        if (pck.destinations[key] == null) {
+                            pck.destinations[key] = host
+                        }
+                    }
+                }
+            }
+        }
         for ((targetHost, filter) in myIdsOnTargetMap) {
             // println("sending something to $targetHost")
             if (targetHost == ownAdress) {
@@ -416,7 +416,7 @@ pck.destinations[key]=host
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
-            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child,key) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
@@ -430,13 +430,13 @@ pck.destinations[key]=host
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}"), router!!) }
-            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name,keys) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[key]!!)
             myPendingWorkData.remove(key)
-            EvalDistributedReceiveSingle(input, null,key)
+            EvalDistributedReceiveSingle(input, null)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
@@ -456,7 +456,7 @@ pck.destinations[key]=host
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMulti(inputs, outputs,keys.toIntArray())
+            EvalDistributedReceiveMulti(inputs, outputs)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
@@ -498,7 +498,7 @@ pck.destinations[key]=host
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut,keys.toIntArray())
+            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
         }
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
@@ -516,7 +516,6 @@ pck.destinations[key]=host
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
                         if (flag) {
-println("start work")
                             myPendingWork.remove(w)
                             changed = true
                             val query: Query
