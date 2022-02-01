@@ -32,6 +32,7 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
+import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -300,7 +301,9 @@ public class Application_Luposdate3000 public constructor(
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
                 targets.first()
-            } else {
+            } else if(targets.contains(rootAddressInt)){
+rootAddressInt
+}else{
                 ownAdress
             }
             if (target == ownAdress) {
@@ -525,7 +528,7 @@ public class Application_Luposdate3000 public constructor(
                             } else {
                                 query = w.query as Query
                             }
-                            // println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+                             println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {

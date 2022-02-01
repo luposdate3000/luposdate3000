@@ -76,7 +76,7 @@ public object ConverterBinaryToPOPJson {
                         }
                         res.add(list to child)
                     }
-                    result[-1] = "{\"columns\":[${res.map { it.first }.toTypedArray().joinToString()}],\"childs\":[${res.map { it.second }.toTypedArray().joinToString()}]}"
+                    result[-1] = "{\"columns\":[${res.map { "\"${it.first}\"" }.toTypedArray().joinToString()}],\"childs\":[${res.map { it.second }.toTypedArray().joinToString()}]}"
                 }
                 0x2 -> {
                     /*there is no query root here*/
