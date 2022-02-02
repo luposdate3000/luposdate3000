@@ -102,6 +102,7 @@ public class Application_Luposdate3000 public constructor(
     private var hadInitDatabaseHopsWithinLuposdate3000 = false
     private var doWorkFlag = false
     private var hasOntology = false
+private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... queryID -> Query
 
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
@@ -250,7 +251,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:252"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:253"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -297,7 +298,6 @@ public class Application_Luposdate3000 public constructor(
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
         for ((k, v) in pck.handler.idToHost) {
-            // println("$k $v")
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
                 targets.first()
@@ -316,11 +316,12 @@ rootAddressInt
                     }
                 }
             }
-            val mm = myIdsOnTargetMap[target]
+            var mm = myIdsOnTargetMap[target]
             if (mm != null) {
                 mm.add(k)
             } else {
-                myIdsOnTargetMap[target] = mutableSetOf(k)
+mm=mutableSetOf(k)
+                myIdsOnTargetMap[target] = mm
             }
         }
         for ((host, ids) in myIdsOnTargetMap) {
@@ -337,7 +338,6 @@ rootAddressInt
             }
         }
         for ((targetHost, filter) in myIdsOnTargetMap) {
-            // println("sending something to $targetHost")
             if (targetHost == ownAdress) {
                 for (id in filter) {
                     var dependencies2 = pck.handler.dependenciesForID[id]
@@ -506,6 +506,7 @@ rootAddressInt
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
 
+
     private fun doWork() {
         if (!doWorkFlag) {
             doWorkFlag = true // only one exeution at a time
@@ -523,12 +524,22 @@ rootAddressInt
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
-                                query = Query(instance)
+                                query = Query(instance) 
                                 query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
                             } else {
-                                query = w.query as Query
+var q=queryCache[w.queryID]
+if(q==null){
+q=Query(instance)
+q.dictionary=(w.query as Query).dictionary
+q.transactionID=(w.query as Query).transactionID
+queryCache[w.queryID]=q
+}
+query=q
                             }
-                             println("JSON_OUT_EVAL ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+if(w.dataID==-1){
+queryCache.remove(w.queryID)
+}
+//                             println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {

@@ -78,13 +78,16 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     @JvmField
     public var dictionaryUrl: String? = null
-    override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
-    override fun getInstance(): Luposdate3000Instance = instance
 
     private var partitionKeyCounterStart = Int.MAX_VALUE / instance.LUPOS_PROCESS_URLS_ALL.size * instance.LUPOS_PROCESS_ID
     private var partitionKeyCounterEnd = Int.MAX_VALUE / instance.LUPOS_PROCESS_URLS_ALL.size * (instance.LUPOS_PROCESS_ID + 1)
 
     private var partitionKeyCounter = partitionKeyCounterStart
+
+
+
+    override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
+    override fun getInstance(): Luposdate3000Instance = instance
     override fun createPartitionKey(): Int {
 // TODO locking here
         var next = partitionKeyCounter++
@@ -129,7 +132,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:131"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:134"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -137,7 +140,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:139"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:142"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

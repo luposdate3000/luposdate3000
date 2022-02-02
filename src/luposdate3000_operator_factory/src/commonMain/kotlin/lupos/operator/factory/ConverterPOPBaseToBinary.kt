@@ -972,9 +972,7 @@ public object ConverterPOPBaseToBinary {
                 } else {
                     TODO("??? ${handler.currentPartition}")
                 }
-println("encodePOPTripleStoreIterator for ${handler.currentPartition} -> $parent")
                 val target = op.getTarget(parent)
-println("target $target")
                 var hostsTmp = handler.idToHost[handler.currentID]
                 if (hostsTmp != null) {
                     hostsTmp.add(target.first)
@@ -982,7 +980,6 @@ println("target $target")
                     hostsTmp = mutableSetOf(target.first)
                     handler.idToHost[handler.currentID] = hostsTmp
                 }
-println("assignd EOperatorIDExt.POPTripleStoreIterator ${handler.currentID}")
                 ConverterBinaryEncoder.encodePOPTripleStoreIterator(
                     data,
                     mapping,
