@@ -202,9 +202,9 @@ private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... q
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-        if (!hasOntology) {
-            TODO("query before ontology ${queryString}")
-        }
+//        if (!hasOntology) {
+//            TODO("query before ontology ${queryString}")
+//        }
         //println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
