@@ -15,12 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.ast
-import lupos.parser.sparql1_1.*
-import lupos.parser.sparql1_1.SPARQLParser.*
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.*
-import lupos.shared.DictionaryValueHelper
 import lupos.operator.arithmetik.multiinput.*
 import lupos.operator.arithmetik.noinput.*
 import lupos.operator.arithmetik.singleinput.*
@@ -41,7 +38,9 @@ import lupos.operator.logical.singleinput.*
 import lupos.operator.logical.singleinput.modifiers.*
 import lupos.operator.physical.noinput.POPValues2
 import lupos.parser.sparql1_1.*
+import lupos.parser.sparql1_1.SPARQLParser.*
 import lupos.shared.*
+import lupos.shared.DictionaryValueHelper
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
@@ -955,9 +954,9 @@ return tmp
 
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/OperatorGraphVisitor.kt:956"/*SOURCE_FILE_END*/ }, { childrenValues.isEmpty() })
-if(node.name.startsWith("luposdate3000id")){
-return AOPConstant(query,DictionaryValueHelper.fromString(node.name.substring("luposdate3000id".length)))
-}
+        if (node.name.startsWith("luposdate3000id")) {
+            return AOPConstant(query, DictionaryValueHelper.fromString(node.name.substring("luposdate3000id".length)))
+        }
         return AOPVariable(query, query.getUniqueVariableName(node.name))
 // blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }

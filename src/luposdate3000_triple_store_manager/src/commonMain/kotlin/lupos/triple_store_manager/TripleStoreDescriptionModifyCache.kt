@@ -34,7 +34,7 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 internal class FilterFunc(val j: Int, val index: TripleStoreIndexDescription, val action: (DictionaryValueTypeArray, Int, TripleStoreIndexDescription) -> Boolean)
 
-internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputStream?, val output: IMyOutputStream, val filters: MutableList<FilterFunc>, val isLocal: Boolean,val debugTargetHostname:String) {
+internal class TripleStoreDescriptionModifyCacheConnection(val input: IMyInputStream?, val output: IMyOutputStream, val filters: MutableList<FilterFunc>, val isLocal: Boolean, val debugTargetHostname: String) {
     internal var hadInit = false
     internal var header = ByteArrayWrapper()
 }
@@ -43,7 +43,7 @@ public class TripleStoreDescriptionModifyCacheFilterEntry(public val host: Strin
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
     private val row = DictionaryValueTypeArray(3)
     private val allConn = mutableListOf<TripleStoreDescriptionModifyCacheConnection>()
-private val debugMyHostName:String
+    private val debugMyHostName: String
     public constructor(
         query: IQuery,
         description: TripleStoreDescription,
@@ -53,7 +53,7 @@ private val debugMyHostName:String
         isSorted: Boolean,
         filteredBy: List<TripleStoreDescriptionModifyCacheFilterEntry>?,
     ) {
-debugMyHostName=instance.LUPOS_PROCESS_URLS_ALL[instance.LUPOS_PROCESS_ID]
+        debugMyHostName = instance.LUPOS_PROCESS_URLS_ALL[instance.LUPOS_PROCESS_ID]
         val allConnLocal = mutableListOf<TripleStoreDescriptionModifyCacheConnection>()
         val allConnMap = mutableMapOf<String, TripleStoreDescriptionModifyCacheConnection>() // address -> real-targets
         val localH = (instance.tripleStoreManager!! as TripleStoreManagerImpl).localhost
@@ -101,12 +101,12 @@ debugMyHostName=instance.LUPOS_PROCESS_URLS_ALL[instance.LUPOS_PROCESS_ID]
                             }
                         )
                         if (host == localH) {
-                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter), true,host2))
+                            allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter), true, host2))
                         } else {
                             var conn = allConnMap[host2]
                             if (conn == null) {
                                 val tmp = instance.communicationHandler!!.openConnection(host2, "/distributed/graph/modify", mapOf("graph" to description.graph, "sortedBy" to "$sortedBy", "isSorted" to "$isSorted", "mode" to EModifyTypeExt.names[type]), query.getTransactionID().toInt())
-                                conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf(), false,host2)
+                                conn = TripleStoreDescriptionModifyCacheConnection(tmp.first, tmp.second, mutableListOf(), false, host2)
                                 allConnMap[host2] = conn
                             }
                             conn.filters.add(filter)

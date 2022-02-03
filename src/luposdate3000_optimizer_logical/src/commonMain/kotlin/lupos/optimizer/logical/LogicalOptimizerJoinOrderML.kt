@@ -22,10 +22,8 @@ import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.noinput.POPNothing
-import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {

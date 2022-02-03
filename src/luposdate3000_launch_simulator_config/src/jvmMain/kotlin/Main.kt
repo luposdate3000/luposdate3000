@@ -17,12 +17,12 @@
 import lupos.launch.simulator.config.mainFunc
 import java.time.LocalDateTime
 public fun main(args: Array<String>) {
-System.err.println("starting at: ${LocalDateTime.now()}")
-try{
-    mainFunc(args.toList())
-System.err.println("finished at: ${LocalDateTime.now()}")
-}catch(e:Throwable){
-System.err.println("aborted at: ${LocalDateTime.now()}")
-throw e
-}
+    System.err.println("starting at: ${LocalDateTime.now()}")
+    try {
+        mainFunc(args.toList())
+        System.err.println("finished at: ${LocalDateTime.now()}")
+    } catch (e: Throwable) {
+        System.err.println("aborted at: ${LocalDateTime.now()}")
+        throw e
+    }
 }

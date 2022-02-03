@@ -70,7 +70,7 @@ public object EvalDistributedReceiveMultiOrdered {
             // for (i in 0 until variables.size) {
             //     debugtmp = debugtmp + ",${buffer[off + i]}"
             // }
-            //println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
+            // println("POPDistributedReceiveMultiOrdered $uuid row $kk $debugtmp")
             if (buffer[off] == DictionaryValueHelper.nullValue) {
                 openInputs[kk]!!.close()
                 openOutputs[kk]?.close()
@@ -85,7 +85,7 @@ public object EvalDistributedReceiveMultiOrdered {
         iterator.next = {
             var res = -1
             for (ii in 0 until openInputs.size) {
-                if (openInputs[ii] != null) {//looking for first non null input
+                if (openInputs[ii] != null) { // looking for first non null input
                     res = 0
                     var min = ii
                     loop@ for (i in min + 1 until openInputs.size) {
@@ -128,7 +128,8 @@ public object EvalDistributedReceiveMultiOrdered {
                                     debugbuffer[off + i] = buffer[off + i]
                                 }
                             }
-                        })
+                        }
+                    )
                     if (buffer[off] == DictionaryValueHelper.nullValue) {
                         openInputs[min]!!.close()
                         openOutputs[min]?.close()

@@ -84,8 +84,6 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     private var partitionKeyCounter = partitionKeyCounterStart
 
-
-
     override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
     override fun getInstance(): Luposdate3000Instance = instance
     override fun createPartitionKey(): Int {

@@ -82,7 +82,7 @@ public class TripleStoreDescription(
     }
 
     public companion object {
-internal var hadShownHistogramStacktrace=false
+        internal var hadShownHistogramStacktrace = false
         public operator fun invoke(metaString: String, instance: Luposdate3000Instance): TripleStoreDescription {
             val indices = mutableListOf<TripleStoreIndexDescription>()
             var graph: String? = null
@@ -208,11 +208,11 @@ internal var hadShownHistogramStacktrace=false
                             conn.first.close()
                             conn.second.close()
                         } catch (e: Throwable) {
-if(!hadShownHistogramStacktrace){
-hadShownHistogramStacktrace=true
-println("showing only first error at"+/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:212"/*SOURCE_FILE_END*/ )
-                            e.printStackTrace()
-}
+                            if (!hadShownHistogramStacktrace) {
+                                hadShownHistogramStacktrace = true
+                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:212"/*SOURCE_FILE_END*/)
+                                e.printStackTrace()
+                            }
                             first += 100
                             second += 100
                         }

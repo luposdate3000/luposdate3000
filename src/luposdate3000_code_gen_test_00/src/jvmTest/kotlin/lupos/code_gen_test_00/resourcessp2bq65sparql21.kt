@@ -1327,8 +1327,6 @@ public class resourcessp2bq65sparql21 {
             }
         )
 
-        
-
         simRun.startUp()
         val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])

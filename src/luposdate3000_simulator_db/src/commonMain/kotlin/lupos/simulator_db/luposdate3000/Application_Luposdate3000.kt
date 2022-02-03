@@ -32,7 +32,6 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
-import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -68,7 +67,6 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
-import simora.parser.JsonParserObject
 import simora.ILogger
 import simora.IPayload
 import simora.applications.IApplicationStack_Actuator
@@ -76,6 +74,7 @@ import simora.applications.IApplicationStack_Middleware
 import simora.applications.scenario.parking.IPackage_DatabaseTesting
 import simora.applications.scenario.parking.Package_Query
 import simora.applications.scenario.parking.Package_QueryResponse
+import simora.parser.JsonParserObject
 
 public class Application_Luposdate3000 public constructor(
     internal val config: JsonParserObject,
@@ -102,7 +101,7 @@ public class Application_Luposdate3000 public constructor(
     private var hadInitDatabaseHopsWithinLuposdate3000 = false
     private var doWorkFlag = false
     private var hasOntology = false
-private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... queryID -> Query
+    private var queryCache = mutableMapOf<Int, Query>() // only works on root node ... queryID -> Query
 
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
@@ -205,7 +204,7 @@ private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... q
 //        if (!hasOntology) {
 //            TODO("query before ontology ${queryString}")
 //        }
-        //println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
+        // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val op = if (enforcedIndex != null) {
             val q = Query(instance)
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
@@ -286,7 +285,7 @@ private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... q
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
-//xxxx this function
+// xxxx this function
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -301,9 +300,9 @@ private var queryCache=mutableMapOf<Int,Query>() //only works on root node ... q
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
                 targets.first()
-            } else if(targets.contains(rootAddressInt)){
-rootAddressInt
-}else{
+            } else if (targets.contains(rootAddressInt)) {
+                rootAddressInt
+            } else {
                 ownAdress
             }
             if (target == ownAdress) {
@@ -311,8 +310,8 @@ rootAddressInt
                 if (dep != null) {
                     for (d in dep.values) {
                         pck.destinations[d] = ownAdress
-//ein paket ist erst dann ausführbar, wenn das datenziel auch schon feststeht
-//ein problem entsteht, wenn der query nicht auf dem root-node gestartet wird, und selber ergebnisse beitragen soll
+// ein paket ist erst dann ausführbar, wenn das datenziel auch schon feststeht
+// ein problem entsteht, wenn der query nicht auf dem root-node gestartet wird, und selber ergebnisse beitragen soll
                     }
                 }
             }
@@ -320,12 +319,12 @@ rootAddressInt
             if (mm != null) {
                 mm.add(k)
             } else {
-mm=mutableSetOf(k)
+                mm = mutableSetOf(k)
                 myIdsOnTargetMap[target] = mm
             }
         }
         for ((host, ids) in myIdsOnTargetMap) {
-//this is only a workaround ... this may yield errors, if the query is pushed further down
+// this is only a workaround ... this may yield errors, if the query is pushed further down
             for (id in ids) {
                 val keys = pck.handler.dependenciesForID[id]
                 if (keys != null) {
@@ -506,7 +505,6 @@ mm=mutableSetOf(k)
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
 
-
     private fun doWork() {
         if (!doWorkFlag) {
             doWorkFlag = true // only one exeution at a time
@@ -524,21 +522,21 @@ mm=mutableSetOf(k)
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
-                                query = Query(instance) 
+                                query = Query(instance)
                                 query.setDictionary(DictionaryCacheLayer(instance, DictionaryNotImplemented(instance), true))
                             } else {
-var q=queryCache[w.queryID]
-if(q==null){
-q=Query(instance)
-q.dictionary=(w.query as Query).dictionary
-q.transactionID=(w.query as Query).transactionID
-queryCache[w.queryID]=q
-}
-query=q
+                                var q = queryCache[w.queryID]
+                                if (q == null) {
+                                    q = Query(instance)
+                                    q.dictionary = (w.query as Query).dictionary
+                                    q.transactionID = (w.query as Query).transactionID
+                                    queryCache[w.queryID] = q
+                                }
+                                query = q
                             }
-if(w.dataID==-1){
-queryCache.remove(w.queryID)
-}
+                            if (w.dataID == -1) {
+                                queryCache.remove(w.queryID)
+                            }
 //                             println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)

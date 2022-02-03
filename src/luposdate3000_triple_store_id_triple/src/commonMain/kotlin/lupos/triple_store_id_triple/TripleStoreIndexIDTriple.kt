@@ -705,34 +705,34 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                     }
                 }
             )
-//debug-->>
-if(false){
-val myListOfBefore=mutableSetOf<List<Long>>()
-val b=firstLeaf_
-if(b!=NodeManager.nodeNullPointer){
-var nodeB: BufferManagerPageWrapper? = null
-        nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:713"/*SOURCE_FILE_END*/, b) {
-            nodeB = it
-        }
-       val debugiter2=NodeLeaf.iterator(nodeB!!, b, nodeManager)
-while(debugiter2.hasNext()){
-val row=debugiter2.next().toList()
-myListOfBefore.add(row)
-println("insertAsBulkSorted $rootPageID a $row")
-}
-}
-val myListOfInsert=mutableSetOf<List<Long>>()
-for(i in 0 until dataSize/3){
-println("insertAsBulkSorted $rootPageID b ${data[i*3]},${data[i*3+1]},${data[i*3+2]}")
-}
-val debugiter=BulkImportIterator(data, dataSize, order)
-while(debugiter.hasNext()){
-val row=debugiter.next().toList()
-myListOfInsert.add(row)
-println("insertAsBulkSorted $rootPageID c $row")
-}
-}
-//debug<<--
+// debug-->>
+            if (false) {
+                val myListOfBefore = mutableSetOf<List<Long>>()
+                val b = firstLeaf_
+                if (b != NodeManager.nodeNullPointer) {
+                    var nodeB: BufferManagerPageWrapper? = null
+                    nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:713"/*SOURCE_FILE_END*/, b) {
+                        nodeB = it
+                    }
+                    val debugiter2 = NodeLeaf.iterator(nodeB!!, b, nodeManager)
+                    while (debugiter2.hasNext()) {
+                        val row = debugiter2.next().toList()
+                        myListOfBefore.add(row)
+                        println("insertAsBulkSorted $rootPageID a $row")
+                    }
+                }
+                val myListOfInsert = mutableSetOf<List<Long>>()
+                for (i in 0 until dataSize / 3) {
+                    println("insertAsBulkSorted $rootPageID b ${data[i * 3]},${data[i * 3 + 1]},${data[i * 3 + 2]}")
+                }
+                val debugiter = BulkImportIterator(data, dataSize, order)
+                while (debugiter.hasNext()) {
+                    val row = debugiter.next().toList()
+                    myListOfInsert.add(row)
+                    println("insertAsBulkSorted $rootPageID c $row")
+                }
+            }
+// debug<<--
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
@@ -745,8 +745,8 @@ println("insertAsBulkSorted $rootPageID c $row")
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
             lock.writeUnlock()
-//debug-->> 
-if(false){
+// debug-->> 
+            if (false) {
 /*
 flush()
 val a=firstLeaf_
@@ -772,8 +772,8 @@ TODO("row from before missing afterwards")
 }
 }
 */
-}
-//debug<<-- 
+            }
+// debug<<-- 
         }
     }
 

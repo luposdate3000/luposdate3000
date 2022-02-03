@@ -49,9 +49,9 @@ public abstract class OPBase public constructor(
     @JvmField public val children: Array<IOPBase>,
     @JvmField internal val sortPriority: ESortPriority
 ) : IOPBase {
-internal companion object{
-internal var hadXMLWarning=false//show the warning stacktrace only once ... to prevent cluttering the output
-}
+    internal companion object {
+        internal var hadXMLWarning = false // show the warning stacktrace only once ... to prevent cluttering the output
+    }
 
     override fun getClassname(): String = classname
 
@@ -488,11 +488,11 @@ internal var hadXMLWarning=false//show the warning stacktrace only once ... to p
                 }
             }
         } catch (e: Throwable) {
-if(!hadXMLWarning){
-hadXMLWarning=true
-println("showing only first error at"+/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:492"/*SOURCE_FILE_END*/ )
-            e.printStackTrace()
-}
+            if (!hadXMLWarning) {
+                hadXMLWarning = true
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:492"/*SOURCE_FILE_END*/)
+                e.printStackTrace()
+            }
         }
         return res
     }
