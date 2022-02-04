@@ -63,7 +63,7 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     if (new_count > 0) {
                         query.partitionOperatorCount[node.partitionID] = new_count
-                        node.partitionCount = new_count
+                node.partitionCount = new_count
                         if (new_count != max_count) {
                             onChange()
                         }

@@ -61,6 +61,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                     val partitionID = query.getNextPartitionOperatorID()
                                     ids.add(partitionID)
                                     res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), key, count, partitionID, res)
+//println("PhysicalOptimizerPartitionAssingPartitionsToRemaining a ${res.getUUID()} $count")
                                     query.addPartitionOperator(res.getUUID(), partitionID)
                                 }
                                 for ((key, count) in requiredPartition) {
@@ -81,6 +82,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             } else {
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             }
+//println("PhysicalOptimizerPartitionAssingPartitionsToRemaining b ${res.getUUID()} <- $new_countMax")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
@@ -102,6 +104,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             } else {
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, variable, count, partitionID, node)
                             }
+//println("PhysicalOptimizerPartitionAssingPartitionsToRemaining c ${res.getUUID()} <- $count")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)

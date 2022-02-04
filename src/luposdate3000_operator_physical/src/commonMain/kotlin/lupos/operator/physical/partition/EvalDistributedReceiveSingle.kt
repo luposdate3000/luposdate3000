@@ -24,6 +24,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveSingle {
+internal var debugCounter=0
     public operator fun invoke(
         input: IMyInputStream,
         output: IMyOutputStream?,
@@ -41,6 +42,7 @@ public object EvalDistributedReceiveSingle {
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(cnt)
         var closed = false
+val debugID=debugCounter++
         iterator.next = {
             var res = -1
             if (!closed) {
@@ -54,6 +56,7 @@ public object EvalDistributedReceiveSingle {
                 } else {
                     res = 0
                 }
+//println("EvalDistributedReceiveSingle $debugID ${variables} ${iterator.buf.toList()}")
             }
             res
         }

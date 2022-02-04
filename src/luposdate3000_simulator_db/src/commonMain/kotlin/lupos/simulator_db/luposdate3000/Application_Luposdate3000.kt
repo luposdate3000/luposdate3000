@@ -125,6 +125,7 @@ public class Application_Luposdate3000 public constructor(
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
+instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
         instance = LuposdateEndpoint.initializeB(instance)
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
@@ -519,6 +520,7 @@ public class Application_Luposdate3000 public constructor(
                         }
                         if (flag) {
                             myPendingWork.remove(w)
+//println("doing work")
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
