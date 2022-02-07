@@ -374,7 +374,8 @@ public object LuposdateEndpoint {
                 println("<<<<<<<<<<")
                 println(OperatorGraphToLatex(popNode.toString(), ""))
             }
-// println(popNode)
+println(query)
+ println(popNode)
             return popNode
         } catch (e: Throwable) {
             println(query)

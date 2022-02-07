@@ -22,8 +22,7 @@ import java.time.LocalDateTime
 
 File("simulator_output").deleteRecursively()
 File("simulator_output").mkdirs()
-var skipfirst = true
-var ontologyVersion = 2 // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
+var skipfirst = false
 
 inline fun execute(args: List<String>): List<String> {
     println(args.joinToString(" "))
@@ -40,65 +39,6 @@ inline fun execute(args: List<String>): List<String> {
 
 val baseCmd = execute(listOf("./launcher.main.kts", "--run", "--mainClass=Launch_Simulator_Config", "--dryMode=Enable")).filter { it.contains("exec") }.first().replace("exec :: ", "").split(" ")
 
-var first = true
-val BASE_PATH = "src/luposdate3000_simulator_db/src/jvmMain/resources"
-val json_evaluation = "$BASE_PATH/evaluation.json"
-val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
-
-val campusList = when (ontologyVersion) {
-    2 -> listOf(
-        "ontology/campusSOSANoSamplesInternalID.json",
-        "ontology/campusSOSAInternalID.json",
-    )
-    1 -> listOf(
-        "ontology/campusSOSANoSamples.json",
-        "ontology/campusSOSA.json",
-    )
-    0 -> listOf(
-        "ontology/campusNoSamples.json",
-        "ontology/campus.json",
-    )
-    else -> TODO()
-}
-val routingList = listOf(
-    "routing/routing_RPL_Fast.json",
-    "routing/routing_AllShortestPath.json",
-)
-val queryList = List(9) {
-    when (ontologyVersion) {
-        2 -> "queries/Q_SOSA_$it.json"
-        1 -> "queries/Q_SOSA_$it.json"
-        0 -> "queries/Q$it.json"
-        else -> TODO()
-    }
-}
-val databaseTopologyList = listOf(
-    "programDistribution/distributed.json",
-    "programDistribution/distributedWithQueryHops.json",
-//    "programDistribution/central.json",
-)
-val dataDistributionList = listOf(
-    "dataDistribution/luposdate3000_by_key.json",
-    "dataDistribution/luposdate3000_by_id_S_all_collations.json",
-    "dataDistribution/luposdate3000_by_id_1_all_collations.json",
-    "dataDistribution/luposdate3000_by_id_2_all_collations.json",
-    "dataDistribution/luposdate3000_by_id_O_all_collations.json",
-    "dataDistribution/luposdate3000_by_id_twice_all_collations.json",
-    "dataDistribution/luposdate3000_by_simple.json",
-)
-val multicastList = listOf(
-    "multicast/luposdate3000MulticastDisabled.json",
-    "multicast/luposdate3000MulticastEnabled.json",
-)
-val queryDistributionList = listOf(
-    "luposdate3000_distribution_routing.json",
-)
-val networkTopologyList = mutableListOf<String>(
-    "topology/RandomDB.json",
-    "topology/RingDB.json",
-    "topology/FullDB.json",
-    "topology/UniformDB.json",
-)
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<Double>>()
 val attributeLines = mutableListOf<MutableList<String>>()
@@ -106,101 +46,164 @@ val specializedCmdHeaders = listOf("campus", "networkTopology", "databaseTopolog
 headerLine.addAll(specializedCmdHeaders)
 var printCounter = 0
 
-fun printStatus() {
-    println()
-    println("printing status csv '$printCounter'")
-    println()
-    printCounter++
-    println(headerLine.joinToString())
-    for (i in 0 until contentLines.size) {
-        while (contentLines[i].size < headerLine.size - specializedCmdHeaders.size) {
-            contentLines[i].add(0.0)
-        }
-        println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
-    }
-}
+var first = true
+val BASE_PATH = "src/luposdate3000_simulator_db/src/jvmMain/resources"
+val json_evaluation = "$BASE_PATH/evaluation.json"
+val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
 
-loop@ for (campus in campusList) {
-    val json_campus = "$BASE_PATH/$campus"
-    for (networkTopology in networkTopologyList) {
-        val json_networkTopology = "$BASE_PATH/$networkTopology"
-        for (query in queryList) {
-            val json_query = "$BASE_PATH/$query"
-            for (routing in routingList) {
-                val json_routing = "$BASE_PATH/$routing"
-                for (databaseTopology in databaseTopologyList) {
-                    val json_database_topology = "$BASE_PATH/$databaseTopology"
-                    for (dataDistribution in dataDistributionList) {
-                        val json_dataDistribution = "$BASE_PATH/$dataDistribution"
-                        for (multicast in multicastList) {
-                            val json_multicast = "$BASE_PATH/$multicast"
-                            for (queryDistribution in queryDistributionList) {
-try{
-                                val json_queryDistribution = "$BASE_PATH/$queryDistribution"
-                                if (databaseTopology == "programDistribution/central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
-                                    // centralized has only traffic during initialization, afterwards all zero
-                                    continue
-                                }
-                                if (multicast == "multicast/luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
-                                    // multicast is only relevant for insert, everything else is the same
-                                    continue
-                                }
-                                if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json", "ontology/campusSOSANoSamplesInternalID.json") && (
-                                        multicast != "multicast/luposdate3000MulticastEnabled.json" ||
-                                            databaseTopology != "programDistribution/distributedWithQueryHops.json" ||
-                                            routing != "routing_RPL_Fast.json" ||
-                                            dataDistribution != "dataDistribution/luposdate3000_by_id_S_all_collations.json" ||
-                                            query !in listOf("Q0.json", "Q_SOSA_0.json")
-                                        )
-                                ) {
-                                    continue
-                                }
-                                val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
-                                val cmd = baseCmd + specializedCmd
+    fun printStatus() {
+        println()
+        println("printing status csv '$printCounter'")
+        println()
+        printCounter++
+        println(headerLine.joinToString())
+        for (i in 0 until contentLines.size) {
+            while (contentLines[i].size < headerLine.size - specializedCmdHeaders.size) {
+                contentLines[i].add(0.0)
+            }
+            println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
+        }
+    }
+for (ontologyVersion in listOf(2, 0)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
+
+    val campusList = when (ontologyVersion) {
+        2 -> listOf(
+            "ontology/campusSOSANoSamplesInternalID.json",
+            "ontology/campusSOSAInternalID.json",
+        )
+        1 -> listOf(
+            "ontology/campusSOSANoSamples.json",
+            "ontology/campusSOSA.json",
+        )
+        0 -> listOf(
+            "ontology/campusNoSamples.json",
+            "ontology/campus.json",
+        )
+        else -> TODO()
+    }
+    val routingList = listOf(
+        "routing/routing_RPL_Fast.json",
+        "routing/routing_AllShortestPath.json",
+    )
+    val queryList = List(9) {
+        when (ontologyVersion) {
+            2 -> "queries/Q_SOSA_$it.json"
+            1 -> "queries/Q_SOSA_$it.json"
+            0 -> "queries/Q$it.json"
+            else -> TODO()
+        }
+    }
+    val databaseTopologyList = listOf(
+        "programDistribution/distributed.json",
+        "programDistribution/distributedWithQueryHops.json",
+//    "programDistribution/central.json",
+    )
+    val dataDistributionList = listOf(
+        "dataDistribution/luposdate3000_by_key.json",
+        "dataDistribution/luposdate3000_by_id_S_all_collations.json",
+        "dataDistribution/luposdate3000_by_id_1_all_collations.json",
+        "dataDistribution/luposdate3000_by_id_2_all_collations.json",
+        "dataDistribution/luposdate3000_by_id_O_all_collations.json",
+        "dataDistribution/luposdate3000_by_id_twice_all_collations.json",
+        "dataDistribution/luposdate3000_by_simple.json",
+    )
+    val multicastList = listOf(
+        "multicast/luposdate3000MulticastDisabled.json",
+        "multicast/luposdate3000MulticastEnabled.json",
+    )
+    val queryDistributionList = listOf(
+        "luposdate3000_distribution_routing.json",
+    )
+    val networkTopologyList = mutableListOf<String>(
+        "topology/RandomDB.json",
+        "topology/RingDB.json",
+        "topology/FullDB.json",
+        "topology/UniformDB.json",
+    )
+
+
+    loop@ for (campus in campusList) {
+        val json_campus = "$BASE_PATH/$campus"
+        for (networkTopology in networkTopologyList) {
+            val json_networkTopology = "$BASE_PATH/$networkTopology"
+            for (query in queryList) {
+                val json_query = "$BASE_PATH/$query"
+                for (routing in routingList) {
+                    val json_routing = "$BASE_PATH/$routing"
+                    for (databaseTopology in databaseTopologyList) {
+                        val json_database_topology = "$BASE_PATH/$databaseTopology"
+                        for (dataDistribution in dataDistributionList) {
+                            val json_dataDistribution = "$BASE_PATH/$dataDistribution"
+                            for (multicast in multicastList) {
+                                val json_multicast = "$BASE_PATH/$multicast"
+                                for (queryDistribution in queryDistributionList) {
+                                    try {
+                                        val json_queryDistribution = "$BASE_PATH/$queryDistribution"
+                                        if (databaseTopology == "programDistribution/central.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
+                                            // centralized has only traffic during initialization, afterwards all zero
+                                            continue
+                                        }
+                                        if (multicast == "multicast/luposdate3000MulticastEnabled.json" && query !in listOf("Q0.json", "Q_SOSA_0.json")) {
+                                            // multicast is only relevant for insert, everything else is the same
+                                            continue
+                                        }
+                                        if (campus in listOf("ontology/campusNoSamples.json", "ontology/campusSOSANoSamples.json", "ontology/campusSOSANoSamplesInternalID.json") && (
+                                                multicast != "multicast/luposdate3000MulticastEnabled.json" ||
+                                                    databaseTopology != "programDistribution/distributedWithQueryHops.json" ||
+                                                    routing != "routing_RPL_Fast.json" ||
+                                                    dataDistribution != "dataDistribution/luposdate3000_by_id_S_all_collations.json" ||
+                                                    query !in listOf("Q0.json", "Q_SOSA_0.json")
+                                                )
+                                        ) {
+                                            continue
+                                        }
+                                        val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+                                        val cmd = baseCmd + specializedCmd
 //println(cmd.joinToString(" "))
 //continue
-                                val result = if (skipfirst) {
-                                    skipfirst = false
-                                    listOf<String>()
-                                } else {
-                                    execute(cmd)
-                                }
-                                val measurementFile = result.filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
-                                for (l in result) {
-                                    println(l)
-                                }
-                                var firstLine = listOf<String>()
-                                var contentLine = mutableListOf<Double>()
-                                val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
-                                attributeLines.add(attributeLine)
-                                File(measurementFile).forEachLine {
-                                    if (firstLine.isEmpty()) {
-                                        firstLine = it.split(",")
-                                    } else if (contentLine.isEmpty()) {
-                                        val data = it.split(",")
-                                        for (i in 0 until firstLine.size) {
-                                            var idx = headerLine.indexOf(firstLine[i])
-                                            if (idx < 0) {
-                                                idx = headerLine.size
-                                                headerLine.add(firstLine[i])
-                                            }
-                                            idx -= specializedCmdHeaders.size
-                                            while (contentLine.size <= idx) {
-                                                contentLine.add(0.0)
-                                            }
-                                            contentLine[idx] = data[i].toDouble()
+                                        val result = if (skipfirst) {
+                                            skipfirst = false
+                                            listOf<String>()
+                                        } else {
+                                            execute(cmd)
                                         }
+                                        val measurementFile = result.filter { it.contains("outputdirectory=") }.first().replace("outputdirectory=", "") + "/measurement.csv"
+                                        for (l in result) {
+                                            println(l)
+                                        }
+                                        var firstLine = listOf<String>()
+                                        var contentLine = mutableListOf<Double>()
+                                        val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
+                                        attributeLines.add(attributeLine)
+                                        File(measurementFile).forEachLine {
+                                            if (firstLine.isEmpty()) {
+                                                firstLine = it.split(",")
+                                            } else if (contentLine.isEmpty()) {
+                                                val data = it.split(",")
+                                                for (i in 0 until firstLine.size) {
+                                                    var idx = headerLine.indexOf(firstLine[i])
+                                                    if (idx < 0) {
+                                                        idx = headerLine.size
+                                                        headerLine.add(firstLine[i])
+                                                    }
+                                                    idx -= specializedCmdHeaders.size
+                                                    while (contentLine.size <= idx) {
+                                                        contentLine.add(0.0)
+                                                    }
+                                                    contentLine[idx] = data[i].toDouble()
+                                                }
+                                            }
+                                        }
+                                        contentLines.add(contentLine)
+                                    } catch (e: Throwable) {
+                                        e.printStackTrace()
                                     }
                                 }
-                                contentLines.add(contentLine)
-}catch(e:Throwable){
-e.printStackTrace()
-}
                             }
                         }
                     }
+                    printStatus()
                 }
-                printStatus()
             }
         }
     }
