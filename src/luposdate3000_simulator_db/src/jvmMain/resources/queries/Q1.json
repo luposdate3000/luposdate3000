@@ -7,7 +7,7 @@
                         "maxNumberOfQueries": 1,
                         "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
                         "sendRateInSeconds": 1,
-                        "sendStartClockInSec": 9000,
+                        "sendStartClockInSec": 10000000,
                     },
                 ],
             },

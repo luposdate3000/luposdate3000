@@ -87,7 +87,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal val partitionCount = mutableMapOf<Int, Int>()/*partitionID->partitionCount*/
     internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
     internal var currentPartition = mutableMapOf<Int, Int>()/*partitionID->partitionIndex*/
-    internal val partitionToKey = mutableMapOf<Int, MutableMap<Long, IntArray>>()/*ID->(operatorID->keys)*/
+    internal val partitionToKey = mutableMapOf<Pair<Map<Int, Int>,Int>, MutableMap<Long, IntArray>>()/*(currentPartition,ID)->(operatorID->keys)*/
     internal companion object {
         internal var global_keys = 0
     }
@@ -379,10 +379,10 @@ public object ConverterPOPBaseToBinary {
             break@loop
         }
         val off: Int
-        var keys0 = handler.partitionToKey[childID]
+        var keys0 = handler.partitionToKey[handler.currentPartition to childID]
         if (keys0 == null) {
             keys0 = mutableMapOf<Long, IntArray>()
-            handler.partitionToKey[childID] = keys0
+            handler.partitionToKey[handler.currentPartition to childID] = keys0
         }
         var keys = keys0[operatorID]
         if (keys == null) {
@@ -446,10 +446,10 @@ public object ConverterPOPBaseToBinary {
             handler.partitionVariables[partitionID] = partitionVariable
         }
         handler.partitionCount[partitionID] = partitionCount
-        var keys0 = handler.partitionToKey[currentID]
+        var keys0 = handler.partitionToKey[handler.currentPartition to currentID]
         if (keys0 == null) {
             keys0 = mutableMapOf<Long, IntArray>()
-            handler.partitionToKey[currentID] = keys0
+            handler.partitionToKey[handler.currentPartition to currentID] = keys0
         }
         var keys = keys0[operatorID]
         if (keys == null) {
@@ -511,10 +511,10 @@ public object ConverterPOPBaseToBinary {
             handler.partitionVariables[partitionID] = partitionVariable
         }
         handler.partitionCount[partitionID] = partitionCount
-        var keys0 = handler.partitionToKey[currentID]
+        var keys0 = handler.partitionToKey[handler.currentPartition to currentID]
         if (keys0 == null) {
             keys0 = mutableMapOf<Long, IntArray>()
-            handler.partitionToKey[currentID] = keys0
+            handler.partitionToKey[handler.currentPartition to currentID] = keys0
         }
         var keys = keys0[operatorID]
         if (keys == null) {
