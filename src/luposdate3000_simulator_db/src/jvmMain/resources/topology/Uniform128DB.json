@@ -1,0 +1,37 @@
+{
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "patterns": [
+                {
+                    "count": 511,
+                    "deviceType": "Mesh Hop",
+                    "mode": "count",
+                    "radius": 1500,
+                    "type": "uniform",
+                },
+                {
+                    "count": 127,
+                    "deviceType": "Database Device",
+                    "mode": "count",
+                    "patterns": [
+                        {
+                            "count": 10,
+                            "deviceType": "Sensor Device",
+                            "mode": "count",
+                            "provideCounterAs": "spotInArea",
+                            "radius": 50,
+                            "type": "random_fill",
+                        },
+                    ],
+                    "provideCounterAs": "area",
+                    "radius": 1500,
+                    "type": "uniform",
+                },
+            ],
+        },
+    },
+}
