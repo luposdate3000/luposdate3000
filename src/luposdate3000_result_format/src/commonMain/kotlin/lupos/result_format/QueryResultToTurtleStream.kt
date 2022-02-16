@@ -54,7 +54,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                 DictionaryHelper.byteArrayToCallback(
                     buffer,
                     onBNode = { value ->
-                        line[i] = "_:$value"
+                        line[i] = "_:${value.toString(16).padStart(16,'0')}"
                     },
                     onBoolean = { value ->
                         line[i] = "$value"

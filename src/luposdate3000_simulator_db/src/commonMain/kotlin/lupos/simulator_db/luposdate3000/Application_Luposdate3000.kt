@@ -32,6 +32,7 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
+import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -168,6 +169,12 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
             instance.nodeGlobalDictionary = nodeGlobalDictionaryBackup
             globalCheatEnd()
         }
+if(myPendingWork.size>0){
+TODO("there is pending work on close")
+}
+if(myPendingWorkData.size>0){
+TODO("there is pending data for work on close")
+}
         LuposdateEndpoint.close(instance)
     }
 
@@ -220,6 +227,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
 
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
         val data = binaryPair.first
+ //println("JSON_OUT_RECEIVE ${pck.queryID} ${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data)}")
         val handler = binaryPair.second
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
         for (i in handler.idToOffset.keys) {
@@ -251,7 +259,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:253"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:261"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -285,8 +293,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
     }
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
-// xxxx this function
+         //println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -297,6 +304,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
             }
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
+// println("pck.handler.idToHost.size ${pck.handler.idToHost.size}")
         for ((k, v) in pck.handler.idToHost) {
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
@@ -324,10 +332,13 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                 myIdsOnTargetMap[target] = mm
             }
         }
+// println("myIdsOnTargetMap.size ${myIdsOnTargetMap.size}")
         for ((host, ids) in myIdsOnTargetMap) {
 // this is only a workaround ... this may yield errors, if the query is pushed further down
+// println("(host, ids) ($host, $ids)")
             for (id in ids) {
                 val keys = pck.handler.dependenciesForID[id]
+// println("keys $keys")
                 if (keys != null) {
                     for (key in keys.values) {
                         if (pck.destinations[key] == null) {
@@ -337,8 +348,10 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                 }
             }
         }
+// println("myIdsOnTargetMap.size ${myIdsOnTargetMap.size}")
         for ((targetHost, filter) in myIdsOnTargetMap) {
             if (targetHost == ownAdress) {
+// println("selected ownAdress $filter")
                 for (id in filter) {
                     var dependencies2 = pck.handler.dependenciesForID[id]
                     val dependencies = if (dependencies2 == null) {
@@ -346,6 +359,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                     } else {
                         dependencies2.values.toSet()
                     }
+// println("adding work ${pck.queryID}")
                     val w = PendingWork(
                         pck.queryID,
                         pck.data,
@@ -360,6 +374,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                     myPendingWork.add(w)
                 }
             } else {
+// println("sending it to $targetHost else")
                 val data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
                 val idToHost = mutableMapOf<Int, MutableSet<String>>()
                 for ((k, v) in pck.handler.idToHost) {
@@ -518,6 +533,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
+// println("doWork?=$flag id=${w.queryID} require ${w.dependencies} have ${myPendingWorkData.keys} missing ${w.dependencies-myPendingWorkData.keys}")
                         if (flag) {
                             myPendingWork.remove(w)
 //println("doing work")
@@ -539,7 +555,7 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-//                             println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+                             // println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {

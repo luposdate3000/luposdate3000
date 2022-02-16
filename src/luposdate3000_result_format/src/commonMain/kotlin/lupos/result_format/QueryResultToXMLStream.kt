@@ -56,7 +56,7 @@ public class QueryResultToXMLStream : IResultFormat {
                         resultWriter.print("   <binding name=\"")
                         resultWriter.print(variables[variableIndex])
                         resultWriter.print("\">\n    <bnode>")
-                        resultWriter.print(value.toString())
+                        resultWriter.print(value.toString(16).padStart(16,'0'))
                         resultWriter.print("</bnode>\n   </binding>\n")
                     },
                     { value ->
