@@ -7,10 +7,10 @@
             "longitude": 10.702377248379614,
             "patterns": [
                 {
-                    "count": 511,
+                    "count": 255,
                     "deviceType": "Mesh Hop",
                     "mode": "count",
-                    "radius": 1500,
+                    "radius": 800,
                     "type": "uniform",
                 },
                 {
@@ -28,7 +28,7 @@
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 1500,
+                    "radius": 800,
                     "type": "uniform",
                 },
             ],

@@ -64,7 +64,8 @@ val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
             println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
         }
     }
-for (ontologyVersion in listOf(2, 0)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
+//for (ontologyVersion in listOf(2, 0)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
+for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SOSA with luposdate3000-knowledge
 
     val campusList = when (ontologyVersion) {
         2 -> listOf(
@@ -115,10 +116,14 @@ for (ontologyVersion in listOf(2, 0)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2
         "luposdate3000_distribution_routing.json",
     )
     val networkTopologyList = mutableListOf<String>(
-        "topology/RandomDB.json",
-        "topology/RingDB.json",
-        "topology/FullDB.json",
-        "topology/UniformDB.json",
+//        "topology/RandomDB.json",
+//        "topology/RingDB.json",
+//        "topology/FullDB.json",
+//        "topology/UniformDB.json",
+//        "topology/Random128DB.json",
+//        "topology/Ring128DB.json",
+//        "topology/Full128DB.json",
+        "topology/Uniform128DB.json",
     )
 
 
