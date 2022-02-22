@@ -81,4 +81,5 @@ public abstract class AOPBase public constructor(
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
     override fun usesDictionary(): Boolean = true
+public open fun containsAggregate():Boolean=children.map{it is AOPBase && it.containsAggregate()}.reduce{s,t->s||t}
 }

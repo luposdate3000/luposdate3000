@@ -540,42 +540,42 @@ public object XMLElementToOPBase {
                     childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
                 }
             }
-            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), if(childs.size==0){null}else{childs[0]})
         }
         operatorMap["AOPAggregationSAMPLE"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), childs[0])
         }
         operatorMap["AOPAggregationAVG"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), childs[0])
         }
         operatorMap["AOPAggregationSUM"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), childs[0])
         }
         operatorMap["AOPAggregationMIN"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), childs[0])
         }
         operatorMap["AOPAggregationMAX"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
             }
-            AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), childs[0])
         }
         operatorMap["AOPGT"] = { query, node, mapping, recursionFunc ->
             AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)

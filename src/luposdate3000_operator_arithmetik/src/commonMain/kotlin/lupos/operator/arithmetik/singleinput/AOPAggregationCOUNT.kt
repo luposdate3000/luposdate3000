@@ -35,8 +35,8 @@ import kotlin.jvm.JvmField
 public class AOPAggregationCOUNT public constructor(
     query: IQuery,
     @JvmField public val distinct: Boolean,
-    childs: Array<AOPBase>
-) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
+child:AOPBase?
+) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT",if(child==null){arrayOf()}else{arrayOf(child)}) {
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
@@ -94,5 +94,5 @@ public class AOPAggregationCOUNT public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, if(children.size==0){null}else{children[0]as AOPBase})
 }
