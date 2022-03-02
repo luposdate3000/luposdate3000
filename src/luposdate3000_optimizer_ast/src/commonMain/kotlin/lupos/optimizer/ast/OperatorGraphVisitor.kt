@@ -130,6 +130,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         DictionaryHelper.dateTimeToByteArray(queryExecutionStartTime)
     }
 
+private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
     private fun decodeIri(ns: String) = prefixMap[ns]!!
     private fun decodeIri(ns: String, p: String) = prefixMap[ns]!! + p
     private fun prefix(k: String, v: String): LOPPrefix {
@@ -153,8 +154,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         return names
     }
-
-    private fun visit(node: ASTSelectClause): Pair<Int, List<Pair<AOPBase?, String>>?> = node.variable0!! to when (val variables = node.variable1!!) {
+    private fun visit(node: ASTSelectClause): Pair<Int, List<Pair<AOPBase?, String>>?> =  initializeEnum(node.variable0) to when (val variables = node.variable1!!) {
         is ASTListOfInterfaceOfVarOrClassOfExpressionAndVar -> visit(variables)
         is ASTSelectClauseAll -> null
     }
@@ -211,10 +211,10 @@ public class OperatorGraphVisitor(public val query: Query) {
 
     private fun visit(node: ASTSelectQuery, valuesClause: ASTValuesClause?): IOPBase {
         val nodeSelectClause = node.variable0
-        val nodeListOfDatasetClause = node.variable1
+        val nodeListOfDatasetClause = node.variable1!!
         val nodeWhereClause = node.variable2
         val nodeSolutionModifier = node.variable3
-        if (nodeListOfDatasetClause != null) {
+        if (nodeListOfDatasetClause.value.size >0) {
             TODO("datasets not supported")
         }
         val whereClause = visit("", false, nodeWhereClause!!)
@@ -1026,8 +1026,48 @@ return            first to res
 
     private fun visit(node: ASTInterfaceOfVerbPathOrVerbSimple): AOPBase = when (node) {
         is ASTVerbSimple -> visit(node)
-        is ASTVerbPath -> TODO("path not implemented")
+        is ASTVerbPath -> visit(node)
     }
+private fun visit(node: ASTVerbPath)=visit(node.variable0!!)
+private fun visit(node: ASTPath)=visit(node.variable0!!)
+private fun visit(node: ASTPathAlternative):AOPBase{
+if(node.variable1!!.value.size>0){
+TODO("path not implemented")
+}
+return visit(node.variable0!!)
+}
+private fun visit(node: ASTPathSequence):AOPBase{ 
+if(node.variable1!!.value.size>0){ 
+TODO("path not implemented")
+}
+return visit(node.variable0!!)
+}
+private fun visit(node:ASTPathEltOrInverse):AOPBase{
+if(node.negated){
+TODO("path not implemented")
+}
+return visit(node.variable1!!)
+}
+private fun visit(node:ASTPathElt):AOPBase{ 
+if(initializeEnum(node.variable1)!=ASTEnumOfoptionalAndanyAndatLeastOne._UNDEFINED){
+TODO("path not implemented")
+}
+return visit(node.variable0!!)
+}
+private fun visit(node:ASTPathPrimary):AOPBase=when(node){
+is ASTiri -> {
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.iriToByteArray(buffer, visit(node))
+            AOPConstant(query, buffer)
+        }
+is ASTRDFType->{
+val buffer = ByteArrayWrapper()
+            DictionaryHelper.iriToByteArray(buffer, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+            AOPConstant(query, buffer)
+}
+is ASTPath->visit(node)
+is ASTPathNegatedPropertySet->TODO("path not implemented")
+}
 
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectListPath): List<LOPTriple> {
         val a = visit(node.variable0!!)
