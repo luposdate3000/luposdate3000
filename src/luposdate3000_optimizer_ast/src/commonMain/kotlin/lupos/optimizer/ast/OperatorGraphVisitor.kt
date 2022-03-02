@@ -393,13 +393,13 @@ public class OperatorGraphVisitor(public val query: Query) {
         var res = tmp
         val names = mutableListOf<Pair<Boolean, String>>()
         for (v in node.variable0!!.value) {
-            val asc = v.variable0!! != ASTEnumOfASCAndDESC.DESC
+            val asc = initializeEnum(v.variable0) != ASTEnumOfASCAndDESC.DESC
             val tt = visit(graph, graphVar, v.variable1!!)
             if (tt is AOPVariable) {
-                names.add(asc to tt.name)
+                names.add(0,asc to tt.name)
             } else {
                 val name = "#sort_${counter++}"
-                names.add(asc to name)
+                names.add(0,asc to name)
                 res = LOPBind(query, AOPVariable(query, name), tt, res)
             }
         }
