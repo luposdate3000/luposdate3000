@@ -1210,7 +1210,7 @@ AOPVariable(query,"_ASTCollection#${counter++}")
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
         if (triplesBlockPrevious.size == 0) {
             val v = listNotTriples.removeAt(0)
-            triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!)
+            triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(blankNodeToVariable,graph, graphVar, v.variable0!!)
         }
         return listNotTriples.fold(
             triplesBlockPrevious.reduce { s, t ->
@@ -1231,8 +1231,8 @@ AOPVariable(query,"_ASTCollection#${counter++}")
         is ASTBind -> visit(blankNodeToVariable,graph, graphVar, node, child)
         is ASTValuesClause -> visit(graph, graphVar, node, child)
     }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
-        is ASTGroupOrUnionGraphPattern -> visit(graph, graphVar, node)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
+        is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable,graph, graphVar, node)
         else -> TODO()
     }
     private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable,graph, graphVar, subject, it) }
