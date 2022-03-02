@@ -348,10 +348,10 @@ public class OperatorGraphVisitor(public val query: Query) {
 
 
     private fun visit(node: ASTAskQuery, valuesClause: ASTValuesClause?): LOPMakeBooleanResult {
-        val nodeListOfDatasetClause = node.variable0
+        val nodeListOfDatasetClause = node.variable0!!
         val nodeWhereClause = node.variable1
         val nodeSolutionModifier = node.variable2
-        if (nodeListOfDatasetClause != null) {
+        if (nodeListOfDatasetClause.value.size >0) {
             TODO("datasets not supported")
         }
         val whereClause = visit("", false, nodeWhereClause!!)
