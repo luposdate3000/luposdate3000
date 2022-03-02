@@ -806,7 +806,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("}")
                 }
                 out.println("tasks.withType<Test> {")
-                out.println("    maxHeapSize = \"1g\"")
+                out.println("    maxHeapSize = \"2g\"")
                 out.println("    maxParallelForks = 20")
                 out.println("    testLogging {")
                 out.println("        exceptionFormat = TestExceptionFormat.FULL")
