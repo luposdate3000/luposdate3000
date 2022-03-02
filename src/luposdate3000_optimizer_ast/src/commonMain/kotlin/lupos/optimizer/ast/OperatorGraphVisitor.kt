@@ -130,7 +130,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         DictionaryHelper.dateTimeToByteArray(queryExecutionStartTime)
     }
 
-private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
+    private fun initializeEnum(value: Int?): Int = value?.let { it } ?: -1
     private fun decodeIri(ns: String) = prefixMap[ns]!!
     private fun decodeIri(ns: String, p: String) = prefixMap[ns]!! + p
     private fun prefix(k: String, v: String): LOPPrefix {
@@ -154,7 +154,8 @@ private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
         }
         return names
     }
-    private fun visit(node: ASTSelectClause): Pair<Int, List<Pair<AOPBase?, String>>?> =  initializeEnum(node.variable0) to when (val variables = node.variable1!!) {
+
+    private fun visit(node: ASTSelectClause): Pair<Int, List<Pair<AOPBase?, String>>?> = initializeEnum(node.variable0) to when (val variables = node.variable1!!) {
         is ASTListOfInterfaceOfVarOrClassOfExpressionAndVar -> visit(variables)
         is ASTSelectClauseAll -> null
     }
@@ -214,7 +215,7 @@ private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
         val nodeListOfDatasetClause = node.variable1!!
         val nodeWhereClause = node.variable2
         val nodeSolutionModifier = node.variable3
-        if (nodeListOfDatasetClause.value.size >0) {
+        if (nodeListOfDatasetClause.value.size > 0) {
             TODO("datasets not supported")
         }
         val whereClause = visit("", false, nodeWhereClause!!)
@@ -541,8 +542,8 @@ private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
     }
 
     private fun visit(node: ASTLimitOffsetClauses, tmp: IOPBase) = when (node) {
-        is ASTClassOfLimitClauseAndOffsetClauseOptional -> visit(node.variable1!!,visit(node.variable0!!,tmp))
-        is ASTClassOfOffsetClauseAndLimitClauseOptional -> visit(node.variable1!!,visit(node.variable0!!,tmp))
+        is ASTClassOfLimitClauseAndOffsetClauseOptional -> visit(node.variable1!!, visit(node.variable0!!, tmp))
+        is ASTClassOfOffsetClauseAndLimitClauseOptional -> visit(node.variable1!!, visit(node.variable0!!, tmp))
     }
 
     private fun visit(node: ASTInterfaceOfBaseDeclOrPrefixDecl) = when (node) {
@@ -808,49 +809,52 @@ private fun initializeEnum(value:Int?):Int=value?.let{it}?:-1
         is ASTDeleteWhere -> visit(node)
         is ASTModify -> visit(node)
     }
-private fun visit(graph: String, graphVar: Boolean, node:ASTBlankNodePropertyList) : Pair<AOPConstant, List<LOPTriple>>{
-val buffer = ByteArrayWrapper()
-            DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodePropertyList#${counter++}")
-            val subject = AOPConstant(query, buffer)
-return            subject to visit(graph, graphVar, subject, node.variable0!!)
-}
- private fun visit(graph: String, graphVar: Boolean, node:ASTCollection) : Pair<AOPConstant, List<LOPTriple>>{
-            val bufferNil = ByteArrayWrapper()
-            val bufferFirst = ByteArrayWrapper()
-            val bufferRest = ByteArrayWrapper()
-            DictionaryHelper.iriToByteArray(bufferNil, "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
-            DictionaryHelper.iriToByteArray(bufferFirst, "http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
-            DictionaryHelper.iriToByteArray(bufferRest, "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
-            var first = AOPConstant(query, bufferNil)
-            var current = AOPConstant(query, bufferNil)
-            var f = true
-            val res = mutableListOf<LOPTriple>()
-            for (v in node.variable0!!.value) {
-                val t = visit(v)
-                res.addAll(t.second)
-                if (f) {
-                    f = false
-                    val buffer = ByteArrayWrapper()
-                    DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                    current = AOPConstant(query, buffer)
-                    first = current
-                } else {
-                    val buffer = ByteArrayWrapper()
-                    DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                    val next = AOPConstant(query, buffer)
-                    res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), next, graph, graphVar))
-                    current = next
-                }
-                res.add(LOPTriple(query, current, AOPConstant(query, bufferFirst), t.first, graph, graphVar))
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTBlankNodePropertyList): Pair<AOPConstant, List<LOPTriple>> {
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodePropertyList#${counter++}")
+        val subject = AOPConstant(query, buffer)
+        return subject to visit(graph, graphVar, subject, node.variable0!!)
+    }
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTCollection): Pair<AOPConstant, List<LOPTriple>> {
+        val bufferNil = ByteArrayWrapper()
+        val bufferFirst = ByteArrayWrapper()
+        val bufferRest = ByteArrayWrapper()
+        DictionaryHelper.iriToByteArray(bufferNil, "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+        DictionaryHelper.iriToByteArray(bufferFirst, "http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+        DictionaryHelper.iriToByteArray(bufferRest, "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+        var first = AOPConstant(query, bufferNil)
+        var current = AOPConstant(query, bufferNil)
+        var f = true
+        val res = mutableListOf<LOPTriple>()
+        for (v in node.variable0!!.value) {
+            val t = visit(v)
+            res.addAll(t.second)
+            if (f) {
+                f = false
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
+                current = AOPConstant(query, buffer)
+                first = current
+            } else {
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
+                val next = AOPConstant(query, buffer)
+                res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), next, graph, graphVar))
+                current = next
             }
-            if (!f) {
-                res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), AOPConstant(query, bufferNil), graph, graphVar))
-            }
-return            first to res
-}
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesNode) : Pair<AOPConstant, List<LOPTriple>> = when (node) {
-        is ASTBlankNodePropertyList -> visit(graph,graphVar,node)
-        is ASTCollection -> visit(graph,graphVar,node)
+            res.add(LOPTriple(query, current, AOPConstant(query, bufferFirst), t.first, graph, graphVar))
+        }
+        if (!f) {
+            res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), AOPConstant(query, bufferNil), graph, graphVar))
+        }
+        return first to res
+    }
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesNode): Pair<AOPConstant, List<LOPTriple>> = when (node) {
+        is ASTBlankNodePropertyList -> visit(graph, graphVar, node)
+        is ASTCollection -> visit(graph, graphVar, node)
     }
 
     private fun visit(node: ASTGraphNode): Pair<AOPBase, List<LOPTriple>> = when (node) {
@@ -1028,46 +1032,51 @@ return            first to res
         is ASTVerbSimple -> visit(node)
         is ASTVerbPath -> visit(node)
     }
-private fun visit(node: ASTVerbPath)=visit(node.variable0!!)
-private fun visit(node: ASTPath)=visit(node.variable0!!)
-private fun visit(node: ASTPathAlternative):AOPBase{
-if(node.variable1!!.value.size>0){
-TODO("path not implemented")
-}
-return visit(node.variable0!!)
-}
-private fun visit(node: ASTPathSequence):AOPBase{ 
-if(node.variable1!!.value.size>0){ 
-TODO("path not implemented")
-}
-return visit(node.variable0!!)
-}
-private fun visit(node:ASTPathEltOrInverse):AOPBase{
-if(node.negated){
-TODO("path not implemented")
-}
-return visit(node.variable1!!)
-}
-private fun visit(node:ASTPathElt):AOPBase{ 
-if(initializeEnum(node.variable1)!=ASTEnumOfoptionalAndanyAndatLeastOne._UNDEFINED){
-TODO("path not implemented")
-}
-return visit(node.variable0!!)
-}
-private fun visit(node:ASTPathPrimary):AOPBase=when(node){
-is ASTiri -> {
+
+    private fun visit(node: ASTVerbPath) = visit(node.variable0!!)
+    private fun visit(node: ASTPath) = visit(node.variable0!!)
+    private fun visit(node: ASTPathAlternative): AOPBase {
+        if (node.variable1!!.value.size > 0) {
+            TODO("path not implemented")
+        }
+        return visit(node.variable0!!)
+    }
+
+    private fun visit(node: ASTPathSequence): AOPBase {
+        if (node.variable1!!.value.size > 0) {
+            TODO("path not implemented")
+        }
+        return visit(node.variable0!!)
+    }
+
+    private fun visit(node: ASTPathEltOrInverse): AOPBase {
+        if (node.negated) {
+            TODO("path not implemented")
+        }
+        return visit(node.variable1!!)
+    }
+
+    private fun visit(node: ASTPathElt): AOPBase {
+        if (initializeEnum(node.variable1) != ASTEnumOfoptionalAndanyAndatLeastOne._UNDEFINED) {
+            TODO("path not implemented")
+        }
+        return visit(node.variable0!!)
+    }
+
+    private fun visit(node: ASTPathPrimary): AOPBase = when (node) {
+        is ASTiri -> {
             val buffer = ByteArrayWrapper()
             DictionaryHelper.iriToByteArray(buffer, visit(node))
             AOPConstant(query, buffer)
         }
-is ASTRDFType->{
-val buffer = ByteArrayWrapper()
+        is ASTRDFType -> {
+            val buffer = ByteArrayWrapper()
             DictionaryHelper.iriToByteArray(buffer, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
             AOPConstant(query, buffer)
-}
-is ASTPath->visit(node)
-is ASTPathNegatedPropertySet->TODO("path not implemented")
-}
+        }
+        is ASTPath -> visit(node)
+        is ASTPathNegatedPropertySet -> TODO("path not implemented")
+    }
 
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectListPath): List<LOPTriple> {
         val a = visit(node.variable0!!)
@@ -1090,7 +1099,7 @@ is ASTPathNegatedPropertySet->TODO("path not implemented")
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodePathAndPropertyListPathOptional): List<LOPTriple> {
         val tmp = visit(graph, graphVar, node.variable0!!)
-return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
+        return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
     }
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTBlankNodePropertyListPath): Pair<AOPConstant, List<LOPTriple>> {
@@ -1240,12 +1249,14 @@ return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTServiceGraphPattern, child: IOPBase): IOPBase = TODO("service not implemented")
     private fun visit(node: ASTConstructQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("construct query not implemented")
     private fun visit(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")
-private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node:ASTPropertyListPath): List<LOPTriple> = visit(graph, graphVar,subject,node.variable0!!)
-private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node:ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let{visit(graph, graphVar,subject,it)}?:listOf()
-private fun visit(node:ASTOffsetClauseOptional, tmp: IOPBase)=node.variable0?.let{visit(it,tmp)}?:tmp
-private fun visit(node:ASTLimitClauseOptional, tmp: IOPBase)=node.variable0?.let{visit(it,tmp)}?:tmp
-private fun visit(node:ASTOffsetClause, tmp: IOPBase)=LOPOffset(query, node.INTEGER!!.toInt(),tmp)
-private fun visit(node:ASTLimitClause, tmp: IOPBase)=LOPLimit(query, node.INTEGER!!.toInt(),tmp)
+    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPath): List<LOPTriple> = visit(graph, graphVar, subject, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, subject, it) }
+        ?: listOf()
+
+    private fun visit(node: ASTOffsetClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
+    private fun visit(node: ASTLimitClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
+    private fun visit(node: ASTOffsetClause, tmp: IOPBase) = LOPOffset(query, node.INTEGER!!.toInt(), tmp)
+    private fun visit(node: ASTLimitClause, tmp: IOPBase) = LOPLimit(query, node.INTEGER!!.toInt(), tmp)
 
 
 }
