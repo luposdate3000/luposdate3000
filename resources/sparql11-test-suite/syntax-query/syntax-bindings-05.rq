@@ -1,1 +1,1 @@
-SELECT * { } BINDINGS ?x ?y { (1 2) }
+SELECT * { } VALUES (?x ?y) { (1 2) }

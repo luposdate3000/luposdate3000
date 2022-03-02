@@ -1,1 +1,1 @@
-SELECT * { } BINDINGS { () }
+SELECT * { } VALUES (){ () }
