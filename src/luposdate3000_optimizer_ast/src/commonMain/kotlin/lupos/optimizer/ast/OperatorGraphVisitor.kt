@@ -262,7 +262,7 @@ public class OperatorGraphVisitor(public val query: Query) {
                 res = LOPFilter(query, x.second, res)
             }
         } else if (selectClause != null) {
-            if (selectClause.map { it.first }.mapNotNull { it!!.containsAggregate() }.reduce { s, t -> s || t }) {
+            if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.reduce { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
@@ -323,7 +323,7 @@ public class OperatorGraphVisitor(public val query: Query) {
                 res = LOPFilter(query, x.second, res)
             }
         } else if (selectClause != null) {
-            if (selectClause.map { it.first }.mapNotNull { it!!.containsAggregate() }.reduce { s, t -> s || t }) {
+            if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.reduce { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
