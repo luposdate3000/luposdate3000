@@ -5,6 +5,6 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?s ?p1 ?o1
 {
   ?s ?p1 ?o1 .
-} BINDINGS ?p1 {
+} VALUES (?p1) {
  (foaf:knows)
 }

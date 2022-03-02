@@ -7,6 +7,6 @@ SELECT ?book ?title ?price
    ?book dc:title ?title ;
          ns:price ?price .
 }
-BINDINGS ?book {
+VALUES (?book) {
  (:book1)
 }

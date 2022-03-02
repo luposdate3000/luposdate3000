@@ -7,7 +7,7 @@ SELECT ?book ?title ?price
    ?book dc:title ?title ;
          ns:price ?price .
 }
-BINDINGS ?book ?title {
+VALUES (?book ?title) {
  (UNDEF "SPARQL Tutorial")
  (:book2 UNDEF)
 }
