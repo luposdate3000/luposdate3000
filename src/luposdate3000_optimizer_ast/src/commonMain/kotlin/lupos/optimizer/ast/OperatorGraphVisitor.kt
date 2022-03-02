@@ -1208,6 +1208,9 @@ AOPVariable(query,"_ASTCollection#${counter++}")
         var triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, node.variable0!!) as List<IOPBase>
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
         if (triplesBlockPrevious.size == 0) {
+if(listNotTriples.size==0){
+return LOPNOOP(query)
+}
             val v = listNotTriples.removeAt(0)
             triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(blankNodeToVariable,graph, graphVar, v.variable0!!)
         }
