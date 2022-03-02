@@ -22,6 +22,7 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallABS
 import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
+import lupos.operator.base.singleinput.LOPNOOP
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONTAINS
 import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
@@ -1326,5 +1327,5 @@ AOPVariable(query,"_ASTCollection#${counter++}")
     private fun visit(node: ASTLimitClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTOffsetClause, tmp: IOPBase) = LOPOffset(query, node.INTEGER!!.toInt(), tmp)
     private fun visit(node: ASTLimitClause, tmp: IOPBase) = LOPLimit(query, node.INTEGER!!.toInt(), tmp)
-    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = visit(v0, v1.variable0!!)
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = v1.variable0?.let{visit(v0, it)}?: OPBaseCompound(query,arrayOf(),mutableListOf())
 }
