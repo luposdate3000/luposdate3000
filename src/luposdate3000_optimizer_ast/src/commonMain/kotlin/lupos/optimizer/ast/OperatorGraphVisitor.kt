@@ -824,14 +824,13 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTDeleteWhere -> visit(node)
         is ASTModify -> visit(node)
     }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesNode) : Pair<AOPConstant, List<LOPTriple>> = when (node) {//yyy
-        is ASTBlankNodePropertyList -> {
-            val buffer = ByteArrayWrapper()
+private fun visit(graph: String, graphVar: Boolean, node:ASTBlankNodePropertyList) : Pair<AOPConstant, List<LOPTriple>>{
+val buffer = ByteArrayWrapper()
             DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodePropertyList#${counter++}")
             val subject = AOPConstant(query, buffer)
-            subject to visit(graph, graphVar, subject, node.variable0!!)
-        }
-        is ASTCollection -> {
+return            subject to visit(graph, graphVar, subject, node.variable0!!)
+}
+ private fun visit(graph: String, graphVar: Boolean, node:ASTCollection) : Pair<AOPConstant, List<LOPTriple>>{
             val bufferNil = ByteArrayWrapper()
             val bufferFirst = ByteArrayWrapper()
             val bufferRest = ByteArrayWrapper()
@@ -863,8 +862,11 @@ public class OperatorGraphVisitor(public val query: Query) {
             if (!f) {
                 res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), AOPConstant(query, bufferNil), graph, graphVar))
             }
-            first to res
-        }
+return            first to res
+}
+    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesNode) : Pair<AOPConstant, List<LOPTriple>> = when (node) {
+        is ASTBlankNodePropertyList -> visit(graph,graphVar,node)
+        is ASTCollection -> visit(graph,graphVar,node)
     }
 
     private fun visit(node: ASTGraphNode): Pair<AOPBase, List<LOPTriple>> = when (node) {
