@@ -1036,17 +1036,10 @@ val buffer = ByteArrayWrapper()
         is ASTGroupGraphPatternSub -> visit(graph, graphVar, node)
         is ASTSubSelect -> visit(graph, graphVar, node)
     }
-
     private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
-        val a: List<IOPBase> = visit(graph, graphVar, node.variable0!!.variable0!!)
-        var res: IOPBase = a.reduce { s, t -> LOPJoin(query, s, t, false) }
+        var res: IOPBase = (visit(graph, graphVar, node.variable0!!)as List<IOPBase>).reduce { s, t -> LOPJoin(query, s, t, false) }
         for (x in node.variable1!!.value) {
-            res = visit(graph, graphVar, x.variable0!!, res)
-            val y = x.variable2!!.variable0
-            if (y != null) {
-                val b: List<IOPBase> = visit(graph, graphVar, y)
-                res = LOPJoin(query, res, b.reduce { s, t -> LOPJoin(query, s, t, false) }, false)
-            }
+                res =  (visit(graph, graphVar,x.variable2!!)+visit(graph, graphVar, x.variable0!!, res)).reduce { s, t -> LOPJoin(query, s, t, false) }
         }
         return res
     }
