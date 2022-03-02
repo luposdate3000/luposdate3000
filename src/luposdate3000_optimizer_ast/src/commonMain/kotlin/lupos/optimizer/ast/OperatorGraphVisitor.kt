@@ -182,6 +182,9 @@ public class OperatorGraphVisitor(public val query: Query) {
             is ASTDescribeQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
             is ASTAskQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
         }
+if(variableOrdering.size==0){
+variableOrdering.add(child.getProvidedVariableNames().filter{!it.contains("#")})
+}
         return OPBaseCompound(query, arrayOf(child), variableOrdering)
     }
 
