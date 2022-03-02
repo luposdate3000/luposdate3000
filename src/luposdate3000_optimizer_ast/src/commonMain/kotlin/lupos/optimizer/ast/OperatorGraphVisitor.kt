@@ -509,8 +509,8 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTBuiltInCallLCase -> AOPBuildInCallLCASE(query, visit(graph, graphVar, node.variable0!!))
         is ASTBuiltInCallFloor -> AOPBuildInCallFLOOR(query, visit(graph, graphVar, node.variable0!!))
         is ASTBuiltInCallRound -> AOPBuildInCallROUND(query, visit(graph, graphVar, node.variable0!!))
-        is ASTExistsFunc -> AOPBuildInCallExists(query, visit(graph, graphVar, node.variable0!!))
-        is ASTNotExistsFunc -> AOPBuildInCallNotExists(query, visit(graph, graphVar, node.variable0!!))
+        is ASTExistsFunc -> AOPBuildInCallExists(query, visit(true,graph, graphVar, node.variable0!!))
+        is ASTNotExistsFunc -> AOPBuildInCallNotExists(query, visit(true,graph, graphVar, node.variable0!!))
         is ASTAggregate -> visit(graph, graphVar, node)
         is ASTBuiltInCallConcat -> visit(graph, graphVar, node.variable0!!).reduceRight { s, t -> AOPBuildInCallCONCAT(query, s, t) }
         is ASTBuiltInCallBNode -> when (val v0 = node.variable0!!) {
@@ -818,37 +818,49 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTModify -> visit(node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTBlankNodePropertyList): Pair<AOPConstant, List<LOPTriple>> {
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTBlankNodePropertyList): Pair<AOPBase, List<LOPTriple>> {
+val subject =if(blankNodeToVariable){
+AOPVariable(query, "_ASTBlankNodePropertyList#${counter++}")
+}else{
         val buffer = ByteArrayWrapper()
         DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodePropertyList#${counter++}")
-        val subject = AOPConstant(query, buffer)
-        return subject to visit(graph, graphVar, subject, node.variable0!!)
+        AOPConstant(query, buffer)
+}
+        return subject to visit(blankNodeToVariable,graph, graphVar, subject, node.variable0!!)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTCollection): Pair<AOPConstant, List<LOPTriple>> {
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTCollection): Pair<AOPBase, List<LOPTriple>> {
         val bufferNil = ByteArrayWrapper()
         val bufferFirst = ByteArrayWrapper()
         val bufferRest = ByteArrayWrapper()
         DictionaryHelper.iriToByteArray(bufferNil, "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
         DictionaryHelper.iriToByteArray(bufferFirst, "http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
         DictionaryHelper.iriToByteArray(bufferRest, "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
-        var first = AOPConstant(query, bufferNil)
-        var current = AOPConstant(query, bufferNil)
+        var first :AOPBase= AOPConstant(query, bufferNil)
+        var current :AOPBase= AOPConstant(query, bufferNil)
         var f = true
         val res = mutableListOf<LOPTriple>()
         for (v in node.variable0!!.value) {
-            val t = visit(v)
+            val t = visit(blankNodeToVariable,v)
             res.addAll(t.second)
             if (f) {
                 f = false
+current=if(blankNodeToVariable){
+AOPVariable(query, "_ASTCollection#${counter++}")
+}else{
                 val buffer = ByteArrayWrapper()
                 DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                current = AOPConstant(query, buffer)
+                 AOPConstant(query, buffer)
+}
                 first = current
             } else {
+val next=if(blankNodeToVariable){
+AOPVariable(query, "_ASTCollection#${counter++}")
+}else{
                 val buffer = ByteArrayWrapper()
                 DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                val next = AOPConstant(query, buffer)
+                 AOPConstant(query, buffer)
+}
                 res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), next, graph, graphVar))
                 current = next
             }
@@ -865,14 +877,14 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTCollection -> visit(graph, graphVar, node)
     }
 
-    private fun visit(node: ASTGraphNode): Pair<AOPBase, List<LOPTriple>> = when (node) {
-        is ASTTriplesNode -> visit(node)
+    private fun visit(blankNodeToVariable:Boolean,node: ASTGraphNode): Pair<AOPBase, List<LOPTriple>> = when (node) {
+        is ASTTriplesNode -> visit(blankNodeToVariable,node)
         is ASTVar1 -> AOPVariable(query, node.VAR1!!.drop(1)) to listOf()
         is ASTVar2 -> AOPVariable(query, node.VAR2!!.drop(1)) to listOf()
-        is ASTGraphTerm -> visit(node) to listOf()
+        is ASTGraphTerm -> visit(blankNodeToVariable,node) to listOf()
     }
 
-    private fun visit(node: ASTGraphTerm) = when (node) {
+    private fun visit(blankNodeToVariable:Boolean,node: ASTGraphTerm) = when (node) {
         is ASTRDFLiteral -> visit(node)
         is ASTNumericLiteral -> visit(node)
         is ASTBooleanLiteral -> visit(node)
@@ -881,33 +893,41 @@ public class OperatorGraphVisitor(public val query: Query) {
             DictionaryHelper.iriToByteArray(buffer, visit(node))
             AOPConstant(query, buffer)
         }
-        is ASTBlankNode -> visit(node)
+        is ASTBlankNode -> visit(blankNodeToVariable,node)
         is ASTNILParam -> {
+if(blankNodeToVariable){
+AOPVariable(query,"_ASTGraphTerm#${counter++}")
+}else{
             val buffer = ByteArrayWrapper()
             DictionaryHelper.bnodeToByteArray(buffer, "_ASTGraphTerm#${counter++}")
             AOPConstant(query, buffer)
-        }
+      }
+  }
     }
 
-    private fun visit(node: ASTBlankNode) = when (node) {
-        is ASTBlankNodeLabel -> visit(node)
-        is ASTBlankNodeANON -> visit(node)
+    private fun visit(blankNodeToVariable:Boolean,node: ASTBlankNode) = when (node) {
+        is ASTBlankNodeLabel -> visit(blankNodeToVariable,node)
+        is ASTBlankNodeANON -> visit(blankNodeToVariable,node)
     }
 
-    private fun visit(node: ASTBlankNodeLabel): AOPConstant {
+    private fun visit(blankNodeToVariable:Boolean,node: ASTBlankNodeLabel): AOPBase =if(blankNodeToVariable) {
+AOPVariable(query, node.BLANK_NODE_LABEL!!+"#")
+}else{
         val buffer = ByteArrayWrapper()
         DictionaryHelper.bnodeToByteArray(buffer, node.BLANK_NODE_LABEL!!)
-        return AOPConstant(query, buffer)
+         AOPConstant(query, buffer)
     }
 
-    private fun visit(unused: ASTBlankNodeANON): AOPConstant {
+    private fun visit(blankNodeToVariable:Boolean,unused: ASTBlankNodeANON): AOPBase =if(blankNodeToVariable) {
+AOPVariable(query,"_ASTBlankNodeANON#${counter++}")
+}else {
         val buffer = ByteArrayWrapper()
         DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodeANON#${counter++}")
-        return AOPConstant(query, buffer)
+         AOPConstant(query, buffer)
     }
 
-    private fun visit(node: ASTVarOrTerm) = when (node) {
-        is ASTGraphTerm -> visit(node)
+    private fun visit(blankNodeToVariable:Boolean,node: ASTVarOrTerm) = when (node) {
+        is ASTGraphTerm -> visit(blankNodeToVariable,node)
         is ASTVar1 -> AOPVariable(query, node.VAR1!!.drop(1))
         is ASTVar2 -> AOPVariable(query, node.VAR2!!.drop(1))
     }
@@ -927,17 +947,17 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodeAndPropertyListOptional): List<LOPTriple> {
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodeAndPropertyListOptional): List<LOPTriple> {
         val tmp = visit(graph, graphVar, node.variable0!!)
-        return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
+        return tmp.second + visit(blankNodeToVariable,graph, graphVar, tmp.first, node.variable1!!)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectList): List<LOPTriple> {
-        val a = visit(node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectList): List<LOPTriple> {
+        val a = visit(blankNodeToVariable,node.variable0!!)
         val res = a.second.toMutableList()
         res.add(LOPTriple(query, subject, predicate, a.first, graph, graphVar))
         for (v in node.variable1!!.value) {
-            val b = visit(v)
+            val b = visit(blankNodeToVariable,v)
             res.addAll(b.second)
             res.add(LOPTriple(query, subject, predicate, b.first, graph, graphVar))
         }
@@ -986,12 +1006,12 @@ public class OperatorGraphVisitor(public val query: Query) {
             TODO("using not implemented")
         }
         return when (val v1 = node.variable1!!) {
-            is ASTInsertClause -> LOPModify(query, visit(graph, false, v1.variable0!!).toMutableList(), mutableListOf(), visit(graph, false, node.variable3!!))
+            is ASTInsertClause -> LOPModify(query, visit(graph, false, v1.variable0!!).toMutableList(), mutableListOf(), visit(true,graph, false, node.variable3!!))
             is ASTClassOfDeleteClauseAndInsertClauseOptional -> LOPModify(
                 query,
                 visit(graph, false, v1.variable1!!).toMutableList(),
                 visit(graph, false, v1.variable0!!).toMutableList(),
-                visit(graph, false, node.variable3!!)
+                visit(true,graph, false, node.variable3!!)
             )
         }
     }
@@ -1027,14 +1047,14 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTListOfDataBlockValue -> visit(node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub): IOPBase = when (node) {
-        is ASTGroupGraphPatternSub -> visit(graph, graphVar, node)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub): IOPBase = when (node) {
+        is ASTGroupGraphPatternSub -> visit(blankNodeToVariable,graph, graphVar, node)
         is ASTSubSelect -> visit(graph, graphVar, node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesSameSubjectPath) = when (node) {
-        is ASTClassOfVarOrTermAndPropertyListPathNotEmpty -> visit(graph, graphVar, node)
-        is ASTClassOfTriplesNodePathAndPropertyListPathOptional -> visit(graph, graphVar, node)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTTriplesSameSubjectPath) = when (node) {
+        is ASTClassOfVarOrTermAndPropertyListPathNotEmpty -> visit(blankNodeToVariable,graph, graphVar, node)
+        is ASTClassOfTriplesNodePathAndPropertyListPathOptional -> visit(blankNodeToVariable,graph, graphVar, node)
     }
 
     private fun visit(node: ASTInterfaceOfVerbPathOrVerbSimple): AOPBase = when (node) {
@@ -1087,61 +1107,73 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTPathNegatedPropertySet -> TODO("path not implemented")
     }
 
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectListPath): List<LOPTriple> {
-        val a = visit(node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectListPath): List<LOPTriple> {
+        val a = visit(blankNodeToVariable,node.variable0!!)
         val res = a.second.toMutableList()
         res.add(LOPTriple(query, subject, predicate, a.first, graph, graphVar))
         for (v in node.variable1!!.value) {
-            val b = visit(v)
+            val b = visit(blankNodeToVariable,v)
             res.addAll(b.second)
             res.add(LOPTriple(query, subject, predicate, b.first, graph, graphVar))
         }
         return res
     }
 
-    private fun visit(node: ASTGraphNodePath): Pair<AOPBase, List<LOPTriple>> = when (node) {
+    private fun visit(blankNodeToVariable:Boolean,node: ASTGraphNodePath): Pair<AOPBase, List<LOPTriple>> = when (node) {
         is ASTVar1 -> AOPVariable(query, node.VAR1!!.drop(1)) to listOf()
         is ASTVar2 -> AOPVariable(query, node.VAR2!!.drop(1)) to listOf()
-        is ASTGraphTerm -> visit(node) to listOf()
-        is ASTTriplesNodePath -> visit(node)
+        is ASTGraphTerm -> visit(blankNodeToVariable,node) to listOf()
+        is ASTTriplesNodePath -> visit(blankNodeToVariable,node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodePathAndPropertyListPathOptional): List<LOPTriple> {
-        val tmp = visit(graph, graphVar, node.variable0!!)
-        return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodePathAndPropertyListPathOptional): List<LOPTriple> {
+        val tmp = visit(blankNodeToVariable,graph, graphVar, node.variable0!!)
+        return tmp.second + visit(blankNodeToVariable,graph, graphVar, tmp.first, node.variable1!!)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTBlankNodePropertyListPath): Pair<AOPConstant, List<LOPTriple>> {
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTBlankNodePropertyListPath): Pair<AOPBase, List<LOPTriple>> {
+val subject=if(blankNodeToVariable){
+AOPVariable(query, "_ASTBlankNodePropertyList#${counter++}")
+}else{
         val buffer = ByteArrayWrapper()
         DictionaryHelper.bnodeToByteArray(buffer, "_ASTBlankNodePropertyList#${counter++}")
-        val subject = AOPConstant(query, buffer)
-        return subject to visit(graph, graphVar, subject, node.variable0!!)
+         AOPConstant(query, buffer)
+}
+        return subject to visit(blankNodeToVariable,graph, graphVar, subject, node.variable0!!)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTCollectionPath): Pair<AOPConstant, List<LOPTriple>> {
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTCollectionPath): Pair<AOPBase, List<LOPTriple>> {
         val bufferNil = ByteArrayWrapper()
         val bufferFirst = ByteArrayWrapper()
         val bufferRest = ByteArrayWrapper()
         DictionaryHelper.iriToByteArray(bufferNil, "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
         DictionaryHelper.iriToByteArray(bufferFirst, "http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
         DictionaryHelper.iriToByteArray(bufferRest, "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
-        var first = AOPConstant(query, bufferNil)
-        var current = AOPConstant(query, bufferNil)
+        var first :AOPBase= AOPConstant(query, bufferNil)
+        var current :AOPBase= AOPConstant(query, bufferNil)
         var f = true
         val res = mutableListOf<LOPTriple>()
         for (v in node.variable0!!.value) {
-            val t = visit(v)
+            val t = visit(blankNodeToVariable,v)
             res.addAll(t.second)
             if (f) {
                 f = false
-                val buffer = ByteArrayWrapper()
+                current=if(blankNodeToVariable){
+AOPVariable(query,"_ASTCollection#${counter++}")
+}else{
+val buffer = ByteArrayWrapper()
                 DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                current = AOPConstant(query, buffer)
+                 AOPConstant(query, buffer)
+}
                 first = current
             } else {
+val next=if(blankNodeToVariable){
+AOPVariable(query,"_ASTCollection#${counter++}")
+}else{
                 val buffer = ByteArrayWrapper()
                 DictionaryHelper.bnodeToByteArray(buffer, "_ASTCollection#${counter++}")
-                val next = AOPConstant(query, buffer)
+                AOPConstant(query, buffer)
+}
                 res.add(LOPTriple(query, current, AOPConstant(query, bufferRest), next, graph, graphVar))
                 current = next
             }
@@ -1153,107 +1185,35 @@ public class OperatorGraphVisitor(public val query: Query) {
         return first to res
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesNodePath) = when (node) {
-        is ASTBlankNodePropertyListPath -> visit(graph, graphVar, node)
-        is ASTCollectionPath -> visit(graph, graphVar, node)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTTriplesNodePath) = when (node) {
+        is ASTBlankNodePropertyListPath -> visit(blankNodeToVariable,graph, graphVar, node)
+        is ASTCollectionPath -> visit(blankNodeToVariable,graph, graphVar, node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGraphGraphPattern, child: IOPBase) = LOPJoin(
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGraphGraphPattern, child: IOPBase) = LOPJoin(
         query,
         child,
         when (val v0 = node.variable0!!) {
-            is ASTVar1 -> visit(v0.VAR1!!.drop(1), true, node.variable1!!)
-            is ASTVar2 -> visit(v0.VAR2!!.drop(1), true, node.variable1!!)
-            is ASTiri -> visit(visit(v0), false, node.variable1!!)
+            is ASTVar1 -> visit(blankNodeToVariable,v0.VAR1!!.drop(1), true, node.variable1!!)
+            is ASTVar2 -> visit(blankNodeToVariable,v0.VAR2!!.drop(1), true, node.variable1!!)
+            is ASTiri -> visit(blankNodeToVariable,visit(v0), false, node.variable1!!)
         },
         false
     )
 
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, subject, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlockOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlockOptionalOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptionalOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, subject, it) }
-        ?: listOf()
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTHavingClause) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit(graph, graphVar, node.variable0!!) to visit(node.variable1!!.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfGroupCondition): List<Pair<AOPBase?, AOPVariable>> = node.value.map { visit(graph, graphVar, it) }
-    private fun visit(node: ASTListOfVar): List<AOPVariable> = node.value.map { visit(it) }
-    private fun visit(node: ASTListOfDataBlockValue): List<AOPConstant> = node.value.map { visit(it) }
-    private fun visit(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam): List<List<AOPConstant>> = node.value.map { visit(it) }
-    private fun visit(node: ASTInlineDataOneVar) = LOPValues(query, listOf(visit(node.variable0!!)), visit(node.variable1!!).map { AOPValue(query, listOf(it)) })
-    private fun visit(node: ASTValuesClause): IOPBase = visit(node.variable0!!)
-    private fun visit(node: ASTClear) = LOPGraphOperation(query, EGraphOperationTypeExt.CLEAR, node.SILENT, visit(node.variable1!!))
-    private fun visit(node: ASTDrop) = LOPGraphOperation(query, EGraphOperationTypeExt.DROP, node.SILENT, visit(node.variable1!!))
-    private fun visit(node: ASTCreate) = LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.SILENT, visit(node.variable1!!))
-    private fun visit(node: ASTAdd) = LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListNotEmpty): List<LOPTriple> = visit(graph, graphVar, visit(node.variable0!!), node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTValuesClause, child: IOPBase) = visit(node.variable0!!)
-    private fun visit(node: ASTMove) = LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
-    private fun visit(node: ASTCopy) = LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
-    private fun visit(node: ASTObject): Pair<AOPBase, List<LOPTriple>> = visit(node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTQuadPattern) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfVerbAndObjectList): List<LOPTriple> = visit(graph, graphVar, subject, visit(node.variable0!!), node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfVerbAndObjectListOptional): List<LOPTriple> = visit(graph, graphVar, subject, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTListOfClassOfVerbAndObjectListOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, subject, it) }.flatten()
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListNotEmpty): List<LOPTriple> = visit(graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(graph, graphVar, subject, node.variable2!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplate): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional) = visit(node.variable0!!) + node.variable2!!.variable0?.let { visit(graph, graphVar, it) }.orEmpty()
-    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, it) }.flatten()
-    private fun visit(graph: String, graphVar: Boolean, node: ASTQuads): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTQuadData): List<LOPTriple> = visit(graph, graphVar, node.variable0!!)
-    private fun visit(node: ASTInsertData) = LOPModifyData(query, EModifyTypeExt.INSERT, visit("", false, node.variable0!!).toMutableList())
-    private fun visit(node: ASTDeleteData) = LOPModifyData(query, EModifyTypeExt.DELETE, visit("", false, node.variable0!!).toMutableList())
-    private fun visit(node: ASTString1) = node.STRING_LITERAL1!!.drop(1).dropLast(1)
-    private fun visit(node: ASTString2) = node.STRING_LITERAL2!!.drop(1).dropLast(1)
-    private fun visit(node: ASTString1long) = node.STRING_LITERAL_LONG1!!.drop(3).dropLast(3)
-    private fun visit(node: ASTString2long) = node.STRING_LITERAL_LONG2!!.drop(3).dropLast(3)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTNumericExpression) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndListOfExpression) = listOf(visit(graph, graphVar, node.variable0!!)) + node.variable1?.value.orEmpty().map { visit(graph, graphVar, it) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTConditionalAndExpression) = (listOf(visit(graph, graphVar, node.variable0!!)) + visit(graph, graphVar, node.variable1!!)).reduce { s, t -> AOPAnd(query, s, t) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTConditionalOrExpression) = (listOf(visit(graph, graphVar, node.variable0!!)) + visit(graph, graphVar, node.variable1!!)).reduce { s, t -> AOPOr(query, s, t) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTWhereClause) = visit(graph, graphVar, node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTExpression): AOPBase = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTValueLogical) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfValueLogical) = node.value.map { visit(graph, graphVar, it) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfConditionalAndExpression) = node.value.map { visit(graph, graphVar, it) }
-    private fun visit(node: ASTPrologue) = node.value.map { visit(it) }
-    private fun visit(node: ASTBaseDecl) = prefix("", node.IRIREF!!)
-    private fun visit(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!.dropLast(1), node.IRIREF!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPattern) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty): List<LOPTriple> = visit(graph, graphVar, visit(node.variable0!!), node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTInsertClauseOptional) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTInsertClause) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTDeleteClause) = visit(graph, graphVar, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathNotEmpty): List<LOPTriple> = visit(graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(graph, graphVar, subject, node.variable2!!)
-
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
-        var triplesBlockPrevious = visit(graph, graphVar, node.variable0!!) as List<IOPBase>
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
+        var triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, node.variable0!!) as List<IOPBase>
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
         if (triplesBlockPrevious.size == 0) {
             val v = listNotTriples.removeAt(0)
-            triplesBlockPrevious = visit(graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!)
+            triplesBlockPrevious = visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!)
         }
         return listNotTriples.fold(
             triplesBlockPrevious.reduce { s, t ->
                 LOPJoin(query, s, t, false)
             },
             { u, v ->
-                (visit(graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
+                (visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
             }
         )
     }
@@ -1271,23 +1231,94 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTGroupOrUnionGraphPattern -> visit(graph, graphVar, node)
         else -> TODO()
     }
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable,graph, graphVar, subject, it) }
+        ?: listOf()
 
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyList): List<LOPTriple> = visit(graph, graphVar, subject, node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlock): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, subject, it.variable0!!) }.flatten()
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList) = visit(graph, graphVar, subject, visit(node.variable0!!), node.variable1!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTTriplesBlockOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable,graph, graphVar, it) }
+        ?: listOf()
+
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTTriplesBlockOptionalOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable,graph, graphVar, it) }
+        ?: listOf()
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptionalOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
+        ?: listOf()
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptional): List<LOPTriple> = node.variable0?.let { visit(graph, graphVar, it) }
+        ?: listOf()
+
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable,graph, graphVar, subject, it) }
+        ?: listOf()
+
+
+    private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
+    private fun visit(graph: String, graphVar: Boolean, node: ASTHavingClause) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit(graph, graphVar, node.variable0!!) to visit(node.variable1!!.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfGroupCondition): List<Pair<AOPBase?, AOPVariable>> = node.value.map { visit(graph, graphVar, it) }
+    private fun visit(node: ASTListOfVar): List<AOPVariable> = node.value.map { visit(it) }
+    private fun visit(node: ASTListOfDataBlockValue): List<AOPConstant> = node.value.map { visit(it) }
+    private fun visit(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam): List<List<AOPConstant>> = node.value.map { visit(it) }
+    private fun visit(node: ASTInlineDataOneVar) = LOPValues(query, listOf(visit(node.variable0!!)), visit(node.variable1!!).map { AOPValue(query, listOf(it)) })
+    private fun visit(node: ASTValuesClause): IOPBase = visit(node.variable0!!)
+    private fun visit(node: ASTClear) = LOPGraphOperation(query, EGraphOperationTypeExt.CLEAR, node.SILENT, visit(node.variable1!!))
+    private fun visit(node: ASTDrop) = LOPGraphOperation(query, EGraphOperationTypeExt.DROP, node.SILENT, visit(node.variable1!!))
+    private fun visit(node: ASTCreate) = LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.SILENT, visit(node.variable1!!))
+    private fun visit(node: ASTAdd) = LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListNotEmpty): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, visit(blankNodeToVariable,node.variable0!!), node.variable1!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTValuesClause, child: IOPBase) = visit(node.variable0!!)
+    private fun visit(node: ASTMove) = LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
+    private fun visit(node: ASTCopy) = LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
+    private fun visit(blankNodeToVariable:Boolean,node: ASTObject): Pair<AOPBase, List<LOPTriple>> = visit(blankNodeToVariable,node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTQuadPattern) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfVerbAndObjectList): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, visit(node.variable0!!), node.variable1!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfVerbAndObjectListOptional): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTListOfClassOfVerbAndObjectListOptional): List<LOPTriple> = node.value.map { visit(blankNodeToVariable,graph, graphVar, subject, it) }.flatten()
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListNotEmpty): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(blankNodeToVariable,graph, graphVar, subject, node.variable2!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplate): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional) = visit(node.variable0!!) + node.variable2!!.variable0?.let { visit(graph, graphVar, it) }.orEmpty()
+    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, it) }.flatten()
+    private fun visit(graph: String, graphVar: Boolean, node: ASTQuads): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTQuadData): List<LOPTriple> = visit(graph, graphVar, node.variable0!!)
+    private fun visit(node: ASTInsertData) = LOPModifyData(query, EModifyTypeExt.INSERT, visit("", false, node.variable0!!).toMutableList())
+    private fun visit(node: ASTDeleteData) = LOPModifyData(query, EModifyTypeExt.DELETE, visit("", false, node.variable0!!).toMutableList())
+    private fun visit(node: ASTString1) = node.STRING_LITERAL1!!.drop(1).dropLast(1)
+    private fun visit(node: ASTString2) = node.STRING_LITERAL2!!.drop(1).dropLast(1)
+    private fun visit(node: ASTString1long) = node.STRING_LITERAL_LONG1!!.drop(3).dropLast(3)
+    private fun visit(node: ASTString2long) = node.STRING_LITERAL_LONG2!!.drop(3).dropLast(3)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTNumericExpression) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndListOfExpression) = listOf(visit(graph, graphVar, node.variable0!!)) + node.variable1?.value.orEmpty().map { visit(graph, graphVar, it) }
+    private fun visit(graph: String, graphVar: Boolean, node: ASTConditionalAndExpression) = (listOf(visit(graph, graphVar, node.variable0!!)) + visit(graph, graphVar, node.variable1!!)).reduce { s, t -> AOPAnd(query, s, t) }
+    private fun visit(graph: String, graphVar: Boolean, node: ASTConditionalOrExpression) = (listOf(visit(graph, graphVar, node.variable0!!)) + visit(graph, graphVar, node.variable1!!)).reduce { s, t -> AOPOr(query, s, t) }
+    private fun visit(graph: String, graphVar: Boolean, node: ASTWhereClause) = visit(true,graph, graphVar, node.variable1!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTExpression): AOPBase = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTValueLogical) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfValueLogical) = node.value.map { visit(graph, graphVar, it) }
+    private fun visit(graph: String, graphVar: Boolean, node: ASTListOfConditionalAndExpression) = node.value.map { visit(graph, graphVar, it) }
+    private fun visit(node: ASTPrologue) = node.value.map { visit(it) }
+    private fun visit(node: ASTBaseDecl) = prefix("", node.IRIREF!!)
+    private fun visit(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!.dropLast(1), node.IRIREF!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGroupGraphPattern) = visit(blankNodeToVariable,graph, graphVar, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, visit(blankNodeToVariable,node.variable0!!), node.variable1!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTInsertClauseOptional) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTInsertClause) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTDeleteClause) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathNotEmpty): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(blankNodeToVariable,graph, graphVar, subject, node.variable2!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyList): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTTriplesBlock): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, node.variable0!!) + visit(blankNodeToVariable,graph, graphVar, node.variable1!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional): List<LOPTriple> = node.value.map { visit(blankNodeToVariable,graph, graphVar, subject, it.variable0!!) }.flatten()
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList) = visit(blankNodeToVariable,graph, graphVar, subject, visit(node.variable0!!), node.variable1!!)
     private fun visit(node: ASTVerbSimple) = visit(node.variable0!!)
-    private fun visit(node: ASTObjectPath): Pair<AOPBase, List<LOPTriple>> = visit(node.variable0!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTOptionalGraphPattern, child: IOPBase) = LOPJoin(query, child, visit(graph, graphVar, node.variable0!!), true)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit(graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }, false)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit(graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTMinusGraphPattern, child: IOPBase) = LOPMinus(query, child, visit(graph, graphVar, node.variable0!!), mutableListOf())
-    private fun visit(graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = LOPFilter(query, visit(graph, graphVar, node.variable0!!), child)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTBind, child: IOPBase) = LOPBind(query, visit(node.variable1!!), visit(graph, graphVar, node.variable0!!), child)
+    private fun visit(blankNodeToVariable:Boolean,node: ASTObjectPath): Pair<AOPBase, List<LOPTriple>> = visit(blankNodeToVariable,node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTOptionalGraphPattern, child: IOPBase) = LOPJoin(query, child, visit(blankNodeToVariable,graph, graphVar, node.variable0!!), true)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit(blankNodeToVariable,graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(blankNodeToVariable,graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }, false)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit(blankNodeToVariable,graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(blankNodeToVariable,graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTMinusGraphPattern, child: IOPBase) = LOPMinus(query, child, visit(blankNodeToVariable,graph, graphVar, node.variable0!!), mutableListOf())
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = LOPFilter(query, visit(graph, graphVar, node.variable0!!), child)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTBind, child: IOPBase) = LOPBind(query, visit(node.variable1!!), visit(graph, graphVar, node.variable0!!), child)
     private fun visit(graph: String, graphVar: Boolean, node: ASTServiceGraphPattern, child: IOPBase): IOPBase = TODO("service not implemented")
     private fun visit(node: ASTConstructQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("construct query not implemented")
     private fun visit(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")
-    private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPath): List<LOPTriple> = visit(graph, graphVar, subject, node.variable0!!)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPath): List<LOPTriple> = visit(blankNodeToVariable,graph, graphVar, subject, node.variable0!!)
     private fun visit(node: ASTOffsetClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTLimitClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTOffsetClause, tmp: IOPBase) = LOPOffset(query, node.INTEGER!!.toInt(), tmp)
