@@ -236,14 +236,6 @@ variableOrdering.add(child.getProvidedVariableNames().filter{!it.contains("#")})
             res = LOPJoin(query, res, visit(valuesClause), false)
         }
         val (duplicateModifier, selectClause) = visit(nodeSelectClause!!)
-        res = when (duplicateModifier) {
-            ASTEnumOfDISTINCTAndREDUCED._UNDEFINED -> {
-                res
-            }
-            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> LOPDistinct(query, res)
-            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> LOPReduced(query, res)
-            else -> TODO("invalid value")
-        }
         val solutionModifier = nodeSolutionModifier!!
         val groupClause = solutionModifier.variable0!!.variable0
         val havingClause = solutionModifier.variable1!!.variable0
@@ -286,6 +278,12 @@ variableOrdering.add(child.getProvidedVariableNames().filter{!it.contains("#")})
         if (selectClause != null) {
             res = LOPProjection(query, selectClause.map { AOPVariable(query, it.second) }.toMutableList(), res)
         }
+        res = when (duplicateModifier) {
+            ASTEnumOfDISTINCTAndREDUCED._UNDEFINED ->                 res
+            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> LOPDistinct(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> LOPReduced(query, res)
+            else -> TODO("invalid value")
+        }
         return res
     }
 
@@ -300,11 +298,6 @@ variableOrdering.add(child.getProvidedVariableNames().filter{!it.contains("#")})
             res = LOPJoin(query, res, visit(valuesClause), false)
         }
         val (duplicateModifier, selectClause) = visit(nodeSelectClause!!)
-        val unused = when (duplicateModifier) {
-            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> res = LOPDistinct(query, res)
-            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> res = LOPReduced(query, res)
-            else -> TODO("invalid value")
-        }
         val solutionModifier = nodeSolutionModifier!!
         val groupClause = solutionModifier.variable0!!.variable0
         val havingClause = solutionModifier.variable1!!.variable0
@@ -346,6 +339,12 @@ variableOrdering.add(child.getProvidedVariableNames().filter{!it.contains("#")})
         }
         if (selectClause != null) {
             res = LOPProjection(query, selectClause.map { AOPVariable(query, it.second) }.toMutableList(), res)
+        }
+        res = when (duplicateModifier) {
+ASTEnumOfDISTINCTAndREDUCED._UNDEFINED ->                 res
+            ASTEnumOfDISTINCTAndREDUCED.DISTINCT ->  LOPDistinct(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.REDUCED ->  LOPReduced(query, res)
+            else -> TODO("invalid value")
         }
         return res
     }
