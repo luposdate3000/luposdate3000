@@ -159,55 +159,54 @@ public class OperatorGraphVisitor( public val query: Query) {
         is ASTSelectClauseAll -> null
     }
 
-    public fun visit(v0: ASTPrologue, v1: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional): OPBaseCompound {
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional): OPBaseCompound {
         val prolog = visit(v0).toMutableList()
         val variableOrdering = mutableListOf<List<String>>()
-        val v1_0 = v1.variable0!!
-        var child = when (v1_0) {
+        val classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional = v1.variable0!!
+        val valuesClauseOptional = v1.variable1
+val valuesClause=valuesClauseOptional!!.variable0
+        var child = when (classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional) {
             is ASTSelectQuery -> {
-                val tmp = visit(v1_0.variable0!!).second
+                val tmp = visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional.variable0!!).second
                 if (tmp != null) {
                     variableOrdering.add(tmp.map { it.second })
                 }
-                visit(v1_0, v1.variable1)
+                visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
             }
-            is ASTConstructQuery -> visit(v1_0, v1.variable1)
-            is ASTDescribeQuery -> visit(v1_0, v1.variable1)
-            is ASTAskQuery -> visit(v1_0, v1.variable1)
-        }
-        val v1_1 = v1.variable1
-        if (v1_1 != null) {
-            child = LOPJoin(query, visit(v1_1), child, false)
+            is ASTConstructQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
+            is ASTDescribeQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
+            is ASTAskQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
         }
         return OPBaseCompound(query, arrayOf(prolog.fold(child) { s, t -> LOPPrefix(query, (s as LOPPrefix).name, s.iri, t) }), variableOrdering)
     }
 
-    public fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional): OPBaseCompound {
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional)=visit(v0,v1.variable0!!)
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional): OPBaseCompound {
         val prolog = visit(v0).toMutableList()
         val childs = mutableListOf<IOPBase>()
         childs.add(visit(v1.variable0!!))
-        var v2 :ASTClassOfPrologueAndUpdateOptional = v1.variable1
+        var v2 :ASTClassOfPrologueAndUpdateOptional = v1.variable1!!
         while (v2 != null) {
 val v3:ASTClassOfPrologueAndUpdate=v2.variable0!!
             prolog.addAll(visit(v3.variable0!!))
 val v4:ASTUpdate=v3.variable1!!
 val v5:ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional = v4.variable0!!
             childs.add(visit(v5.variable0!!))
-            v2 = v5.variable1
+            v2 = v5.variable1!!
         }
         return OPBaseCompound(query, childs.map { prolog.fold(it) { s, t -> LOPPrefix(query, (s as LOPPrefix).name, s.iri, t) } }.toTypedArray(), listOf())
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound = when (val v1 = node.variable1!!) {
         is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
-        is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional -> visit(node.variable0!!, v1)
+        is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
     }
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTGroupCondition): Pair<AOPBase?, AOPVariable> = when (node) {
         is ASTFunctionCall -> visit(graph, graphVar, node) to AOPVariable(query, "_ASTGroupCondition#${counter++}")
         is ASTVar -> null to visit(node)
         is ASTBuiltInCall -> visit(graph, graphVar, node) to AOPVariable(query, "_ASTGroupCondition#${counter++}")
-        is ASTClassOfExpressionAndVar -> visit(graph, graphVar, node)
+        is ASTClassOfExpressionAndVarOptional -> visit(graph, graphVar, node)
     }
 
     private fun visit(node: ASTSelectQuery, valuesClause: ASTValuesClause?): IOPBase {
@@ -277,7 +276,7 @@ private fun visit(graph:String,graphVar:Boolean,node: ASTSubSelect): IOPBase {
         val nodeSelectClause = node.variable0
         val nodeWhereClause = node.variable1
         val nodeSolutionModifier = node.variable2
-val valuesClause= node.variable3
+val valuesClause= node.variable3!!.variable0
         val whereClause = visit(graph,graphVar, nodeWhereClause!!)
         var res = whereClause
         if (valuesClause != null) {
@@ -566,7 +565,7 @@ val valuesClause= node.variable3
         is ASTPrefixDecl -> visit(node)
     }
 
-    private fun visit(graph: String, graphVar: Boolean, node: ASTRelationalExpression) = when (val v1 = node.variable1) {
+    private fun visit(graph: String, graphVar: Boolean, node: ASTRelationalExpression) = when (val v1 = node.variable1!!.variable0) {
         is ASTRelationalExpressionEQ -> AOPEQ(query, visit(graph, graphVar, node.variable0!!), visit(graph, graphVar, v1.variable0!!))
         is ASTRelationalExpressionNEQ -> AOPNEQ(query, visit(graph, graphVar, node.variable0!!), visit(graph, graphVar, v1.variable0!!))
         is ASTRelationalExpressionLT -> AOPLT(query, visit(graph, graphVar, node.variable0!!), visit(graph, graphVar, v1.variable0!!))
@@ -1153,6 +1152,7 @@ val valuesClause= node.variable3
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingClause) = visit(graph, graphVar, node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfExpressionAndVar): Pair<AOPBase, AOPVariable> = visit(graph, graphVar, node.variable0!!) to visit(node.variable1!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfGroupCondition): List<Pair<AOPBase?, AOPVariable>> = node.value.map { visit(graph, graphVar, it) }
     private fun visit(node: ASTListOfVar): List<AOPVariable> = node.value.map { visit(it) }
