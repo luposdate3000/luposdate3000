@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
@@ -25,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxbindings09rq {
-    internal val query = "SELECT * { } BINDINGS ?x ?y { (1 2) (3) } \n" +
+    internal val query = "SELECT * { } VALUES (?x ?y) { (1 2) (3) } \n" +
         ""
 
     @Test
@@ -297,7 +296,6 @@ public class syntaxbindings09rq {
             LuposdateEndpoint.close(instance)
         }
     }
-
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         var flag = false

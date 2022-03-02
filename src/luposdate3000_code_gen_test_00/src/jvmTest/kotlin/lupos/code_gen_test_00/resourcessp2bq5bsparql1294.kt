@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
@@ -118,7 +117,6 @@ public class resourcessp2bq5bsparql1294 {
             LuposdateEndpoint.close(instance)
         }
     }
-
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {

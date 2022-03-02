@@ -2,3954 +2,3954 @@ package lupos.parser.sparql1_1
 
 public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-public class ASTAnonymous(public val value: String): IASTBase {
-    override fun astAssign(childID: Int, value: Any){}
-    override fun toString():String = "{\"type\":\"ASTAnonymous\",\"value\":\"$value\"}"
-}
-public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
-
-public class ASTValuesClauseOptional : IASTBase {
-    public var variable0 : ASTValuesClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTValuesClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTValuesClause
-    }
-}
-
-public class ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
-    public var variable0 : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery? = null
-    public var variable1 : ASTValuesClauseOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
-            1 -> variable1 = value as ASTValuesClauseOptional
-        }
-    }
-}
-
-public class ASTClassOfPrologueAndUpdate : IASTBase {
-    public var variable0 : ASTPrologue? = null
-    public var variable1 : ASTUpdate? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfPrologueAndUpdate\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPrologue
-            1 -> variable1 = value as ASTUpdate
-        }
-    }
-}
-
-public class ASTClassOfPrologueAndUpdateOptional : IASTBase {
-    public var variable0 : ASTClassOfPrologueAndUpdate? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfPrologueAndUpdateOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfPrologueAndUpdate
-    }
-}
-
-public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional : IASTBase {
-    public var variable0 : ASTUpdate1? = null
-    public var variable1 : ASTClassOfPrologueAndUpdateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTUpdate1
-            1 -> variable1 = value as ASTClassOfPrologueAndUpdateOptional
-        }
-    }
-}
-
-public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
-    public var variable0 : ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
-    }
-}
-
-public sealed interface ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional
-
-public class ASTSparqlDoc : IASTBase {
-    public var variable0 : ASTPrologue? = null
-    public var variable1 : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSparqlDoc\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPrologue
-            1 -> variable1 = value as ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional
-        }
-    }
-}
-
-public class ASTUpdate : IASTBase {
-    public var variable0 : ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUpdate\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
-    }
-}
-
-public sealed interface ASTInterfaceOfBaseDeclOrPrefixDecl
-
-public class ASTPrologue : IASTBase {
-    public val value: MutableList<ASTInterfaceOfBaseDeclOrPrefixDecl> = mutableListOf<ASTInterfaceOfBaseDeclOrPrefixDecl>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfBaseDeclOrPrefixDecl)
-    }
-    override fun toString():String="{\"type\":\"ASTPrologue\",\"value\":${value}}"
-}
-
-public class ASTBaseDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
-    public var IRIREF: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBaseDecl\"")
-        res.add("\"IRIREF\" : \"${IRIREF}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        IRIREF = value as String
-    }
-}
-
-public class ASTPrefixDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
-    public var PNAME_NS: String? = null
-    public var IRIREF: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPrefixDecl\"")
-        res.add("\"PNAME_NS\" : \"${PNAME_NS}\"")
-        res.add("\"IRIREF\" : \"${IRIREF}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> PNAME_NS = value as String
-            1 -> IRIREF = value as String
-        }
-    }
-}
-
-public class ASTListOfDatasetClause : IASTBase {
-    public val value: MutableList<ASTDatasetClause> = mutableListOf<ASTDatasetClause>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTDatasetClause)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfDatasetClause\",\"value\":${value}}"
-}
-
-public class ASTSelectQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
-    public var variable0 : ASTSelectClause? = null
-    public var variable1 : ASTListOfDatasetClause? = null
-    public var variable2 : ASTWhereClause? = null
-    public var variable3 : ASTSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSelectQuery\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTSelectClause
-            1 -> variable1 = value as ASTListOfDatasetClause
-            2 -> variable2 = value as ASTWhereClause
-            3 -> variable3 = value as ASTSolutionModifier
-        }
-    }
-}
-
-public class ASTSubSelect : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
-    public var variable0 : ASTSelectClause? = null
-    public var variable1 : ASTWhereClause? = null
-    public var variable2 : ASTSolutionModifier? = null
-    public var variable3 : ASTValuesClauseOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSubSelect\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTSelectClause
-            1 -> variable1 = value as ASTWhereClause
-            2 -> variable2 = value as ASTSolutionModifier
-            3 -> variable3 = value as ASTValuesClauseOptional
-        }
-    }
-}
-
-public object ASTEnumOfDISTINCTAndREDUCED {
-    public const val _UNDEFINED: Int = -1
-    public const val DISTINCT: Int = 0
-    public const val REDUCED: Int = 1
-    public const val _COUNT: Int = 2
-    public val values: Array<String> = arrayOf("DISTINCT", "REDUCED")
-}
-
-public class ASTClassOfExpressionAndVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndVar\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTVar
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfVarOrClassOfExpressionAndVar
-
-public class ASTListOfInterfaceOfVarOrClassOfExpressionAndVar : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
-    public val value: MutableList<ASTInterfaceOfVarOrClassOfExpressionAndVar> = mutableListOf<ASTInterfaceOfVarOrClassOfExpressionAndVar>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfVarOrClassOfExpressionAndVar)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfInterfaceOfVarOrClassOfExpressionAndVar\",\"value\":${value}}"
-}
-
-public sealed interface ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll
-
-public class ASTSelectClause : IASTBase {
-    public var variable0 : Int? = null
-    public var variable1 : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSelectClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = ASTEnumOfDISTINCTAndREDUCED.values.indexOf((value as ASTAnonymous).value)
-            1 -> variable1 = value as ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll
-        }
-    }
-}
-
-public class ASTSelectClauseAll : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSelectClauseAll\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
-    public var variable0 : ASTConstructTemplate? = null
-    public var variable1 : ASTListOfDatasetClause? = null
-    public var variable2 : ASTWhereClause? = null
-    public var variable3 : ASTSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTConstructTemplate
-            1 -> variable1 = value as ASTListOfDatasetClause
-            2 -> variable2 = value as ASTWhereClause
-            3 -> variable3 = value as ASTSolutionModifier
-        }
-    }
-}
-
-public class ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
-    public var variable0 : ASTListOfDatasetClause? = null
-    public var variable1 : ASTGroupGraphPattern? = null
-    public var variable2 : ASTSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTListOfDatasetClause
-            1 -> variable1 = value as ASTGroupGraphPattern
-            2 -> variable2 = value as ASTSolutionModifier
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
-
-public class ASTConstructQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
-    public var variable0 : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConstructQuery\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
-    }
-}
-
-public class ASTListOfVarOrIri : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
-    public val value: MutableList<ASTVarOrIri> = mutableListOf<ASTVarOrIri>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTVarOrIri)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfVarOrIri\",\"value\":${value}}"
-}
-
-public sealed interface ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll
-
-public class ASTWhereClauseOptional : IASTBase {
-    public var variable0 : ASTWhereClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTWhereClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTWhereClause
-    }
-}
-
-public class ASTDescribeQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
-    public var variable0 : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll? = null
-    public var variable1 : ASTListOfDatasetClause? = null
-    public var variable2 : ASTWhereClauseOptional? = null
-    public var variable3 : ASTSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDescribeQuery\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll
-            1 -> variable1 = value as ASTListOfDatasetClause
-            2 -> variable2 = value as ASTWhereClauseOptional
-            3 -> variable3 = value as ASTSolutionModifier
-        }
-    }
-}
-
-public class ASTDescribeQueryAll : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDescribeQueryAll\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTAskQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
-    public var variable0 : ASTListOfDatasetClause? = null
-    public var variable1 : ASTWhereClause? = null
-    public var variable2 : ASTSolutionModifier? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAskQuery\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTListOfDatasetClause
-            1 -> variable1 = value as ASTWhereClause
-            2 -> variable2 = value as ASTSolutionModifier
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause
-
-public class ASTDatasetClause : IASTBase {
-    public var variable0 : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDatasetClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause
-    }
-}
-
-public class ASTDefaultGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
-    public var variable0 : ASTSourceSelector? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDefaultGraphClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTSourceSelector
-    }
-}
-
-public class ASTNamedGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
-    public var variable0 : ASTSourceSelector? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNamedGraphClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTSourceSelector
-    }
-}
-
-public class ASTSourceSelector : IASTBase {
-    public var variable0 : ASTiri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSourceSelector\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTiri
-    }
-}
-
-public class ASTWhereClause : IASTBase {
-    public var WHERE: Boolean = false
-    public var variable1 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTWhereClause\"")
-        res.add("\"WHERE\": ${WHERE}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> WHERE = true
-            1 -> variable1 = value as ASTGroupGraphPattern
-        }
-    }
-}
-
-public class ASTGroupClauseOptional : IASTBase {
-    public var variable0 : ASTGroupClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGroupClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGroupClause
-    }
-}
-
-public class ASTHavingClauseOptional : IASTBase {
-    public var variable0 : ASTHavingClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTHavingClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTHavingClause
-    }
-}
-
-public class ASTOrderClauseOptional : IASTBase {
-    public var variable0 : ASTOrderClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOrderClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTOrderClause
-    }
-}
-
-public class ASTLimitOffsetClausesOptional : IASTBase {
-    public var variable0 : ASTLimitOffsetClauses? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTLimitOffsetClausesOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTLimitOffsetClauses
-    }
-}
-
-public class ASTSolutionModifier : IASTBase {
-    public var variable0 : ASTGroupClauseOptional? = null
-    public var variable1 : ASTHavingClauseOptional? = null
-    public var variable2 : ASTOrderClauseOptional? = null
-    public var variable3 : ASTLimitOffsetClausesOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSolutionModifier\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTGroupClauseOptional
-            1 -> variable1 = value as ASTHavingClauseOptional
-            2 -> variable2 = value as ASTOrderClauseOptional
-            3 -> variable3 = value as ASTLimitOffsetClausesOptional
-        }
-    }
-}
-
-public class ASTListOfGroupCondition : IASTBase {
-    public val value: MutableList<ASTGroupCondition> = mutableListOf<ASTGroupCondition>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTGroupCondition)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfGroupCondition\",\"value\":${value}}"
-}
-
-public class ASTGroupClause : IASTBase {
-    public var variable0 : ASTListOfGroupCondition? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGroupClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTListOfGroupCondition
-    }
-}
-
-public class ASTVarOptional : IASTBase {
-    public var variable0 : ASTVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTVarOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTVar
-    }
-}
-
-public class ASTClassOfExpressionAndVarOptional : ASTGroupCondition, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTVarOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndVarOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTVarOptional
-        }
-    }
-}
-
-public sealed interface ASTGroupCondition : IASTBase 
-
-public class ASTListOfHavingCondition : IASTBase {
-    public val value: MutableList<ASTHavingCondition> = mutableListOf<ASTHavingCondition>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTHavingCondition)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfHavingCondition\",\"value\":${value}}"
-}
-
-public class ASTHavingClause : IASTBase {
-    public var variable0 : ASTListOfHavingCondition? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTHavingClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTListOfHavingCondition
-    }
-}
-
-public class ASTHavingCondition : IASTBase {
-    public var variable0 : ASTConstraint? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTHavingCondition\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConstraint
-    }
-}
-
-public class ASTListOfOrderCondition : IASTBase {
-    public val value: MutableList<ASTOrderCondition> = mutableListOf<ASTOrderCondition>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTOrderCondition)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfOrderCondition\",\"value\":${value}}"
-}
-
-public class ASTOrderClause : IASTBase {
-    public var variable0 : ASTListOfOrderCondition? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOrderClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTListOfOrderCondition
-    }
-}
-
-public object ASTEnumOfASCAndDESC {
-    public const val _UNDEFINED: Int = -1
-    public const val ASC: Int = 0
-    public const val DESC: Int = 1
-    public const val _COUNT: Int = 2
-    public val values: Array<String> = arrayOf("ASC", "DESC")
-}
-
-public sealed interface ASTInterfaceOfConstraintOrVar
-
-public class ASTOrderCondition : IASTBase {
-    public var variable0 : Int? = null
-    public var variable1 : ASTInterfaceOfConstraintOrVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOrderCondition\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = ASTEnumOfASCAndDESC.values.indexOf((value as ASTAnonymous).value)
-            1 -> variable1 = value as ASTInterfaceOfConstraintOrVar
-        }
-    }
-}
-
-public class ASTOffsetClauseOptional : IASTBase {
-    public var variable0 : ASTOffsetClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOffsetClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTOffsetClause
-    }
-}
-
-public class ASTClassOfLimitClauseAndOffsetClauseOptional : ASTLimitOffsetClauses, IASTBase {
-    public var variable0 : ASTLimitClause? = null
-    public var variable1 : ASTOffsetClauseOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfLimitClauseAndOffsetClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTLimitClause
-            1 -> variable1 = value as ASTOffsetClauseOptional
-        }
-    }
-}
-
-public class ASTLimitClauseOptional : IASTBase {
-    public var variable0 : ASTLimitClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTLimitClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTLimitClause
-    }
-}
-
-public class ASTClassOfOffsetClauseAndLimitClauseOptional : ASTLimitOffsetClauses, IASTBase {
-    public var variable0 : ASTOffsetClause? = null
-    public var variable1 : ASTLimitClauseOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfOffsetClauseAndLimitClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTOffsetClause
-            1 -> variable1 = value as ASTLimitClauseOptional
-        }
-    }
-}
-
-public sealed interface ASTLimitOffsetClauses : IASTBase 
-
-public class ASTLimitClause : IASTBase {
-    public var INTEGER: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTLimitClause\"")
-        res.add("\"INTEGER\" : \"${INTEGER}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER = value as String
-    }
-}
-
-public class ASTOffsetClause : IASTBase {
-    public var INTEGER: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOffsetClause\"")
-        res.add("\"INTEGER\" : \"${INTEGER}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER = value as String
-    }
-}
-
-public sealed interface ASTUpdate1 : IASTBase 
-
-public class ASTGraphRefOptional : IASTBase {
-    public var variable0 : ASTGraphRef? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphRefOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGraphRef
-    }
-}
-
-public class ASTLoad : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTiri? = null
-    public var variable2 : ASTGraphRefOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTLoad\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTiri
-            2 -> variable2 = value as ASTGraphRefOptional
-        }
-    }
-}
-
-public class ASTClear : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphRefAll? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClear\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphRefAll
-        }
-    }
-}
-
-public class ASTDrop : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphRefAll? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDrop\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphRefAll
-        }
-    }
-}
-
-public class ASTCreate : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphRef? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTCreate\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphRef
-        }
-    }
-}
-
-public class ASTAdd : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphOrDefault? = null
-    public var variable2 : ASTGraphOrDefault? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdd\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphOrDefault
-            2 -> variable2 = value as ASTGraphOrDefault
-        }
-    }
-}
-
-public class ASTMove : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphOrDefault? = null
-    public var variable2 : ASTGraphOrDefault? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTMove\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphOrDefault
-            2 -> variable2 = value as ASTGraphOrDefault
-        }
-    }
-}
-
-public class ASTCopy : ASTUpdate1, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTGraphOrDefault? = null
-    public var variable2 : ASTGraphOrDefault? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTCopy\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTGraphOrDefault
-            2 -> variable2 = value as ASTGraphOrDefault
-        }
-    }
-}
-
-public class ASTInsertData : ASTUpdate1, IASTBase {
-    public var variable0 : ASTQuadData? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInsertData\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuadData
-    }
-}
-
-public class ASTDeleteData : ASTUpdate1, IASTBase {
-    public var variable0 : ASTQuadData? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDeleteData\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuadData
-    }
-}
-
-public class ASTDeleteWhere : ASTUpdate1, IASTBase {
-    public var variable0 : ASTQuadPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDeleteWhere\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuadPattern
-    }
-}
-
-public class ASTiriOptional : IASTBase {
-    public var variable0 : ASTiri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTiriOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTiri
-    }
-}
-
-public class ASTInsertClauseOptional : IASTBase {
-    public var variable0 : ASTInsertClause? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInsertClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInsertClause
-    }
-}
-
-public class ASTClassOfDeleteClauseAndInsertClauseOptional : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
-    public var variable0 : ASTDeleteClause? = null
-    public var variable1 : ASTInsertClauseOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfDeleteClauseAndInsertClauseOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTDeleteClause
-            1 -> variable1 = value as ASTInsertClauseOptional
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause
-
-public class ASTListOfUsingClause : IASTBase {
-    public val value: MutableList<ASTUsingClause> = mutableListOf<ASTUsingClause>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTUsingClause)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfUsingClause\",\"value\":${value}}"
-}
-
-public class ASTModify : ASTUpdate1, IASTBase {
-    public var variable0 : ASTiriOptional? = null
-    public var variable1 : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause? = null
-    public var variable2 : ASTListOfUsingClause? = null
-    public var variable3 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTModify\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTiriOptional
-            1 -> variable1 = value as ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause
-            2 -> variable2 = value as ASTListOfUsingClause
-            3 -> variable3 = value as ASTGroupGraphPattern
-        }
-    }
-}
-
-public class ASTDeleteClause : IASTBase {
-    public var variable0 : ASTQuadPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTDeleteClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuadPattern
-    }
-}
-
-public class ASTInsertClause : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
-    public var variable0 : ASTQuadPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInsertClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuadPattern
-    }
-}
-
-public class ASTUsingClause : IASTBase {
-    public var variable0 : ASTiri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUsingClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTiri
-    }
-}
-
-public class ASTClassOfGRAPHAndiri : ASTGraphOrDefault, IASTBase {
-    public var GRAPH: Boolean = false
-    public var variable1 : ASTiri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfGRAPHAndiri\"")
-        res.add("\"GRAPH\": ${GRAPH}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> GRAPH = true
-            1 -> variable1 = value as ASTiri
-        }
-    }
-}
-
-public sealed interface ASTGraphOrDefault : IASTBase 
-
-public class ASTGraphRef : ASTGraphRefAll, IASTBase {
-    public var variable0 : ASTiri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphRef\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTiri
-    }
-}
-
-public sealed interface ASTGraphRefAll : IASTBase 
-
-public class ASTGraphRefDefault : ASTGraphOrDefault, ASTGraphRefAll, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphRefDefault\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTGraphRefNamed : ASTGraphRefAll, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphRefNamed\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTGraphRefAll2 : ASTGraphRefAll, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphRefAll2\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTQuadPattern : IASTBase {
-    public var variable0 : ASTQuads? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTQuadPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuads
-    }
-}
-
-public class ASTQuadData : IASTBase {
-    public var variable0 : ASTQuads? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTQuadData\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTQuads
-    }
-}
-
-public class ASTTriplesTemplateOptional : IASTBase {
-    public var variable0 : ASTTriplesTemplate? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesTemplateOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTTriplesTemplate
-    }
-}
-
-public class ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
-    public var variable0 : ASTQuadsNotTriples? = null
-    public var point: Boolean = false
-    public var variable2 : ASTTriplesTemplateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"point\": ${point}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTQuadsNotTriples
-            1 -> point = true
-            2 -> variable2 = value as ASTTriplesTemplateOptional
-        }
-    }
-}
-
-public class ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
-    public val value: MutableList<ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional> = mutableListOf<ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional\",\"value\":${value}}"
-}
-
-public class ASTQuads : IASTBase {
-    public var variable0 : ASTTriplesTemplateOptional? = null
-    public var variable1 : ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTQuads\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesTemplateOptional
-            1 -> variable1 = value as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional
-        }
-    }
-}
-
-public class ASTQuadsNotTriples : IASTBase {
-    public var variable0 : ASTVarOrIri? = null
-    public var variable1 : ASTTriplesTemplateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTQuadsNotTriples\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVarOrIri
-            1 -> variable1 = value as ASTTriplesTemplateOptional
-        }
-    }
-}
-
-public class ASTTriplesTemplateOptionalOptional : IASTBase {
-    public var variable0 : ASTTriplesTemplateOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesTemplateOptionalOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTTriplesTemplateOptional
-    }
-}
-
-public class ASTTriplesTemplate : IASTBase {
-    public var variable0 : ASTTriplesSameSubject? = null
-    public var variable1 : ASTTriplesTemplateOptionalOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesTemplate\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesSameSubject
-            1 -> variable1 = value as ASTTriplesTemplateOptionalOptional
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfSubSelectOrGroupGraphPatternSub
-
-public class ASTGroupGraphPattern : IASTBase {
-    public var variable0 : ASTInterfaceOfSubSelectOrGroupGraphPatternSub? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGroupGraphPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfSubSelectOrGroupGraphPatternSub
-    }
-}
-
-public class ASTTriplesBlockOptional : IASTBase {
-    public var variable0 : ASTTriplesBlock? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesBlockOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTTriplesBlock
-    }
-}
-
-public class ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
-    public var variable0 : ASTGraphPatternNotTriples? = null
-    public var point: Boolean = false
-    public var variable2 : ASTTriplesBlockOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"point\": ${point}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTGraphPatternNotTriples
-            1 -> point = true
-            2 -> variable2 = value as ASTTriplesBlockOptional
-        }
-    }
-}
-
-public class ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
-    public val value: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = mutableListOf<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional\",\"value\":${value}}"
-}
-
-public class ASTGroupGraphPatternSub : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
-    public var variable0 : ASTTriplesBlockOptional? = null
-    public var variable1 : ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGroupGraphPatternSub\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesBlockOptional
-            1 -> variable1 = value as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional
-        }
-    }
-}
-
-public class ASTTriplesBlockOptionalOptional : IASTBase {
-    public var variable0 : ASTTriplesBlockOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesBlockOptionalOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTTriplesBlockOptional
-    }
-}
-
-public class ASTTriplesBlock : IASTBase {
-    public var variable0 : ASTTriplesSameSubjectPath? = null
-    public var variable1 : ASTTriplesBlockOptionalOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTTriplesBlock\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesSameSubjectPath
-            1 -> variable1 = value as ASTTriplesBlockOptionalOptional
-        }
-    }
-}
-
-public sealed interface ASTGraphPatternNotTriples : IASTBase 
-
-public class ASTOptionalGraphPattern : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTOptionalGraphPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGroupGraphPattern
-    }
-}
-
-public class ASTGraphGraphPattern : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTVarOrIri? = null
-    public var variable1 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGraphGraphPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVarOrIri
-            1 -> variable1 = value as ASTGroupGraphPattern
-        }
-    }
-}
-
-public class ASTServiceGraphPattern : ASTGraphPatternNotTriples, IASTBase {
-    public var SILENT: Boolean = false
-    public var variable1 : ASTVarOrIri? = null
-    public var variable2 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTServiceGraphPattern\"")
-        res.add("\"SILENT\": ${SILENT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> SILENT = true
-            1 -> variable1 = value as ASTVarOrIri
-            2 -> variable2 = value as ASTGroupGraphPattern
-        }
-    }
-}
-
-public class ASTBind : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBind\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTVar
-        }
-    }
-}
-
-public class ASTValuesClause : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTDataBlock? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTValuesClause\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTDataBlock
-    }
-}
-
-public sealed interface ASTDataBlock : IASTBase 
-
-public class ASTListOfDataBlockValue : ASTInterfaceOfListOfDataBlockValueOrNILParam, IASTBase {
-    public val value: MutableList<ASTDataBlockValue> = mutableListOf<ASTDataBlockValue>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTDataBlockValue)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfDataBlockValue\",\"value\":${value}}"
-}
-
-public class ASTInlineDataOneVar : ASTDataBlock, IASTBase {
-    public var variable0 : ASTVar? = null
-    public var variable1 : ASTListOfDataBlockValue? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInlineDataOneVar\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVar
-            1 -> variable1 = value as ASTListOfDataBlockValue
-        }
-    }
-}
-
-public class ASTListOfVar : ASTInterfaceOfNILParamOrListOfVar, IASTBase {
-    public val value: MutableList<ASTVar> = mutableListOf<ASTVar>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTVar)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfVar\",\"value\":${value}}"
-}
-
-public sealed interface ASTInterfaceOfNILParamOrListOfVar
-
-public sealed interface ASTInterfaceOfListOfDataBlockValueOrNILParam
-
-public class ASTListOfInterfaceOfListOfDataBlockValueOrNILParam : IASTBase {
-    public val value: MutableList<ASTInterfaceOfListOfDataBlockValueOrNILParam> = mutableListOf<ASTInterfaceOfListOfDataBlockValueOrNILParam>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfListOfDataBlockValueOrNILParam)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfInterfaceOfListOfDataBlockValueOrNILParam\",\"value\":${value}}"
-}
-
-public class ASTInlineDataFull : ASTDataBlock, IASTBase {
-    public var variable0 : ASTInterfaceOfNILParamOrListOfVar? = null
-    public var variable1 : ASTListOfInterfaceOfListOfDataBlockValueOrNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInlineDataFull\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfNILParamOrListOfVar
-            1 -> variable1 = value as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam
-        }
-    }
-}
-
-public sealed interface ASTDataBlockValue : IASTBase 
-
-public class ASTUNDEF : ASTDataBlockValue, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUNDEF\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTMinusGraphPattern : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTMinusGraphPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGroupGraphPattern
-    }
-}
-
-public class ASTListOfGroupGraphPattern : IASTBase {
-    public val value: MutableList<ASTGroupGraphPattern> = mutableListOf<ASTGroupGraphPattern>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTGroupGraphPattern)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfGroupGraphPattern\",\"value\":${value}}"
-}
-
-public class ASTGroupOrUnionGraphPattern : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTGroupGraphPattern? = null
-    public var variable1 : ASTListOfGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTGroupOrUnionGraphPattern\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTGroupGraphPattern
-            1 -> variable1 = value as ASTListOfGroupGraphPattern
-        }
-    }
-}
-
-public class ASTFilter : ASTGraphPatternNotTriples, IASTBase {
-    public var variable0 : ASTConstraint? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTFilter\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConstraint
-    }
-}
-
-public sealed interface ASTConstraint : ASTInterfaceOfConstraintOrVar, IASTBase 
-
-public class ASTFunctionCall : ASTGroupCondition, ASTConstraint, IASTBase {
-    public var variable0 : ASTiri? = null
-    public var variable1 : ASTArgList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTFunctionCall\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTiri
-            1 -> variable1 = value as ASTArgList
-        }
-    }
-}
-
-public class ASTListOfExpression : IASTBase {
-    public val value: MutableList<ASTExpression> = mutableListOf<ASTExpression>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTExpression)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfExpression\",\"value\":${value}}"
-}
-
-public class ASTClassOfDISTINCTAndExpressionAndListOfExpression : ASTArgList, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTListOfExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfDISTINCTAndExpressionAndListOfExpression\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTListOfExpression
-        }
-    }
-}
-
-public sealed interface ASTArgList : IASTBase 
-
-public class ASTClassOfExpressionAndListOfExpression : ASTExpressionList, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTListOfExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndListOfExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTListOfExpression
-        }
-    }
-}
-
-public sealed interface ASTExpressionList : IASTBase 
-
-public class ASTConstructTriplesOptional : IASTBase {
-    public var variable0 : ASTConstructTriples? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConstructTriplesOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConstructTriples
-    }
-}
-
-public class ASTConstructTemplate : IASTBase {
-    public var variable0 : ASTConstructTriplesOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConstructTemplate\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConstructTriplesOptional
-    }
-}
-
-public class ASTConstructTriplesOptionalOptional : IASTBase {
-    public var variable0 : ASTConstructTriplesOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConstructTriplesOptionalOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConstructTriplesOptional
-    }
-}
-
-public class ASTConstructTriples : IASTBase {
-    public var variable0 : ASTTriplesSameSubject? = null
-    public var variable1 : ASTConstructTriplesOptionalOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConstructTriples\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesSameSubject
-            1 -> variable1 = value as ASTConstructTriplesOptionalOptional
-        }
-    }
-}
-
-public class ASTClassOfVarOrTermAndPropertyListNotEmpty : ASTTriplesSameSubject, IASTBase {
-    public var variable0 : ASTVarOrTerm? = null
-    public var variable1 : ASTPropertyListNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfVarOrTermAndPropertyListNotEmpty\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVarOrTerm
-            1 -> variable1 = value as ASTPropertyListNotEmpty
-        }
-    }
-}
-
-public class ASTPropertyListOptional : IASTBase {
-    public var variable0 : ASTPropertyList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyListOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyList
-    }
-}
-
-public class ASTClassOfTriplesNodeAndPropertyListOptional : ASTTriplesSameSubject, IASTBase {
-    public var variable0 : ASTTriplesNode? = null
-    public var variable1 : ASTPropertyListOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfTriplesNodeAndPropertyListOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesNode
-            1 -> variable1 = value as ASTPropertyListOptional
-        }
-    }
-}
-
-public sealed interface ASTTriplesSameSubject : IASTBase 
-
-public class ASTPropertyList : IASTBase {
-    public var variable0 : ASTPropertyListNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyList\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyListNotEmpty
-    }
-}
-
-public class ASTClassOfVerbAndObjectList : IASTBase {
-    public var variable0 : ASTVerb? = null
-    public var variable1 : ASTObjectList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfVerbAndObjectList\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVerb
-            1 -> variable1 = value as ASTObjectList
-        }
-    }
-}
-
-public class ASTClassOfVerbAndObjectListOptional : IASTBase {
-    public var variable0 : ASTClassOfVerbAndObjectList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfVerbAndObjectListOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfVerbAndObjectList
-    }
-}
-
-public class ASTListOfClassOfVerbAndObjectListOptional : IASTBase {
-    public val value: MutableList<ASTClassOfVerbAndObjectListOptional> = mutableListOf<ASTClassOfVerbAndObjectListOptional>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTClassOfVerbAndObjectListOptional)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfClassOfVerbAndObjectListOptional\",\"value\":${value}}"
-}
-
-public class ASTPropertyListNotEmpty : IASTBase {
-    public var variable0 : ASTVerb? = null
-    public var variable1 : ASTObjectList? = null
-    public var variable2 : ASTListOfClassOfVerbAndObjectListOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyListNotEmpty\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVerb
-            1 -> variable1 = value as ASTObjectList
-            2 -> variable2 = value as ASTListOfClassOfVerbAndObjectListOptional
-        }
-    }
-}
-
-public sealed interface ASTVerb : IASTBase 
-
-public class ASTRDFType : ASTVerb, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRDFType\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTListOfObject : IASTBase {
-    public val value: MutableList<ASTObject> = mutableListOf<ASTObject>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTObject)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfObject\",\"value\":${value}}"
-}
-
-public class ASTObjectList : IASTBase {
-    public var variable0 : ASTObject? = null
-    public var variable1 : ASTListOfObject? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTObjectList\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTObject
-            1 -> variable1 = value as ASTListOfObject
-        }
-    }
-}
-
-public class ASTObject : IASTBase {
-    public var variable0 : ASTGraphNode? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTObject\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGraphNode
-    }
-}
-
-public class ASTClassOfVarOrTermAndPropertyListPathNotEmpty : ASTTriplesSameSubjectPath, IASTBase {
-    public var variable0 : ASTVarOrTerm? = null
-    public var variable1 : ASTPropertyListPathNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfVarOrTermAndPropertyListPathNotEmpty\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTVarOrTerm
-            1 -> variable1 = value as ASTPropertyListPathNotEmpty
-        }
-    }
-}
-
-public class ASTPropertyListPathOptional : IASTBase {
-    public var variable0 : ASTPropertyListPath? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyListPathOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyListPath
-    }
-}
-
-public class ASTClassOfTriplesNodePathAndPropertyListPathOptional : ASTTriplesSameSubjectPath, IASTBase {
-    public var variable0 : ASTTriplesNodePath? = null
-    public var variable1 : ASTPropertyListPathOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfTriplesNodePathAndPropertyListPathOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTTriplesNodePath
-            1 -> variable1 = value as ASTPropertyListPathOptional
-        }
-    }
-}
-
-public sealed interface ASTTriplesSameSubjectPath : IASTBase 
-
-public class ASTPropertyListPath : IASTBase {
-    public var variable0 : ASTPropertyListPathNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyListPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyListPathNotEmpty
-    }
-}
-
-public sealed interface ASTInterfaceOfVerbPathOrVerbSimple
-
-public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList : IASTBase {
-    public var variable0 : ASTInterfaceOfVerbPathOrVerbSimple? = null
-    public var variable1 : ASTObjectList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
-            1 -> variable1 = value as ASTObjectList
-        }
-    }
-}
-
-public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
-    public var variable0 : ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList
-    }
-}
-
-public class ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
-    public val value: MutableList<ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional> = mutableListOf<ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional\",\"value\":${value}}"
-}
-
-public class ASTPropertyListPathNotEmpty : IASTBase {
-    public var variable0 : ASTInterfaceOfVerbPathOrVerbSimple? = null
-    public var variable1 : ASTObjectListPath? = null
-    public var variable2 : ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPropertyListPathNotEmpty\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
-            1 -> variable1 = value as ASTObjectListPath
-            2 -> variable2 = value as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional
-        }
-    }
-}
-
-public class ASTVerbPath : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
-    public var variable0 : ASTPath? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTVerbPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPath
-    }
-}
-
-public class ASTVerbSimple : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
-    public var variable0 : ASTVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTVerbSimple\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTVar
-    }
-}
-
-public class ASTListOfObjectPath : IASTBase {
-    public val value: MutableList<ASTObjectPath> = mutableListOf<ASTObjectPath>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTObjectPath)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfObjectPath\",\"value\":${value}}"
-}
-
-public class ASTObjectListPath : IASTBase {
-    public var variable0 : ASTObjectPath? = null
-    public var variable1 : ASTListOfObjectPath? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTObjectListPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTObjectPath
-            1 -> variable1 = value as ASTListOfObjectPath
-        }
-    }
-}
-
-public class ASTObjectPath : IASTBase {
-    public var variable0 : ASTGraphNodePath? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTObjectPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGraphNodePath
-    }
-}
-
-public class ASTPath : ASTPathPrimary, IASTBase {
-    public var variable0 : ASTPathAlternative? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPathAlternative
-    }
-}
-
-public class ASTListOfPathSequence : IASTBase {
-    public val value: MutableList<ASTPathSequence> = mutableListOf<ASTPathSequence>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTPathSequence)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfPathSequence\",\"value\":${value}}"
-}
-
-public class ASTPathAlternative : IASTBase {
-    public var variable0 : ASTPathSequence? = null
-    public var variable1 : ASTListOfPathSequence? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPathAlternative\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPathSequence
-            1 -> variable1 = value as ASTListOfPathSequence
-        }
-    }
-}
-
-public class ASTListOfPathEltOrInverse : IASTBase {
-    public val value: MutableList<ASTPathEltOrInverse> = mutableListOf<ASTPathEltOrInverse>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTPathEltOrInverse)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfPathEltOrInverse\",\"value\":${value}}"
-}
-
-public class ASTPathSequence : IASTBase {
-    public var variable0 : ASTPathEltOrInverse? = null
-    public var variable1 : ASTListOfPathEltOrInverse? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPathSequence\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPathEltOrInverse
-            1 -> variable1 = value as ASTListOfPathEltOrInverse
-        }
-    }
-}
-
-public object ASTEnumOfoptionalAndanyAndatLeastOne {
-    public const val _UNDEFINED: Int = -1
-    public const val optional: Int = 0
-    public const val any: Int = 1
-    public const val atLeastOne: Int = 2
-    public const val _COUNT: Int = 3
-    public val values: Array<String> = arrayOf("optional", "any", "atLeastOne")
-}
-
-public class ASTPathElt : IASTBase {
-    public var variable0 : ASTPathPrimary? = null
-    public var variable1 : Int? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPathElt\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPathPrimary
-            1 -> variable1 = ASTEnumOfoptionalAndanyAndatLeastOne.values.indexOf((value as ASTAnonymous).value)
-        }
-    }
-}
-
-public class ASTPathEltOrInverse : IASTBase {
-    public var negated: Boolean = false
-    public var variable1 : ASTPathElt? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPathEltOrInverse\"")
-        res.add("\"negated\": ${negated}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> negated = true
-            1 -> variable1 = value as ASTPathElt
-        }
-    }
-}
-
-public sealed interface ASTPathPrimary : IASTBase 
-
-public class ASTListOfPathOneInPropertySet : IASTBase {
-    public val value: MutableList<ASTPathOneInPropertySet> = mutableListOf<ASTPathOneInPropertySet>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTPathOneInPropertySet)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfPathOneInPropertySet\",\"value\":${value}}"
-}
-
-public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet : IASTBase {
-    public var variable0 : ASTPathOneInPropertySet? = null
-    public var variable1 : ASTListOfPathOneInPropertySet? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTPathOneInPropertySet
-            1 -> variable1 = value as ASTListOfPathOneInPropertySet
-        }
-    }
-}
-
-public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional : ASTPathNegatedPropertySet, IASTBase {
-    public var variable0 : ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet
-    }
-}
-
-public sealed interface ASTPathNegatedPropertySet : ASTPathPrimary, IASTBase 
-
-public sealed interface ASTInterfaceOfiriOrRDFType
-
-public class ASTPathOneInPropertySet : ASTPathNegatedPropertySet, IASTBase {
-    public var negated: Boolean = false
-    public var variable1 : ASTInterfaceOfiriOrRDFType? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPathOneInPropertySet\"")
-        res.add("\"negated\": ${negated}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> negated = true
-            1 -> variable1 = value as ASTInterfaceOfiriOrRDFType
-        }
-    }
-}
-
-public class ASTInteger : IASTBase {
-    public var INTEGER: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInteger\"")
-        res.add("\"INTEGER\" : \"${INTEGER}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER = value as String
-    }
-}
-
-public sealed interface ASTTriplesNode : ASTGraphNode, IASTBase 
-
-public class ASTBlankNodePropertyList : ASTTriplesNode, IASTBase {
-    public var variable0 : ASTPropertyListNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBlankNodePropertyList\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyListNotEmpty
-    }
-}
-
-public sealed interface ASTTriplesNodePath : ASTGraphNodePath, IASTBase 
-
-public class ASTBlankNodePropertyListPath : ASTTriplesNodePath, IASTBase {
-    public var variable0 : ASTPropertyListPathNotEmpty? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBlankNodePropertyListPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPropertyListPathNotEmpty
-    }
-}
-
-public class ASTListOfGraphNode : IASTBase {
-    public val value: MutableList<ASTGraphNode> = mutableListOf<ASTGraphNode>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTGraphNode)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfGraphNode\",\"value\":${value}}"
-}
-
-public class ASTCollection : ASTTriplesNode, IASTBase {
-    public var variable0 : ASTListOfGraphNode? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTCollection\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTListOfGraphNode
-    }
-}
-
-public class ASTListOfGraphNodePath : IASTBase {
-    public val value: MutableList<ASTGraphNodePath> = mutableListOf<ASTGraphNodePath>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTGraphNodePath)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfGraphNodePath\",\"value\":${value}}"
-}
-
-public class ASTCollectionPath : ASTTriplesNodePath, IASTBase {
-    public var variable0 : ASTListOfGraphNodePath? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTCollectionPath\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTListOfGraphNodePath
-    }
-}
-
-public sealed interface ASTGraphNode : IASTBase 
-
-public sealed interface ASTGraphNodePath : IASTBase 
-
-public sealed interface ASTVarOrTerm : ASTGraphNode, ASTGraphNodePath, IASTBase 
-
-public sealed interface ASTVarOrIri : ASTVerb, IASTBase 
-
-public sealed interface ASTVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, ASTGroupCondition, ASTInterfaceOfConstraintOrVar, ASTVarOrTerm, ASTVarOrIri, ASTPrimaryExpression, IASTBase 
-
-public class ASTVar1 : ASTVar, IASTBase {
-    public var VAR1: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTVar1\"")
-        res.add("\"VAR1\" : \"${VAR1}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        VAR1 = value as String
-    }
-}
-
-public class ASTVar2 : ASTVar, IASTBase {
-    public var VAR2: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTVar2\"")
-        res.add("\"VAR2\" : \"${VAR2}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        VAR2 = value as String
-    }
-}
-
-public sealed interface ASTGraphTerm : ASTVarOrTerm, IASTBase 
-
-public class ASTExpression : ASTInterfaceOfExpressionOrNILParam, ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
-    public var variable0 : ASTConditionalOrExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTConditionalOrExpression
-    }
-}
-
-public class ASTListOfConditionalAndExpression : IASTBase {
-    public val value: MutableList<ASTConditionalAndExpression> = mutableListOf<ASTConditionalAndExpression>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTConditionalAndExpression)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfConditionalAndExpression\",\"value\":${value}}"
-}
-
-public class ASTConditionalOrExpression : IASTBase {
-    public var variable0 : ASTConditionalAndExpression? = null
-    public var variable1 : ASTListOfConditionalAndExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConditionalOrExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTConditionalAndExpression
-            1 -> variable1 = value as ASTListOfConditionalAndExpression
-        }
-    }
-}
-
-public class ASTListOfValueLogical : IASTBase {
-    public val value: MutableList<ASTValueLogical> = mutableListOf<ASTValueLogical>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTValueLogical)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfValueLogical\",\"value\":${value}}"
-}
-
-public class ASTConditionalAndExpression : IASTBase {
-    public var variable0 : ASTValueLogical? = null
-    public var variable1 : ASTListOfValueLogical? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTConditionalAndExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTValueLogical
-            1 -> variable1 = value as ASTListOfValueLogical
-        }
-    }
-}
-
-public class ASTValueLogical : IASTBase {
-    public var variable0 : ASTRelationalExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTValueLogical\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTRelationalExpression
-    }
-}
-
-public sealed interface ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN
-
-public class ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional : IASTBase {
-    public var variable0 : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN
-    }
-}
-
-public class ASTRelationalExpression : IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    public var variable1 : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTNumericExpression
-            1 -> variable1 = value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional
-        }
-    }
-}
-
-public class ASTRelationalExpressionEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionEQ\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionNEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionNEQ\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionLT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionLT\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionGT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionGT\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionLEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionLEQ\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionGEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTNumericExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionGEQ\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNumericExpression
-    }
-}
-
-public class ASTRelationalExpressionIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTExpressionList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionIN\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpressionList
-    }
-}
-
-public class ASTRelationalExpressionNOTIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
-    public var variable0 : ASTExpressionList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRelationalExpressionNOTIN\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpressionList
-    }
-}
-
-public class ASTNumericExpression : IASTBase {
-    public var variable0 : ASTAdditiveExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTAdditiveExpression
-    }
-}
-
-public sealed interface ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
-
-public sealed interface ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
-
-public class ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
-    public val value: MutableList<ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE> = mutableListOf<ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":${value}}"
-}
-
-public class ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative? = null
-    public var variable1 : ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
-            1 -> variable1 = value as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
-
-public class ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
-    public val value: MutableList<ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE> = mutableListOf<ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":${value}}"
-}
-
-public class ASTAdditiveExpression : IASTBase {
-    public var variable0 : ASTMultiplicativeExpression? = null
-    public var variable1 : ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdditiveExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTMultiplicativeExpression
-            1 -> variable1 = value as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
-        }
-    }
-}
-
-public class ASTAdditiveExpressionPLUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTMultiplicativeExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdditiveExpressionPLUS\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTMultiplicativeExpression
-    }
-}
-
-public class ASTAdditiveExpressionMINUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTMultiplicativeExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdditiveExpressionMINUS\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTMultiplicativeExpression
-    }
-}
-
-public class ASTAdditiveExpressionMULTIPLY : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTUnaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdditiveExpressionMULTIPLY\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTUnaryExpression
-    }
-}
-
-public class ASTAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTUnaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAdditiveExpressionDIVIDE\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTUnaryExpression
-    }
-}
-
-public sealed interface ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE
-
-public class ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE : IASTBase {
-    public val value: MutableList<ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE> = mutableListOf<ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE>()
-    override fun astAssign(childID: Int, value: Any) {
-        this.value.add(value as ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE)
-    }
-    override fun toString():String="{\"type\":\"ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE\",\"value\":${value}}"
-}
-
-public class ASTMultiplicativeExpression : IASTBase {
-    public var variable0 : ASTUnaryExpression? = null
-    public var variable1 : ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTMultiplicativeExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTUnaryExpression
-            1 -> variable1 = value as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE
-        }
-    }
-}
-
-public class ASTMultiplicativeExpressionMULTIPLY : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTUnaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTMultiplicativeExpressionMULTIPLY\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTUnaryExpression
-    }
-}
-
-public class ASTMultiplicativeExpressionDIVIDE : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
-    public var variable0 : ASTUnaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTMultiplicativeExpressionDIVIDE\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTUnaryExpression
-    }
-}
-
-public sealed interface ASTUnaryExpression : IASTBase 
-
-public class ASTUnaryExpressionNOT : ASTUnaryExpression, IASTBase {
-    public var variable0 : ASTPrimaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUnaryExpressionNOT\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPrimaryExpression
-    }
-}
-
-public class ASTUnaryExpressionPLUS : ASTUnaryExpression, IASTBase {
-    public var variable0 : ASTPrimaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUnaryExpressionPLUS\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPrimaryExpression
-    }
-}
-
-public class ASTUnaryExpressionMINUS : ASTUnaryExpression, IASTBase {
-    public var variable0 : ASTPrimaryExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTUnaryExpressionMINUS\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTPrimaryExpression
-    }
-}
-
-public sealed interface ASTPrimaryExpression : ASTUnaryExpression, IASTBase 
-
-public class ASTBrackettedExpression : ASTConstraint, ASTPrimaryExpression, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBrackettedExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public sealed interface ASTBuiltInCall : ASTGroupCondition, ASTConstraint, ASTPrimaryExpression, IASTBase 
-
-public class ASTBuiltInCallYear : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallYear\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallMonth : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallMonth\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallHours : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallHours\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallNow : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallNow\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNILParam
-    }
-}
-
-public class ASTBuiltInCallSameTerm : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSameTerm\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallIsIri : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIsIri\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallIsBlanc : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIsBlanc\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallIsLiteral : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIsLiteral\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallMD5 : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallMD5\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallUUID : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallUUID\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNILParam
-    }
-}
-
-public class ASTBuiltInCallSTRUUID : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSTRUUID\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNILParam
-    }
-}
-
-public class ASTBuiltInCallSHA1 : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA1\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallSHA384 : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA384\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallSHA512 : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA512\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallCoalesce : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpressionList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallCoalesce\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpressionList
-    }
-}
-
-public class ASTBuiltInCallIf : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIf\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallStrLang : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrLang\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallIsUri : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIsUri\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallMinutes : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallMinutes\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallSHA256 : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA256\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallStrDt : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrDt\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallIsNumeric : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIsNumeric\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallSeconds : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallSeconds\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallTimezone : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallTimezone\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallTz : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallTz\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallConcat : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpressionList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallConcat\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpressionList
-    }
-}
-
-public class ASTBuiltInCallStrLen : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrLen\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallUCase : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallUCase\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallStrBefore : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrBefore\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallStrAfter : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrAfter\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallEncodeForUri : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallEncodeForUri\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallContains : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallContains\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallStrStarts : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrStarts\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallStrEnds : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStrEnds\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallDay : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallDay\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallStr : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallStr\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallLang : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallLang\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuildInCallLangMatches : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuildInCallLangMatches\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTBuiltInCallDataType : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallDataType\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallBound : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTVar? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallBound\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTVar
-    }
-}
-
-public class ASTBuiltInCallIri : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallIri\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallUri : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallUri\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public sealed interface ASTInterfaceOfExpressionOrNILParam
-
-public class ASTBuiltInCallBNode : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTInterfaceOfExpressionOrNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallBNode\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfExpressionOrNILParam
-    }
-}
-
-public class ASTBuiltInCallRand : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTNILParam? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallRand\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTNILParam
-    }
-}
-
-public class ASTBuiltInCallAbs : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallAbs\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallCeil : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallCeil\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallLCase : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallLCase\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallFloor : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallFloor\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTBuiltInCallRound : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBuiltInCallRound\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTExpressionOptional : IASTBase {
-    public var variable0 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTExpressionOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTExpression
-    }
-}
-
-public class ASTRegexExpression : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTExpressionOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRegexExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTExpressionOptional
-        }
-    }
-}
-
-public class ASTSubstringExpression : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTExpressionOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTSubstringExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTExpressionOptional
-        }
-    }
-}
-
-public class ASTStrReplaceExpression : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTExpression? = null
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTExpression? = null
-    public var variable3 : ASTExpressionOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTStrReplaceExpression\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        res.add("\"variable3\" : ${variable3}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTExpression
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTExpression
-            3 -> variable3 = value as ASTExpressionOptional
-        }
-    }
-}
-
-public class ASTExistsFunc : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTExistsFunc\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGroupGraphPattern
-    }
-}
-
-public class ASTNotExistsFunc : ASTBuiltInCall, IASTBase {
-    public var variable0 : ASTGroupGraphPattern? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNotExistsFunc\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTGroupGraphPattern
-    }
-}
-
-public sealed interface ASTAggregate : ASTBuiltInCall, IASTBase 
-
-public class ASTAggregateAvg : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateAvg\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfAggregateCountAllOrExpression
-
-public class ASTAggregateCount : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTInterfaceOfAggregateCountAllOrExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateCount\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTInterfaceOfAggregateCountAllOrExpression
-        }
-    }
-}
-
-public class ASTAggregateCountAll : ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateCountAll\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTAggregateSum : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateSum\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTAggregateMin : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateMin\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTAggregateMax : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateMax\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTAggregateSample : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateSample\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-        }
-    }
-}
-
-public class ASTStringOptional : IASTBase {
-    public var variable0 : ASTString? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTStringOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTString
-    }
-}
-
-public class ASTAggregateGroupConcat : ASTAggregate, IASTBase {
-    public var DISTINCT: Boolean = false
-    public var variable1 : ASTExpression? = null
-    public var variable2 : ASTStringOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTAggregateGroupConcat\"")
-        res.add("\"DISTINCT\": ${DISTINCT}")
-        res.add("\"variable1\" : ${variable1}")
-        res.add("\"variable2\" : ${variable2}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> DISTINCT = true
-            1 -> variable1 = value as ASTExpression
-            2 -> variable2 = value as ASTStringOptional
-        }
-    }
-}
-
-public class ASTArgListOptional : IASTBase {
-    public var variable0 : ASTArgList? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTArgListOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTArgList
-    }
-}
-
-public class ASTiriOrFunction : ASTPrimaryExpression, IASTBase {
-    public var variable0 : ASTiri? = null
-    public var variable1 : ASTArgListOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTiriOrFunction\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTiri
-            1 -> variable1 = value as ASTArgListOptional
-        }
-    }
-}
-
-public sealed interface ASTInterfaceOfRDFLiteralLangOriri
-
-public class ASTInterfaceOfRDFLiteralLangOririOptional : IASTBase {
-    public var variable0 : ASTInterfaceOfRDFLiteralLangOriri? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTInterfaceOfRDFLiteralLangOririOptional\"")
-        res.add("\"variable0\" : ${variable0}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        variable0 = value as ASTInterfaceOfRDFLiteralLangOriri
-    }
-}
-
-public class ASTRDFLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase {
-    public var variable0 : ASTString? = null
-    public var variable1 : ASTInterfaceOfRDFLiteralLangOririOptional? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRDFLiteral\"")
-        res.add("\"variable0\" : ${variable0}")
-        res.add("\"variable1\" : ${variable1}")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        when(childID) {
-            0 -> variable0 = value as ASTString
-            1 -> variable1 = value as ASTInterfaceOfRDFLiteralLangOririOptional
-        }
-    }
-}
-
-public class ASTRDFLiteralLang : ASTInterfaceOfRDFLiteralLangOriri, IASTBase {
-    public var LANGTAG: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTRDFLiteralLang\"")
-        res.add("\"LANGTAG\" : \"${LANGTAG}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        LANGTAG = value as String
-    }
-}
-
-public sealed interface ASTNumericLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase 
-
-public sealed interface ASTNumericLiteralUnsigned : ASTNumericLiteral, IASTBase 
-
-public class ASTNumericLiteralUnsignedInteger : ASTNumericLiteralUnsigned, IASTBase {
-    public var INTEGER: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedInteger\"")
-        res.add("\"INTEGER\" : \"${INTEGER}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER = value as String
-    }
-}
-
-public class ASTNumericLiteralUnsignedDecimal : ASTNumericLiteralUnsigned, IASTBase {
-    public var DECIMAL: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedDecimal\"")
-        res.add("\"DECIMAL\" : \"${DECIMAL}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DECIMAL = value as String
-    }
-}
-
-public class ASTNumericLiteralUnsignedDouble : ASTNumericLiteralUnsigned, IASTBase {
-    public var DOUBLE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedDouble\"")
-        res.add("\"DOUBLE\" : \"${DOUBLE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DOUBLE = value as String
-    }
-}
-
-public sealed interface ASTNumericLiteralPositive : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase 
-
-public class ASTNumericLiteralPositiveInteger : ASTNumericLiteralPositive, IASTBase {
-    public var INTEGER_POSITIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveInteger\"")
-        res.add("\"INTEGER_POSITIVE\" : \"${INTEGER_POSITIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER_POSITIVE = value as String
-    }
-}
-
-public class ASTNumericLiteralPositiveDecimal : ASTNumericLiteralPositive, IASTBase {
-    public var DECIMAL_POSITIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveDecimal\"")
-        res.add("\"DECIMAL_POSITIVE\" : \"${DECIMAL_POSITIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DECIMAL_POSITIVE = value as String
-    }
-}
-
-public class ASTNumericLiteralPositiveDouble : ASTNumericLiteralPositive, IASTBase {
-    public var DOUBLE_POSITIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveDouble\"")
-        res.add("\"DOUBLE_POSITIVE\" : \"${DOUBLE_POSITIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DOUBLE_POSITIVE = value as String
-    }
-}
-
-public sealed interface ASTNumericLiteralNegative : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase 
-
-public class ASTNumericLiteralNegativeInteger : ASTNumericLiteralNegative, IASTBase {
-    public var INTEGER_NEGATIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeInteger\"")
-        res.add("\"INTEGER_NEGATIVE\" : \"${INTEGER_NEGATIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        INTEGER_NEGATIVE = value as String
-    }
-}
-
-public class ASTNumericLiteralNegativeDecimal : ASTNumericLiteralNegative, IASTBase {
-    public var DECIMAL_NEGATIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeDecimal\"")
-        res.add("\"DECIMAL_NEGATIVE\" : \"${DECIMAL_NEGATIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DECIMAL_NEGATIVE = value as String
-    }
-}
-
-public class ASTNumericLiteralNegativeDouble : ASTNumericLiteralNegative, IASTBase {
-    public var DOUBLE_NEGATIVE: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeDouble\"")
-        res.add("\"DOUBLE_NEGATIVE\" : \"${DOUBLE_NEGATIVE}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        DOUBLE_NEGATIVE = value as String
-    }
-}
-
-public sealed interface ASTBooleanLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase 
-
-public class ASTBooleanLiteralTrue : ASTBooleanLiteral, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBooleanLiteralTrue\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public class ASTBooleanLiteralFalse : ASTBooleanLiteral, IASTBase {
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBooleanLiteralFalse\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-    }
-}
-
-public sealed interface ASTString : IASTBase 
-
-public class ASTString1 : ASTString, IASTBase {
-    public var STRING_LITERAL1: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTString1\"")
-        res.add("\"STRING_LITERAL1\" : \"${STRING_LITERAL1}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        STRING_LITERAL1 = value as String
-    }
-}
-
-public class ASTString2 : ASTString, IASTBase {
-    public var STRING_LITERAL2: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTString2\"")
-        res.add("\"STRING_LITERAL2\" : \"${STRING_LITERAL2}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        STRING_LITERAL2 = value as String
-    }
-}
-
-public class ASTString1long : ASTString, IASTBase {
-    public var STRING_LITERAL_LONG1: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTString1long\"")
-        res.add("\"STRING_LITERAL_LONG1\" : \"${STRING_LITERAL_LONG1}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        STRING_LITERAL_LONG1 = value as String
-    }
-}
-
-public class ASTString2long : ASTString, IASTBase {
-    public var STRING_LITERAL_LONG2: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTString2long\"")
-        res.add("\"STRING_LITERAL_LONG2\" : \"${STRING_LITERAL_LONG2}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        STRING_LITERAL_LONG2 = value as String
-    }
-}
-
-public sealed interface ASTiri : ASTDataBlockValue, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, ASTVarOrIri, ASTGraphTerm, ASTInterfaceOfRDFLiteralLangOriri, IASTBase 
-
-public class ASTiriRef : ASTiri, IASTBase {
-    public var IRIREF: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTiriRef\"")
-        res.add("\"IRIREF\" : \"${IRIREF}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        IRIREF = value as String
-    }
-}
-
-public sealed interface ASTPrefixedName : ASTiri, IASTBase 
-
-public class ASTPrefixedNameLN : ASTPrefixedName, IASTBase {
-    public var PNAME_LN: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPrefixedNameLN\"")
-        res.add("\"PNAME_LN\" : \"${PNAME_LN}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        PNAME_LN = value as String
-    }
-}
-
-public class ASTPrefixedNameNS : ASTPrefixedName, IASTBase {
-    public var PNAME_NS: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTPrefixedNameNS\"")
-        res.add("\"PNAME_NS\" : \"${PNAME_NS}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        PNAME_NS = value as String
-    }
-}
-
-public sealed interface ASTBlankNode : ASTGraphTerm, IASTBase 
-
-public class ASTBlankNodeLabel : ASTBlankNode, IASTBase {
-    public var BLANK_NODE_LABEL: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBlankNodeLabel\"")
-        res.add("\"BLANK_NODE_LABEL\" : \"${BLANK_NODE_LABEL}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        BLANK_NODE_LABEL = value as String
-    }
-}
-
-public class ASTBlankNodeANON : ASTBlankNode, IASTBase {
-    public var ANON: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTBlankNodeANON\"")
-        res.add("\"ANON\" : \"${ANON}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        ANON = value as String
-    }
-}
-
-public class ASTNILParam : ASTInterfaceOfNILParamOrListOfVar, ASTInterfaceOfListOfDataBlockValueOrNILParam, ASTArgList, ASTExpressionList, ASTGraphTerm, ASTInterfaceOfExpressionOrNILParam, IASTBase {
-    public var NIL: String? = null
-    override fun toString():String {
-        val res=mutableListOf<String>("\"type\":\"ASTNILParam\"")
-        res.add("\"NIL\" : \"${NIL}\"")
-        return "{${res.joinToString()}}"
-    }
-    override fun astAssign(childID: Int, value: Any) {
-        NIL = value as String
-    }
-}
-
-public sealed interface IASTBase {
-    public abstract fun astAssign(childID: Int, value: Any)
-}
-
-public fun getResult(): IASTBase {
-    return stack[0] as IASTBase
-}
-
-internal var parsererror: String? = null
+    public class ASTAnonymous(public val value: String) : IASTBase {
+        override fun astAssign(childID: Int, value: Any) {}
+        override fun toString(): String = "{\"type\":\"ASTAnonymous\",\"value\":\"$value\"}"
+    }
+    public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
+
+    public class ASTValuesClauseOptional : IASTBase {
+        public var variable0: ASTValuesClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTValuesClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTValuesClause
+        }
+    }
+
+    public class ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
+        public var variable0: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery? = null
+        public var variable1: ASTValuesClauseOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
+                1 -> variable1 = value as ASTValuesClauseOptional
+            }
+        }
+    }
+
+    public class ASTClassOfPrologueAndUpdate : IASTBase {
+        public var variable0: ASTPrologue? = null
+        public var variable1: ASTUpdate? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfPrologueAndUpdate\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPrologue
+                1 -> variable1 = value as ASTUpdate
+            }
+        }
+    }
+
+    public class ASTClassOfPrologueAndUpdateOptional : IASTBase {
+        public var variable0: ASTClassOfPrologueAndUpdate? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfPrologueAndUpdateOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfPrologueAndUpdate
+        }
+    }
+
+    public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional : IASTBase {
+        public var variable0: ASTUpdate1? = null
+        public var variable1: ASTClassOfPrologueAndUpdateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTUpdate1
+                1 -> variable1 = value as ASTClassOfPrologueAndUpdateOptional
+            }
+        }
+    }
+
+    public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
+        public var variable0: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
+        }
+    }
+
+    public sealed interface ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional
+
+    public class ASTSparqlDoc : IASTBase {
+        public var variable0: ASTPrologue? = null
+        public var variable1: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSparqlDoc\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPrologue
+                1 -> variable1 = value as ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional
+            }
+        }
+    }
+
+    public class ASTUpdate : IASTBase {
+        public var variable0: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUpdate\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
+        }
+    }
+
+    public sealed interface ASTInterfaceOfBaseDeclOrPrefixDecl
+
+    public class ASTPrologue : IASTBase {
+        public val value: MutableList<ASTInterfaceOfBaseDeclOrPrefixDecl> = mutableListOf<ASTInterfaceOfBaseDeclOrPrefixDecl>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfBaseDeclOrPrefixDecl)
+        }
+        override fun toString(): String = "{\"type\":\"ASTPrologue\",\"value\":$value}"
+    }
+
+    public class ASTBaseDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
+        public var IRIREF: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBaseDecl\"")
+            res.add("\"IRIREF\" : \"${IRIREF}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            IRIREF = value as String
+        }
+    }
+
+    public class ASTPrefixDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
+        public var PNAME_NS: String? = null
+        public var IRIREF: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPrefixDecl\"")
+            res.add("\"PNAME_NS\" : \"${PNAME_NS}\"")
+            res.add("\"IRIREF\" : \"${IRIREF}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> PNAME_NS = value as String
+                1 -> IRIREF = value as String
+            }
+        }
+    }
+
+    public class ASTListOfDatasetClause : IASTBase {
+        public val value: MutableList<ASTDatasetClause> = mutableListOf<ASTDatasetClause>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTDatasetClause)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfDatasetClause\",\"value\":$value}"
+    }
+
+    public class ASTSelectQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+        public var variable0: ASTSelectClause? = null
+        public var variable1: ASTListOfDatasetClause? = null
+        public var variable2: ASTWhereClause? = null
+        public var variable3: ASTSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSelectQuery\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTSelectClause
+                1 -> variable1 = value as ASTListOfDatasetClause
+                2 -> variable2 = value as ASTWhereClause
+                3 -> variable3 = value as ASTSolutionModifier
+            }
+        }
+    }
+
+    public class ASTSubSelect : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
+        public var variable0: ASTSelectClause? = null
+        public var variable1: ASTWhereClause? = null
+        public var variable2: ASTSolutionModifier? = null
+        public var variable3: ASTValuesClauseOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSubSelect\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTSelectClause
+                1 -> variable1 = value as ASTWhereClause
+                2 -> variable2 = value as ASTSolutionModifier
+                3 -> variable3 = value as ASTValuesClauseOptional
+            }
+        }
+    }
+
+    public object ASTEnumOfDISTINCTAndREDUCED {
+        public const val _UNDEFINED: Int = -1
+        public const val DISTINCT: Int = 0
+        public const val REDUCED: Int = 1
+        public const val _COUNT: Int = 2
+        public val values: Array<String> = arrayOf("DISTINCT", "REDUCED")
+    }
+
+    public class ASTClassOfExpressionAndVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndVar\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTVar
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfVarOrClassOfExpressionAndVar
+
+    public class ASTListOfInterfaceOfVarOrClassOfExpressionAndVar : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
+        public val value: MutableList<ASTInterfaceOfVarOrClassOfExpressionAndVar> = mutableListOf<ASTInterfaceOfVarOrClassOfExpressionAndVar>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfVarOrClassOfExpressionAndVar)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfVarOrClassOfExpressionAndVar\",\"value\":$value}"
+    }
+
+    public sealed interface ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll
+
+    public class ASTSelectClause : IASTBase {
+        public var variable0: Int? = null
+        public var variable1: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSelectClause\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = ASTEnumOfDISTINCTAndREDUCED.values.indexOf((value as ASTAnonymous).value)
+                1 -> variable1 = value as ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll
+            }
+        }
+    }
+
+    public class ASTSelectClauseAll : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSelectClauseAll\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
+        public var variable0: ASTConstructTemplate? = null
+        public var variable1: ASTListOfDatasetClause? = null
+        public var variable2: ASTWhereClause? = null
+        public var variable3: ASTSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTConstructTemplate
+                1 -> variable1 = value as ASTListOfDatasetClause
+                2 -> variable2 = value as ASTWhereClause
+                3 -> variable3 = value as ASTSolutionModifier
+            }
+        }
+    }
+
+    public class ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
+        public var variable0: ASTListOfDatasetClause? = null
+        public var variable1: ASTGroupGraphPattern? = null
+        public var variable2: ASTSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTListOfDatasetClause
+                1 -> variable1 = value as ASTGroupGraphPattern
+                2 -> variable2 = value as ASTSolutionModifier
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
+
+    public class ASTConstructQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+        public var variable0: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConstructQuery\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
+        }
+    }
+
+    public class ASTListOfVarOrIri : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
+        public val value: MutableList<ASTVarOrIri> = mutableListOf<ASTVarOrIri>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTVarOrIri)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfVarOrIri\",\"value\":$value}"
+    }
+
+    public sealed interface ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll
+
+    public class ASTWhereClauseOptional : IASTBase {
+        public var variable0: ASTWhereClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTWhereClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTWhereClause
+        }
+    }
+
+    public class ASTDescribeQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+        public var variable0: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll? = null
+        public var variable1: ASTListOfDatasetClause? = null
+        public var variable2: ASTWhereClauseOptional? = null
+        public var variable3: ASTSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDescribeQuery\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll
+                1 -> variable1 = value as ASTListOfDatasetClause
+                2 -> variable2 = value as ASTWhereClauseOptional
+                3 -> variable3 = value as ASTSolutionModifier
+            }
+        }
+    }
+
+    public class ASTDescribeQueryAll : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDescribeQueryAll\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTAskQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+        public var variable0: ASTListOfDatasetClause? = null
+        public var variable1: ASTWhereClause? = null
+        public var variable2: ASTSolutionModifier? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAskQuery\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTListOfDatasetClause
+                1 -> variable1 = value as ASTWhereClause
+                2 -> variable2 = value as ASTSolutionModifier
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause
+
+    public class ASTDatasetClause : IASTBase {
+        public var variable0: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDatasetClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause
+        }
+    }
+
+    public class ASTDefaultGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
+        public var variable0: ASTSourceSelector? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDefaultGraphClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTSourceSelector
+        }
+    }
+
+    public class ASTNamedGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
+        public var variable0: ASTSourceSelector? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNamedGraphClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTSourceSelector
+        }
+    }
+
+    public class ASTSourceSelector : IASTBase {
+        public var variable0: ASTiri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSourceSelector\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTiri
+        }
+    }
+
+    public class ASTWhereClause : IASTBase {
+        public var WHERE: Boolean = false
+        public var variable1: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTWhereClause\"")
+            res.add("\"WHERE\": $WHERE")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> WHERE = true
+                1 -> variable1 = value as ASTGroupGraphPattern
+            }
+        }
+    }
+
+    public class ASTGroupClauseOptional : IASTBase {
+        public var variable0: ASTGroupClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGroupClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGroupClause
+        }
+    }
+
+    public class ASTHavingClauseOptional : IASTBase {
+        public var variable0: ASTHavingClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTHavingClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTHavingClause
+        }
+    }
+
+    public class ASTOrderClauseOptional : IASTBase {
+        public var variable0: ASTOrderClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOrderClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTOrderClause
+        }
+    }
+
+    public class ASTLimitOffsetClausesOptional : IASTBase {
+        public var variable0: ASTLimitOffsetClauses? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTLimitOffsetClausesOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTLimitOffsetClauses
+        }
+    }
+
+    public class ASTSolutionModifier : IASTBase {
+        public var variable0: ASTGroupClauseOptional? = null
+        public var variable1: ASTHavingClauseOptional? = null
+        public var variable2: ASTOrderClauseOptional? = null
+        public var variable3: ASTLimitOffsetClausesOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSolutionModifier\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTGroupClauseOptional
+                1 -> variable1 = value as ASTHavingClauseOptional
+                2 -> variable2 = value as ASTOrderClauseOptional
+                3 -> variable3 = value as ASTLimitOffsetClausesOptional
+            }
+        }
+    }
+
+    public class ASTListOfGroupCondition : IASTBase {
+        public val value: MutableList<ASTGroupCondition> = mutableListOf<ASTGroupCondition>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTGroupCondition)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfGroupCondition\",\"value\":$value}"
+    }
+
+    public class ASTGroupClause : IASTBase {
+        public var variable0: ASTListOfGroupCondition? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGroupClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTListOfGroupCondition
+        }
+    }
+
+    public class ASTVarOptional : IASTBase {
+        public var variable0: ASTVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTVarOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTVar
+        }
+    }
+
+    public class ASTClassOfExpressionAndVarOptional : ASTGroupCondition, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTVarOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndVarOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTVarOptional
+            }
+        }
+    }
+
+    public sealed interface ASTGroupCondition : IASTBase
+
+    public class ASTListOfHavingCondition : IASTBase {
+        public val value: MutableList<ASTHavingCondition> = mutableListOf<ASTHavingCondition>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTHavingCondition)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfHavingCondition\",\"value\":$value}"
+    }
+
+    public class ASTHavingClause : IASTBase {
+        public var variable0: ASTListOfHavingCondition? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTHavingClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTListOfHavingCondition
+        }
+    }
+
+    public class ASTHavingCondition : IASTBase {
+        public var variable0: ASTConstraint? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTHavingCondition\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConstraint
+        }
+    }
+
+    public class ASTListOfOrderCondition : IASTBase {
+        public val value: MutableList<ASTOrderCondition> = mutableListOf<ASTOrderCondition>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTOrderCondition)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfOrderCondition\",\"value\":$value}"
+    }
+
+    public class ASTOrderClause : IASTBase {
+        public var variable0: ASTListOfOrderCondition? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOrderClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTListOfOrderCondition
+        }
+    }
+
+    public object ASTEnumOfASCAndDESC {
+        public const val _UNDEFINED: Int = -1
+        public const val ASC: Int = 0
+        public const val DESC: Int = 1
+        public const val _COUNT: Int = 2
+        public val values: Array<String> = arrayOf("ASC", "DESC")
+    }
+
+    public sealed interface ASTInterfaceOfConstraintOrVar
+
+    public class ASTOrderCondition : IASTBase {
+        public var variable0: Int? = null
+        public var variable1: ASTInterfaceOfConstraintOrVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOrderCondition\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = ASTEnumOfASCAndDESC.values.indexOf((value as ASTAnonymous).value)
+                1 -> variable1 = value as ASTInterfaceOfConstraintOrVar
+            }
+        }
+    }
+
+    public class ASTOffsetClauseOptional : IASTBase {
+        public var variable0: ASTOffsetClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOffsetClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTOffsetClause
+        }
+    }
+
+    public class ASTClassOfLimitClauseAndOffsetClauseOptional : ASTLimitOffsetClauses, IASTBase {
+        public var variable0: ASTLimitClause? = null
+        public var variable1: ASTOffsetClauseOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfLimitClauseAndOffsetClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTLimitClause
+                1 -> variable1 = value as ASTOffsetClauseOptional
+            }
+        }
+    }
+
+    public class ASTLimitClauseOptional : IASTBase {
+        public var variable0: ASTLimitClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTLimitClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTLimitClause
+        }
+    }
+
+    public class ASTClassOfOffsetClauseAndLimitClauseOptional : ASTLimitOffsetClauses, IASTBase {
+        public var variable0: ASTOffsetClause? = null
+        public var variable1: ASTLimitClauseOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfOffsetClauseAndLimitClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTOffsetClause
+                1 -> variable1 = value as ASTLimitClauseOptional
+            }
+        }
+    }
+
+    public sealed interface ASTLimitOffsetClauses : IASTBase
+
+    public class ASTLimitClause : IASTBase {
+        public var INTEGER: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTLimitClause\"")
+            res.add("\"INTEGER\" : \"${INTEGER}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER = value as String
+        }
+    }
+
+    public class ASTOffsetClause : IASTBase {
+        public var INTEGER: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOffsetClause\"")
+            res.add("\"INTEGER\" : \"${INTEGER}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER = value as String
+        }
+    }
+
+    public sealed interface ASTUpdate1 : IASTBase
+
+    public class ASTGraphRefOptional : IASTBase {
+        public var variable0: ASTGraphRef? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphRefOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGraphRef
+        }
+    }
+
+    public class ASTLoad : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTiri? = null
+        public var variable2: ASTGraphRefOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTLoad\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTiri
+                2 -> variable2 = value as ASTGraphRefOptional
+            }
+        }
+    }
+
+    public class ASTClear : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphRefAll? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClear\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphRefAll
+            }
+        }
+    }
+
+    public class ASTDrop : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphRefAll? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDrop\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphRefAll
+            }
+        }
+    }
+
+    public class ASTCreate : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphRef? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTCreate\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphRef
+            }
+        }
+    }
+
+    public class ASTAdd : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphOrDefault? = null
+        public var variable2: ASTGraphOrDefault? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdd\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphOrDefault
+                2 -> variable2 = value as ASTGraphOrDefault
+            }
+        }
+    }
+
+    public class ASTMove : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphOrDefault? = null
+        public var variable2: ASTGraphOrDefault? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTMove\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphOrDefault
+                2 -> variable2 = value as ASTGraphOrDefault
+            }
+        }
+    }
+
+    public class ASTCopy : ASTUpdate1, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTGraphOrDefault? = null
+        public var variable2: ASTGraphOrDefault? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTCopy\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTGraphOrDefault
+                2 -> variable2 = value as ASTGraphOrDefault
+            }
+        }
+    }
+
+    public class ASTInsertData : ASTUpdate1, IASTBase {
+        public var variable0: ASTQuadData? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInsertData\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuadData
+        }
+    }
+
+    public class ASTDeleteData : ASTUpdate1, IASTBase {
+        public var variable0: ASTQuadData? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDeleteData\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuadData
+        }
+    }
+
+    public class ASTDeleteWhere : ASTUpdate1, IASTBase {
+        public var variable0: ASTQuadPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDeleteWhere\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuadPattern
+        }
+    }
+
+    public class ASTiriOptional : IASTBase {
+        public var variable0: ASTiri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTiriOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTiri
+        }
+    }
+
+    public class ASTInsertClauseOptional : IASTBase {
+        public var variable0: ASTInsertClause? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInsertClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInsertClause
+        }
+    }
+
+    public class ASTClassOfDeleteClauseAndInsertClauseOptional : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
+        public var variable0: ASTDeleteClause? = null
+        public var variable1: ASTInsertClauseOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfDeleteClauseAndInsertClauseOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTDeleteClause
+                1 -> variable1 = value as ASTInsertClauseOptional
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause
+
+    public class ASTListOfUsingClause : IASTBase {
+        public val value: MutableList<ASTUsingClause> = mutableListOf<ASTUsingClause>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTUsingClause)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfUsingClause\",\"value\":$value}"
+    }
+
+    public class ASTModify : ASTUpdate1, IASTBase {
+        public var variable0: ASTiriOptional? = null
+        public var variable1: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause? = null
+        public var variable2: ASTListOfUsingClause? = null
+        public var variable3: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTModify\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTiriOptional
+                1 -> variable1 = value as ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause
+                2 -> variable2 = value as ASTListOfUsingClause
+                3 -> variable3 = value as ASTGroupGraphPattern
+            }
+        }
+    }
+
+    public class ASTDeleteClause : IASTBase {
+        public var variable0: ASTQuadPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTDeleteClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuadPattern
+        }
+    }
+
+    public class ASTInsertClause : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
+        public var variable0: ASTQuadPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInsertClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuadPattern
+        }
+    }
+
+    public class ASTUsingClause : IASTBase {
+        public var variable0: ASTiri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUsingClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTiri
+        }
+    }
+
+    public class ASTClassOfGRAPHAndiri : ASTGraphOrDefault, IASTBase {
+        public var GRAPH: Boolean = false
+        public var variable1: ASTiri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfGRAPHAndiri\"")
+            res.add("\"GRAPH\": $GRAPH")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> GRAPH = true
+                1 -> variable1 = value as ASTiri
+            }
+        }
+    }
+
+    public sealed interface ASTGraphOrDefault : IASTBase
+
+    public class ASTGraphRef : ASTGraphRefAll, IASTBase {
+        public var variable0: ASTiri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphRef\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTiri
+        }
+    }
+
+    public sealed interface ASTGraphRefAll : IASTBase
+
+    public class ASTGraphRefDefault : ASTGraphOrDefault, ASTGraphRefAll, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphRefDefault\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTGraphRefNamed : ASTGraphRefAll, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphRefNamed\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTGraphRefAll2 : ASTGraphRefAll, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphRefAll2\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTQuadPattern : IASTBase {
+        public var variable0: ASTQuads? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTQuadPattern\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuads
+        }
+    }
+
+    public class ASTQuadData : IASTBase {
+        public var variable0: ASTQuads? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTQuadData\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTQuads
+        }
+    }
+
+    public class ASTTriplesTemplateOptional : IASTBase {
+        public var variable0: ASTTriplesTemplate? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesTemplateOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTTriplesTemplate
+        }
+    }
+
+    public class ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
+        public var variable0: ASTQuadsNotTriples? = null
+        public var point: Boolean = false
+        public var variable2: ASTTriplesTemplateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"point\": $point")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTQuadsNotTriples
+                1 -> point = true
+                2 -> variable2 = value as ASTTriplesTemplateOptional
+            }
+        }
+    }
+
+    public class ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
+        public val value: MutableList<ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional> = mutableListOf<ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional\",\"value\":$value}"
+    }
+
+    public class ASTQuads : IASTBase {
+        public var variable0: ASTTriplesTemplateOptional? = null
+        public var variable1: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTQuads\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesTemplateOptional
+                1 -> variable1 = value as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional
+            }
+        }
+    }
+
+    public class ASTQuadsNotTriples : IASTBase {
+        public var variable0: ASTVarOrIri? = null
+        public var variable1: ASTTriplesTemplateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTQuadsNotTriples\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVarOrIri
+                1 -> variable1 = value as ASTTriplesTemplateOptional
+            }
+        }
+    }
+
+    public class ASTTriplesTemplateOptionalOptional : IASTBase {
+        public var variable0: ASTTriplesTemplateOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesTemplateOptionalOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTTriplesTemplateOptional
+        }
+    }
+
+    public class ASTTriplesTemplate : IASTBase {
+        public var variable0: ASTTriplesSameSubject? = null
+        public var variable1: ASTTriplesTemplateOptionalOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesTemplate\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesSameSubject
+                1 -> variable1 = value as ASTTriplesTemplateOptionalOptional
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfSubSelectOrGroupGraphPatternSub
+
+    public class ASTGroupGraphPattern : IASTBase {
+        public var variable0: ASTInterfaceOfSubSelectOrGroupGraphPatternSub? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGroupGraphPattern\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfSubSelectOrGroupGraphPatternSub
+        }
+    }
+
+    public class ASTTriplesBlockOptional : IASTBase {
+        public var variable0: ASTTriplesBlock? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesBlockOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTTriplesBlock
+        }
+    }
+
+    public class ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
+        public var variable0: ASTGraphPatternNotTriples? = null
+        public var point: Boolean = false
+        public var variable2: ASTTriplesBlockOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"point\": $point")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTGraphPatternNotTriples
+                1 -> point = true
+                2 -> variable2 = value as ASTTriplesBlockOptional
+            }
+        }
+    }
+
+    public class ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
+        public val value: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = mutableListOf<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional\",\"value\":$value}"
+    }
+
+    public class ASTGroupGraphPatternSub : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
+        public var variable0: ASTTriplesBlockOptional? = null
+        public var variable1: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGroupGraphPatternSub\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesBlockOptional
+                1 -> variable1 = value as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional
+            }
+        }
+    }
+
+    public class ASTTriplesBlockOptionalOptional : IASTBase {
+        public var variable0: ASTTriplesBlockOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesBlockOptionalOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTTriplesBlockOptional
+        }
+    }
+
+    public class ASTTriplesBlock : IASTBase {
+        public var variable0: ASTTriplesSameSubjectPath? = null
+        public var variable1: ASTTriplesBlockOptionalOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTTriplesBlock\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesSameSubjectPath
+                1 -> variable1 = value as ASTTriplesBlockOptionalOptional
+            }
+        }
+    }
+
+    public sealed interface ASTGraphPatternNotTriples : IASTBase
+
+    public class ASTOptionalGraphPattern : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTOptionalGraphPattern\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGroupGraphPattern
+        }
+    }
+
+    public class ASTGraphGraphPattern : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTVarOrIri? = null
+        public var variable1: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGraphGraphPattern\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVarOrIri
+                1 -> variable1 = value as ASTGroupGraphPattern
+            }
+        }
+    }
+
+    public class ASTServiceGraphPattern : ASTGraphPatternNotTriples, IASTBase {
+        public var SILENT: Boolean = false
+        public var variable1: ASTVarOrIri? = null
+        public var variable2: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTServiceGraphPattern\"")
+            res.add("\"SILENT\": $SILENT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> SILENT = true
+                1 -> variable1 = value as ASTVarOrIri
+                2 -> variable2 = value as ASTGroupGraphPattern
+            }
+        }
+    }
+
+    public class ASTBind : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBind\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTVar
+            }
+        }
+    }
+
+    public class ASTValuesClause : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTDataBlock? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTValuesClause\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTDataBlock
+        }
+    }
+
+    public sealed interface ASTDataBlock : IASTBase
+
+    public class ASTListOfDataBlockValue : ASTInterfaceOfListOfDataBlockValueOrNILParam, IASTBase {
+        public val value: MutableList<ASTDataBlockValue> = mutableListOf<ASTDataBlockValue>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTDataBlockValue)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfDataBlockValue\",\"value\":$value}"
+    }
+
+    public class ASTInlineDataOneVar : ASTDataBlock, IASTBase {
+        public var variable0: ASTVar? = null
+        public var variable1: ASTListOfDataBlockValue? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInlineDataOneVar\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVar
+                1 -> variable1 = value as ASTListOfDataBlockValue
+            }
+        }
+    }
+
+    public class ASTListOfVar : ASTInterfaceOfNILParamOrListOfVar, IASTBase {
+        public val value: MutableList<ASTVar> = mutableListOf<ASTVar>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTVar)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfVar\",\"value\":$value}"
+    }
+
+    public sealed interface ASTInterfaceOfNILParamOrListOfVar
+
+    public sealed interface ASTInterfaceOfListOfDataBlockValueOrNILParam
+
+    public class ASTListOfInterfaceOfListOfDataBlockValueOrNILParam : IASTBase {
+        public val value: MutableList<ASTInterfaceOfListOfDataBlockValueOrNILParam> = mutableListOf<ASTInterfaceOfListOfDataBlockValueOrNILParam>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfListOfDataBlockValueOrNILParam)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfListOfDataBlockValueOrNILParam\",\"value\":$value}"
+    }
+
+    public class ASTInlineDataFull : ASTDataBlock, IASTBase {
+        public var variable0: ASTInterfaceOfNILParamOrListOfVar? = null
+        public var variable1: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInlineDataFull\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfNILParamOrListOfVar
+                1 -> variable1 = value as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam
+            }
+        }
+    }
+
+    public sealed interface ASTDataBlockValue : IASTBase
+
+    public class ASTUNDEF : ASTDataBlockValue, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUNDEF\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTMinusGraphPattern : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTMinusGraphPattern\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGroupGraphPattern
+        }
+    }
+
+    public class ASTListOfGroupGraphPattern : IASTBase {
+        public val value: MutableList<ASTGroupGraphPattern> = mutableListOf<ASTGroupGraphPattern>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTGroupGraphPattern)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfGroupGraphPattern\",\"value\":$value}"
+    }
+
+    public class ASTGroupOrUnionGraphPattern : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTGroupGraphPattern? = null
+        public var variable1: ASTListOfGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTGroupOrUnionGraphPattern\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTGroupGraphPattern
+                1 -> variable1 = value as ASTListOfGroupGraphPattern
+            }
+        }
+    }
+
+    public class ASTFilter : ASTGraphPatternNotTriples, IASTBase {
+        public var variable0: ASTConstraint? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTFilter\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConstraint
+        }
+    }
+
+    public sealed interface ASTConstraint : ASTInterfaceOfConstraintOrVar, IASTBase
+
+    public class ASTFunctionCall : ASTGroupCondition, ASTConstraint, IASTBase {
+        public var variable0: ASTiri? = null
+        public var variable1: ASTArgList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTFunctionCall\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTiri
+                1 -> variable1 = value as ASTArgList
+            }
+        }
+    }
+
+    public class ASTListOfExpression : IASTBase {
+        public val value: MutableList<ASTExpression> = mutableListOf<ASTExpression>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTExpression)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfExpression\",\"value\":$value}"
+    }
+
+    public class ASTClassOfDISTINCTAndExpressionAndListOfExpression : ASTArgList, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTListOfExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfDISTINCTAndExpressionAndListOfExpression\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTListOfExpression
+            }
+        }
+    }
+
+    public sealed interface ASTArgList : IASTBase
+
+    public class ASTClassOfExpressionAndListOfExpression : ASTExpressionList, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTListOfExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfExpressionAndListOfExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTListOfExpression
+            }
+        }
+    }
+
+    public sealed interface ASTExpressionList : IASTBase
+
+    public class ASTConstructTriplesOptional : IASTBase {
+        public var variable0: ASTConstructTriples? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConstructTriplesOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConstructTriples
+        }
+    }
+
+    public class ASTConstructTemplate : IASTBase {
+        public var variable0: ASTConstructTriplesOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConstructTemplate\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConstructTriplesOptional
+        }
+    }
+
+    public class ASTConstructTriplesOptionalOptional : IASTBase {
+        public var variable0: ASTConstructTriplesOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConstructTriplesOptionalOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConstructTriplesOptional
+        }
+    }
+
+    public class ASTConstructTriples : IASTBase {
+        public var variable0: ASTTriplesSameSubject? = null
+        public var variable1: ASTConstructTriplesOptionalOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConstructTriples\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesSameSubject
+                1 -> variable1 = value as ASTConstructTriplesOptionalOptional
+            }
+        }
+    }
+
+    public class ASTClassOfVarOrTermAndPropertyListNotEmpty : ASTTriplesSameSubject, IASTBase {
+        public var variable0: ASTVarOrTerm? = null
+        public var variable1: ASTPropertyListNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfVarOrTermAndPropertyListNotEmpty\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVarOrTerm
+                1 -> variable1 = value as ASTPropertyListNotEmpty
+            }
+        }
+    }
+
+    public class ASTPropertyListOptional : IASTBase {
+        public var variable0: ASTPropertyList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyListOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyList
+        }
+    }
+
+    public class ASTClassOfTriplesNodeAndPropertyListOptional : ASTTriplesSameSubject, IASTBase {
+        public var variable0: ASTTriplesNode? = null
+        public var variable1: ASTPropertyListOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfTriplesNodeAndPropertyListOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesNode
+                1 -> variable1 = value as ASTPropertyListOptional
+            }
+        }
+    }
+
+    public sealed interface ASTTriplesSameSubject : IASTBase
+
+    public class ASTPropertyList : IASTBase {
+        public var variable0: ASTPropertyListNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyList\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyListNotEmpty
+        }
+    }
+
+    public class ASTClassOfVerbAndObjectList : IASTBase {
+        public var variable0: ASTVerb? = null
+        public var variable1: ASTObjectList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfVerbAndObjectList\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVerb
+                1 -> variable1 = value as ASTObjectList
+            }
+        }
+    }
+
+    public class ASTClassOfVerbAndObjectListOptional : IASTBase {
+        public var variable0: ASTClassOfVerbAndObjectList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfVerbAndObjectListOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfVerbAndObjectList
+        }
+    }
+
+    public class ASTListOfClassOfVerbAndObjectListOptional : IASTBase {
+        public val value: MutableList<ASTClassOfVerbAndObjectListOptional> = mutableListOf<ASTClassOfVerbAndObjectListOptional>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTClassOfVerbAndObjectListOptional)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfClassOfVerbAndObjectListOptional\",\"value\":$value}"
+    }
+
+    public class ASTPropertyListNotEmpty : IASTBase {
+        public var variable0: ASTVerb? = null
+        public var variable1: ASTObjectList? = null
+        public var variable2: ASTListOfClassOfVerbAndObjectListOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyListNotEmpty\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVerb
+                1 -> variable1 = value as ASTObjectList
+                2 -> variable2 = value as ASTListOfClassOfVerbAndObjectListOptional
+            }
+        }
+    }
+
+    public sealed interface ASTVerb : IASTBase
+
+    public class ASTRDFType : ASTVerb, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRDFType\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTListOfObject : IASTBase {
+        public val value: MutableList<ASTObject> = mutableListOf<ASTObject>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTObject)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfObject\",\"value\":$value}"
+    }
+
+    public class ASTObjectList : IASTBase {
+        public var variable0: ASTObject? = null
+        public var variable1: ASTListOfObject? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTObjectList\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTObject
+                1 -> variable1 = value as ASTListOfObject
+            }
+        }
+    }
+
+    public class ASTObject : IASTBase {
+        public var variable0: ASTGraphNode? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTObject\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGraphNode
+        }
+    }
+
+    public class ASTClassOfVarOrTermAndPropertyListPathNotEmpty : ASTTriplesSameSubjectPath, IASTBase {
+        public var variable0: ASTVarOrTerm? = null
+        public var variable1: ASTPropertyListPathNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfVarOrTermAndPropertyListPathNotEmpty\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTVarOrTerm
+                1 -> variable1 = value as ASTPropertyListPathNotEmpty
+            }
+        }
+    }
+
+    public class ASTPropertyListPathOptional : IASTBase {
+        public var variable0: ASTPropertyListPath? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyListPathOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyListPath
+        }
+    }
+
+    public class ASTClassOfTriplesNodePathAndPropertyListPathOptional : ASTTriplesSameSubjectPath, IASTBase {
+        public var variable0: ASTTriplesNodePath? = null
+        public var variable1: ASTPropertyListPathOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfTriplesNodePathAndPropertyListPathOptional\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTTriplesNodePath
+                1 -> variable1 = value as ASTPropertyListPathOptional
+            }
+        }
+    }
+
+    public sealed interface ASTTriplesSameSubjectPath : IASTBase
+
+    public class ASTPropertyListPath : IASTBase {
+        public var variable0: ASTPropertyListPathNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyListPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyListPathNotEmpty
+        }
+    }
+
+    public sealed interface ASTInterfaceOfVerbPathOrVerbSimple
+
+    public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList : IASTBase {
+        public var variable0: ASTInterfaceOfVerbPathOrVerbSimple? = null
+        public var variable1: ASTObjectList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
+                1 -> variable1 = value as ASTObjectList
+            }
+        }
+    }
+
+    public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
+        public var variable0: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList
+        }
+    }
+
+    public class ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
+        public val value: MutableList<ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional> = mutableListOf<ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional\",\"value\":$value}"
+    }
+
+    public class ASTPropertyListPathNotEmpty : IASTBase {
+        public var variable0: ASTInterfaceOfVerbPathOrVerbSimple? = null
+        public var variable1: ASTObjectListPath? = null
+        public var variable2: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPropertyListPathNotEmpty\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
+                1 -> variable1 = value as ASTObjectListPath
+                2 -> variable2 = value as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional
+            }
+        }
+    }
+
+    public class ASTVerbPath : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
+        public var variable0: ASTPath? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTVerbPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPath
+        }
+    }
+
+    public class ASTVerbSimple : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
+        public var variable0: ASTVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTVerbSimple\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTVar
+        }
+    }
+
+    public class ASTListOfObjectPath : IASTBase {
+        public val value: MutableList<ASTObjectPath> = mutableListOf<ASTObjectPath>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTObjectPath)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfObjectPath\",\"value\":$value}"
+    }
+
+    public class ASTObjectListPath : IASTBase {
+        public var variable0: ASTObjectPath? = null
+        public var variable1: ASTListOfObjectPath? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTObjectListPath\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTObjectPath
+                1 -> variable1 = value as ASTListOfObjectPath
+            }
+        }
+    }
+
+    public class ASTObjectPath : IASTBase {
+        public var variable0: ASTGraphNodePath? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTObjectPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGraphNodePath
+        }
+    }
+
+    public class ASTPath : ASTPathPrimary, IASTBase {
+        public var variable0: ASTPathAlternative? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPathAlternative
+        }
+    }
+
+    public class ASTListOfPathSequence : IASTBase {
+        public val value: MutableList<ASTPathSequence> = mutableListOf<ASTPathSequence>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTPathSequence)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfPathSequence\",\"value\":$value}"
+    }
+
+    public class ASTPathAlternative : IASTBase {
+        public var variable0: ASTPathSequence? = null
+        public var variable1: ASTListOfPathSequence? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPathAlternative\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPathSequence
+                1 -> variable1 = value as ASTListOfPathSequence
+            }
+        }
+    }
+
+    public class ASTListOfPathEltOrInverse : IASTBase {
+        public val value: MutableList<ASTPathEltOrInverse> = mutableListOf<ASTPathEltOrInverse>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTPathEltOrInverse)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfPathEltOrInverse\",\"value\":$value}"
+    }
+
+    public class ASTPathSequence : IASTBase {
+        public var variable0: ASTPathEltOrInverse? = null
+        public var variable1: ASTListOfPathEltOrInverse? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPathSequence\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPathEltOrInverse
+                1 -> variable1 = value as ASTListOfPathEltOrInverse
+            }
+        }
+    }
+
+    public object ASTEnumOfoptionalAndanyAndatLeastOne {
+        public const val _UNDEFINED: Int = -1
+        public const val optional: Int = 0
+        public const val any: Int = 1
+        public const val atLeastOne: Int = 2
+        public const val _COUNT: Int = 3
+        public val values: Array<String> = arrayOf("optional", "any", "atLeastOne")
+    }
+
+    public class ASTPathElt : IASTBase {
+        public var variable0: ASTPathPrimary? = null
+        public var variable1: Int? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPathElt\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPathPrimary
+                1 -> variable1 = ASTEnumOfoptionalAndanyAndatLeastOne.values.indexOf((value as ASTAnonymous).value)
+            }
+        }
+    }
+
+    public class ASTPathEltOrInverse : IASTBase {
+        public var negated: Boolean = false
+        public var variable1: ASTPathElt? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPathEltOrInverse\"")
+            res.add("\"negated\": $negated")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> negated = true
+                1 -> variable1 = value as ASTPathElt
+            }
+        }
+    }
+
+    public sealed interface ASTPathPrimary : IASTBase
+
+    public class ASTListOfPathOneInPropertySet : IASTBase {
+        public val value: MutableList<ASTPathOneInPropertySet> = mutableListOf<ASTPathOneInPropertySet>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTPathOneInPropertySet)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfPathOneInPropertySet\",\"value\":$value}"
+    }
+
+    public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet : IASTBase {
+        public var variable0: ASTPathOneInPropertySet? = null
+        public var variable1: ASTListOfPathOneInPropertySet? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTPathOneInPropertySet
+                1 -> variable1 = value as ASTListOfPathOneInPropertySet
+            }
+        }
+    }
+
+    public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional : ASTPathNegatedPropertySet, IASTBase {
+        public var variable0: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet
+        }
+    }
+
+    public sealed interface ASTPathNegatedPropertySet : ASTPathPrimary, IASTBase
+
+    public sealed interface ASTInterfaceOfiriOrRDFType
+
+    public class ASTPathOneInPropertySet : ASTPathNegatedPropertySet, IASTBase {
+        public var negated: Boolean = false
+        public var variable1: ASTInterfaceOfiriOrRDFType? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPathOneInPropertySet\"")
+            res.add("\"negated\": $negated")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> negated = true
+                1 -> variable1 = value as ASTInterfaceOfiriOrRDFType
+            }
+        }
+    }
+
+    public class ASTInteger : IASTBase {
+        public var INTEGER: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInteger\"")
+            res.add("\"INTEGER\" : \"${INTEGER}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER = value as String
+        }
+    }
+
+    public sealed interface ASTTriplesNode : ASTGraphNode, IASTBase
+
+    public class ASTBlankNodePropertyList : ASTTriplesNode, IASTBase {
+        public var variable0: ASTPropertyListNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBlankNodePropertyList\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyListNotEmpty
+        }
+    }
+
+    public sealed interface ASTTriplesNodePath : ASTGraphNodePath, IASTBase
+
+    public class ASTBlankNodePropertyListPath : ASTTriplesNodePath, IASTBase {
+        public var variable0: ASTPropertyListPathNotEmpty? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBlankNodePropertyListPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPropertyListPathNotEmpty
+        }
+    }
+
+    public class ASTListOfGraphNode : IASTBase {
+        public val value: MutableList<ASTGraphNode> = mutableListOf<ASTGraphNode>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTGraphNode)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfGraphNode\",\"value\":$value}"
+    }
+
+    public class ASTCollection : ASTTriplesNode, IASTBase {
+        public var variable0: ASTListOfGraphNode? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTCollection\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTListOfGraphNode
+        }
+    }
+
+    public class ASTListOfGraphNodePath : IASTBase {
+        public val value: MutableList<ASTGraphNodePath> = mutableListOf<ASTGraphNodePath>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTGraphNodePath)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfGraphNodePath\",\"value\":$value}"
+    }
+
+    public class ASTCollectionPath : ASTTriplesNodePath, IASTBase {
+        public var variable0: ASTListOfGraphNodePath? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTCollectionPath\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTListOfGraphNodePath
+        }
+    }
+
+    public sealed interface ASTGraphNode : IASTBase
+
+    public sealed interface ASTGraphNodePath : IASTBase
+
+    public sealed interface ASTVarOrTerm : ASTGraphNode, ASTGraphNodePath, IASTBase
+
+    public sealed interface ASTVarOrIri : ASTVerb, IASTBase
+
+    public sealed interface ASTVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, ASTGroupCondition, ASTInterfaceOfConstraintOrVar, ASTVarOrTerm, ASTVarOrIri, ASTPrimaryExpression, IASTBase
+
+    public class ASTVar1 : ASTVar, IASTBase {
+        public var VAR1: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTVar1\"")
+            res.add("\"VAR1\" : \"${VAR1}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            VAR1 = value as String
+        }
+    }
+
+    public class ASTVar2 : ASTVar, IASTBase {
+        public var VAR2: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTVar2\"")
+            res.add("\"VAR2\" : \"${VAR2}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            VAR2 = value as String
+        }
+    }
+
+    public sealed interface ASTGraphTerm : ASTVarOrTerm, IASTBase
+
+    public class ASTExpression : ASTInterfaceOfExpressionOrNILParam, ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
+        public var variable0: ASTConditionalOrExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTExpression\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTConditionalOrExpression
+        }
+    }
+
+    public class ASTListOfConditionalAndExpression : IASTBase {
+        public val value: MutableList<ASTConditionalAndExpression> = mutableListOf<ASTConditionalAndExpression>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTConditionalAndExpression)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfConditionalAndExpression\",\"value\":$value}"
+    }
+
+    public class ASTConditionalOrExpression : IASTBase {
+        public var variable0: ASTConditionalAndExpression? = null
+        public var variable1: ASTListOfConditionalAndExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConditionalOrExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTConditionalAndExpression
+                1 -> variable1 = value as ASTListOfConditionalAndExpression
+            }
+        }
+    }
+
+    public class ASTListOfValueLogical : IASTBase {
+        public val value: MutableList<ASTValueLogical> = mutableListOf<ASTValueLogical>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTValueLogical)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfValueLogical\",\"value\":$value}"
+    }
+
+    public class ASTConditionalAndExpression : IASTBase {
+        public var variable0: ASTValueLogical? = null
+        public var variable1: ASTListOfValueLogical? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTConditionalAndExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTValueLogical
+                1 -> variable1 = value as ASTListOfValueLogical
+            }
+        }
+    }
+
+    public class ASTValueLogical : IASTBase {
+        public var variable0: ASTRelationalExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTValueLogical\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTRelationalExpression
+        }
+    }
+
+    public sealed interface ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN
+
+    public class ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional : IASTBase {
+        public var variable0: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN
+        }
+    }
+
+    public class ASTRelationalExpression : IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        public var variable1: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTNumericExpression
+                1 -> variable1 = value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional
+            }
+        }
+    }
+
+    public class ASTRelationalExpressionEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionEQ\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionNEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionNEQ\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionLT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionLT\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionGT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionGT\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionLEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionLEQ\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionGEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTNumericExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionGEQ\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNumericExpression
+        }
+    }
+
+    public class ASTRelationalExpressionIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTExpressionList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionIN\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpressionList
+        }
+    }
+
+    public class ASTRelationalExpressionNOTIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+        public var variable0: ASTExpressionList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRelationalExpressionNOTIN\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpressionList
+        }
+    }
+
+    public class ASTNumericExpression : IASTBase {
+        public var variable0: ASTAdditiveExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericExpression\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTAdditiveExpression
+        }
+    }
+
+    public sealed interface ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
+
+    public sealed interface ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
+
+    public class ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
+        public val value: MutableList<ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE> = mutableListOf<ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":$value}"
+    }
+
+    public class ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+        public var variable0: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative? = null
+        public var variable1: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
+                1 -> variable1 = value as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
+
+    public class ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
+        public val value: MutableList<ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE> = mutableListOf<ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":$value}"
+    }
+
+    public class ASTAdditiveExpression : IASTBase {
+        public var variable0: ASTMultiplicativeExpression? = null
+        public var variable1: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdditiveExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTMultiplicativeExpression
+                1 -> variable1 = value as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
+            }
+        }
+    }
+
+    public class ASTAdditiveExpressionPLUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+        public var variable0: ASTMultiplicativeExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdditiveExpressionPLUS\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTMultiplicativeExpression
+        }
+    }
+
+    public class ASTAdditiveExpressionMINUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+        public var variable0: ASTMultiplicativeExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdditiveExpressionMINUS\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTMultiplicativeExpression
+        }
+    }
+
+    public class ASTAdditiveExpressionMULTIPLY : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+        public var variable0: ASTUnaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdditiveExpressionMULTIPLY\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTUnaryExpression
+        }
+    }
+
+    public class ASTAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+        public var variable0: ASTUnaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAdditiveExpressionDIVIDE\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTUnaryExpression
+        }
+    }
+
+    public sealed interface ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE
+
+    public class ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE : IASTBase {
+        public val value: MutableList<ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE> = mutableListOf<ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE>()
+        override fun astAssign(childID: Int, value: Any) {
+            this.value.add(value as ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE)
+        }
+        override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE\",\"value\":$value}"
+    }
+
+    public class ASTMultiplicativeExpression : IASTBase {
+        public var variable0: ASTUnaryExpression? = null
+        public var variable1: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTMultiplicativeExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTUnaryExpression
+                1 -> variable1 = value as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE
+            }
+        }
+    }
+
+    public class ASTMultiplicativeExpressionMULTIPLY : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
+        public var variable0: ASTUnaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTMultiplicativeExpressionMULTIPLY\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTUnaryExpression
+        }
+    }
+
+    public class ASTMultiplicativeExpressionDIVIDE : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
+        public var variable0: ASTUnaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTMultiplicativeExpressionDIVIDE\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTUnaryExpression
+        }
+    }
+
+    public sealed interface ASTUnaryExpression : IASTBase
+
+    public class ASTUnaryExpressionNOT : ASTUnaryExpression, IASTBase {
+        public var variable0: ASTPrimaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUnaryExpressionNOT\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPrimaryExpression
+        }
+    }
+
+    public class ASTUnaryExpressionPLUS : ASTUnaryExpression, IASTBase {
+        public var variable0: ASTPrimaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUnaryExpressionPLUS\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPrimaryExpression
+        }
+    }
+
+    public class ASTUnaryExpressionMINUS : ASTUnaryExpression, IASTBase {
+        public var variable0: ASTPrimaryExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTUnaryExpressionMINUS\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTPrimaryExpression
+        }
+    }
+
+    public sealed interface ASTPrimaryExpression : ASTUnaryExpression, IASTBase
+
+    public class ASTBrackettedExpression : ASTConstraint, ASTPrimaryExpression, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBrackettedExpression\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public sealed interface ASTBuiltInCall : ASTGroupCondition, ASTConstraint, ASTPrimaryExpression, IASTBase
+
+    public class ASTBuiltInCallYear : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallYear\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallMonth : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallMonth\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallHours : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallHours\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallNow : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallNow\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNILParam
+        }
+    }
+
+    public class ASTBuiltInCallSameTerm : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSameTerm\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallIsIri : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIsIri\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallIsBlanc : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIsBlanc\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallIsLiteral : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIsLiteral\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallMD5 : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallMD5\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallUUID : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallUUID\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNILParam
+        }
+    }
+
+    public class ASTBuiltInCallSTRUUID : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSTRUUID\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNILParam
+        }
+    }
+
+    public class ASTBuiltInCallSHA1 : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA1\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallSHA384 : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA384\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallSHA512 : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA512\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallCoalesce : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpressionList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallCoalesce\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpressionList
+        }
+    }
+
+    public class ASTBuiltInCallIf : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIf\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallStrLang : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrLang\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallIsUri : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIsUri\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallMinutes : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallMinutes\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallSHA256 : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSHA256\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallStrDt : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrDt\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallIsNumeric : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIsNumeric\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallSeconds : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallSeconds\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallTimezone : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallTimezone\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallTz : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallTz\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallConcat : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpressionList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallConcat\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpressionList
+        }
+    }
+
+    public class ASTBuiltInCallStrLen : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrLen\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallUCase : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallUCase\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallStrBefore : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrBefore\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallStrAfter : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrAfter\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallEncodeForUri : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallEncodeForUri\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallContains : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallContains\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallStrStarts : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrStarts\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallStrEnds : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStrEnds\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallDay : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallDay\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallStr : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallStr\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallLang : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallLang\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuildInCallLangMatches : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuildInCallLangMatches\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTBuiltInCallDataType : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallDataType\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallBound : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTVar? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallBound\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTVar
+        }
+    }
+
+    public class ASTBuiltInCallIri : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallIri\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallUri : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallUri\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public sealed interface ASTInterfaceOfExpressionOrNILParam
+
+    public class ASTBuiltInCallBNode : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTInterfaceOfExpressionOrNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallBNode\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfExpressionOrNILParam
+        }
+    }
+
+    public class ASTBuiltInCallRand : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTNILParam? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallRand\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTNILParam
+        }
+    }
+
+    public class ASTBuiltInCallAbs : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallAbs\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallCeil : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallCeil\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallLCase : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallLCase\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallFloor : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallFloor\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTBuiltInCallRound : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBuiltInCallRound\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTExpressionOptional : IASTBase {
+        public var variable0: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTExpressionOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTExpression
+        }
+    }
+
+    public class ASTRegexExpression : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTExpressionOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRegexExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTExpressionOptional
+            }
+        }
+    }
+
+    public class ASTSubstringExpression : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTExpressionOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTSubstringExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTExpressionOptional
+            }
+        }
+    }
+
+    public class ASTStrReplaceExpression : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTExpression? = null
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTExpression? = null
+        public var variable3: ASTExpressionOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTStrReplaceExpression\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            res.add("\"variable3\" : $variable3")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTExpression
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTExpression
+                3 -> variable3 = value as ASTExpressionOptional
+            }
+        }
+    }
+
+    public class ASTExistsFunc : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTExistsFunc\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGroupGraphPattern
+        }
+    }
+
+    public class ASTNotExistsFunc : ASTBuiltInCall, IASTBase {
+        public var variable0: ASTGroupGraphPattern? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNotExistsFunc\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTGroupGraphPattern
+        }
+    }
+
+    public sealed interface ASTAggregate : ASTBuiltInCall, IASTBase
+
+    public class ASTAggregateAvg : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateAvg\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfAggregateCountAllOrExpression
+
+    public class ASTAggregateCount : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTInterfaceOfAggregateCountAllOrExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateCount\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTInterfaceOfAggregateCountAllOrExpression
+            }
+        }
+    }
+
+    public class ASTAggregateCountAll : ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateCountAll\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTAggregateSum : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateSum\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTAggregateMin : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateMin\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTAggregateMax : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateMax\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTAggregateSample : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateSample\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+            }
+        }
+    }
+
+    public class ASTStringOptional : IASTBase {
+        public var variable0: ASTString? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTStringOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTString
+        }
+    }
+
+    public class ASTAggregateGroupConcat : ASTAggregate, IASTBase {
+        public var DISTINCT: Boolean = false
+        public var variable1: ASTExpression? = null
+        public var variable2: ASTStringOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTAggregateGroupConcat\"")
+            res.add("\"DISTINCT\": $DISTINCT")
+            res.add("\"variable1\" : $variable1")
+            res.add("\"variable2\" : $variable2")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> DISTINCT = true
+                1 -> variable1 = value as ASTExpression
+                2 -> variable2 = value as ASTStringOptional
+            }
+        }
+    }
+
+    public class ASTArgListOptional : IASTBase {
+        public var variable0: ASTArgList? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTArgListOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTArgList
+        }
+    }
+
+    public class ASTiriOrFunction : ASTPrimaryExpression, IASTBase {
+        public var variable0: ASTiri? = null
+        public var variable1: ASTArgListOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTiriOrFunction\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTiri
+                1 -> variable1 = value as ASTArgListOptional
+            }
+        }
+    }
+
+    public sealed interface ASTInterfaceOfRDFLiteralLangOriri
+
+    public class ASTInterfaceOfRDFLiteralLangOririOptional : IASTBase {
+        public var variable0: ASTInterfaceOfRDFLiteralLangOriri? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTInterfaceOfRDFLiteralLangOririOptional\"")
+            res.add("\"variable0\" : $variable0")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            variable0 = value as ASTInterfaceOfRDFLiteralLangOriri
+        }
+    }
+
+    public class ASTRDFLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase {
+        public var variable0: ASTString? = null
+        public var variable1: ASTInterfaceOfRDFLiteralLangOririOptional? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRDFLiteral\"")
+            res.add("\"variable0\" : $variable0")
+            res.add("\"variable1\" : $variable1")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            when (childID) {
+                0 -> variable0 = value as ASTString
+                1 -> variable1 = value as ASTInterfaceOfRDFLiteralLangOririOptional
+            }
+        }
+    }
+
+    public class ASTRDFLiteralLang : ASTInterfaceOfRDFLiteralLangOriri, IASTBase {
+        public var LANGTAG: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTRDFLiteralLang\"")
+            res.add("\"LANGTAG\" : \"${LANGTAG}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            LANGTAG = value as String
+        }
+    }
+
+    public sealed interface ASTNumericLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
+
+    public sealed interface ASTNumericLiteralUnsigned : ASTNumericLiteral, IASTBase
+
+    public class ASTNumericLiteralUnsignedInteger : ASTNumericLiteralUnsigned, IASTBase {
+        public var INTEGER: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedInteger\"")
+            res.add("\"INTEGER\" : \"${INTEGER}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER = value as String
+        }
+    }
+
+    public class ASTNumericLiteralUnsignedDecimal : ASTNumericLiteralUnsigned, IASTBase {
+        public var DECIMAL: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedDecimal\"")
+            res.add("\"DECIMAL\" : \"${DECIMAL}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DECIMAL = value as String
+        }
+    }
+
+    public class ASTNumericLiteralUnsignedDouble : ASTNumericLiteralUnsigned, IASTBase {
+        public var DOUBLE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralUnsignedDouble\"")
+            res.add("\"DOUBLE\" : \"${DOUBLE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DOUBLE = value as String
+        }
+    }
+
+    public sealed interface ASTNumericLiteralPositive : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
+
+    public class ASTNumericLiteralPositiveInteger : ASTNumericLiteralPositive, IASTBase {
+        public var INTEGER_POSITIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveInteger\"")
+            res.add("\"INTEGER_POSITIVE\" : \"${INTEGER_POSITIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER_POSITIVE = value as String
+        }
+    }
+
+    public class ASTNumericLiteralPositiveDecimal : ASTNumericLiteralPositive, IASTBase {
+        public var DECIMAL_POSITIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveDecimal\"")
+            res.add("\"DECIMAL_POSITIVE\" : \"${DECIMAL_POSITIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DECIMAL_POSITIVE = value as String
+        }
+    }
+
+    public class ASTNumericLiteralPositiveDouble : ASTNumericLiteralPositive, IASTBase {
+        public var DOUBLE_POSITIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralPositiveDouble\"")
+            res.add("\"DOUBLE_POSITIVE\" : \"${DOUBLE_POSITIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DOUBLE_POSITIVE = value as String
+        }
+    }
+
+    public sealed interface ASTNumericLiteralNegative : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
+
+    public class ASTNumericLiteralNegativeInteger : ASTNumericLiteralNegative, IASTBase {
+        public var INTEGER_NEGATIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeInteger\"")
+            res.add("\"INTEGER_NEGATIVE\" : \"${INTEGER_NEGATIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            INTEGER_NEGATIVE = value as String
+        }
+    }
+
+    public class ASTNumericLiteralNegativeDecimal : ASTNumericLiteralNegative, IASTBase {
+        public var DECIMAL_NEGATIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeDecimal\"")
+            res.add("\"DECIMAL_NEGATIVE\" : \"${DECIMAL_NEGATIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DECIMAL_NEGATIVE = value as String
+        }
+    }
+
+    public class ASTNumericLiteralNegativeDouble : ASTNumericLiteralNegative, IASTBase {
+        public var DOUBLE_NEGATIVE: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNumericLiteralNegativeDouble\"")
+            res.add("\"DOUBLE_NEGATIVE\" : \"${DOUBLE_NEGATIVE}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            DOUBLE_NEGATIVE = value as String
+        }
+    }
+
+    public sealed interface ASTBooleanLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
+
+    public class ASTBooleanLiteralTrue : ASTBooleanLiteral, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBooleanLiteralTrue\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public class ASTBooleanLiteralFalse : ASTBooleanLiteral, IASTBase {
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBooleanLiteralFalse\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+        }
+    }
+
+    public sealed interface ASTString : IASTBase
+
+    public class ASTString1 : ASTString, IASTBase {
+        public var STRING_LITERAL1: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTString1\"")
+            res.add("\"STRING_LITERAL1\" : \"${STRING_LITERAL1}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            STRING_LITERAL1 = value as String
+        }
+    }
+
+    public class ASTString2 : ASTString, IASTBase {
+        public var STRING_LITERAL2: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTString2\"")
+            res.add("\"STRING_LITERAL2\" : \"${STRING_LITERAL2}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            STRING_LITERAL2 = value as String
+        }
+    }
+
+    public class ASTString1long : ASTString, IASTBase {
+        public var STRING_LITERAL_LONG1: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTString1long\"")
+            res.add("\"STRING_LITERAL_LONG1\" : \"${STRING_LITERAL_LONG1}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            STRING_LITERAL_LONG1 = value as String
+        }
+    }
+
+    public class ASTString2long : ASTString, IASTBase {
+        public var STRING_LITERAL_LONG2: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTString2long\"")
+            res.add("\"STRING_LITERAL_LONG2\" : \"${STRING_LITERAL_LONG2}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            STRING_LITERAL_LONG2 = value as String
+        }
+    }
+
+    public sealed interface ASTiri : ASTDataBlockValue, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, ASTVarOrIri, ASTGraphTerm, ASTInterfaceOfRDFLiteralLangOriri, IASTBase
+
+    public class ASTiriRef : ASTiri, IASTBase {
+        public var IRIREF: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTiriRef\"")
+            res.add("\"IRIREF\" : \"${IRIREF}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            IRIREF = value as String
+        }
+    }
+
+    public sealed interface ASTPrefixedName : ASTiri, IASTBase
+
+    public class ASTPrefixedNameLN : ASTPrefixedName, IASTBase {
+        public var PNAME_LN: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPrefixedNameLN\"")
+            res.add("\"PNAME_LN\" : \"${PNAME_LN}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            PNAME_LN = value as String
+        }
+    }
+
+    public class ASTPrefixedNameNS : ASTPrefixedName, IASTBase {
+        public var PNAME_NS: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTPrefixedNameNS\"")
+            res.add("\"PNAME_NS\" : \"${PNAME_NS}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            PNAME_NS = value as String
+        }
+    }
+
+    public sealed interface ASTBlankNode : ASTGraphTerm, IASTBase
+
+    public class ASTBlankNodeLabel : ASTBlankNode, IASTBase {
+        public var BLANK_NODE_LABEL: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBlankNodeLabel\"")
+            res.add("\"BLANK_NODE_LABEL\" : \"${BLANK_NODE_LABEL}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            BLANK_NODE_LABEL = value as String
+        }
+    }
+
+    public class ASTBlankNodeANON : ASTBlankNode, IASTBase {
+        public var ANON: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTBlankNodeANON\"")
+            res.add("\"ANON\" : \"${ANON}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            ANON = value as String
+        }
+    }
+
+    public class ASTNILParam : ASTInterfaceOfNILParamOrListOfVar, ASTInterfaceOfListOfDataBlockValueOrNILParam, ASTArgList, ASTExpressionList, ASTGraphTerm, ASTInterfaceOfExpressionOrNILParam, IASTBase {
+        public var NIL: String? = null
+        override fun toString(): String {
+            val res = mutableListOf<String>("\"type\":\"ASTNILParam\"")
+            res.add("\"NIL\" : \"${NIL}\"")
+            return "{${res.joinToString()}}"
+        }
+        override fun astAssign(childID: Int, value: Any) {
+            NIL = value as String
+        }
+    }
+
+    public sealed interface IASTBase {
+        public abstract fun astAssign(childID: Int, value: Any)
+    }
+
+    public fun getResult(): IASTBase {
+        return stack[0] as IASTBase
+    }
+
+    internal var parsererror: String? = null
     internal val stack: MutableList<Any> = mutableListOf()
     internal var bufferDefinedDataSize: Int = 0
     internal var bufferDefinedPosition: Int = 0
@@ -3997,12 +3997,10 @@ internal var parsererror: String? = null
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-
     }
-public fun close() {
-    bufferDefinedInputStream.close()
-
-}
+    public fun close() {
+        bufferDefinedInputStream.close()
+    }
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 162
@@ -31034,13 +31032,13 @@ public fun close() {
             return -1
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int): Unit {
+    private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 4)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
+    private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -35601,7 +35599,7 @@ public fun close() {
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -35638,7 +35636,7 @@ public fun close() {
                 return 7
             }
             else -> {
-                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35671,7 +35669,7 @@ public fun close() {
                 return 17
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 6, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 6, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -35693,7 +35691,7 @@ public fun close() {
                 return 18
             }
             else -> {
-                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35710,7 +35708,7 @@ public fun close() {
                 return 19
             }
             else -> {
-                parsererror = "found token ${currentToken14} unexpectedly in node 14, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken14 unexpectedly in node 14, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35730,7 +35728,7 @@ public fun close() {
                 return 26
             }
             else -> {
-                parsererror = "found token ${currentToken15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35761,7 +35759,7 @@ public fun close() {
                 return 28
             }
             else -> {
-                parsererror = "found token ${currentToken18} unexpectedly in node 18, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken18 unexpectedly in node 18, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35780,7 +35778,7 @@ public fun close() {
                 return 29
             }
             else -> {
-                parsererror = "found token ${currentToken19} unexpectedly in node 19, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35804,7 +35802,7 @@ public fun close() {
                 return 33
             }
             else -> {
-                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35824,7 +35822,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken26} unexpectedly in node 26, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken26 unexpectedly in node 26, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35843,7 +35841,7 @@ public fun close() {
                 return 37
             }
             else -> {
-                parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken27 unexpectedly in node 27, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35867,7 +35865,7 @@ public fun close() {
                 return 49
             }
             else -> {
-                parsererror = "found token ${currentToken29} unexpectedly in node 29, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken29 unexpectedly in node 29, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35915,7 +35913,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -35937,7 +35935,7 @@ public fun close() {
                 return 55
             }
             else -> {
-                parsererror = "found token ${currentToken45} unexpectedly in node 45, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken45 unexpectedly in node 45, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35970,7 +35968,7 @@ public fun close() {
                 return 57
             }
             else -> {
-                parsererror = "found token ${currentToken51} unexpectedly in node 51, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken51 unexpectedly in node 51, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -35987,7 +35985,7 @@ public fun close() {
                 return 58
             }
             else -> {
-                parsererror = "found token ${currentToken52} unexpectedly in node 52, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken52 unexpectedly in node 52, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36005,7 +36003,7 @@ public fun close() {
                 return 76
             }
             else -> {
-                parsererror = "found token ${currentToken53} unexpectedly in node 53, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken53 unexpectedly in node 53, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36050,7 +36048,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36074,7 +36072,7 @@ public fun close() {
                 return 90
             }
             else -> {
-                parsererror = "found token ${currentToken57} unexpectedly in node 57, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken57 unexpectedly in node 57, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36093,7 +36091,7 @@ public fun close() {
                 return 75
             }
             else -> {
-                parsererror = "found token ${currentToken58} unexpectedly in node 58, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken58 unexpectedly in node 58, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36157,7 +36155,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken67} unexpectedly in node 67, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken67 unexpectedly in node 67, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36179,7 +36177,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken68} unexpectedly in node 68, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken68 unexpectedly in node 68, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36209,7 +36207,7 @@ public fun close() {
                 return 88
             }
             else -> {
-                parsererror = "found token ${currentToken71} unexpectedly in node 71, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken71 unexpectedly in node 71, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36233,7 +36231,7 @@ public fun close() {
                 return 116
             }
             else -> {
-                parsererror = "found token ${currentToken76} unexpectedly in node 76, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken76 unexpectedly in node 76, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36270,7 +36268,7 @@ public fun close() {
                 return 109
             }
             else -> {
-                parsererror = "found token ${currentToken88} unexpectedly in node 88, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken88 unexpectedly in node 88, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36295,7 +36293,7 @@ public fun close() {
                 return 134
             }
             else -> {
-                parsererror = "found token ${currentToken90} unexpectedly in node 90, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken90 unexpectedly in node 90, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36318,7 +36316,7 @@ public fun close() {
                 return 137
             }
             else -> {
-                parsererror = "found token ${currentToken92} unexpectedly in node 92, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken92 unexpectedly in node 92, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36341,7 +36339,7 @@ public fun close() {
                 return 117
             }
             else -> {
-                parsererror = "found token ${currentToken95} unexpectedly in node 95, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken95 unexpectedly in node 95, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36358,7 +36356,7 @@ public fun close() {
                 return 118
             }
             else -> {
-                parsererror = "found token ${currentToken96} unexpectedly in node 96, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken96 unexpectedly in node 96, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36375,7 +36373,7 @@ public fun close() {
                 return 119
             }
             else -> {
-                parsererror = "found token ${currentToken97} unexpectedly in node 97, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken97 unexpectedly in node 97, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36392,7 +36390,7 @@ public fun close() {
                 return 120
             }
             else -> {
-                parsererror = "found token ${currentToken98} unexpectedly in node 98, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken98 unexpectedly in node 98, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36409,7 +36407,7 @@ public fun close() {
                 return 121
             }
             else -> {
-                parsererror = "found token ${currentToken99} unexpectedly in node 99, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken99 unexpectedly in node 99, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36426,7 +36424,7 @@ public fun close() {
                 return 122
             }
             else -> {
-                parsererror = "found token ${currentToken100} unexpectedly in node 100, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken100 unexpectedly in node 100, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36443,7 +36441,7 @@ public fun close() {
                 return 123
             }
             else -> {
-                parsererror = "found token ${currentToken101} unexpectedly in node 101, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken101 unexpectedly in node 101, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36460,7 +36458,7 @@ public fun close() {
                 return 126
             }
             else -> {
-                parsererror = "found token ${currentToken104} unexpectedly in node 104, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken104 unexpectedly in node 104, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36479,7 +36477,7 @@ public fun close() {
                 return 158
             }
             else -> {
-                parsererror = "found token ${currentToken105} unexpectedly in node 105, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken105 unexpectedly in node 105, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36498,7 +36496,7 @@ public fun close() {
                 return 159
             }
             else -> {
-                parsererror = "found token ${currentToken106} unexpectedly in node 106, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken106 unexpectedly in node 106, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36517,7 +36515,7 @@ public fun close() {
                 return 159
             }
             else -> {
-                parsererror = "found token ${currentToken107} unexpectedly in node 107, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken107 unexpectedly in node 107, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36546,7 +36544,7 @@ public fun close() {
                 return 136
             }
             else -> {
-                parsererror = "found token ${currentToken113} unexpectedly in node 113, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken113 unexpectedly in node 113, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36570,7 +36568,7 @@ public fun close() {
                 return 141
             }
             else -> {
-                parsererror = "found token ${currentToken117} unexpectedly in node 117, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken117 unexpectedly in node 117, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36588,7 +36586,7 @@ public fun close() {
                 return 143
             }
             else -> {
-                parsererror = "found token ${currentToken118} unexpectedly in node 118, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken118 unexpectedly in node 118, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36606,7 +36604,7 @@ public fun close() {
                 return 145
             }
             else -> {
-                parsererror = "found token ${currentToken119} unexpectedly in node 119, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken119 unexpectedly in node 119, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36624,7 +36622,7 @@ public fun close() {
                 return 147
             }
             else -> {
-                parsererror = "found token ${currentToken120} unexpectedly in node 120, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken120 unexpectedly in node 120, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36642,7 +36640,7 @@ public fun close() {
                 return 149
             }
             else -> {
-                parsererror = "found token ${currentToken121} unexpectedly in node 121, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken121 unexpectedly in node 121, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36660,7 +36658,7 @@ public fun close() {
                 return 151
             }
             else -> {
-                parsererror = "found token ${currentToken122} unexpectedly in node 122, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken122 unexpectedly in node 122, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36678,7 +36676,7 @@ public fun close() {
                 return 153
             }
             else -> {
-                parsererror = "found token ${currentToken123} unexpectedly in node 123, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken123 unexpectedly in node 123, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36695,7 +36693,7 @@ public fun close() {
                 return 154
             }
             else -> {
-                parsererror = "found token ${currentToken124} unexpectedly in node 124, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken124 unexpectedly in node 124, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36712,7 +36710,7 @@ public fun close() {
                 return 155
             }
             else -> {
-                parsererror = "found token ${currentToken125} unexpectedly in node 125, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken125 unexpectedly in node 125, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36735,7 +36733,7 @@ public fun close() {
                 return 157
             }
             else -> {
-                parsererror = "found token ${currentToken127} unexpectedly in node 127, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken127 unexpectedly in node 127, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36754,7 +36752,7 @@ public fun close() {
                 return 185
             }
             else -> {
-                parsererror = "found token ${currentToken131} unexpectedly in node 131, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken131 unexpectedly in node 131, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36772,7 +36770,7 @@ public fun close() {
                 return 186
             }
             else -> {
-                parsererror = "found token ${currentToken132} unexpectedly in node 132, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken132 unexpectedly in node 132, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36790,7 +36788,7 @@ public fun close() {
                 return 187
             }
             else -> {
-                parsererror = "found token ${currentToken133} unexpectedly in node 133, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken133 unexpectedly in node 133, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36807,7 +36805,7 @@ public fun close() {
                 return 164
             }
             else -> {
-                parsererror = "found token ${currentToken134} unexpectedly in node 134, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken134 unexpectedly in node 134, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36840,7 +36838,7 @@ public fun close() {
                 return 168
             }
             else -> {
-                parsererror = "found token ${currentToken138} unexpectedly in node 138, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken138 unexpectedly in node 138, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36859,7 +36857,7 @@ public fun close() {
                 return 141
             }
             else -> {
-                parsererror = "found token ${currentToken140} unexpectedly in node 140, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken140 unexpectedly in node 140, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36883,7 +36881,7 @@ public fun close() {
                 return 143
             }
             else -> {
-                parsererror = "found token ${currentToken142} unexpectedly in node 142, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken142 unexpectedly in node 142, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36907,7 +36905,7 @@ public fun close() {
                 return 145
             }
             else -> {
-                parsererror = "found token ${currentToken144} unexpectedly in node 144, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken144 unexpectedly in node 144, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36931,7 +36929,7 @@ public fun close() {
                 return 147
             }
             else -> {
-                parsererror = "found token ${currentToken146} unexpectedly in node 146, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken146 unexpectedly in node 146, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36955,7 +36953,7 @@ public fun close() {
                 return 149
             }
             else -> {
-                parsererror = "found token ${currentToken148} unexpectedly in node 148, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken148 unexpectedly in node 148, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -36979,7 +36977,7 @@ public fun close() {
                 return 151
             }
             else -> {
-                parsererror = "found token ${currentToken150} unexpectedly in node 150, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken150 unexpectedly in node 150, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37003,7 +37001,7 @@ public fun close() {
                 return 153
             }
             else -> {
-                parsererror = "found token ${currentToken152} unexpectedly in node 152, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken152 unexpectedly in node 152, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37026,7 +37024,7 @@ public fun close() {
                 return 180
             }
             else -> {
-                parsererror = "found token ${currentToken154} unexpectedly in node 154, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken154 unexpectedly in node 154, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37043,7 +37041,7 @@ public fun close() {
                 return 181
             }
             else -> {
-                parsererror = "found token ${currentToken155} unexpectedly in node 155, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken155 unexpectedly in node 155, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37067,7 +37065,7 @@ public fun close() {
                 return 184
             }
             else -> {
-                parsererror = "found token ${currentToken158} unexpectedly in node 158, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken158 unexpectedly in node 158, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37086,7 +37084,7 @@ public fun close() {
                 return 109
             }
             else -> {
-                parsererror = "found token ${currentToken159} unexpectedly in node 159, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken159 unexpectedly in node 159, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37115,7 +37113,7 @@ public fun close() {
                 return 190
             }
             else -> {
-                parsererror = "found token ${currentToken165} unexpectedly in node 165, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken165 unexpectedly in node 165, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37133,7 +37131,7 @@ public fun close() {
                 return 192
             }
             else -> {
-                parsererror = "found token ${currentToken166} unexpectedly in node 166, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken166 unexpectedly in node 166, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37151,7 +37149,7 @@ public fun close() {
                 return 195
             }
             else -> {
-                parsererror = "found token ${currentToken168} unexpectedly in node 168, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken168 unexpectedly in node 168, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37169,7 +37167,7 @@ public fun close() {
                 return 197
             }
             else -> {
-                parsererror = "found token ${currentToken169} unexpectedly in node 169, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken169 unexpectedly in node 169, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37193,7 +37191,7 @@ public fun close() {
                 return 201
             }
             else -> {
-                parsererror = "found token ${currentToken172} unexpectedly in node 172, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken172 unexpectedly in node 172, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37212,7 +37210,7 @@ public fun close() {
                 return 226
             }
             else -> {
-                parsererror = "found token ${currentToken175} unexpectedly in node 175, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken175 unexpectedly in node 175, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37241,7 +37239,7 @@ public fun close() {
                 return 206
             }
             else -> {
-                parsererror = "found token ${currentToken182} unexpectedly in node 182, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken182 unexpectedly in node 182, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37264,7 +37262,7 @@ public fun close() {
                 return 209
             }
             else -> {
-                parsererror = "found token ${currentToken185} unexpectedly in node 185, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken185 unexpectedly in node 185, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37288,7 +37286,7 @@ public fun close() {
                 return 235
             }
             else -> {
-                parsererror = "found token ${currentToken187} unexpectedly in node 187, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken187 unexpectedly in node 187, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37331,7 +37329,7 @@ public fun close() {
                 return 242
             }
             else -> {
-                parsererror = "found token ${currentToken193} unexpectedly in node 193, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken193 unexpectedly in node 193, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37362,7 +37360,7 @@ public fun close() {
                 return 197
             }
             else -> {
-                parsererror = "found token ${currentToken196} unexpectedly in node 196, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken196 unexpectedly in node 196, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37411,7 +37409,7 @@ public fun close() {
                 return 227
             }
             else -> {
-                parsererror = "found token ${currentToken204} unexpectedly in node 204, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken204 unexpectedly in node 204, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37453,7 +37451,7 @@ public fun close() {
                 return 236
             }
             else -> {
-                parsererror = "found token ${currentToken213} unexpectedly in node 213, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken213 unexpectedly in node 213, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37471,7 +37469,7 @@ public fun close() {
                 return 241
             }
             else -> {
-                parsererror = "found token ${currentToken217} unexpectedly in node 217, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken217 unexpectedly in node 217, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37495,7 +37493,7 @@ public fun close() {
                 return 270
             }
             else -> {
-                parsererror = "found token ${currentToken223} unexpectedly in node 223, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken223 unexpectedly in node 223, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37513,7 +37511,7 @@ public fun close() {
                 return 271
             }
             else -> {
-                parsererror = "found token ${currentToken224} unexpectedly in node 224, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken224 unexpectedly in node 224, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37531,7 +37529,7 @@ public fun close() {
                 return 272
             }
             else -> {
-                parsererror = "found token ${currentToken225} unexpectedly in node 225, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken225 unexpectedly in node 225, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37549,7 +37547,7 @@ public fun close() {
                 return 249
             }
             else -> {
-                parsererror = "found token ${currentToken226} unexpectedly in node 226, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken226 unexpectedly in node 226, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37571,7 +37569,7 @@ public fun close() {
                 return 250
             }
             else -> {
-                parsererror = "found token ${currentToken228} unexpectedly in node 228, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken228 unexpectedly in node 228, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37588,7 +37586,7 @@ public fun close() {
                 return 253
             }
             else -> {
-                parsererror = "found token ${currentToken231} unexpectedly in node 231, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken231 unexpectedly in node 231, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37606,7 +37604,7 @@ public fun close() {
                 return 279
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 233, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 233, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -37623,7 +37621,7 @@ public fun close() {
                 return 258
             }
             else -> {
-                parsererror = "found token ${currentToken235} unexpectedly in node 235, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken235 unexpectedly in node 235, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37641,7 +37639,7 @@ public fun close() {
                 return 260
             }
             else -> {
-                parsererror = "found token ${currentToken236} unexpectedly in node 236, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken236 unexpectedly in node 236, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37660,7 +37658,7 @@ public fun close() {
                 return 284
             }
             else -> {
-                parsererror = "found token ${currentToken237} unexpectedly in node 237, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken237 unexpectedly in node 237, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37679,7 +37677,7 @@ public fun close() {
                 return 285
             }
             else -> {
-                parsererror = "found token ${currentToken238} unexpectedly in node 238, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken238 unexpectedly in node 238, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37698,7 +37696,7 @@ public fun close() {
                 return 286
             }
             else -> {
-                parsererror = "found token ${currentToken239} unexpectedly in node 239, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken239 unexpectedly in node 239, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37729,7 +37727,7 @@ public fun close() {
                 return 289
             }
             else -> {
-                parsererror = "found token ${currentToken242} unexpectedly in node 242, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken242 unexpectedly in node 242, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37752,7 +37750,7 @@ public fun close() {
                 return 269
             }
             else -> {
-                parsererror = "found token ${currentToken244} unexpectedly in node 244, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken244 unexpectedly in node 244, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37771,7 +37769,7 @@ public fun close() {
                 return 249
             }
             else -> {
-                parsererror = "found token ${currentToken248} unexpectedly in node 248, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken248 unexpectedly in node 248, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37803,7 +37801,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found token ${currentToken251} unexpectedly in node 251, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken251 unexpectedly in node 251, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37820,7 +37818,7 @@ public fun close() {
                 return 276
             }
             else -> {
-                parsererror = "found token ${currentToken252} unexpectedly in node 252, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken252 unexpectedly in node 252, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37883,7 +37881,7 @@ public fun close() {
                 return 292
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 270, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 270, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -37928,7 +37926,7 @@ public fun close() {
                 return 320
             }
             else -> {
-                parsererror = "found token ${currentToken279} unexpectedly in node 279, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken279 unexpectedly in node 279, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37948,7 +37946,7 @@ public fun close() {
                 return 322
             }
             else -> {
-                parsererror = "found token ${currentToken280} unexpectedly in node 280, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken280 unexpectedly in node 280, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37979,7 +37977,7 @@ public fun close() {
                 return 353
             }
             else -> {
-                parsererror = "found token ${currentToken287} unexpectedly in node 287, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken287 unexpectedly in node 287, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -37998,7 +37996,7 @@ public fun close() {
                 return 354
             }
             else -> {
-                parsererror = "found token ${currentToken288} unexpectedly in node 288, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken288 unexpectedly in node 288, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38027,7 +38025,7 @@ public fun close() {
                 return 357
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 291, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 291, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38060,7 +38058,7 @@ public fun close() {
                 return 363
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 292, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 292, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38080,7 +38078,7 @@ public fun close() {
                 return 365
             }
             else -> {
-                parsererror = "found token ${currentToken294} unexpectedly in node 294, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken294 unexpectedly in node 294, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38111,7 +38109,7 @@ public fun close() {
                 return 369
             }
             else -> {
-                parsererror = "found token ${currentToken300} unexpectedly in node 300, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken300 unexpectedly in node 300, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38137,7 +38135,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found token ${currentToken302} unexpectedly in node 302, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken302 unexpectedly in node 302, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38203,7 +38201,7 @@ public fun close() {
                 return 394
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 303, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 303, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38272,7 +38270,7 @@ public fun close() {
                 return 405
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 304, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 304, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38322,7 +38320,7 @@ public fun close() {
                 return 427
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 330, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 330, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38345,7 +38343,7 @@ public fun close() {
                 return 437
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 334, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 334, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38377,7 +38375,7 @@ public fun close() {
                 return 445
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 336, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 336, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38401,7 +38399,7 @@ public fun close() {
                 return 393
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 338, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 338, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38418,7 +38416,7 @@ public fun close() {
                 return 457
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 341, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 341, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38455,7 +38453,7 @@ public fun close() {
                 return 472
             }
             else -> {
-                parsererror = "found token ${currentToken355} unexpectedly in node 355, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken355 unexpectedly in node 355, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38480,7 +38478,7 @@ public fun close() {
                 return 410
             }
             else -> {
-                parsererror = "found token ${currentToken358} unexpectedly in node 358, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken358 unexpectedly in node 358, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38501,7 +38499,7 @@ public fun close() {
                 return 411
             }
             else -> {
-                parsererror = "found token ${currentToken360} unexpectedly in node 360, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken360 unexpectedly in node 360, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38522,7 +38520,7 @@ public fun close() {
                 return 412
             }
             else -> {
-                parsererror = "found token ${currentToken362} unexpectedly in node 362, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken362 unexpectedly in node 362, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38549,7 +38547,7 @@ public fun close() {
                 return 477
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 365, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 365, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38573,7 +38571,7 @@ public fun close() {
                 return 418
             }
             else -> {
-                parsererror = "found token ${currentToken367} unexpectedly in node 367, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken367 unexpectedly in node 367, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38591,7 +38589,7 @@ public fun close() {
                 return 420
             }
             else -> {
-                parsererror = "found token ${currentToken368} unexpectedly in node 368, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken368 unexpectedly in node 368, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38617,7 +38615,7 @@ public fun close() {
                 return 484
             }
             else -> {
-                parsererror = "found token ${currentToken371} unexpectedly in node 371, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken371 unexpectedly in node 371, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38640,7 +38638,7 @@ public fun close() {
                 return 233
             }
             else -> {
-                parsererror = "found token ${currentToken372} unexpectedly in node 372, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken372 unexpectedly in node 372, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38657,7 +38655,7 @@ public fun close() {
                 return 426
             }
             else -> {
-                parsererror = "found token ${currentToken373} unexpectedly in node 373, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken373 unexpectedly in node 373, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38674,7 +38672,7 @@ public fun close() {
                 return 330
             }
             else -> {
-                parsererror = "found token ${currentToken374} unexpectedly in node 374, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken374 unexpectedly in node 374, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38691,7 +38689,7 @@ public fun close() {
                 return 489
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 376, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 376, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38709,7 +38707,7 @@ public fun close() {
                 return 456
             }
             else -> {
-                parsererror = "found token ${currentToken377} unexpectedly in node 377, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken377 unexpectedly in node 377, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38727,7 +38725,7 @@ public fun close() {
                 return 431
             }
             else -> {
-                parsererror = "found token ${currentToken378} unexpectedly in node 378, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken378 unexpectedly in node 378, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38748,7 +38746,7 @@ public fun close() {
                 return 493
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 380, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 380, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38769,7 +38767,7 @@ public fun close() {
                 return 495
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 381, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 381, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38786,7 +38784,7 @@ public fun close() {
                 return 498
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 383, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 383, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38803,7 +38801,7 @@ public fun close() {
                 return 500
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 384, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 384, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38820,7 +38818,7 @@ public fun close() {
                 return 446
             }
             else -> {
-                parsererror = "found token ${currentToken389} unexpectedly in node 389, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken389 unexpectedly in node 389, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38850,7 +38848,7 @@ public fun close() {
                 return 508
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 393, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 393, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38868,7 +38866,7 @@ public fun close() {
                 return 372
             }
             else -> {
-                parsererror = "found token ${currentToken394} unexpectedly in node 394, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken394 unexpectedly in node 394, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38891,7 +38889,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 398, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 398, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38912,7 +38910,7 @@ public fun close() {
                 return 519
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 400, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 400, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38931,7 +38929,7 @@ public fun close() {
                 return 520
             }
             else -> {
-                parsererror = "found token ${currentToken401} unexpectedly in node 401, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken401 unexpectedly in node 401, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38948,7 +38946,7 @@ public fun close() {
                 return 522
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 402, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 402, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -38967,7 +38965,7 @@ public fun close() {
                 return 524
             }
             else -> {
-                parsererror = "found token ${currentToken403} unexpectedly in node 403, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken403 unexpectedly in node 403, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -38988,7 +38986,7 @@ public fun close() {
                 return 525
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 404, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 404, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39022,7 +39020,7 @@ public fun close() {
                 return 531
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 409, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 409, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39092,7 +39090,7 @@ public fun close() {
                 return 551
             }
             else -> {
-                parsererror = "found token ${currentToken427} unexpectedly in node 427, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken427 unexpectedly in node 427, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39115,7 +39113,7 @@ public fun close() {
                 return 554
             }
             else -> {
-                parsererror = "found token ${currentToken431} unexpectedly in node 431, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken431 unexpectedly in node 431, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39159,7 +39157,7 @@ public fun close() {
                 return 193
             }
             else -> {
-                parsererror = "found token ${currentToken444} unexpectedly in node 444, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken444 unexpectedly in node 444, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39177,7 +39175,7 @@ public fun close() {
                 return 567
             }
             else -> {
-                parsererror = "found token ${currentToken445} unexpectedly in node 445, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken445 unexpectedly in node 445, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39212,7 +39210,7 @@ public fun close() {
                 return 575
             }
             else -> {
-                parsererror = "found token ${currentToken455} unexpectedly in node 455, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken455 unexpectedly in node 455, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39231,7 +39229,7 @@ public fun close() {
                 return 577
             }
             else -> {
-                parsererror = "found token ${currentToken456} unexpectedly in node 456, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken456 unexpectedly in node 456, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39249,7 +39247,7 @@ public fun close() {
                 return 514
             }
             else -> {
-                parsererror = "found token ${currentToken457} unexpectedly in node 457, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken457 unexpectedly in node 457, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39273,7 +39271,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken458} unexpectedly in node 458, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken458 unexpectedly in node 458, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39299,7 +39297,7 @@ public fun close() {
                 return 523
             }
             else -> {
-                parsererror = "found token ${currentToken466} unexpectedly in node 466, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken466 unexpectedly in node 466, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39319,7 +39317,7 @@ public fun close() {
                 return 590
             }
             else -> {
-                parsererror = "found token ${currentToken472} unexpectedly in node 472, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken472 unexpectedly in node 472, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39336,7 +39334,7 @@ public fun close() {
                 return 532
             }
             else -> {
-                parsererror = "found token ${currentToken475} unexpectedly in node 475, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken475 unexpectedly in node 475, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39353,7 +39351,7 @@ public fun close() {
                 return 533
             }
             else -> {
-                parsererror = "found token ${currentToken476} unexpectedly in node 476, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken476 unexpectedly in node 476, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39370,7 +39368,7 @@ public fun close() {
                 return 534
             }
             else -> {
-                parsererror = "found token ${currentToken477} unexpectedly in node 477, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken477 unexpectedly in node 477, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39406,7 +39404,7 @@ public fun close() {
                 return 541
             }
             else -> {
-                parsererror = "found token ${currentToken479} unexpectedly in node 479, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken479 unexpectedly in node 479, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39426,7 +39424,7 @@ public fun close() {
                 return 608
             }
             else -> {
-                parsererror = "found token ${currentToken482} unexpectedly in node 482, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken482 unexpectedly in node 482, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39453,7 +39451,7 @@ public fun close() {
                 return 548
             }
             else -> {
-                parsererror = "found token ${currentToken485} unexpectedly in node 485, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken485 unexpectedly in node 485, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39471,7 +39469,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 486, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 486, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39495,7 +39493,7 @@ public fun close() {
                 return 626
             }
             else -> {
-                parsererror = "found token ${currentToken489} unexpectedly in node 489, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken489 unexpectedly in node 489, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39514,7 +39512,7 @@ public fun close() {
                 return 631
             }
             else -> {
-                parsererror = "found token ${currentToken492} unexpectedly in node 492, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken492 unexpectedly in node 492, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39532,7 +39530,7 @@ public fun close() {
                 return 632
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 493, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 493, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39551,7 +39549,7 @@ public fun close() {
                 return 634
             }
             else -> {
-                parsererror = "found token ${currentToken494} unexpectedly in node 494, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken494 unexpectedly in node 494, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39569,7 +39567,7 @@ public fun close() {
                 return 635
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 495, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 495, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39625,7 +39623,7 @@ public fun close() {
                 return 644
             }
             else -> {
-                parsererror = "found token ${currentToken504} unexpectedly in node 504, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken504 unexpectedly in node 504, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39679,7 +39677,7 @@ public fun close() {
                 return 654
             }
             else -> {
-                parsererror = "found token ${currentToken514} unexpectedly in node 514, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken514 unexpectedly in node 514, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39698,7 +39696,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken515} unexpectedly in node 515, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken515 unexpectedly in node 515, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39717,7 +39715,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken516} unexpectedly in node 516, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken516 unexpectedly in node 516, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39736,7 +39734,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken517} unexpectedly in node 517, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken517 unexpectedly in node 517, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39761,7 +39759,7 @@ public fun close() {
                 return 657
             }
             else -> {
-                parsererror = "found token ${currentToken519} unexpectedly in node 519, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken519 unexpectedly in node 519, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39808,7 +39806,7 @@ public fun close() {
                 return 660
             }
             else -> {
-                parsererror = "found token ${currentToken526} unexpectedly in node 526, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken526 unexpectedly in node 526, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39825,7 +39823,7 @@ public fun close() {
                 return 588
             }
             else -> {
-                parsererror = "found token ${currentToken527} unexpectedly in node 527, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken527 unexpectedly in node 527, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39853,7 +39851,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken530} unexpectedly in node 530, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken530 unexpectedly in node 530, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39874,7 +39872,7 @@ public fun close() {
                 return 37
             }
             else -> {
-                parsererror = "found token ${currentToken531} unexpectedly in node 531, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken531 unexpectedly in node 531, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39896,7 +39894,7 @@ public fun close() {
                 return 668
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 533, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 533, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39917,7 +39915,7 @@ public fun close() {
                 return 671
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 534, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 534, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -39967,7 +39965,7 @@ public fun close() {
                 return 681
             }
             else -> {
-                parsererror = "found token ${currentToken542} unexpectedly in node 542, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken542 unexpectedly in node 542, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -39984,7 +39982,7 @@ public fun close() {
                 return 606
             }
             else -> {
-                parsererror = "found token ${currentToken543} unexpectedly in node 543, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken543 unexpectedly in node 543, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40020,7 +40018,7 @@ public fun close() {
                 return 616
             }
             else -> {
-                parsererror = "found token ${currentToken546} unexpectedly in node 546, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken546 unexpectedly in node 546, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40047,7 +40045,7 @@ public fun close() {
                 return 693
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 549, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 549, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -40072,7 +40070,7 @@ public fun close() {
                 return 623
             }
             else -> {
-                parsererror = "found token ${currentToken550} unexpectedly in node 550, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken550 unexpectedly in node 550, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40103,7 +40101,7 @@ public fun close() {
                 return 654
             }
             else -> {
-                parsererror = "found token ${currentToken554} unexpectedly in node 554, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken554 unexpectedly in node 554, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40121,7 +40119,7 @@ public fun close() {
                 return 629
             }
             else -> {
-                parsererror = "found token ${currentToken555} unexpectedly in node 555, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken555 unexpectedly in node 555, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40155,7 +40153,7 @@ public fun close() {
                 return 715
             }
             else -> {
-                parsererror = "found token ${currentToken567} unexpectedly in node 567, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken567 unexpectedly in node 567, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40184,7 +40182,7 @@ public fun close() {
                 return 647
             }
             else -> {
-                parsererror = "found token ${currentToken575} unexpectedly in node 575, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken575 unexpectedly in node 575, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40211,7 +40209,7 @@ public fun close() {
                 return 652
             }
             else -> {
-                parsererror = "found token ${currentToken576} unexpectedly in node 576, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken576 unexpectedly in node 576, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40228,7 +40226,7 @@ public fun close() {
                 return 653
             }
             else -> {
-                parsererror = "found token ${currentToken577} unexpectedly in node 577, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken577 unexpectedly in node 577, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40245,7 +40243,7 @@ public fun close() {
                 return 656
             }
             else -> {
-                parsererror = "found token ${currentToken583} unexpectedly in node 583, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken583 unexpectedly in node 583, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40269,7 +40267,7 @@ public fun close() {
                 return 744
             }
             else -> {
-                parsererror = "found token ${currentToken588} unexpectedly in node 588, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken588 unexpectedly in node 588, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40289,7 +40287,7 @@ public fun close() {
                 return 747
             }
             else -> {
-                parsererror = "found token ${currentToken590} unexpectedly in node 590, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken590 unexpectedly in node 590, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40316,7 +40314,7 @@ public fun close() {
                 return 676
             }
             else -> {
-                parsererror = "found token ${currentToken602} unexpectedly in node 602, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken602 unexpectedly in node 602, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40334,7 +40332,7 @@ public fun close() {
                 return 678
             }
             else -> {
-                parsererror = "found token ${currentToken603} unexpectedly in node 603, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken603 unexpectedly in node 603, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40352,7 +40350,7 @@ public fun close() {
                 return 680
             }
             else -> {
-                parsererror = "found token ${currentToken604} unexpectedly in node 604, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken604 unexpectedly in node 604, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40433,7 +40431,7 @@ public fun close() {
                 return 691
             }
             else -> {
-                parsererror = "found token ${currentToken617} unexpectedly in node 617, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken617 unexpectedly in node 617, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40486,7 +40484,7 @@ public fun close() {
                 return 702
             }
             else -> {
-                parsererror = "found token ${currentToken630} unexpectedly in node 630, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken630 unexpectedly in node 630, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40503,7 +40501,7 @@ public fun close() {
                 return 703
             }
             else -> {
-                parsererror = "found token ${currentToken631} unexpectedly in node 631, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken631 unexpectedly in node 631, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40522,7 +40520,7 @@ public fun close() {
                 return 849
             }
             else -> {
-                parsererror = "found token ${currentToken632} unexpectedly in node 632, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken632 unexpectedly in node 632, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40540,7 +40538,7 @@ public fun close() {
                 return 707
             }
             else -> {
-                parsererror = "found token ${currentToken633} unexpectedly in node 633, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken633 unexpectedly in node 633, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40557,7 +40555,7 @@ public fun close() {
                 return 708
             }
             else -> {
-                parsererror = "found token ${currentToken634} unexpectedly in node 634, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken634 unexpectedly in node 634, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40576,7 +40574,7 @@ public fun close() {
                 return 852
             }
             else -> {
-                parsererror = "found token ${currentToken635} unexpectedly in node 635, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken635 unexpectedly in node 635, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40594,7 +40592,7 @@ public fun close() {
                 return 712
             }
             else -> {
-                parsererror = "found token ${currentToken636} unexpectedly in node 636, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken636 unexpectedly in node 636, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40631,7 +40629,7 @@ public fun close() {
                 return 858
             }
             else -> {
-                parsererror = "found token ${currentToken641} unexpectedly in node 641, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken641 unexpectedly in node 641, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40653,7 +40651,7 @@ public fun close() {
                 return 863
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 644, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 644, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -40676,7 +40674,7 @@ public fun close() {
                 return 861
             }
             else -> {
-                parsererror = "found token ${currentToken645} unexpectedly in node 645, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken645 unexpectedly in node 645, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40695,7 +40693,7 @@ public fun close() {
                 return 866
             }
             else -> {
-                parsererror = "found token ${currentToken646} unexpectedly in node 646, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken646 unexpectedly in node 646, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40713,7 +40711,7 @@ public fun close() {
                 return 728
             }
             else -> {
-                parsererror = "found token ${currentToken647} unexpectedly in node 647, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken647 unexpectedly in node 647, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40765,7 +40763,7 @@ public fun close() {
                 return 871
             }
             else -> {
-                parsererror = "found token ${currentToken654} unexpectedly in node 654, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken654 unexpectedly in node 654, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40783,7 +40781,7 @@ public fun close() {
                 return 872
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 655, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 655, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -40806,7 +40804,7 @@ public fun close() {
                 return 459
             }
             else -> {
-                parsererror = "found token ${currentToken657} unexpectedly in node 657, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken657 unexpectedly in node 657, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40835,7 +40833,7 @@ public fun close() {
                 return 76
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 658, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 658, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -40852,7 +40850,7 @@ public fun close() {
                 return 743
             }
             else -> {
-                parsererror = "found token ${currentToken660} unexpectedly in node 660, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken660 unexpectedly in node 660, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40870,7 +40868,7 @@ public fun close() {
                 return 875
             }
             else -> {
-                parsererror = "found token ${currentToken662} unexpectedly in node 662, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken662 unexpectedly in node 662, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40893,7 +40891,7 @@ public fun close() {
                 return 748
             }
             else -> {
-                parsererror = "found token ${currentToken665} unexpectedly in node 665, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken665 unexpectedly in node 665, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40910,7 +40908,7 @@ public fun close() {
                 return 749
             }
             else -> {
-                parsererror = "found token ${currentToken666} unexpectedly in node 666, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken666 unexpectedly in node 666, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -40949,7 +40947,7 @@ public fun close() {
                 return 526
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 671, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 671, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -41014,7 +41012,7 @@ public fun close() {
                 return 763
             }
             else -> {
-                parsererror = "found token ${currentToken682} unexpectedly in node 682, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken682 unexpectedly in node 682, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41068,7 +41066,7 @@ public fun close() {
                 return 916
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 691, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 691, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -41085,7 +41083,7 @@ public fun close() {
                 return 917
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 692, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 692, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -41266,7 +41264,7 @@ public fun close() {
                 return 838
             }
             else -> {
-                parsererror = "found token ${currentToken694} unexpectedly in node 694, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken694 unexpectedly in node 694, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41283,7 +41281,7 @@ public fun close() {
                 return 840
             }
             else -> {
-                parsererror = "found token ${currentToken696} unexpectedly in node 696, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken696 unexpectedly in node 696, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41307,7 +41305,7 @@ public fun close() {
                 return 844
             }
             else -> {
-                parsererror = "found token ${currentToken697} unexpectedly in node 697, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken697 unexpectedly in node 697, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41338,7 +41336,7 @@ public fun close() {
                 return 848
             }
             else -> {
-                parsererror = "found token ${currentToken704} unexpectedly in node 704, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken704 unexpectedly in node 704, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41369,7 +41367,7 @@ public fun close() {
                 return 851
             }
             else -> {
-                parsererror = "found token ${currentToken709} unexpectedly in node 709, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken709 unexpectedly in node 709, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41396,7 +41394,7 @@ public fun close() {
                 return 856
             }
             else -> {
-                parsererror = "found token ${currentToken715} unexpectedly in node 715, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken715 unexpectedly in node 715, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41416,7 +41414,7 @@ public fun close() {
                 return 858
             }
             else -> {
-                parsererror = "found token ${currentToken716} unexpectedly in node 716, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken716 unexpectedly in node 716, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41433,7 +41431,7 @@ public fun close() {
                 return 859
             }
             else -> {
-                parsererror = "found token ${currentToken718} unexpectedly in node 718, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken718 unexpectedly in node 718, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41450,7 +41448,7 @@ public fun close() {
                 return 860
             }
             else -> {
-                parsererror = "found token ${currentToken719} unexpectedly in node 719, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken719 unexpectedly in node 719, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41481,7 +41479,7 @@ public fun close() {
                 return 728
             }
             else -> {
-                parsererror = "found token ${currentToken727} unexpectedly in node 727, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken727 unexpectedly in node 727, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41505,7 +41503,7 @@ public fun close() {
                 return 1002
             }
             else -> {
-                parsererror = "found token ${currentToken729} unexpectedly in node 729, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken729 unexpectedly in node 729, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41528,7 +41526,7 @@ public fun close() {
                 return 457
             }
             else -> {
-                parsererror = "found token ${currentToken731} unexpectedly in node 731, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken731 unexpectedly in node 731, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41551,7 +41549,7 @@ public fun close() {
                 return 874
             }
             else -> {
-                parsererror = "found token ${currentToken742} unexpectedly in node 742, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken742 unexpectedly in node 742, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41581,7 +41579,7 @@ public fun close() {
                 return 1015
             }
             else -> {
-                parsererror = "found token ${currentToken747} unexpectedly in node 747, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken747 unexpectedly in node 747, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41623,7 +41621,7 @@ public fun close() {
                 return 884
             }
             else -> {
-                parsererror = "found token ${currentToken754} unexpectedly in node 754, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken754 unexpectedly in node 754, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41644,7 +41642,7 @@ public fun close() {
                 return 887
             }
             else -> {
-                parsererror = "found token ${currentToken755} unexpectedly in node 755, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken755 unexpectedly in node 755, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41665,7 +41663,7 @@ public fun close() {
                 return 890
             }
             else -> {
-                parsererror = "found token ${currentToken756} unexpectedly in node 756, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken756 unexpectedly in node 756, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41686,7 +41684,7 @@ public fun close() {
                 return 893
             }
             else -> {
-                parsererror = "found token ${currentToken757} unexpectedly in node 757, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken757 unexpectedly in node 757, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41704,7 +41702,7 @@ public fun close() {
                 return 1032
             }
             else -> {
-                parsererror = "found token ${currentToken758} unexpectedly in node 758, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken758 unexpectedly in node 758, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41722,7 +41720,7 @@ public fun close() {
                 return 1033
             }
             else -> {
-                parsererror = "found token ${currentToken759} unexpectedly in node 759, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken759 unexpectedly in node 759, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41757,7 +41755,7 @@ public fun close() {
                 return 900
             }
             else -> {
-                parsererror = "found token ${currentToken765} unexpectedly in node 765, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken765 unexpectedly in node 765, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41774,7 +41772,7 @@ public fun close() {
                 return 901
             }
             else -> {
-                parsererror = "found token ${currentToken766} unexpectedly in node 766, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken766 unexpectedly in node 766, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41791,7 +41789,7 @@ public fun close() {
                 return 902
             }
             else -> {
-                parsererror = "found token ${currentToken767} unexpectedly in node 767, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken767 unexpectedly in node 767, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41808,7 +41806,7 @@ public fun close() {
                 return 903
             }
             else -> {
-                parsererror = "found token ${currentToken768} unexpectedly in node 768, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken768 unexpectedly in node 768, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41825,7 +41823,7 @@ public fun close() {
                 return 904
             }
             else -> {
-                parsererror = "found token ${currentToken769} unexpectedly in node 769, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken769 unexpectedly in node 769, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41842,7 +41840,7 @@ public fun close() {
                 return 905
             }
             else -> {
-                parsererror = "found token ${currentToken770} unexpectedly in node 770, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken770 unexpectedly in node 770, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -41859,7 +41857,7 @@ public fun close() {
                 return 906
             }
             else -> {
-                parsererror = "found token ${currentToken771} unexpectedly in node 771, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken771 unexpectedly in node 771, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42218,7 +42216,7 @@ public fun close() {
                 return 1112
             }
             else -> {
-                parsererror = "found token ${currentToken841} unexpectedly in node 841, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken841 unexpectedly in node 841, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42237,7 +42235,7 @@ public fun close() {
                 return 1112
             }
             else -> {
-                parsererror = "found token ${currentToken842} unexpectedly in node 842, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken842 unexpectedly in node 842, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42275,7 +42273,7 @@ public fun close() {
                 return 1117
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 847, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 847, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -42304,7 +42302,7 @@ public fun close() {
                 return 1119
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 850, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 850, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -42336,7 +42334,7 @@ public fun close() {
                 return 1118
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 852, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 852, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -42354,7 +42352,7 @@ public fun close() {
                 return 1121
             }
             else -> {
-                parsererror = "found token ${currentToken853} unexpectedly in node 853, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken853 unexpectedly in node 853, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42389,7 +42387,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found token ${currentToken858} unexpectedly in node 858, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken858 unexpectedly in node 858, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42425,7 +42423,7 @@ public fun close() {
                 return 1130
             }
             else -> {
-                parsererror = "found token ${currentToken861} unexpectedly in node 861, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken861 unexpectedly in node 861, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42481,7 +42479,7 @@ public fun close() {
                 return 343
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 866, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 866, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -42498,7 +42496,7 @@ public fun close() {
                 return 1004
             }
             else -> {
-                parsererror = "found token ${currentToken871} unexpectedly in node 871, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken871 unexpectedly in node 871, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42517,7 +42515,7 @@ public fun close() {
                 return 1147
             }
             else -> {
-                parsererror = "found token ${currentToken872} unexpectedly in node 872, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken872 unexpectedly in node 872, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42538,7 +42536,7 @@ public fun close() {
                 return 1009
             }
             else -> {
-                parsererror = "found token ${currentToken873} unexpectedly in node 873, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken873 unexpectedly in node 873, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42556,7 +42554,7 @@ public fun close() {
                 return 1011
             }
             else -> {
-                parsererror = "found token ${currentToken874} unexpectedly in node 874, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken874 unexpectedly in node 874, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42579,7 +42577,7 @@ public fun close() {
                 return 1013
             }
             else -> {
-                parsererror = "found token ${currentToken876} unexpectedly in node 876, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken876 unexpectedly in node 876, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42605,7 +42603,7 @@ public fun close() {
                 return 526
             }
             else -> {
-                parsererror = "found token ${currentToken879} unexpectedly in node 879, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken879 unexpectedly in node 879, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42702,7 +42700,7 @@ public fun close() {
                 return 1175
             }
             else -> {
-                parsererror = "found token ${currentToken896} unexpectedly in node 896, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken896 unexpectedly in node 896, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42721,7 +42719,7 @@ public fun close() {
                 return 1176
             }
             else -> {
-                parsererror = "found token ${currentToken897} unexpectedly in node 897, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken897 unexpectedly in node 897, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42756,7 +42754,7 @@ public fun close() {
                 return 1039
             }
             else -> {
-                parsererror = "found token ${currentToken903} unexpectedly in node 903, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken903 unexpectedly in node 903, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42778,7 +42776,7 @@ public fun close() {
                 return 1040
             }
             else -> {
-                parsererror = "found token ${currentToken905} unexpectedly in node 905, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken905 unexpectedly in node 905, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42813,7 +42811,7 @@ public fun close() {
                 return 1185
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 907, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 907, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -42832,7 +42830,7 @@ public fun close() {
                 return 1187
             }
             else -> {
-                parsererror = "found token ${currentToken908} unexpectedly in node 908, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken908 unexpectedly in node 908, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42886,7 +42884,7 @@ public fun close() {
                 return 1188
             }
             else -> {
-                parsererror = "found token ${currentToken917} unexpectedly in node 917, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken917 unexpectedly in node 917, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42919,7 +42917,7 @@ public fun close() {
                 return 1057
             }
             else -> {
-                parsererror = "found token ${currentToken918} unexpectedly in node 918, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken918 unexpectedly in node 918, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42940,7 +42938,7 @@ public fun close() {
                 return 1115
             }
             else -> {
-                parsererror = "found token ${currentToken975} unexpectedly in node 975, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken975 unexpectedly in node 975, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42970,7 +42968,7 @@ public fun close() {
                 return 1126
             }
             else -> {
-                parsererror = "found token ${currentToken987} unexpectedly in node 987, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken987 unexpectedly in node 987, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -42999,7 +42997,7 @@ public fun close() {
                 return 1131
             }
             else -> {
-                parsererror = "found token ${currentToken993} unexpectedly in node 993, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken993 unexpectedly in node 993, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43016,7 +43014,7 @@ public fun close() {
                 return 1132
             }
             else -> {
-                parsererror = "found token ${currentToken994} unexpectedly in node 994, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken994 unexpectedly in node 994, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43041,7 +43039,7 @@ public fun close() {
                 return 1274
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 997, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 997, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -43059,7 +43057,7 @@ public fun close() {
                 return 520
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1001, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1001, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -43086,7 +43084,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1003, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1003, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -43107,7 +43105,7 @@ public fun close() {
                 return 1146
             }
             else -> {
-                parsererror = "found token ${currentToken1005} unexpectedly in node 1005, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1005 unexpectedly in node 1005, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43126,7 +43124,7 @@ public fun close() {
                 return 1280
             }
             else -> {
-                parsererror = "found token ${currentToken1007} unexpectedly in node 1007, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1007 unexpectedly in node 1007, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43158,7 +43156,7 @@ public fun close() {
                 return 1149
             }
             else -> {
-                parsererror = "found token ${currentToken1011} unexpectedly in node 1011, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1011 unexpectedly in node 1011, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43176,7 +43174,7 @@ public fun close() {
                 return 1281
             }
             else -> {
-                parsererror = "found token ${currentToken1013} unexpectedly in node 1013, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1013 unexpectedly in node 1013, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43196,7 +43194,7 @@ public fun close() {
                 return 1283
             }
             else -> {
-                parsererror = "found token ${currentToken1014} unexpectedly in node 1014, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1014 unexpectedly in node 1014, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43232,7 +43230,7 @@ public fun close() {
                 return 1288
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1015, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1015, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -43270,7 +43268,7 @@ public fun close() {
                 return 1304
             }
             else -> {
-                parsererror = "found token ${currentToken1036} unexpectedly in node 1036, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1036 unexpectedly in node 1036, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43287,7 +43285,7 @@ public fun close() {
                 return 1178
             }
             else -> {
-                parsererror = "found token ${currentToken1037} unexpectedly in node 1037, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1037 unexpectedly in node 1037, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43306,7 +43304,7 @@ public fun close() {
                 return 1039
             }
             else -> {
-                parsererror = "found token ${currentToken1038} unexpectedly in node 1038, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1038 unexpectedly in node 1038, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43335,7 +43333,7 @@ public fun close() {
                 return 1181
             }
             else -> {
-                parsererror = "found token ${currentToken1041} unexpectedly in node 1041, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1041 unexpectedly in node 1041, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43352,7 +43350,7 @@ public fun close() {
                 return 1186
             }
             else -> {
-                parsererror = "found token ${currentToken1047} unexpectedly in node 1047, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1047 unexpectedly in node 1047, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43417,7 +43415,7 @@ public fun close() {
                 return 1196
             }
             else -> {
-                parsererror = "found token ${currentToken1058} unexpectedly in node 1058, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1058 unexpectedly in node 1058, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43434,7 +43432,7 @@ public fun close() {
                 return 1197
             }
             else -> {
-                parsererror = "found token ${currentToken1059} unexpectedly in node 1059, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1059 unexpectedly in node 1059, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43451,7 +43449,7 @@ public fun close() {
                 return 1198
             }
             else -> {
-                parsererror = "found token ${currentToken1060} unexpectedly in node 1060, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1060 unexpectedly in node 1060, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43468,7 +43466,7 @@ public fun close() {
                 return 1199
             }
             else -> {
-                parsererror = "found token ${currentToken1061} unexpectedly in node 1061, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1061 unexpectedly in node 1061, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43485,7 +43483,7 @@ public fun close() {
                 return 1200
             }
             else -> {
-                parsererror = "found token ${currentToken1062} unexpectedly in node 1062, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1062 unexpectedly in node 1062, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43502,7 +43500,7 @@ public fun close() {
                 return 1201
             }
             else -> {
-                parsererror = "found token ${currentToken1063} unexpectedly in node 1063, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1063 unexpectedly in node 1063, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43519,7 +43517,7 @@ public fun close() {
                 return 1202
             }
             else -> {
-                parsererror = "found token ${currentToken1064} unexpectedly in node 1064, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1064 unexpectedly in node 1064, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43536,7 +43534,7 @@ public fun close() {
                 return 1203
             }
             else -> {
-                parsererror = "found token ${currentToken1065} unexpectedly in node 1065, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1065 unexpectedly in node 1065, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43553,7 +43551,7 @@ public fun close() {
                 return 1204
             }
             else -> {
-                parsererror = "found token ${currentToken1066} unexpectedly in node 1066, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1066 unexpectedly in node 1066, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43570,7 +43568,7 @@ public fun close() {
                 return 1205
             }
             else -> {
-                parsererror = "found token ${currentToken1067} unexpectedly in node 1067, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1067 unexpectedly in node 1067, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43587,7 +43585,7 @@ public fun close() {
                 return 1206
             }
             else -> {
-                parsererror = "found token ${currentToken1068} unexpectedly in node 1068, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1068 unexpectedly in node 1068, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43604,7 +43602,7 @@ public fun close() {
                 return 1207
             }
             else -> {
-                parsererror = "found token ${currentToken1069} unexpectedly in node 1069, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1069 unexpectedly in node 1069, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43621,7 +43619,7 @@ public fun close() {
                 return 1208
             }
             else -> {
-                parsererror = "found token ${currentToken1070} unexpectedly in node 1070, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1070 unexpectedly in node 1070, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43638,7 +43636,7 @@ public fun close() {
                 return 1209
             }
             else -> {
-                parsererror = "found token ${currentToken1071} unexpectedly in node 1071, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1071 unexpectedly in node 1071, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43655,7 +43653,7 @@ public fun close() {
                 return 1210
             }
             else -> {
-                parsererror = "found token ${currentToken1072} unexpectedly in node 1072, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1072 unexpectedly in node 1072, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43672,7 +43670,7 @@ public fun close() {
                 return 1211
             }
             else -> {
-                parsererror = "found token ${currentToken1073} unexpectedly in node 1073, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1073 unexpectedly in node 1073, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43689,7 +43687,7 @@ public fun close() {
                 return 1212
             }
             else -> {
-                parsererror = "found token ${currentToken1074} unexpectedly in node 1074, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1074 unexpectedly in node 1074, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43706,7 +43704,7 @@ public fun close() {
                 return 1213
             }
             else -> {
-                parsererror = "found token ${currentToken1075} unexpectedly in node 1075, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1075 unexpectedly in node 1075, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43723,7 +43721,7 @@ public fun close() {
                 return 1214
             }
             else -> {
-                parsererror = "found token ${currentToken1076} unexpectedly in node 1076, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1076 unexpectedly in node 1076, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43740,7 +43738,7 @@ public fun close() {
                 return 1215
             }
             else -> {
-                parsererror = "found token ${currentToken1077} unexpectedly in node 1077, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1077 unexpectedly in node 1077, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43757,7 +43755,7 @@ public fun close() {
                 return 1216
             }
             else -> {
-                parsererror = "found token ${currentToken1078} unexpectedly in node 1078, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1078 unexpectedly in node 1078, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43774,7 +43772,7 @@ public fun close() {
                 return 1217
             }
             else -> {
-                parsererror = "found token ${currentToken1079} unexpectedly in node 1079, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1079 unexpectedly in node 1079, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43791,7 +43789,7 @@ public fun close() {
                 return 1218
             }
             else -> {
-                parsererror = "found token ${currentToken1080} unexpectedly in node 1080, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1080 unexpectedly in node 1080, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43808,7 +43806,7 @@ public fun close() {
                 return 1219
             }
             else -> {
-                parsererror = "found token ${currentToken1081} unexpectedly in node 1081, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1081 unexpectedly in node 1081, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43825,7 +43823,7 @@ public fun close() {
                 return 1220
             }
             else -> {
-                parsererror = "found token ${currentToken1082} unexpectedly in node 1082, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1082 unexpectedly in node 1082, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43842,7 +43840,7 @@ public fun close() {
                 return 1221
             }
             else -> {
-                parsererror = "found token ${currentToken1083} unexpectedly in node 1083, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1083 unexpectedly in node 1083, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43859,7 +43857,7 @@ public fun close() {
                 return 1222
             }
             else -> {
-                parsererror = "found token ${currentToken1084} unexpectedly in node 1084, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1084 unexpectedly in node 1084, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43876,7 +43874,7 @@ public fun close() {
                 return 1223
             }
             else -> {
-                parsererror = "found token ${currentToken1085} unexpectedly in node 1085, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1085 unexpectedly in node 1085, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43893,7 +43891,7 @@ public fun close() {
                 return 1224
             }
             else -> {
-                parsererror = "found token ${currentToken1086} unexpectedly in node 1086, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1086 unexpectedly in node 1086, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43910,7 +43908,7 @@ public fun close() {
                 return 1225
             }
             else -> {
-                parsererror = "found token ${currentToken1087} unexpectedly in node 1087, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1087 unexpectedly in node 1087, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43927,7 +43925,7 @@ public fun close() {
                 return 1226
             }
             else -> {
-                parsererror = "found token ${currentToken1088} unexpectedly in node 1088, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1088 unexpectedly in node 1088, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43944,7 +43942,7 @@ public fun close() {
                 return 1227
             }
             else -> {
-                parsererror = "found token ${currentToken1089} unexpectedly in node 1089, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1089 unexpectedly in node 1089, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43961,7 +43959,7 @@ public fun close() {
                 return 1228
             }
             else -> {
-                parsererror = "found token ${currentToken1090} unexpectedly in node 1090, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1090 unexpectedly in node 1090, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43978,7 +43976,7 @@ public fun close() {
                 return 1229
             }
             else -> {
-                parsererror = "found token ${currentToken1091} unexpectedly in node 1091, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1091 unexpectedly in node 1091, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -43995,7 +43993,7 @@ public fun close() {
                 return 1230
             }
             else -> {
-                parsererror = "found token ${currentToken1092} unexpectedly in node 1092, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1092 unexpectedly in node 1092, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44012,7 +44010,7 @@ public fun close() {
                 return 1231
             }
             else -> {
-                parsererror = "found token ${currentToken1093} unexpectedly in node 1093, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1093 unexpectedly in node 1093, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44029,7 +44027,7 @@ public fun close() {
                 return 1232
             }
             else -> {
-                parsererror = "found token ${currentToken1094} unexpectedly in node 1094, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1094 unexpectedly in node 1094, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44046,7 +44044,7 @@ public fun close() {
                 return 1233
             }
             else -> {
-                parsererror = "found token ${currentToken1095} unexpectedly in node 1095, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1095 unexpectedly in node 1095, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44063,7 +44061,7 @@ public fun close() {
                 return 1234
             }
             else -> {
-                parsererror = "found token ${currentToken1096} unexpectedly in node 1096, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1096 unexpectedly in node 1096, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44080,7 +44078,7 @@ public fun close() {
                 return 1235
             }
             else -> {
-                parsererror = "found token ${currentToken1097} unexpectedly in node 1097, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1097 unexpectedly in node 1097, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44097,7 +44095,7 @@ public fun close() {
                 return 1236
             }
             else -> {
-                parsererror = "found token ${currentToken1098} unexpectedly in node 1098, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1098 unexpectedly in node 1098, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44114,7 +44112,7 @@ public fun close() {
                 return 1237
             }
             else -> {
-                parsererror = "found token ${currentToken1099} unexpectedly in node 1099, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1099 unexpectedly in node 1099, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44131,7 +44129,7 @@ public fun close() {
                 return 1238
             }
             else -> {
-                parsererror = "found token ${currentToken1100} unexpectedly in node 1100, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1100 unexpectedly in node 1100, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44148,7 +44146,7 @@ public fun close() {
                 return 1239
             }
             else -> {
-                parsererror = "found token ${currentToken1101} unexpectedly in node 1101, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1101 unexpectedly in node 1101, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44165,7 +44163,7 @@ public fun close() {
                 return 1240
             }
             else -> {
-                parsererror = "found token ${currentToken1102} unexpectedly in node 1102, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1102 unexpectedly in node 1102, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44182,7 +44180,7 @@ public fun close() {
                 return 1241
             }
             else -> {
-                parsererror = "found token ${currentToken1103} unexpectedly in node 1103, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1103 unexpectedly in node 1103, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44199,7 +44197,7 @@ public fun close() {
                 return 1242
             }
             else -> {
-                parsererror = "found token ${currentToken1104} unexpectedly in node 1104, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1104 unexpectedly in node 1104, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44216,7 +44214,7 @@ public fun close() {
                 return 1243
             }
             else -> {
-                parsererror = "found token ${currentToken1105} unexpectedly in node 1105, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1105 unexpectedly in node 1105, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44233,7 +44231,7 @@ public fun close() {
                 return 1244
             }
             else -> {
-                parsererror = "found token ${currentToken1106} unexpectedly in node 1106, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1106 unexpectedly in node 1106, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44250,7 +44248,7 @@ public fun close() {
                 return 1245
             }
             else -> {
-                parsererror = "found token ${currentToken1107} unexpectedly in node 1107, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1107 unexpectedly in node 1107, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44267,7 +44265,7 @@ public fun close() {
                 return 1246
             }
             else -> {
-                parsererror = "found token ${currentToken1108} unexpectedly in node 1108, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1108 unexpectedly in node 1108, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44284,7 +44282,7 @@ public fun close() {
                 return 1247
             }
             else -> {
-                parsererror = "found token ${currentToken1109} unexpectedly in node 1109, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1109 unexpectedly in node 1109, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44301,7 +44299,7 @@ public fun close() {
                 return 1248
             }
             else -> {
-                parsererror = "found token ${currentToken1110} unexpectedly in node 1110, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1110 unexpectedly in node 1110, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44318,7 +44316,7 @@ public fun close() {
                 return 1249
             }
             else -> {
-                parsererror = "found token ${currentToken1111} unexpectedly in node 1111, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1111 unexpectedly in node 1111, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44336,7 +44334,7 @@ public fun close() {
                 return 844
             }
             else -> {
-                parsererror = "found token ${currentToken1112} unexpectedly in node 1112, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1112 unexpectedly in node 1112, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44378,7 +44376,7 @@ public fun close() {
                 return 1367
             }
             else -> {
-                parsererror = "found token ${currentToken1117} unexpectedly in node 1117, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1117 unexpectedly in node 1117, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44397,7 +44395,7 @@ public fun close() {
                 return 1369
             }
             else -> {
-                parsererror = "found token ${currentToken1118} unexpectedly in node 1118, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1118 unexpectedly in node 1118, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44416,7 +44414,7 @@ public fun close() {
                 return 1371
             }
             else -> {
-                parsererror = "found token ${currentToken1119} unexpectedly in node 1119, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1119 unexpectedly in node 1119, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44435,7 +44433,7 @@ public fun close() {
                 return 1373
             }
             else -> {
-                parsererror = "found token ${currentToken1120} unexpectedly in node 1120, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1120 unexpectedly in node 1120, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44454,7 +44452,7 @@ public fun close() {
                 return 384
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1121, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1121, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -44473,7 +44471,7 @@ public fun close() {
                 return 1375
             }
             else -> {
-                parsererror = "found token ${currentToken1122} unexpectedly in node 1122, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1122 unexpectedly in node 1122, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44514,7 +44512,7 @@ public fun close() {
                 return 1269
             }
             else -> {
-                parsererror = "found token ${currentToken1129} unexpectedly in node 1129, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1129 unexpectedly in node 1129, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44573,7 +44571,7 @@ public fun close() {
                 return 1391
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1147, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1147, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -44602,7 +44600,7 @@ public fun close() {
                 return 1397
             }
             else -> {
-                parsererror = "found token ${currentToken1161} unexpectedly in node 1161, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1161 unexpectedly in node 1161, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44621,7 +44619,7 @@ public fun close() {
                 return 1398
             }
             else -> {
-                parsererror = "found token ${currentToken1162} unexpectedly in node 1162, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1162 unexpectedly in node 1162, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44640,7 +44638,7 @@ public fun close() {
                 return 1399
             }
             else -> {
-                parsererror = "found token ${currentToken1163} unexpectedly in node 1163, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1163 unexpectedly in node 1163, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44659,7 +44657,7 @@ public fun close() {
                 return 1400
             }
             else -> {
-                parsererror = "found token ${currentToken1164} unexpectedly in node 1164, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1164 unexpectedly in node 1164, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44678,7 +44676,7 @@ public fun close() {
                 return 1401
             }
             else -> {
-                parsererror = "found token ${currentToken1165} unexpectedly in node 1165, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1165 unexpectedly in node 1165, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44697,7 +44695,7 @@ public fun close() {
                 return 1402
             }
             else -> {
-                parsererror = "found token ${currentToken1166} unexpectedly in node 1166, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1166 unexpectedly in node 1166, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44716,7 +44714,7 @@ public fun close() {
                 return 1403
             }
             else -> {
-                parsererror = "found token ${currentToken1167} unexpectedly in node 1167, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1167 unexpectedly in node 1167, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44735,7 +44733,7 @@ public fun close() {
                 return 1404
             }
             else -> {
-                parsererror = "found token ${currentToken1168} unexpectedly in node 1168, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1168 unexpectedly in node 1168, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44754,7 +44752,7 @@ public fun close() {
                 return 1405
             }
             else -> {
-                parsererror = "found token ${currentToken1169} unexpectedly in node 1169, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1169 unexpectedly in node 1169, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44773,7 +44771,7 @@ public fun close() {
                 return 1406
             }
             else -> {
-                parsererror = "found token ${currentToken1170} unexpectedly in node 1170, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1170 unexpectedly in node 1170, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44792,7 +44790,7 @@ public fun close() {
                 return 1407
             }
             else -> {
-                parsererror = "found token ${currentToken1171} unexpectedly in node 1171, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1171 unexpectedly in node 1171, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44811,7 +44809,7 @@ public fun close() {
                 return 1408
             }
             else -> {
-                parsererror = "found token ${currentToken1172} unexpectedly in node 1172, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1172 unexpectedly in node 1172, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44830,7 +44828,7 @@ public fun close() {
                 return 1409
             }
             else -> {
-                parsererror = "found token ${currentToken1173} unexpectedly in node 1173, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1173 unexpectedly in node 1173, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44848,7 +44846,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1174, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1174, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -44936,7 +44934,7 @@ public fun close() {
                 return 1315
             }
             else -> {
-                parsererror = "found token ${currentToken1196} unexpectedly in node 1196, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1196 unexpectedly in node 1196, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44953,7 +44951,7 @@ public fun close() {
                 return 1316
             }
             else -> {
-                parsererror = "found token ${currentToken1197} unexpectedly in node 1197, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1197 unexpectedly in node 1197, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44970,7 +44968,7 @@ public fun close() {
                 return 1317
             }
             else -> {
-                parsererror = "found token ${currentToken1198} unexpectedly in node 1198, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1198 unexpectedly in node 1198, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -44987,7 +44985,7 @@ public fun close() {
                 return 1318
             }
             else -> {
-                parsererror = "found token ${currentToken1199} unexpectedly in node 1199, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1199 unexpectedly in node 1199, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45004,7 +45002,7 @@ public fun close() {
                 return 1319
             }
             else -> {
-                parsererror = "found token ${currentToken1200} unexpectedly in node 1200, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1200 unexpectedly in node 1200, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45021,7 +45019,7 @@ public fun close() {
                 return 1320
             }
             else -> {
-                parsererror = "found token ${currentToken1201} unexpectedly in node 1201, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1201 unexpectedly in node 1201, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45038,7 +45036,7 @@ public fun close() {
                 return 1321
             }
             else -> {
-                parsererror = "found token ${currentToken1202} unexpectedly in node 1202, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1202 unexpectedly in node 1202, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45056,7 +45054,7 @@ public fun close() {
                 return 1323
             }
             else -> {
-                parsererror = "found token ${currentToken1203} unexpectedly in node 1203, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1203 unexpectedly in node 1203, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45079,7 +45077,7 @@ public fun close() {
                 return 1324
             }
             else -> {
-                parsererror = "found token ${currentToken1205} unexpectedly in node 1205, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1205 unexpectedly in node 1205, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45096,7 +45094,7 @@ public fun close() {
                 return 1325
             }
             else -> {
-                parsererror = "found token ${currentToken1206} unexpectedly in node 1206, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1206 unexpectedly in node 1206, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45113,7 +45111,7 @@ public fun close() {
                 return 1326
             }
             else -> {
-                parsererror = "found token ${currentToken1207} unexpectedly in node 1207, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1207 unexpectedly in node 1207, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45130,7 +45128,7 @@ public fun close() {
                 return 1327
             }
             else -> {
-                parsererror = "found token ${currentToken1208} unexpectedly in node 1208, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1208 unexpectedly in node 1208, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45152,7 +45150,7 @@ public fun close() {
                 return 1329
             }
             else -> {
-                parsererror = "found token ${currentToken1210} unexpectedly in node 1210, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1210 unexpectedly in node 1210, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45169,7 +45167,7 @@ public fun close() {
                 return 1330
             }
             else -> {
-                parsererror = "found token ${currentToken1211} unexpectedly in node 1211, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1211 unexpectedly in node 1211, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45186,7 +45184,7 @@ public fun close() {
                 return 1331
             }
             else -> {
-                parsererror = "found token ${currentToken1212} unexpectedly in node 1212, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1212 unexpectedly in node 1212, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45203,7 +45201,7 @@ public fun close() {
                 return 1332
             }
             else -> {
-                parsererror = "found token ${currentToken1213} unexpectedly in node 1213, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1213 unexpectedly in node 1213, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45220,7 +45218,7 @@ public fun close() {
                 return 1333
             }
             else -> {
-                parsererror = "found token ${currentToken1214} unexpectedly in node 1214, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1214 unexpectedly in node 1214, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45237,7 +45235,7 @@ public fun close() {
                 return 1334
             }
             else -> {
-                parsererror = "found token ${currentToken1215} unexpectedly in node 1215, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1215 unexpectedly in node 1215, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45254,7 +45252,7 @@ public fun close() {
                 return 1335
             }
             else -> {
-                parsererror = "found token ${currentToken1216} unexpectedly in node 1216, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1216 unexpectedly in node 1216, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45271,7 +45269,7 @@ public fun close() {
                 return 1336
             }
             else -> {
-                parsererror = "found token ${currentToken1217} unexpectedly in node 1217, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1217 unexpectedly in node 1217, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45288,7 +45286,7 @@ public fun close() {
                 return 1337
             }
             else -> {
-                parsererror = "found token ${currentToken1218} unexpectedly in node 1218, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1218 unexpectedly in node 1218, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45305,7 +45303,7 @@ public fun close() {
                 return 1338
             }
             else -> {
-                parsererror = "found token ${currentToken1219} unexpectedly in node 1219, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1219 unexpectedly in node 1219, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45322,7 +45320,7 @@ public fun close() {
                 return 1339
             }
             else -> {
-                parsererror = "found token ${currentToken1220} unexpectedly in node 1220, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1220 unexpectedly in node 1220, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45339,7 +45337,7 @@ public fun close() {
                 return 1340
             }
             else -> {
-                parsererror = "found token ${currentToken1221} unexpectedly in node 1221, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1221 unexpectedly in node 1221, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45356,7 +45354,7 @@ public fun close() {
                 return 1341
             }
             else -> {
-                parsererror = "found token ${currentToken1222} unexpectedly in node 1222, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1222 unexpectedly in node 1222, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45373,7 +45371,7 @@ public fun close() {
                 return 1342
             }
             else -> {
-                parsererror = "found token ${currentToken1223} unexpectedly in node 1223, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1223 unexpectedly in node 1223, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45390,7 +45388,7 @@ public fun close() {
                 return 1343
             }
             else -> {
-                parsererror = "found token ${currentToken1224} unexpectedly in node 1224, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1224 unexpectedly in node 1224, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45407,7 +45405,7 @@ public fun close() {
                 return 1344
             }
             else -> {
-                parsererror = "found token ${currentToken1225} unexpectedly in node 1225, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1225 unexpectedly in node 1225, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45424,7 +45422,7 @@ public fun close() {
                 return 1345
             }
             else -> {
-                parsererror = "found token ${currentToken1226} unexpectedly in node 1226, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1226 unexpectedly in node 1226, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45441,7 +45439,7 @@ public fun close() {
                 return 1346
             }
             else -> {
-                parsererror = "found token ${currentToken1227} unexpectedly in node 1227, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1227 unexpectedly in node 1227, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45458,7 +45456,7 @@ public fun close() {
                 return 1347
             }
             else -> {
-                parsererror = "found token ${currentToken1228} unexpectedly in node 1228, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1228 unexpectedly in node 1228, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45493,7 +45491,7 @@ public fun close() {
                 return 1348
             }
             else -> {
-                parsererror = "found token ${currentToken1232} unexpectedly in node 1232, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1232 unexpectedly in node 1232, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45510,7 +45508,7 @@ public fun close() {
                 return 1349
             }
             else -> {
-                parsererror = "found token ${currentToken1233} unexpectedly in node 1233, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1233 unexpectedly in node 1233, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45527,7 +45525,7 @@ public fun close() {
                 return 1350
             }
             else -> {
-                parsererror = "found token ${currentToken1234} unexpectedly in node 1234, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1234 unexpectedly in node 1234, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45544,7 +45542,7 @@ public fun close() {
                 return 1351
             }
             else -> {
-                parsererror = "found token ${currentToken1235} unexpectedly in node 1235, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1235 unexpectedly in node 1235, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45561,7 +45559,7 @@ public fun close() {
                 return 1352
             }
             else -> {
-                parsererror = "found token ${currentToken1236} unexpectedly in node 1236, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1236 unexpectedly in node 1236, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45583,7 +45581,7 @@ public fun close() {
                 return 1353
             }
             else -> {
-                parsererror = "found token ${currentToken1238} unexpectedly in node 1238, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1238 unexpectedly in node 1238, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45600,7 +45598,7 @@ public fun close() {
                 return 1354
             }
             else -> {
-                parsererror = "found token ${currentToken1239} unexpectedly in node 1239, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1239 unexpectedly in node 1239, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45617,7 +45615,7 @@ public fun close() {
                 return 1355
             }
             else -> {
-                parsererror = "found token ${currentToken1240} unexpectedly in node 1240, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1240 unexpectedly in node 1240, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45634,7 +45632,7 @@ public fun close() {
                 return 1356
             }
             else -> {
-                parsererror = "found token ${currentToken1241} unexpectedly in node 1241, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1241 unexpectedly in node 1241, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45651,7 +45649,7 @@ public fun close() {
                 return 1357
             }
             else -> {
-                parsererror = "found token ${currentToken1242} unexpectedly in node 1242, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1242 unexpectedly in node 1242, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45668,7 +45666,7 @@ public fun close() {
                 return 1358
             }
             else -> {
-                parsererror = "found token ${currentToken1243} unexpectedly in node 1243, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1243 unexpectedly in node 1243, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45685,7 +45683,7 @@ public fun close() {
                 return 1359
             }
             else -> {
-                parsererror = "found token ${currentToken1244} unexpectedly in node 1244, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1244 unexpectedly in node 1244, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45702,7 +45700,7 @@ public fun close() {
                 return 1360
             }
             else -> {
-                parsererror = "found token ${currentToken1245} unexpectedly in node 1245, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1245 unexpectedly in node 1245, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45719,7 +45717,7 @@ public fun close() {
                 return 1361
             }
             else -> {
-                parsererror = "found token ${currentToken1246} unexpectedly in node 1246, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1246 unexpectedly in node 1246, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45736,7 +45734,7 @@ public fun close() {
                 return 1362
             }
             else -> {
-                parsererror = "found token ${currentToken1247} unexpectedly in node 1247, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1247 unexpectedly in node 1247, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45759,7 +45757,7 @@ public fun close() {
                 return 1363
             }
             else -> {
-                parsererror = "found token ${currentToken1249} unexpectedly in node 1249, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1249 unexpectedly in node 1249, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45783,7 +45781,7 @@ public fun close() {
                 return 1426
             }
             else -> {
-                parsererror = "found token ${currentToken1254} unexpectedly in node 1254, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1254 unexpectedly in node 1254, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45807,7 +45805,7 @@ public fun close() {
                 return 1433
             }
             else -> {
-                parsererror = "found token ${currentToken1258} unexpectedly in node 1258, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1258 unexpectedly in node 1258, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45827,7 +45825,7 @@ public fun close() {
                 return 1375
             }
             else -> {
-                parsererror = "found token ${currentToken1260} unexpectedly in node 1260, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1260 unexpectedly in node 1260, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45860,7 +45858,7 @@ public fun close() {
                 return 1385
             }
             else -> {
-                parsererror = "found token ${currentToken1265} unexpectedly in node 1265, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1265 unexpectedly in node 1265, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45877,7 +45875,7 @@ public fun close() {
                 return 1386
             }
             else -> {
-                parsererror = "found token ${currentToken1266} unexpectedly in node 1266, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1266 unexpectedly in node 1266, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45894,7 +45892,7 @@ public fun close() {
                 return 1387
             }
             else -> {
-                parsererror = "found token ${currentToken1267} unexpectedly in node 1267, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1267 unexpectedly in node 1267, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45939,7 +45937,7 @@ public fun close() {
                 return 549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1275, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1275, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -45962,7 +45960,7 @@ public fun close() {
                 return 1009
             }
             else -> {
-                parsererror = "found token ${currentToken1280} unexpectedly in node 1280, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1280 unexpectedly in node 1280, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -45999,7 +45997,7 @@ public fun close() {
                 return 1276
             }
             else -> {
-                parsererror = "found token ${currentToken1284} unexpectedly in node 1284, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1284 unexpectedly in node 1284, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46054,7 +46052,7 @@ public fun close() {
                 return 1412
             }
             else -> {
-                parsererror = "found token ${currentToken1308} unexpectedly in node 1308, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1308 unexpectedly in node 1308, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46071,7 +46069,7 @@ public fun close() {
                 return 1413
             }
             else -> {
-                parsererror = "found token ${currentToken1309} unexpectedly in node 1309, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1309 unexpectedly in node 1309, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46088,7 +46086,7 @@ public fun close() {
                 return 1414
             }
             else -> {
-                parsererror = "found token ${currentToken1310} unexpectedly in node 1310, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1310 unexpectedly in node 1310, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46105,7 +46103,7 @@ public fun close() {
                 return 1415
             }
             else -> {
-                parsererror = "found token ${currentToken1311} unexpectedly in node 1311, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1311 unexpectedly in node 1311, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46122,7 +46120,7 @@ public fun close() {
                 return 1416
             }
             else -> {
-                parsererror = "found token ${currentToken1312} unexpectedly in node 1312, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1312 unexpectedly in node 1312, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46139,7 +46137,7 @@ public fun close() {
                 return 1417
             }
             else -> {
-                parsererror = "found token ${currentToken1313} unexpectedly in node 1313, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1313 unexpectedly in node 1313, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46156,7 +46154,7 @@ public fun close() {
                 return 1418
             }
             else -> {
-                parsererror = "found token ${currentToken1314} unexpectedly in node 1314, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1314 unexpectedly in node 1314, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46214,7 +46212,7 @@ public fun close() {
                 return 1419
             }
             else -> {
-                parsererror = "found token ${currentToken1322} unexpectedly in node 1322, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1322 unexpectedly in node 1322, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46263,7 +46261,7 @@ public fun close() {
                 return 1471
             }
             else -> {
-                parsererror = "found token ${currentToken1328} unexpectedly in node 1328, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1328 unexpectedly in node 1328, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46490,7 +46488,7 @@ public fun close() {
                 return 1422
             }
             else -> {
-                parsererror = "found token ${currentToken1364} unexpectedly in node 1364, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1364 unexpectedly in node 1364, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46523,7 +46521,7 @@ public fun close() {
                 return 1477
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1369, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1369, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -46542,7 +46540,7 @@ public fun close() {
                 return 1479
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1371, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1371, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -46563,7 +46561,7 @@ public fun close() {
                 return 1483
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1373, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1373, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -46583,7 +46581,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found token ${currentToken1375} unexpectedly in node 1375, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1375 unexpectedly in node 1375, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46600,7 +46598,7 @@ public fun close() {
                 return 1439
             }
             else -> {
-                parsererror = "found token ${currentToken1376} unexpectedly in node 1376, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1376 unexpectedly in node 1376, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46617,7 +46615,7 @@ public fun close() {
                 return 1440
             }
             else -> {
-                parsererror = "found token ${currentToken1377} unexpectedly in node 1377, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1377 unexpectedly in node 1377, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46634,7 +46632,7 @@ public fun close() {
                 return 1441
             }
             else -> {
-                parsererror = "found token ${currentToken1378} unexpectedly in node 1378, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1378 unexpectedly in node 1378, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46722,7 +46720,7 @@ public fun close() {
                 return 1491
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1388, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1388, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -46740,7 +46738,7 @@ public fun close() {
                 return 1452
             }
             else -> {
-                parsererror = "found token ${currentToken1390} unexpectedly in node 1390, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1390 unexpectedly in node 1390, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46759,7 +46757,7 @@ public fun close() {
                 return 1496
             }
             else -> {
-                parsererror = "found token ${currentToken1391} unexpectedly in node 1391, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1391 unexpectedly in node 1391, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46840,7 +46838,7 @@ public fun close() {
                 return 1463
             }
             else -> {
-                parsererror = "found token ${currentToken1411} unexpectedly in node 1411, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1411 unexpectedly in node 1411, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46857,7 +46855,7 @@ public fun close() {
                 return 1464
             }
             else -> {
-                parsererror = "found token ${currentToken1412} unexpectedly in node 1412, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1412 unexpectedly in node 1412, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46874,7 +46872,7 @@ public fun close() {
                 return 1465
             }
             else -> {
-                parsererror = "found token ${currentToken1413} unexpectedly in node 1413, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1413 unexpectedly in node 1413, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46891,7 +46889,7 @@ public fun close() {
                 return 1466
             }
             else -> {
-                parsererror = "found token ${currentToken1414} unexpectedly in node 1414, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1414 unexpectedly in node 1414, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46908,7 +46906,7 @@ public fun close() {
                 return 1467
             }
             else -> {
-                parsererror = "found token ${currentToken1415} unexpectedly in node 1415, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1415 unexpectedly in node 1415, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46925,7 +46923,7 @@ public fun close() {
                 return 1468
             }
             else -> {
-                parsererror = "found token ${currentToken1416} unexpectedly in node 1416, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1416 unexpectedly in node 1416, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46942,7 +46940,7 @@ public fun close() {
                 return 1469
             }
             else -> {
-                parsererror = "found token ${currentToken1417} unexpectedly in node 1417, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1417 unexpectedly in node 1417, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -46959,7 +46957,7 @@ public fun close() {
                 return 1470
             }
             else -> {
-                parsererror = "found token ${currentToken1418} unexpectedly in node 1418, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1418 unexpectedly in node 1418, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47003,7 +47001,7 @@ public fun close() {
                 return 1118
             }
             else -> {
-                parsererror = "found token ${currentToken1426} unexpectedly in node 1426, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1426 unexpectedly in node 1426, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47029,7 +47027,7 @@ public fun close() {
                 return 1120
             }
             else -> {
-                parsererror = "found token ${currentToken1433} unexpectedly in node 1433, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1433 unexpectedly in node 1433, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47074,7 +47072,7 @@ public fun close() {
                 return 1452
             }
             else -> {
-                parsererror = "found token ${currentToken1451} unexpectedly in node 1451, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1451 unexpectedly in node 1451, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47097,7 +47095,7 @@ public fun close() {
                 return 1495
             }
             else -> {
-                parsererror = "found token ${currentToken1453} unexpectedly in node 1453, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1453 unexpectedly in node 1453, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47114,7 +47112,7 @@ public fun close() {
                 return 1497
             }
             else -> {
-                parsererror = "found token ${currentToken1455} unexpectedly in node 1455, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1455 unexpectedly in node 1455, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47131,7 +47129,7 @@ public fun close() {
                 return 1498
             }
             else -> {
-                parsererror = "found token ${currentToken1456} unexpectedly in node 1456, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1456 unexpectedly in node 1456, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47151,7 +47149,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken1457} unexpectedly in node 1457, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1457 unexpectedly in node 1457, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47170,7 +47168,7 @@ public fun close() {
                 return 1549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1458, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1458, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -47191,7 +47189,7 @@ public fun close() {
                 return 645
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1460, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1460, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -47208,7 +47206,7 @@ public fun close() {
                 return 645
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1461, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1461, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -47232,7 +47230,7 @@ public fun close() {
                 return 378
             }
             else -> {
-                parsererror = "found token ${currentToken1463} unexpectedly in node 1463, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1463 unexpectedly in node 1463, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47253,7 +47251,7 @@ public fun close() {
                 return 1508
             }
             else -> {
-                parsererror = "found token ${currentToken1464} unexpectedly in node 1464, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1464 unexpectedly in node 1464, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47271,7 +47269,7 @@ public fun close() {
                 return 1510
             }
             else -> {
-                parsererror = "found token ${currentToken1465} unexpectedly in node 1465, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1465 unexpectedly in node 1465, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47289,7 +47287,7 @@ public fun close() {
                 return 1512
             }
             else -> {
-                parsererror = "found token ${currentToken1466} unexpectedly in node 1466, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1466 unexpectedly in node 1466, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47307,7 +47305,7 @@ public fun close() {
                 return 1514
             }
             else -> {
-                parsererror = "found token ${currentToken1467} unexpectedly in node 1467, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1467 unexpectedly in node 1467, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47325,7 +47323,7 @@ public fun close() {
                 return 1516
             }
             else -> {
-                parsererror = "found token ${currentToken1468} unexpectedly in node 1468, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1468 unexpectedly in node 1468, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47343,7 +47341,7 @@ public fun close() {
                 return 1518
             }
             else -> {
-                parsererror = "found token ${currentToken1469} unexpectedly in node 1469, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1469 unexpectedly in node 1469, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47361,7 +47359,7 @@ public fun close() {
                 return 1520
             }
             else -> {
-                parsererror = "found token ${currentToken1470} unexpectedly in node 1470, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1470 unexpectedly in node 1470, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47378,7 +47376,7 @@ public fun close() {
                 return 1521
             }
             else -> {
-                parsererror = "found token ${currentToken1471} unexpectedly in node 1471, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1471 unexpectedly in node 1471, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47403,7 +47401,7 @@ public fun close() {
                 return 1559
             }
             else -> {
-                parsererror = "found token ${currentToken1473} unexpectedly in node 1473, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1473 unexpectedly in node 1473, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47420,7 +47418,7 @@ public fun close() {
                 return 1525
             }
             else -> {
-                parsererror = "found token ${currentToken1476} unexpectedly in node 1476, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1476 unexpectedly in node 1476, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47445,7 +47443,7 @@ public fun close() {
                 return 1563
             }
             else -> {
-                parsererror = "found token ${currentToken1478} unexpectedly in node 1478, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1478 unexpectedly in node 1478, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47464,7 +47462,7 @@ public fun close() {
                 return 1565
             }
             else -> {
-                parsererror = "found token ${currentToken1479} unexpectedly in node 1479, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1479 unexpectedly in node 1479, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47481,7 +47479,7 @@ public fun close() {
                 return 1532
             }
             else -> {
-                parsererror = "found token ${currentToken1482} unexpectedly in node 1482, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1482 unexpectedly in node 1482, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47532,7 +47530,7 @@ public fun close() {
                 return 1450
             }
             else -> {
-                parsererror = "found token ${currentToken1485} unexpectedly in node 1485, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1485 unexpectedly in node 1485, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47598,7 +47596,7 @@ public fun close() {
                 return 1578
             }
             else -> {
-                parsererror = "found token ${currentToken1497} unexpectedly in node 1497, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1497 unexpectedly in node 1497, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47617,7 +47615,7 @@ public fun close() {
                 return 1579
             }
             else -> {
-                parsererror = "found token ${currentToken1498} unexpectedly in node 1498, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1498 unexpectedly in node 1498, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47641,7 +47639,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1503, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1503, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -47660,7 +47658,7 @@ public fun close() {
                 return 1584
             }
             else -> {
-                parsererror = "found token ${currentToken1506} unexpectedly in node 1506, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1506 unexpectedly in node 1506, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47690,7 +47688,7 @@ public fun close() {
                 return 1510
             }
             else -> {
-                parsererror = "found token ${currentToken1509} unexpectedly in node 1509, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1509 unexpectedly in node 1509, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47715,7 +47713,7 @@ public fun close() {
                 return 1512
             }
             else -> {
-                parsererror = "found token ${currentToken1511} unexpectedly in node 1511, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1511 unexpectedly in node 1511, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47740,7 +47738,7 @@ public fun close() {
                 return 1514
             }
             else -> {
-                parsererror = "found token ${currentToken1513} unexpectedly in node 1513, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1513 unexpectedly in node 1513, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47765,7 +47763,7 @@ public fun close() {
                 return 1516
             }
             else -> {
-                parsererror = "found token ${currentToken1515} unexpectedly in node 1515, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1515 unexpectedly in node 1515, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47790,7 +47788,7 @@ public fun close() {
                 return 1518
             }
             else -> {
-                parsererror = "found token ${currentToken1517} unexpectedly in node 1517, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1517 unexpectedly in node 1517, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47815,7 +47813,7 @@ public fun close() {
                 return 1520
             }
             else -> {
-                parsererror = "found token ${currentToken1519} unexpectedly in node 1519, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1519 unexpectedly in node 1519, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47845,7 +47843,7 @@ public fun close() {
                 return 1586
             }
             else -> {
-                parsererror = "found token ${currentToken1522} unexpectedly in node 1522, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1522 unexpectedly in node 1522, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47863,7 +47861,7 @@ public fun close() {
                 return 1561
             }
             else -> {
-                parsererror = "found token ${currentToken1524} unexpectedly in node 1524, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1524 unexpectedly in node 1524, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47885,7 +47883,7 @@ public fun close() {
                 return 1590
             }
             else -> {
-                parsererror = "found token ${currentToken1527} unexpectedly in node 1527, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1527 unexpectedly in node 1527, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47903,7 +47901,7 @@ public fun close() {
                 return 1593
             }
             else -> {
-                parsererror = "found token ${currentToken1529} unexpectedly in node 1529, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1529 unexpectedly in node 1529, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -47978,7 +47976,7 @@ public fun close() {
                 return 1606
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1543, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1543, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48000,7 +47998,7 @@ public fun close() {
                 return 1580
             }
             else -> {
-                parsererror = "found token ${currentToken1548} unexpectedly in node 1548, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1548 unexpectedly in node 1548, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48022,7 +48020,7 @@ public fun close() {
                 return 398
             }
             else -> {
-                parsererror = "found token ${currentToken1549} unexpectedly in node 1549, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1549 unexpectedly in node 1549, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48040,7 +48038,7 @@ public fun close() {
                 return 1620
             }
             else -> {
-                parsererror = "found token ${currentToken1551} unexpectedly in node 1551, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1551 unexpectedly in node 1551, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48067,7 +48065,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1559, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1559, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48099,7 +48097,7 @@ public fun close() {
                 return 235
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1563, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1563, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48131,7 +48129,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1565, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1565, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48155,7 +48153,7 @@ public fun close() {
                 return 1610
             }
             else -> {
-                parsererror = "found token ${currentToken1576} unexpectedly in node 1576, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1576 unexpectedly in node 1576, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48171,7 +48169,7 @@ public fun close() {
                 return 1639
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1577, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1577, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48190,7 +48188,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1578, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1578, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48209,7 +48207,7 @@ public fun close() {
                 return 1642
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1579, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1579, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48236,7 +48234,7 @@ public fun close() {
                 return 1619
             }
             else -> {
-                parsererror = "found token ${currentToken1582} unexpectedly in node 1582, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1582 unexpectedly in node 1582, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48254,7 +48252,7 @@ public fun close() {
                 return 1508
             }
             else -> {
-                parsererror = "found token ${currentToken1584} unexpectedly in node 1584, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1584 unexpectedly in node 1584, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48274,7 +48272,7 @@ public fun close() {
                 return 1559
             }
             else -> {
-                parsererror = "found token ${currentToken1586} unexpectedly in node 1586, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1586 unexpectedly in node 1586, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48294,7 +48292,7 @@ public fun close() {
                 return 1563
             }
             else -> {
-                parsererror = "found token ${currentToken1590} unexpectedly in node 1590, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1590 unexpectedly in node 1590, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48314,7 +48312,7 @@ public fun close() {
                 return 1565
             }
             else -> {
-                parsererror = "found token ${currentToken1593} unexpectedly in node 1593, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1593 unexpectedly in node 1593, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48331,7 +48329,7 @@ public fun close() {
                 return 1627
             }
             else -> {
-                parsererror = "found token ${currentToken1598} unexpectedly in node 1598, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1598 unexpectedly in node 1598, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48348,7 +48346,7 @@ public fun close() {
                 return 1628
             }
             else -> {
-                parsererror = "found token ${currentToken1599} unexpectedly in node 1599, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1599 unexpectedly in node 1599, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48365,7 +48363,7 @@ public fun close() {
                 return 1629
             }
             else -> {
-                parsererror = "found token ${currentToken1600} unexpectedly in node 1600, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1600 unexpectedly in node 1600, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48382,7 +48380,7 @@ public fun close() {
                 return 1630
             }
             else -> {
-                parsererror = "found token ${currentToken1601} unexpectedly in node 1601, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1601 unexpectedly in node 1601, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48399,7 +48397,7 @@ public fun close() {
                 return 1631
             }
             else -> {
-                parsererror = "found token ${currentToken1602} unexpectedly in node 1602, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1602 unexpectedly in node 1602, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48416,7 +48414,7 @@ public fun close() {
                 return 1632
             }
             else -> {
-                parsererror = "found token ${currentToken1603} unexpectedly in node 1603, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1603 unexpectedly in node 1603, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48433,7 +48431,7 @@ public fun close() {
                 return 1633
             }
             else -> {
-                parsererror = "found token ${currentToken1604} unexpectedly in node 1604, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1604 unexpectedly in node 1604, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48450,7 +48448,7 @@ public fun close() {
                 return 1634
             }
             else -> {
-                parsererror = "found token ${currentToken1605} unexpectedly in node 1605, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1605 unexpectedly in node 1605, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48469,7 +48467,7 @@ public fun close() {
                 return 1647
             }
             else -> {
-                parsererror = "found token ${currentToken1606} unexpectedly in node 1606, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1606 unexpectedly in node 1606, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48496,7 +48494,7 @@ public fun close() {
                 return 1637
             }
             else -> {
-                parsererror = "found token ${currentToken1609} unexpectedly in node 1609, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1609 unexpectedly in node 1609, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48513,7 +48511,7 @@ public fun close() {
                 return 1638
             }
             else -> {
-                parsererror = "found token ${currentToken1610} unexpectedly in node 1610, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1610 unexpectedly in node 1610, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48530,7 +48528,7 @@ public fun close() {
                 return 344
             }
             else -> {
-                parsererror = "found token ${currentToken1611} unexpectedly in node 1611, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1611 unexpectedly in node 1611, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48620,7 +48618,7 @@ public fun close() {
                 return 1645
             }
             else -> {
-                parsererror = "found token ${currentToken1634} unexpectedly in node 1634, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1634 unexpectedly in node 1634, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48637,7 +48635,7 @@ public fun close() {
                 return 1646
             }
             else -> {
-                parsererror = "found token ${currentToken1635} unexpectedly in node 1635, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1635 unexpectedly in node 1635, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48665,7 +48663,7 @@ public fun close() {
                 return 498
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1639, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1639, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48684,7 +48682,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found token ${currentToken1640} unexpectedly in node 1640, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1640 unexpectedly in node 1640, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48709,7 +48707,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found token ${currentToken1642} unexpectedly in node 1642, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1642 unexpectedly in node 1642, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48728,7 +48726,7 @@ public fun close() {
                 return 1660
             }
             else -> {
-                parsererror = "found token ${currentToken1643} unexpectedly in node 1643, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1643 unexpectedly in node 1643, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48757,7 +48755,7 @@ public fun close() {
                 return 1662
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1647, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1647, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -48775,7 +48773,7 @@ public fun close() {
                 return 1659
             }
             else -> {
-                parsererror = "found token ${currentToken1648} unexpectedly in node 1648, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1648 unexpectedly in node 1648, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48804,7 +48802,7 @@ public fun close() {
                 return 1661
             }
             else -> {
-                parsererror = "found token ${currentToken1655} unexpectedly in node 1655, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1655 unexpectedly in node 1655, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48828,7 +48826,7 @@ public fun close() {
                 return 1666
             }
             else -> {
-                parsererror = "found token ${currentToken1659} unexpectedly in node 1659, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1659 unexpectedly in node 1659, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48857,7 +48855,7 @@ public fun close() {
                 return 1668
             }
             else -> {
-                parsererror = "found token ${currentToken1662} unexpectedly in node 1662, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1662 unexpectedly in node 1662, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48874,7 +48872,7 @@ public fun close() {
                 return 1667
             }
             else -> {
-                parsererror = "found token ${currentToken1664} unexpectedly in node 1664, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1664 unexpectedly in node 1664, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -48893,7 +48891,7 @@ public fun close() {
                 return 657
             }
             else -> {
-                parsererror = "found token ${currentToken1666} unexpectedly in node 1666, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1666 unexpectedly in node 1666, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49244,7 +49242,7 @@ public fun close() {
                 return 1825
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1672, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1672, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -49262,7 +49260,7 @@ public fun close() {
                 return 1133
             }
             else -> {
-                parsererror = "found token ${currentToken1687} unexpectedly in node 1687, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1687 unexpectedly in node 1687, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49279,7 +49277,7 @@ public fun close() {
                 return 1826
             }
             else -> {
-                parsererror = "found token ${currentToken1751} unexpectedly in node 1751, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1751 unexpectedly in node 1751, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49296,7 +49294,7 @@ public fun close() {
                 return 1827
             }
             else -> {
-                parsererror = "found token ${currentToken1752} unexpectedly in node 1752, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1752 unexpectedly in node 1752, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49313,7 +49311,7 @@ public fun close() {
                 return 1828
             }
             else -> {
-                parsererror = "found token ${currentToken1753} unexpectedly in node 1753, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1753 unexpectedly in node 1753, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49330,7 +49328,7 @@ public fun close() {
                 return 1829
             }
             else -> {
-                parsererror = "found token ${currentToken1754} unexpectedly in node 1754, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1754 unexpectedly in node 1754, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49347,7 +49345,7 @@ public fun close() {
                 return 1830
             }
             else -> {
-                parsererror = "found token ${currentToken1755} unexpectedly in node 1755, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1755 unexpectedly in node 1755, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49364,7 +49362,7 @@ public fun close() {
                 return 1831
             }
             else -> {
-                parsererror = "found token ${currentToken1756} unexpectedly in node 1756, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1756 unexpectedly in node 1756, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49383,7 +49381,7 @@ public fun close() {
                 return 1548
             }
             else -> {
-                parsererror = "found token ${currentToken1757} unexpectedly in node 1757, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1757 unexpectedly in node 1757, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49400,7 +49398,7 @@ public fun close() {
                 return 1834
             }
             else -> {
-                parsererror = "found token ${currentToken1758} unexpectedly in node 1758, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1758 unexpectedly in node 1758, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49417,7 +49415,7 @@ public fun close() {
                 return 1835
             }
             else -> {
-                parsererror = "found token ${currentToken1759} unexpectedly in node 1759, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1759 unexpectedly in node 1759, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49434,7 +49432,7 @@ public fun close() {
                 return 1836
             }
             else -> {
-                parsererror = "found token ${currentToken1760} unexpectedly in node 1760, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1760 unexpectedly in node 1760, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49451,7 +49449,7 @@ public fun close() {
                 return 1837
             }
             else -> {
-                parsererror = "found token ${currentToken1761} unexpectedly in node 1761, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1761 unexpectedly in node 1761, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49468,7 +49466,7 @@ public fun close() {
                 return 1838
             }
             else -> {
-                parsererror = "found token ${currentToken1762} unexpectedly in node 1762, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1762 unexpectedly in node 1762, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49485,7 +49483,7 @@ public fun close() {
                 return 1839
             }
             else -> {
-                parsererror = "found token ${currentToken1763} unexpectedly in node 1763, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1763 unexpectedly in node 1763, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49502,7 +49500,7 @@ public fun close() {
                 return 1840
             }
             else -> {
-                parsererror = "found token ${currentToken1764} unexpectedly in node 1764, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1764 unexpectedly in node 1764, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49519,7 +49517,7 @@ public fun close() {
                 return 1841
             }
             else -> {
-                parsererror = "found token ${currentToken1765} unexpectedly in node 1765, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1765 unexpectedly in node 1765, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49536,7 +49534,7 @@ public fun close() {
                 return 1842
             }
             else -> {
-                parsererror = "found token ${currentToken1766} unexpectedly in node 1766, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1766 unexpectedly in node 1766, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49553,7 +49551,7 @@ public fun close() {
                 return 1843
             }
             else -> {
-                parsererror = "found token ${currentToken1767} unexpectedly in node 1767, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1767 unexpectedly in node 1767, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49570,7 +49568,7 @@ public fun close() {
                 return 1844
             }
             else -> {
-                parsererror = "found token ${currentToken1768} unexpectedly in node 1768, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1768 unexpectedly in node 1768, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49589,7 +49587,7 @@ public fun close() {
                 return 1910
             }
             else -> {
-                parsererror = "found token ${currentToken1769} unexpectedly in node 1769, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1769 unexpectedly in node 1769, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49606,7 +49604,7 @@ public fun close() {
                 return 1847
             }
             else -> {
-                parsererror = "found token ${currentToken1770} unexpectedly in node 1770, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1770 unexpectedly in node 1770, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49625,7 +49623,7 @@ public fun close() {
                 return 1772
             }
             else -> {
-                parsererror = "found token ${currentToken1771} unexpectedly in node 1771, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1771 unexpectedly in node 1771, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49642,7 +49640,7 @@ public fun close() {
                 return 1850
             }
             else -> {
-                parsererror = "found token ${currentToken1772} unexpectedly in node 1772, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1772 unexpectedly in node 1772, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49659,7 +49657,7 @@ public fun close() {
                 return 1851
             }
             else -> {
-                parsererror = "found token ${currentToken1773} unexpectedly in node 1773, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1773 unexpectedly in node 1773, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49676,7 +49674,7 @@ public fun close() {
                 return 1852
             }
             else -> {
-                parsererror = "found token ${currentToken1774} unexpectedly in node 1774, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1774 unexpectedly in node 1774, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49693,7 +49691,7 @@ public fun close() {
                 return 1853
             }
             else -> {
-                parsererror = "found token ${currentToken1775} unexpectedly in node 1775, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1775 unexpectedly in node 1775, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49712,7 +49710,7 @@ public fun close() {
                 return 1777
             }
             else -> {
-                parsererror = "found token ${currentToken1776} unexpectedly in node 1776, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1776 unexpectedly in node 1776, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49729,7 +49727,7 @@ public fun close() {
                 return 1856
             }
             else -> {
-                parsererror = "found token ${currentToken1777} unexpectedly in node 1777, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1777 unexpectedly in node 1777, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49746,7 +49744,7 @@ public fun close() {
                 return 1857
             }
             else -> {
-                parsererror = "found token ${currentToken1778} unexpectedly in node 1778, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1778 unexpectedly in node 1778, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49763,7 +49761,7 @@ public fun close() {
                 return 1858
             }
             else -> {
-                parsererror = "found token ${currentToken1779} unexpectedly in node 1779, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1779 unexpectedly in node 1779, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49780,7 +49778,7 @@ public fun close() {
                 return 1859
             }
             else -> {
-                parsererror = "found token ${currentToken1780} unexpectedly in node 1780, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1780 unexpectedly in node 1780, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49797,7 +49795,7 @@ public fun close() {
                 return 1860
             }
             else -> {
-                parsererror = "found token ${currentToken1781} unexpectedly in node 1781, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1781 unexpectedly in node 1781, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49814,7 +49812,7 @@ public fun close() {
                 return 1861
             }
             else -> {
-                parsererror = "found token ${currentToken1782} unexpectedly in node 1782, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1782 unexpectedly in node 1782, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49831,7 +49829,7 @@ public fun close() {
                 return 1862
             }
             else -> {
-                parsererror = "found token ${currentToken1783} unexpectedly in node 1783, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1783 unexpectedly in node 1783, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49848,7 +49846,7 @@ public fun close() {
                 return 1863
             }
             else -> {
-                parsererror = "found token ${currentToken1784} unexpectedly in node 1784, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1784 unexpectedly in node 1784, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49865,7 +49863,7 @@ public fun close() {
                 return 1864
             }
             else -> {
-                parsererror = "found token ${currentToken1785} unexpectedly in node 1785, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1785 unexpectedly in node 1785, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49882,7 +49880,7 @@ public fun close() {
                 return 1865
             }
             else -> {
-                parsererror = "found token ${currentToken1786} unexpectedly in node 1786, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1786 unexpectedly in node 1786, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49899,7 +49897,7 @@ public fun close() {
                 return 1866
             }
             else -> {
-                parsererror = "found token ${currentToken1787} unexpectedly in node 1787, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1787 unexpectedly in node 1787, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49916,7 +49914,7 @@ public fun close() {
                 return 1867
             }
             else -> {
-                parsererror = "found token ${currentToken1788} unexpectedly in node 1788, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1788 unexpectedly in node 1788, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49933,7 +49931,7 @@ public fun close() {
                 return 1868
             }
             else -> {
-                parsererror = "found token ${currentToken1789} unexpectedly in node 1789, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1789 unexpectedly in node 1789, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49950,7 +49948,7 @@ public fun close() {
                 return 1869
             }
             else -> {
-                parsererror = "found token ${currentToken1790} unexpectedly in node 1790, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1790 unexpectedly in node 1790, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49967,7 +49965,7 @@ public fun close() {
                 return 1870
             }
             else -> {
-                parsererror = "found token ${currentToken1791} unexpectedly in node 1791, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1791 unexpectedly in node 1791, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -49984,7 +49982,7 @@ public fun close() {
                 return 1871
             }
             else -> {
-                parsererror = "found token ${currentToken1792} unexpectedly in node 1792, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1792 unexpectedly in node 1792, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50001,7 +49999,7 @@ public fun close() {
                 return 1872
             }
             else -> {
-                parsererror = "found token ${currentToken1793} unexpectedly in node 1793, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1793 unexpectedly in node 1793, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50018,7 +50016,7 @@ public fun close() {
                 return 1873
             }
             else -> {
-                parsererror = "found token ${currentToken1794} unexpectedly in node 1794, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1794 unexpectedly in node 1794, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50035,7 +50033,7 @@ public fun close() {
                 return 1874
             }
             else -> {
-                parsererror = "found token ${currentToken1795} unexpectedly in node 1795, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1795 unexpectedly in node 1795, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50052,7 +50050,7 @@ public fun close() {
                 return 1875
             }
             else -> {
-                parsererror = "found token ${currentToken1796} unexpectedly in node 1796, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1796 unexpectedly in node 1796, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50069,7 +50067,7 @@ public fun close() {
                 return 1876
             }
             else -> {
-                parsererror = "found token ${currentToken1797} unexpectedly in node 1797, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1797 unexpectedly in node 1797, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50086,7 +50084,7 @@ public fun close() {
                 return 1877
             }
             else -> {
-                parsererror = "found token ${currentToken1798} unexpectedly in node 1798, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1798 unexpectedly in node 1798, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50103,7 +50101,7 @@ public fun close() {
                 return 1878
             }
             else -> {
-                parsererror = "found token ${currentToken1799} unexpectedly in node 1799, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1799 unexpectedly in node 1799, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50120,7 +50118,7 @@ public fun close() {
                 return 1879
             }
             else -> {
-                parsererror = "found token ${currentToken1800} unexpectedly in node 1800, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1800 unexpectedly in node 1800, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50137,7 +50135,7 @@ public fun close() {
                 return 1880
             }
             else -> {
-                parsererror = "found token ${currentToken1801} unexpectedly in node 1801, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1801 unexpectedly in node 1801, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50154,7 +50152,7 @@ public fun close() {
                 return 1881
             }
             else -> {
-                parsererror = "found token ${currentToken1802} unexpectedly in node 1802, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1802 unexpectedly in node 1802, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50171,7 +50169,7 @@ public fun close() {
                 return 1882
             }
             else -> {
-                parsererror = "found token ${currentToken1803} unexpectedly in node 1803, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1803 unexpectedly in node 1803, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50188,7 +50186,7 @@ public fun close() {
                 return 1883
             }
             else -> {
-                parsererror = "found token ${currentToken1804} unexpectedly in node 1804, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1804 unexpectedly in node 1804, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50205,7 +50203,7 @@ public fun close() {
                 return 1884
             }
             else -> {
-                parsererror = "found token ${currentToken1805} unexpectedly in node 1805, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1805 unexpectedly in node 1805, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50222,7 +50220,7 @@ public fun close() {
                 return 1885
             }
             else -> {
-                parsererror = "found token ${currentToken1806} unexpectedly in node 1806, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1806 unexpectedly in node 1806, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50239,7 +50237,7 @@ public fun close() {
                 return 1886
             }
             else -> {
-                parsererror = "found token ${currentToken1807} unexpectedly in node 1807, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1807 unexpectedly in node 1807, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50256,7 +50254,7 @@ public fun close() {
                 return 1887
             }
             else -> {
-                parsererror = "found token ${currentToken1808} unexpectedly in node 1808, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1808 unexpectedly in node 1808, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50273,7 +50271,7 @@ public fun close() {
                 return 1888
             }
             else -> {
-                parsererror = "found token ${currentToken1809} unexpectedly in node 1809, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1809 unexpectedly in node 1809, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50290,7 +50288,7 @@ public fun close() {
                 return 1889
             }
             else -> {
-                parsererror = "found token ${currentToken1810} unexpectedly in node 1810, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1810 unexpectedly in node 1810, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50307,7 +50305,7 @@ public fun close() {
                 return 1890
             }
             else -> {
-                parsererror = "found token ${currentToken1811} unexpectedly in node 1811, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1811 unexpectedly in node 1811, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50324,7 +50322,7 @@ public fun close() {
                 return 1891
             }
             else -> {
-                parsererror = "found token ${currentToken1812} unexpectedly in node 1812, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1812 unexpectedly in node 1812, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50341,7 +50339,7 @@ public fun close() {
                 return 1892
             }
             else -> {
-                parsererror = "found token ${currentToken1813} unexpectedly in node 1813, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1813 unexpectedly in node 1813, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50358,7 +50356,7 @@ public fun close() {
                 return 1893
             }
             else -> {
-                parsererror = "found token ${currentToken1814} unexpectedly in node 1814, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1814 unexpectedly in node 1814, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50375,7 +50373,7 @@ public fun close() {
                 return 1894
             }
             else -> {
-                parsererror = "found token ${currentToken1815} unexpectedly in node 1815, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1815 unexpectedly in node 1815, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50392,7 +50390,7 @@ public fun close() {
                 return 1895
             }
             else -> {
-                parsererror = "found token ${currentToken1816} unexpectedly in node 1816, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1816 unexpectedly in node 1816, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50409,7 +50407,7 @@ public fun close() {
                 return 1896
             }
             else -> {
-                parsererror = "found token ${currentToken1817} unexpectedly in node 1817, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1817 unexpectedly in node 1817, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50426,7 +50424,7 @@ public fun close() {
                 return 1897
             }
             else -> {
-                parsererror = "found token ${currentToken1818} unexpectedly in node 1818, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1818 unexpectedly in node 1818, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50445,7 +50443,7 @@ public fun close() {
                 return 1820
             }
             else -> {
-                parsererror = "found token ${currentToken1819} unexpectedly in node 1819, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1819 unexpectedly in node 1819, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50462,7 +50460,7 @@ public fun close() {
                 return 1900
             }
             else -> {
-                parsererror = "found token ${currentToken1820} unexpectedly in node 1820, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1820 unexpectedly in node 1820, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50481,7 +50479,7 @@ public fun close() {
                 return 1915
             }
             else -> {
-                parsererror = "found token ${currentToken1821} unexpectedly in node 1821, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1821 unexpectedly in node 1821, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50500,7 +50498,7 @@ public fun close() {
                 return 374
             }
             else -> {
-                parsererror = "found token ${currentToken1822} unexpectedly in node 1822, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1822 unexpectedly in node 1822, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50517,7 +50515,7 @@ public fun close() {
                 return 1905
             }
             else -> {
-                parsererror = "found token ${currentToken1823} unexpectedly in node 1823, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1823 unexpectedly in node 1823, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50534,7 +50532,7 @@ public fun close() {
                 return 1906
             }
             else -> {
-                parsererror = "found token ${currentToken1824} unexpectedly in node 1824, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1824 unexpectedly in node 1824, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50551,7 +50549,7 @@ public fun close() {
                 return 1907
             }
             else -> {
-                parsererror = "found token ${currentToken1825} unexpectedly in node 1825, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1825 unexpectedly in node 1825, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50566,7 +50564,7 @@ public fun close() {
                 return 549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1826, at position ${bufferDefinedPosition}. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1826, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
                 return -1
             }
         }
@@ -50603,7 +50601,7 @@ public fun close() {
                 return 1908
             }
             else -> {
-                parsererror = "found token ${currentToken1832} unexpectedly in node 1832, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1832 unexpectedly in node 1832, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50666,7 +50664,7 @@ public fun close() {
                 return 1909
             }
             else -> {
-                parsererror = "found token ${currentToken1845} unexpectedly in node 1845, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1845 unexpectedly in node 1845, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50689,7 +50687,7 @@ public fun close() {
                 return 1911
             }
             else -> {
-                parsererror = "found token ${currentToken1848} unexpectedly in node 1848, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1848 unexpectedly in node 1848, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50726,7 +50724,7 @@ public fun close() {
                 return 1912
             }
             else -> {
-                parsererror = "found token ${currentToken1854} unexpectedly in node 1854, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1854 unexpectedly in node 1854, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50933,7 +50931,7 @@ public fun close() {
                 return 1913
             }
             else -> {
-                parsererror = "found token ${currentToken1898} unexpectedly in node 1898, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1898 unexpectedly in node 1898, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50954,7 +50952,7 @@ public fun close() {
                 return 1914
             }
             else -> {
-                parsererror = "found token ${currentToken1901} unexpectedly in node 1901, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1901 unexpectedly in node 1901, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -50971,7 +50969,7 @@ public fun close() {
                 return 1916
             }
             else -> {
-                parsererror = "found token ${currentToken1903} unexpectedly in node 1903, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1903 unexpectedly in node 1903, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -51003,7 +51001,7 @@ public fun close() {
                 return 1917
             }
             else -> {
-                parsererror = "found token ${currentToken1908} unexpectedly in node 1908, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1908 unexpectedly in node 1908, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -51026,7 +51024,7 @@ public fun close() {
                 return 997
             }
             else -> {
-                parsererror = "found token ${currentToken1910} unexpectedly in node 1910, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1910 unexpectedly in node 1910, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -51067,7 +51065,7 @@ public fun close() {
                 return 1001
             }
             else -> {
-                parsererror = "found token ${currentToken1915} unexpectedly in node 1915, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1915 unexpectedly in node 1915, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -51089,7 +51087,7 @@ public fun close() {
                 return 1918
             }
             else -> {
-                parsererror = "found token ${currentToken1917} unexpectedly in node 1917, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1917 unexpectedly in node 1917, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -51099,7 +51097,7 @@ public fun close() {
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 754
     }
-    public fun parserDefinedParse(): Unit {
+    public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -54898,3254 +54896,2544 @@ public fun close() {
             TODO(parsererror!!)
         }
     }
-    private fun userCode0(): Unit {
-
-stack.add(ASTSparqlDoc())
-    }
-    private fun userCode1(): Unit {
-
-val tmp430=stack.removeLast()
-(stack[stack.size-1] as ASTSparqlDoc).astAssign(0,tmp430)
-    }
-    private fun userCode2(): Unit {
-
-stack.add(ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional())
-    }
-    private fun userCode3(): Unit {
-
-val tmp422=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(0,tmp422)
-    }
-    private fun userCode4(): Unit {
-
-stack.add(ASTValuesClauseOptional())
-    }
-    private fun userCode5(): Unit {
-
-val tmp421=stack.removeLast()
-(stack[stack.size-1] as ASTValuesClauseOptional).astAssign(0,tmp421)
-    }
-    private fun userCode6(): Unit {
-
-val tmp423=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(1,tmp423)
-    }
-    private fun userCode7(): Unit {
-
-stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional())
-    }
-    private fun userCode8(): Unit {
-
-stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional())
-    }
-    private fun userCode9(): Unit {
-
-val tmp427=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0,tmp427)
-    }
-    private fun userCode10(): Unit {
-
-stack.add(ASTClassOfPrologueAndUpdateOptional())
-    }
-    private fun userCode11(): Unit {
-
-stack.add(ASTClassOfPrologueAndUpdate())
-    }
-    private fun userCode12(): Unit {
-
-val tmp424=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdate).astAssign(0,tmp424)
-    }
-    private fun userCode13(): Unit {
-
-val tmp425=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdate).astAssign(1,tmp425)
-    }
-    private fun userCode14(): Unit {
-
-val tmp426=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0,tmp426)
-    }
-    private fun userCode15(): Unit {
-
-val tmp428=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1,tmp428)
-    }
-    private fun userCode16(): Unit {
-
-val tmp429=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional).astAssign(0,tmp429)
-    }
-    private fun userCode17(): Unit {
-
-val tmp431=stack.removeLast()
-(stack[stack.size-1] as ASTSparqlDoc).astAssign(1,tmp431)
-    }
-    private fun userCode18(): Unit {
-
-stack.add(ASTUpdate())
-    }
-    private fun userCode19(): Unit {
-
-val tmp435=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0,tmp435)
-    }
-    private fun userCode20(): Unit {
-
-val tmp432=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdate).astAssign(0,tmp432)
-    }
-    private fun userCode21(): Unit {
-
-val tmp433=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdate).astAssign(1,tmp433)
-    }
-    private fun userCode22(): Unit {
-
-val tmp434=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0,tmp434)
-    }
-    private fun userCode23(): Unit {
-
-val tmp436=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1,tmp436)
-    }
-    private fun userCode24(): Unit {
-
-val tmp437=stack.removeLast()
-(stack[stack.size-1] as ASTUpdate).astAssign(0,tmp437)
-    }
-    private fun userCode25(): Unit {
-
-stack.add(ASTPrologue())
-    }
-    private fun userCode26(): Unit {
-
-val tmp438 = stack.removeLast()
-(stack[stack.size-1] as ASTPrologue).astAssign(0,tmp438)
-    }
-    private fun userCode27(): Unit {
-
-stack.add(ASTBaseDecl())
-    }
-    private fun userCode28(): Unit {
-
-stack.add(getLastTokenString())
-    }
-    private fun userCode29(): Unit {
-
-val tmp439=stack.removeLast()
-(stack[stack.size-1] as ASTBaseDecl).astAssign(0,tmp439)
-    }
-    private fun userCode30(): Unit {
-
-stack.add(ASTPrefixDecl())
-    }
-    private fun userCode31(): Unit {
-
-val tmp440=stack.removeLast()
-(stack[stack.size-1] as ASTPrefixDecl).astAssign(0,tmp440)
-    }
-    private fun userCode32(): Unit {
-
-val tmp441=stack.removeLast()
-(stack[stack.size-1] as ASTPrefixDecl).astAssign(1,tmp441)
-    }
-    private fun userCode33(): Unit {
-
-stack.add(ASTSelectQuery())
-    }
-    private fun userCode34(): Unit {
-
-val tmp443=stack.removeLast()
-(stack[stack.size-1] as ASTSelectQuery).astAssign(0,tmp443)
-    }
-    private fun userCode35(): Unit {
-
-stack.add(ASTListOfDatasetClause())
-    }
-    private fun userCode36(): Unit {
-
-val tmp442 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDatasetClause).astAssign(0,tmp442)
-    }
-    private fun userCode37(): Unit {
-
-val tmp444=stack.removeLast()
-(stack[stack.size-1] as ASTSelectQuery).astAssign(1,tmp444)
-    }
-    private fun userCode38(): Unit {
-
-val tmp445=stack.removeLast()
-(stack[stack.size-1] as ASTSelectQuery).astAssign(2,tmp445)
-    }
-    private fun userCode39(): Unit {
-
-val tmp446=stack.removeLast()
-(stack[stack.size-1] as ASTSelectQuery).astAssign(3,tmp446)
-    }
-    private fun userCode40(): Unit {
-
-stack.add(ASTSubSelect())
-    }
-    private fun userCode41(): Unit {
-
-val tmp448=stack.removeLast()
-(stack[stack.size-1] as ASTSubSelect).astAssign(0,tmp448)
-    }
-    private fun userCode42(): Unit {
-
-val tmp449=stack.removeLast()
-(stack[stack.size-1] as ASTSubSelect).astAssign(1,tmp449)
-    }
-    private fun userCode43(): Unit {
-
-val tmp450=stack.removeLast()
-(stack[stack.size-1] as ASTSubSelect).astAssign(2,tmp450)
-    }
-    private fun userCode44(): Unit {
-
-val tmp447=stack.removeLast()
-(stack[stack.size-1] as ASTValuesClauseOptional).astAssign(0,tmp447)
-    }
-    private fun userCode45(): Unit {
-
-val tmp451=stack.removeLast()
-(stack[stack.size-1] as ASTSubSelect).astAssign(3,tmp451)
-    }
-    private fun userCode46(): Unit {
-
-stack.add(ASTSelectClause())
-    }
-    private fun userCode47(): Unit {
-
-stack.add(ASTAnonymous("DISTINCT"))
-    }
-    private fun userCode48(): Unit {
-
-stack.add(ASTAnonymous("REDUCED"))
-    }
-    private fun userCode49(): Unit {
-
-val tmp455=stack.removeLast()
-(stack[stack.size-1] as ASTSelectClause).astAssign(0,tmp455)
-    }
-    private fun userCode50(): Unit {
-
-stack.add(ASTListOfInterfaceOfVarOrClassOfExpressionAndVar())
-    }
-    private fun userCode51(): Unit {
-
-stack.add(ASTClassOfExpressionAndVar())
-    }
-    private fun userCode52(): Unit {
-
-val tmp452=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndVar).astAssign(0,tmp452)
-    }
-    private fun userCode53(): Unit {
-
-val tmp453=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndVar).astAssign(1,tmp453)
-    }
-    private fun userCode54(): Unit {
-
-val tmp454 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfInterfaceOfVarOrClassOfExpressionAndVar).astAssign(0,tmp454)
-    }
-    private fun userCode55(): Unit {
-
-val tmp456=stack.removeLast()
-(stack[stack.size-1] as ASTSelectClause).astAssign(1,tmp456)
-    }
-    private fun userCode56(): Unit {
-
-stack.add(ASTSelectClauseAll())
-    }
-    private fun userCode57(): Unit {
-
-stack.add(ASTConstructQuery())
-    }
-    private fun userCode58(): Unit {
-
-stack.add(ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier())
-    }
-    private fun userCode59(): Unit {
-
-val tmp458=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(0,tmp458)
-    }
-    private fun userCode60(): Unit {
-
-val tmp457 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDatasetClause).astAssign(0,tmp457)
-    }
-    private fun userCode61(): Unit {
-
-val tmp459=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(1,tmp459)
-    }
-    private fun userCode62(): Unit {
-
-val tmp460=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(2,tmp460)
-    }
-    private fun userCode63(): Unit {
-
-val tmp461=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(3,tmp461)
-    }
-    private fun userCode64(): Unit {
-
-stack.add(ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier())
-    }
-    private fun userCode65(): Unit {
-
-val tmp462 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDatasetClause).astAssign(0,tmp462)
-    }
-    private fun userCode66(): Unit {
-
-val tmp463=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(0,tmp463)
-    }
-    private fun userCode67(): Unit {
-
-val tmp464=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(1,tmp464)
-    }
-    private fun userCode68(): Unit {
-
-val tmp465=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(2,tmp465)
-    }
-    private fun userCode69(): Unit {
-
-val tmp466=stack.removeLast()
-(stack[stack.size-1] as ASTConstructQuery).astAssign(0,tmp466)
-    }
-    private fun userCode70(): Unit {
-
-stack.add(ASTDescribeQuery())
-    }
-    private fun userCode71(): Unit {
-
-stack.add(ASTListOfVarOrIri())
-    }
-    private fun userCode72(): Unit {
-
-val tmp467 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfVarOrIri).astAssign(0,tmp467)
-    }
-    private fun userCode73(): Unit {
-
-val tmp470=stack.removeLast()
-(stack[stack.size-1] as ASTDescribeQuery).astAssign(0,tmp470)
-    }
-    private fun userCode74(): Unit {
-
-val tmp468 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDatasetClause).astAssign(0,tmp468)
-    }
-    private fun userCode75(): Unit {
-
-val tmp471=stack.removeLast()
-(stack[stack.size-1] as ASTDescribeQuery).astAssign(1,tmp471)
-    }
-    private fun userCode76(): Unit {
-
-stack.add(ASTWhereClauseOptional())
-    }
-    private fun userCode77(): Unit {
-
-val tmp469=stack.removeLast()
-(stack[stack.size-1] as ASTWhereClauseOptional).astAssign(0,tmp469)
-    }
-    private fun userCode78(): Unit {
-
-val tmp472=stack.removeLast()
-(stack[stack.size-1] as ASTDescribeQuery).astAssign(2,tmp472)
-    }
-    private fun userCode79(): Unit {
-
-val tmp473=stack.removeLast()
-(stack[stack.size-1] as ASTDescribeQuery).astAssign(3,tmp473)
-    }
-    private fun userCode80(): Unit {
-
-stack.add(ASTDescribeQueryAll())
-    }
-    private fun userCode81(): Unit {
-
-stack.add(ASTAskQuery())
-    }
-    private fun userCode82(): Unit {
-
-val tmp474 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDatasetClause).astAssign(0,tmp474)
-    }
-    private fun userCode83(): Unit {
-
-val tmp475=stack.removeLast()
-(stack[stack.size-1] as ASTAskQuery).astAssign(0,tmp475)
-    }
-    private fun userCode84(): Unit {
-
-val tmp476=stack.removeLast()
-(stack[stack.size-1] as ASTAskQuery).astAssign(1,tmp476)
-    }
-    private fun userCode85(): Unit {
-
-val tmp477=stack.removeLast()
-(stack[stack.size-1] as ASTAskQuery).astAssign(2,tmp477)
-    }
-    private fun userCode86(): Unit {
-
-stack.add(ASTDatasetClause())
-    }
-    private fun userCode87(): Unit {
-
-val tmp478=stack.removeLast()
-(stack[stack.size-1] as ASTDatasetClause).astAssign(0,tmp478)
-    }
-    private fun userCode88(): Unit {
-
-stack.add(ASTDefaultGraphClause())
-    }
-    private fun userCode89(): Unit {
-
-val tmp479=stack.removeLast()
-(stack[stack.size-1] as ASTDefaultGraphClause).astAssign(0,tmp479)
-    }
-    private fun userCode90(): Unit {
-
-stack.add(ASTNamedGraphClause())
-    }
-    private fun userCode91(): Unit {
-
-val tmp480=stack.removeLast()
-(stack[stack.size-1] as ASTNamedGraphClause).astAssign(0,tmp480)
-    }
-    private fun userCode92(): Unit {
-
-stack.add(ASTSourceSelector())
-    }
-    private fun userCode93(): Unit {
-
-val tmp481=stack.removeLast()
-(stack[stack.size-1] as ASTSourceSelector).astAssign(0,tmp481)
-    }
-    private fun userCode94(): Unit {
-
-stack.add(ASTWhereClause())
-    }
-    private fun userCode95(): Unit {
-
-stack.add(ASTAnonymous("WHERE"))
-    }
-    private fun userCode96(): Unit {
-
-val tmp482=stack.removeLast()
-(stack[stack.size-1] as ASTWhereClause).astAssign(0,tmp482)
-    }
-    private fun userCode97(): Unit {
-
-val tmp483=stack.removeLast()
-(stack[stack.size-1] as ASTWhereClause).astAssign(1,tmp483)
-    }
-    private fun userCode98(): Unit {
-
-stack.add(ASTSolutionModifier())
-    }
-    private fun userCode99(): Unit {
-
-stack.add(ASTGroupClauseOptional())
-    }
-    private fun userCode100(): Unit {
-
-val tmp484=stack.removeLast()
-(stack[stack.size-1] as ASTGroupClauseOptional).astAssign(0,tmp484)
-    }
-    private fun userCode101(): Unit {
-
-val tmp488=stack.removeLast()
-(stack[stack.size-1] as ASTSolutionModifier).astAssign(0,tmp488)
-    }
-    private fun userCode102(): Unit {
-
-stack.add(ASTHavingClauseOptional())
-    }
-    private fun userCode103(): Unit {
-
-val tmp485=stack.removeLast()
-(stack[stack.size-1] as ASTHavingClauseOptional).astAssign(0,tmp485)
-    }
-    private fun userCode104(): Unit {
-
-val tmp489=stack.removeLast()
-(stack[stack.size-1] as ASTSolutionModifier).astAssign(1,tmp489)
-    }
-    private fun userCode105(): Unit {
-
-stack.add(ASTOrderClauseOptional())
-    }
-    private fun userCode106(): Unit {
-
-val tmp486=stack.removeLast()
-(stack[stack.size-1] as ASTOrderClauseOptional).astAssign(0,tmp486)
-    }
-    private fun userCode107(): Unit {
-
-val tmp490=stack.removeLast()
-(stack[stack.size-1] as ASTSolutionModifier).astAssign(2,tmp490)
-    }
-    private fun userCode108(): Unit {
-
-stack.add(ASTLimitOffsetClausesOptional())
-    }
-    private fun userCode109(): Unit {
-
-val tmp487=stack.removeLast()
-(stack[stack.size-1] as ASTLimitOffsetClausesOptional).astAssign(0,tmp487)
-    }
-    private fun userCode110(): Unit {
-
-val tmp491=stack.removeLast()
-(stack[stack.size-1] as ASTSolutionModifier).astAssign(3,tmp491)
-    }
-    private fun userCode111(): Unit {
-
-stack.add(ASTGroupClause())
-    }
-    private fun userCode112(): Unit {
-
-stack.add(ASTListOfGroupCondition())
-    }
-    private fun userCode113(): Unit {
-
-val tmp492 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfGroupCondition).astAssign(0,tmp492)
-    }
-    private fun userCode114(): Unit {
-
-val tmp493=stack.removeLast()
-(stack[stack.size-1] as ASTGroupClause).astAssign(0,tmp493)
-    }
-    private fun userCode115(): Unit {
-
-stack.add(ASTClassOfExpressionAndVarOptional())
-    }
-    private fun userCode116(): Unit {
-
-val tmp495=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndVarOptional).astAssign(0,tmp495)
-    }
-    private fun userCode117(): Unit {
-
-stack.add(ASTVarOptional())
-    }
-    private fun userCode118(): Unit {
-
-val tmp494=stack.removeLast()
-(stack[stack.size-1] as ASTVarOptional).astAssign(0,tmp494)
-    }
-    private fun userCode119(): Unit {
-
-val tmp496=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndVarOptional).astAssign(1,tmp496)
-    }
-    private fun userCode120(): Unit {
-
-stack.add(ASTHavingClause())
-    }
-    private fun userCode121(): Unit {
-
-stack.add(ASTListOfHavingCondition())
-    }
-    private fun userCode122(): Unit {
-
-val tmp497 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfHavingCondition).astAssign(0,tmp497)
-    }
-    private fun userCode123(): Unit {
-
-val tmp498=stack.removeLast()
-(stack[stack.size-1] as ASTHavingClause).astAssign(0,tmp498)
-    }
-    private fun userCode124(): Unit {
-
-stack.add(ASTHavingCondition())
-    }
-    private fun userCode125(): Unit {
-
-val tmp499=stack.removeLast()
-(stack[stack.size-1] as ASTHavingCondition).astAssign(0,tmp499)
-    }
-    private fun userCode126(): Unit {
-
-stack.add(ASTOrderClause())
-    }
-    private fun userCode127(): Unit {
-
-stack.add(ASTListOfOrderCondition())
-    }
-    private fun userCode128(): Unit {
-
-val tmp500 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfOrderCondition).astAssign(0,tmp500)
-    }
-    private fun userCode129(): Unit {
-
-val tmp501=stack.removeLast()
-(stack[stack.size-1] as ASTOrderClause).astAssign(0,tmp501)
-    }
-    private fun userCode130(): Unit {
-
-stack.add(ASTOrderCondition())
-    }
-    private fun userCode131(): Unit {
-
-stack.add(ASTAnonymous("ASC"))
-    }
-    private fun userCode132(): Unit {
-
-stack.add(ASTAnonymous("DESC"))
-    }
-    private fun userCode133(): Unit {
-
-val tmp502=stack.removeLast()
-(stack[stack.size-1] as ASTOrderCondition).astAssign(0,tmp502)
-    }
-    private fun userCode134(): Unit {
-
-val tmp503=stack.removeLast()
-(stack[stack.size-1] as ASTOrderCondition).astAssign(1,tmp503)
-    }
-    private fun userCode135(): Unit {
-
-stack.add(ASTClassOfLimitClauseAndOffsetClauseOptional())
-    }
-    private fun userCode136(): Unit {
-
-val tmp505=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(0,tmp505)
-    }
-    private fun userCode137(): Unit {
-
-stack.add(ASTOffsetClauseOptional())
-    }
-    private fun userCode138(): Unit {
-
-val tmp504=stack.removeLast()
-(stack[stack.size-1] as ASTOffsetClauseOptional).astAssign(0,tmp504)
-    }
-    private fun userCode139(): Unit {
-
-val tmp506=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(1,tmp506)
-    }
-    private fun userCode140(): Unit {
-
-stack.add(ASTClassOfOffsetClauseAndLimitClauseOptional())
-    }
-    private fun userCode141(): Unit {
-
-val tmp508=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(0,tmp508)
-    }
-    private fun userCode142(): Unit {
-
-stack.add(ASTLimitClauseOptional())
-    }
-    private fun userCode143(): Unit {
-
-val tmp507=stack.removeLast()
-(stack[stack.size-1] as ASTLimitClauseOptional).astAssign(0,tmp507)
-    }
-    private fun userCode144(): Unit {
-
-val tmp509=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(1,tmp509)
-    }
-    private fun userCode145(): Unit {
-
-stack.add(ASTLimitClause())
-    }
-    private fun userCode146(): Unit {
-
-val tmp510=stack.removeLast()
-(stack[stack.size-1] as ASTLimitClause).astAssign(0,tmp510)
-    }
-    private fun userCode147(): Unit {
-
-stack.add(ASTOffsetClause())
-    }
-    private fun userCode148(): Unit {
-
-val tmp511=stack.removeLast()
-(stack[stack.size-1] as ASTOffsetClause).astAssign(0,tmp511)
-    }
-    private fun userCode149(): Unit {
-
-stack.add(ASTLoad())
-    }
-    private fun userCode150(): Unit {
-
-stack.add(ASTAnonymous("SILENT"))
-    }
-    private fun userCode151(): Unit {
-
-val tmp513=stack.removeLast()
-(stack[stack.size-1] as ASTLoad).astAssign(0,tmp513)
-    }
-    private fun userCode152(): Unit {
-
-val tmp514=stack.removeLast()
-(stack[stack.size-1] as ASTLoad).astAssign(1,tmp514)
-    }
-    private fun userCode153(): Unit {
-
-stack.add(ASTGraphRefOptional())
-    }
-    private fun userCode154(): Unit {
-
-val tmp512=stack.removeLast()
-(stack[stack.size-1] as ASTGraphRefOptional).astAssign(0,tmp512)
-    }
-    private fun userCode155(): Unit {
-
-val tmp515=stack.removeLast()
-(stack[stack.size-1] as ASTLoad).astAssign(2,tmp515)
-    }
-    private fun userCode156(): Unit {
-
-stack.add(ASTClear())
-    }
-    private fun userCode157(): Unit {
-
-val tmp516=stack.removeLast()
-(stack[stack.size-1] as ASTClear).astAssign(0,tmp516)
-    }
-    private fun userCode158(): Unit {
-
-val tmp517=stack.removeLast()
-(stack[stack.size-1] as ASTClear).astAssign(1,tmp517)
-    }
-    private fun userCode159(): Unit {
-
-stack.add(ASTDrop())
-    }
-    private fun userCode160(): Unit {
-
-val tmp518=stack.removeLast()
-(stack[stack.size-1] as ASTDrop).astAssign(0,tmp518)
-    }
-    private fun userCode161(): Unit {
-
-val tmp519=stack.removeLast()
-(stack[stack.size-1] as ASTDrop).astAssign(1,tmp519)
-    }
-    private fun userCode162(): Unit {
-
-stack.add(ASTCreate())
-    }
-    private fun userCode163(): Unit {
-
-val tmp520=stack.removeLast()
-(stack[stack.size-1] as ASTCreate).astAssign(0,tmp520)
-    }
-    private fun userCode164(): Unit {
-
-val tmp521=stack.removeLast()
-(stack[stack.size-1] as ASTCreate).astAssign(1,tmp521)
-    }
-    private fun userCode165(): Unit {
-
-stack.add(ASTAdd())
-    }
-    private fun userCode166(): Unit {
-
-val tmp522=stack.removeLast()
-(stack[stack.size-1] as ASTAdd).astAssign(0,tmp522)
-    }
-    private fun userCode167(): Unit {
-
-val tmp523=stack.removeLast()
-(stack[stack.size-1] as ASTAdd).astAssign(1,tmp523)
-    }
-    private fun userCode168(): Unit {
-
-val tmp524=stack.removeLast()
-(stack[stack.size-1] as ASTAdd).astAssign(2,tmp524)
-    }
-    private fun userCode169(): Unit {
-
-stack.add(ASTMove())
-    }
-    private fun userCode170(): Unit {
-
-val tmp525=stack.removeLast()
-(stack[stack.size-1] as ASTMove).astAssign(0,tmp525)
-    }
-    private fun userCode171(): Unit {
-
-val tmp526=stack.removeLast()
-(stack[stack.size-1] as ASTMove).astAssign(1,tmp526)
-    }
-    private fun userCode172(): Unit {
-
-val tmp527=stack.removeLast()
-(stack[stack.size-1] as ASTMove).astAssign(2,tmp527)
-    }
-    private fun userCode173(): Unit {
-
-stack.add(ASTCopy())
-    }
-    private fun userCode174(): Unit {
-
-val tmp528=stack.removeLast()
-(stack[stack.size-1] as ASTCopy).astAssign(0,tmp528)
-    }
-    private fun userCode175(): Unit {
-
-val tmp529=stack.removeLast()
-(stack[stack.size-1] as ASTCopy).astAssign(1,tmp529)
-    }
-    private fun userCode176(): Unit {
-
-val tmp530=stack.removeLast()
-(stack[stack.size-1] as ASTCopy).astAssign(2,tmp530)
-    }
-    private fun userCode177(): Unit {
-
-stack.add(ASTInsertData())
-    }
-    private fun userCode178(): Unit {
-
-val tmp531=stack.removeLast()
-(stack[stack.size-1] as ASTInsertData).astAssign(0,tmp531)
-    }
-    private fun userCode179(): Unit {
-
-stack.add(ASTDeleteData())
-    }
-    private fun userCode180(): Unit {
-
-val tmp532=stack.removeLast()
-(stack[stack.size-1] as ASTDeleteData).astAssign(0,tmp532)
-    }
-    private fun userCode181(): Unit {
-
-stack.add(ASTDeleteWhere())
-    }
-    private fun userCode182(): Unit {
-
-val tmp533=stack.removeLast()
-(stack[stack.size-1] as ASTDeleteWhere).astAssign(0,tmp533)
-    }
-    private fun userCode183(): Unit {
-
-stack.add(ASTModify())
-    }
-    private fun userCode184(): Unit {
-
-stack.add(ASTiriOptional())
-    }
-    private fun userCode185(): Unit {
-
-val tmp534=stack.removeLast()
-(stack[stack.size-1] as ASTiriOptional).astAssign(0,tmp534)
-    }
-    private fun userCode186(): Unit {
-
-val tmp539=stack.removeLast()
-(stack[stack.size-1] as ASTModify).astAssign(0,tmp539)
-    }
-    private fun userCode187(): Unit {
-
-stack.add(ASTClassOfDeleteClauseAndInsertClauseOptional())
-    }
-    private fun userCode188(): Unit {
-
-val tmp536=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(0,tmp536)
-    }
-    private fun userCode189(): Unit {
-
-stack.add(ASTInsertClauseOptional())
-    }
-    private fun userCode190(): Unit {
-
-val tmp535=stack.removeLast()
-(stack[stack.size-1] as ASTInsertClauseOptional).astAssign(0,tmp535)
-    }
-    private fun userCode191(): Unit {
-
-val tmp537=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(1,tmp537)
-    }
-    private fun userCode192(): Unit {
-
-val tmp540=stack.removeLast()
-(stack[stack.size-1] as ASTModify).astAssign(1,tmp540)
-    }
-    private fun userCode193(): Unit {
-
-stack.add(ASTListOfUsingClause())
-    }
-    private fun userCode194(): Unit {
-
-val tmp538 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfUsingClause).astAssign(0,tmp538)
-    }
-    private fun userCode195(): Unit {
-
-val tmp541=stack.removeLast()
-(stack[stack.size-1] as ASTModify).astAssign(2,tmp541)
-    }
-    private fun userCode196(): Unit {
-
-val tmp542=stack.removeLast()
-(stack[stack.size-1] as ASTModify).astAssign(3,tmp542)
-    }
-    private fun userCode197(): Unit {
-
-stack.add(ASTDeleteClause())
-    }
-    private fun userCode198(): Unit {
-
-val tmp543=stack.removeLast()
-(stack[stack.size-1] as ASTDeleteClause).astAssign(0,tmp543)
-    }
-    private fun userCode199(): Unit {
-
-stack.add(ASTInsertClause())
-    }
-    private fun userCode200(): Unit {
-
-val tmp544=stack.removeLast()
-(stack[stack.size-1] as ASTInsertClause).astAssign(0,tmp544)
-    }
-    private fun userCode201(): Unit {
-
-stack.add(ASTUsingClause())
-    }
-    private fun userCode202(): Unit {
-
-val tmp545=stack.removeLast()
-(stack[stack.size-1] as ASTUsingClause).astAssign(0,tmp545)
-    }
-    private fun userCode203(): Unit {
-
-stack.add(ASTClassOfGRAPHAndiri())
-    }
-    private fun userCode204(): Unit {
-
-stack.add(ASTAnonymous("GRAPH"))
-    }
-    private fun userCode205(): Unit {
-
-val tmp546=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfGRAPHAndiri).astAssign(0,tmp546)
-    }
-    private fun userCode206(): Unit {
-
-val tmp547=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfGRAPHAndiri).astAssign(1,tmp547)
-    }
-    private fun userCode207(): Unit {
-
-stack.add(ASTGraphRef())
-    }
-    private fun userCode208(): Unit {
-
-val tmp548=stack.removeLast()
-(stack[stack.size-1] as ASTGraphRef).astAssign(0,tmp548)
-    }
-    private fun userCode209(): Unit {
-
-stack.add(ASTGraphRefDefault())
-    }
-    private fun userCode210(): Unit {
-
-stack.add(ASTGraphRefNamed())
-    }
-    private fun userCode211(): Unit {
-
-stack.add(ASTGraphRefAll2())
-    }
-    private fun userCode212(): Unit {
-
-stack.add(ASTQuadPattern())
-    }
-    private fun userCode213(): Unit {
-
-val tmp549=stack.removeLast()
-(stack[stack.size-1] as ASTQuadPattern).astAssign(0,tmp549)
-    }
-    private fun userCode214(): Unit {
-
-stack.add(ASTQuadData())
-    }
-    private fun userCode215(): Unit {
-
-val tmp550=stack.removeLast()
-(stack[stack.size-1] as ASTQuadData).astAssign(0,tmp550)
-    }
-    private fun userCode216(): Unit {
-
-stack.add(ASTQuads())
-    }
-    private fun userCode217(): Unit {
-
-stack.add(ASTTriplesTemplateOptional())
-    }
-    private fun userCode218(): Unit {
-
-val tmp551=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplateOptional).astAssign(0,tmp551)
-    }
-    private fun userCode219(): Unit {
-
-val tmp557=stack.removeLast()
-(stack[stack.size-1] as ASTQuads).astAssign(0,tmp557)
-    }
-    private fun userCode220(): Unit {
-
-stack.add(ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
-    }
-    private fun userCode221(): Unit {
-
-stack.add(ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
-    }
-    private fun userCode222(): Unit {
-
-val tmp553=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0,tmp553)
-    }
-    private fun userCode223(): Unit {
-
-stack.add(ASTAnonymous("point"))
-    }
-    private fun userCode224(): Unit {
-
-val tmp554=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(1,tmp554)
-    }
-    private fun userCode225(): Unit {
-
-val tmp552=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplateOptional).astAssign(0,tmp552)
-    }
-    private fun userCode226(): Unit {
-
-val tmp555=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(2,tmp555)
-    }
-    private fun userCode227(): Unit {
-
-val tmp556 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0,tmp556)
-    }
-    private fun userCode228(): Unit {
-
-val tmp558=stack.removeLast()
-(stack[stack.size-1] as ASTQuads).astAssign(1,tmp558)
-    }
-    private fun userCode229(): Unit {
-
-stack.add(ASTQuadsNotTriples())
-    }
-    private fun userCode230(): Unit {
-
-val tmp560=stack.removeLast()
-(stack[stack.size-1] as ASTQuadsNotTriples).astAssign(0,tmp560)
-    }
-    private fun userCode231(): Unit {
-
-val tmp559=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplateOptional).astAssign(0,tmp559)
-    }
-    private fun userCode232(): Unit {
-
-val tmp561=stack.removeLast()
-(stack[stack.size-1] as ASTQuadsNotTriples).astAssign(1,tmp561)
-    }
-    private fun userCode233(): Unit {
-
-stack.add(ASTTriplesTemplate())
-    }
-    private fun userCode234(): Unit {
-
-val tmp565=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplate).astAssign(0,tmp565)
-    }
-    private fun userCode235(): Unit {
-
-stack.add(ASTTriplesTemplateOptionalOptional())
-    }
-    private fun userCode236(): Unit {
-
-val tmp562=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplateOptional).astAssign(0,tmp562)
-    }
-    private fun userCode237(): Unit {
-
-val tmp564=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplateOptionalOptional).astAssign(0,tmp564)
-    }
-    private fun userCode238(): Unit {
-
-val tmp566=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesTemplate).astAssign(1,tmp566)
-    }
-    private fun userCode239(): Unit {
-
-stack.add(ASTGroupGraphPattern())
-    }
-    private fun userCode240(): Unit {
-
-val tmp567=stack.removeLast()
-(stack[stack.size-1] as ASTGroupGraphPattern).astAssign(0,tmp567)
-    }
-    private fun userCode241(): Unit {
-
-stack.add(ASTGroupGraphPatternSub())
-    }
-    private fun userCode242(): Unit {
-
-stack.add(ASTTriplesBlockOptional())
-    }
-    private fun userCode243(): Unit {
-
-val tmp568=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlockOptional).astAssign(0,tmp568)
-    }
-    private fun userCode244(): Unit {
-
-val tmp574=stack.removeLast()
-(stack[stack.size-1] as ASTGroupGraphPatternSub).astAssign(0,tmp574)
-    }
-    private fun userCode245(): Unit {
-
-stack.add(ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
-    }
-    private fun userCode246(): Unit {
-
-stack.add(ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
-    }
-    private fun userCode247(): Unit {
-
-val tmp570=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0,tmp570)
-    }
-    private fun userCode248(): Unit {
-
-val tmp571=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(1,tmp571)
-    }
-    private fun userCode249(): Unit {
-
-val tmp569=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlockOptional).astAssign(0,tmp569)
-    }
-    private fun userCode250(): Unit {
-
-val tmp572=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(2,tmp572)
-    }
-    private fun userCode251(): Unit {
-
-val tmp573 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0,tmp573)
-    }
-    private fun userCode252(): Unit {
-
-val tmp575=stack.removeLast()
-(stack[stack.size-1] as ASTGroupGraphPatternSub).astAssign(1,tmp575)
-    }
-    private fun userCode253(): Unit {
-
-stack.add(ASTTriplesBlock())
-    }
-    private fun userCode254(): Unit {
-
-val tmp579=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlock).astAssign(0,tmp579)
-    }
-    private fun userCode255(): Unit {
-
-stack.add(ASTTriplesBlockOptionalOptional())
-    }
-    private fun userCode256(): Unit {
-
-val tmp576=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlockOptional).astAssign(0,tmp576)
-    }
-    private fun userCode257(): Unit {
-
-val tmp578=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlockOptionalOptional).astAssign(0,tmp578)
-    }
-    private fun userCode258(): Unit {
-
-val tmp580=stack.removeLast()
-(stack[stack.size-1] as ASTTriplesBlock).astAssign(1,tmp580)
-    }
-    private fun userCode259(): Unit {
-
-stack.add(ASTOptionalGraphPattern())
-    }
-    private fun userCode260(): Unit {
-
-val tmp581=stack.removeLast()
-(stack[stack.size-1] as ASTOptionalGraphPattern).astAssign(0,tmp581)
-    }
-    private fun userCode261(): Unit {
-
-stack.add(ASTGraphGraphPattern())
-    }
-    private fun userCode262(): Unit {
-
-val tmp582=stack.removeLast()
-(stack[stack.size-1] as ASTGraphGraphPattern).astAssign(0,tmp582)
-    }
-    private fun userCode263(): Unit {
-
-val tmp583=stack.removeLast()
-(stack[stack.size-1] as ASTGraphGraphPattern).astAssign(1,tmp583)
-    }
-    private fun userCode264(): Unit {
-
-stack.add(ASTServiceGraphPattern())
-    }
-    private fun userCode265(): Unit {
-
-val tmp584=stack.removeLast()
-(stack[stack.size-1] as ASTServiceGraphPattern).astAssign(0,tmp584)
-    }
-    private fun userCode266(): Unit {
-
-val tmp585=stack.removeLast()
-(stack[stack.size-1] as ASTServiceGraphPattern).astAssign(1,tmp585)
-    }
-    private fun userCode267(): Unit {
-
-val tmp586=stack.removeLast()
-(stack[stack.size-1] as ASTServiceGraphPattern).astAssign(2,tmp586)
-    }
-    private fun userCode268(): Unit {
-
-stack.add(ASTBind())
-    }
-    private fun userCode269(): Unit {
-
-val tmp587=stack.removeLast()
-(stack[stack.size-1] as ASTBind).astAssign(0,tmp587)
-    }
-    private fun userCode270(): Unit {
-
-val tmp588=stack.removeLast()
-(stack[stack.size-1] as ASTBind).astAssign(1,tmp588)
-    }
-    private fun userCode271(): Unit {
-
-stack.add(ASTValuesClause())
-    }
-    private fun userCode272(): Unit {
-
-val tmp589=stack.removeLast()
-(stack[stack.size-1] as ASTValuesClause).astAssign(0,tmp589)
-    }
-    private fun userCode273(): Unit {
-
-stack.add(ASTInlineDataOneVar())
-    }
-    private fun userCode274(): Unit {
-
-val tmp591=stack.removeLast()
-(stack[stack.size-1] as ASTInlineDataOneVar).astAssign(0,tmp591)
-    }
-    private fun userCode275(): Unit {
-
-stack.add(ASTListOfDataBlockValue())
-    }
-    private fun userCode276(): Unit {
-
-val tmp590 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDataBlockValue).astAssign(0,tmp590)
-    }
-    private fun userCode277(): Unit {
-
-val tmp592=stack.removeLast()
-(stack[stack.size-1] as ASTInlineDataOneVar).astAssign(1,tmp592)
-    }
-    private fun userCode278(): Unit {
-
-stack.add(ASTInlineDataFull())
-    }
-    private fun userCode279(): Unit {
-
-stack.add(ASTListOfVar())
-    }
-    private fun userCode280(): Unit {
-
-val tmp593 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfVar).astAssign(0,tmp593)
-    }
-    private fun userCode281(): Unit {
-
-val tmp598=stack.removeLast()
-(stack[stack.size-1] as ASTInlineDataFull).astAssign(0,tmp598)
-    }
-    private fun userCode282(): Unit {
-
-stack.add(ASTListOfInterfaceOfListOfDataBlockValueOrNILParam())
-    }
-    private fun userCode283(): Unit {
-
-val tmp595 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfDataBlockValue).astAssign(0,tmp595)
-    }
-    private fun userCode284(): Unit {
-
-val tmp597 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam).astAssign(0,tmp597)
-    }
-    private fun userCode285(): Unit {
-
-val tmp599=stack.removeLast()
-(stack[stack.size-1] as ASTInlineDataFull).astAssign(1,tmp599)
-    }
-    private fun userCode286(): Unit {
-
-stack.add(ASTUNDEF())
-    }
-    private fun userCode287(): Unit {
-
-stack.add(ASTMinusGraphPattern())
-    }
-    private fun userCode288(): Unit {
-
-val tmp600=stack.removeLast()
-(stack[stack.size-1] as ASTMinusGraphPattern).astAssign(0,tmp600)
-    }
-    private fun userCode289(): Unit {
-
-stack.add(ASTGroupOrUnionGraphPattern())
-    }
-    private fun userCode290(): Unit {
-
-val tmp602=stack.removeLast()
-(stack[stack.size-1] as ASTGroupOrUnionGraphPattern).astAssign(0,tmp602)
-    }
-    private fun userCode291(): Unit {
-
-stack.add(ASTListOfGroupGraphPattern())
-    }
-    private fun userCode292(): Unit {
-
-val tmp601 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfGroupGraphPattern).astAssign(0,tmp601)
-    }
-    private fun userCode293(): Unit {
-
-val tmp603=stack.removeLast()
-(stack[stack.size-1] as ASTGroupOrUnionGraphPattern).astAssign(1,tmp603)
-    }
-    private fun userCode294(): Unit {
-
-stack.add(ASTFilter())
-    }
-    private fun userCode295(): Unit {
-
-val tmp604=stack.removeLast()
-(stack[stack.size-1] as ASTFilter).astAssign(0,tmp604)
-    }
-    private fun userCode296(): Unit {
-
-stack.add(ASTFunctionCall())
-    }
-    private fun userCode297(): Unit {
-
-val tmp605=stack.removeLast()
-(stack[stack.size-1] as ASTFunctionCall).astAssign(0,tmp605)
-    }
-    private fun userCode298(): Unit {
-
-val tmp606=stack.removeLast()
-(stack[stack.size-1] as ASTFunctionCall).astAssign(1,tmp606)
-    }
-    private fun userCode299(): Unit {
-
-stack.add(ASTClassOfDISTINCTAndExpressionAndListOfExpression())
-    }
-    private fun userCode300(): Unit {
-
-val tmp608=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(0,tmp608)
-    }
-    private fun userCode301(): Unit {
-
-val tmp609=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(1,tmp609)
-    }
-    private fun userCode302(): Unit {
-
-stack.add(ASTListOfExpression())
-    }
-    private fun userCode303(): Unit {
-
-val tmp607 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfExpression).astAssign(0,tmp607)
-    }
-    private fun userCode304(): Unit {
-
-val tmp610=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(2,tmp610)
-    }
-    private fun userCode305(): Unit {
-
-stack.add(ASTClassOfExpressionAndListOfExpression())
-    }
-    private fun userCode306(): Unit {
-
-val tmp612=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndListOfExpression).astAssign(0,tmp612)
-    }
-    private fun userCode307(): Unit {
-
-val tmp611 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfExpression).astAssign(0,tmp611)
-    }
-    private fun userCode308(): Unit {
-
-val tmp613=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfExpressionAndListOfExpression).astAssign(1,tmp613)
-    }
-    private fun userCode309(): Unit {
-
-stack.add(ASTConstructTemplate())
-    }
-    private fun userCode310(): Unit {
-
-stack.add(ASTConstructTriplesOptional())
-    }
-    private fun userCode311(): Unit {
-
-val tmp614=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTriplesOptional).astAssign(0,tmp614)
-    }
-    private fun userCode312(): Unit {
-
-val tmp615=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTemplate).astAssign(0,tmp615)
-    }
-    private fun userCode313(): Unit {
-
-stack.add(ASTConstructTriples())
-    }
-    private fun userCode314(): Unit {
-
-val tmp619=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTriples).astAssign(0,tmp619)
-    }
-    private fun userCode315(): Unit {
-
-stack.add(ASTConstructTriplesOptionalOptional())
-    }
-    private fun userCode316(): Unit {
-
-val tmp616=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTriplesOptional).astAssign(0,tmp616)
-    }
-    private fun userCode317(): Unit {
-
-val tmp618=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTriplesOptionalOptional).astAssign(0,tmp618)
-    }
-    private fun userCode318(): Unit {
-
-val tmp620=stack.removeLast()
-(stack[stack.size-1] as ASTConstructTriples).astAssign(1,tmp620)
-    }
-    private fun userCode319(): Unit {
-
-stack.add(ASTClassOfVarOrTermAndPropertyListNotEmpty())
-    }
-    private fun userCode320(): Unit {
-
-val tmp621=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(0,tmp621)
-    }
-    private fun userCode321(): Unit {
-
-val tmp622=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(1,tmp622)
-    }
-    private fun userCode322(): Unit {
-
-stack.add(ASTClassOfTriplesNodeAndPropertyListOptional())
-    }
-    private fun userCode323(): Unit {
-
-val tmp624=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(0,tmp624)
-    }
-    private fun userCode324(): Unit {
-
-stack.add(ASTPropertyListOptional())
-    }
-    private fun userCode325(): Unit {
-
-val tmp623=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListOptional).astAssign(0,tmp623)
-    }
-    private fun userCode326(): Unit {
-
-val tmp625=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(1,tmp625)
-    }
-    private fun userCode327(): Unit {
-
-stack.add(ASTPropertyList())
-    }
-    private fun userCode328(): Unit {
-
-val tmp626=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyList).astAssign(0,tmp626)
-    }
-    private fun userCode329(): Unit {
-
-stack.add(ASTPropertyListNotEmpty())
-    }
-    private fun userCode330(): Unit {
-
-val tmp632=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListNotEmpty).astAssign(0,tmp632)
-    }
-    private fun userCode331(): Unit {
-
-val tmp633=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListNotEmpty).astAssign(1,tmp633)
-    }
-    private fun userCode332(): Unit {
-
-stack.add(ASTListOfClassOfVerbAndObjectListOptional())
-    }
-    private fun userCode333(): Unit {
-
-stack.add(ASTClassOfVerbAndObjectListOptional())
-    }
-    private fun userCode334(): Unit {
-
-stack.add(ASTClassOfVerbAndObjectList())
-    }
-    private fun userCode335(): Unit {
-
-val tmp627=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVerbAndObjectList).astAssign(0,tmp627)
-    }
-    private fun userCode336(): Unit {
-
-val tmp628=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVerbAndObjectList).astAssign(1,tmp628)
-    }
-    private fun userCode337(): Unit {
-
-val tmp629=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVerbAndObjectListOptional).astAssign(0,tmp629)
-    }
-    private fun userCode338(): Unit {
-
-val tmp631 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfClassOfVerbAndObjectListOptional).astAssign(0,tmp631)
-    }
-    private fun userCode339(): Unit {
-
-val tmp634=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListNotEmpty).astAssign(2,tmp634)
-    }
-    private fun userCode340(): Unit {
-
-stack.add(ASTRDFType())
-    }
-    private fun userCode341(): Unit {
-
-stack.add(ASTObjectList())
-    }
-    private fun userCode342(): Unit {
-
-val tmp636=stack.removeLast()
-(stack[stack.size-1] as ASTObjectList).astAssign(0,tmp636)
-    }
-    private fun userCode343(): Unit {
-
-stack.add(ASTListOfObject())
-    }
-    private fun userCode344(): Unit {
-
-val tmp635 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfObject).astAssign(0,tmp635)
-    }
-    private fun userCode345(): Unit {
-
-val tmp637=stack.removeLast()
-(stack[stack.size-1] as ASTObjectList).astAssign(1,tmp637)
-    }
-    private fun userCode346(): Unit {
-
-stack.add(ASTObject())
-    }
-    private fun userCode347(): Unit {
-
-val tmp638=stack.removeLast()
-(stack[stack.size-1] as ASTObject).astAssign(0,tmp638)
-    }
-    private fun userCode348(): Unit {
-
-stack.add(ASTClassOfVarOrTermAndPropertyListPathNotEmpty())
-    }
-    private fun userCode349(): Unit {
-
-val tmp639=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(0,tmp639)
-    }
-    private fun userCode350(): Unit {
-
-val tmp640=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(1,tmp640)
-    }
-    private fun userCode351(): Unit {
-
-stack.add(ASTClassOfTriplesNodePathAndPropertyListPathOptional())
-    }
-    private fun userCode352(): Unit {
-
-val tmp642=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(0,tmp642)
-    }
-    private fun userCode353(): Unit {
-
-stack.add(ASTPropertyListPathOptional())
-    }
-    private fun userCode354(): Unit {
-
-val tmp641=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListPathOptional).astAssign(0,tmp641)
-    }
-    private fun userCode355(): Unit {
-
-val tmp643=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(1,tmp643)
-    }
-    private fun userCode356(): Unit {
-
-stack.add(ASTPropertyListPath())
-    }
-    private fun userCode357(): Unit {
-
-val tmp644=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListPath).astAssign(0,tmp644)
-    }
-    private fun userCode358(): Unit {
-
-stack.add(ASTPropertyListPathNotEmpty())
-    }
-    private fun userCode359(): Unit {
-
-val tmp650=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListPathNotEmpty).astAssign(0,tmp650)
-    }
-    private fun userCode360(): Unit {
-
-val tmp651=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListPathNotEmpty).astAssign(1,tmp651)
-    }
-    private fun userCode361(): Unit {
-
-stack.add(ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
-    }
-    private fun userCode362(): Unit {
-
-stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
-    }
-    private fun userCode363(): Unit {
-
-stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList())
-    }
-    private fun userCode364(): Unit {
-
-val tmp645=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(0,tmp645)
-    }
-    private fun userCode365(): Unit {
-
-val tmp646=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(1,tmp646)
-    }
-    private fun userCode366(): Unit {
-
-val tmp647=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0,tmp647)
-    }
-    private fun userCode367(): Unit {
-
-val tmp649 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0,tmp649)
-    }
-    private fun userCode368(): Unit {
-
-val tmp652=stack.removeLast()
-(stack[stack.size-1] as ASTPropertyListPathNotEmpty).astAssign(2,tmp652)
-    }
-    private fun userCode369(): Unit {
-
-stack.add(ASTVerbPath())
-    }
-    private fun userCode370(): Unit {
-
-val tmp653=stack.removeLast()
-(stack[stack.size-1] as ASTVerbPath).astAssign(0,tmp653)
-    }
-    private fun userCode371(): Unit {
-
-stack.add(ASTVerbSimple())
-    }
-    private fun userCode372(): Unit {
-
-val tmp654=stack.removeLast()
-(stack[stack.size-1] as ASTVerbSimple).astAssign(0,tmp654)
-    }
-    private fun userCode373(): Unit {
-
-stack.add(ASTObjectListPath())
-    }
-    private fun userCode374(): Unit {
-
-val tmp656=stack.removeLast()
-(stack[stack.size-1] as ASTObjectListPath).astAssign(0,tmp656)
-    }
-    private fun userCode375(): Unit {
-
-stack.add(ASTListOfObjectPath())
-    }
-    private fun userCode376(): Unit {
-
-val tmp655 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfObjectPath).astAssign(0,tmp655)
-    }
-    private fun userCode377(): Unit {
-
-val tmp657=stack.removeLast()
-(stack[stack.size-1] as ASTObjectListPath).astAssign(1,tmp657)
-    }
-    private fun userCode378(): Unit {
-
-stack.add(ASTObjectPath())
-    }
-    private fun userCode379(): Unit {
-
-val tmp658=stack.removeLast()
-(stack[stack.size-1] as ASTObjectPath).astAssign(0,tmp658)
-    }
-    private fun userCode380(): Unit {
-
-stack.add(ASTPath())
-    }
-    private fun userCode381(): Unit {
-
-val tmp659=stack.removeLast()
-(stack[stack.size-1] as ASTPath).astAssign(0,tmp659)
-    }
-    private fun userCode382(): Unit {
-
-stack.add(ASTPathAlternative())
-    }
-    private fun userCode383(): Unit {
-
-val tmp661=stack.removeLast()
-(stack[stack.size-1] as ASTPathAlternative).astAssign(0,tmp661)
-    }
-    private fun userCode384(): Unit {
-
-stack.add(ASTListOfPathSequence())
-    }
-    private fun userCode385(): Unit {
-
-val tmp660 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfPathSequence).astAssign(0,tmp660)
-    }
-    private fun userCode386(): Unit {
-
-val tmp662=stack.removeLast()
-(stack[stack.size-1] as ASTPathAlternative).astAssign(1,tmp662)
-    }
-    private fun userCode387(): Unit {
-
-stack.add(ASTPathSequence())
-    }
-    private fun userCode388(): Unit {
-
-val tmp664=stack.removeLast()
-(stack[stack.size-1] as ASTPathSequence).astAssign(0,tmp664)
-    }
-    private fun userCode389(): Unit {
-
-stack.add(ASTListOfPathEltOrInverse())
-    }
-    private fun userCode390(): Unit {
-
-val tmp663 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfPathEltOrInverse).astAssign(0,tmp663)
-    }
-    private fun userCode391(): Unit {
-
-val tmp665=stack.removeLast()
-(stack[stack.size-1] as ASTPathSequence).astAssign(1,tmp665)
-    }
-    private fun userCode392(): Unit {
-
-stack.add(ASTPathElt())
-    }
-    private fun userCode393(): Unit {
-
-val tmp666=stack.removeLast()
-(stack[stack.size-1] as ASTPathElt).astAssign(0,tmp666)
-    }
-    private fun userCode394(): Unit {
-
-stack.add(ASTAnonymous("optional"))
-    }
-    private fun userCode395(): Unit {
-
-stack.add(ASTAnonymous("any"))
-    }
-    private fun userCode396(): Unit {
-
-stack.add(ASTAnonymous("atLeastOne"))
-    }
-    private fun userCode397(): Unit {
-
-val tmp667=stack.removeLast()
-(stack[stack.size-1] as ASTPathElt).astAssign(1,tmp667)
-    }
-    private fun userCode398(): Unit {
-
-stack.add(ASTPathEltOrInverse())
-    }
-    private fun userCode399(): Unit {
-
-stack.add(ASTAnonymous("negated"))
-    }
-    private fun userCode400(): Unit {
-
-val tmp668=stack.removeLast()
-(stack[stack.size-1] as ASTPathEltOrInverse).astAssign(0,tmp668)
-    }
-    private fun userCode401(): Unit {
-
-val tmp669=stack.removeLast()
-(stack[stack.size-1] as ASTPathEltOrInverse).astAssign(1,tmp669)
-    }
-    private fun userCode402(): Unit {
-
-stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional())
-    }
-    private fun userCode403(): Unit {
-
-stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet())
-    }
-    private fun userCode404(): Unit {
-
-val tmp671=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(0,tmp671)
-    }
-    private fun userCode405(): Unit {
-
-stack.add(ASTListOfPathOneInPropertySet())
-    }
-    private fun userCode406(): Unit {
-
-val tmp670 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfPathOneInPropertySet).astAssign(0,tmp670)
-    }
-    private fun userCode407(): Unit {
-
-val tmp672=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(1,tmp672)
-    }
-    private fun userCode408(): Unit {
-
-val tmp673=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional).astAssign(0,tmp673)
-    }
-    private fun userCode409(): Unit {
-
-stack.add(ASTPathOneInPropertySet())
-    }
-    private fun userCode410(): Unit {
-
-val tmp675=stack.removeLast()
-(stack[stack.size-1] as ASTPathOneInPropertySet).astAssign(0,tmp675)
-    }
-    private fun userCode411(): Unit {
-
-val tmp676=stack.removeLast()
-(stack[stack.size-1] as ASTPathOneInPropertySet).astAssign(1,tmp676)
-    }
-    private fun userCode412(): Unit {
-
-stack.add(ASTInteger())
-    }
-    private fun userCode413(): Unit {
-
-val tmp677=stack.removeLast()
-(stack[stack.size-1] as ASTInteger).astAssign(0,tmp677)
-    }
-    private fun userCode414(): Unit {
-
-stack.add(ASTBlankNodePropertyList())
-    }
-    private fun userCode415(): Unit {
-
-val tmp678=stack.removeLast()
-(stack[stack.size-1] as ASTBlankNodePropertyList).astAssign(0,tmp678)
-    }
-    private fun userCode416(): Unit {
-
-stack.add(ASTBlankNodePropertyListPath())
-    }
-    private fun userCode417(): Unit {
-
-val tmp679=stack.removeLast()
-(stack[stack.size-1] as ASTBlankNodePropertyListPath).astAssign(0,tmp679)
-    }
-    private fun userCode418(): Unit {
-
-stack.add(ASTCollection())
-    }
-    private fun userCode419(): Unit {
-
-stack.add(ASTListOfGraphNode())
-    }
-    private fun userCode420(): Unit {
-
-val tmp680 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfGraphNode).astAssign(0,tmp680)
-    }
-    private fun userCode421(): Unit {
-
-val tmp681=stack.removeLast()
-(stack[stack.size-1] as ASTCollection).astAssign(0,tmp681)
-    }
-    private fun userCode422(): Unit {
-
-stack.add(ASTCollectionPath())
-    }
-    private fun userCode423(): Unit {
-
-stack.add(ASTListOfGraphNodePath())
-    }
-    private fun userCode424(): Unit {
-
-val tmp682 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfGraphNodePath).astAssign(0,tmp682)
-    }
-    private fun userCode425(): Unit {
-
-val tmp683=stack.removeLast()
-(stack[stack.size-1] as ASTCollectionPath).astAssign(0,tmp683)
-    }
-    private fun userCode426(): Unit {
-
-stack.add(ASTVar1())
-    }
-    private fun userCode427(): Unit {
-
-val tmp684=stack.removeLast()
-(stack[stack.size-1] as ASTVar1).astAssign(0,tmp684)
-    }
-    private fun userCode428(): Unit {
-
-stack.add(ASTVar2())
-    }
-    private fun userCode429(): Unit {
-
-val tmp685=stack.removeLast()
-(stack[stack.size-1] as ASTVar2).astAssign(0,tmp685)
-    }
-    private fun userCode430(): Unit {
-
-stack.add(ASTExpression())
-    }
-    private fun userCode431(): Unit {
-
-val tmp686=stack.removeLast()
-(stack[stack.size-1] as ASTExpression).astAssign(0,tmp686)
-    }
-    private fun userCode432(): Unit {
-
-stack.add(ASTConditionalOrExpression())
-    }
-    private fun userCode433(): Unit {
-
-val tmp688=stack.removeLast()
-(stack[stack.size-1] as ASTConditionalOrExpression).astAssign(0,tmp688)
-    }
-    private fun userCode434(): Unit {
-
-stack.add(ASTListOfConditionalAndExpression())
-    }
-    private fun userCode435(): Unit {
-
-val tmp687 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfConditionalAndExpression).astAssign(0,tmp687)
-    }
-    private fun userCode436(): Unit {
-
-val tmp689=stack.removeLast()
-(stack[stack.size-1] as ASTConditionalOrExpression).astAssign(1,tmp689)
-    }
-    private fun userCode437(): Unit {
-
-stack.add(ASTConditionalAndExpression())
-    }
-    private fun userCode438(): Unit {
-
-val tmp691=stack.removeLast()
-(stack[stack.size-1] as ASTConditionalAndExpression).astAssign(0,tmp691)
-    }
-    private fun userCode439(): Unit {
-
-stack.add(ASTListOfValueLogical())
-    }
-    private fun userCode440(): Unit {
-
-val tmp690 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfValueLogical).astAssign(0,tmp690)
-    }
-    private fun userCode441(): Unit {
-
-val tmp692=stack.removeLast()
-(stack[stack.size-1] as ASTConditionalAndExpression).astAssign(1,tmp692)
-    }
-    private fun userCode442(): Unit {
-
-stack.add(ASTValueLogical())
-    }
-    private fun userCode443(): Unit {
-
-val tmp693=stack.removeLast()
-(stack[stack.size-1] as ASTValueLogical).astAssign(0,tmp693)
-    }
-    private fun userCode444(): Unit {
-
-stack.add(ASTRelationalExpression())
-    }
-    private fun userCode445(): Unit {
-
-val tmp695=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpression).astAssign(0,tmp695)
-    }
-    private fun userCode446(): Unit {
-
-stack.add(ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional())
-    }
-    private fun userCode447(): Unit {
-
-val tmp694=stack.removeLast()
-(stack[stack.size-1] as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional).astAssign(0,tmp694)
-    }
-    private fun userCode448(): Unit {
-
-val tmp696=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpression).astAssign(1,tmp696)
-    }
-    private fun userCode449(): Unit {
-
-stack.add(ASTRelationalExpressionEQ())
-    }
-    private fun userCode450(): Unit {
-
-val tmp697=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionEQ).astAssign(0,tmp697)
-    }
-    private fun userCode451(): Unit {
-
-stack.add(ASTRelationalExpressionNEQ())
-    }
-    private fun userCode452(): Unit {
-
-val tmp698=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionNEQ).astAssign(0,tmp698)
-    }
-    private fun userCode453(): Unit {
-
-stack.add(ASTRelationalExpressionLT())
-    }
-    private fun userCode454(): Unit {
-
-val tmp699=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionLT).astAssign(0,tmp699)
-    }
-    private fun userCode455(): Unit {
-
-stack.add(ASTRelationalExpressionGT())
-    }
-    private fun userCode456(): Unit {
-
-val tmp700=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionGT).astAssign(0,tmp700)
-    }
-    private fun userCode457(): Unit {
-
-stack.add(ASTRelationalExpressionLEQ())
-    }
-    private fun userCode458(): Unit {
-
-val tmp701=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionLEQ).astAssign(0,tmp701)
-    }
-    private fun userCode459(): Unit {
-
-stack.add(ASTRelationalExpressionGEQ())
-    }
-    private fun userCode460(): Unit {
-
-val tmp702=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionGEQ).astAssign(0,tmp702)
-    }
-    private fun userCode461(): Unit {
-
-stack.add(ASTRelationalExpressionIN())
-    }
-    private fun userCode462(): Unit {
-
-val tmp703=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionIN).astAssign(0,tmp703)
-    }
-    private fun userCode463(): Unit {
-
-stack.add(ASTRelationalExpressionNOTIN())
-    }
-    private fun userCode464(): Unit {
-
-val tmp704=stack.removeLast()
-(stack[stack.size-1] as ASTRelationalExpressionNOTIN).astAssign(0,tmp704)
-    }
-    private fun userCode465(): Unit {
-
-stack.add(ASTNumericExpression())
-    }
-    private fun userCode466(): Unit {
-
-val tmp705=stack.removeLast()
-(stack[stack.size-1] as ASTNumericExpression).astAssign(0,tmp705)
-    }
-    private fun userCode467(): Unit {
-
-stack.add(ASTAdditiveExpression())
-    }
-    private fun userCode468(): Unit {
-
-val tmp710=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpression).astAssign(0,tmp710)
-    }
-    private fun userCode469(): Unit {
-
-stack.add(ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
-    }
-    private fun userCode470(): Unit {
-
-stack.add(ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
-    }
-    private fun userCode471(): Unit {
-
-val tmp707=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0,tmp707)
-    }
-    private fun userCode472(): Unit {
-
-stack.add(ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
-    }
-    private fun userCode473(): Unit {
-
-val tmp706 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0,tmp706)
-    }
-    private fun userCode474(): Unit {
-
-val tmp708=stack.removeLast()
-(stack[stack.size-1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(1,tmp708)
-    }
-    private fun userCode475(): Unit {
-
-val tmp709 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0,tmp709)
-    }
-    private fun userCode476(): Unit {
-
-val tmp711=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpression).astAssign(1,tmp711)
-    }
-    private fun userCode477(): Unit {
-
-stack.add(ASTAdditiveExpressionPLUS())
-    }
-    private fun userCode478(): Unit {
-
-val tmp712=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpressionPLUS).astAssign(0,tmp712)
-    }
-    private fun userCode479(): Unit {
-
-stack.add(ASTAdditiveExpressionMINUS())
-    }
-    private fun userCode480(): Unit {
-
-val tmp713=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpressionMINUS).astAssign(0,tmp713)
-    }
-    private fun userCode481(): Unit {
-
-stack.add(ASTAdditiveExpressionMULTIPLY())
-    }
-    private fun userCode482(): Unit {
-
-val tmp714=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpressionMULTIPLY).astAssign(0,tmp714)
-    }
-    private fun userCode483(): Unit {
-
-stack.add(ASTAdditiveExpressionDIVIDE())
-    }
-    private fun userCode484(): Unit {
-
-val tmp715=stack.removeLast()
-(stack[stack.size-1] as ASTAdditiveExpressionDIVIDE).astAssign(0,tmp715)
-    }
-    private fun userCode485(): Unit {
-
-stack.add(ASTMultiplicativeExpression())
-    }
-    private fun userCode486(): Unit {
-
-val tmp717=stack.removeLast()
-(stack[stack.size-1] as ASTMultiplicativeExpression).astAssign(0,tmp717)
-    }
-    private fun userCode487(): Unit {
-
-stack.add(ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE())
-    }
-    private fun userCode488(): Unit {
-
-val tmp716 = stack.removeLast()
-(stack[stack.size-1] as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE).astAssign(0,tmp716)
-    }
-    private fun userCode489(): Unit {
-
-val tmp718=stack.removeLast()
-(stack[stack.size-1] as ASTMultiplicativeExpression).astAssign(1,tmp718)
-    }
-    private fun userCode490(): Unit {
-
-stack.add(ASTMultiplicativeExpressionMULTIPLY())
-    }
-    private fun userCode491(): Unit {
-
-val tmp719=stack.removeLast()
-(stack[stack.size-1] as ASTMultiplicativeExpressionMULTIPLY).astAssign(0,tmp719)
-    }
-    private fun userCode492(): Unit {
-
-stack.add(ASTMultiplicativeExpressionDIVIDE())
-    }
-    private fun userCode493(): Unit {
-
-val tmp720=stack.removeLast()
-(stack[stack.size-1] as ASTMultiplicativeExpressionDIVIDE).astAssign(0,tmp720)
-    }
-    private fun userCode494(): Unit {
-
-stack.add(ASTUnaryExpressionNOT())
-    }
-    private fun userCode495(): Unit {
-
-val tmp721=stack.removeLast()
-(stack[stack.size-1] as ASTUnaryExpressionNOT).astAssign(0,tmp721)
-    }
-    private fun userCode496(): Unit {
-
-stack.add(ASTUnaryExpressionPLUS())
-    }
-    private fun userCode497(): Unit {
-
-val tmp722=stack.removeLast()
-(stack[stack.size-1] as ASTUnaryExpressionPLUS).astAssign(0,tmp722)
-    }
-    private fun userCode498(): Unit {
-
-stack.add(ASTUnaryExpressionMINUS())
-    }
-    private fun userCode499(): Unit {
-
-val tmp723=stack.removeLast()
-(stack[stack.size-1] as ASTUnaryExpressionMINUS).astAssign(0,tmp723)
-    }
-    private fun userCode500(): Unit {
-
-stack.add(ASTBrackettedExpression())
-    }
-    private fun userCode501(): Unit {
-
-val tmp724=stack.removeLast()
-(stack[stack.size-1] as ASTBrackettedExpression).astAssign(0,tmp724)
-    }
-    private fun userCode502(): Unit {
-
-stack.add(ASTBuiltInCallYear())
-    }
-    private fun userCode503(): Unit {
-
-val tmp725=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallYear).astAssign(0,tmp725)
-    }
-    private fun userCode504(): Unit {
-
-stack.add(ASTBuiltInCallMonth())
-    }
-    private fun userCode505(): Unit {
-
-val tmp726=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallMonth).astAssign(0,tmp726)
-    }
-    private fun userCode506(): Unit {
-
-stack.add(ASTBuiltInCallHours())
-    }
-    private fun userCode507(): Unit {
-
-val tmp727=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallHours).astAssign(0,tmp727)
-    }
-    private fun userCode508(): Unit {
-
-stack.add(ASTBuiltInCallNow())
-    }
-    private fun userCode509(): Unit {
-
-val tmp728=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallNow).astAssign(0,tmp728)
-    }
-    private fun userCode510(): Unit {
-
-stack.add(ASTBuiltInCallSameTerm())
-    }
-    private fun userCode511(): Unit {
-
-val tmp729=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSameTerm).astAssign(0,tmp729)
-    }
-    private fun userCode512(): Unit {
-
-val tmp730=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSameTerm).astAssign(1,tmp730)
-    }
-    private fun userCode513(): Unit {
-
-stack.add(ASTBuiltInCallIsIri())
-    }
-    private fun userCode514(): Unit {
-
-val tmp731=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIsIri).astAssign(0,tmp731)
-    }
-    private fun userCode515(): Unit {
-
-stack.add(ASTBuiltInCallIsBlanc())
-    }
-    private fun userCode516(): Unit {
-
-val tmp732=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIsBlanc).astAssign(0,tmp732)
-    }
-    private fun userCode517(): Unit {
-
-stack.add(ASTBuiltInCallIsLiteral())
-    }
-    private fun userCode518(): Unit {
-
-val tmp733=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIsLiteral).astAssign(0,tmp733)
-    }
-    private fun userCode519(): Unit {
-
-stack.add(ASTBuiltInCallMD5())
-    }
-    private fun userCode520(): Unit {
-
-val tmp734=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallMD5).astAssign(0,tmp734)
-    }
-    private fun userCode521(): Unit {
-
-stack.add(ASTBuiltInCallUUID())
-    }
-    private fun userCode522(): Unit {
-
-val tmp735=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallUUID).astAssign(0,tmp735)
-    }
-    private fun userCode523(): Unit {
-
-stack.add(ASTBuiltInCallSTRUUID())
-    }
-    private fun userCode524(): Unit {
-
-val tmp736=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSTRUUID).astAssign(0,tmp736)
-    }
-    private fun userCode525(): Unit {
-
-stack.add(ASTBuiltInCallSHA1())
-    }
-    private fun userCode526(): Unit {
-
-val tmp737=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSHA1).astAssign(0,tmp737)
-    }
-    private fun userCode527(): Unit {
-
-stack.add(ASTBuiltInCallSHA384())
-    }
-    private fun userCode528(): Unit {
-
-val tmp738=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSHA384).astAssign(0,tmp738)
-    }
-    private fun userCode529(): Unit {
-
-stack.add(ASTBuiltInCallSHA512())
-    }
-    private fun userCode530(): Unit {
-
-val tmp739=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSHA512).astAssign(0,tmp739)
-    }
-    private fun userCode531(): Unit {
-
-stack.add(ASTBuiltInCallCoalesce())
-    }
-    private fun userCode532(): Unit {
-
-val tmp740=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallCoalesce).astAssign(0,tmp740)
-    }
-    private fun userCode533(): Unit {
-
-stack.add(ASTBuiltInCallIf())
-    }
-    private fun userCode534(): Unit {
-
-val tmp741=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIf).astAssign(0,tmp741)
-    }
-    private fun userCode535(): Unit {
-
-val tmp742=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIf).astAssign(1,tmp742)
-    }
-    private fun userCode536(): Unit {
-
-val tmp743=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIf).astAssign(2,tmp743)
-    }
-    private fun userCode537(): Unit {
-
-stack.add(ASTBuiltInCallStrLang())
-    }
-    private fun userCode538(): Unit {
-
-val tmp744=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrLang).astAssign(0,tmp744)
-    }
-    private fun userCode539(): Unit {
-
-val tmp745=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrLang).astAssign(1,tmp745)
-    }
-    private fun userCode540(): Unit {
-
-stack.add(ASTBuiltInCallIsUri())
-    }
-    private fun userCode541(): Unit {
-
-val tmp746=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIsUri).astAssign(0,tmp746)
-    }
-    private fun userCode542(): Unit {
-
-stack.add(ASTBuiltInCallMinutes())
-    }
-    private fun userCode543(): Unit {
-
-val tmp747=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallMinutes).astAssign(0,tmp747)
-    }
-    private fun userCode544(): Unit {
-
-stack.add(ASTBuiltInCallSHA256())
-    }
-    private fun userCode545(): Unit {
-
-val tmp748=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSHA256).astAssign(0,tmp748)
-    }
-    private fun userCode546(): Unit {
-
-stack.add(ASTBuiltInCallStrDt())
-    }
-    private fun userCode547(): Unit {
-
-val tmp749=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrDt).astAssign(0,tmp749)
-    }
-    private fun userCode548(): Unit {
-
-val tmp750=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrDt).astAssign(1,tmp750)
-    }
-    private fun userCode549(): Unit {
-
-stack.add(ASTBuiltInCallIsNumeric())
-    }
-    private fun userCode550(): Unit {
-
-val tmp751=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIsNumeric).astAssign(0,tmp751)
-    }
-    private fun userCode551(): Unit {
-
-stack.add(ASTBuiltInCallSeconds())
-    }
-    private fun userCode552(): Unit {
-
-val tmp752=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallSeconds).astAssign(0,tmp752)
-    }
-    private fun userCode553(): Unit {
-
-stack.add(ASTBuiltInCallTimezone())
-    }
-    private fun userCode554(): Unit {
-
-val tmp753=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallTimezone).astAssign(0,tmp753)
-    }
-    private fun userCode555(): Unit {
-
-stack.add(ASTBuiltInCallTz())
-    }
-    private fun userCode556(): Unit {
-
-val tmp754=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallTz).astAssign(0,tmp754)
-    }
-    private fun userCode557(): Unit {
-
-stack.add(ASTBuiltInCallConcat())
-    }
-    private fun userCode558(): Unit {
-
-val tmp755=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallConcat).astAssign(0,tmp755)
-    }
-    private fun userCode559(): Unit {
-
-stack.add(ASTBuiltInCallStrLen())
-    }
-    private fun userCode560(): Unit {
-
-val tmp756=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrLen).astAssign(0,tmp756)
-    }
-    private fun userCode561(): Unit {
-
-stack.add(ASTBuiltInCallUCase())
-    }
-    private fun userCode562(): Unit {
-
-val tmp757=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallUCase).astAssign(0,tmp757)
-    }
-    private fun userCode563(): Unit {
-
-stack.add(ASTBuiltInCallStrBefore())
-    }
-    private fun userCode564(): Unit {
-
-val tmp758=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrBefore).astAssign(0,tmp758)
-    }
-    private fun userCode565(): Unit {
-
-val tmp759=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrBefore).astAssign(1,tmp759)
-    }
-    private fun userCode566(): Unit {
-
-stack.add(ASTBuiltInCallStrAfter())
-    }
-    private fun userCode567(): Unit {
-
-val tmp760=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrAfter).astAssign(0,tmp760)
-    }
-    private fun userCode568(): Unit {
-
-val tmp761=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrAfter).astAssign(1,tmp761)
-    }
-    private fun userCode569(): Unit {
-
-stack.add(ASTBuiltInCallEncodeForUri())
-    }
-    private fun userCode570(): Unit {
-
-val tmp762=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallEncodeForUri).astAssign(0,tmp762)
-    }
-    private fun userCode571(): Unit {
-
-stack.add(ASTBuiltInCallContains())
-    }
-    private fun userCode572(): Unit {
-
-val tmp763=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallContains).astAssign(0,tmp763)
-    }
-    private fun userCode573(): Unit {
-
-val tmp764=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallContains).astAssign(1,tmp764)
-    }
-    private fun userCode574(): Unit {
-
-stack.add(ASTBuiltInCallStrStarts())
-    }
-    private fun userCode575(): Unit {
-
-val tmp765=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrStarts).astAssign(0,tmp765)
-    }
-    private fun userCode576(): Unit {
-
-val tmp766=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrStarts).astAssign(1,tmp766)
-    }
-    private fun userCode577(): Unit {
-
-stack.add(ASTBuiltInCallStrEnds())
-    }
-    private fun userCode578(): Unit {
-
-val tmp767=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrEnds).astAssign(0,tmp767)
-    }
-    private fun userCode579(): Unit {
-
-val tmp768=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStrEnds).astAssign(1,tmp768)
-    }
-    private fun userCode580(): Unit {
-
-stack.add(ASTBuiltInCallDay())
-    }
-    private fun userCode581(): Unit {
-
-val tmp769=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallDay).astAssign(0,tmp769)
-    }
-    private fun userCode582(): Unit {
-
-stack.add(ASTBuiltInCallStr())
-    }
-    private fun userCode583(): Unit {
-
-val tmp770=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallStr).astAssign(0,tmp770)
-    }
-    private fun userCode584(): Unit {
-
-stack.add(ASTBuiltInCallLang())
-    }
-    private fun userCode585(): Unit {
-
-val tmp771=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallLang).astAssign(0,tmp771)
-    }
-    private fun userCode586(): Unit {
-
-stack.add(ASTBuildInCallLangMatches())
-    }
-    private fun userCode587(): Unit {
-
-val tmp772=stack.removeLast()
-(stack[stack.size-1] as ASTBuildInCallLangMatches).astAssign(0,tmp772)
-    }
-    private fun userCode588(): Unit {
-
-val tmp773=stack.removeLast()
-(stack[stack.size-1] as ASTBuildInCallLangMatches).astAssign(1,tmp773)
-    }
-    private fun userCode589(): Unit {
-
-stack.add(ASTBuiltInCallDataType())
-    }
-    private fun userCode590(): Unit {
-
-val tmp774=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallDataType).astAssign(0,tmp774)
-    }
-    private fun userCode591(): Unit {
-
-stack.add(ASTBuiltInCallBound())
-    }
-    private fun userCode592(): Unit {
-
-val tmp775=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallBound).astAssign(0,tmp775)
-    }
-    private fun userCode593(): Unit {
-
-stack.add(ASTBuiltInCallIri())
-    }
-    private fun userCode594(): Unit {
-
-val tmp776=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallIri).astAssign(0,tmp776)
-    }
-    private fun userCode595(): Unit {
-
-stack.add(ASTBuiltInCallUri())
-    }
-    private fun userCode596(): Unit {
-
-val tmp777=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallUri).astAssign(0,tmp777)
-    }
-    private fun userCode597(): Unit {
-
-stack.add(ASTBuiltInCallBNode())
-    }
-    private fun userCode598(): Unit {
-
-val tmp778=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallBNode).astAssign(0,tmp778)
-    }
-    private fun userCode599(): Unit {
-
-stack.add(ASTBuiltInCallRand())
-    }
-    private fun userCode600(): Unit {
-
-val tmp779=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallRand).astAssign(0,tmp779)
-    }
-    private fun userCode601(): Unit {
-
-stack.add(ASTBuiltInCallAbs())
-    }
-    private fun userCode602(): Unit {
-
-val tmp780=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallAbs).astAssign(0,tmp780)
-    }
-    private fun userCode603(): Unit {
-
-stack.add(ASTBuiltInCallCeil())
-    }
-    private fun userCode604(): Unit {
-
-val tmp781=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallCeil).astAssign(0,tmp781)
-    }
-    private fun userCode605(): Unit {
-
-stack.add(ASTBuiltInCallLCase())
-    }
-    private fun userCode606(): Unit {
-
-val tmp782=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallLCase).astAssign(0,tmp782)
-    }
-    private fun userCode607(): Unit {
-
-stack.add(ASTBuiltInCallFloor())
-    }
-    private fun userCode608(): Unit {
-
-val tmp783=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallFloor).astAssign(0,tmp783)
-    }
-    private fun userCode609(): Unit {
-
-stack.add(ASTBuiltInCallRound())
-    }
-    private fun userCode610(): Unit {
-
-val tmp784=stack.removeLast()
-(stack[stack.size-1] as ASTBuiltInCallRound).astAssign(0,tmp784)
-    }
-    private fun userCode611(): Unit {
-
-stack.add(ASTRegexExpression())
-    }
-    private fun userCode612(): Unit {
-
-val tmp786=stack.removeLast()
-(stack[stack.size-1] as ASTRegexExpression).astAssign(0,tmp786)
-    }
-    private fun userCode613(): Unit {
-
-val tmp787=stack.removeLast()
-(stack[stack.size-1] as ASTRegexExpression).astAssign(1,tmp787)
-    }
-    private fun userCode614(): Unit {
-
-stack.add(ASTExpressionOptional())
-    }
-    private fun userCode615(): Unit {
-
-val tmp785=stack.removeLast()
-(stack[stack.size-1] as ASTExpressionOptional).astAssign(0,tmp785)
-    }
-    private fun userCode616(): Unit {
-
-val tmp788=stack.removeLast()
-(stack[stack.size-1] as ASTRegexExpression).astAssign(2,tmp788)
-    }
-    private fun userCode617(): Unit {
-
-stack.add(ASTSubstringExpression())
-    }
-    private fun userCode618(): Unit {
-
-val tmp790=stack.removeLast()
-(stack[stack.size-1] as ASTSubstringExpression).astAssign(0,tmp790)
-    }
-    private fun userCode619(): Unit {
-
-val tmp791=stack.removeLast()
-(stack[stack.size-1] as ASTSubstringExpression).astAssign(1,tmp791)
-    }
-    private fun userCode620(): Unit {
-
-val tmp789=stack.removeLast()
-(stack[stack.size-1] as ASTExpressionOptional).astAssign(0,tmp789)
-    }
-    private fun userCode621(): Unit {
-
-val tmp792=stack.removeLast()
-(stack[stack.size-1] as ASTSubstringExpression).astAssign(2,tmp792)
-    }
-    private fun userCode622(): Unit {
-
-stack.add(ASTStrReplaceExpression())
-    }
-    private fun userCode623(): Unit {
-
-val tmp794=stack.removeLast()
-(stack[stack.size-1] as ASTStrReplaceExpression).astAssign(0,tmp794)
-    }
-    private fun userCode624(): Unit {
-
-val tmp795=stack.removeLast()
-(stack[stack.size-1] as ASTStrReplaceExpression).astAssign(1,tmp795)
-    }
-    private fun userCode625(): Unit {
-
-val tmp796=stack.removeLast()
-(stack[stack.size-1] as ASTStrReplaceExpression).astAssign(2,tmp796)
-    }
-    private fun userCode626(): Unit {
-
-val tmp793=stack.removeLast()
-(stack[stack.size-1] as ASTExpressionOptional).astAssign(0,tmp793)
-    }
-    private fun userCode627(): Unit {
-
-val tmp797=stack.removeLast()
-(stack[stack.size-1] as ASTStrReplaceExpression).astAssign(3,tmp797)
-    }
-    private fun userCode628(): Unit {
-
-stack.add(ASTExistsFunc())
-    }
-    private fun userCode629(): Unit {
-
-val tmp798=stack.removeLast()
-(stack[stack.size-1] as ASTExistsFunc).astAssign(0,tmp798)
-    }
-    private fun userCode630(): Unit {
-
-stack.add(ASTNotExistsFunc())
-    }
-    private fun userCode631(): Unit {
-
-val tmp799=stack.removeLast()
-(stack[stack.size-1] as ASTNotExistsFunc).astAssign(0,tmp799)
-    }
-    private fun userCode632(): Unit {
-
-stack.add(ASTAggregateAvg())
-    }
-    private fun userCode633(): Unit {
-
-val tmp800=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateAvg).astAssign(0,tmp800)
-    }
-    private fun userCode634(): Unit {
-
-val tmp801=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateAvg).astAssign(1,tmp801)
-    }
-    private fun userCode635(): Unit {
-
-stack.add(ASTAggregateCount())
-    }
-    private fun userCode636(): Unit {
-
-val tmp802=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateCount).astAssign(0,tmp802)
-    }
-    private fun userCode637(): Unit {
-
-val tmp803=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateCount).astAssign(1,tmp803)
-    }
-    private fun userCode638(): Unit {
-
-stack.add(ASTAggregateCountAll())
-    }
-    private fun userCode639(): Unit {
-
-stack.add(ASTAggregateSum())
-    }
-    private fun userCode640(): Unit {
-
-val tmp804=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateSum).astAssign(0,tmp804)
-    }
-    private fun userCode641(): Unit {
-
-val tmp805=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateSum).astAssign(1,tmp805)
-    }
-    private fun userCode642(): Unit {
-
-stack.add(ASTAggregateMin())
-    }
-    private fun userCode643(): Unit {
-
-val tmp806=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateMin).astAssign(0,tmp806)
-    }
-    private fun userCode644(): Unit {
-
-val tmp807=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateMin).astAssign(1,tmp807)
-    }
-    private fun userCode645(): Unit {
-
-stack.add(ASTAggregateMax())
-    }
-    private fun userCode646(): Unit {
-
-val tmp808=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateMax).astAssign(0,tmp808)
-    }
-    private fun userCode647(): Unit {
-
-val tmp809=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateMax).astAssign(1,tmp809)
-    }
-    private fun userCode648(): Unit {
-
-stack.add(ASTAggregateSample())
-    }
-    private fun userCode649(): Unit {
-
-val tmp810=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateSample).astAssign(0,tmp810)
-    }
-    private fun userCode650(): Unit {
-
-val tmp811=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateSample).astAssign(1,tmp811)
-    }
-    private fun userCode651(): Unit {
-
-stack.add(ASTAggregateGroupConcat())
-    }
-    private fun userCode652(): Unit {
-
-val tmp813=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateGroupConcat).astAssign(0,tmp813)
-    }
-    private fun userCode653(): Unit {
-
-val tmp814=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateGroupConcat).astAssign(1,tmp814)
-    }
-    private fun userCode654(): Unit {
-
-stack.add(ASTStringOptional())
-    }
-    private fun userCode655(): Unit {
-
-val tmp812=stack.removeLast()
-(stack[stack.size-1] as ASTStringOptional).astAssign(0,tmp812)
-    }
-    private fun userCode656(): Unit {
-
-val tmp815=stack.removeLast()
-(stack[stack.size-1] as ASTAggregateGroupConcat).astAssign(2,tmp815)
-    }
-    private fun userCode657(): Unit {
-
-stack.add(ASTiriOrFunction())
-    }
-    private fun userCode658(): Unit {
-
-val tmp817=stack.removeLast()
-(stack[stack.size-1] as ASTiriOrFunction).astAssign(0,tmp817)
-    }
-    private fun userCode659(): Unit {
-
-stack.add(ASTArgListOptional())
-    }
-    private fun userCode660(): Unit {
-
-val tmp816=stack.removeLast()
-(stack[stack.size-1] as ASTArgListOptional).astAssign(0,tmp816)
-    }
-    private fun userCode661(): Unit {
-
-val tmp818=stack.removeLast()
-(stack[stack.size-1] as ASTiriOrFunction).astAssign(1,tmp818)
-    }
-    private fun userCode662(): Unit {
-
-stack.add(ASTRDFLiteral())
-    }
-    private fun userCode663(): Unit {
-
-val tmp820=stack.removeLast()
-(stack[stack.size-1] as ASTRDFLiteral).astAssign(0,tmp820)
-    }
-    private fun userCode664(): Unit {
-
-stack.add(ASTInterfaceOfRDFLiteralLangOririOptional())
-    }
-    private fun userCode665(): Unit {
-
-val tmp819=stack.removeLast()
-(stack[stack.size-1] as ASTInterfaceOfRDFLiteralLangOririOptional).astAssign(0,tmp819)
-    }
-    private fun userCode666(): Unit {
-
-val tmp821=stack.removeLast()
-(stack[stack.size-1] as ASTRDFLiteral).astAssign(1,tmp821)
-    }
-    private fun userCode667(): Unit {
-
-stack.add(ASTRDFLiteralLang())
-    }
-    private fun userCode668(): Unit {
-
-val tmp822=stack.removeLast()
-(stack[stack.size-1] as ASTRDFLiteralLang).astAssign(0,tmp822)
-    }
-    private fun userCode669(): Unit {
-
-stack.add(ASTNumericLiteralUnsignedInteger())
-    }
-    private fun userCode670(): Unit {
-
-val tmp823=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralUnsignedInteger).astAssign(0,tmp823)
-    }
-    private fun userCode671(): Unit {
-
-stack.add(ASTNumericLiteralUnsignedDecimal())
-    }
-    private fun userCode672(): Unit {
-
-val tmp824=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralUnsignedDecimal).astAssign(0,tmp824)
-    }
-    private fun userCode673(): Unit {
-
-stack.add(ASTNumericLiteralUnsignedDouble())
-    }
-    private fun userCode674(): Unit {
-
-val tmp825=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralUnsignedDouble).astAssign(0,tmp825)
-    }
-    private fun userCode675(): Unit {
-
-stack.add(ASTNumericLiteralPositiveInteger())
-    }
-    private fun userCode676(): Unit {
-
-val tmp826=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralPositiveInteger).astAssign(0,tmp826)
-    }
-    private fun userCode677(): Unit {
-
-stack.add(ASTNumericLiteralPositiveDecimal())
-    }
-    private fun userCode678(): Unit {
-
-val tmp827=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralPositiveDecimal).astAssign(0,tmp827)
-    }
-    private fun userCode679(): Unit {
-
-stack.add(ASTNumericLiteralPositiveDouble())
-    }
-    private fun userCode680(): Unit {
-
-val tmp828=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralPositiveDouble).astAssign(0,tmp828)
-    }
-    private fun userCode681(): Unit {
-
-stack.add(ASTNumericLiteralNegativeInteger())
-    }
-    private fun userCode682(): Unit {
-
-val tmp829=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralNegativeInteger).astAssign(0,tmp829)
-    }
-    private fun userCode683(): Unit {
-
-stack.add(ASTNumericLiteralNegativeDecimal())
-    }
-    private fun userCode684(): Unit {
-
-val tmp830=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralNegativeDecimal).astAssign(0,tmp830)
-    }
-    private fun userCode685(): Unit {
-
-stack.add(ASTNumericLiteralNegativeDouble())
-    }
-    private fun userCode686(): Unit {
-
-val tmp831=stack.removeLast()
-(stack[stack.size-1] as ASTNumericLiteralNegativeDouble).astAssign(0,tmp831)
-    }
-    private fun userCode687(): Unit {
-
-stack.add(ASTBooleanLiteralTrue())
-    }
-    private fun userCode688(): Unit {
-
-stack.add(ASTBooleanLiteralFalse())
-    }
-    private fun userCode689(): Unit {
-
-stack.add(ASTString1())
-    }
-    private fun userCode690(): Unit {
-
-val tmp832=stack.removeLast()
-(stack[stack.size-1] as ASTString1).astAssign(0,tmp832)
-    }
-    private fun userCode691(): Unit {
-
-stack.add(ASTString2())
-    }
-    private fun userCode692(): Unit {
-
-val tmp833=stack.removeLast()
-(stack[stack.size-1] as ASTString2).astAssign(0,tmp833)
-    }
-    private fun userCode693(): Unit {
-
-stack.add(ASTString1long())
-    }
-    private fun userCode694(): Unit {
-
-val tmp834=stack.removeLast()
-(stack[stack.size-1] as ASTString1long).astAssign(0,tmp834)
-    }
-    private fun userCode695(): Unit {
-
-stack.add(ASTString2long())
-    }
-    private fun userCode696(): Unit {
-
-val tmp835=stack.removeLast()
-(stack[stack.size-1] as ASTString2long).astAssign(0,tmp835)
-    }
-    private fun userCode697(): Unit {
-
-stack.add(ASTiriRef())
-    }
-    private fun userCode698(): Unit {
-
-val tmp836=stack.removeLast()
-(stack[stack.size-1] as ASTiriRef).astAssign(0,tmp836)
-    }
-    private fun userCode699(): Unit {
-
-stack.add(ASTPrefixedNameLN())
-    }
-    private fun userCode700(): Unit {
-
-val tmp837=stack.removeLast()
-(stack[stack.size-1] as ASTPrefixedNameLN).astAssign(0,tmp837)
-    }
-    private fun userCode701(): Unit {
-
-stack.add(ASTPrefixedNameNS())
-    }
-    private fun userCode702(): Unit {
-
-val tmp838=stack.removeLast()
-(stack[stack.size-1] as ASTPrefixedNameNS).astAssign(0,tmp838)
-    }
-    private fun userCode703(): Unit {
-
-stack.add(ASTBlankNodeLabel())
-    }
-    private fun userCode704(): Unit {
-
-val tmp839=stack.removeLast()
-(stack[stack.size-1] as ASTBlankNodeLabel).astAssign(0,tmp839)
-    }
-    private fun userCode705(): Unit {
-
-stack.add(ASTBlankNodeANON())
-    }
-    private fun userCode706(): Unit {
-
-val tmp840=stack.removeLast()
-(stack[stack.size-1] as ASTBlankNodeANON).astAssign(0,tmp840)
-    }
-    private fun userCode707(): Unit {
-
-stack.add(ASTNILParam())
-    }
-    private fun userCode708(): Unit {
-
-val tmp841=stack.removeLast()
-(stack[stack.size-1] as ASTNILParam).astAssign(0,tmp841)
+    private fun userCode0() {
+        stack.add(ASTSparqlDoc())
+    }
+    private fun userCode1() {
+        val tmp430 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSparqlDoc).astAssign(0, tmp430)
+    }
+    private fun userCode2() {
+        stack.add(ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional())
+    }
+    private fun userCode3() {
+        val tmp422 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(0, tmp422)
+    }
+    private fun userCode4() {
+        stack.add(ASTValuesClauseOptional())
+    }
+    private fun userCode5() {
+        val tmp421 = stack.removeLast()
+        (stack[stack.size - 1] as ASTValuesClauseOptional).astAssign(0, tmp421)
+    }
+    private fun userCode6() {
+        val tmp423 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(1, tmp423)
+    }
+    private fun userCode7() {
+        stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional())
+    }
+    private fun userCode8() {
+        stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional())
+    }
+    private fun userCode9() {
+        val tmp427 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0, tmp427)
+    }
+    private fun userCode10() {
+        stack.add(ASTClassOfPrologueAndUpdateOptional())
+    }
+    private fun userCode11() {
+        stack.add(ASTClassOfPrologueAndUpdate())
+    }
+    private fun userCode12() {
+        val tmp424 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(0, tmp424)
+    }
+    private fun userCode13() {
+        val tmp425 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(1, tmp425)
+    }
+    private fun userCode14() {
+        val tmp426 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0, tmp426)
+    }
+    private fun userCode15() {
+        val tmp428 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1, tmp428)
+    }
+    private fun userCode16() {
+        val tmp429 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional).astAssign(0, tmp429)
+    }
+    private fun userCode17() {
+        val tmp431 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSparqlDoc).astAssign(1, tmp431)
+    }
+    private fun userCode18() {
+        stack.add(ASTUpdate())
+    }
+    private fun userCode19() {
+        val tmp435 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0, tmp435)
+    }
+    private fun userCode20() {
+        val tmp432 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(0, tmp432)
+    }
+    private fun userCode21() {
+        val tmp433 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(1, tmp433)
+    }
+    private fun userCode22() {
+        val tmp434 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0, tmp434)
+    }
+    private fun userCode23() {
+        val tmp436 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1, tmp436)
+    }
+    private fun userCode24() {
+        val tmp437 = stack.removeLast()
+        (stack[stack.size - 1] as ASTUpdate).astAssign(0, tmp437)
+    }
+    private fun userCode25() {
+        stack.add(ASTPrologue())
+    }
+    private fun userCode26() {
+        val tmp438 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPrologue).astAssign(0, tmp438)
+    }
+    private fun userCode27() {
+        stack.add(ASTBaseDecl())
+    }
+    private fun userCode28() {
+        stack.add(getLastTokenString())
+    }
+    private fun userCode29() {
+        val tmp439 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBaseDecl).astAssign(0, tmp439)
+    }
+    private fun userCode30() {
+        stack.add(ASTPrefixDecl())
+    }
+    private fun userCode31() {
+        val tmp440 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPrefixDecl).astAssign(0, tmp440)
+    }
+    private fun userCode32() {
+        val tmp441 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPrefixDecl).astAssign(1, tmp441)
+    }
+    private fun userCode33() {
+        stack.add(ASTSelectQuery())
+    }
+    private fun userCode34() {
+        val tmp443 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectQuery).astAssign(0, tmp443)
+    }
+    private fun userCode35() {
+        stack.add(ASTListOfDatasetClause())
+    }
+    private fun userCode36() {
+        val tmp442 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp442)
+    }
+    private fun userCode37() {
+        val tmp444 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectQuery).astAssign(1, tmp444)
+    }
+    private fun userCode38() {
+        val tmp445 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectQuery).astAssign(2, tmp445)
+    }
+    private fun userCode39() {
+        val tmp446 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectQuery).astAssign(3, tmp446)
+    }
+    private fun userCode40() {
+        stack.add(ASTSubSelect())
+    }
+    private fun userCode41() {
+        val tmp448 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubSelect).astAssign(0, tmp448)
+    }
+    private fun userCode42() {
+        val tmp449 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubSelect).astAssign(1, tmp449)
+    }
+    private fun userCode43() {
+        val tmp450 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubSelect).astAssign(2, tmp450)
+    }
+    private fun userCode44() {
+        val tmp447 = stack.removeLast()
+        (stack[stack.size - 1] as ASTValuesClauseOptional).astAssign(0, tmp447)
+    }
+    private fun userCode45() {
+        val tmp451 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubSelect).astAssign(3, tmp451)
+    }
+    private fun userCode46() {
+        stack.add(ASTSelectClause())
+    }
+    private fun userCode47() {
+        stack.add(ASTAnonymous("DISTINCT"))
+    }
+    private fun userCode48() {
+        stack.add(ASTAnonymous("REDUCED"))
+    }
+    private fun userCode49() {
+        val tmp455 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectClause).astAssign(0, tmp455)
+    }
+    private fun userCode50() {
+        stack.add(ASTListOfInterfaceOfVarOrClassOfExpressionAndVar())
+    }
+    private fun userCode51() {
+        stack.add(ASTClassOfExpressionAndVar())
+    }
+    private fun userCode52() {
+        val tmp452 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndVar).astAssign(0, tmp452)
+    }
+    private fun userCode53() {
+        val tmp453 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndVar).astAssign(1, tmp453)
+    }
+    private fun userCode54() {
+        val tmp454 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfInterfaceOfVarOrClassOfExpressionAndVar).astAssign(0, tmp454)
+    }
+    private fun userCode55() {
+        val tmp456 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSelectClause).astAssign(1, tmp456)
+    }
+    private fun userCode56() {
+        stack.add(ASTSelectClauseAll())
+    }
+    private fun userCode57() {
+        stack.add(ASTConstructQuery())
+    }
+    private fun userCode58() {
+        stack.add(ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier())
+    }
+    private fun userCode59() {
+        val tmp458 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(0, tmp458)
+    }
+    private fun userCode60() {
+        val tmp457 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp457)
+    }
+    private fun userCode61() {
+        val tmp459 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(1, tmp459)
+    }
+    private fun userCode62() {
+        val tmp460 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(2, tmp460)
+    }
+    private fun userCode63() {
+        val tmp461 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(3, tmp461)
+    }
+    private fun userCode64() {
+        stack.add(ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier())
+    }
+    private fun userCode65() {
+        val tmp462 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp462)
+    }
+    private fun userCode66() {
+        val tmp463 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(0, tmp463)
+    }
+    private fun userCode67() {
+        val tmp464 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(1, tmp464)
+    }
+    private fun userCode68() {
+        val tmp465 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(2, tmp465)
+    }
+    private fun userCode69() {
+        val tmp466 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructQuery).astAssign(0, tmp466)
+    }
+    private fun userCode70() {
+        stack.add(ASTDescribeQuery())
+    }
+    private fun userCode71() {
+        stack.add(ASTListOfVarOrIri())
+    }
+    private fun userCode72() {
+        val tmp467 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfVarOrIri).astAssign(0, tmp467)
+    }
+    private fun userCode73() {
+        val tmp470 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDescribeQuery).astAssign(0, tmp470)
+    }
+    private fun userCode74() {
+        val tmp468 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp468)
+    }
+    private fun userCode75() {
+        val tmp471 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDescribeQuery).astAssign(1, tmp471)
+    }
+    private fun userCode76() {
+        stack.add(ASTWhereClauseOptional())
+    }
+    private fun userCode77() {
+        val tmp469 = stack.removeLast()
+        (stack[stack.size - 1] as ASTWhereClauseOptional).astAssign(0, tmp469)
+    }
+    private fun userCode78() {
+        val tmp472 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDescribeQuery).astAssign(2, tmp472)
+    }
+    private fun userCode79() {
+        val tmp473 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDescribeQuery).astAssign(3, tmp473)
+    }
+    private fun userCode80() {
+        stack.add(ASTDescribeQueryAll())
+    }
+    private fun userCode81() {
+        stack.add(ASTAskQuery())
+    }
+    private fun userCode82() {
+        val tmp474 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp474)
+    }
+    private fun userCode83() {
+        val tmp475 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAskQuery).astAssign(0, tmp475)
+    }
+    private fun userCode84() {
+        val tmp476 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAskQuery).astAssign(1, tmp476)
+    }
+    private fun userCode85() {
+        val tmp477 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAskQuery).astAssign(2, tmp477)
+    }
+    private fun userCode86() {
+        stack.add(ASTDatasetClause())
+    }
+    private fun userCode87() {
+        val tmp478 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDatasetClause).astAssign(0, tmp478)
+    }
+    private fun userCode88() {
+        stack.add(ASTDefaultGraphClause())
+    }
+    private fun userCode89() {
+        val tmp479 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDefaultGraphClause).astAssign(0, tmp479)
+    }
+    private fun userCode90() {
+        stack.add(ASTNamedGraphClause())
+    }
+    private fun userCode91() {
+        val tmp480 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNamedGraphClause).astAssign(0, tmp480)
+    }
+    private fun userCode92() {
+        stack.add(ASTSourceSelector())
+    }
+    private fun userCode93() {
+        val tmp481 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSourceSelector).astAssign(0, tmp481)
+    }
+    private fun userCode94() {
+        stack.add(ASTWhereClause())
+    }
+    private fun userCode95() {
+        stack.add(ASTAnonymous("WHERE"))
+    }
+    private fun userCode96() {
+        val tmp482 = stack.removeLast()
+        (stack[stack.size - 1] as ASTWhereClause).astAssign(0, tmp482)
+    }
+    private fun userCode97() {
+        val tmp483 = stack.removeLast()
+        (stack[stack.size - 1] as ASTWhereClause).astAssign(1, tmp483)
+    }
+    private fun userCode98() {
+        stack.add(ASTSolutionModifier())
+    }
+    private fun userCode99() {
+        stack.add(ASTGroupClauseOptional())
+    }
+    private fun userCode100() {
+        val tmp484 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupClauseOptional).astAssign(0, tmp484)
+    }
+    private fun userCode101() {
+        val tmp488 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSolutionModifier).astAssign(0, tmp488)
+    }
+    private fun userCode102() {
+        stack.add(ASTHavingClauseOptional())
+    }
+    private fun userCode103() {
+        val tmp485 = stack.removeLast()
+        (stack[stack.size - 1] as ASTHavingClauseOptional).astAssign(0, tmp485)
+    }
+    private fun userCode104() {
+        val tmp489 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSolutionModifier).astAssign(1, tmp489)
+    }
+    private fun userCode105() {
+        stack.add(ASTOrderClauseOptional())
+    }
+    private fun userCode106() {
+        val tmp486 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOrderClauseOptional).astAssign(0, tmp486)
+    }
+    private fun userCode107() {
+        val tmp490 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSolutionModifier).astAssign(2, tmp490)
+    }
+    private fun userCode108() {
+        stack.add(ASTLimitOffsetClausesOptional())
+    }
+    private fun userCode109() {
+        val tmp487 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLimitOffsetClausesOptional).astAssign(0, tmp487)
+    }
+    private fun userCode110() {
+        val tmp491 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSolutionModifier).astAssign(3, tmp491)
+    }
+    private fun userCode111() {
+        stack.add(ASTGroupClause())
+    }
+    private fun userCode112() {
+        stack.add(ASTListOfGroupCondition())
+    }
+    private fun userCode113() {
+        val tmp492 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfGroupCondition).astAssign(0, tmp492)
+    }
+    private fun userCode114() {
+        val tmp493 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupClause).astAssign(0, tmp493)
+    }
+    private fun userCode115() {
+        stack.add(ASTClassOfExpressionAndVarOptional())
+    }
+    private fun userCode116() {
+        val tmp495 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndVarOptional).astAssign(0, tmp495)
+    }
+    private fun userCode117() {
+        stack.add(ASTVarOptional())
+    }
+    private fun userCode118() {
+        val tmp494 = stack.removeLast()
+        (stack[stack.size - 1] as ASTVarOptional).astAssign(0, tmp494)
+    }
+    private fun userCode119() {
+        val tmp496 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndVarOptional).astAssign(1, tmp496)
+    }
+    private fun userCode120() {
+        stack.add(ASTHavingClause())
+    }
+    private fun userCode121() {
+        stack.add(ASTListOfHavingCondition())
+    }
+    private fun userCode122() {
+        val tmp497 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfHavingCondition).astAssign(0, tmp497)
+    }
+    private fun userCode123() {
+        val tmp498 = stack.removeLast()
+        (stack[stack.size - 1] as ASTHavingClause).astAssign(0, tmp498)
+    }
+    private fun userCode124() {
+        stack.add(ASTHavingCondition())
+    }
+    private fun userCode125() {
+        val tmp499 = stack.removeLast()
+        (stack[stack.size - 1] as ASTHavingCondition).astAssign(0, tmp499)
+    }
+    private fun userCode126() {
+        stack.add(ASTOrderClause())
+    }
+    private fun userCode127() {
+        stack.add(ASTListOfOrderCondition())
+    }
+    private fun userCode128() {
+        val tmp500 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfOrderCondition).astAssign(0, tmp500)
+    }
+    private fun userCode129() {
+        val tmp501 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOrderClause).astAssign(0, tmp501)
+    }
+    private fun userCode130() {
+        stack.add(ASTOrderCondition())
+    }
+    private fun userCode131() {
+        stack.add(ASTAnonymous("ASC"))
+    }
+    private fun userCode132() {
+        stack.add(ASTAnonymous("DESC"))
+    }
+    private fun userCode133() {
+        val tmp502 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOrderCondition).astAssign(0, tmp502)
+    }
+    private fun userCode134() {
+        val tmp503 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOrderCondition).astAssign(1, tmp503)
+    }
+    private fun userCode135() {
+        stack.add(ASTClassOfLimitClauseAndOffsetClauseOptional())
+    }
+    private fun userCode136() {
+        val tmp505 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(0, tmp505)
+    }
+    private fun userCode137() {
+        stack.add(ASTOffsetClauseOptional())
+    }
+    private fun userCode138() {
+        val tmp504 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOffsetClauseOptional).astAssign(0, tmp504)
+    }
+    private fun userCode139() {
+        val tmp506 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(1, tmp506)
+    }
+    private fun userCode140() {
+        stack.add(ASTClassOfOffsetClauseAndLimitClauseOptional())
+    }
+    private fun userCode141() {
+        val tmp508 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(0, tmp508)
+    }
+    private fun userCode142() {
+        stack.add(ASTLimitClauseOptional())
+    }
+    private fun userCode143() {
+        val tmp507 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLimitClauseOptional).astAssign(0, tmp507)
+    }
+    private fun userCode144() {
+        val tmp509 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(1, tmp509)
+    }
+    private fun userCode145() {
+        stack.add(ASTLimitClause())
+    }
+    private fun userCode146() {
+        val tmp510 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLimitClause).astAssign(0, tmp510)
+    }
+    private fun userCode147() {
+        stack.add(ASTOffsetClause())
+    }
+    private fun userCode148() {
+        val tmp511 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOffsetClause).astAssign(0, tmp511)
+    }
+    private fun userCode149() {
+        stack.add(ASTLoad())
+    }
+    private fun userCode150() {
+        stack.add(ASTAnonymous("SILENT"))
+    }
+    private fun userCode151() {
+        val tmp513 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLoad).astAssign(0, tmp513)
+    }
+    private fun userCode152() {
+        val tmp514 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLoad).astAssign(1, tmp514)
+    }
+    private fun userCode153() {
+        stack.add(ASTGraphRefOptional())
+    }
+    private fun userCode154() {
+        val tmp512 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGraphRefOptional).astAssign(0, tmp512)
+    }
+    private fun userCode155() {
+        val tmp515 = stack.removeLast()
+        (stack[stack.size - 1] as ASTLoad).astAssign(2, tmp515)
+    }
+    private fun userCode156() {
+        stack.add(ASTClear())
+    }
+    private fun userCode157() {
+        val tmp516 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClear).astAssign(0, tmp516)
+    }
+    private fun userCode158() {
+        val tmp517 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClear).astAssign(1, tmp517)
+    }
+    private fun userCode159() {
+        stack.add(ASTDrop())
+    }
+    private fun userCode160() {
+        val tmp518 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDrop).astAssign(0, tmp518)
+    }
+    private fun userCode161() {
+        val tmp519 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDrop).astAssign(1, tmp519)
+    }
+    private fun userCode162() {
+        stack.add(ASTCreate())
+    }
+    private fun userCode163() {
+        val tmp520 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCreate).astAssign(0, tmp520)
+    }
+    private fun userCode164() {
+        val tmp521 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCreate).astAssign(1, tmp521)
+    }
+    private fun userCode165() {
+        stack.add(ASTAdd())
+    }
+    private fun userCode166() {
+        val tmp522 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdd).astAssign(0, tmp522)
+    }
+    private fun userCode167() {
+        val tmp523 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdd).astAssign(1, tmp523)
+    }
+    private fun userCode168() {
+        val tmp524 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdd).astAssign(2, tmp524)
+    }
+    private fun userCode169() {
+        stack.add(ASTMove())
+    }
+    private fun userCode170() {
+        val tmp525 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMove).astAssign(0, tmp525)
+    }
+    private fun userCode171() {
+        val tmp526 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMove).astAssign(1, tmp526)
+    }
+    private fun userCode172() {
+        val tmp527 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMove).astAssign(2, tmp527)
+    }
+    private fun userCode173() {
+        stack.add(ASTCopy())
+    }
+    private fun userCode174() {
+        val tmp528 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCopy).astAssign(0, tmp528)
+    }
+    private fun userCode175() {
+        val tmp529 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCopy).astAssign(1, tmp529)
+    }
+    private fun userCode176() {
+        val tmp530 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCopy).astAssign(2, tmp530)
+    }
+    private fun userCode177() {
+        stack.add(ASTInsertData())
+    }
+    private fun userCode178() {
+        val tmp531 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInsertData).astAssign(0, tmp531)
+    }
+    private fun userCode179() {
+        stack.add(ASTDeleteData())
+    }
+    private fun userCode180() {
+        val tmp532 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDeleteData).astAssign(0, tmp532)
+    }
+    private fun userCode181() {
+        stack.add(ASTDeleteWhere())
+    }
+    private fun userCode182() {
+        val tmp533 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDeleteWhere).astAssign(0, tmp533)
+    }
+    private fun userCode183() {
+        stack.add(ASTModify())
+    }
+    private fun userCode184() {
+        stack.add(ASTiriOptional())
+    }
+    private fun userCode185() {
+        val tmp534 = stack.removeLast()
+        (stack[stack.size - 1] as ASTiriOptional).astAssign(0, tmp534)
+    }
+    private fun userCode186() {
+        val tmp539 = stack.removeLast()
+        (stack[stack.size - 1] as ASTModify).astAssign(0, tmp539)
+    }
+    private fun userCode187() {
+        stack.add(ASTClassOfDeleteClauseAndInsertClauseOptional())
+    }
+    private fun userCode188() {
+        val tmp536 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(0, tmp536)
+    }
+    private fun userCode189() {
+        stack.add(ASTInsertClauseOptional())
+    }
+    private fun userCode190() {
+        val tmp535 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInsertClauseOptional).astAssign(0, tmp535)
+    }
+    private fun userCode191() {
+        val tmp537 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(1, tmp537)
+    }
+    private fun userCode192() {
+        val tmp540 = stack.removeLast()
+        (stack[stack.size - 1] as ASTModify).astAssign(1, tmp540)
+    }
+    private fun userCode193() {
+        stack.add(ASTListOfUsingClause())
+    }
+    private fun userCode194() {
+        val tmp538 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfUsingClause).astAssign(0, tmp538)
+    }
+    private fun userCode195() {
+        val tmp541 = stack.removeLast()
+        (stack[stack.size - 1] as ASTModify).astAssign(2, tmp541)
+    }
+    private fun userCode196() {
+        val tmp542 = stack.removeLast()
+        (stack[stack.size - 1] as ASTModify).astAssign(3, tmp542)
+    }
+    private fun userCode197() {
+        stack.add(ASTDeleteClause())
+    }
+    private fun userCode198() {
+        val tmp543 = stack.removeLast()
+        (stack[stack.size - 1] as ASTDeleteClause).astAssign(0, tmp543)
+    }
+    private fun userCode199() {
+        stack.add(ASTInsertClause())
+    }
+    private fun userCode200() {
+        val tmp544 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInsertClause).astAssign(0, tmp544)
+    }
+    private fun userCode201() {
+        stack.add(ASTUsingClause())
+    }
+    private fun userCode202() {
+        val tmp545 = stack.removeLast()
+        (stack[stack.size - 1] as ASTUsingClause).astAssign(0, tmp545)
+    }
+    private fun userCode203() {
+        stack.add(ASTClassOfGRAPHAndiri())
+    }
+    private fun userCode204() {
+        stack.add(ASTAnonymous("GRAPH"))
+    }
+    private fun userCode205() {
+        val tmp546 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfGRAPHAndiri).astAssign(0, tmp546)
+    }
+    private fun userCode206() {
+        val tmp547 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfGRAPHAndiri).astAssign(1, tmp547)
+    }
+    private fun userCode207() {
+        stack.add(ASTGraphRef())
+    }
+    private fun userCode208() {
+        val tmp548 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGraphRef).astAssign(0, tmp548)
+    }
+    private fun userCode209() {
+        stack.add(ASTGraphRefDefault())
+    }
+    private fun userCode210() {
+        stack.add(ASTGraphRefNamed())
+    }
+    private fun userCode211() {
+        stack.add(ASTGraphRefAll2())
+    }
+    private fun userCode212() {
+        stack.add(ASTQuadPattern())
+    }
+    private fun userCode213() {
+        val tmp549 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuadPattern).astAssign(0, tmp549)
+    }
+    private fun userCode214() {
+        stack.add(ASTQuadData())
+    }
+    private fun userCode215() {
+        val tmp550 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuadData).astAssign(0, tmp550)
+    }
+    private fun userCode216() {
+        stack.add(ASTQuads())
+    }
+    private fun userCode217() {
+        stack.add(ASTTriplesTemplateOptional())
+    }
+    private fun userCode218() {
+        val tmp551 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp551)
+    }
+    private fun userCode219() {
+        val tmp557 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuads).astAssign(0, tmp557)
+    }
+    private fun userCode220() {
+        stack.add(ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
+    }
+    private fun userCode221() {
+        stack.add(ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
+    }
+    private fun userCode222() {
+        val tmp553 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0, tmp553)
+    }
+    private fun userCode223() {
+        stack.add(ASTAnonymous("point"))
+    }
+    private fun userCode224() {
+        val tmp554 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(1, tmp554)
+    }
+    private fun userCode225() {
+        val tmp552 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp552)
+    }
+    private fun userCode226() {
+        val tmp555 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(2, tmp555)
+    }
+    private fun userCode227() {
+        val tmp556 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0, tmp556)
+    }
+    private fun userCode228() {
+        val tmp558 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuads).astAssign(1, tmp558)
+    }
+    private fun userCode229() {
+        stack.add(ASTQuadsNotTriples())
+    }
+    private fun userCode230() {
+        val tmp560 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuadsNotTriples).astAssign(0, tmp560)
+    }
+    private fun userCode231() {
+        val tmp559 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp559)
+    }
+    private fun userCode232() {
+        val tmp561 = stack.removeLast()
+        (stack[stack.size - 1] as ASTQuadsNotTriples).astAssign(1, tmp561)
+    }
+    private fun userCode233() {
+        stack.add(ASTTriplesTemplate())
+    }
+    private fun userCode234() {
+        val tmp565 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplate).astAssign(0, tmp565)
+    }
+    private fun userCode235() {
+        stack.add(ASTTriplesTemplateOptionalOptional())
+    }
+    private fun userCode236() {
+        val tmp562 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp562)
+    }
+    private fun userCode237() {
+        val tmp564 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplateOptionalOptional).astAssign(0, tmp564)
+    }
+    private fun userCode238() {
+        val tmp566 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesTemplate).astAssign(1, tmp566)
+    }
+    private fun userCode239() {
+        stack.add(ASTGroupGraphPattern())
+    }
+    private fun userCode240() {
+        val tmp567 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupGraphPattern).astAssign(0, tmp567)
+    }
+    private fun userCode241() {
+        stack.add(ASTGroupGraphPatternSub())
+    }
+    private fun userCode242() {
+        stack.add(ASTTriplesBlockOptional())
+    }
+    private fun userCode243() {
+        val tmp568 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp568)
+    }
+    private fun userCode244() {
+        val tmp574 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupGraphPatternSub).astAssign(0, tmp574)
+    }
+    private fun userCode245() {
+        stack.add(ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
+    }
+    private fun userCode246() {
+        stack.add(ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
+    }
+    private fun userCode247() {
+        val tmp570 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0, tmp570)
+    }
+    private fun userCode248() {
+        val tmp571 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(1, tmp571)
+    }
+    private fun userCode249() {
+        val tmp569 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp569)
+    }
+    private fun userCode250() {
+        val tmp572 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(2, tmp572)
+    }
+    private fun userCode251() {
+        val tmp573 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0, tmp573)
+    }
+    private fun userCode252() {
+        val tmp575 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupGraphPatternSub).astAssign(1, tmp575)
+    }
+    private fun userCode253() {
+        stack.add(ASTTriplesBlock())
+    }
+    private fun userCode254() {
+        val tmp579 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlock).astAssign(0, tmp579)
+    }
+    private fun userCode255() {
+        stack.add(ASTTriplesBlockOptionalOptional())
+    }
+    private fun userCode256() {
+        val tmp576 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp576)
+    }
+    private fun userCode257() {
+        val tmp578 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlockOptionalOptional).astAssign(0, tmp578)
+    }
+    private fun userCode258() {
+        val tmp580 = stack.removeLast()
+        (stack[stack.size - 1] as ASTTriplesBlock).astAssign(1, tmp580)
+    }
+    private fun userCode259() {
+        stack.add(ASTOptionalGraphPattern())
+    }
+    private fun userCode260() {
+        val tmp581 = stack.removeLast()
+        (stack[stack.size - 1] as ASTOptionalGraphPattern).astAssign(0, tmp581)
+    }
+    private fun userCode261() {
+        stack.add(ASTGraphGraphPattern())
+    }
+    private fun userCode262() {
+        val tmp582 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGraphGraphPattern).astAssign(0, tmp582)
+    }
+    private fun userCode263() {
+        val tmp583 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGraphGraphPattern).astAssign(1, tmp583)
+    }
+    private fun userCode264() {
+        stack.add(ASTServiceGraphPattern())
+    }
+    private fun userCode265() {
+        val tmp584 = stack.removeLast()
+        (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(0, tmp584)
+    }
+    private fun userCode266() {
+        val tmp585 = stack.removeLast()
+        (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(1, tmp585)
+    }
+    private fun userCode267() {
+        val tmp586 = stack.removeLast()
+        (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(2, tmp586)
+    }
+    private fun userCode268() {
+        stack.add(ASTBind())
+    }
+    private fun userCode269() {
+        val tmp587 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBind).astAssign(0, tmp587)
+    }
+    private fun userCode270() {
+        val tmp588 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBind).astAssign(1, tmp588)
+    }
+    private fun userCode271() {
+        stack.add(ASTValuesClause())
+    }
+    private fun userCode272() {
+        val tmp589 = stack.removeLast()
+        (stack[stack.size - 1] as ASTValuesClause).astAssign(0, tmp589)
+    }
+    private fun userCode273() {
+        stack.add(ASTInlineDataOneVar())
+    }
+    private fun userCode274() {
+        val tmp591 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInlineDataOneVar).astAssign(0, tmp591)
+    }
+    private fun userCode275() {
+        stack.add(ASTListOfDataBlockValue())
+    }
+    private fun userCode276() {
+        val tmp590 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDataBlockValue).astAssign(0, tmp590)
+    }
+    private fun userCode277() {
+        val tmp592 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInlineDataOneVar).astAssign(1, tmp592)
+    }
+    private fun userCode278() {
+        stack.add(ASTInlineDataFull())
+    }
+    private fun userCode279() {
+        stack.add(ASTListOfVar())
+    }
+    private fun userCode280() {
+        val tmp593 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfVar).astAssign(0, tmp593)
+    }
+    private fun userCode281() {
+        val tmp598 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInlineDataFull).astAssign(0, tmp598)
+    }
+    private fun userCode282() {
+        stack.add(ASTListOfInterfaceOfListOfDataBlockValueOrNILParam())
+    }
+    private fun userCode283() {
+        val tmp595 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfDataBlockValue).astAssign(0, tmp595)
+    }
+    private fun userCode284() {
+        val tmp597 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam).astAssign(0, tmp597)
+    }
+    private fun userCode285() {
+        val tmp599 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInlineDataFull).astAssign(1, tmp599)
+    }
+    private fun userCode286() {
+        stack.add(ASTUNDEF())
+    }
+    private fun userCode287() {
+        stack.add(ASTMinusGraphPattern())
+    }
+    private fun userCode288() {
+        val tmp600 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMinusGraphPattern).astAssign(0, tmp600)
+    }
+    private fun userCode289() {
+        stack.add(ASTGroupOrUnionGraphPattern())
+    }
+    private fun userCode290() {
+        val tmp602 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupOrUnionGraphPattern).astAssign(0, tmp602)
+    }
+    private fun userCode291() {
+        stack.add(ASTListOfGroupGraphPattern())
+    }
+    private fun userCode292() {
+        val tmp601 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfGroupGraphPattern).astAssign(0, tmp601)
+    }
+    private fun userCode293() {
+        val tmp603 = stack.removeLast()
+        (stack[stack.size - 1] as ASTGroupOrUnionGraphPattern).astAssign(1, tmp603)
+    }
+    private fun userCode294() {
+        stack.add(ASTFilter())
+    }
+    private fun userCode295() {
+        val tmp604 = stack.removeLast()
+        (stack[stack.size - 1] as ASTFilter).astAssign(0, tmp604)
+    }
+    private fun userCode296() {
+        stack.add(ASTFunctionCall())
+    }
+    private fun userCode297() {
+        val tmp605 = stack.removeLast()
+        (stack[stack.size - 1] as ASTFunctionCall).astAssign(0, tmp605)
+    }
+    private fun userCode298() {
+        val tmp606 = stack.removeLast()
+        (stack[stack.size - 1] as ASTFunctionCall).astAssign(1, tmp606)
+    }
+    private fun userCode299() {
+        stack.add(ASTClassOfDISTINCTAndExpressionAndListOfExpression())
+    }
+    private fun userCode300() {
+        val tmp608 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(0, tmp608)
+    }
+    private fun userCode301() {
+        val tmp609 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(1, tmp609)
+    }
+    private fun userCode302() {
+        stack.add(ASTListOfExpression())
+    }
+    private fun userCode303() {
+        val tmp607 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfExpression).astAssign(0, tmp607)
+    }
+    private fun userCode304() {
+        val tmp610 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(2, tmp610)
+    }
+    private fun userCode305() {
+        stack.add(ASTClassOfExpressionAndListOfExpression())
+    }
+    private fun userCode306() {
+        val tmp612 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndListOfExpression).astAssign(0, tmp612)
+    }
+    private fun userCode307() {
+        val tmp611 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfExpression).astAssign(0, tmp611)
+    }
+    private fun userCode308() {
+        val tmp613 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfExpressionAndListOfExpression).astAssign(1, tmp613)
+    }
+    private fun userCode309() {
+        stack.add(ASTConstructTemplate())
+    }
+    private fun userCode310() {
+        stack.add(ASTConstructTriplesOptional())
+    }
+    private fun userCode311() {
+        val tmp614 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTriplesOptional).astAssign(0, tmp614)
+    }
+    private fun userCode312() {
+        val tmp615 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTemplate).astAssign(0, tmp615)
+    }
+    private fun userCode313() {
+        stack.add(ASTConstructTriples())
+    }
+    private fun userCode314() {
+        val tmp619 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTriples).astAssign(0, tmp619)
+    }
+    private fun userCode315() {
+        stack.add(ASTConstructTriplesOptionalOptional())
+    }
+    private fun userCode316() {
+        val tmp616 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTriplesOptional).astAssign(0, tmp616)
+    }
+    private fun userCode317() {
+        val tmp618 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTriplesOptionalOptional).astAssign(0, tmp618)
+    }
+    private fun userCode318() {
+        val tmp620 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConstructTriples).astAssign(1, tmp620)
+    }
+    private fun userCode319() {
+        stack.add(ASTClassOfVarOrTermAndPropertyListNotEmpty())
+    }
+    private fun userCode320() {
+        val tmp621 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(0, tmp621)
+    }
+    private fun userCode321() {
+        val tmp622 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(1, tmp622)
+    }
+    private fun userCode322() {
+        stack.add(ASTClassOfTriplesNodeAndPropertyListOptional())
+    }
+    private fun userCode323() {
+        val tmp624 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(0, tmp624)
+    }
+    private fun userCode324() {
+        stack.add(ASTPropertyListOptional())
+    }
+    private fun userCode325() {
+        val tmp623 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListOptional).astAssign(0, tmp623)
+    }
+    private fun userCode326() {
+        val tmp625 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(1, tmp625)
+    }
+    private fun userCode327() {
+        stack.add(ASTPropertyList())
+    }
+    private fun userCode328() {
+        val tmp626 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyList).astAssign(0, tmp626)
+    }
+    private fun userCode329() {
+        stack.add(ASTPropertyListNotEmpty())
+    }
+    private fun userCode330() {
+        val tmp632 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(0, tmp632)
+    }
+    private fun userCode331() {
+        val tmp633 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(1, tmp633)
+    }
+    private fun userCode332() {
+        stack.add(ASTListOfClassOfVerbAndObjectListOptional())
+    }
+    private fun userCode333() {
+        stack.add(ASTClassOfVerbAndObjectListOptional())
+    }
+    private fun userCode334() {
+        stack.add(ASTClassOfVerbAndObjectList())
+    }
+    private fun userCode335() {
+        val tmp627 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVerbAndObjectList).astAssign(0, tmp627)
+    }
+    private fun userCode336() {
+        val tmp628 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVerbAndObjectList).astAssign(1, tmp628)
+    }
+    private fun userCode337() {
+        val tmp629 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVerbAndObjectListOptional).astAssign(0, tmp629)
+    }
+    private fun userCode338() {
+        val tmp631 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfClassOfVerbAndObjectListOptional).astAssign(0, tmp631)
+    }
+    private fun userCode339() {
+        val tmp634 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(2, tmp634)
+    }
+    private fun userCode340() {
+        stack.add(ASTRDFType())
+    }
+    private fun userCode341() {
+        stack.add(ASTObjectList())
+    }
+    private fun userCode342() {
+        val tmp636 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObjectList).astAssign(0, tmp636)
+    }
+    private fun userCode343() {
+        stack.add(ASTListOfObject())
+    }
+    private fun userCode344() {
+        val tmp635 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfObject).astAssign(0, tmp635)
+    }
+    private fun userCode345() {
+        val tmp637 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObjectList).astAssign(1, tmp637)
+    }
+    private fun userCode346() {
+        stack.add(ASTObject())
+    }
+    private fun userCode347() {
+        val tmp638 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObject).astAssign(0, tmp638)
+    }
+    private fun userCode348() {
+        stack.add(ASTClassOfVarOrTermAndPropertyListPathNotEmpty())
+    }
+    private fun userCode349() {
+        val tmp639 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(0, tmp639)
+    }
+    private fun userCode350() {
+        val tmp640 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(1, tmp640)
+    }
+    private fun userCode351() {
+        stack.add(ASTClassOfTriplesNodePathAndPropertyListPathOptional())
+    }
+    private fun userCode352() {
+        val tmp642 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(0, tmp642)
+    }
+    private fun userCode353() {
+        stack.add(ASTPropertyListPathOptional())
+    }
+    private fun userCode354() {
+        val tmp641 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListPathOptional).astAssign(0, tmp641)
+    }
+    private fun userCode355() {
+        val tmp643 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(1, tmp643)
+    }
+    private fun userCode356() {
+        stack.add(ASTPropertyListPath())
+    }
+    private fun userCode357() {
+        val tmp644 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListPath).astAssign(0, tmp644)
+    }
+    private fun userCode358() {
+        stack.add(ASTPropertyListPathNotEmpty())
+    }
+    private fun userCode359() {
+        val tmp650 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(0, tmp650)
+    }
+    private fun userCode360() {
+        val tmp651 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(1, tmp651)
+    }
+    private fun userCode361() {
+        stack.add(ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
+    }
+    private fun userCode362() {
+        stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
+    }
+    private fun userCode363() {
+        stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList())
+    }
+    private fun userCode364() {
+        val tmp645 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(0, tmp645)
+    }
+    private fun userCode365() {
+        val tmp646 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(1, tmp646)
+    }
+    private fun userCode366() {
+        val tmp647 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0, tmp647)
+    }
+    private fun userCode367() {
+        val tmp649 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0, tmp649)
+    }
+    private fun userCode368() {
+        val tmp652 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(2, tmp652)
+    }
+    private fun userCode369() {
+        stack.add(ASTVerbPath())
+    }
+    private fun userCode370() {
+        val tmp653 = stack.removeLast()
+        (stack[stack.size - 1] as ASTVerbPath).astAssign(0, tmp653)
+    }
+    private fun userCode371() {
+        stack.add(ASTVerbSimple())
+    }
+    private fun userCode372() {
+        val tmp654 = stack.removeLast()
+        (stack[stack.size - 1] as ASTVerbSimple).astAssign(0, tmp654)
+    }
+    private fun userCode373() {
+        stack.add(ASTObjectListPath())
+    }
+    private fun userCode374() {
+        val tmp656 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObjectListPath).astAssign(0, tmp656)
+    }
+    private fun userCode375() {
+        stack.add(ASTListOfObjectPath())
+    }
+    private fun userCode376() {
+        val tmp655 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfObjectPath).astAssign(0, tmp655)
+    }
+    private fun userCode377() {
+        val tmp657 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObjectListPath).astAssign(1, tmp657)
+    }
+    private fun userCode378() {
+        stack.add(ASTObjectPath())
+    }
+    private fun userCode379() {
+        val tmp658 = stack.removeLast()
+        (stack[stack.size - 1] as ASTObjectPath).astAssign(0, tmp658)
+    }
+    private fun userCode380() {
+        stack.add(ASTPath())
+    }
+    private fun userCode381() {
+        val tmp659 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPath).astAssign(0, tmp659)
+    }
+    private fun userCode382() {
+        stack.add(ASTPathAlternative())
+    }
+    private fun userCode383() {
+        val tmp661 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathAlternative).astAssign(0, tmp661)
+    }
+    private fun userCode384() {
+        stack.add(ASTListOfPathSequence())
+    }
+    private fun userCode385() {
+        val tmp660 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfPathSequence).astAssign(0, tmp660)
+    }
+    private fun userCode386() {
+        val tmp662 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathAlternative).astAssign(1, tmp662)
+    }
+    private fun userCode387() {
+        stack.add(ASTPathSequence())
+    }
+    private fun userCode388() {
+        val tmp664 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathSequence).astAssign(0, tmp664)
+    }
+    private fun userCode389() {
+        stack.add(ASTListOfPathEltOrInverse())
+    }
+    private fun userCode390() {
+        val tmp663 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfPathEltOrInverse).astAssign(0, tmp663)
+    }
+    private fun userCode391() {
+        val tmp665 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathSequence).astAssign(1, tmp665)
+    }
+    private fun userCode392() {
+        stack.add(ASTPathElt())
+    }
+    private fun userCode393() {
+        val tmp666 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathElt).astAssign(0, tmp666)
+    }
+    private fun userCode394() {
+        stack.add(ASTAnonymous("optional"))
+    }
+    private fun userCode395() {
+        stack.add(ASTAnonymous("any"))
+    }
+    private fun userCode396() {
+        stack.add(ASTAnonymous("atLeastOne"))
+    }
+    private fun userCode397() {
+        val tmp667 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathElt).astAssign(1, tmp667)
+    }
+    private fun userCode398() {
+        stack.add(ASTPathEltOrInverse())
+    }
+    private fun userCode399() {
+        stack.add(ASTAnonymous("negated"))
+    }
+    private fun userCode400() {
+        val tmp668 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathEltOrInverse).astAssign(0, tmp668)
+    }
+    private fun userCode401() {
+        val tmp669 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathEltOrInverse).astAssign(1, tmp669)
+    }
+    private fun userCode402() {
+        stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional())
+    }
+    private fun userCode403() {
+        stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet())
+    }
+    private fun userCode404() {
+        val tmp671 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(0, tmp671)
+    }
+    private fun userCode405() {
+        stack.add(ASTListOfPathOneInPropertySet())
+    }
+    private fun userCode406() {
+        val tmp670 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfPathOneInPropertySet).astAssign(0, tmp670)
+    }
+    private fun userCode407() {
+        val tmp672 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(1, tmp672)
+    }
+    private fun userCode408() {
+        val tmp673 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional).astAssign(0, tmp673)
+    }
+    private fun userCode409() {
+        stack.add(ASTPathOneInPropertySet())
+    }
+    private fun userCode410() {
+        val tmp675 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathOneInPropertySet).astAssign(0, tmp675)
+    }
+    private fun userCode411() {
+        val tmp676 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPathOneInPropertySet).astAssign(1, tmp676)
+    }
+    private fun userCode412() {
+        stack.add(ASTInteger())
+    }
+    private fun userCode413() {
+        val tmp677 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInteger).astAssign(0, tmp677)
+    }
+    private fun userCode414() {
+        stack.add(ASTBlankNodePropertyList())
+    }
+    private fun userCode415() {
+        val tmp678 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBlankNodePropertyList).astAssign(0, tmp678)
+    }
+    private fun userCode416() {
+        stack.add(ASTBlankNodePropertyListPath())
+    }
+    private fun userCode417() {
+        val tmp679 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBlankNodePropertyListPath).astAssign(0, tmp679)
+    }
+    private fun userCode418() {
+        stack.add(ASTCollection())
+    }
+    private fun userCode419() {
+        stack.add(ASTListOfGraphNode())
+    }
+    private fun userCode420() {
+        val tmp680 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfGraphNode).astAssign(0, tmp680)
+    }
+    private fun userCode421() {
+        val tmp681 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCollection).astAssign(0, tmp681)
+    }
+    private fun userCode422() {
+        stack.add(ASTCollectionPath())
+    }
+    private fun userCode423() {
+        stack.add(ASTListOfGraphNodePath())
+    }
+    private fun userCode424() {
+        val tmp682 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfGraphNodePath).astAssign(0, tmp682)
+    }
+    private fun userCode425() {
+        val tmp683 = stack.removeLast()
+        (stack[stack.size - 1] as ASTCollectionPath).astAssign(0, tmp683)
+    }
+    private fun userCode426() {
+        stack.add(ASTVar1())
+    }
+    private fun userCode427() {
+        val tmp684 = stack.removeLast()
+        (stack[stack.size - 1] as ASTVar1).astAssign(0, tmp684)
+    }
+    private fun userCode428() {
+        stack.add(ASTVar2())
+    }
+    private fun userCode429() {
+        val tmp685 = stack.removeLast()
+        (stack[stack.size - 1] as ASTVar2).astAssign(0, tmp685)
+    }
+    private fun userCode430() {
+        stack.add(ASTExpression())
+    }
+    private fun userCode431() {
+        val tmp686 = stack.removeLast()
+        (stack[stack.size - 1] as ASTExpression).astAssign(0, tmp686)
+    }
+    private fun userCode432() {
+        stack.add(ASTConditionalOrExpression())
+    }
+    private fun userCode433() {
+        val tmp688 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConditionalOrExpression).astAssign(0, tmp688)
+    }
+    private fun userCode434() {
+        stack.add(ASTListOfConditionalAndExpression())
+    }
+    private fun userCode435() {
+        val tmp687 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfConditionalAndExpression).astAssign(0, tmp687)
+    }
+    private fun userCode436() {
+        val tmp689 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConditionalOrExpression).astAssign(1, tmp689)
+    }
+    private fun userCode437() {
+        stack.add(ASTConditionalAndExpression())
+    }
+    private fun userCode438() {
+        val tmp691 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConditionalAndExpression).astAssign(0, tmp691)
+    }
+    private fun userCode439() {
+        stack.add(ASTListOfValueLogical())
+    }
+    private fun userCode440() {
+        val tmp690 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfValueLogical).astAssign(0, tmp690)
+    }
+    private fun userCode441() {
+        val tmp692 = stack.removeLast()
+        (stack[stack.size - 1] as ASTConditionalAndExpression).astAssign(1, tmp692)
+    }
+    private fun userCode442() {
+        stack.add(ASTValueLogical())
+    }
+    private fun userCode443() {
+        val tmp693 = stack.removeLast()
+        (stack[stack.size - 1] as ASTValueLogical).astAssign(0, tmp693)
+    }
+    private fun userCode444() {
+        stack.add(ASTRelationalExpression())
+    }
+    private fun userCode445() {
+        val tmp695 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpression).astAssign(0, tmp695)
+    }
+    private fun userCode446() {
+        stack.add(ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional())
+    }
+    private fun userCode447() {
+        val tmp694 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional).astAssign(0, tmp694)
+    }
+    private fun userCode448() {
+        val tmp696 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpression).astAssign(1, tmp696)
+    }
+    private fun userCode449() {
+        stack.add(ASTRelationalExpressionEQ())
+    }
+    private fun userCode450() {
+        val tmp697 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionEQ).astAssign(0, tmp697)
+    }
+    private fun userCode451() {
+        stack.add(ASTRelationalExpressionNEQ())
+    }
+    private fun userCode452() {
+        val tmp698 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionNEQ).astAssign(0, tmp698)
+    }
+    private fun userCode453() {
+        stack.add(ASTRelationalExpressionLT())
+    }
+    private fun userCode454() {
+        val tmp699 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionLT).astAssign(0, tmp699)
+    }
+    private fun userCode455() {
+        stack.add(ASTRelationalExpressionGT())
+    }
+    private fun userCode456() {
+        val tmp700 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionGT).astAssign(0, tmp700)
+    }
+    private fun userCode457() {
+        stack.add(ASTRelationalExpressionLEQ())
+    }
+    private fun userCode458() {
+        val tmp701 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionLEQ).astAssign(0, tmp701)
+    }
+    private fun userCode459() {
+        stack.add(ASTRelationalExpressionGEQ())
+    }
+    private fun userCode460() {
+        val tmp702 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionGEQ).astAssign(0, tmp702)
+    }
+    private fun userCode461() {
+        stack.add(ASTRelationalExpressionIN())
+    }
+    private fun userCode462() {
+        val tmp703 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionIN).astAssign(0, tmp703)
+    }
+    private fun userCode463() {
+        stack.add(ASTRelationalExpressionNOTIN())
+    }
+    private fun userCode464() {
+        val tmp704 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRelationalExpressionNOTIN).astAssign(0, tmp704)
+    }
+    private fun userCode465() {
+        stack.add(ASTNumericExpression())
+    }
+    private fun userCode466() {
+        val tmp705 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericExpression).astAssign(0, tmp705)
+    }
+    private fun userCode467() {
+        stack.add(ASTAdditiveExpression())
+    }
+    private fun userCode468() {
+        val tmp710 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpression).astAssign(0, tmp710)
+    }
+    private fun userCode469() {
+        stack.add(ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
+    }
+    private fun userCode470() {
+        stack.add(ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
+    }
+    private fun userCode471() {
+        val tmp707 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp707)
+    }
+    private fun userCode472() {
+        stack.add(ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
+    }
+    private fun userCode473() {
+        val tmp706 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp706)
+    }
+    private fun userCode474() {
+        val tmp708 = stack.removeLast()
+        (stack[stack.size - 1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(1, tmp708)
+    }
+    private fun userCode475() {
+        val tmp709 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp709)
+    }
+    private fun userCode476() {
+        val tmp711 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpression).astAssign(1, tmp711)
+    }
+    private fun userCode477() {
+        stack.add(ASTAdditiveExpressionPLUS())
+    }
+    private fun userCode478() {
+        val tmp712 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpressionPLUS).astAssign(0, tmp712)
+    }
+    private fun userCode479() {
+        stack.add(ASTAdditiveExpressionMINUS())
+    }
+    private fun userCode480() {
+        val tmp713 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpressionMINUS).astAssign(0, tmp713)
+    }
+    private fun userCode481() {
+        stack.add(ASTAdditiveExpressionMULTIPLY())
+    }
+    private fun userCode482() {
+        val tmp714 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpressionMULTIPLY).astAssign(0, tmp714)
+    }
+    private fun userCode483() {
+        stack.add(ASTAdditiveExpressionDIVIDE())
+    }
+    private fun userCode484() {
+        val tmp715 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAdditiveExpressionDIVIDE).astAssign(0, tmp715)
+    }
+    private fun userCode485() {
+        stack.add(ASTMultiplicativeExpression())
+    }
+    private fun userCode486() {
+        val tmp717 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMultiplicativeExpression).astAssign(0, tmp717)
+    }
+    private fun userCode487() {
+        stack.add(ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE())
+    }
+    private fun userCode488() {
+        val tmp716 = stack.removeLast()
+        (stack[stack.size - 1] as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE).astAssign(0, tmp716)
+    }
+    private fun userCode489() {
+        val tmp718 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMultiplicativeExpression).astAssign(1, tmp718)
+    }
+    private fun userCode490() {
+        stack.add(ASTMultiplicativeExpressionMULTIPLY())
+    }
+    private fun userCode491() {
+        val tmp719 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMultiplicativeExpressionMULTIPLY).astAssign(0, tmp719)
+    }
+    private fun userCode492() {
+        stack.add(ASTMultiplicativeExpressionDIVIDE())
+    }
+    private fun userCode493() {
+        val tmp720 = stack.removeLast()
+        (stack[stack.size - 1] as ASTMultiplicativeExpressionDIVIDE).astAssign(0, tmp720)
+    }
+    private fun userCode494() {
+        stack.add(ASTUnaryExpressionNOT())
+    }
+    private fun userCode495() {
+        val tmp721 = stack.removeLast()
+        (stack[stack.size - 1] as ASTUnaryExpressionNOT).astAssign(0, tmp721)
+    }
+    private fun userCode496() {
+        stack.add(ASTUnaryExpressionPLUS())
+    }
+    private fun userCode497() {
+        val tmp722 = stack.removeLast()
+        (stack[stack.size - 1] as ASTUnaryExpressionPLUS).astAssign(0, tmp722)
+    }
+    private fun userCode498() {
+        stack.add(ASTUnaryExpressionMINUS())
+    }
+    private fun userCode499() {
+        val tmp723 = stack.removeLast()
+        (stack[stack.size - 1] as ASTUnaryExpressionMINUS).astAssign(0, tmp723)
+    }
+    private fun userCode500() {
+        stack.add(ASTBrackettedExpression())
+    }
+    private fun userCode501() {
+        val tmp724 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBrackettedExpression).astAssign(0, tmp724)
+    }
+    private fun userCode502() {
+        stack.add(ASTBuiltInCallYear())
+    }
+    private fun userCode503() {
+        val tmp725 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallYear).astAssign(0, tmp725)
+    }
+    private fun userCode504() {
+        stack.add(ASTBuiltInCallMonth())
+    }
+    private fun userCode505() {
+        val tmp726 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallMonth).astAssign(0, tmp726)
+    }
+    private fun userCode506() {
+        stack.add(ASTBuiltInCallHours())
+    }
+    private fun userCode507() {
+        val tmp727 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallHours).astAssign(0, tmp727)
+    }
+    private fun userCode508() {
+        stack.add(ASTBuiltInCallNow())
+    }
+    private fun userCode509() {
+        val tmp728 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallNow).astAssign(0, tmp728)
+    }
+    private fun userCode510() {
+        stack.add(ASTBuiltInCallSameTerm())
+    }
+    private fun userCode511() {
+        val tmp729 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSameTerm).astAssign(0, tmp729)
+    }
+    private fun userCode512() {
+        val tmp730 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSameTerm).astAssign(1, tmp730)
+    }
+    private fun userCode513() {
+        stack.add(ASTBuiltInCallIsIri())
+    }
+    private fun userCode514() {
+        val tmp731 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIsIri).astAssign(0, tmp731)
+    }
+    private fun userCode515() {
+        stack.add(ASTBuiltInCallIsBlanc())
+    }
+    private fun userCode516() {
+        val tmp732 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIsBlanc).astAssign(0, tmp732)
+    }
+    private fun userCode517() {
+        stack.add(ASTBuiltInCallIsLiteral())
+    }
+    private fun userCode518() {
+        val tmp733 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIsLiteral).astAssign(0, tmp733)
+    }
+    private fun userCode519() {
+        stack.add(ASTBuiltInCallMD5())
+    }
+    private fun userCode520() {
+        val tmp734 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallMD5).astAssign(0, tmp734)
+    }
+    private fun userCode521() {
+        stack.add(ASTBuiltInCallUUID())
+    }
+    private fun userCode522() {
+        val tmp735 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallUUID).astAssign(0, tmp735)
+    }
+    private fun userCode523() {
+        stack.add(ASTBuiltInCallSTRUUID())
+    }
+    private fun userCode524() {
+        val tmp736 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSTRUUID).astAssign(0, tmp736)
+    }
+    private fun userCode525() {
+        stack.add(ASTBuiltInCallSHA1())
+    }
+    private fun userCode526() {
+        val tmp737 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSHA1).astAssign(0, tmp737)
+    }
+    private fun userCode527() {
+        stack.add(ASTBuiltInCallSHA384())
+    }
+    private fun userCode528() {
+        val tmp738 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSHA384).astAssign(0, tmp738)
+    }
+    private fun userCode529() {
+        stack.add(ASTBuiltInCallSHA512())
+    }
+    private fun userCode530() {
+        val tmp739 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSHA512).astAssign(0, tmp739)
+    }
+    private fun userCode531() {
+        stack.add(ASTBuiltInCallCoalesce())
+    }
+    private fun userCode532() {
+        val tmp740 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallCoalesce).astAssign(0, tmp740)
+    }
+    private fun userCode533() {
+        stack.add(ASTBuiltInCallIf())
+    }
+    private fun userCode534() {
+        val tmp741 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(0, tmp741)
+    }
+    private fun userCode535() {
+        val tmp742 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(1, tmp742)
+    }
+    private fun userCode536() {
+        val tmp743 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(2, tmp743)
+    }
+    private fun userCode537() {
+        stack.add(ASTBuiltInCallStrLang())
+    }
+    private fun userCode538() {
+        val tmp744 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrLang).astAssign(0, tmp744)
+    }
+    private fun userCode539() {
+        val tmp745 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrLang).astAssign(1, tmp745)
+    }
+    private fun userCode540() {
+        stack.add(ASTBuiltInCallIsUri())
+    }
+    private fun userCode541() {
+        val tmp746 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIsUri).astAssign(0, tmp746)
+    }
+    private fun userCode542() {
+        stack.add(ASTBuiltInCallMinutes())
+    }
+    private fun userCode543() {
+        val tmp747 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallMinutes).astAssign(0, tmp747)
+    }
+    private fun userCode544() {
+        stack.add(ASTBuiltInCallSHA256())
+    }
+    private fun userCode545() {
+        val tmp748 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSHA256).astAssign(0, tmp748)
+    }
+    private fun userCode546() {
+        stack.add(ASTBuiltInCallStrDt())
+    }
+    private fun userCode547() {
+        val tmp749 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrDt).astAssign(0, tmp749)
+    }
+    private fun userCode548() {
+        val tmp750 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrDt).astAssign(1, tmp750)
+    }
+    private fun userCode549() {
+        stack.add(ASTBuiltInCallIsNumeric())
+    }
+    private fun userCode550() {
+        val tmp751 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIsNumeric).astAssign(0, tmp751)
+    }
+    private fun userCode551() {
+        stack.add(ASTBuiltInCallSeconds())
+    }
+    private fun userCode552() {
+        val tmp752 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallSeconds).astAssign(0, tmp752)
+    }
+    private fun userCode553() {
+        stack.add(ASTBuiltInCallTimezone())
+    }
+    private fun userCode554() {
+        val tmp753 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallTimezone).astAssign(0, tmp753)
+    }
+    private fun userCode555() {
+        stack.add(ASTBuiltInCallTz())
+    }
+    private fun userCode556() {
+        val tmp754 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallTz).astAssign(0, tmp754)
+    }
+    private fun userCode557() {
+        stack.add(ASTBuiltInCallConcat())
+    }
+    private fun userCode558() {
+        val tmp755 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallConcat).astAssign(0, tmp755)
+    }
+    private fun userCode559() {
+        stack.add(ASTBuiltInCallStrLen())
+    }
+    private fun userCode560() {
+        val tmp756 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrLen).astAssign(0, tmp756)
+    }
+    private fun userCode561() {
+        stack.add(ASTBuiltInCallUCase())
+    }
+    private fun userCode562() {
+        val tmp757 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallUCase).astAssign(0, tmp757)
+    }
+    private fun userCode563() {
+        stack.add(ASTBuiltInCallStrBefore())
+    }
+    private fun userCode564() {
+        val tmp758 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrBefore).astAssign(0, tmp758)
+    }
+    private fun userCode565() {
+        val tmp759 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrBefore).astAssign(1, tmp759)
+    }
+    private fun userCode566() {
+        stack.add(ASTBuiltInCallStrAfter())
+    }
+    private fun userCode567() {
+        val tmp760 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrAfter).astAssign(0, tmp760)
+    }
+    private fun userCode568() {
+        val tmp761 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrAfter).astAssign(1, tmp761)
+    }
+    private fun userCode569() {
+        stack.add(ASTBuiltInCallEncodeForUri())
+    }
+    private fun userCode570() {
+        val tmp762 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallEncodeForUri).astAssign(0, tmp762)
+    }
+    private fun userCode571() {
+        stack.add(ASTBuiltInCallContains())
+    }
+    private fun userCode572() {
+        val tmp763 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallContains).astAssign(0, tmp763)
+    }
+    private fun userCode573() {
+        val tmp764 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallContains).astAssign(1, tmp764)
+    }
+    private fun userCode574() {
+        stack.add(ASTBuiltInCallStrStarts())
+    }
+    private fun userCode575() {
+        val tmp765 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrStarts).astAssign(0, tmp765)
+    }
+    private fun userCode576() {
+        val tmp766 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrStarts).astAssign(1, tmp766)
+    }
+    private fun userCode577() {
+        stack.add(ASTBuiltInCallStrEnds())
+    }
+    private fun userCode578() {
+        val tmp767 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrEnds).astAssign(0, tmp767)
+    }
+    private fun userCode579() {
+        val tmp768 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStrEnds).astAssign(1, tmp768)
+    }
+    private fun userCode580() {
+        stack.add(ASTBuiltInCallDay())
+    }
+    private fun userCode581() {
+        val tmp769 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallDay).astAssign(0, tmp769)
+    }
+    private fun userCode582() {
+        stack.add(ASTBuiltInCallStr())
+    }
+    private fun userCode583() {
+        val tmp770 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallStr).astAssign(0, tmp770)
+    }
+    private fun userCode584() {
+        stack.add(ASTBuiltInCallLang())
+    }
+    private fun userCode585() {
+        val tmp771 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallLang).astAssign(0, tmp771)
+    }
+    private fun userCode586() {
+        stack.add(ASTBuildInCallLangMatches())
+    }
+    private fun userCode587() {
+        val tmp772 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuildInCallLangMatches).astAssign(0, tmp772)
+    }
+    private fun userCode588() {
+        val tmp773 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuildInCallLangMatches).astAssign(1, tmp773)
+    }
+    private fun userCode589() {
+        stack.add(ASTBuiltInCallDataType())
+    }
+    private fun userCode590() {
+        val tmp774 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallDataType).astAssign(0, tmp774)
+    }
+    private fun userCode591() {
+        stack.add(ASTBuiltInCallBound())
+    }
+    private fun userCode592() {
+        val tmp775 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallBound).astAssign(0, tmp775)
+    }
+    private fun userCode593() {
+        stack.add(ASTBuiltInCallIri())
+    }
+    private fun userCode594() {
+        val tmp776 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallIri).astAssign(0, tmp776)
+    }
+    private fun userCode595() {
+        stack.add(ASTBuiltInCallUri())
+    }
+    private fun userCode596() {
+        val tmp777 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallUri).astAssign(0, tmp777)
+    }
+    private fun userCode597() {
+        stack.add(ASTBuiltInCallBNode())
+    }
+    private fun userCode598() {
+        val tmp778 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallBNode).astAssign(0, tmp778)
+    }
+    private fun userCode599() {
+        stack.add(ASTBuiltInCallRand())
+    }
+    private fun userCode600() {
+        val tmp779 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallRand).astAssign(0, tmp779)
+    }
+    private fun userCode601() {
+        stack.add(ASTBuiltInCallAbs())
+    }
+    private fun userCode602() {
+        val tmp780 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallAbs).astAssign(0, tmp780)
+    }
+    private fun userCode603() {
+        stack.add(ASTBuiltInCallCeil())
+    }
+    private fun userCode604() {
+        val tmp781 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallCeil).astAssign(0, tmp781)
+    }
+    private fun userCode605() {
+        stack.add(ASTBuiltInCallLCase())
+    }
+    private fun userCode606() {
+        val tmp782 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallLCase).astAssign(0, tmp782)
+    }
+    private fun userCode607() {
+        stack.add(ASTBuiltInCallFloor())
+    }
+    private fun userCode608() {
+        val tmp783 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallFloor).astAssign(0, tmp783)
+    }
+    private fun userCode609() {
+        stack.add(ASTBuiltInCallRound())
+    }
+    private fun userCode610() {
+        val tmp784 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBuiltInCallRound).astAssign(0, tmp784)
+    }
+    private fun userCode611() {
+        stack.add(ASTRegexExpression())
+    }
+    private fun userCode612() {
+        val tmp786 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRegexExpression).astAssign(0, tmp786)
+    }
+    private fun userCode613() {
+        val tmp787 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRegexExpression).astAssign(1, tmp787)
+    }
+    private fun userCode614() {
+        stack.add(ASTExpressionOptional())
+    }
+    private fun userCode615() {
+        val tmp785 = stack.removeLast()
+        (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp785)
+    }
+    private fun userCode616() {
+        val tmp788 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRegexExpression).astAssign(2, tmp788)
+    }
+    private fun userCode617() {
+        stack.add(ASTSubstringExpression())
+    }
+    private fun userCode618() {
+        val tmp790 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubstringExpression).astAssign(0, tmp790)
+    }
+    private fun userCode619() {
+        val tmp791 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubstringExpression).astAssign(1, tmp791)
+    }
+    private fun userCode620() {
+        val tmp789 = stack.removeLast()
+        (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp789)
+    }
+    private fun userCode621() {
+        val tmp792 = stack.removeLast()
+        (stack[stack.size - 1] as ASTSubstringExpression).astAssign(2, tmp792)
+    }
+    private fun userCode622() {
+        stack.add(ASTStrReplaceExpression())
+    }
+    private fun userCode623() {
+        val tmp794 = stack.removeLast()
+        (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(0, tmp794)
+    }
+    private fun userCode624() {
+        val tmp795 = stack.removeLast()
+        (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(1, tmp795)
+    }
+    private fun userCode625() {
+        val tmp796 = stack.removeLast()
+        (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(2, tmp796)
+    }
+    private fun userCode626() {
+        val tmp793 = stack.removeLast()
+        (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp793)
+    }
+    private fun userCode627() {
+        val tmp797 = stack.removeLast()
+        (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(3, tmp797)
+    }
+    private fun userCode628() {
+        stack.add(ASTExistsFunc())
+    }
+    private fun userCode629() {
+        val tmp798 = stack.removeLast()
+        (stack[stack.size - 1] as ASTExistsFunc).astAssign(0, tmp798)
+    }
+    private fun userCode630() {
+        stack.add(ASTNotExistsFunc())
+    }
+    private fun userCode631() {
+        val tmp799 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNotExistsFunc).astAssign(0, tmp799)
+    }
+    private fun userCode632() {
+        stack.add(ASTAggregateAvg())
+    }
+    private fun userCode633() {
+        val tmp800 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateAvg).astAssign(0, tmp800)
+    }
+    private fun userCode634() {
+        val tmp801 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateAvg).astAssign(1, tmp801)
+    }
+    private fun userCode635() {
+        stack.add(ASTAggregateCount())
+    }
+    private fun userCode636() {
+        val tmp802 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateCount).astAssign(0, tmp802)
+    }
+    private fun userCode637() {
+        val tmp803 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateCount).astAssign(1, tmp803)
+    }
+    private fun userCode638() {
+        stack.add(ASTAggregateCountAll())
+    }
+    private fun userCode639() {
+        stack.add(ASTAggregateSum())
+    }
+    private fun userCode640() {
+        val tmp804 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateSum).astAssign(0, tmp804)
+    }
+    private fun userCode641() {
+        val tmp805 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateSum).astAssign(1, tmp805)
+    }
+    private fun userCode642() {
+        stack.add(ASTAggregateMin())
+    }
+    private fun userCode643() {
+        val tmp806 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateMin).astAssign(0, tmp806)
+    }
+    private fun userCode644() {
+        val tmp807 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateMin).astAssign(1, tmp807)
+    }
+    private fun userCode645() {
+        stack.add(ASTAggregateMax())
+    }
+    private fun userCode646() {
+        val tmp808 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateMax).astAssign(0, tmp808)
+    }
+    private fun userCode647() {
+        val tmp809 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateMax).astAssign(1, tmp809)
+    }
+    private fun userCode648() {
+        stack.add(ASTAggregateSample())
+    }
+    private fun userCode649() {
+        val tmp810 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateSample).astAssign(0, tmp810)
+    }
+    private fun userCode650() {
+        val tmp811 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateSample).astAssign(1, tmp811)
+    }
+    private fun userCode651() {
+        stack.add(ASTAggregateGroupConcat())
+    }
+    private fun userCode652() {
+        val tmp813 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(0, tmp813)
+    }
+    private fun userCode653() {
+        val tmp814 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(1, tmp814)
+    }
+    private fun userCode654() {
+        stack.add(ASTStringOptional())
+    }
+    private fun userCode655() {
+        val tmp812 = stack.removeLast()
+        (stack[stack.size - 1] as ASTStringOptional).astAssign(0, tmp812)
+    }
+    private fun userCode656() {
+        val tmp815 = stack.removeLast()
+        (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(2, tmp815)
+    }
+    private fun userCode657() {
+        stack.add(ASTiriOrFunction())
+    }
+    private fun userCode658() {
+        val tmp817 = stack.removeLast()
+        (stack[stack.size - 1] as ASTiriOrFunction).astAssign(0, tmp817)
+    }
+    private fun userCode659() {
+        stack.add(ASTArgListOptional())
+    }
+    private fun userCode660() {
+        val tmp816 = stack.removeLast()
+        (stack[stack.size - 1] as ASTArgListOptional).astAssign(0, tmp816)
+    }
+    private fun userCode661() {
+        val tmp818 = stack.removeLast()
+        (stack[stack.size - 1] as ASTiriOrFunction).astAssign(1, tmp818)
+    }
+    private fun userCode662() {
+        stack.add(ASTRDFLiteral())
+    }
+    private fun userCode663() {
+        val tmp820 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRDFLiteral).astAssign(0, tmp820)
+    }
+    private fun userCode664() {
+        stack.add(ASTInterfaceOfRDFLiteralLangOririOptional())
+    }
+    private fun userCode665() {
+        val tmp819 = stack.removeLast()
+        (stack[stack.size - 1] as ASTInterfaceOfRDFLiteralLangOririOptional).astAssign(0, tmp819)
+    }
+    private fun userCode666() {
+        val tmp821 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRDFLiteral).astAssign(1, tmp821)
+    }
+    private fun userCode667() {
+        stack.add(ASTRDFLiteralLang())
+    }
+    private fun userCode668() {
+        val tmp822 = stack.removeLast()
+        (stack[stack.size - 1] as ASTRDFLiteralLang).astAssign(0, tmp822)
+    }
+    private fun userCode669() {
+        stack.add(ASTNumericLiteralUnsignedInteger())
+    }
+    private fun userCode670() {
+        val tmp823 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralUnsignedInteger).astAssign(0, tmp823)
+    }
+    private fun userCode671() {
+        stack.add(ASTNumericLiteralUnsignedDecimal())
+    }
+    private fun userCode672() {
+        val tmp824 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralUnsignedDecimal).astAssign(0, tmp824)
+    }
+    private fun userCode673() {
+        stack.add(ASTNumericLiteralUnsignedDouble())
+    }
+    private fun userCode674() {
+        val tmp825 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralUnsignedDouble).astAssign(0, tmp825)
+    }
+    private fun userCode675() {
+        stack.add(ASTNumericLiteralPositiveInteger())
+    }
+    private fun userCode676() {
+        val tmp826 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralPositiveInteger).astAssign(0, tmp826)
+    }
+    private fun userCode677() {
+        stack.add(ASTNumericLiteralPositiveDecimal())
+    }
+    private fun userCode678() {
+        val tmp827 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralPositiveDecimal).astAssign(0, tmp827)
+    }
+    private fun userCode679() {
+        stack.add(ASTNumericLiteralPositiveDouble())
+    }
+    private fun userCode680() {
+        val tmp828 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralPositiveDouble).astAssign(0, tmp828)
+    }
+    private fun userCode681() {
+        stack.add(ASTNumericLiteralNegativeInteger())
+    }
+    private fun userCode682() {
+        val tmp829 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralNegativeInteger).astAssign(0, tmp829)
+    }
+    private fun userCode683() {
+        stack.add(ASTNumericLiteralNegativeDecimal())
+    }
+    private fun userCode684() {
+        val tmp830 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralNegativeDecimal).astAssign(0, tmp830)
+    }
+    private fun userCode685() {
+        stack.add(ASTNumericLiteralNegativeDouble())
+    }
+    private fun userCode686() {
+        val tmp831 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNumericLiteralNegativeDouble).astAssign(0, tmp831)
+    }
+    private fun userCode687() {
+        stack.add(ASTBooleanLiteralTrue())
+    }
+    private fun userCode688() {
+        stack.add(ASTBooleanLiteralFalse())
+    }
+    private fun userCode689() {
+        stack.add(ASTString1())
+    }
+    private fun userCode690() {
+        val tmp832 = stack.removeLast()
+        (stack[stack.size - 1] as ASTString1).astAssign(0, tmp832)
+    }
+    private fun userCode691() {
+        stack.add(ASTString2())
+    }
+    private fun userCode692() {
+        val tmp833 = stack.removeLast()
+        (stack[stack.size - 1] as ASTString2).astAssign(0, tmp833)
+    }
+    private fun userCode693() {
+        stack.add(ASTString1long())
+    }
+    private fun userCode694() {
+        val tmp834 = stack.removeLast()
+        (stack[stack.size - 1] as ASTString1long).astAssign(0, tmp834)
+    }
+    private fun userCode695() {
+        stack.add(ASTString2long())
+    }
+    private fun userCode696() {
+        val tmp835 = stack.removeLast()
+        (stack[stack.size - 1] as ASTString2long).astAssign(0, tmp835)
+    }
+    private fun userCode697() {
+        stack.add(ASTiriRef())
+    }
+    private fun userCode698() {
+        val tmp836 = stack.removeLast()
+        (stack[stack.size - 1] as ASTiriRef).astAssign(0, tmp836)
+    }
+    private fun userCode699() {
+        stack.add(ASTPrefixedNameLN())
+    }
+    private fun userCode700() {
+        val tmp837 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPrefixedNameLN).astAssign(0, tmp837)
+    }
+    private fun userCode701() {
+        stack.add(ASTPrefixedNameNS())
+    }
+    private fun userCode702() {
+        val tmp838 = stack.removeLast()
+        (stack[stack.size - 1] as ASTPrefixedNameNS).astAssign(0, tmp838)
+    }
+    private fun userCode703() {
+        stack.add(ASTBlankNodeLabel())
+    }
+    private fun userCode704() {
+        val tmp839 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBlankNodeLabel).astAssign(0, tmp839)
+    }
+    private fun userCode705() {
+        stack.add(ASTBlankNodeANON())
+    }
+    private fun userCode706() {
+        val tmp840 = stack.removeLast()
+        (stack[stack.size - 1] as ASTBlankNodeANON).astAssign(0, tmp840)
+    }
+    private fun userCode707() {
+        stack.add(ASTNILParam())
+    }
+    private fun userCode708() {
+        val tmp841 = stack.removeLast()
+        (stack[stack.size - 1] as ASTNILParam).astAssign(0, tmp841)
     }
 }
-

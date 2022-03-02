@@ -38,7 +38,7 @@ public class LOPGraphOperation public constructor(
 ) : LOPBase(query, EOperatorIDExt.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1: Pair<EGraphRefType, String?>) : this(query, action, silent, graph1.first, graph1.second, EGraphRefTypeExt.DefaultGraphRef, null)
     public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1type: EGraphRefType, graph1iri: String?) : this(query, action, silent, graph1type, graph1iri, EGraphRefTypeExt.DefaultGraphRef, null)
- public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1: Pair<EGraphRefType, String?>, graph2: Pair<EGraphRefType, String?>) : this(query, action, silent, graph1.first, graph1.second, graph2.first,graph2.second)
+    public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1: Pair<EGraphRefType, String?>, graph2: Pair<EGraphRefType, String?>) : this(query, action, silent, graph1.first, graph1.second, graph2.first, graph2.second)
     override fun equals(other: Any?): Boolean = other is LOPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

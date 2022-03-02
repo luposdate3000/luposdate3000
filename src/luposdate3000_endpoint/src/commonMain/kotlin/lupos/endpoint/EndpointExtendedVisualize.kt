@@ -15,21 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.shared.inline.MyStringStream
 import lupos.operator.base.Query
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SparqlParser
 import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
 
@@ -41,13 +39,13 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
 
     init {
         val q: Query = Query(instance)
-val stream=MyStringStream(input)
+        val stream = MyStringStream(input)
         val parser: SparqlParser = SparqlParser(stream)
-parser.parserDefinedParse()
+        parser.parserDefinedParse()
         val astNode = parser.getResult() as ASTSparqlDoc
-parser.close()
-stream.close()
-val visitor=OperatorGraphVisitor(q)
+        parser.close()
+        stream.close()
+        val visitor = OperatorGraphVisitor(q)
         val lopNode: IOPBase = visitor.visit(astNode)
         val logSteps: MutableList<IOPBase> = mutableListOf()
         val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })

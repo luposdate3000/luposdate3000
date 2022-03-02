@@ -32,7 +32,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationSUM public constructor(query: IQuery, @JvmField public val distinct: Boolean, child:AOPBase) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSUMID, "AOPAggregationSUM",arrayOf(child)) {
+public class AOPAggregationSUM public constructor(query: IQuery, @JvmField public val distinct: Boolean, child: AOPBase) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSUMID, "AOPAggregationSUM", arrayOf(child)) {
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {

@@ -73,7 +73,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         node.partitionCount = tmp
                         onChange()
                     }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
+                    query.partitionOperatorCount[node.partitionID] = node.partitionCount
                 }
                 is POPSplitPartitionFromStoreCount -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -81,7 +81,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         node.partitionCount = tmp
                         onChange()
                     }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
+                    query.partitionOperatorCount[node.partitionID] = node.partitionCount
                 }
                 is POPSplitPartition -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -89,7 +89,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         node.partitionCount = tmp
                         onChange()
                     }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
+                    query.partitionOperatorCount[node.partitionID] = node.partitionCount
                     var newCount = node.partitionCount
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
                     if (count > query.getInstance().maxThreads) {
@@ -103,7 +103,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     if (newCount < node.partitionCount) {
                         node.partitionCount = newCount
                         query.partitionOperatorCount[node.partitionID] = newCount
-                onChange()
+                        onChange()
                     }
                 }
                 is POPMergePartition -> {
@@ -138,7 +138,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                         node.partitionCountTo = tmp2
                         onChange()
                     }
-                query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
+                    query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
                     var newCount = node.partitionCountTo
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
                     if (count > query.getInstance().maxThreads) {
@@ -151,7 +151,7 @@ public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : Opti
                     }
                     if (newCount < node.partitionCountTo) {
                         node.partitionCountTo = newCount
-                query.partitionOperatorCount[node.partitionIDTo] = newCount
+                        query.partitionOperatorCount[node.partitionIDTo] = newCount
                         onChange()
                     }
                 }

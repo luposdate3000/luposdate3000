@@ -540,7 +540,7 @@ public object XMLElementToOPBase {
                     childs.add(XMLElementToOPBase(query, c, mapping, recursionFunc) as AOPBase)
                 }
             }
-            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), if(childs.size==0){null}else{childs[0]})
+            AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), if (childs.size == 0) { null } else { childs[0] })
         }
         operatorMap["AOPAggregationSAMPLE"] = { query, node, mapping, recursionFunc ->
             val childs = mutableListOf<AOPBase>()

@@ -25,7 +25,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveMultiOrdered {
-internal var debugCounter=0
+    internal var debugCounter = 0
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
@@ -82,7 +82,7 @@ internal var debugCounter=0
         }
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
-val debugID=debugCounter++
+        val debugID = debugCounter++
         iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
             var res = -1
@@ -141,7 +141,7 @@ val debugID=debugCounter++
                     break
                 }
             }
-//println("EvalDistributedReceiveMultiOrdered $debugID ${variables.toList()} $res ${iterator.buf.toList()}")
+// println("EvalDistributedReceiveMultiOrdered $debugID ${variables.toList()} $res ${iterator.buf.toList()}")
             res
         }
         iterator.close = {

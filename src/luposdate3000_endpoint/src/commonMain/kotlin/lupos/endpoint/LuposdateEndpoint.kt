@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
-
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
@@ -31,7 +28,6 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
 import lupos.parser.sparql1_1.SparqlParser
 import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
-import lupos.shared.inline.MyStringStream
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
@@ -59,6 +55,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import lupos.shared.inline.Platform
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
@@ -351,16 +348,16 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
-val stream=MyStringStream(query)
-        val parser: SparqlParser = SparqlParser(stream)
-parser.parserDefinedParse()
-val astNode = parser.getResult() as ASTSparqlDoc
-parser.close()
-stream.close()
+            val stream = MyStringStream(query)
+            val parser: SparqlParser = SparqlParser(stream)
+            parser.parserDefinedParse()
+            val astNode = parser.getResult() as ASTSparqlDoc
+            parser.close()
+            stream.close()
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
-val visitor=OperatorGraphVisitor(q)
-        val lopNode: IOPBase = visitor.visit(astNode)
+            val visitor = OperatorGraphVisitor(q)
+            val lopNode: IOPBase = visitor.visit(astNode)
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
@@ -377,7 +374,7 @@ val visitor=OperatorGraphVisitor(q)
                 println("<<<<<<<<<<")
                 println(OperatorGraphToLatex(popNode.toString(), ""))
             }
-//println(query)
+// println(query)
 // println(popNode)
             return popNode
         } catch (e: Throwable) {
@@ -409,15 +406,15 @@ val visitor=OperatorGraphVisitor(q)
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
-val stream=MyStringStream(query)
+        val stream = MyStringStream(query)
         val parser: SparqlParser = SparqlParser(stream)
-parser.parserDefinedParse()
-val astNode = parser.getResult() as ASTSparqlDoc
-parser.close()
-stream.close()
+        parser.parserDefinedParse()
+        val astNode = parser.getResult() as ASTSparqlDoc
+        parser.close()
+        stream.close()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
-val visitor=OperatorGraphVisitor(q)
+        val visitor = OperatorGraphVisitor(q)
         val lopNode: IOPBase = visitor.visit(astNode)
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }

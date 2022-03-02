@@ -58,7 +58,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                             res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionCount, newID, node.partitionID, node)
                             node.partitionID = newID
                             node.partitionCount = new_count
-//println("PhysicalOptimizerPartitionExpandTowardsRoot a ${node.getUUID()} <- $new_count")
+// println("PhysicalOptimizerPartitionExpandTowardsRoot a ${node.getUUID()} <- $new_count")
                             query.addPartitionOperator(node.getUUID(), node.partitionID)
                             query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
                             query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
@@ -367,7 +367,7 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                                     } else {
                                         POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariable, new_count, node.partitionID, c)
                                     }
-//println("PhysicalOptimizerPartitionExpandTowardsRoot b ${res.getUUID()} <- $new_count")
+// println("PhysicalOptimizerPartitionExpandTowardsRoot b ${res.getUUID()} <- $new_count")
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
                                     onChange()

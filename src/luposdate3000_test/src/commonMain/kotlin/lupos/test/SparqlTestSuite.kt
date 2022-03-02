@@ -35,7 +35,6 @@ import lupos.parser.rdf.IRI
 import lupos.parser.rdf.SimpleLiteral
 import lupos.parser.sparql1_1.SparqlParser
 import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
-import lupos.shared.inline.MyStringStream
 import lupos.parser.turtle.TurtleParserWithDictionary
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.QueryResultToMemoryTable
@@ -43,6 +42,7 @@ import lupos.shared.*
 import lupos.shared.PartitionHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
@@ -581,16 +581,16 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------String Query" }
             println(toParse)
             SanityCheck.println { "----------Abstract Syntax Tree" }
-val stream=MyStringStream(toParse)
-        val parser: SparqlParser = SparqlParser(stream)
-parser.parserDefinedParse()
-val astNode = parser.getResult() as ASTSparqlDoc
-parser.close()
-stream.close()
+            val stream = MyStringStream(toParse)
+            val parser: SparqlParser = SparqlParser(stream)
+            parser.parserDefinedParse()
+            val astNode = parser.getResult() as ASTSparqlDoc
+            parser.close()
+            stream.close()
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
-val visitor=OperatorGraphVisitor(query)
-        val lopNode = visitor.visit(astNode)
+            val visitor = OperatorGraphVisitor(query)
+            val lopNode = visitor.visit(astNode)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:593"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
