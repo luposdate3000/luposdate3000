@@ -1216,18 +1216,18 @@ AOPVariable(query,"_ASTCollection#${counter++}")
                 LOPJoin(query, s, t, false)
             },
             { u, v ->
-                (visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
+                (visit(blankNodeToVariable,graph, graphVar, v.variable2!!) + visit(blankNodeToVariable,graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
             }
         )
     }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): IOPBase = when (node) {
-        is ASTOptionalGraphPattern -> visit(graph, graphVar, node, child)
-        is ASTGroupOrUnionGraphPattern -> visit(graph, graphVar, node, child)
-        is ASTMinusGraphPattern -> visit(graph, graphVar, node, child)
-        is ASTGraphGraphPattern -> visit(graph, graphVar, node, child)
+    private fun visit(blankNodeToVariable:Boolean,graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): IOPBase = when (node) {
+        is ASTOptionalGraphPattern -> visit(blankNodeToVariable,graph, graphVar, node, child)
+        is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable,graph, graphVar, node, child)
+        is ASTMinusGraphPattern -> visit(blankNodeToVariable,graph, graphVar, node, child)
+        is ASTGraphGraphPattern -> visit(blankNodeToVariable,graph, graphVar, node, child)
         is ASTServiceGraphPattern -> visit(graph, graphVar, node, child)
-        is ASTFilter -> visit(graph, graphVar, node, child)
-        is ASTBind -> visit(graph, graphVar, node, child)
+        is ASTFilter -> visit(blankNodeToVariable,graph, graphVar, node, child)
+        is ASTBind -> visit(blankNodeToVariable,graph, graphVar, node, child)
         is ASTValuesClause -> visit(graph, graphVar, node, child)
     }
     private fun visit(graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
