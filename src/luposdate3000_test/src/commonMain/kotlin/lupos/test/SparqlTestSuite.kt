@@ -650,7 +650,7 @@ public open class SparqlTestSuite {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
                         val buf = MyPrintWriter(true)
-                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true, buf)) {
+                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true, true,buf)) {
                             println(buf.toString())
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
@@ -669,7 +669,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 val buf2 = MyPrintWriter(true)
-                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.lowercase().contains("order", true), true, buf2)
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.lowercase().contains("order", true), true, true,buf2)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false, PartitionHelper())
                     val query4 = Query(instance)
@@ -684,7 +684,7 @@ public open class SparqlTestSuite {
                     instance.tripleStoreManager!!.commit(query4)
                     query4.commited = true
                     val buf3 = MyPrintWriter(true)
-                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult, false, true, buf3)) {
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult, false, true, true,buf3)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")
