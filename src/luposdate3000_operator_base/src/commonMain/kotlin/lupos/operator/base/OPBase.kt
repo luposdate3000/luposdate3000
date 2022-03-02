@@ -390,15 +390,9 @@ public abstract class OPBase public constructor(
         return res
     }
 
-    override fun applyPrefix(prefix: String, iri: String) {
-        for (c in children) {
-            c.applyPrefix(prefix, iri)
-        }
-    }
-
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:400"/*SOURCE_FILE_END*/ }, { i < children.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:394"/*SOURCE_FILE_END*/ }, { i < children.size })
         children[i] = child
     }
 
@@ -415,7 +409,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:417"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:411"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -490,7 +484,7 @@ public abstract class OPBase public constructor(
         } catch (e: Throwable) {
             if (!hadXMLWarning) {
                 hadXMLWarning = true
-                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:492"/*SOURCE_FILE_END*/)
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:486"/*SOURCE_FILE_END*/)
                 e.printStackTrace()
             }
         }
@@ -542,7 +536,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:544"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:538"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }

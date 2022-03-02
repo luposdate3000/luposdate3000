@@ -108,7 +108,6 @@ import lupos.operator.logical.singleinput.LOPSort
 import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
-import lupos.operator.logical.singleinput.modifiers.LOPPrefix
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.parser.sparql1_1.SparqlParser.*
 import lupos.shared.DictionaryValueHelper
@@ -139,9 +138,8 @@ TODO("prefix '$ns' not registered - instead there are ${prefixMap.toList()}")
 }
 return  tmp + p
 }
-    private fun prefix(k: String, v: String): LOPPrefix {
-        prefixMap[k] = v
-        return LOPPrefix(query, k, v)
+    private fun prefix(k: String, v: String) {
+        prefixMap[k] = v.drop(1).dropLast(1)
     }
 
     private fun visit(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar): MutableList<Pair<AOPBase?, String>> {
@@ -167,7 +165,7 @@ return  tmp + p
     }
 
     private fun visit(v0: ASTPrologue, v1: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional): OPBaseCompound {
-        val prolog = visit(v0)
+        visit(v0)
         val variableOrdering = mutableListOf<List<String>>()
         val classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional = v1.variable0!!
         val valuesClauseOptional = v1.variable1
@@ -184,7 +182,7 @@ return  tmp + p
             is ASTDescribeQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
             is ASTAskQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
         }
-        return OPBaseCompound(query, arrayOf(prolog.fold(child) { s, t -> LOPPrefix(query, (t as LOPPrefix).name, t.iri, s) }), variableOrdering)
+        return OPBaseCompound(query, arrayOf(child), variableOrdering)
     }
 
     private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = visit(v0, v1.variable0!!)
@@ -201,16 +199,12 @@ return  tmp + p
             childs.add(visit(v5.variable0!!))
             v2 = v5.variable1!!
         }
-        return OPBaseCompound(query, childs.map { prolog.fold(it) { s, t -> LOPPrefix(query, (t as LOPPrefix).name, t.iri, s) } }.toTypedArray(), listOf())
+        return OPBaseCompound(query, childs.toTypedArray(), listOf())
     }
 
-    public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-val res= when (val v1 = node.variable1!!) {
+    public fun visit(node: ASTSparqlDoc): OPBaseCompound = when (val v1 = node.variable1!!) {
         is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
         is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
-    }
-println("ASTSparqlDoc result is $res")
-return res
 }
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTGroupCondition): Pair<AOPBase?, AOPVariable> = when (node) {
@@ -750,14 +744,14 @@ ASTEnumOfDISTINCTAndREDUCED._UNDEFINED->{res}
         }
     }
 
-    private fun visit(node: ASTiri) = when (node) {
+    private fun visit(node: ASTiri) :String= when (node) {
         is ASTiriRef -> node.IRIREF!!.drop(1).dropLast(1)
         is ASTPrefixedNameLN -> {
             val x = node.PNAME_LN!!.split(":")
             decodeIri(x[0], x[1])
         }
         is ASTPrefixedNameNS -> decodeIri(node.PNAME_NS!!.dropLast(1))
-    }
+}
 
     private fun visit(node: ASTString) = when (node) {
         is ASTString1 -> visit(node)
