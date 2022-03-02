@@ -32,7 +32,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
         public val minifyMode: Boolean = false
         private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
-internal val verifyOrderOfColumns = false //show be dependent on the query, if it has a fixed select order or not
+        internal val verifyOrderOfColumns = false // show be dependent on the query, if it has a fixed select order or not
     }
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
@@ -68,7 +68,6 @@ without minify mode only the passing tests will be added
     internal val listOfRemoved = mutableSetOf<String>()
     internal val listOfAllTests = mutableSetOf<String>()
     internal val listOfBlacklist = mutableSetOf<String>()
-
 
     internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
