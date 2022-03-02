@@ -132,7 +132,13 @@ public class OperatorGraphVisitor(public val query: Query) {
 
     private fun initializeEnum(value: Int?): Int = value?.let { it } ?: -1
     private fun decodeIri(ns: String) = prefixMap[ns]!!
-    private fun decodeIri(ns: String, p: String) = prefixMap[ns]!! + p
+    private fun decodeIri(ns: String, p: String) :String{
+val tmp=prefixMap[ns]
+if(tmp==null){
+TODO("prefix '$ns' not registered - instead there are ${prefixMap.toList()}")
+}
+return  tmp + p
+}
     private fun prefix(k: String, v: String): LOPPrefix {
         prefixMap[k] = v
         return LOPPrefix(query, k, v)
@@ -161,7 +167,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     private fun visit(v0: ASTPrologue, v1: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional): OPBaseCompound {
-        val prolog = visit(v0).toMutableList()
+        val prolog = visit(v0)
         val variableOrdering = mutableListOf<List<String>>()
         val classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional = v1.variable0!!
         val valuesClauseOptional = v1.variable1
@@ -178,7 +184,7 @@ public class OperatorGraphVisitor(public val query: Query) {
             is ASTDescribeQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
             is ASTAskQuery -> visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
         }
-        return OPBaseCompound(query, arrayOf(prolog.fold(child) { s, t -> LOPPrefix(query, (s as LOPPrefix).name, s.iri, t) }), variableOrdering)
+        return OPBaseCompound(query, arrayOf(prolog.fold(child) { s, t -> LOPPrefix(query, (t as LOPPrefix).name, t.iri, s) }), variableOrdering)
     }
 
     private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = visit(v0, v1.variable0!!)
@@ -195,13 +201,17 @@ public class OperatorGraphVisitor(public val query: Query) {
             childs.add(visit(v5.variable0!!))
             v2 = v5.variable1!!
         }
-        return OPBaseCompound(query, childs.map { prolog.fold(it) { s, t -> LOPPrefix(query, (s as LOPPrefix).name, s.iri, t) } }.toTypedArray(), listOf())
+        return OPBaseCompound(query, childs.map { prolog.fold(it) { s, t -> LOPPrefix(query, (t as LOPPrefix).name, t.iri, s) } }.toTypedArray(), listOf())
     }
 
-    public fun visit(node: ASTSparqlDoc): OPBaseCompound = when (val v1 = node.variable1!!) {
+    public fun visit(node: ASTSparqlDoc): OPBaseCompound {
+val res= when (val v1 = node.variable1!!) {
         is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
         is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
     }
+println("ASTSparqlDoc result is $res")
+return res
+}
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTGroupCondition): Pair<AOPBase?, AOPVariable> = when (node) {
         is ASTFunctionCall -> visit(graph, graphVar, node) to AOPVariable(query, "_ASTGroupCondition#${counter++}")
@@ -224,9 +234,10 @@ public class OperatorGraphVisitor(public val query: Query) {
             res = LOPJoin(query, res, visit(valuesClause), false)
         }
         val (duplicateModifier, selectClause) = visit(nodeSelectClause!!)
-        val unused = when (duplicateModifier) {
-            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> res = LOPDistinct(query, res)
-            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> res = LOPReduced(query, res)
+        res = when (duplicateModifier) {
+ASTEnumOfDISTINCTAndREDUCED._UNDEFINED->{res}
+            ASTEnumOfDISTINCTAndREDUCED.DISTINCT ->  LOPDistinct(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.REDUCED ->  LOPReduced(query, res)
             else -> TODO("invalid value")
         }
         val solutionModifier = nodeSolutionModifier!!
@@ -1227,7 +1238,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfConditionalAndExpression) = node.value.map { visit(graph, graphVar, it) }
     private fun visit(node: ASTPrologue) = node.value.map { visit(it) }
     private fun visit(node: ASTBaseDecl) = prefix("", node.IRIREF!!)
-    private fun visit(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!, node.IRIREF!!)
+    private fun visit(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!.dropLast(1), node.IRIREF!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPattern) = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty): List<LOPTriple> = visit(graph, graphVar, visit(node.variable0!!), node.variable1!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTInsertClauseOptional) = visit(graph, graphVar, node.variable0!!)
