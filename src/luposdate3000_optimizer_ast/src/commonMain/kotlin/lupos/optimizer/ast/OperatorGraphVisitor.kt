@@ -1004,6 +1004,11 @@ private fun visit(graph: String, graphVar: Boolean, node:ASTInsertClause)=visit(
 private fun visit(graph: String, graphVar: Boolean, node:ASTDeleteClause)=visit(graph,graphVar,node.variable0!!)
 
     private fun visit(node: ASTDataBlockValue): AOPConstant = when (node) {
+is ASTUNDEF->{
+val buffer = ByteArrayWrapper()
+            DictionaryHelper.undefToByteArray(buffer)
+            AOPConstant(query, buffer)
+}
         is ASTRDFLiteral -> visit(node)
         is ASTNumericLiteral -> visit(node)
         is ASTBooleanLiteral -> visit(node)
@@ -1175,10 +1180,10 @@ private fun visit(graph: String, graphVar: Boolean, node: ASTValuesClause, child
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTClassOfVerbAndObjectListOptional): List<LOPTriple> =  visit(graph, graphVar, subject, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTListOfClassOfVerbAndObjectListOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, subject, it) }.flatten()
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListNotEmpty): List<LOPTriple> = visit(graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(graph, graphVar, subject, node.variable2!!)
+private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptionalOptional): List<LOPTriple> = node.variable0?.let{visit(graph,graphVar,it)}?:listOf()
+private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplateOptional): List<LOPTriple> = node.variable0?.let{visit(graph,graphVar,it)}?:listOf()
     private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesTemplate): List<LOPTriple> = visit(graph, graphVar,node.variable0!!) + visit(graph, graphVar, node.variable1!!)
-
     private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional) = visit(node.variable0!!) + node.variable2!!.variable0?.let { visit(graph, graphVar, it) }.orEmpty()
-
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional): List<LOPTriple> = node.value.map { visit(graph, graphVar, it) }.flatten()
     private fun visit(graph: String, graphVar: Boolean, node: ASTQuads): List<LOPTriple> = visit(graph, graphVar, node.variable0!!) + visit(graph, graphVar, node.variable1!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTQuadData): List<LOPTriple> = visit(graph, graphVar, node.variable0!!)
