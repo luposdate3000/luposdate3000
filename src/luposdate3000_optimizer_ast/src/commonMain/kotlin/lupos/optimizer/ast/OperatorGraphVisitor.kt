@@ -929,13 +929,11 @@ val valuesClause= node.variable3!!.variable0
         }
     }
 
+    private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node: ASTPropertyList): List<LOPTriple> = visit(graph, graphVar, subject,node.variable0!!)
+    private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let{visit(graph, graphVar, subject,it)}?:listOf()
     private fun visit(graph: String, graphVar: Boolean, node: ASTClassOfTriplesNodeAndPropertyListOptional): List<LOPTriple> {
         val tmp = visit(graph, graphVar, node.variable0!!)
-        if (node.variable1!!.variable0 != null) {
-            return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!.variable0!!.variable0!!)
-        } else {
-            return tmp.second
-        }
+            return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
     }
 
     private fun visit(graph: String, graphVar: Boolean, subject: AOPBase, predicate: AOPBase, node: ASTObjectList): List<LOPTriple> {
