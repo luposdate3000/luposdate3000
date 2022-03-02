@@ -541,24 +541,8 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     private fun visit(node: ASTLimitOffsetClauses, tmp: IOPBase) = when (node) {
-        is ASTClassOfLimitClauseAndOffsetClauseOptional -> {
-            val a = node.variable0!!
-            val b = node.variable1!!.variable0
-            if (b != null) {
-                LOPOffset(query, b.INTEGER!!.toInt(), LOPLimit(query, a.INTEGER!!.toInt(), tmp))
-            } else {
-                LOPLimit(query, a.INTEGER!!.toInt(), tmp)
-            }
-        }
-        is ASTClassOfOffsetClauseAndLimitClauseOptional -> {
-            val a = node.variable0!!
-            val b = node.variable1!!.variable0
-            if (b != null) {
-                LOPLimit(query, b.INTEGER!!.toInt(), LOPOffset(query, a.INTEGER!!.toInt(), tmp))
-            } else {
-                LOPOffset(query, a.INTEGER!!.toInt(), tmp)
-            }
-        }
+        is ASTClassOfLimitClauseAndOffsetClauseOptional -> visit(node.variable1!!,visit(node.variable0!!,tmp))
+        is ASTClassOfOffsetClauseAndLimitClauseOptional -> visit(node.variable1!!,visit(node.variable0!!,tmp))
     }
 
     private fun visit(node: ASTInterfaceOfBaseDeclOrPrefixDecl) = when (node) {
@@ -955,9 +939,9 @@ return            first to res
     }
 
     private fun visit(node: ASTQuadsNotTriples): List<LOPTriple> = when (val v0 = node.variable0!!) {
-        is ASTVar1 -> visit(v0.VAR1!!.drop(1), true, node.variable1!!.variable0!!)
-        is ASTVar2 -> visit(v0.VAR2!!.drop(1), true, node.variable1!!.variable0!!)
-        is ASTiri -> visit(visit(v0), false, node.variable1!!.variable0!!)
+        is ASTVar1 -> visit(v0.VAR1!!.drop(1), true, node.variable1!!)
+        is ASTVar2 -> visit(v0.VAR2!!.drop(1), true, node.variable1!!)
+        is ASTiri -> visit(visit(v0), false, node.variable1!!)
     }
 
     private fun visit(node: ASTDeleteWhere): LOPModify {
@@ -1218,6 +1202,11 @@ return tmp.second + visit(graph, graphVar, tmp.first, node.variable1!!)
     private fun visit(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")
 private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node:ASTPropertyListPath): List<LOPTriple> = visit(graph, graphVar,subject,node.variable0!!)
 private fun visit(graph: String, graphVar: Boolean, subject:AOPBase,node:ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let{visit(graph, graphVar,subject,it)}?:listOf()
+private fun visit(node:ASTOffsetClauseOptional, tmp: IOPBase)=node.variable0?.let{visit(it,tmp)}?:tmp
+private fun visit(node:ASTLimitClauseOptional, tmp: IOPBase)=node.variable0?.let{visit(it,tmp)}?:tmp
+private fun visit(node:ASTOffsetClause, tmp: IOPBase)=LOPOffset(query, node.INTEGER!!.toInt(),tmp)
+private fun visit(node:ASTLimitClause, tmp: IOPBase)=LOPLimit(query, node.INTEGER!!.toInt(),tmp)
+
 
 }
 
