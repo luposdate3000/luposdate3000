@@ -1036,14 +1036,7 @@ val buffer = ByteArrayWrapper()
         is ASTGroupGraphPatternSub -> visit(graph, graphVar, node)
         is ASTSubSelect -> visit(graph, graphVar, node)
     }
-    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
-        var res: IOPBase = (visit(graph, graphVar, node.variable0!!)as List<IOPBase>).reduce { s, t -> LOPJoin(query, s, t, false) }
-        for (x in node.variable1!!.value) {
-                res =  (visit(graph, graphVar,x.variable2!!)+visit(graph, graphVar, x.variable0!!, res)).reduce { s, t -> LOPJoin(query, s, t, false) }
-        }
-        return res
-    }
-
+    private fun visit(graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase = node.variable1!!.value.fold((visit(graph, graphVar, node.variable0!!)as List<IOPBase>).reduce { s, t -> LOPJoin(query, s, t, false) },{u,v->(visit(graph, graphVar,v.variable2!!)+visit(graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }})    
     private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlockOptional):List<LOPTriple> =node.variable0?.let{visit(graph,graphVar,it)}?:listOf()
     private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlockOptionalOptional):List<LOPTriple> =node.variable0?.let{visit(graph,graphVar,it)}?:listOf()
     private fun visit(graph: String, graphVar: Boolean, node: ASTTriplesBlock):List<LOPTriple> =visit(graph, graphVar, node.variable0!!)+visit(graph, graphVar,node.variable1!!)
