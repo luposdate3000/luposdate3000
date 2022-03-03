@@ -90,6 +90,7 @@ import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.base.singleinput.LOPNOOP
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
@@ -1004,17 +1005,19 @@ public class OperatorGraphVisitor(public val query: Query) {
 
     private fun visit(node: ASTModify): LOPModify {
         val graph = node.variable0!!.variable0?.let { visit(it) } ?: ""
-        val usingClause = node.variable2!!
-        if (usingClause.value.size > 0) {
-            TODO("using not implemented")
-        }
+        val usingClause :ASTListOfUsingClause= node.variable2!!
+val theData:IOPBase=        if (usingClause.value.size > 0) {
+usingClause.value.map{visit(true, visit(it.variable0!!), false, node.variable3!!)}.reduce{s,t->LOPUnion(query,s,t)}
+        }else{
+visit(true, graph, false, node.variable3!!)
+}
         return when (val v1 = node.variable1!!) {
-            is ASTInsertClause -> LOPModify(query, visit(true, graph, false, v1.variable0!!).toMutableList(), mutableListOf(), visit(true, graph, false, node.variable3!!))
+            is ASTInsertClause -> LOPModify(query, visit(true, graph, false, v1.variable0!!).toMutableList(), mutableListOf(), theData)
             is ASTClassOfDeleteClauseAndInsertClauseOptional -> LOPModify(
                 query,
                 visit(true, graph, false, v1.variable1!!).toMutableList(),
                 visit(true, graph, false, v1.variable0!!).toMutableList(),
-                visit(true, graph, false, node.variable3!!)
+                theData
             )
         }
     }
@@ -1209,7 +1212,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
         if (triplesBlockPrevious.size == 0) {
             if (listNotTriples.size == 0) {
-                return LOPNOOP(query)
+                return OPEmptyRow(query)
             }
             val v = listNotTriples.removeAt(0)
             triplesBlockPrevious = visit(blankNodeToVariable, graph, graphVar, v.variable2!!) + visit(blankNodeToVariable, graph, graphVar, v.variable0!!)
@@ -1235,7 +1238,8 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
         is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node)
-        else -> TODO()
+is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
+        else -> TODO(node.toString())
     }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
         ?: listOf()
@@ -1254,6 +1258,7 @@ public class OperatorGraphVisitor(public val query: Query) {
 
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
         ?: listOf()
+    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClauseOptional) :List<LOPTriple> = node.variable0?.let{visit(blankNodeToVariable, graph, graphVar, it)}?:listOf()
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
@@ -1304,7 +1309,6 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!.dropLast(1), node.IRIREF!!)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupGraphPattern) = visit(blankNodeToVariable, graph, graphVar, node.variable0!!)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty): List<LOPTriple> = visit(blankNodeToVariable, graph, graphVar, visit(blankNodeToVariable, node.variable0!!), node.variable1!!)
-    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClauseOptional) = visit(blankNodeToVariable, graph, graphVar, node.variable0!!)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClause) = visit(blankNodeToVariable, graph, graphVar, node.variable0!!)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTDeleteClause) = visit(blankNodeToVariable, graph, graphVar, node.variable0!!)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathNotEmpty): List<LOPTriple> = visit(blankNodeToVariable, graph, graphVar, subject, visit(node.variable0!!), node.variable1!!) + visit(blankNodeToVariable, graph, graphVar, subject, node.variable2!!)
