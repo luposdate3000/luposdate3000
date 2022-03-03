@@ -44,6 +44,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     private val row = DictionaryValueTypeArray(3)
     private val allConn = mutableListOf<TripleStoreDescriptionModifyCacheConnection>()
     private val debugMyHostName: String
+
     public constructor(
         query: IQuery,
         description: TripleStoreDescription,

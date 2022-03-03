@@ -729,6 +729,22 @@ public class ADD4 {
     }
 
     @Test
+    public fun `ADD 4 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `ADD 4 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -997,6 +1013,22 @@ public class ADD4 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `ADD 4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1423,7 +1455,7 @@ public class ADD4 {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val query1 = Query(instance)
@@ -1432,7 +1464,7 @@ public class ADD4 {
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         val operator2 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
@@ -1443,7 +1475,7 @@ public class ADD4 {
         val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected3 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err3 = MyPrintWriter()
-        if (!expected3.equalsVerbose(actual3, true, true, buf_err3)) {
+        if (!expected3.equalsVerbose(actual3, true, true, false, buf_err3)) {
             fail(expected3.toString() + " .. " + actual3.toString() + " .. " + buf_err3.toString() + " .. " + operator3)
         }
         val query4 = Query(instance)
@@ -1452,7 +1484,7 @@ public class ADD4 {
         val actual4 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator4, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected4 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
         val buf_err4 = MyPrintWriter()
-        if (!expected4.equalsVerbose(actual4, true, true, buf_err4)) {
+        if (!expected4.equalsVerbose(actual4, true, true, false, buf_err4)) {
             fail(expected4.toString() + " .. " + actual4.toString() + " .. " + buf_err4.toString() + " .. " + operator4)
         }
         val query5 = Query(instance)
@@ -1461,7 +1493,7 @@ public class ADD4 {
         val actual5 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator5, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected5 = MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!
         val buf_err5 = MyPrintWriter()
-        if (!expected5.equalsVerbose(actual5, true, true, buf_err5)) {
+        if (!expected5.equalsVerbose(actual5, true, true, false, buf_err5)) {
             fail(expected5.toString() + " .. " + actual5.toString() + " .. " + buf_err5.toString() + " .. " + operator5)
         }
     }

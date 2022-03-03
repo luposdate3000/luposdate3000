@@ -32,7 +32,6 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
-import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -126,7 +125,7 @@ public class Application_Luposdate3000 public constructor(
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
-instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
+        instance.maxThreads = instance.LUPOS_PROCESS_URLS_ALL.size
         instance = LuposdateEndpoint.initializeB(instance)
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
@@ -169,12 +168,12 @@ instance.maxThreads=instance.LUPOS_PROCESS_URLS_ALL.size
             instance.nodeGlobalDictionary = nodeGlobalDictionaryBackup
             globalCheatEnd()
         }
-if(myPendingWork.size>0){
-TODO("there is pending work on close")
-}
-if(myPendingWorkData.size>0){
-TODO("there is pending data for work on close")
-}
+        if (myPendingWork.size > 0) {
+            TODO("there is pending work on close")
+        }
+        if (myPendingWorkData.size > 0) {
+            TODO("there is pending data for work on close")
+        }
         LuposdateEndpoint.close(instance)
     }
 
@@ -227,7 +226,7 @@ TODO("there is pending data for work on close")
 
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
         val data = binaryPair.first
- //println("JSON_OUT_RECEIVE ${pck.queryID} ${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data)}")
+        // println("JSON_OUT_RECEIVE ${pck.queryID} ${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data)}")
         val handler = binaryPair.second
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
         for (i in handler.idToOffset.keys) {
@@ -259,7 +258,7 @@ TODO("there is pending data for work on close")
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:261"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:260"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -293,7 +292,7 @@ TODO("there is pending data for work on close")
     }
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
-         //println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
+        // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -536,7 +535,7 @@ TODO("there is pending data for work on close")
 // println("doWork?=$flag id=${w.queryID} require ${w.dependencies} have ${myPendingWorkData.keys} missing ${w.dependencies-myPendingWorkData.keys}")
                         if (flag) {
                             myPendingWork.remove(w)
-//println("doing work")
+// println("doing work")
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
@@ -555,7 +554,7 @@ TODO("there is pending data for work on close")
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-                             // println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
+                            // println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             // println(iteratorBundle)
                             if (w.dataID == -1) {
@@ -564,7 +563,7 @@ TODO("there is pending data for work on close")
                                     val buf = MyPrintWriter(false)
                                     val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
                                     val buf_err = MyPrintWriter()
-                                    if (!result.equalsVerbose(w.expectedResult, true, true, buf_err)) {
+                                    if (!result.equalsVerbose(w.expectedResult, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
                                         throw Exception(buf_err.toString())
                                     }
                                     w.verifyAction()

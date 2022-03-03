@@ -21,10 +21,6 @@ import lupos.operator.base.Query
 public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID, "LogicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
         arrayOf(
-            // assign prefix to all operators which require those
-            LogicalOptimizerRemovePrefix(query) //
-        ),
-        arrayOf(
             LogicalOptimizerFilterSplitAND(query), //
             LogicalOptimizerFilterSplitOR(query) //
         ),

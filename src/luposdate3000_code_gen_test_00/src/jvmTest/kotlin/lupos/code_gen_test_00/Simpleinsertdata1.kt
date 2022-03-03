@@ -1395,7 +1395,7 @@ public class Simpleinsertdata1 {
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
     }

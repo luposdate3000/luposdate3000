@@ -54,7 +54,6 @@ public interface IOPBase {
     public fun selectSortPriority(priority: List<SortHelper>)
     public fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)
     public fun getQuery(): IQuery
-    public fun applyPrefix(prefix: String, iri: String)
     public fun getChildrenCountRecoursive(): Int
     public fun getSortPriorities(): MutableList<List<SortHelper>>
     public fun setSortPriorities(value: MutableList<List<SortHelper>>)

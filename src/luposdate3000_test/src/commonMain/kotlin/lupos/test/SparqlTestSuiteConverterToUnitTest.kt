@@ -32,6 +32,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
         public val minifyMode: Boolean = false
         private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
+        internal val verifyOrderOfColumns = false // show be dependent on the query, if it has a fixed select order or not
     }
 /*
 in minify mode all passing tests will be removed, such that the next execution will skip them.
@@ -269,7 +270,7 @@ without minify mode only the passing tests will be added
 
         fun myCompareData(counter: Int, out: IMyOutputStream) {
             out.println("        val buf_err$counter = MyPrintWriter()")
-            out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, buf_err$counter)) {")
+            out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, $verifyOrderOfColumns, buf_err$counter)) {")
             val s = "expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter"
             out.println("            fail($s)")
             out.println("        }")
@@ -305,8 +306,6 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
         fileBufferPrefix.println("import simora.addQuerySender")
         fileBufferPrefix.println("import lupos.operator.base.Query")
-        fileBufferPrefix.println("import simora.parser.JsonParser")
-        fileBufferPrefix.println("import lupos.parser.JsonParserObject")
         fileBufferPrefix.println("import lupos.result_format.EQueryResultToStreamExt")
         fileBufferPrefix.println("import lupos.shared.EIndexPatternExt")
         fileBufferPrefix.println("import lupos.shared.EQueryDistributionModeExt")

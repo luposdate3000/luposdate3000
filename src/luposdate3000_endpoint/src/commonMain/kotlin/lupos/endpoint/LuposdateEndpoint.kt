@@ -27,10 +27,8 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
-import lupos.parser.sparql1_1.SPARQLParser
-import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.sparql1_1.SparqlParser
+import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
@@ -58,6 +56,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import lupos.shared.inline.Platform
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
@@ -83,7 +82,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:85"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:83"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val dict = instance.nodeGlobalDictionary!!
         val cache2 = instance.nodeGlobalOntologyCache
         val cache = if (cache2 == null) {
@@ -275,7 +274,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:277"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:275"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -284,17 +283,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:286"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:284"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:291"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:289"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:296"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:294"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
@@ -350,14 +349,16 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
-            val lcit = LexerCharIterator(query)
-            val tit = TokenIteratorSPARQLParser(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val parser = SPARQLParser(ltit)
-            val astNode = parser.expr()
+            val stream = MyStringStream(query)
+            val parser: SparqlParser = SparqlParser(stream)
+            parser.parserDefinedParse()
+            val astNode = parser.getResult() as ASTSparqlDoc
+            parser.close()
+            stream.close()
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
-            val lopNode = astNode.visit(OperatorGraphVisitor(q))
+            val visitor = OperatorGraphVisitor(q)
+            val lopNode: IOPBase = visitor.visit(astNode)
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
@@ -374,7 +375,7 @@ public object LuposdateEndpoint {
                 println("<<<<<<<<<<")
                 println(OperatorGraphToLatex(popNode.toString(), ""))
             }
-//println(query)
+// println(query)
 // println(popNode)
             return popNode
         } catch (e: Throwable) {
@@ -406,14 +407,16 @@ public object LuposdateEndpoint {
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
+        val stream = MyStringStream(query)
+        val parser: SparqlParser = SparqlParser(stream)
+        parser.parserDefinedParse()
+        val astNode = parser.getResult() as ASTSparqlDoc
+        parser.close()
+        stream.close()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
-        val lopNode = astNode.visit(OperatorGraphVisitor(q))
+        val visitor = OperatorGraphVisitor(q)
+        val lopNode: IOPBase = visitor.visit(astNode)
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)

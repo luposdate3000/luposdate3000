@@ -46,7 +46,7 @@ public class QueryResultToXMLStream : IResultFormat {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            resultWriter.println("QueryResultToXMLStream.writeAllRows(${List(variables.size){rowBuf[it]}.joinToString()})")
+            resultWriter.println("QueryResultToXMLStream.writeAllRows(${List(variables.size) { rowBuf[it] }.joinToString()})")
             resultWriter.print("  <result>\n")
             for (variableIndex in variables.indices) {
                 dictionary.getValue(buffer, rowBuf[variableIndex])
@@ -56,7 +56,7 @@ public class QueryResultToXMLStream : IResultFormat {
                         resultWriter.print("   <binding name=\"")
                         resultWriter.print(variables[variableIndex])
                         resultWriter.print("\">\n    <bnode>")
-                        resultWriter.print(value.toString(16).padStart(16,'0'))
+                        resultWriter.print(value.toString(16).padStart(16, '0'))
                         resultWriter.print("</bnode>\n   </binding>\n")
                     },
                     { value ->

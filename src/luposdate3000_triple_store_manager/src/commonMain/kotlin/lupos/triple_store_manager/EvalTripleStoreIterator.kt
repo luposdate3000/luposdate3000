@@ -20,7 +20,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
-import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
@@ -35,9 +34,9 @@ public object EvalTripleStoreIterator {
         index: EIndexPattern,
         children: Array<Pair<Boolean, Pair<DictionaryValueType, String>>>,
     ): IteratorBundle {
-//println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
+// println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:39"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:38"/*SOURCE_FILE_END*/ },
             { target.first == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID] },
             {
                 "should run on ${target.first} but accidently executes on ${query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]}"
@@ -51,7 +50,7 @@ public object EvalTripleStoreIterator {
             val i = EIndexPatternHelper.tripleIndicees[index][ii]
             val param = children[i]
             if (param.first) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:53"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:52"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 val v = param.second.first
                 if (query.getDictionary().isLocalValue(v)) {
                     filter2.add(DictionaryValueHelper.nullValue)

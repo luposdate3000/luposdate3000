@@ -22,15 +22,13 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
-import lupos.parser.sparql1_1.ASTNode
-import lupos.parser.sparql1_1.SPARQLParser
-import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.sparql1_1.SparqlParser
+import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
 
@@ -41,14 +39,15 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
     private var animationData: MutableList<String> = mutableListOf()
 
     init {
-        val query: String = input
         val q: Query = Query(instance)
-        val lcit: LexerCharIterator = LexerCharIterator(query)
-        val tit: TokenIteratorSPARQLParser = TokenIteratorSPARQLParser(lcit)
-        val ltit: LookAheadTokenIterator = LookAheadTokenIterator(tit, 3)
-        val parser: SPARQLParser = SPARQLParser(ltit)
-        val astNode: ASTNode = parser.expr()
-        val lopNode: IOPBase = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+        val stream = MyStringStream(input)
+        val parser: SparqlParser = SparqlParser(stream)
+        parser.parserDefinedParse()
+        val astNode = parser.getResult() as ASTSparqlDoc
+        parser.close()
+        stream.close()
+        val visitor = OperatorGraphVisitor(q)
+        val lopNode: IOPBase = visitor.visit(astNode)
         val logSteps: MutableList<IOPBase> = mutableListOf()
         val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })
         resultLog = logSteps.map {

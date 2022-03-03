@@ -120,7 +120,14 @@ public object ConverterBinaryToAOPBase {
                 } else {
                     arrayOf()
                 }
-                AOPAggregationCOUNT(query, distinct, childs)
+                AOPAggregationCOUNT(
+                    query, distinct,
+                    if (childs.size == 0) {
+                        null
+                    } else {
+                        childs[0]
+                    }
+                )
             },
         )
         assignOperatorArithmetikDecode(
@@ -128,7 +135,7 @@ public object ConverterBinaryToAOPBase {
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationMAX.distinct" }) != 0x0
                 val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationMAX.child" })))
-                AOPAggregationMAX(query, distinct, childs)
+                AOPAggregationMAX(query, distinct, childs[0])
             },
         )
         assignOperatorArithmetikDecode(
@@ -136,7 +143,7 @@ public object ConverterBinaryToAOPBase {
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationSAMPLE.distinct" }) != 0x0
                 val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationSAMPLE.child" })))
-                AOPAggregationSAMPLE(query, distinct, childs)
+                AOPAggregationSAMPLE(query, distinct, childs[0])
             },
         )
         assignOperatorArithmetikDecode(
@@ -144,7 +151,7 @@ public object ConverterBinaryToAOPBase {
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationSUM.distinct" }) != 0x0
                 val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationSUM.child" })))
-                AOPAggregationSUM(query, distinct, childs)
+                AOPAggregationSUM(query, distinct, childs[0])
             },
         )
         assignOperatorArithmetikDecode(
@@ -152,7 +159,7 @@ public object ConverterBinaryToAOPBase {
             { query, data, off ->
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationMIN.distinct" }) != 0x0
                 val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationMIN.child" })))
-                AOPAggregationMIN(query, distinct, childs)
+                AOPAggregationMIN(query, distinct, childs[0])
             },
         )
         assignOperatorArithmetikDecode(

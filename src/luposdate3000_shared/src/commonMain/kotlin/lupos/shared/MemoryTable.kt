@@ -59,10 +59,10 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     override fun equals(other: Any?): Boolean {
-        return equalsVerbose(other, false, false, null)
+        return equalsVerbose(other, false, false, true, null)
     }
 
-    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean, out: IMyOutputStream?): Boolean {
+    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean, checkColumnOrder: Boolean, out: IMyOutputStream?): Boolean {
         if (other !is MemoryTable) {
             if (verbose) {
                 out!!.println("other is not a MemoryTable")
@@ -74,24 +74,6 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         val dict1 = query!!.getDictionary()
         val dict2 = other.query!!.getDictionary()
 
-        /*
-    println(
-              "equalsVerbose left ${data.map{
-                  "${it.map{it}} : ${it.map{
-                      dict1.getValue(buffer1, it)
-                      DictionaryHelper.byteArrayToSparql(buffer1)
-                  }}"
-              }}"
-          )
-          println(
-              "equalsVerbose right ${other.data.map{
-                  "${it.map{it}} : ${it.map{
-                      dict2.getValue(buffer1, it)
-                      DictionaryHelper.byteArrayToSparql(buffer1)
-                  }}"
-              }}"
-          )
-   */
         if (columns.size != other.columns.size) {
             if (verbose) {
                 out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
@@ -100,10 +82,32 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         }
         for (i in 0 until columns.size) {
             if (columns[i] != other.columns[i]) {
-                if (verbose) {
-                    out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                if (checkColumnOrder) {
+                    if (verbose) {
+                        out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                    }
+                    return false
+                } else {
+                    val o2 = MemoryTable(columns)
+                    val mapping = IntArray(columns.size) { other.columns.indexOf(columns[it]) }
+                    if (mapping.contains(-1)) {
+                        if (verbose) {
+                            out!!.println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                        }
+                        return false
+                    } else {
+                        for (d in other.data) {
+                            val r = DictionaryValueTypeArray(d.size)
+                            for (i in 0 until mapping.size) {
+                                r[i] = d[mapping[i]]
+                            }
+                            o2.data.add(r)
+                        }
+                        o2.query = other.query
+                        o2.booleanResult = other.booleanResult
+                        return equalsVerbose(o2, ignoreOrder, verbose, true, out)
+                    }
                 }
-                return false
             }
         }
         if (booleanResult != null || other.booleanResult != null) {

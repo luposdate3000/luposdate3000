@@ -115,4 +115,3 @@ public class Luposdate3000Instance {
     @JvmField
     public var machineLearningOptimizerOrder: Int = 0
 }
-

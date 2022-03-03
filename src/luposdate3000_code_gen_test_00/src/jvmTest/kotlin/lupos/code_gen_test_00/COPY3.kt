@@ -237,6 +237,38 @@ public class COPY3 {
     }
 
     @Test
+    public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+
+    @Test
+    public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+
+    @Test
     public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -361,6 +393,22 @@ public class COPY3 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+
+    @Test
+    public fun `COPY 3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
 
@@ -1424,7 +1472,7 @@ public class COPY3 {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val query1 = Query(instance)
@@ -1433,7 +1481,7 @@ public class COPY3 {
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
         val buf_err1 = MyPrintWriter()
-        if (!expected1.equalsVerbose(actual1, true, true, buf_err1)) {
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
             fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
         val query2 = Query(instance)
@@ -1442,7 +1490,7 @@ public class COPY3 {
         val actual2 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected2 = MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!
         val buf_err2 = MyPrintWriter()
-        if (!expected2.equalsVerbose(actual2, true, true, buf_err2)) {
+        if (!expected2.equalsVerbose(actual2, true, true, false, buf_err2)) {
             fail(expected2.toString() + " .. " + actual2.toString() + " .. " + buf_err2.toString() + " .. " + operator2)
         }
         val operator3 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
@@ -1453,7 +1501,7 @@ public class COPY3 {
         val actual4 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator4, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected4 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err4 = MyPrintWriter()
-        if (!expected4.equalsVerbose(actual4, true, true, buf_err4)) {
+        if (!expected4.equalsVerbose(actual4, true, true, false, buf_err4)) {
             fail(expected4.toString() + " .. " + actual4.toString() + " .. " + buf_err4.toString() + " .. " + operator4)
         }
         val query5 = Query(instance)
@@ -1462,7 +1510,7 @@ public class COPY3 {
         val actual5 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator5, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected5 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
         val buf_err5 = MyPrintWriter()
-        if (!expected5.equalsVerbose(actual5, true, true, buf_err5)) {
+        if (!expected5.equalsVerbose(actual5, true, true, false, buf_err5)) {
             fail(expected5.toString() + " .. " + actual5.toString() + " .. " + buf_err5.toString() + " .. " + operator5)
         }
         val query6 = Query(instance)
@@ -1471,7 +1519,7 @@ public class COPY3 {
         val actual6 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator6, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected6 = MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!
         val buf_err6 = MyPrintWriter()
-        if (!expected6.equalsVerbose(actual6, true, true, buf_err6)) {
+        if (!expected6.equalsVerbose(actual6, true, true, false, buf_err6)) {
             fail(expected6.toString() + " .. " + actual6.toString() + " .. " + buf_err6.toString() + " .. " + operator6)
         }
     }

@@ -16,6 +16,7 @@
  */
 import lupos.launch.simulator.config.mainFunc
 import java.time.LocalDateTime
+
 public fun main(args: Array<String>) {
     System.err.println("starting at: ${LocalDateTime.now()}")
     try {

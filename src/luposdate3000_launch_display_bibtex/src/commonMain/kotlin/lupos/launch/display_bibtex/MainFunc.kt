@@ -64,7 +64,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     for (e in errors) {
         println(e)
     }
-    if (errors.size> 0) {
+    if (errors.size > 0) {
         TODO()
     }
     println(values)

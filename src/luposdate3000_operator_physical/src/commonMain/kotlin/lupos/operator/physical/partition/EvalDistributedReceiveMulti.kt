@@ -25,7 +25,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 
 public object EvalDistributedReceiveMulti {
-internal var debugCounter=0
+    internal var debugCounter = 0
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
@@ -74,7 +74,7 @@ internal var debugCounter=0
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)
-val debugID=debugCounter++
+        val debugID = debugCounter++
         iterator.next = {
             var res = -1
             if (openConnections > 0) {
@@ -111,8 +111,8 @@ val debugID=debugCounter++
                     connectionsMapping[openConnections - 1] = null
                     openConnections--
                 }
-	    }
-//println("EvalDistributedReceiveMulti $debugID ${variables.toList()} $res ${iterator.buf.toList()}")
+            }
+// println("EvalDistributedReceiveMulti $debugID ${variables.toList()} $res ${iterator.buf.toList()}")
             res
         }
         iterator.close = {

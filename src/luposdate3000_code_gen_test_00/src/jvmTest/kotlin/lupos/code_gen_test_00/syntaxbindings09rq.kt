@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.fail
 
 public class syntaxbindings09rq {
-    internal val query = "SELECT * { } BINDINGS ?x ?y { (1 2) (3) } \n" +
+    internal val query = "SELECT * { } VALUES (?x ?y) { (1 2) (3) } \n" +
         ""
 
     @Test

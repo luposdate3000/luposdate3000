@@ -1428,7 +1428,7 @@ public class ADD2 {
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
-        if (!expected0.equalsVerbose(actual0, true, true, buf_err0)) {
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
             fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
         }
         val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
@@ -1439,7 +1439,7 @@ public class ADD2 {
         val actual2 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected2 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err2 = MyPrintWriter()
-        if (!expected2.equalsVerbose(actual2, true, true, buf_err2)) {
+        if (!expected2.equalsVerbose(actual2, true, true, false, buf_err2)) {
             fail(expected2.toString() + " .. " + actual2.toString() + " .. " + buf_err2.toString() + " .. " + operator2)
         }
         val query3 = Query(instance)
@@ -1448,7 +1448,7 @@ public class ADD2 {
         val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected3 = MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!
         val buf_err3 = MyPrintWriter()
-        if (!expected3.equalsVerbose(actual3, true, true, buf_err3)) {
+        if (!expected3.equalsVerbose(actual3, true, true, false, buf_err3)) {
             fail(expected3.toString() + " .. " + actual3.toString() + " .. " + buf_err3.toString() + " .. " + operator3)
         }
     }
