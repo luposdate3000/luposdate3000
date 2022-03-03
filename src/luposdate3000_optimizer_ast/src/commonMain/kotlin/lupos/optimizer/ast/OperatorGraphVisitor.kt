@@ -249,14 +249,14 @@ public class OperatorGraphVisitor(public val query: Query) {
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit("", false, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindings + bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         } else if (havingClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit("", false, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindings + bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         } else if (selectClause != null) {
             if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.fold(false) { s, t -> s || t }) {
@@ -311,14 +311,14 @@ public class OperatorGraphVisitor(public val query: Query) {
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit(graph, graphVar, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindings + bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         } else if (havingClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit(graph, graphVar, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindings + bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         } else if (selectClause != null) {
             if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.fold(false) { s, t -> s || t }) {
@@ -373,13 +373,13 @@ public class OperatorGraphVisitor(public val query: Query) {
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit("", false, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         } else if (havingClause != null) {
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit("", false, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindingsForHaving, res)
             for (x in bindingsForHaving) {
-                res = LOPFilter(query, x.second, res)
+                res = LOPFilter(query, AOPVariable(query,x.first), res)
             }
         }
         val orderClause = solutionModifier.variable2!!.variable0
@@ -776,7 +776,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         is ASTBooleanLiteralFalse -> {
             val buffer = ByteArrayWrapper()
-            DictionaryHelper.booleanToByteArray(buffer, true)
+            DictionaryHelper.booleanToByteArray(buffer,false)
             AOPConstant(query, buffer)
         }
     }
@@ -1234,11 +1234,12 @@ visit(true, graph, false, node.variable3!!)
         is ASTServiceGraphPattern -> visit(graph, graphVar, node, child)
         is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, child)
         is ASTBind -> visit(blankNodeToVariable, graph, graphVar, node, child)
-        is ASTValuesClause -> visit(graph, graphVar, node, child)
+        is ASTValuesClause -> visit( node, child)
     }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
         is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node)
 is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
+is ASTValuesClause -> visit( node)
         else -> TODO(node.toString())
     }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
@@ -1275,7 +1276,7 @@ is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(que
     private fun visit(node: ASTCreate) = LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.SILENT, visit(node.variable1!!))
     private fun visit(node: ASTAdd) = LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTClassOfVarOrTermAndPropertyListNotEmpty): List<LOPTriple> = visit(blankNodeToVariable, graph, graphVar, visit(blankNodeToVariable, node.variable0!!), node.variable1!!)
-    private fun visit(graph: String, graphVar: Boolean, node: ASTValuesClause, child: IOPBase) = visit(node.variable0!!)
+    private fun visit( node: ASTValuesClause, child: IOPBase) = visit(node.variable0!!)
     private fun visit(node: ASTMove) = LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
     private fun visit(node: ASTCopy) = LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.SILENT, visit(node.variable1!!), visit(node.variable2!!))
     private fun visit(blankNodeToVariable: Boolean, node: ASTObject): Pair<AOPBase, List<LOPTriple>> = visit(blankNodeToVariable, node.variable0!!)
