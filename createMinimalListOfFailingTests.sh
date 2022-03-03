@@ -6,7 +6,7 @@ sed "s/minifyMode: Boolean = .*/minifyMode: Boolean = true/g" -i ./src/luposdate
 rm -rf tmp
 mkdir tmp
 sleep 1
-./launcher.main.kts --setup --intellijMode=Disable
+./launcher.main.kts --setup
 ./gradlew assemble
 sleep 1
 i=0

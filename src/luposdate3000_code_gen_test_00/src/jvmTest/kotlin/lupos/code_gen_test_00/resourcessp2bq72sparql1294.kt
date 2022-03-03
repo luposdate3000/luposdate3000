@@ -17,15 +17,25 @@
 package lupos.code_gen_test_00
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
+import simora.addQuerySender
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPartitionModeExt
-import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import simora.SimulationRun
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -61,22 +71,22 @@ public class resourcessp2bq72sparql1294 {
 
     @Test
     public fun `resourcessp2bq72sparql1294 - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
         } else {
             TODO()
         }
