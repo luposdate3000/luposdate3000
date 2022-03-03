@@ -17,25 +17,21 @@
 package lupos.code_gen_test_00
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
-import simora.addQuerySender
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EQueryDistributionModeExt
-import lupos.shared.Luposdate3000Config
-import lupos.shared.Luposdate3000Instance
 import lupos.shared.EPartitionModeExt
-import lupos.shared.MemoryTable
 import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.MemoryTable
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import simora.SimulationRun
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
 import lupos.simulator_db.luposdate3000.Application_Luposdate3000
-
-import kotlin.test.Ignore
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
+import simora.SimulationRun
+import simora.addQuerySender
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -93,60 +89,64 @@ public class INSERTUSING01 {
 
     @Test
     public fun `INSERT USING 01 - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
     }
+
     @Test
     public fun `INSERT USING 01 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
     }
+
     @Test
     public fun `INSERT USING 01 - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = true
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
     }
+
     @Test
     public fun `INSERT USING 01 - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+        var instance = Luposdate3000Instance()
+        try {
+            instance.LUPOS_BUFFER_SIZE = 128
+            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
+            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
+            instance.useDictionaryInlineEncoding = false
+            instance = LuposdateEndpoint.initializeB(instance)
+            normalHelper(instance)
+        } finally {
+            LuposdateEndpoint.close(instance)
+        }
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - true - None - RPL`() {
         simulatorHelper(
@@ -162,6 +162,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
         simulatorHelper(
@@ -177,6 +178,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
@@ -192,6 +194,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
@@ -207,6 +210,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
         simulatorHelper(
@@ -222,6 +226,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
@@ -237,6 +242,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -252,6 +258,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -267,6 +274,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -282,6 +290,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -297,6 +306,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -312,6 +322,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -327,6 +338,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -342,6 +354,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -357,6 +370,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -372,6 +386,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -387,6 +402,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -402,6 +418,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -417,6 +434,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -432,6 +450,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -447,6 +466,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -462,6 +482,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -477,6 +498,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -492,6 +514,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -507,6 +530,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -522,6 +546,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -537,6 +562,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -552,6 +578,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -567,6 +594,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -582,6 +610,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -597,6 +626,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -612,6 +642,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -627,6 +658,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -642,6 +674,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -657,6 +690,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -672,6 +706,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -687,6 +722,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -702,6 +738,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -717,6 +754,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -732,6 +770,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -747,6 +786,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -762,6 +802,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -777,6 +818,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -792,6 +834,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -807,6 +850,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -822,6 +866,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -837,6 +882,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -852,6 +898,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -867,6 +914,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -882,6 +930,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -897,6 +946,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -912,6 +962,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -927,6 +978,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -942,6 +994,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -957,6 +1010,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -972,6 +1026,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -987,6 +1042,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1002,6 +1058,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -1017,6 +1074,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1032,6 +1090,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1047,6 +1106,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -1062,6 +1122,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1077,6 +1138,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1092,6 +1154,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -1107,6 +1170,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1122,6 +1186,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1137,6 +1202,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -1152,6 +1218,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1167,6 +1234,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1182,6 +1250,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -1197,6 +1266,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1212,6 +1282,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1227,6 +1298,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -1242,6 +1314,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1257,6 +1330,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1272,6 +1346,7 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -1287,6 +1362,7 @@ public class INSERTUSING01 {
             "RPL",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1302,6 +1378,7 @@ public class INSERTUSING01 {
             "RPL_Fast",
         )
     }
+
     @Test
     public fun `INSERT USING 01 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1317,78 +1394,79 @@ public class INSERTUSING01 {
             "AllShortestPath",
         )
     }
-    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
+    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        simRun.parseConfig(fileName,false,{
-            it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
-            it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
-        })
-        
-        
-        
+        simRun.parseConfig(
+            fileName, false,
+            {
+                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
+                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+            }
+        )
+
         simRun.startUp()
-        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         val pkg1 = Package_Luposdate3000_TestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
         val pkg2 = Package_Luposdate3000_TestingImportPackage(inputDataFile[2], inputGraph[2], inputType[2])
         pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
-        val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted3++},inputGraph[0],instance)
+        val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted3++ }, inputGraph[0], instance)
         pkg2.setOnFinish(pkg3)
         var verifyExecuted4 = 0
-        val pkg4 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, {verifyExecuted4++},inputGraph[1],instance)
+        val pkg4 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted4++ }, inputGraph[1], instance)
         pkg3.setOnFinish(pkg4)
         var verifyExecuted5 = 0
-        val pkg5 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, {verifyExecuted5++},inputGraph[2],instance)
+        val pkg5 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[2], inputType[2], Query(instance))!!, { verifyExecuted5++ }, inputGraph[2], instance)
         pkg4.setOnFinish(pkg5)
         val pkg6 = Package_Luposdate3000_TestingExecute(query)
         pkg5.setOnFinish(pkg6)
         var verifyExecuted7 = 0
-        val pkg7 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, {verifyExecuted7++},outputGraph[0],instance)
+        val pkg7 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted7++ }, outputGraph[0], instance)
         pkg6.setOnFinish(pkg7)
         var verifyExecuted8 = 0
-        val pkg8 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, {verifyExecuted8++},outputGraph[1],instance)
+        val pkg8 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[1], outputType[1], Query(instance))!!, { verifyExecuted8++ }, outputGraph[1], instance)
         pkg7.setOnFinish(pkg8)
         var verifyExecuted9 = 0
-        val pkg9 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, {verifyExecuted9++},outputGraph[2],instance)
+        val pkg9 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[2], outputType[2], Query(instance))!!, { verifyExecuted9++ }, outputGraph[2], instance)
         pkg8.setOnFinish(pkg9)
-        simRun.addQuerySender(10,1,1,pkg0)
+        simRun.addQuerySender(10, 1, 1, pkg0)
         simRun.run()
         simRun.shutDown()
-        if (verifyExecuted3==0) {
+        if (verifyExecuted3 == 0) {
             fail("pck3 not verified")
         }
-        if (verifyExecuted4==0) {
+        if (verifyExecuted4 == 0) {
             fail("pck4 not verified")
         }
-        if (verifyExecuted5==0) {
+        if (verifyExecuted5 == 0) {
             fail("pck5 not verified")
         }
-        if (verifyExecuted7==0) {
+        if (verifyExecuted7 == 0) {
             fail("pck7 not verified")
         }
-        if (verifyExecuted8==0) {
+        if (verifyExecuted8 == 0) {
             fail("pck8 not verified")
         }
-        if (verifyExecuted9==0) {
+        if (verifyExecuted9 == 0) {
             fail("pck9 not verified")
         }
     }
-    internal fun normalHelper(instance:Luposdate3000Instance) {
+    internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
         } else {
             TODO()
         }
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[1])) {
-            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[1],inputType[1], inputGraph[1])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[1], inputType[1], inputGraph[1])
         } else {
             TODO()
         }
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[2])) {
-            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[2],inputType[2], inputGraph[2])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[2], inputType[2], inputGraph[2])
         } else {
             TODO()
         }
