@@ -5,7 +5,7 @@ First, move to the project directory.
 Than you need to setup the buildfiles.
 
 ```bash
-./launcher.main.kts --setup --intellijMode=Disable --target=JVM_JS --releaseMode=Enable --dictionaryValueMode=Int
+./launcher.main.kts --setup --target=JVM_JS --releaseMode=Enable --dictionaryValueMode=Int
 ./gradlew build
 ```
 

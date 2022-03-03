@@ -16,7 +16,7 @@ echo $f
 cp -r src/$f/* src/luposdate3000_coverage_merged/
 done
 cat src/*/module_config | sort | uniq | grep dependency > src/luposdate3000_coverage_merged/module_config
-./launcher.main.kts --setup --intellijMode=Disable
+./launcher.main.kts --setup
 cat src/luposdate3000_coverage_merged/build.gradle.kts \
 	| grep -v evaluationDependsOn \
 	| grep -v "implementation.project" \

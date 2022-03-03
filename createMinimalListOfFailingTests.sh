@@ -41,7 +41,7 @@ cat tmp/blacklist1 \
 #blacklisting some random tests <<--
 
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
-./launcher.main.kts --setup --intellijMode=Disable
+./launcher.main.kts --setup
 timeout2 -t 600 ./gradlew build > x
 cp x backupX$i
 pkill java -9

@@ -7,14 +7,12 @@ Than you need to setup the buildfiles.
 Please read all chapters in this README-file first, because you may want to add or change the parameters.
 
 ```bash
-./launcher.main.kts --setup --intellijMode=Disable --target=JVM
+./launcher.main.kts --setup --target=JVM
 ```
 
 The launcher remembers the settings you have choosen before, and applies them until you change them explicitly.
 
 # Intellij
-If you want to use intellij use `--intellijMode=Enable` instead.
-The main difference by using intellijMode is, that it contains an workaround for the fact, that the IDE does not accept the same source folder in multiple subprojects.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
 The Linux-version of intellij ignores this - this seems to change in every version of the IDE.
 You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_\*/src/jvmMain/kotlin/Main.kt files.
