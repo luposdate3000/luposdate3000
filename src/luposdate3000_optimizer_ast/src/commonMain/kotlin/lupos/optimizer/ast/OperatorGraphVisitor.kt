@@ -1240,6 +1240,7 @@ visit(true, graph, false, node.variable3!!)
         is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node)
 is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
 is ASTValuesClause -> visit( node)
+is ASTBind -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
         else -> TODO(node.toString())
     }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
