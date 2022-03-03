@@ -68,5 +68,5 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, children[0]as AOPBase)
+    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, children[0] as AOPBase)
 }

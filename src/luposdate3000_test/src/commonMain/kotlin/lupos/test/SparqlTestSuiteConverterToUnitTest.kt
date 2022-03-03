@@ -267,6 +267,7 @@ without minify mode only the passing tests will be added
         fun myActualDataEvaluate(counter: Int, out: IMyOutputStream) {
             out.println("        val actual$counter = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator$counter, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
         }
+
         fun myCompareData(counter: Int, out: IMyOutputStream) {
             out.println("        val buf_err$counter = MyPrintWriter()")
             out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, $verifyOrderOfColumns, buf_err$counter)) {")

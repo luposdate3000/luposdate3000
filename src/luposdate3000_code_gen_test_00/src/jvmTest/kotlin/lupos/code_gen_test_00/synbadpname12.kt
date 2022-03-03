@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
@@ -300,6 +301,7 @@ public class synbadpname12 {
             LuposdateEndpoint.close(instance)
         }
     }
+
     internal fun normalHelper(instance: Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         var flag = false

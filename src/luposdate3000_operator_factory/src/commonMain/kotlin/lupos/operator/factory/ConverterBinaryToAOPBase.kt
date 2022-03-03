@@ -120,7 +120,14 @@ public object ConverterBinaryToAOPBase {
                 } else {
                     arrayOf()
                 }
-                AOPAggregationCOUNT(query, distinct, if (childs.size == 0) { null } else { childs[0] })
+                AOPAggregationCOUNT(
+                    query, distinct,
+                    if (childs.size == 0) {
+                        null
+                    } else {
+                        childs[0]
+                    }
+                )
             },
         )
         assignOperatorArithmetikDecode(

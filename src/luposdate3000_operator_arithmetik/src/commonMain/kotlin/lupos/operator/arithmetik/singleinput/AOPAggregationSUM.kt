@@ -85,5 +85,5 @@ public class AOPAggregationSUM public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationSUM(query, distinct, children[0]as AOPBase)
+    override fun cloneOP(): IOPBase = AOPAggregationSUM(query, distinct, children[0] as AOPBase)
 }

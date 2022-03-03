@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.operator.base.Query
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.ast.OperatorGraphVisitor

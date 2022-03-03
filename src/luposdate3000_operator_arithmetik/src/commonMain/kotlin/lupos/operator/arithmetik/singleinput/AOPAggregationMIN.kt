@@ -85,5 +85,5 @@ public class AOPAggregationMIN public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationMIN(query, distinct, children[0]as AOPBase)
+    override fun cloneOP(): IOPBase = AOPAggregationMIN(query, distinct, children[0] as AOPBase)
 }

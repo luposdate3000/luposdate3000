@@ -168,10 +168,10 @@ public class Application_Luposdate3000 public constructor(
             instance.nodeGlobalDictionary = nodeGlobalDictionaryBackup
             globalCheatEnd()
         }
-        if (myPendingWork.size> 0) {
+        if (myPendingWork.size > 0) {
             TODO("there is pending work on close")
         }
-        if (myPendingWorkData.size> 0) {
+        if (myPendingWorkData.size > 0) {
             TODO("there is pending data for work on close")
         }
         LuposdateEndpoint.close(instance)

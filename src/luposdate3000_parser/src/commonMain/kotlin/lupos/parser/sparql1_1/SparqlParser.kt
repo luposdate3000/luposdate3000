@@ -6,6 +6,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {}
         override fun toString(): String = "{\"type\":\"ASTAnonymous\",\"value\":\"$value\"}"
     }
+
     public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
 
     public class ASTValuesClauseOptional : IASTBase {
@@ -15,6 +16,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTValuesClause
         }
@@ -29,6 +31,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery
@@ -46,6 +49,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPrologue
@@ -61,6 +65,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfPrologueAndUpdate
         }
@@ -75,6 +80,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTUpdate1
@@ -90,6 +96,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
         }
@@ -106,6 +113,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPrologue
@@ -121,6 +129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
         }
@@ -133,6 +142,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfBaseDeclOrPrefixDecl)
         }
+
         override fun toString(): String = "{\"type\":\"ASTPrologue\",\"value\":$value}"
     }
 
@@ -143,6 +153,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"IRIREF\" : \"${IRIREF}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             IRIREF = value as String
         }
@@ -157,6 +168,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"IRIREF\" : \"${IRIREF}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> PNAME_NS = value as String
@@ -170,6 +182,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTDatasetClause)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfDatasetClause\",\"value\":$value}"
     }
 
@@ -186,6 +199,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTSelectClause
@@ -209,6 +223,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTSelectClause
@@ -236,6 +251,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -251,6 +267,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfVarOrClassOfExpressionAndVar)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfVarOrClassOfExpressionAndVar\",\"value\":$value}"
     }
 
@@ -265,6 +282,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = ASTEnumOfDISTINCTAndREDUCED.values.indexOf((value as ASTAnonymous).value)
@@ -278,6 +296,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTSelectClauseAll\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -295,6 +314,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTConstructTemplate
@@ -316,6 +336,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTListOfDatasetClause
@@ -334,6 +355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
         }
@@ -344,6 +366,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTVarOrIri)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfVarOrIri\",\"value\":$value}"
     }
 
@@ -356,6 +379,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTWhereClause
         }
@@ -374,6 +398,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll
@@ -389,6 +414,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTDescribeQueryAll\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -404,6 +430,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTListOfDatasetClause
@@ -422,6 +449,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause
         }
@@ -434,6 +462,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTSourceSelector
         }
@@ -446,6 +475,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTSourceSelector
         }
@@ -458,6 +488,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTiri
         }
@@ -472,6 +503,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> WHERE = true
@@ -487,6 +519,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGroupClause
         }
@@ -499,6 +532,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTHavingClause
         }
@@ -511,6 +545,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTOrderClause
         }
@@ -523,6 +558,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTLimitOffsetClauses
         }
@@ -541,6 +577,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTGroupClauseOptional
@@ -556,6 +593,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTGroupCondition)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfGroupCondition\",\"value\":$value}"
     }
 
@@ -566,6 +604,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTListOfGroupCondition
         }
@@ -578,6 +617,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTVar
         }
@@ -592,6 +632,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -607,6 +648,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTHavingCondition)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfHavingCondition\",\"value\":$value}"
     }
 
@@ -617,6 +659,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTListOfHavingCondition
         }
@@ -629,6 +672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConstraint
         }
@@ -639,6 +683,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTOrderCondition)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfOrderCondition\",\"value\":$value}"
     }
 
@@ -649,6 +694,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTListOfOrderCondition
         }
@@ -673,6 +719,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = ASTEnumOfASCAndDESC.values.indexOf((value as ASTAnonymous).value)
@@ -688,6 +735,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTOffsetClause
         }
@@ -702,6 +750,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTLimitClause
@@ -717,6 +766,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTLimitClause
         }
@@ -731,6 +781,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTOffsetClause
@@ -748,6 +799,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER\" : \"${INTEGER}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER = value as String
         }
@@ -760,6 +812,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER\" : \"${INTEGER}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER = value as String
         }
@@ -774,6 +827,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGraphRef
         }
@@ -790,6 +844,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -808,6 +863,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -825,6 +881,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -842,6 +899,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -861,6 +919,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -881,6 +940,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -901,6 +961,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -917,6 +978,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuadData
         }
@@ -929,6 +991,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuadData
         }
@@ -941,6 +1004,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuadPattern
         }
@@ -953,6 +1017,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTiri
         }
@@ -965,6 +1030,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInsertClause
         }
@@ -979,6 +1045,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTDeleteClause
@@ -994,6 +1061,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTUsingClause)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfUsingClause\",\"value\":$value}"
     }
 
@@ -1010,6 +1078,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTiriOptional
@@ -1027,6 +1096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuadPattern
         }
@@ -1039,6 +1109,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuadPattern
         }
@@ -1051,6 +1122,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTiri
         }
@@ -1065,6 +1137,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> GRAPH = true
@@ -1082,6 +1155,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTiri
         }
@@ -1094,6 +1168,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTGraphRefDefault\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -1103,6 +1178,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTGraphRefNamed\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -1112,6 +1188,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTGraphRefAll2\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -1123,6 +1200,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuads
         }
@@ -1135,6 +1213,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTQuads
         }
@@ -1147,6 +1226,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTTriplesTemplate
         }
@@ -1163,6 +1243,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTQuadsNotTriples
@@ -1177,6 +1258,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional\",\"value\":$value}"
     }
 
@@ -1189,6 +1271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesTemplateOptional
@@ -1206,6 +1289,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVarOrIri
@@ -1221,6 +1305,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTTriplesTemplateOptional
         }
@@ -1235,6 +1320,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesSameSubject
@@ -1252,6 +1338,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfSubSelectOrGroupGraphPatternSub
         }
@@ -1264,6 +1351,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTTriplesBlock
         }
@@ -1280,6 +1368,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTGraphPatternNotTriples
@@ -1294,6 +1383,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional\",\"value\":$value}"
     }
 
@@ -1306,6 +1396,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesBlockOptional
@@ -1321,6 +1412,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTTriplesBlockOptional
         }
@@ -1335,6 +1427,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesSameSubjectPath
@@ -1352,6 +1445,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGroupGraphPattern
         }
@@ -1366,6 +1460,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVarOrIri
@@ -1385,6 +1480,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> SILENT = true
@@ -1403,6 +1499,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -1418,6 +1515,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTDataBlock
         }
@@ -1430,6 +1528,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTDataBlockValue)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfDataBlockValue\",\"value\":$value}"
     }
 
@@ -1442,6 +1541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVar
@@ -1455,6 +1555,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTVar)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfVar\",\"value\":$value}"
     }
 
@@ -1467,6 +1568,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfListOfDataBlockValueOrNILParam)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfListOfDataBlockValueOrNILParam\",\"value\":$value}"
     }
 
@@ -1479,6 +1581,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfNILParamOrListOfVar
@@ -1494,6 +1597,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTUNDEF\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -1505,6 +1609,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGroupGraphPattern
         }
@@ -1515,6 +1620,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTGroupGraphPattern)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfGroupGraphPattern\",\"value\":$value}"
     }
 
@@ -1527,6 +1633,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTGroupGraphPattern
@@ -1542,6 +1649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConstraint
         }
@@ -1558,6 +1666,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTiri
@@ -1571,6 +1680,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTExpression)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfExpression\",\"value\":$value}"
     }
 
@@ -1585,6 +1695,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -1605,6 +1716,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -1622,6 +1734,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConstructTriples
         }
@@ -1634,6 +1747,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConstructTriplesOptional
         }
@@ -1646,6 +1760,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConstructTriplesOptional
         }
@@ -1660,6 +1775,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesSameSubject
@@ -1677,6 +1793,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVarOrTerm
@@ -1692,6 +1809,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyList
         }
@@ -1706,6 +1824,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesNode
@@ -1723,6 +1842,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyListNotEmpty
         }
@@ -1737,6 +1857,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVerb
@@ -1752,6 +1873,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfVerbAndObjectList
         }
@@ -1762,6 +1884,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTClassOfVerbAndObjectListOptional)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfClassOfVerbAndObjectListOptional\",\"value\":$value}"
     }
 
@@ -1776,6 +1899,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVerb
@@ -1792,6 +1916,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTRDFType\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -1801,6 +1926,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTObject)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfObject\",\"value\":$value}"
     }
 
@@ -1813,6 +1939,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTObject
@@ -1828,6 +1955,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGraphNode
         }
@@ -1842,6 +1970,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTVarOrTerm
@@ -1857,6 +1986,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyListPath
         }
@@ -1871,6 +2001,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTTriplesNodePath
@@ -1888,6 +2019,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyListPathNotEmpty
         }
@@ -1904,6 +2036,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
@@ -1919,6 +2052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList
         }
@@ -1929,6 +2063,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional\",\"value\":$value}"
     }
 
@@ -1943,6 +2078,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfVerbPathOrVerbSimple
@@ -1959,6 +2095,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPath
         }
@@ -1971,6 +2108,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTVar
         }
@@ -1981,6 +2119,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTObjectPath)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfObjectPath\",\"value\":$value}"
     }
 
@@ -1993,6 +2132,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTObjectPath
@@ -2008,6 +2148,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGraphNodePath
         }
@@ -2020,6 +2161,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPathAlternative
         }
@@ -2030,6 +2172,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTPathSequence)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfPathSequence\",\"value\":$value}"
     }
 
@@ -2042,6 +2185,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPathSequence
@@ -2055,6 +2199,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTPathEltOrInverse)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfPathEltOrInverse\",\"value\":$value}"
     }
 
@@ -2067,6 +2212,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPathEltOrInverse
@@ -2093,6 +2239,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPathPrimary
@@ -2110,6 +2257,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> negated = true
@@ -2125,6 +2273,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTPathOneInPropertySet)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfPathOneInPropertySet\",\"value\":$value}"
     }
 
@@ -2137,6 +2286,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTPathOneInPropertySet
@@ -2152,6 +2302,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet
         }
@@ -2170,6 +2321,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> negated = true
@@ -2185,6 +2337,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER\" : \"${INTEGER}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER = value as String
         }
@@ -2199,6 +2352,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyListNotEmpty
         }
@@ -2213,6 +2367,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPropertyListPathNotEmpty
         }
@@ -2223,6 +2378,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTGraphNode)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfGraphNode\",\"value\":$value}"
     }
 
@@ -2233,6 +2389,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTListOfGraphNode
         }
@@ -2243,6 +2400,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTGraphNodePath)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfGraphNodePath\",\"value\":$value}"
     }
 
@@ -2253,6 +2411,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTListOfGraphNodePath
         }
@@ -2275,6 +2434,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"VAR1\" : \"${VAR1}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             VAR1 = value as String
         }
@@ -2287,6 +2447,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"VAR2\" : \"${VAR2}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             VAR2 = value as String
         }
@@ -2301,6 +2462,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTConditionalOrExpression
         }
@@ -2311,6 +2473,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTConditionalAndExpression)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfConditionalAndExpression\",\"value\":$value}"
     }
 
@@ -2323,6 +2486,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTConditionalAndExpression
@@ -2336,6 +2500,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTValueLogical)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfValueLogical\",\"value\":$value}"
     }
 
@@ -2348,6 +2513,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTValueLogical
@@ -2363,6 +2529,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTRelationalExpression
         }
@@ -2377,6 +2544,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN
         }
@@ -2391,6 +2559,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTNumericExpression
@@ -2406,6 +2575,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2418,6 +2588,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2430,6 +2601,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2442,6 +2614,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2454,6 +2627,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2466,6 +2640,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNumericExpression
         }
@@ -2478,6 +2653,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpressionList
         }
@@ -2490,6 +2666,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpressionList
         }
@@ -2502,6 +2679,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTAdditiveExpression
         }
@@ -2516,6 +2694,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":$value}"
     }
 
@@ -2528,6 +2707,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
@@ -2543,6 +2723,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE\",\"value\":$value}"
     }
 
@@ -2555,6 +2736,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTMultiplicativeExpression
@@ -2570,6 +2752,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTMultiplicativeExpression
         }
@@ -2582,6 +2765,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTMultiplicativeExpression
         }
@@ -2594,6 +2778,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTUnaryExpression
         }
@@ -2606,6 +2791,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTUnaryExpression
         }
@@ -2618,6 +2804,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         override fun astAssign(childID: Int, value: Any) {
             this.value.add(value as ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE)
         }
+
         override fun toString(): String = "{\"type\":\"ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE\",\"value\":$value}"
     }
 
@@ -2630,6 +2817,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTUnaryExpression
@@ -2645,6 +2833,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTUnaryExpression
         }
@@ -2657,6 +2846,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTUnaryExpression
         }
@@ -2671,6 +2861,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPrimaryExpression
         }
@@ -2683,6 +2874,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPrimaryExpression
         }
@@ -2695,6 +2887,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTPrimaryExpression
         }
@@ -2709,6 +2902,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2723,6 +2917,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2735,6 +2930,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2747,6 +2943,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2759,6 +2956,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNILParam
         }
@@ -2773,6 +2971,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -2788,6 +2987,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2800,6 +3000,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2812,6 +3013,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2824,6 +3026,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2836,6 +3039,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNILParam
         }
@@ -2848,6 +3052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNILParam
         }
@@ -2860,6 +3065,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2872,6 +3078,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2884,6 +3091,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2896,6 +3104,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpressionList
         }
@@ -2912,6 +3121,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -2930,6 +3140,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -2945,6 +3156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2957,6 +3169,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2969,6 +3182,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -2983,6 +3197,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -2998,6 +3213,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3010,6 +3226,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3022,6 +3239,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3034,6 +3252,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3046,6 +3265,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpressionList
         }
@@ -3058,6 +3278,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3070,6 +3291,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3084,6 +3306,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3101,6 +3324,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3116,6 +3340,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3130,6 +3355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3147,6 +3373,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3164,6 +3391,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3179,6 +3407,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3191,6 +3420,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3203,6 +3433,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3217,6 +3448,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3232,6 +3464,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3244,6 +3477,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTVar
         }
@@ -3256,6 +3490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3268,6 +3503,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3282,6 +3518,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfExpressionOrNILParam
         }
@@ -3294,6 +3531,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTNILParam
         }
@@ -3306,6 +3544,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3318,6 +3557,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3330,6 +3570,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3342,6 +3583,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3354,6 +3596,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3366,6 +3609,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTExpression
         }
@@ -3382,6 +3626,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3402,6 +3647,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3424,6 +3670,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable3\" : $variable3")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTExpression
@@ -3441,6 +3688,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGroupGraphPattern
         }
@@ -3453,6 +3701,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTGroupGraphPattern
         }
@@ -3469,6 +3718,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3488,6 +3738,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3501,6 +3752,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTAggregateCountAll\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -3514,6 +3766,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3531,6 +3784,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3548,6 +3802,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3565,6 +3820,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3580,6 +3836,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTString
         }
@@ -3596,6 +3853,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable2\" : $variable2")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> DISTINCT = true
@@ -3612,6 +3870,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTArgList
         }
@@ -3626,6 +3885,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTiri
@@ -3643,6 +3903,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable0\" : $variable0")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             variable0 = value as ASTInterfaceOfRDFLiteralLangOriri
         }
@@ -3657,6 +3918,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"variable1\" : $variable1")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             when (childID) {
                 0 -> variable0 = value as ASTString
@@ -3672,6 +3934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"LANGTAG\" : \"${LANGTAG}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             LANGTAG = value as String
         }
@@ -3688,6 +3951,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER\" : \"${INTEGER}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER = value as String
         }
@@ -3700,6 +3964,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DECIMAL\" : \"${DECIMAL}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DECIMAL = value as String
         }
@@ -3712,6 +3977,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DOUBLE\" : \"${DOUBLE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DOUBLE = value as String
         }
@@ -3726,6 +3992,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER_POSITIVE\" : \"${INTEGER_POSITIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER_POSITIVE = value as String
         }
@@ -3738,6 +4005,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DECIMAL_POSITIVE\" : \"${DECIMAL_POSITIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DECIMAL_POSITIVE = value as String
         }
@@ -3750,6 +4018,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DOUBLE_POSITIVE\" : \"${DOUBLE_POSITIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DOUBLE_POSITIVE = value as String
         }
@@ -3764,6 +4033,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"INTEGER_NEGATIVE\" : \"${INTEGER_NEGATIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             INTEGER_NEGATIVE = value as String
         }
@@ -3776,6 +4046,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DECIMAL_NEGATIVE\" : \"${DECIMAL_NEGATIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DECIMAL_NEGATIVE = value as String
         }
@@ -3788,6 +4059,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"DOUBLE_NEGATIVE\" : \"${DOUBLE_NEGATIVE}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             DOUBLE_NEGATIVE = value as String
         }
@@ -3800,6 +4072,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTBooleanLiteralTrue\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -3809,6 +4082,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             val res = mutableListOf<String>("\"type\":\"ASTBooleanLiteralFalse\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
         }
     }
@@ -3822,6 +4096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"STRING_LITERAL1\" : \"${STRING_LITERAL1}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             STRING_LITERAL1 = value as String
         }
@@ -3834,6 +4109,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"STRING_LITERAL2\" : \"${STRING_LITERAL2}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             STRING_LITERAL2 = value as String
         }
@@ -3846,6 +4122,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"STRING_LITERAL_LONG1\" : \"${STRING_LITERAL_LONG1}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             STRING_LITERAL_LONG1 = value as String
         }
@@ -3858,6 +4135,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"STRING_LITERAL_LONG2\" : \"${STRING_LITERAL_LONG2}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             STRING_LITERAL_LONG2 = value as String
         }
@@ -3872,6 +4150,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"IRIREF\" : \"${IRIREF}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             IRIREF = value as String
         }
@@ -3886,6 +4165,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"PNAME_LN\" : \"${PNAME_LN}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             PNAME_LN = value as String
         }
@@ -3898,6 +4178,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"PNAME_NS\" : \"${PNAME_NS}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             PNAME_NS = value as String
         }
@@ -3912,6 +4193,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"BLANK_NODE_LABEL\" : \"${BLANK_NODE_LABEL}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             BLANK_NODE_LABEL = value as String
         }
@@ -3924,6 +4206,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"ANON\" : \"${ANON}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             ANON = value as String
         }
@@ -3936,6 +4219,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             res.add("\"NIL\" : \"${NIL}\"")
             return "{${res.joinToString()}}"
         }
+
         override fun astAssign(childID: Int, value: Any) {
             NIL = value as String
         }
@@ -3974,6 +4258,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
     internal val parserDefinedStackData: IntArray = IntArray(1024)
     internal var parserDefinedStackPosition: Int = 0
     internal val parserDefinedScannerTokens: Array<String> = arrayOf<String>("", "generated0", "generated1", "generated119", "generated120", "generated121", "generated2", "generated122", "generated124", "generated127", "generated128", "generated130", "generated131", "generated132", "generated133", "generated135", "generated136", "generated137", "IRIREF", "PNAME_NS", "generated73", "generated74", "generated117", "VAR1", "VAR2", "PNAME_LN", "generated9", "generated134", "generated3", "generated4", "generated5", "generated104", "generated125", "generated118", "generated126", "generated102", "generated96", "generated86", "generated87", "NIL", "BLANK_NODE_LABEL", "ANON", "INTEGER", "DECIMAL", "DOUBLE", "INTEGER_POSITIVE", "DECIMAL_POSITIVE", "DOUBLE_POSITIVE", "INTEGER_NEGATIVE", "DECIMAL_NEGATIVE", "DOUBLE_NEGATIVE", "STRING_LITERAL1", "STRING_LITERAL2", "STRING_LITERAL_LONG1", "STRING_LITERAL_LONG2", "generated89", "generated75", "generated78", "generated79", "generated82", "generated83", "generated84", "generated100", "generated101", "generated103", "generated105", "generated106", "generated129", "generated7", "generated95", "generated94", "generated108", "generated18", "generated109", "generated110", "generated111", "generated112", "generated113", "generated114", "generated107", "generated115", "generated116", "generated22", "generated77", "generated16", "generated123", "generated19", "generated20", "generated21", "generated23", "generated24", "generated25", "generated26", "generated27", "generated28", "generated29", "generated30", "generated31", "generated32", "generated33", "generated34", "generated35", "generated36", "generated37", "generated38", "generated39", "generated40", "generated41", "generated42", "generated43", "generated44", "generated45", "generated46", "generated47", "generated48", "generated49", "generated50", "generated51", "generated52", "generated53", "generated54", "generated55", "generated56", "generated57", "generated58", "generated59", "generated60", "generated61", "generated62", "generated63", "generated64", "generated65", "generated66", "generated67", "generated68", "generated69", "generated70", "generated71", "generated72", "generated8", "generated10", "generated11", "generated12", "generated13", "generated14", "generated15", "generated88", "generated93", "generated92", "generated80", "generated81", "generated138", "generated90", "generated6", "generated91", "generated76", "generated97", "generated98", "generated99", "LANGTAG", "generated85", "generated17")
+
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
@@ -3998,9 +4283,11 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
     }
+
     public fun close() {
         bufferDefinedInputStream.close()
     }
+
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 162
@@ -4019,6 +4306,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1(): Int {
         if ((scannerDefinedCurrentChar == -2)) {
             return -2
@@ -4026,6 +4314,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode2(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4066,6 +4355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode3(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4079,6 +4369,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode4(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4092,6 +4383,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode5(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4126,6 +4418,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode6(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4139,6 +4432,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode7(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4155,6 +4449,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode8(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4177,6 +4472,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode9(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4208,6 +4504,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode10(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4221,6 +4518,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode11(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4234,6 +4532,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode12(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4247,6 +4546,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode13(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4266,6 +4566,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode14(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4294,6 +4595,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode15(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4310,6 +4612,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode16(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4323,6 +4626,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode17(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4351,6 +4655,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode18(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4367,6 +4672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode19(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4380,6 +4686,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode20(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4393,6 +4700,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode21(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4406,6 +4714,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode22(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4419,6 +4728,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode23(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4432,6 +4742,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode24(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4445,6 +4756,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode25(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4458,6 +4770,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode26(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4471,6 +4784,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode27(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4484,6 +4798,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode28(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4503,6 +4818,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode29(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4516,6 +4832,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode30(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4529,6 +4846,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode31(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4554,6 +4872,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode32(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4576,6 +4895,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode33(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4601,6 +4921,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode34(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4629,6 +4950,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode35(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4645,6 +4967,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode36(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4658,6 +4981,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode37(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4671,6 +4995,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode38(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4684,6 +5009,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode39(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4703,6 +5029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode40(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4716,6 +5043,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode41(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4729,6 +5057,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode42(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4742,6 +5071,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode43(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4755,6 +5085,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode44(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4768,6 +5099,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode45(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4784,6 +5116,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode46(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4806,6 +5139,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode47(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4822,6 +5156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode48(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4841,6 +5176,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode49(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4863,6 +5199,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode50(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4879,6 +5216,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode51(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4901,6 +5239,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode52(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4926,6 +5265,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode53(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -4939,6 +5279,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode54(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5000,6 +5341,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode55(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5037,6 +5379,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode56(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5050,6 +5393,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode57(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5066,6 +5410,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode58(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5079,6 +5424,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode59(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5092,6 +5438,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode60(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5105,6 +5452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode61(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5127,6 +5475,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode62(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5140,6 +5489,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode63(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5222,6 +5572,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode64(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5235,6 +5586,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode65(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5248,6 +5600,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode66(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5282,6 +5635,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode67(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5346,6 +5700,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode68(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5404,6 +5759,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode69(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5420,6 +5776,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode70(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5436,6 +5793,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode71(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5518,6 +5876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode72(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5546,6 +5905,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode73(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5559,6 +5919,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode74(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5617,6 +5978,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode75(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5633,6 +5995,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode76(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5670,6 +6033,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode77(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5698,6 +6062,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode78(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5711,6 +6076,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode79(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5730,6 +6096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode80(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5791,6 +6158,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode81(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5807,6 +6175,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode82(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5895,6 +6264,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode83(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5947,6 +6317,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode84(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -5960,6 +6331,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode85(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6009,6 +6381,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode86(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6058,6 +6431,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode87(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6128,6 +6502,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode88(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6141,6 +6516,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode89(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6166,6 +6542,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode90(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6218,6 +6595,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode91(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6306,6 +6684,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode92(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6367,6 +6746,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode93(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6425,6 +6805,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode94(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6438,6 +6819,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode95(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6451,6 +6833,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode96(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6467,6 +6850,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode97(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6483,6 +6867,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode98(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6496,6 +6881,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode99(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6509,6 +6895,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode100(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6522,6 +6909,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode101(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6556,6 +6944,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode102(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6635,6 +7024,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode103(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6672,6 +7062,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode104(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6718,6 +7109,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode105(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6731,6 +7123,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode106(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6744,6 +7137,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode107(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6766,6 +7160,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode108(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6788,6 +7183,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode109(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6804,6 +7200,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode110(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6820,6 +7217,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode111(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6869,6 +7267,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode112(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6897,6 +7296,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode113(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6979,6 +7379,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode114(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -6992,6 +7393,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode115(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7092,6 +7494,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode116(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7108,6 +7511,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode117(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7121,6 +7525,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode118(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7182,6 +7587,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode119(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7261,6 +7667,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode120(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7274,6 +7681,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode121(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7287,6 +7695,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode122(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7300,6 +7709,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode123(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7313,6 +7723,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode124(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7326,6 +7737,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode125(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7348,6 +7760,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode126(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7364,6 +7777,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode127(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7380,6 +7794,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode128(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7393,6 +7808,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode129(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7406,6 +7822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode130(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7419,6 +7836,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode131(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7432,6 +7850,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode132(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7445,6 +7864,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode133(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7458,6 +7878,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode134(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7471,6 +7892,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode135(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7484,6 +7906,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode136(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7497,6 +7920,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode137(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7510,6 +7934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode138(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7523,6 +7948,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode139(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7536,6 +7962,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode140(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7549,6 +7976,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode141(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7601,6 +8029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode142(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7668,6 +8097,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode143(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7693,6 +8123,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode144(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7706,6 +8137,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode145(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7725,6 +8157,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode146(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7738,6 +8171,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode147(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7751,6 +8185,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode148(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7779,6 +8214,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode149(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7864,6 +8300,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode150(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7946,6 +8383,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode151(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -7971,6 +8409,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode152(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8044,6 +8483,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode153(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8144,6 +8584,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode154(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8157,6 +8598,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode155(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8173,6 +8615,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode156(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8192,6 +8635,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode157(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8205,6 +8649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode158(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8218,6 +8663,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode159(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8231,6 +8677,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode160(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8244,6 +8691,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode161(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8257,6 +8705,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode162(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8270,6 +8719,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode163(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8283,6 +8733,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode164(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8296,6 +8747,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode165(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8309,6 +8761,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode166(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8322,6 +8775,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode167(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8335,6 +8789,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode168(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8348,6 +8803,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode169(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8361,6 +8817,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode170(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8374,6 +8831,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode171(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8387,6 +8845,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode172(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8400,6 +8859,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode173(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8413,6 +8873,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode174(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8426,6 +8887,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode175(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8439,6 +8901,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode176(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8452,6 +8915,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode177(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8465,6 +8929,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode178(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8478,6 +8943,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode179(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8491,6 +8957,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode180(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8504,6 +8971,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode181(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8517,6 +8985,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode182(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8530,6 +8999,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode183(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8543,6 +9013,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode184(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8556,6 +9027,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode185(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8569,6 +9041,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode186(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8582,6 +9055,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode187(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8595,6 +9069,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode188(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8608,6 +9083,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode189(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8621,6 +9097,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode190(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8634,6 +9111,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode191(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8647,6 +9125,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode192(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8660,6 +9139,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode193(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8673,6 +9153,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode194(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8686,6 +9167,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode195(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8699,6 +9181,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode196(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8712,6 +9195,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode197(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8725,6 +9209,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode198(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8738,6 +9223,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode199(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8751,6 +9237,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode200(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8764,6 +9251,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode201(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8777,6 +9265,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode202(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8790,6 +9279,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode203(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8803,6 +9293,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode204(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8816,6 +9307,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode205(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8829,6 +9321,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode206(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8842,6 +9335,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode207(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8855,6 +9349,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode208(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8868,6 +9363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode209(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8881,6 +9377,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode210(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8894,6 +9391,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode211(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8907,6 +9405,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode212(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -8974,6 +9473,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode213(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9020,6 +9520,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode214(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9057,6 +9558,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode215(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9082,6 +9584,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode216(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9146,6 +9649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode217(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9162,6 +9666,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode218(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9175,6 +9680,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode219(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9188,6 +9694,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode220(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9201,6 +9708,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode221(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9214,6 +9722,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode222(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9227,6 +9736,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode223(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9243,6 +9753,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode224(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9259,6 +9770,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode225(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9272,6 +9784,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode226(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9285,6 +9798,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode227(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9298,6 +9812,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode228(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9311,6 +9826,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode229(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9324,6 +9840,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode230(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9337,6 +9854,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode231(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9434,6 +9952,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode232(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9447,6 +9966,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode233(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9469,6 +9989,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode234(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9485,6 +10006,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode235(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9498,6 +10020,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode236(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9511,6 +10034,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode237(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9524,6 +10048,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode238(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9537,6 +10062,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode239(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9550,6 +10076,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode240(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9563,6 +10090,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode241(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9576,6 +10104,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode242(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9589,6 +10118,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode243(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9620,6 +10150,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode244(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9684,6 +10215,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode245(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9757,6 +10289,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode246(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9800,6 +10333,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode247(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9813,6 +10347,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode248(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9826,6 +10361,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode249(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9929,6 +10465,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode250(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9969,6 +10506,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode251(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9982,6 +10520,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode252(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -9998,6 +10537,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode253(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10017,6 +10557,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode254(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10063,6 +10604,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode255(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10199,6 +10741,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode256(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10227,6 +10770,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode257(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10240,6 +10784,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode258(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10343,6 +10888,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode259(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10356,6 +10902,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode260(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10369,6 +10916,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode261(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10382,6 +10930,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode262(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10395,6 +10944,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode263(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10408,6 +10958,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode264(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10421,6 +10972,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode265(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10434,6 +10986,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode266(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10462,6 +11015,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode267(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10475,6 +11029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode268(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10494,6 +11049,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode269(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10513,6 +11069,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode270(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10526,6 +11083,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode271(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10554,6 +11112,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode272(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10579,6 +11138,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode273(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10592,6 +11152,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode274(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10620,6 +11181,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode275(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10636,6 +11198,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode276(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10652,6 +11215,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode277(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10668,6 +11232,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode278(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10681,6 +11246,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode279(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10694,6 +11260,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode280(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10710,6 +11277,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode281(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10723,6 +11291,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode282(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10736,6 +11305,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode283(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10755,6 +11325,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode284(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10771,6 +11342,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode285(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10787,6 +11359,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode286(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10800,6 +11373,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode287(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10813,6 +11387,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode288(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10826,6 +11401,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode289(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10839,6 +11415,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode290(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10852,6 +11429,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode291(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10868,6 +11446,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode292(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10887,6 +11466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode293(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 19
@@ -10899,6 +11479,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode294(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10912,6 +11493,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode295(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10925,6 +11507,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode296(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10938,6 +11521,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode297(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10957,6 +11541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode298(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10973,6 +11558,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode299(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -10986,6 +11572,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode300(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 20
@@ -10998,6 +11585,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode301(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11011,6 +11599,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode302(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11024,6 +11613,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode303(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11037,6 +11627,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode304(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11050,6 +11641,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode305(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11069,6 +11661,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode306(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 19
@@ -11093,6 +11686,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode307(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 26
@@ -11105,6 +11699,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode308(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11118,6 +11713,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode309(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11131,6 +11727,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode310(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11144,6 +11741,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode311(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 30
@@ -11156,6 +11754,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode312(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11169,6 +11768,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode313(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11182,6 +11782,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode314(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11195,6 +11796,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode315(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11208,6 +11810,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode316(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11221,6 +11824,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode317(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11234,6 +11838,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode318(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11256,6 +11861,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode319(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11269,6 +11875,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode320(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11282,6 +11889,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode321(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11295,6 +11903,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode322(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11308,6 +11917,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode323(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11321,6 +11931,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode324(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11343,6 +11954,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode325(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11365,6 +11977,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode326(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11387,6 +12000,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode327(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 30
@@ -11411,6 +12025,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode328(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 36
@@ -11435,6 +12050,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode329(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11457,6 +12073,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode330(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11479,6 +12096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode331(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11492,6 +12110,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode332(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11505,6 +12124,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode333(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11521,6 +12141,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode334(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11537,6 +12158,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode335(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11556,6 +12178,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode336(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11575,6 +12198,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode337(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 55
@@ -11587,6 +12211,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode338(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 42
@@ -11611,6 +12236,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode339(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11624,6 +12250,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode340(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11637,6 +12264,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode341(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11653,6 +12281,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode342(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11666,6 +12295,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode343(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11679,6 +12309,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode344(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11701,6 +12332,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode345(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11723,6 +12355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode346(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11745,6 +12378,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode347(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11770,6 +12404,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode348(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11792,6 +12427,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode349(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11814,6 +12450,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode350(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11833,6 +12470,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode351(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11852,6 +12490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode352(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11874,6 +12513,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode353(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11887,6 +12527,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode354(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11906,6 +12547,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode355(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11925,6 +12567,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode356(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 36
@@ -11937,6 +12580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode357(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11950,6 +12594,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode358(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11963,6 +12608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode359(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11976,6 +12622,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode360(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -11989,6 +12636,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode361(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12002,6 +12650,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode362(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 68
@@ -12014,6 +12663,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode363(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 69
@@ -12026,6 +12676,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode364(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 70
@@ -12047,6 +12698,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode365(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 71
@@ -12068,6 +12720,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode366(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 72
@@ -12080,6 +12733,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode367(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12093,6 +12747,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode368(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 74
@@ -12111,6 +12766,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode369(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 75
@@ -12129,6 +12785,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode370(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12142,6 +12799,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode371(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12155,6 +12813,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode372(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12168,6 +12827,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode373(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12181,6 +12841,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode374(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 82
@@ -12193,6 +12854,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode375(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12206,6 +12868,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode376(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 84
@@ -12218,6 +12881,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode377(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12231,6 +12895,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode378(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12265,6 +12930,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode379(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12293,6 +12959,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode380(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12315,6 +12982,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode381(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12340,6 +13008,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode382(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12368,6 +13037,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode383(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12396,6 +13066,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode384(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12424,6 +13095,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode385(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12449,6 +13121,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode386(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12474,6 +13147,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode387(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12496,6 +13170,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode388(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12521,6 +13196,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode389(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12543,6 +13219,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode390(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12574,6 +13251,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode391(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12599,6 +13277,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode392(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12624,6 +13303,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode393(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12646,6 +13326,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode394(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12668,6 +13349,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode395(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12693,6 +13375,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode396(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12715,6 +13398,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode397(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12737,6 +13421,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode398(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12759,6 +13444,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode399(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12781,6 +13467,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode400(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12803,6 +13490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode401(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12825,6 +13513,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode402(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 147
@@ -12843,6 +13532,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode403(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 148
@@ -12855,6 +13545,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode404(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12883,6 +13574,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode405(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12908,6 +13600,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode406(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12930,6 +13623,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode407(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12952,6 +13646,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode408(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 147
@@ -12964,6 +13659,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode409(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 70
@@ -12976,6 +13672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode410(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -12989,6 +13686,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode411(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13014,6 +13712,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode412(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 152
@@ -13026,6 +13725,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode413(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 153
@@ -13038,6 +13738,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode414(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 154
@@ -13062,6 +13763,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode415(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13075,6 +13777,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode416(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13088,6 +13791,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode417(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13101,6 +13805,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode418(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 156
@@ -13113,6 +13818,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode419(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 157
@@ -13125,6 +13831,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode420(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 157
@@ -13143,6 +13850,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode421(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13168,6 +13876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode422(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13196,6 +13905,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode423(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13221,6 +13931,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode424(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13237,6 +13948,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode425(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13262,6 +13974,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode426(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13284,6 +13997,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode427(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13300,6 +14014,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode428(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13313,6 +14028,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode429(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13329,6 +14045,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode430(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13342,6 +14059,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode431(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13358,6 +14076,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode432(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13377,6 +14096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode433(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13396,6 +14116,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode434(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13415,6 +14136,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode435(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13428,6 +14150,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode436(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13444,6 +14167,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode437(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13457,6 +14181,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode438(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13470,6 +14195,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode439(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13486,6 +14212,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode440(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13499,6 +14226,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode441(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13512,6 +14240,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode442(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13525,6 +14254,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode443(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13538,6 +14268,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode444(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13551,6 +14282,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode445(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 154
@@ -13563,6 +14295,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode446(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13576,6 +14309,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode447(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13598,6 +14332,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode448(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13611,6 +14346,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode449(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13627,6 +14363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode450(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13643,6 +14380,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode451(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13656,6 +14394,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode452(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13669,6 +14408,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode453(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13682,6 +14422,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode454(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13695,6 +14436,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode455(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13708,6 +14450,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode456(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13721,6 +14464,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode457(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13734,6 +14478,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode458(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13747,6 +14492,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode459(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13760,6 +14506,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode460(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13773,6 +14520,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode461(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13786,6 +14534,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode462(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13799,6 +14548,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode463(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13812,6 +14562,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode464(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13825,6 +14576,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode465(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13838,6 +14590,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode466(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13851,6 +14604,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode467(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13864,6 +14618,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode468(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13877,6 +14632,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode469(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13890,6 +14646,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode470(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13903,6 +14660,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode471(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13916,6 +14674,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode472(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13929,6 +14688,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode473(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13942,6 +14702,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode474(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13955,6 +14716,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode475(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13968,6 +14730,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode476(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13981,6 +14744,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode477(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -13994,6 +14758,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode478(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14007,6 +14772,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode479(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14020,6 +14786,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode480(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14033,6 +14800,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode481(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14046,6 +14814,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode482(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14059,6 +14828,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode483(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14072,6 +14842,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode484(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14085,6 +14856,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode485(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14098,6 +14870,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode486(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14111,6 +14884,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode487(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14124,6 +14898,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode488(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14137,6 +14912,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode489(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14150,6 +14926,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode490(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14163,6 +14940,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode491(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14176,6 +14954,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode492(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14189,6 +14968,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode493(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14202,6 +14982,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode494(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14215,6 +14996,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode495(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14228,6 +15010,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode496(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14241,6 +15024,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode497(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14254,6 +15038,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode498(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14267,6 +15052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode499(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14280,6 +15066,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode500(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14293,6 +15080,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode501(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14306,6 +15094,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode502(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14319,6 +15108,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode503(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14341,6 +15131,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode504(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14360,6 +15151,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode505(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14379,6 +15171,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode506(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14392,6 +15185,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode507(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14405,6 +15199,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode508(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 42
@@ -14423,6 +15218,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode509(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14436,6 +15232,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode510(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14449,6 +15246,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode511(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14468,6 +15266,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode512(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14481,6 +15280,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode513(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14497,6 +15297,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode514(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14513,6 +15314,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode515(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14526,6 +15328,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode516(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14542,6 +15345,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode517(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14558,6 +15362,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode518(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 71
@@ -14570,6 +15375,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode519(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14583,6 +15389,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode520(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14596,6 +15403,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode521(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14609,6 +15417,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode522(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14622,6 +15431,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode523(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14635,6 +15445,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode524(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 152
@@ -14653,6 +15464,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode525(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 154
@@ -14680,6 +15492,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode526(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 74
@@ -14704,6 +15517,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode527(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14726,6 +15540,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode528(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14748,6 +15563,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode529(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14770,6 +15586,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode530(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 153
@@ -14788,6 +15605,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode531(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14801,6 +15619,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode532(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 74
@@ -14813,6 +15632,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode533(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 75
@@ -14825,6 +15645,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode534(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14838,6 +15659,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode535(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14851,6 +15673,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode536(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14864,6 +15687,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode537(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14877,6 +15701,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode538(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14890,6 +15715,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode539(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14906,6 +15732,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode540(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14919,6 +15746,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode541(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14932,6 +15760,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode542(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14948,6 +15777,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode543(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14961,6 +15791,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode544(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14974,6 +15805,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode545(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -14987,6 +15819,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode546(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15000,6 +15833,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode547(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15013,6 +15847,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode548(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15026,6 +15861,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode549(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15039,6 +15875,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode550(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15052,6 +15889,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode551(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 18
@@ -15064,6 +15902,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode552(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15080,6 +15919,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode553(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15093,6 +15933,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode554(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15106,6 +15947,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode555(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15119,6 +15961,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode556(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15132,6 +15975,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode557(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15145,6 +15989,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode558(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15158,6 +16003,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode559(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 23
@@ -15176,6 +16022,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode560(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 24
@@ -15194,6 +16041,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode561(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15210,6 +16058,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode562(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 25
@@ -15237,6 +16086,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode563(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15250,6 +16100,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode564(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15263,6 +16114,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode565(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15276,6 +16128,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode566(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15289,6 +16142,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode567(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15302,6 +16156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode568(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15315,6 +16170,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode569(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15328,6 +16184,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode570(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15350,6 +16207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode571(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15363,6 +16221,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode572(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15376,6 +16235,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode573(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15389,6 +16249,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode574(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15402,6 +16263,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode575(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15415,6 +16277,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode576(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15437,6 +16300,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode577(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15459,6 +16323,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode578(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15481,6 +16346,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode579(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15497,6 +16363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode580(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 39
@@ -15509,6 +16376,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode581(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15525,6 +16393,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode582(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 41
@@ -15537,6 +16406,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode583(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15559,6 +16429,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode584(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15581,6 +16452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode585(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15594,6 +16466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode586(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 43
@@ -15615,6 +16488,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode587(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15628,6 +16502,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode588(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 45
@@ -15652,6 +16527,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode589(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15665,6 +16541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode590(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 48
@@ -15689,6 +16566,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode591(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15702,6 +16580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode592(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 51
@@ -15720,6 +16599,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode593(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15733,6 +16613,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode594(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 52
@@ -15751,6 +16632,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode595(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15767,6 +16649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode596(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15783,6 +16666,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode597(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15796,6 +16680,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode598(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15809,6 +16694,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode599(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15822,6 +16708,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode600(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15835,6 +16722,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode601(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15848,6 +16736,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode602(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15861,6 +16750,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode603(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15886,6 +16776,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode604(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15908,6 +16799,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode605(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15930,6 +16822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode606(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15952,6 +16845,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode607(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15974,6 +16868,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode608(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -15996,6 +16891,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode609(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16012,6 +16908,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode610(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16034,6 +16931,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode611(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 67
@@ -16046,6 +16944,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode612(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16059,6 +16958,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode613(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16072,6 +16972,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode614(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16085,6 +16986,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode615(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16098,6 +17000,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode616(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16111,6 +17014,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode617(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 73
@@ -16123,6 +17027,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode618(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 76
@@ -16135,6 +17040,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode619(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 77
@@ -16147,6 +17053,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode620(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 78
@@ -16159,6 +17066,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode621(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16172,6 +17080,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode622(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 80
@@ -16184,6 +17093,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode623(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 81
@@ -16196,6 +17106,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode624(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 83
@@ -16208,6 +17119,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode625(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16221,6 +17133,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode626(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16243,6 +17156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode627(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16268,6 +17182,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode628(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16290,6 +17205,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode629(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16312,6 +17228,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode630(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16334,6 +17251,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode631(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16356,6 +17274,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode632(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16378,6 +17297,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode633(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16400,6 +17320,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode634(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16425,6 +17346,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode635(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16447,6 +17369,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode636(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16469,6 +17392,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode637(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16491,6 +17415,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode638(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 128
@@ -16515,6 +17440,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode639(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16549,6 +17475,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode640(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16571,6 +17498,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode641(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16593,6 +17521,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode642(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16615,6 +17544,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode643(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16637,6 +17567,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode644(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16659,6 +17590,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode645(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16684,6 +17616,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode646(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16706,6 +17639,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode647(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16728,6 +17662,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode648(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16750,6 +17685,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode649(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16778,6 +17714,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode650(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16800,6 +17737,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode651(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16822,6 +17760,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode652(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16844,6 +17783,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode653(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16866,6 +17806,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode654(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16888,6 +17829,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode655(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16910,6 +17852,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode656(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16932,6 +17875,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode657(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16954,6 +17898,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode658(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16976,6 +17921,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode659(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -16998,6 +17944,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode660(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17020,6 +17967,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode661(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 118
@@ -17044,6 +17992,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode662(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17069,6 +18018,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode663(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17091,6 +18041,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode664(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17113,6 +18064,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode665(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17135,6 +18087,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode666(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17157,6 +18110,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode667(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17179,6 +18133,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode668(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17201,6 +18156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode669(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17223,6 +18179,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode670(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17245,6 +18202,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode671(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17267,6 +18225,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode672(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17280,6 +18239,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode673(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 155
@@ -17292,6 +18252,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode674(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17305,6 +18266,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode675(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17318,6 +18280,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode676(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17340,6 +18303,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode677(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17359,6 +18323,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode678(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17372,6 +18337,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode679(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17388,6 +18354,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode680(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17401,6 +18368,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode681(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17414,6 +18382,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode682(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17427,6 +18396,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode683(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17440,6 +18410,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode684(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17453,6 +18424,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode685(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17466,6 +18438,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode686(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17479,6 +18452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode687(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17492,6 +18466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode688(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17505,6 +18480,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode689(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17518,6 +18494,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode690(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17531,6 +18508,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode691(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17544,6 +18522,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode692(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17557,6 +18536,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode693(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17573,6 +18553,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode694(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17586,6 +18567,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode695(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17599,6 +18581,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode696(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17612,6 +18595,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode697(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 128
@@ -17624,6 +18608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode698(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17649,6 +18634,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode699(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17662,6 +18648,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode700(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17675,6 +18662,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode701(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17688,6 +18676,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode702(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17701,6 +18690,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode703(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17714,6 +18704,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode704(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17730,6 +18721,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode705(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17743,6 +18735,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode706(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17756,6 +18749,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode707(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17769,6 +18763,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode708(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17782,6 +18777,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode709(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17795,6 +18791,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode710(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17808,6 +18805,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode711(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 118
@@ -17820,6 +18818,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode712(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17836,6 +18835,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode713(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17849,6 +18849,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode714(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17862,6 +18863,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode715(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17875,6 +18877,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode716(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17897,6 +18900,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode717(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17910,6 +18914,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode718(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17923,6 +18928,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode719(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17936,6 +18942,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode720(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17949,6 +18956,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode721(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17962,6 +18970,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode722(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17975,6 +18984,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode723(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -17988,6 +18998,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode724(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18001,6 +19012,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode725(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18014,6 +19026,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode726(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18027,6 +19040,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode727(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18040,6 +19054,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode728(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18053,6 +19068,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode729(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18066,6 +19082,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode730(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18079,6 +19096,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode731(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18092,6 +19110,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode732(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18105,6 +19124,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode733(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18118,6 +19138,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode734(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18131,6 +19152,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode735(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18144,6 +19166,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode736(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18157,6 +19180,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode737(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18170,6 +19194,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode738(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18183,6 +19208,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode739(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18196,6 +19222,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode740(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18209,6 +19236,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode741(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18222,6 +19250,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode742(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18235,6 +19264,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode743(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18248,6 +19278,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode744(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18261,6 +19292,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode745(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18274,6 +19306,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode746(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18287,6 +19320,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode747(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18300,6 +19334,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode748(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18313,6 +19348,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode749(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18326,6 +19362,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode750(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18339,6 +19376,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode751(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18352,6 +19390,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode752(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18365,6 +19404,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode753(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 51
@@ -18377,6 +19417,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode754(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 52
@@ -18389,6 +19430,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode755(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18402,6 +19444,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode756(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18415,6 +19458,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode757(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 43
@@ -18433,6 +19477,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode758(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18449,6 +19494,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode759(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 45
@@ -18467,6 +19513,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode760(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18480,6 +19527,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode761(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18493,6 +19541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode762(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18512,6 +19561,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode763(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 48
@@ -18530,6 +19580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode764(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18543,6 +19594,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode765(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18556,6 +19608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode766(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18575,6 +19628,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode767(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 159
@@ -18596,6 +19650,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode768(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 160
@@ -18608,6 +19663,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode769(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 83
@@ -18632,6 +19688,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode770(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 76
@@ -18653,6 +19710,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode771(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18675,6 +19733,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode772(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 78
@@ -18699,6 +19758,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode773(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18712,6 +19772,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode774(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18725,6 +19786,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode775(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18738,6 +19800,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode776(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18751,6 +19814,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode777(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18764,6 +19828,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode778(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18777,6 +19842,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode779(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18790,6 +19856,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode780(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18803,6 +19870,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode781(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18816,6 +19884,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode782(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18829,6 +19898,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode783(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 5
@@ -18841,6 +19911,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode784(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 10
@@ -18853,6 +19924,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode785(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18866,6 +19938,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode786(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18879,6 +19952,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode787(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18892,6 +19966,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode788(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18905,6 +19980,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode789(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18918,6 +19994,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode790(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18931,6 +20008,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode791(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18944,6 +20022,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode792(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18966,6 +20045,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode793(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18979,6 +20059,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode794(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -18992,6 +20073,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode795(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19005,6 +20087,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode796(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19018,6 +20101,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode797(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19031,6 +20115,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode798(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19044,6 +20129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode799(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19066,6 +20152,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode800(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19079,6 +20166,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode801(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19092,6 +20180,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode802(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19105,6 +20194,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode803(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 34
@@ -19117,6 +20207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode804(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19130,6 +20221,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode805(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19152,6 +20244,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode806(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19174,6 +20267,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode807(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19196,6 +20290,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode808(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19218,6 +20313,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode809(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19240,6 +20336,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode810(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 40
@@ -19261,6 +20358,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode811(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 46
@@ -19282,6 +20380,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode812(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19298,6 +20397,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode813(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19314,6 +20414,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode814(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 49
@@ -19335,6 +20436,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode815(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19351,6 +20453,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode816(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19367,6 +20470,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode817(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19386,6 +20490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode818(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19405,6 +20510,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode819(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19418,6 +20524,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode820(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 44
@@ -19436,6 +20543,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode821(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19449,6 +20557,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode822(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19462,6 +20571,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode823(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19475,6 +20585,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode824(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19488,6 +20599,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode825(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19501,6 +20613,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode826(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19514,6 +20627,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode827(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19536,6 +20650,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode828(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19558,6 +20673,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode829(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19580,6 +20696,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode830(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19602,6 +20719,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode831(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19624,6 +20742,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode832(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19646,6 +20765,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode833(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19668,6 +20788,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode834(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19681,6 +20802,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode835(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19694,6 +20816,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode836(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19707,6 +20830,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode837(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19720,6 +20844,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode838(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19733,6 +20858,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode839(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 79
@@ -19745,6 +20871,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode840(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19758,6 +20885,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode841(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 86
@@ -19803,6 +20931,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode842(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19825,6 +20954,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode843(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 140
@@ -19849,6 +20979,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode844(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19871,6 +21002,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode845(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19902,6 +21034,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode846(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19927,6 +21060,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode847(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19949,6 +21083,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode848(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19971,6 +21106,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode849(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -19993,6 +21129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode850(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20015,6 +21152,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode851(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 113
@@ -20039,6 +21177,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode852(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20061,6 +21200,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode853(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20083,6 +21223,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode854(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 91
@@ -20107,6 +21248,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode855(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20129,6 +21271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode856(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20151,6 +21294,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode857(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20173,6 +21317,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode858(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20195,6 +21340,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode859(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20217,6 +21363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode860(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 92
@@ -20241,6 +21388,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode861(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20263,6 +21411,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode862(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20285,6 +21434,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode863(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20307,6 +21457,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode864(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20329,6 +21480,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode865(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20351,6 +21503,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode866(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20373,6 +21526,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode867(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 95
@@ -20397,6 +21551,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode868(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 143
@@ -20421,6 +21576,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode869(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20443,6 +21599,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode870(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20468,6 +21625,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode871(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20490,6 +21648,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode872(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20512,6 +21671,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode873(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20534,6 +21694,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode874(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20556,6 +21717,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode875(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20578,6 +21740,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode876(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20600,6 +21763,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode877(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20622,6 +21786,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode878(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 141
@@ -20649,6 +21814,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode879(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 122
@@ -20673,6 +21839,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode880(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 142
@@ -20697,6 +21864,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode881(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20719,6 +21887,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode882(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20741,6 +21910,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode883(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20763,6 +21933,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode884(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 119
@@ -20787,6 +21958,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode885(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 79
@@ -20811,6 +21983,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode886(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20833,6 +22006,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode887(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20855,6 +22029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode888(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20877,6 +22052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode889(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20899,6 +22075,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode890(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20921,6 +22098,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode891(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20943,6 +22121,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode892(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -20965,6 +22144,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode893(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 149
@@ -20989,6 +22169,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode894(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21011,6 +22192,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode895(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21024,6 +22206,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode896(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21037,6 +22220,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode897(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21050,6 +22234,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode898(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21072,6 +22257,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode899(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21085,6 +22271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode900(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21101,6 +22288,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode901(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21114,6 +22302,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode902(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21127,6 +22316,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode903(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 140
@@ -21139,6 +22329,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode904(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21152,6 +22343,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode905(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21168,6 +22360,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode906(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 86
@@ -21204,6 +22397,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode907(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21217,6 +22411,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode908(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21239,6 +22434,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode909(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 141
@@ -21257,6 +22453,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode910(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 142
@@ -21269,6 +22466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode911(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21282,6 +22480,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode912(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 122
@@ -21294,6 +22493,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode913(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 143
@@ -21306,6 +22506,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode914(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 95
@@ -21318,6 +22519,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode915(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21331,6 +22533,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode916(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21344,6 +22547,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode917(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21357,6 +22561,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode918(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21370,6 +22575,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode919(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 113
@@ -21382,6 +22588,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode920(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21395,6 +22602,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode921(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21408,6 +22616,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode922(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 91
@@ -21420,6 +22629,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode923(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21433,6 +22643,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode924(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21446,6 +22657,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode925(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21459,6 +22671,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode926(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21472,6 +22685,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode927(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21485,6 +22699,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode928(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 92
@@ -21497,6 +22712,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode929(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21510,6 +22726,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode930(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21523,6 +22740,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode931(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21536,6 +22754,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode932(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21549,6 +22768,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode933(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21562,6 +22782,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode934(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21575,6 +22796,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode935(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21588,6 +22810,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode936(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21601,6 +22824,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode937(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21614,6 +22838,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode938(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21627,6 +22852,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode939(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21640,6 +22866,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode940(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21653,6 +22880,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode941(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 119
@@ -21665,6 +22893,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode942(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21678,6 +22907,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode943(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 149
@@ -21690,6 +22920,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode944(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21703,6 +22934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode945(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21725,6 +22957,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode946(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21738,6 +22971,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode947(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 141
@@ -21750,6 +22984,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode948(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21763,6 +22998,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode949(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 86
@@ -21775,6 +23011,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode950(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21788,6 +23025,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode951(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21801,6 +23039,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode952(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21814,6 +23053,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode953(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21827,6 +23067,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode954(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21840,6 +23081,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode955(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21853,6 +23095,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode956(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21866,6 +23109,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode957(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21879,6 +23123,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode958(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21892,6 +23137,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode959(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21905,6 +23151,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode960(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21918,6 +23165,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode961(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21931,6 +23179,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode962(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21944,6 +23193,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode963(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21957,6 +23207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode964(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21970,6 +23221,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode965(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21983,6 +23235,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode966(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -21996,6 +23249,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode967(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22009,6 +23263,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode968(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 46
@@ -22027,6 +23282,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode969(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22043,6 +23299,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode970(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 49
@@ -22061,6 +23318,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode971(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22077,6 +23335,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode972(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22090,6 +23349,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode973(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22103,6 +23363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode974(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 1
@@ -22115,6 +23376,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode975(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22128,6 +23390,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode976(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22141,6 +23404,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode977(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 12
@@ -22153,6 +23417,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode978(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22166,6 +23431,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode979(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22179,6 +23445,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode980(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22192,6 +23459,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode981(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22205,6 +23473,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode982(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 9
@@ -22217,6 +23486,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode983(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22230,6 +23500,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode984(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 7
@@ -22242,6 +23513,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode985(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 11
@@ -22254,6 +23526,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode986(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22267,6 +23540,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode987(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 17
@@ -22279,6 +23553,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode988(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22292,6 +23567,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode989(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 22
@@ -22304,6 +23580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode990(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 27
@@ -22316,6 +23593,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode991(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22329,6 +23607,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode992(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22342,6 +23621,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode993(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22355,6 +23635,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode994(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22368,6 +23649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode995(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22390,6 +23672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode996(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22403,6 +23686,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode997(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22416,6 +23700,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode998(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22429,6 +23714,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode999(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22442,6 +23728,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1000(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22464,6 +23751,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1001(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22486,6 +23774,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1002(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22508,6 +23797,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1003(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 37
@@ -22532,6 +23822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1004(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22554,6 +23845,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1005(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22570,6 +23862,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1006(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22583,6 +23876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1007(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 47
@@ -22601,6 +23895,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1008(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22614,6 +23909,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1009(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 50
@@ -22632,6 +23928,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1010(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22651,6 +23948,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1011(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22664,6 +23962,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1012(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22683,6 +23982,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1013(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22696,6 +23996,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1014(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22709,6 +24010,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1015(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22722,6 +24024,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1016(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22735,6 +24038,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1017(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22748,6 +24052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1018(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22761,6 +24066,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1019(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22774,6 +24080,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1020(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22796,6 +24103,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1021(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22818,6 +24126,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1022(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22840,6 +24149,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1023(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22862,6 +24172,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1024(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22884,6 +24195,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1025(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 66
@@ -22908,6 +24220,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1026(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22930,6 +24243,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1027(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22943,6 +24257,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1028(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22956,6 +24271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1029(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22969,6 +24285,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1030(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -22982,6 +24299,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1031(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 66
@@ -22994,6 +24312,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1032(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 85
@@ -23006,6 +24325,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1033(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23031,6 +24351,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1034(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23053,6 +24374,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1035(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23075,6 +24397,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1036(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23097,6 +24420,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1037(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23119,6 +24443,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1038(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23141,6 +24466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1039(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23163,6 +24489,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1040(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23185,6 +24512,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1041(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23207,6 +24535,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1042(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 123
@@ -23231,6 +24560,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1043(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23253,6 +24583,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1044(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23275,6 +24606,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1045(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23297,6 +24629,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1046(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23319,6 +24652,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1047(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23341,6 +24675,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1048(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 87
@@ -23368,6 +24703,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1049(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23390,6 +24726,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1050(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23412,6 +24749,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1051(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23434,6 +24772,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1052(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23456,6 +24795,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1053(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23478,6 +24818,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1054(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23500,6 +24841,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1055(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23522,6 +24864,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1056(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23544,6 +24887,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1057(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23566,6 +24910,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1058(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23588,6 +24933,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1059(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23610,6 +24956,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1060(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 120
@@ -23634,6 +24981,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1061(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 94
@@ -23658,6 +25006,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1062(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23680,6 +25029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1063(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23702,6 +25052,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1064(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23724,6 +25075,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1065(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 96
@@ -23748,6 +25100,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1066(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23770,6 +25123,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1067(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23792,6 +25146,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1068(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23814,6 +25169,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1069(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23836,6 +25192,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1070(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23858,6 +25215,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1071(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23880,6 +25238,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1072(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23902,6 +25261,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1073(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 111
@@ -23926,6 +25286,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1074(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23948,6 +25309,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1075(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23970,6 +25332,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1076(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -23992,6 +25355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1077(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24014,6 +25378,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1078(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24036,6 +25401,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1079(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24058,6 +25424,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1080(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24080,6 +25447,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1081(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24102,6 +25470,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1082(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 22
@@ -24126,6 +25495,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1083(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24148,6 +25518,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1084(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24170,6 +25541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1085(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24192,6 +25564,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1086(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 150
@@ -24216,6 +25589,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1087(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24229,6 +25603,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1088(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 37
@@ -24241,6 +25616,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1089(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24254,6 +25630,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1090(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24276,6 +25653,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1091(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24289,6 +25667,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1092(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24302,6 +25681,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1093(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24315,6 +25695,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1094(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24328,6 +25709,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1095(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 96
@@ -24340,6 +25722,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1096(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24353,6 +25736,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1097(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24366,6 +25750,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1098(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24379,6 +25764,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1099(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24395,6 +25781,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1100(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24408,6 +25795,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1101(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24421,6 +25809,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1102(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24434,6 +25823,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1103(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24447,6 +25837,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1104(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24460,6 +25851,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1105(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24473,6 +25865,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1106(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24486,6 +25879,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1107(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 123
@@ -24498,6 +25892,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1108(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24511,6 +25906,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1109(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24524,6 +25920,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1110(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24537,6 +25934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1111(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24550,6 +25948,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1112(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24563,6 +25962,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1113(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24576,6 +25976,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1114(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 87
@@ -24594,6 +25995,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1115(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24607,6 +26009,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1116(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24620,6 +26023,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1117(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24633,6 +26037,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1118(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24646,6 +26051,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1119(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24659,6 +26065,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1120(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24672,6 +26079,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1121(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24685,6 +26093,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1122(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24698,6 +26107,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1123(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24711,6 +26121,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1124(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24724,6 +26135,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1125(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 120
@@ -24736,6 +26148,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1126(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 94
@@ -24748,6 +26161,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1127(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24761,6 +26175,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1128(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24774,6 +26189,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1129(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24787,6 +26203,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1130(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24800,6 +26217,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1131(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24813,6 +26231,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1132(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24826,6 +26245,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1133(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 111
@@ -24838,6 +26258,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1134(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24851,6 +26272,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1135(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24864,6 +26286,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1136(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24877,6 +26300,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1137(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 150
@@ -24889,6 +26313,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1138(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24911,6 +26336,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1139(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24924,6 +26350,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1140(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 87
@@ -24936,6 +26363,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1141(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24949,6 +26377,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1142(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24962,6 +26391,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1143(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -24975,6 +26405,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1144(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 159
@@ -24996,6 +26427,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1145(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25009,6 +26441,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1146(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25022,6 +26455,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1147(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25035,6 +26469,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1148(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -25047,6 +26482,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1149(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25060,6 +26496,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1150(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25073,6 +26510,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1151(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25086,6 +26524,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1152(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25099,6 +26538,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1153(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25112,6 +26552,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1154(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 21
@@ -25124,6 +26565,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1155(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25137,6 +26579,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1156(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25150,6 +26593,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1157(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25163,6 +26607,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1158(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25176,6 +26621,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1159(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25198,6 +26644,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1160(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25211,6 +26658,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1161(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25224,6 +26672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1162(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 33
@@ -25236,6 +26685,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1163(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 35
@@ -25248,6 +26698,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1164(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25270,6 +26721,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1165(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 35
@@ -25294,6 +26746,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1166(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 33
@@ -25318,6 +26771,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1167(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 38
@@ -25342,6 +26796,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1168(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25361,6 +26816,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1169(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25380,6 +26836,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1170(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 56
@@ -25392,6 +26849,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1171(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25405,6 +26863,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1172(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 58
@@ -25417,6 +26876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1173(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25430,6 +26890,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1174(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 59
@@ -25442,6 +26903,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1175(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25455,6 +26917,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1176(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25477,6 +26940,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1177(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25499,6 +26963,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1178(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25521,6 +26986,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1179(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 63
@@ -25545,6 +27011,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1180(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25567,6 +27034,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1181(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25589,6 +27057,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1182(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25602,6 +27071,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1183(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 63
@@ -25614,6 +27084,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1184(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25627,6 +27098,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1185(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25640,6 +27112,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1186(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25662,6 +27135,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1187(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25684,6 +27158,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1188(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25706,6 +27181,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1189(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25728,6 +27204,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1190(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25750,6 +27227,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1191(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25772,6 +27250,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1192(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25794,6 +27273,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1193(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 130
@@ -25818,6 +27298,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1194(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25840,6 +27321,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1195(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25862,6 +27344,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1196(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25884,6 +27367,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1197(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25906,6 +27390,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1198(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25928,6 +27413,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1199(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25950,6 +27436,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1200(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25972,6 +27459,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1201(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -25994,6 +27482,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1202(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 104
@@ -26018,6 +27507,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1203(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 59
@@ -26042,6 +27532,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1204(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26064,6 +27555,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1205(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 90
@@ -26088,6 +27580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1206(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 93
@@ -26112,6 +27605,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1207(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 132
@@ -26136,6 +27630,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1208(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 133
@@ -26160,6 +27655,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1209(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26182,6 +27678,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1210(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26204,6 +27701,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1211(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26226,6 +27724,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1212(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 103
@@ -26250,6 +27749,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1213(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 98
@@ -26274,6 +27774,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1214(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26296,6 +27797,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1215(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 137
@@ -26320,6 +27822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1216(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26342,6 +27845,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1217(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26364,6 +27868,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1218(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26386,6 +27891,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1219(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 139
@@ -26410,6 +27916,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1220(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 97
@@ -26434,6 +27941,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1221(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26456,6 +27964,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1222(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26478,6 +27987,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1223(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 112
@@ -26502,6 +28012,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1224(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26524,6 +28035,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1225(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 114
@@ -26548,6 +28060,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1226(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26570,6 +28083,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1227(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26592,6 +28106,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1228(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26614,6 +28129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1229(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 58
@@ -26638,6 +28154,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1230(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26660,6 +28177,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1231(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 56
@@ -26684,6 +28202,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1232(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 21
@@ -26708,6 +28227,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1233(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 146
@@ -26732,6 +28252,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1234(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 151
@@ -26744,6 +28265,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1235(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 38
@@ -26756,6 +28278,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1236(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26778,6 +28301,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1237(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 139
@@ -26790,6 +28314,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1238(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26803,6 +28328,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1239(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26816,6 +28342,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1240(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26829,6 +28356,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1241(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26842,6 +28370,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1242(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26855,6 +28384,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1243(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26868,6 +28398,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1244(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26881,6 +28412,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1245(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26894,6 +28426,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1246(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26907,6 +28440,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1247(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26920,6 +28454,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1248(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26933,6 +28468,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1249(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26946,6 +28482,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1250(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26959,6 +28496,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1251(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 130
@@ -26971,6 +28509,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1252(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26984,6 +28523,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1253(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -26997,6 +28537,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1254(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27010,6 +28551,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1255(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27023,6 +28565,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1256(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27036,6 +28579,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1257(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 112
@@ -27048,6 +28592,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1258(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27061,6 +28606,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1259(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27074,6 +28620,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1260(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 104
@@ -27086,6 +28633,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1261(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27099,6 +28647,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1262(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 90
@@ -27111,6 +28660,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1263(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 93
@@ -27123,6 +28673,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1264(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 132
@@ -27135,6 +28686,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1265(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 133
@@ -27147,6 +28699,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1266(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27160,6 +28713,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1267(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27173,6 +28727,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1268(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27186,6 +28741,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1269(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 103
@@ -27198,6 +28754,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1270(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 98
@@ -27210,6 +28767,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1271(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27223,6 +28781,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1272(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 137
@@ -27235,6 +28794,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1273(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 97
@@ -27247,6 +28807,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1274(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27260,6 +28821,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1275(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27273,6 +28835,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1276(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 114
@@ -27285,6 +28848,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1277(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27298,6 +28862,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1278(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 146
@@ -27310,6 +28875,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1279(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 158
@@ -27334,6 +28900,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1280(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 158
@@ -27346,6 +28913,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1281(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27359,6 +28927,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1282(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 2
@@ -27371,6 +28940,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1283(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27384,6 +28954,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1284(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 13
@@ -27396,6 +28967,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1285(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27409,6 +28981,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1286(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 15
@@ -27427,6 +29000,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1287(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 6
@@ -27439,6 +29013,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1288(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 14
@@ -27451,6 +29026,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1289(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27464,6 +29040,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1290(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27477,6 +29054,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1291(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27490,6 +29068,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1292(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 15
@@ -27502,6 +29081,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1293(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 31
@@ -27526,6 +29106,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1294(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 31
@@ -27538,6 +29119,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1295(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27551,6 +29133,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1296(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27573,6 +29156,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1297(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 53
@@ -27585,6 +29169,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1298(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 54
@@ -27597,6 +29182,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1299(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 57
@@ -27609,6 +29195,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1300(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 60
@@ -27621,6 +29208,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1301(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 61
@@ -27633,6 +29221,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1302(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 6
@@ -27657,6 +29246,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1303(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27679,6 +29269,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1304(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27701,6 +29292,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1305(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 65
@@ -27725,6 +29317,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1306(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 61
@@ -27749,6 +29342,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1307(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27762,6 +29356,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1308(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27775,6 +29370,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1309(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 65
@@ -27787,6 +29383,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1310(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 101
@@ -27811,6 +29408,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1311(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27833,6 +29431,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1312(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27855,6 +29454,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1313(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27877,6 +29477,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1314(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27899,6 +29500,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1315(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27921,6 +29523,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1316(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27943,6 +29546,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1317(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 100
@@ -27967,6 +29571,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1318(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -27989,6 +29594,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1319(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 124
@@ -28013,6 +29619,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1320(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 125
@@ -28037,6 +29644,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1321(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 126
@@ -28061,6 +29669,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1322(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28083,6 +29692,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1323(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 144
@@ -28107,6 +29717,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1324(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28129,6 +29740,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1325(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28151,6 +29763,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1326(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28173,6 +29786,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1327(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28195,6 +29809,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1328(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28217,6 +29832,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1329(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28239,6 +29855,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1330(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 99
@@ -28263,6 +29880,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1331(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28285,6 +29903,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1332(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28307,6 +29926,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1333(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28329,6 +29949,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1334(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 138
@@ -28353,6 +29974,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1335(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28375,6 +29997,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1336(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 57
@@ -28399,6 +30022,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1337(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28421,6 +30045,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1338(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28443,6 +30068,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1339(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 60
@@ -28467,6 +30093,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1340(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28489,6 +30116,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1341(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 99
@@ -28501,6 +30129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1342(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28514,6 +30143,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1343(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28527,6 +30157,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1344(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 100
@@ -28539,6 +30170,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1345(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 144
@@ -28551,6 +30183,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1346(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28564,6 +30197,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1347(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 101
@@ -28576,6 +30210,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1348(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28589,6 +30224,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1349(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28602,6 +30238,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1350(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28615,6 +30252,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1351(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28628,6 +30266,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1352(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28641,6 +30280,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1353(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28654,6 +30294,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1354(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28667,6 +30308,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1355(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 124
@@ -28679,6 +30321,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1356(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 125
@@ -28691,6 +30334,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1357(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 126
@@ -28703,6 +30347,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1358(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28716,6 +30361,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1359(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28729,6 +30375,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1360(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28742,6 +30389,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1361(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28755,6 +30403,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1362(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28768,6 +30417,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1363(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28781,6 +30431,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1364(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28794,6 +30445,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1365(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28807,6 +30459,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1366(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28820,6 +30473,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1367(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 138
@@ -28832,6 +30486,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1368(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28845,6 +30500,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1369(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28858,6 +30514,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1370(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28871,6 +30528,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1371(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28884,6 +30542,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1372(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28897,6 +30556,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1373(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -28910,6 +30570,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1374(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 29
@@ -28922,6 +30583,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1375(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 32
@@ -28934,6 +30596,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1376(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 32
@@ -28958,6 +30621,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1377(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 64
@@ -28982,6 +30646,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1378(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29004,6 +30669,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1379(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29017,6 +30683,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1380(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 64
@@ -29029,6 +30696,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1381(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 129
@@ -29053,6 +30721,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1382(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29075,6 +30744,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1383(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 108
@@ -29099,6 +30769,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1384(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29121,6 +30792,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1385(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29143,6 +30815,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1386(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 121
@@ -29167,6 +30840,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1387(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 116
@@ -29191,6 +30865,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1388(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29213,6 +30888,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1389(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29235,6 +30911,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1390(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29257,6 +30934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1391(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 134
@@ -29281,6 +30959,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1392(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29303,6 +30982,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1393(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29325,6 +31005,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1394(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 102
@@ -29349,6 +31030,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1395(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29371,6 +31053,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1396(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29393,6 +31076,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1397(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29415,6 +31099,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1398(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 115
@@ -29439,6 +31124,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1399(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29461,6 +31147,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1400(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29483,6 +31170,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1401(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29505,6 +31193,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1402(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29518,6 +31207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1403(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29531,6 +31221,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1404(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29544,6 +31235,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1405(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 129
@@ -29556,6 +31248,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1406(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29569,6 +31262,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1407(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 108
@@ -29581,6 +31275,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1408(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29594,6 +31289,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1409(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29607,6 +31303,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1410(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 121
@@ -29619,6 +31316,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1411(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 116
@@ -29631,6 +31329,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1412(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 115
@@ -29643,6 +31342,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1413(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29656,6 +31356,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1414(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29669,6 +31370,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1415(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29682,6 +31384,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1416(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 134
@@ -29694,6 +31397,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1417(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29707,6 +31411,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1418(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29720,6 +31425,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1419(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 102
@@ -29732,6 +31438,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1420(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29745,6 +31452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1421(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29758,6 +31466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1422(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29771,6 +31480,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1423(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29784,6 +31494,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1424(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 4
@@ -29796,6 +31507,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1425(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29809,6 +31521,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1426(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 28
@@ -29821,6 +31534,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1427(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 62
@@ -29845,6 +31559,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1428(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 62
@@ -29857,6 +31572,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1429(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29879,6 +31595,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1430(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29901,6 +31618,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1431(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 110
@@ -29925,6 +31643,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1432(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 131
@@ -29949,6 +31668,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1433(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -29971,6 +31691,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1434(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 89
@@ -29995,6 +31716,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1435(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30017,6 +31739,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1436(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30039,6 +31762,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1437(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 106
@@ -30063,6 +31787,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1438(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 127
@@ -30087,6 +31812,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1439(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30109,6 +31835,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1440(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 117
@@ -30133,6 +31860,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1441(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30155,6 +31883,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1442(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 28
@@ -30179,6 +31908,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1443(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 106
@@ -30191,6 +31921,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1444(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 127
@@ -30203,6 +31934,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1445(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 131
@@ -30215,6 +31947,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1446(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30228,6 +31961,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1447(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30241,6 +31975,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1448(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 110
@@ -30253,6 +31988,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1449(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30266,6 +32002,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1450(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30279,6 +32016,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1451(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 89
@@ -30291,6 +32029,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1452(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30304,6 +32043,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1453(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30317,6 +32057,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1454(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30330,6 +32071,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1455(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 117
@@ -30342,6 +32084,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1456(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30355,6 +32098,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1457(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 3
@@ -30367,6 +32111,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1458(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30380,6 +32125,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1459(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 107
@@ -30404,6 +32150,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1460(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 109
@@ -30428,6 +32175,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1461(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30450,6 +32198,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1462(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 135
@@ -30474,6 +32223,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1463(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 136
@@ -30498,6 +32248,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1464(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30520,6 +32271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1465(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30542,6 +32294,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1466(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 107
@@ -30554,6 +32307,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1467(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 109
@@ -30566,6 +32320,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1468(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30579,6 +32334,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1469(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30592,6 +32348,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1470(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 135
@@ -30604,6 +32361,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1471(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 136
@@ -30616,6 +32374,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1472(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30629,6 +32388,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1473(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 161
@@ -30641,6 +32401,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1474(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30654,6 +32415,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1475(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30676,6 +32438,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1476(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30698,6 +32461,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1477(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30720,6 +32484,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1478(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30733,6 +32498,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1479(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30746,6 +32512,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1480(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30759,6 +32526,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1481(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30772,6 +32540,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1482(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 88
@@ -30796,6 +32565,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1483(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30818,6 +32588,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1484(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30840,6 +32611,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1485(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30853,6 +32625,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1486(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 88
@@ -30865,6 +32638,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1487(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30878,6 +32652,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1488(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 16
@@ -30890,6 +32665,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1489(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30912,6 +32688,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1490(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 145
@@ -30936,6 +32713,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1491(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 145
@@ -30948,6 +32726,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNode1492(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30961,6 +32740,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1493(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30983,6 +32763,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1494(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -30996,6 +32777,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1495(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 105
@@ -31020,6 +32802,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun scannerDefinedNode1496(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 105
@@ -31032,12 +32815,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
+
     private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 4)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
+
     private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
@@ -35604,19 +37389,23 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
+
     private fun getLastTokenString(): String {
         return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
     }
+
     private fun parserDefinedNode0(): Int {
         userCode0()
         return 1
     }
+
     private fun parserDefinedNode1(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 0
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode25()
         return 3
     }
+
     private fun parserDefinedNode3(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(2)
@@ -35641,18 +37430,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode4(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 1
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode27()
         return 13
     }
+
     private fun parserDefinedNode5(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 2
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode30()
         return 14
     }
+
     private fun parserDefinedNode6(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -35669,16 +37461,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 17
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 6, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 6, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode7(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode1()
         return 15
     }
+
     private fun parserDefinedNode13(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
@@ -35696,6 +37490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode14(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
@@ -35713,6 +37508,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode15(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
@@ -35733,18 +37529,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode16(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 474
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode18()
         return 27
     }
+
     private fun parserDefinedNode17(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 477
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode18()
         return 27
     }
+
     private fun parserDefinedNode18(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
@@ -35764,6 +37563,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode19(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
@@ -35783,6 +37583,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode25(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(8)
@@ -35807,6 +37608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode26(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
@@ -35827,6 +37629,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode27(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
@@ -35846,11 +37649,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode28(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode26()
         return 3
     }
+
     private fun parserDefinedNode29(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
@@ -35870,30 +37675,35 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode30(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 3
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode33()
         return 50
     }
+
     private fun parserDefinedNode31(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 393
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode57()
         return 51
     }
+
     private fun parserDefinedNode32(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 409
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode70()
         return 52
     }
+
     private fun parserDefinedNode33(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 416
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode81()
         return 53
     }
+
     private fun parserDefinedNode37(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -35913,16 +37723,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 45
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode44(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 421
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 54
     }
+
     private fun parserDefinedNode45(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(1)
@@ -35940,22 +37752,26 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode46(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 475
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 54
     }
+
     private fun parserDefinedNode49(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode26()
         return 3
     }
+
     private fun parserDefinedNode50(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 4
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode46()
         return 71
     }
+
     private fun parserDefinedNode51(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
@@ -35973,6 +37789,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode52(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -35990,6 +37807,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode53(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(12)
@@ -36008,6 +37826,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode54(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
@@ -36053,9 +37872,11 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode55(): Int {
         return -2
     }
+
     private fun parserDefinedNode57(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(13)
@@ -36077,6 +37898,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode58(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(14)
@@ -36096,48 +37918,56 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode60(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 422
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode149()
         return 95
     }
+
     private fun parserDefinedNode61(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 426
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode156()
         return 96
     }
+
     private fun parserDefinedNode62(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 432
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode159()
         return 97
     }
+
     private fun parserDefinedNode63(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 434
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode165()
         return 98
     }
+
     private fun parserDefinedNode64(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 439
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode169()
         return 99
     }
+
     private fun parserDefinedNode65(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 442
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode173()
         return 100
     }
+
     private fun parserDefinedNode66(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 445
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode162()
         return 101
     }
+
     private fun parserDefinedNode67(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 1)) {
             scannerDefinedNextToken(15)
@@ -36160,6 +37990,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode68(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 1)) {
             scannerDefinedNextToken(15)
@@ -36182,12 +38013,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode69(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 459
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode181()
         return 104
     }
+
     private fun parserDefinedNode70(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 462
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -36195,6 +38028,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode184()
         return 105
     }
+
     private fun parserDefinedNode71(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(16)
@@ -36212,11 +38046,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode75(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 412
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 92
     }
+
     private fun parserDefinedNode76(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(13)
@@ -36236,18 +38072,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode84(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 447
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode177()
         return 124
     }
+
     private fun parserDefinedNode85(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 457
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode179()
         return 125
     }
+
     private fun parserDefinedNode88(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(17)
@@ -36273,12 +38112,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode89(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 394
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode309()
         return 133
     }
+
     private fun parserDefinedNode90(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(18)
@@ -36298,11 +38139,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode91(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 410
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode92(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -36321,12 +38164,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode93(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 417
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode86()
         return 138
     }
+
     private fun parserDefinedNode95(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(20)
@@ -36344,6 +38189,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode96(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(21)
@@ -36361,6 +38207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode97(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(22)
@@ -36378,6 +38225,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode98(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(23)
@@ -36395,6 +38243,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode99(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(24)
@@ -36412,6 +38261,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode100(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(25)
@@ -36429,6 +38279,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode101(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(26)
@@ -36446,6 +38297,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode104(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(27)
@@ -36463,6 +38315,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode105(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(28)
@@ -36482,6 +38335,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode106(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -36501,6 +38355,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode107(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(30)
@@ -36520,17 +38375,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode109(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 384
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 132
     }
+
     private fun parserDefinedNode111(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 406
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode86()
         return 138
     }
+
     private fun parserDefinedNode113(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(31)
@@ -36549,12 +38407,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode116(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 418
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode94()
         return 169
     }
+
     private fun parserDefinedNode117(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(32)
@@ -36573,6 +38433,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode118(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(33)
@@ -36591,6 +38452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode119(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(33)
@@ -36609,6 +38471,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode120(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(34)
@@ -36627,6 +38490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode121(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(34)
@@ -36645,6 +38509,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode122(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(34)
@@ -36663,6 +38528,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode123(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(35)
@@ -36681,6 +38547,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode124(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(36)
@@ -36698,6 +38565,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode125(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(37)
@@ -36715,12 +38583,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode126(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 460
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode212()
         return 182
     }
+
     private fun parserDefinedNode127(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(38)
@@ -36738,6 +38608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode131(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(39)
@@ -36757,6 +38628,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode132(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -36775,6 +38647,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode133(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -36793,6 +38666,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode134(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(41)
@@ -36810,22 +38684,26 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode135(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 302
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode136(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 303
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode137(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode73()
         userCode35()
         return 193
     }
+
     private fun parserDefinedNode138(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(42)
@@ -36843,6 +38721,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode140(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36862,11 +38741,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode141(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 423
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode142(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36886,11 +38767,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode143(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 427
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 172
     }
+
     private fun parserDefinedNode144(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36910,11 +38793,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode145(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 433
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 172
     }
+
     private fun parserDefinedNode146(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36934,11 +38819,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode147(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 435
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode148(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36958,11 +38845,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode149(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 440
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode150(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -36982,11 +38871,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode151(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 443
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode152(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -37006,12 +38897,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode153(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 446
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode207()
         return 204
     }
+
     private fun parserDefinedNode154(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(44)
@@ -37029,6 +38922,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode155(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(44)
@@ -37046,11 +38940,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode157(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 463
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode158(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(45)
@@ -37070,6 +38966,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode159(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(46)
@@ -37089,17 +38986,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode160(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 5
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode164(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 407
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode165(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(47)
@@ -37118,6 +39018,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode166(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(48)
@@ -37136,6 +39037,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode168(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(49)
@@ -37154,6 +39056,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode169(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(50)
@@ -37172,6 +39075,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode172(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(51)
@@ -37196,6 +39100,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode175(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(52)
@@ -37215,18 +39120,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode180(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 448
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode214()
         return 228
     }
+
     private fun parserDefinedNode181(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 458
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode214()
         return 228
     }
+
     private fun parserDefinedNode182(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -37244,12 +39152,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode184(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 468
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode199()
         return 231
     }
+
     private fun parserDefinedNode185(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -37267,11 +39177,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode186(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode55()
         return 233
     }
+
     private fun parserDefinedNode187(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(54)
@@ -37291,29 +39203,34 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode189(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 6
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode426()
         return 237
     }
+
     private fun parserDefinedNode190(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 7
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode428()
         return 238
     }
+
     private fun parserDefinedNode191(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 181
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode697()
         return 239
     }
+
     private fun parserDefinedNode192(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 182
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 217
     }
+
     private fun parserDefinedNode193(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(55)
@@ -37334,18 +39251,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode194(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 386
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode88()
         return 243
     }
+
     private fun parserDefinedNode195(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 389
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode90()
         return 244
     }
+
     private fun parserDefinedNode196(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(41)
@@ -37365,38 +39285,45 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode197(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 174
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode198(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 428
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode207()
         return 204
     }
+
     private fun parserDefinedNode199(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 429
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 223
     }
+
     private fun parserDefinedNode200(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 430
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 224
     }
+
     private fun parserDefinedNode201(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 431
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 225
     }
+
     private fun parserDefinedNode202(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 436
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 223
     }
+
     private fun parserDefinedNode204(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(56)
@@ -37414,6 +39341,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode206(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 461
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -37421,24 +39349,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode217()
         return 251
     }
+
     private fun parserDefinedNode207(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 464
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode197()
         return 252
     }
+
     private fun parserDefinedNode209(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 8
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode211(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 395
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode313()
         return 257
     }
+
     private fun parserDefinedNode213(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -37456,6 +39388,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode217(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(57)
@@ -37474,12 +39407,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode218(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 413
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode86()
         return 138
     }
+
     private fun parserDefinedNode223(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(58)
@@ -37498,6 +39433,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode224(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(59)
@@ -37516,6 +39452,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode225(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(60)
@@ -37534,6 +39471,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode226(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(61)
@@ -37552,11 +39490,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode227(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 425
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode228(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -37574,6 +39514,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode231(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(36)
@@ -37591,6 +39532,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode233(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -37604,11 +39546,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 279
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 233, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 233, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode235(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -37626,6 +39569,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode236(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(63)
@@ -37644,6 +39588,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode237(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(64)
@@ -37663,6 +39608,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode238(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(65)
@@ -37682,6 +39628,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode239(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
@@ -37701,18 +39648,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode240(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 183
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode699()
         return 287
     }
+
     private fun parserDefinedNode241(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 184
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode701()
         return 288
     }
+
     private fun parserDefinedNode242(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(66)
@@ -37732,12 +39682,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode243(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 387
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode92()
         return 290
     }
+
     private fun parserDefinedNode244(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(59)
@@ -37755,6 +39707,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode248(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(56)
@@ -37774,11 +39727,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode249(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 437
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode250(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 449
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -37786,6 +39741,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode217()
         return 251
     }
+
     private fun parserDefinedNode251(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(67)
@@ -37806,6 +39762,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode252(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(37)
@@ -37823,35 +39780,41 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode253(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 467
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode212()
         return 182
     }
+
     private fun parserDefinedNode254(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 9
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode432()
         return 295
     }
+
     private fun parserDefinedNode257(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 396
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 280
     }
+
     private fun parserDefinedNode258(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode59()
         userCode35()
         return 300
     }
+
     private fun parserDefinedNode259(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 171
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode40()
         return 301
     }
+
     private fun parserDefinedNode260(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 242
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -37859,18 +39822,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode242()
         return 302
     }
+
     private fun parserDefinedNode266(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 414
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode94()
         return 169
     }
+
     private fun parserDefinedNode269(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 390
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode92()
         return 290
     }
+
     private fun parserDefinedNode270(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -37881,37 +39847,43 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 292
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 270, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 270, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode271(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 291
     }
+
     private fun parserDefinedNode272(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 291
     }
+
     private fun parserDefinedNode274(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 450
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode233()
         return 316
     }
+
     private fun parserDefinedNode276(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 465
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode212()
         return 182
     }
+
     private fun parserDefinedNode278(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 173
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode94()
         return 169
     }
+
     private fun parserDefinedNode279(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(13)
@@ -37931,6 +39903,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode280(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(68)
@@ -37951,18 +39924,22 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode284(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 303
     }
+
     private fun parserDefinedNode285(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 303
     }
+
     private fun parserDefinedNode286(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 304
     }
+
     private fun parserDefinedNode287(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(69)
@@ -37982,6 +39959,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode288(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
@@ -38001,6 +39979,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode289(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 415
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -38008,11 +39987,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode290(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 388
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode291(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38025,11 +40006,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 357
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 291, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 291, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode292(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38058,11 +40040,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 363
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 292, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 292, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode294(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(70)
@@ -38083,18 +40066,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode295(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 10
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode437()
         return 366
     }
+
     private fun parserDefinedNode296(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 385
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode86()
         return 138
     }
+
     private fun parserDefinedNode300(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(13)
@@ -38114,12 +40100,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode301(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 172
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode46()
         return 71
     }
+
     private fun parserDefinedNode302(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(71)
@@ -38140,6 +40128,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode303(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38201,11 +40190,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 394
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 303, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 303, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode304(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38270,44 +40260,51 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 405
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 304, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 304, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode316(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 451
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 280
     }
+
     private fun parserDefinedNode320(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 391
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode94()
         return 169
     }
+
     private fun parserDefinedNode321(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 397
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 367
     }
+
     private fun parserDefinedNode322(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 399
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 368
     }
+
     private fun parserDefinedNode323(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 403
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode86()
         return 138
     }
+
     private fun parserDefinedNode325(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 243
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode253()
         return 421
     }
+
     private fun parserDefinedNode330(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38320,11 +40317,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 427
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 330, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 330, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode334(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38343,11 +40341,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 437
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 334, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 334, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode336(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38375,11 +40374,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 445
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 336, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 336, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode338(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38399,11 +40399,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 393
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 338, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 338, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode341(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38416,28 +40417,33 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 457
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 341, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 341, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode343(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 334
     }
+
     private fun parserDefinedNode344(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode393()
         return 458
     }
+
     private fun parserDefinedNode353(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 406
     }
+
     private fun parserDefinedNode354(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 406
     }
+
     private fun parserDefinedNode355(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(72)
@@ -38458,14 +40464,17 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode356(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode357(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode358(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(73)
@@ -38483,10 +40492,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode359(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode360(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(73)
@@ -38504,10 +40515,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode361(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode362(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(73)
@@ -38525,16 +40538,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode363(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode364(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 453
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode229()
         return 475
     }
+
     private fun parserDefinedNode365(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38547,17 +40563,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 477
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 365, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 365, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode366(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 11
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode442()
         return 478
     }
+
     private fun parserDefinedNode367(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(74)
@@ -38576,6 +40594,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode368(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(75)
@@ -38594,12 +40613,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode369(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 404
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode94()
         return 169
     }
+
     private fun parserDefinedNode371(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(76)
@@ -38620,6 +40641,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode372(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(77)
@@ -38643,6 +40665,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode373(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -38660,6 +40683,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode374(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -38677,6 +40701,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode376(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38689,11 +40714,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 489
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 376, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 376, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode377(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -38712,6 +40738,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode378(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(79)
@@ -38730,6 +40757,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode380(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38746,11 +40774,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 493
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 380, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 380, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode381(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38767,11 +40796,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 495
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 381, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 381, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode383(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38784,11 +40814,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 498
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 383, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 383, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode384(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38801,11 +40832,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 500
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 384, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 384, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode389(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -38823,6 +40855,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode393(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38848,11 +40881,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 508
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 393, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 393, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode394(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -38871,11 +40905,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode395(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 185
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 455
     }
+
     private fun parserDefinedNode398(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38889,11 +40925,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 398, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 398, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode400(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38910,11 +40947,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 519
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 400, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 400, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode401(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(80)
@@ -38934,6 +40972,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode402(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38946,11 +40985,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 522
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 402, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 402, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode403(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(81)
@@ -38970,6 +41010,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode404(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -38986,26 +41027,30 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 525
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 404, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 404, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode405(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode194()
         return 526
     }
+
     private fun parserDefinedNode406(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 304
     }
+
     private fun parserDefinedNode407(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 176
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode111()
         return 527
     }
+
     private fun parserDefinedNode409(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39020,62 +41065,73 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 531
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 409, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 409, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode410(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 438
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode411(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 441
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode412(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 444
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 175
     }
+
     private fun parserDefinedNode417(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 246
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode418(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 247
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 479
     }
+
     private fun parserDefinedNode419(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 295
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode418()
         return 542
     }
+
     private fun parserDefinedNode420(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 298
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode414()
         return 543
     }
+
     private fun parserDefinedNode421(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 244
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 482
     }
+
     private fun parserDefinedNode424(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 381
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode426(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode427(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(82)
@@ -39095,11 +41151,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode430(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 239
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode431(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -39118,30 +41176,35 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode432(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 256
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode358()
         return 555
     }
+
     private fun parserDefinedNode437(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 398
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode329()
         return 564
     }
+
     private fun parserDefinedNode442(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 323
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode443(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 326
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode444(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(83)
@@ -39162,6 +41225,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode445(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -39180,22 +41244,27 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode446(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode447(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 393
     }
+
     private fun parserDefinedNode448(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 393
     }
+
     private fun parserDefinedNode449(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 393
     }
+
     private fun parserDefinedNode455(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(84)
@@ -39215,6 +41284,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode456(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(85)
@@ -39234,6 +41304,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode457(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(86)
@@ -39252,6 +41323,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode458(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(87)
@@ -39276,15 +41348,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode459(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 344
     }
+
     private fun parserDefinedNode462(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 338
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 455
     }
+
     private fun parserDefinedNode466(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(88)
@@ -39302,6 +41377,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode472(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(89)
@@ -39322,6 +41398,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode475(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(56)
@@ -39339,6 +41416,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode476(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -39356,6 +41434,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode477(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -39373,12 +41452,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode478(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 12
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode444()
         return 600
     }
+
     private fun parserDefinedNode479(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(90)
@@ -39409,6 +41490,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode482(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(68)
@@ -39429,16 +41511,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode483(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 313
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 546
     }
+
     private fun parserDefinedNode484(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode240()
         return 617
     }
+
     private fun parserDefinedNode485(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -39456,6 +41541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode486(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39469,16 +41555,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 486, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 486, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode487(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 192
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 550
     }
+
     private fun parserDefinedNode489(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(91)
@@ -39498,6 +41586,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode492(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(92)
@@ -39517,6 +41606,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode493(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39530,11 +41620,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 632
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 493, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 493, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode494(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(92)
@@ -39554,6 +41645,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode495(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39567,45 +41659,52 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 635
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 495, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 495, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode497(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 277
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode373()
         return 637
     }
+
     private fun parserDefinedNode498(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 290
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode341()
         return 638
     }
+
     private fun parserDefinedNode499(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 305
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode341()
         return 638
     }
+
     private fun parserDefinedNode500(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 307
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode341()
         return 638
     }
+
     private fun parserDefinedNode501(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 411
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode503(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode247()
         return 641
     }
+
     private fun parserDefinedNode504(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(93)
@@ -39628,42 +41727,50 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode505(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode488()
         return 504
     }
+
     private fun parserDefinedNode506(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode488()
         return 504
     }
+
     private fun parserDefinedNode507(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode473()
         return 645
     }
+
     private fun parserDefinedNode508(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode473()
         return 645
     }
+
     private fun parserDefinedNode509(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 186
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode511(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 214
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 576
     }
+
     private fun parserDefinedNode513(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 240
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 576
     }
+
     private fun parserDefinedNode514(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -39682,6 +41789,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode515(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(94)
@@ -39701,6 +41809,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode516(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -39720,6 +41829,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode517(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(95)
@@ -39739,11 +41849,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode518(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode401()
         return 655
     }
+
     private fun parserDefinedNode519(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(96)
@@ -39764,34 +41876,41 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode520(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 338
     }
+
     private fun parserDefinedNode521(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode87()
         return 658
     }
+
     private fun parserDefinedNode522(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode87()
         return 658
     }
+
     private fun parserDefinedNode523(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 424
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode207()
         return 204
     }
+
     private fun parserDefinedNode524(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode525(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode526(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(97)
@@ -39811,6 +41930,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode527(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(98)
@@ -39828,12 +41948,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode528(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 193
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode120()
         return 662
     }
+
     private fun parserDefinedNode530(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -39856,6 +41978,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode531(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -39877,11 +42000,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode532(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 454
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode533(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39894,11 +42019,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 668
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 533, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 533, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode534(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -39915,43 +42041,50 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 671
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 534, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 534, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode536(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 248
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode537(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 249
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode662()
         return 673
     }
+
     private fun parserDefinedNode538(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 250
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 602
     }
+
     private fun parserDefinedNode539(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 251
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 603
     }
+
     private fun parserDefinedNode540(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 252
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 604
     }
+
     private fun parserDefinedNode541(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 255
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode542(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -39970,6 +42103,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode543(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(100)
@@ -39987,6 +42121,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode546(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(101)
@@ -40023,12 +42158,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode548(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 382
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode549(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -40045,11 +42182,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 693
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 549, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 549, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode550(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(102)
@@ -40075,6 +42213,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode551(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode100()
@@ -40082,12 +42221,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode102()
         return 472
     }
+
     private fun parserDefinedNode552(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 204
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode130()
         return 697
     }
+
     private fun parserDefinedNode554(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(40)
@@ -40106,6 +42247,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode555(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(103)
@@ -40124,21 +42266,25 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode556(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 284
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 630
     }
+
     private fun parserDefinedNode560(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 297
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 633
     }
+
     private fun parserDefinedNode564(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 300
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 636
     }
+
     private fun parserDefinedNode567(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(54)
@@ -40158,18 +42304,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode569(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 348
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode490()
         return 718
     }
+
     private fun parserDefinedNode570(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 350
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode492()
         return 719
     }
+
     private fun parserDefinedNode575(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -40187,6 +42336,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode576(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(104)
@@ -40214,6 +42364,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode577(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -40231,6 +42382,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode583(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(105)
@@ -40248,12 +42400,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode586(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 469
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode201()
         return 742
     }
+
     private fun parserDefinedNode588(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(106)
@@ -40272,6 +42426,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode590(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(107)
@@ -40292,12 +42447,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode600(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 13
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode602(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(108)
@@ -40319,6 +42476,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode603(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(109)
@@ -40337,6 +42495,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode604(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(110)
@@ -40355,70 +42514,82 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode606(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 299
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode329()
         return 564
     }
+
     private fun parserDefinedNode607(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 245
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 367
     }
+
     private fun parserDefinedNode608(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 309
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 682
     }
+
     private fun parserDefinedNode609(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 314
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode289()
         return 764
     }
+
     private fun parserDefinedNode610(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 317
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode259()
         return 765
     }
+
     private fun parserDefinedNode611(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 319
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode287()
         return 766
     }
+
     private fun parserDefinedNode612(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 321
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode261()
         return 767
     }
+
     private fun parserDefinedNode613(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 324
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode264()
         return 768
     }
+
     private fun parserDefinedNode614(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 327
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode294()
         return 769
     }
+
     private fun parserDefinedNode615(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 329
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode268()
         return 770
     }
+
     private fun parserDefinedNode616(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 332
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode271()
         return 771
     }
+
     private fun parserDefinedNode617(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -40436,22 +42607,26 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode620(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 178
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 694
     }
+
     private fun parserDefinedNode621(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 179
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode296()
         return 839
     }
+
     private fun parserDefinedNode623(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 191
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode626(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode106()
@@ -40459,18 +42634,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode108()
         return 747
     }
+
     private fun parserDefinedNode628(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 257
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode369()
         return 845
     }
+
     private fun parserDefinedNode629(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 275
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode371()
         return 846
     }
+
     private fun parserDefinedNode630(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(68)
@@ -40489,6 +42667,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode631(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -40506,6 +42685,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode632(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(111)
@@ -40525,6 +42705,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode633(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(68)
@@ -40543,6 +42724,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode634(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -40560,6 +42742,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode635(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(111)
@@ -40579,6 +42762,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode636(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(112)
@@ -40597,24 +42781,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode637(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 278
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode378()
         return 854
     }
+
     private fun parserDefinedNode638(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 291
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode346()
         return 855
     }
+
     private fun parserDefinedNode639(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 455
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode233()
         return 316
     }
+
     private fun parserDefinedNode641(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(113)
@@ -40634,6 +42822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode644(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -40651,11 +42840,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 863
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 644, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 644, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode645(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(93)
@@ -40679,6 +42869,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode646(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(114)
@@ -40698,6 +42889,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode647(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -40716,36 +42908,43 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode648(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 215
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode649(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 216
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode662()
         return 673
     }
+
     private fun parserDefinedNode650(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 220
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 602
     }
+
     private fun parserDefinedNode651(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 233
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 603
     }
+
     private fun parserDefinedNode652(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 236
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 729
     }
+
     private fun parserDefinedNode653(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 730
     }
+
     private fun parserDefinedNode654(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(116)
@@ -40768,6 +42967,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode655(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -40781,17 +42981,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 872
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 655, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 655, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode656(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 271
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode409()
         return 873
     }
+
     private fun parserDefinedNode657(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -40809,6 +43011,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode658(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -40833,11 +43036,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 76
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 658, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 658, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode660(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(41)
@@ -40855,6 +43059,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode662(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(117)
@@ -40873,12 +43078,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode663(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 200
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode126()
         return 876
     }
+
     private fun parserDefinedNode665(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -40896,6 +43103,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode666(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -40913,24 +43121,29 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode667(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode668(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode669(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode670(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode188()
         userCode189()
         return 879
     }
+
     private fun parserDefinedNode671(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -40947,58 +43160,68 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 526
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 671, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 671, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode673(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 217
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 754
     }
+
     private fun parserDefinedNode674(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 221
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 755
     }
+
     private fun parserDefinedNode675(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 225
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 756
     }
+
     private fun parserDefinedNode676(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 229
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 757
     }
+
     private fun parserDefinedNode677(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 234
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 758
     }
+
     private fun parserDefinedNode678(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 235
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 759
     }
+
     private fun parserDefinedNode679(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 253
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode703()
         return 896
     }
+
     private fun parserDefinedNode680(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 254
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode705()
         return 897
     }
+
     private fun parserDefinedNode681(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 296
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 633
     }
+
     private fun parserDefinedNode682(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(75)
@@ -41017,6 +43240,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode691(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -41066,11 +43290,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 916
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 691, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 691, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode692(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -41083,15 +43308,17 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 917
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 692, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 692, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode693(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode694(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(118)
@@ -41269,6 +43496,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode696(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -41286,6 +43514,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode697(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(119)
@@ -41310,20 +43539,24 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode701(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 280
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 367
     }
+
     private fun parserDefinedNode702(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 281
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 682
     }
+
     private fun parserDefinedNode703(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 847
     }
+
     private fun parserDefinedNode704(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -41341,20 +43574,24 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode706(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 293
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 367
     }
+
     private fun parserDefinedNode707(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 294
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 368
     }
+
     private fun parserDefinedNode708(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 850
     }
+
     private fun parserDefinedNode709(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -41372,16 +43609,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode711(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 301
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode712(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 304
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 853
     }
+
     private fun parserDefinedNode715(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -41399,6 +43639,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode716(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(121)
@@ -41419,6 +43660,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode718(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -41436,6 +43678,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode719(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(122)
@@ -41453,18 +43696,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode723(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 358
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode481()
         return 993
     }
+
     private fun parserDefinedNode724(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 360
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode483()
         return 994
     }
+
     private fun parserDefinedNode727(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -41484,12 +43730,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode728(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 187
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode729(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(123)
@@ -41508,11 +43756,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode730(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode272()
         return 1003
     }
+
     private fun parserDefinedNode731(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -41531,12 +43781,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode732(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 241
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode742(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(124)
@@ -41554,17 +43806,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode743(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 472
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode744(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 177
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 550
     }
+
     private fun parserDefinedNode747(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(125)
@@ -41584,24 +43839,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode748(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 473
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode25()
         return 3
     }
+
     private fun parserDefinedNode749(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 476
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode25()
         return 3
     }
+
     private fun parserDefinedNode753(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 14
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode467()
         return 1018
     }
+
     private fun parserDefinedNode754(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(126)
@@ -41626,6 +43885,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode755(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(127)
@@ -41647,6 +43907,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode756(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(128)
@@ -41668,6 +43929,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode757(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(129)
@@ -41689,6 +43951,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode758(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(130)
@@ -41707,6 +43970,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode759(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(131)
@@ -41725,24 +43989,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode762(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 282
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode422()
         return 1036
     }
+
     private fun parserDefinedNode763(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 285
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode416()
         return 1037
     }
+
     private fun parserDefinedNode764(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 315
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode765(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(132)
@@ -41760,6 +44028,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode766(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(133)
@@ -41777,6 +44046,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode767(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(56)
@@ -41794,6 +44064,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode768(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(134)
@@ -41811,6 +44082,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode769(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(135)
@@ -41828,6 +44100,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode770(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(136)
@@ -41845,6 +44118,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode771(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(137)
@@ -41862,346 +44136,404 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode784(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 22
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 918
     }
+
     private fun parserDefinedNode785(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 43
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode582()
         return 1058
     }
+
     private fun parserDefinedNode786(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 45
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode584()
         return 1059
     }
+
     private fun parserDefinedNode787(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 47
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode586()
         return 1060
     }
+
     private fun parserDefinedNode788(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 50
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode589()
         return 1061
     }
+
     private fun parserDefinedNode789(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 52
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode591()
         return 1062
     }
+
     private fun parserDefinedNode790(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 54
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode593()
         return 1063
     }
+
     private fun parserDefinedNode791(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 56
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode595()
         return 1064
     }
+
     private fun parserDefinedNode792(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 58
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode597()
         return 1065
     }
+
     private fun parserDefinedNode793(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 61
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode599()
         return 1066
     }
+
     private fun parserDefinedNode794(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 63
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode601()
         return 1067
     }
+
     private fun parserDefinedNode795(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 65
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode603()
         return 1068
     }
+
     private fun parserDefinedNode796(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 67
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode607()
         return 1069
     }
+
     private fun parserDefinedNode797(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 69
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode609()
         return 1070
     }
+
     private fun parserDefinedNode798(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 71
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode557()
         return 1071
     }
+
     private fun parserDefinedNode799(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 76
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode617()
         return 1072
     }
+
     private fun parserDefinedNode800(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 80
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode559()
         return 1073
     }
+
     private fun parserDefinedNode801(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 82
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode622()
         return 1074
     }
+
     private fun parserDefinedNode802(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 87
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode561()
         return 1075
     }
+
     private fun parserDefinedNode803(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 89
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode605()
         return 1076
     }
+
     private fun parserDefinedNode804(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 91
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode569()
         return 1077
     }
+
     private fun parserDefinedNode805(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 93
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode571()
         return 1078
     }
+
     private fun parserDefinedNode806(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 96
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode574()
         return 1079
     }
+
     private fun parserDefinedNode807(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 99
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode577()
         return 1080
     }
+
     private fun parserDefinedNode808(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 102
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode563()
         return 1081
     }
+
     private fun parserDefinedNode809(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 105
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode566()
         return 1082
     }
+
     private fun parserDefinedNode810(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 108
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode502()
         return 1083
     }
+
     private fun parserDefinedNode811(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 110
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode504()
         return 1084
     }
+
     private fun parserDefinedNode812(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 112
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode580()
         return 1085
     }
+
     private fun parserDefinedNode813(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 114
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode506()
         return 1086
     }
+
     private fun parserDefinedNode814(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 116
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode542()
         return 1087
     }
+
     private fun parserDefinedNode815(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 118
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode551()
         return 1088
     }
+
     private fun parserDefinedNode816(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 120
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode553()
         return 1089
     }
+
     private fun parserDefinedNode817(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 122
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode555()
         return 1090
     }
+
     private fun parserDefinedNode818(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 124
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode508()
         return 1091
     }
+
     private fun parserDefinedNode819(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 126
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode521()
         return 1092
     }
+
     private fun parserDefinedNode820(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 128
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode523()
         return 1093
     }
+
     private fun parserDefinedNode821(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 130
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode519()
         return 1094
     }
+
     private fun parserDefinedNode822(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 132
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode525()
         return 1095
     }
+
     private fun parserDefinedNode823(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 134
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode544()
         return 1096
     }
+
     private fun parserDefinedNode824(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 136
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode527()
         return 1097
     }
+
     private fun parserDefinedNode825(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 138
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode529()
         return 1098
     }
+
     private fun parserDefinedNode826(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 140
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode531()
         return 1099
     }
+
     private fun parserDefinedNode827(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 142
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode533()
         return 1100
     }
+
     private fun parserDefinedNode828(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 146
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode537()
         return 1101
     }
+
     private fun parserDefinedNode829(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 149
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode546()
         return 1102
     }
+
     private fun parserDefinedNode830(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 152
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode510()
         return 1103
     }
+
     private fun parserDefinedNode831(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 155
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode513()
         return 1104
     }
+
     private fun parserDefinedNode832(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 157
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode540()
         return 1105
     }
+
     private fun parserDefinedNode833(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 159
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode515()
         return 1106
     }
+
     private fun parserDefinedNode834(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 161
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode517()
         return 1107
     }
+
     private fun parserDefinedNode835(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 163
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode549()
         return 1108
     }
+
     private fun parserDefinedNode836(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 165
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode611()
         return 1109
     }
+
     private fun parserDefinedNode837(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 169
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode628()
         return 1110
     }
+
     private fun parserDefinedNode838(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 334
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode630()
         return 1111
     }
+
     private fun parserDefinedNode839(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 180
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode840(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 189
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode841(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(138)
@@ -42221,6 +44553,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode842(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(139)
@@ -42240,27 +44573,32 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode843(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 202
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 975
     }
+
     private fun parserDefinedNode844(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 203
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode845(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 258
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode380()
         return 1116
     }
+
     private fun parserDefinedNode846(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 276
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode847(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -42273,23 +44611,26 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1117
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 847, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 847, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode848(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 287
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode378()
         return 854
     }
+
     private fun parserDefinedNode849(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode360()
         userCode361()
         return 1118
     }
+
     private fun parserDefinedNode850(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -42302,17 +44643,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1119
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 850, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 850, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode851(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 308
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode346()
         return 855
     }
+
     private fun parserDefinedNode852(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -42334,11 +44677,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1118
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 852, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 852, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode853(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(140)
@@ -42357,21 +44701,25 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode854(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 279
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 630
     }
+
     private fun parserDefinedNode855(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 292
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 633
     }
+
     private fun parserDefinedNode856(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode222()
         return 1122
     }
+
     private fun parserDefinedNode858(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(71)
@@ -42392,16 +44740,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode859(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 349
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 987
     }
+
     private fun parserDefinedNode860(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 351
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 987
     }
+
     private fun parserDefinedNode861(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(141)
@@ -42428,16 +44779,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode862(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode475()
         return 861
     }
+
     private fun parserDefinedNode863(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode475()
         return 861
     }
+
     private fun parserDefinedNode866(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -42479,11 +44833,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 343
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 866, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 866, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode871(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(62)
@@ -42501,6 +44856,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode872(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(142)
@@ -42520,6 +44876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode873(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(143)
@@ -42541,6 +44898,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode874(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(49)
@@ -42559,12 +44917,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode875(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 194
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode124()
         return 1150
     }
+
     private fun parserDefinedNode876(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(144)
@@ -42582,11 +44942,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode877(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 205
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1014
     }
+
     private fun parserDefinedNode879(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(145)
@@ -42608,84 +44970,98 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode881(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 39
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode689()
         return 1161
     }
+
     private fun parserDefinedNode882(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 40
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode691()
         return 1162
     }
+
     private fun parserDefinedNode883(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 41
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode693()
         return 1163
     }
+
     private fun parserDefinedNode884(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 42
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode695()
         return 1164
     }
+
     private fun parserDefinedNode885(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 222
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode669()
         return 1165
     }
+
     private fun parserDefinedNode886(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 223
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode671()
         return 1166
     }
+
     private fun parserDefinedNode887(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 224
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode673()
         return 1167
     }
+
     private fun parserDefinedNode888(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 226
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode675()
         return 1168
     }
+
     private fun parserDefinedNode889(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 227
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode677()
         return 1169
     }
+
     private fun parserDefinedNode890(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 228
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode679()
         return 1170
     }
+
     private fun parserDefinedNode891(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 230
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode681()
         return 1171
     }
+
     private fun parserDefinedNode892(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 231
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode683()
         return 1172
     }
+
     private fun parserDefinedNode893(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 232
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode685()
         return 1173
     }
+
     private fun parserDefinedNode896(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(146)
@@ -42705,6 +45081,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode897(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(147)
@@ -42724,23 +45101,27 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode900(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 318
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode901(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 320
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode902(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 322
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode903(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(148)
@@ -42759,11 +45140,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode904(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 328
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 975
     }
+
     private fun parserDefinedNode905(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -42781,11 +45164,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode906(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 211
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1041
     }
+
     private fun parserDefinedNode907(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -42811,11 +45196,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1185
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 907, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 907, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode908(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(149)
@@ -42835,30 +45221,37 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode909(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode910(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode911(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode912(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode913(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode914(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode915(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 408
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -42866,10 +45259,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode916(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 409
     }
+
     private fun parserDefinedNode917(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(150)
@@ -42889,6 +45284,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode918(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(151)
@@ -42922,6 +45318,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode975(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(152)
@@ -42943,12 +45340,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode985(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 333
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode253()
         return 421
     }
+
     private fun parserDefinedNode987(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(153)
@@ -42973,18 +45372,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode988(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 352
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode477()
         return 1266
     }
+
     private fun parserDefinedNode989(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 354
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode479()
         return 1267
     }
+
     private fun parserDefinedNode993(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -43002,6 +45404,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode994(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(122)
@@ -43019,6 +45422,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode997(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -43039,11 +45443,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1274
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 997, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 997, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1001(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -43057,15 +45462,17 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 520
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1001, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1001, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1002(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 341
     }
+
     private fun parserDefinedNode1003(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -43084,15 +45491,17 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 45
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1003, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1003, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1004(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 730
     }
+
     private fun parserDefinedNode1005(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(122)
@@ -43110,6 +45519,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1007(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(154)
@@ -43129,21 +45539,25 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1008(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 268
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1009(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 269
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 853
     }
+
     private fun parserDefinedNode1010(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 470
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1011(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(59)
@@ -43161,6 +45575,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1013(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(106)
@@ -43179,6 +45594,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1014(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(155)
@@ -43199,6 +45615,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1015(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -43230,31 +45647,36 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1288
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1015, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1015, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1016(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 466
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode199()
         return 231
     }
+
     private fun parserDefinedNode1018(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 15
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode485()
         return 1289
     }
+
     private fun parserDefinedNode1032(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1174
     }
+
     private fun parserDefinedNode1033(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1174
     }
+
     private fun parserDefinedNode1036(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -43273,6 +45695,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1037(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(100)
@@ -43290,6 +45713,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1038(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(43)
@@ -43309,17 +45733,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1039(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 325
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
+
     private fun parserDefinedNode1040(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 330
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1041(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(156)
@@ -43338,6 +45765,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1047(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(157)
@@ -43355,54 +45783,63 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1049(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 199
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode124()
         return 1150
     }
+
     private fun parserDefinedNode1051(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 23
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode635()
         return 1308
     }
+
     private fun parserDefinedNode1052(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 26
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode639()
         return 1309
     }
+
     private fun parserDefinedNode1053(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 28
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode642()
         return 1310
     }
+
     private fun parserDefinedNode1054(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 30
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode645()
         return 1311
     }
+
     private fun parserDefinedNode1055(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 32
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode632()
         return 1312
     }
+
     private fun parserDefinedNode1056(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 34
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode648()
         return 1313
     }
+
     private fun parserDefinedNode1057(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 36
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode651()
         return 1314
     }
+
     private fun parserDefinedNode1058(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(158)
@@ -43420,6 +45857,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1059(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(159)
@@ -43437,6 +45875,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1060(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(160)
@@ -43454,6 +45893,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1061(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(161)
@@ -43471,6 +45911,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1062(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(162)
@@ -43488,6 +45929,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1063(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(163)
@@ -43505,6 +45947,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1064(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(164)
@@ -43522,6 +45965,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1065(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(165)
@@ -43539,6 +45983,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1066(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(166)
@@ -43556,6 +46001,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1067(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(167)
@@ -43573,6 +46019,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1068(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(168)
@@ -43590,6 +46037,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1069(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(169)
@@ -43607,6 +46055,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1070(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(170)
@@ -43624,6 +46073,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1071(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(171)
@@ -43641,6 +46091,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1072(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(172)
@@ -43658,6 +46109,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1073(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(173)
@@ -43675,6 +46127,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1074(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(174)
@@ -43692,6 +46145,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1075(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(175)
@@ -43709,6 +46163,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1076(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(176)
@@ -43726,6 +46181,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1077(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(177)
@@ -43743,6 +46199,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1078(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(178)
@@ -43760,6 +46217,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1079(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(179)
@@ -43777,6 +46235,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1080(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(180)
@@ -43794,6 +46253,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1081(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(181)
@@ -43811,6 +46271,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1082(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(182)
@@ -43828,6 +46289,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1083(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(183)
@@ -43845,6 +46307,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1084(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(184)
@@ -43862,6 +46325,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1085(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(185)
@@ -43879,6 +46343,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1086(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(186)
@@ -43896,6 +46361,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1087(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(187)
@@ -43913,6 +46379,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1088(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(188)
@@ -43930,6 +46397,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1089(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(189)
@@ -43947,6 +46415,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1090(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(190)
@@ -43964,6 +46433,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1091(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(191)
@@ -43981,6 +46451,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1092(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(192)
@@ -43998,6 +46469,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1093(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(193)
@@ -44015,6 +46487,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1094(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(194)
@@ -44032,6 +46505,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1095(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(195)
@@ -44049,6 +46523,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1096(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(196)
@@ -44066,6 +46541,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1097(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(197)
@@ -44083,6 +46559,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1098(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(198)
@@ -44100,6 +46577,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1099(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(199)
@@ -44117,6 +46595,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1100(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(200)
@@ -44134,6 +46613,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1101(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(201)
@@ -44151,6 +46631,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1102(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(202)
@@ -44168,6 +46649,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1103(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(203)
@@ -44185,6 +46667,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1104(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(204)
@@ -44202,6 +46685,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1105(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(205)
@@ -44219,6 +46703,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1106(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(206)
@@ -44236,6 +46721,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1107(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(207)
@@ -44253,6 +46739,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1108(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(208)
@@ -44270,6 +46757,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1109(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(209)
@@ -44287,6 +46775,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1110(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(210)
@@ -44304,6 +46793,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1111(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(211)
@@ -44321,6 +46811,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1112(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(102)
@@ -44339,29 +46830,34 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1113(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 196
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode500()
         return 1364
     }
+
     private fun parserDefinedNode1114(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 197
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 694
     }
+
     private fun parserDefinedNode1115(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 198
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode296()
         return 839
     }
+
     private fun parserDefinedNode1116(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 259
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode382()
         return 1365
     }
+
     private fun parserDefinedNode1117(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(212)
@@ -44381,6 +46877,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1118(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(213)
@@ -44400,6 +46897,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1119(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(214)
@@ -44419,6 +46917,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1120(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(215)
@@ -44438,6 +46937,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1121(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -44452,11 +46952,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 384
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1121, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1121, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1122(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(216)
@@ -44476,29 +46977,34 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1123(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 17
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode494()
         return 1376
     }
+
     private fun parserDefinedNode1124(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 343
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode496()
         return 1377
     }
+
     private fun parserDefinedNode1125(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 345
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode498()
         return 1378
     }
+
     private fun parserDefinedNode1126(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 347
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1265
     }
+
     private fun parserDefinedNode1129(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(217)
@@ -44517,47 +47023,57 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1130(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode466()
         return 1388
     }
+
     private fun parserDefinedNode1131(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 359
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 987
     }
+
     private fun parserDefinedNode1132(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 361
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 987
     }
+
     private fun parserDefinedNode1133(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1134(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1139(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1140(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1141(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1146(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 273
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode398()
         return 1390
     }
+
     private fun parserDefinedNode1147(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -44571,21 +47087,24 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1391
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1147, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1147, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1149(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 471
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1150(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 195
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 975
     }
+
     private fun parserDefinedNode1161(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(218)
@@ -44605,6 +47124,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1162(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(219)
@@ -44624,6 +47144,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1163(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(220)
@@ -44643,6 +47164,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1164(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(221)
@@ -44662,6 +47184,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1165(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(222)
@@ -44681,6 +47204,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1166(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(223)
@@ -44700,6 +47224,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1167(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(224)
@@ -44719,6 +47244,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1168(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(225)
@@ -44738,6 +47264,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1169(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(226)
@@ -44757,6 +47284,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1170(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(227)
@@ -44776,6 +47304,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1171(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(228)
@@ -44795,6 +47324,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1172(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(229)
@@ -44814,6 +47344,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1173(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(230)
@@ -44833,6 +47364,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1174(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -44846,37 +47378,43 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1174, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1174, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1175(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1303
     }
+
     private fun parserDefinedNode1176(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1303
     }
+
     private fun parserDefinedNode1178(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 286
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode358()
         return 555
     }
+
     private fun parserDefinedNode1180(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 212
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode273()
         return 1410
     }
+
     private fun parserDefinedNode1181(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 237
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode278()
         return 1411
     }
+
     private fun parserDefinedNode1182(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 175
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -44884,6 +47422,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode1183(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 392
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -44891,6 +47430,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode1184(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 405
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -44898,6 +47438,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode1185(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 419
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
@@ -44905,16 +47446,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode99()
         return 355
     }
+
     private fun parserDefinedNode1186(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 316
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode1187(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 503
     }
+
     private fun parserDefinedNode1188(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode103()
@@ -44922,6 +47466,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         userCode105()
         return 590
     }
+
     private fun parserDefinedNode1196(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -44939,6 +47484,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1197(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -44956,6 +47502,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1198(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -44973,6 +47520,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1199(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -44990,6 +47538,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1200(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45007,6 +47556,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1201(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45024,6 +47574,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1202(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45041,6 +47592,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1203(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(84)
@@ -45059,12 +47611,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1204(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 62
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1205(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45082,6 +47636,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1206(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45099,6 +47654,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1207(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45116,6 +47672,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1208(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45133,11 +47690,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1209(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 72
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1328
     }
+
     private fun parserDefinedNode1210(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45155,6 +47714,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1211(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45172,6 +47732,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1212(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45189,6 +47750,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1213(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45206,6 +47768,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1214(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45223,6 +47786,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1215(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45240,6 +47804,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1216(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45257,6 +47822,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1217(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45274,6 +47840,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1218(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45291,6 +47858,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1219(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45308,6 +47876,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1220(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45325,6 +47894,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1221(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45342,6 +47912,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1222(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45359,6 +47930,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1223(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45376,6 +47948,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1224(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45393,6 +47966,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1225(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45410,6 +47984,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1226(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45427,6 +48002,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1227(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45444,6 +48020,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1228(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45461,24 +48038,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1229(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 125
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1230(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 127
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1231(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 129
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1232(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45496,6 +48077,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1233(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45513,6 +48095,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1234(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45530,6 +48113,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1235(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45547,6 +48131,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1236(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45564,11 +48149,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1237(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 141
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1328
     }
+
     private fun parserDefinedNode1238(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45586,6 +48173,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1239(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45603,6 +48191,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1240(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45620,6 +48209,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1241(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45637,6 +48227,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1242(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45654,6 +48245,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1243(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45671,6 +48263,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1244(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45688,6 +48281,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1245(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45705,6 +48299,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1246(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45722,6 +48317,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1247(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -45739,12 +48335,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1248(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 170
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode1249(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(210)
@@ -45762,12 +48360,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1252(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 310
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode356()
         return 1424
     }
+
     private fun parserDefinedNode1254(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -45786,12 +48386,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1256(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 400
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode327()
         return 1430
     }
+
     private fun parserDefinedNode1258(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -45810,6 +48412,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1260(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(121)
@@ -45830,6 +48433,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1265(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(231)
@@ -45863,6 +48467,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1266(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(95)
@@ -45880,6 +48485,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1267(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(232)
@@ -45897,36 +48503,43 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1268(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 356
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 756
     }
+
     private fun parserDefinedNode1269(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 357
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 757
     }
+
     private fun parserDefinedNode1271(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1272(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1273(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1274(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1275(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -45937,16 +48550,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1275, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1275, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1276(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode240()
         return 617
     }
+
     private fun parserDefinedNode1280(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(233)
@@ -45965,24 +48580,28 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1281(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 201
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode130()
         return 697
     }
+
     private fun parserDefinedNode1282(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 206
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode145()
         return 1455
     }
+
     private fun parserDefinedNode1283(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 208
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode147()
         return 1456
     }
+
     private fun parserDefinedNode1284(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(234)
@@ -46002,44 +48621,52 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1285(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode3()
         userCode4()
         return 1457
     }
+
     private fun parserDefinedNode1286(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode3()
         userCode4()
         return 1457
     }
+
     private fun parserDefinedNode1287(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode3()
         userCode4()
         return 1457
     }
+
     private fun parserDefinedNode1288(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode3()
         userCode4()
         return 1457
     }
+
     private fun parserDefinedNode1289(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 16
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 987
     }
+
     private fun parserDefinedNode1303(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 343
     }
+
     private fun parserDefinedNode1304(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 283
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 630
     }
+
     private fun parserDefinedNode1308(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(235)
@@ -46057,6 +48684,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1309(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(236)
@@ -46074,6 +48702,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1310(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(237)
@@ -46091,6 +48720,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1311(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(238)
@@ -46108,6 +48738,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1312(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(239)
@@ -46125,6 +48756,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1313(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(240)
@@ -46142,6 +48774,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1314(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(241)
@@ -46159,47 +48792,55 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1315(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 44
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1316(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 46
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1317(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 48
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1318(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 51
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1319(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 53
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1320(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 55
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1321(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 57
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1322(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46217,36 +48858,42 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1323(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 60
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1324(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 64
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1325(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 66
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1326(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 68
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1327(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 70
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1328(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(84)
@@ -46266,216 +48913,252 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1329(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 77
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1330(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 81
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1331(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 83
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1332(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 88
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1333(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 90
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1334(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 92
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1335(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 94
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1336(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 97
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1337(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 100
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1338(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 103
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1339(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 106
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1340(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 109
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1341(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 111
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1342(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 113
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1343(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 115
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1344(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 117
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1345(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 119
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1346(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 121
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1347(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 123
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1348(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 131
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1349(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 133
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1350(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 135
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1351(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 137
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1352(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 139
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1353(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 143
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1354(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 147
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1355(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 150
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1356(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 153
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1357(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 156
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1358(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 158
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1359(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 160
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1360(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 162
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1361(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 164
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1362(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 166
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1363(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 335
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode239()
         return 213
     }
+
     private fun parserDefinedNode1364(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46493,18 +49176,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1365(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 260
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode387()
         return 1472
     }
+
     private fun parserDefinedNode1367(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode254()
         userCode255()
         return 1473
     }
+
     private fun parserDefinedNode1369(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -46521,11 +49207,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1477
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1369, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1369, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1371(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -46540,11 +49227,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1479
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1371, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1371, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1373(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -46561,11 +49249,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1483
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1373, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1373, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1375(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(67)
@@ -46586,6 +49275,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1376(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(242)
@@ -46603,6 +49293,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1377(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(95)
@@ -46620,6 +49311,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1378(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(232)
@@ -46637,56 +49329,66 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1379(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 19
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode500()
         return 1364
     }
+
     private fun parserDefinedNode1380(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 21
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 694
     }
+
     private fun parserDefinedNode1381(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 336
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode657()
         return 1484
     }
+
     private fun parserDefinedNode1382(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 339
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode662()
         return 673
     }
+
     private fun parserDefinedNode1383(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 340
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 602
     }
+
     private fun parserDefinedNode1384(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 341
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 603
     }
+
     private fun parserDefinedNode1385(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 342
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1386(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 353
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode485()
         return 1289
     }
+
     private fun parserDefinedNode1387(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 355
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode485()
         return 1289
     }
+
     private fun parserDefinedNode1388(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -46720,11 +49422,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1491
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1388, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1388, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1390(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(243)
@@ -46743,6 +49446,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1391(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(244)
@@ -46762,69 +49466,85 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1394(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 210
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode271()
         return 771
     }
+
     private fun parserDefinedNode1397(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1458
     }
+
     private fun parserDefinedNode1398(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1458
     }
+
     private fun parserDefinedNode1399(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1458
     }
+
     private fun parserDefinedNode1400(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1458
     }
+
     private fun parserDefinedNode1401(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1459
     }
+
     private fun parserDefinedNode1402(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1459
     }
+
     private fun parserDefinedNode1403(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1459
     }
+
     private fun parserDefinedNode1404(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1460
     }
+
     private fun parserDefinedNode1405(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1460
     }
+
     private fun parserDefinedNode1406(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1460
     }
+
     private fun parserDefinedNode1407(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1461
     }
+
     private fun parserDefinedNode1408(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1461
     }
+
     private fun parserDefinedNode1409(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1461
     }
+
     private fun parserDefinedNode1410(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 213
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1411(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(84)
@@ -46843,6 +49563,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1412(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46860,6 +49581,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1413(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46877,6 +49599,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1414(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46894,6 +49617,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1415(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46911,6 +49635,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1416(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46928,6 +49653,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1417(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46945,6 +49671,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1418(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -46962,30 +49689,35 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1419(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 59
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1420(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 73
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1422(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 20
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1424(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 311
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode358()
         return 555
     }
+
     private fun parserDefinedNode1426(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(245)
@@ -47006,12 +49738,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1430(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 401
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode329()
         return 564
     }
+
     private fun parserDefinedNode1433(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(246)
@@ -47032,32 +49766,38 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1437(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 456
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode233()
         return 316
     }
+
     private fun parserDefinedNode1439(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 18
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1265
     }
+
     private fun parserDefinedNode1440(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 344
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1265
     }
+
     private fun parserDefinedNode1441(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 346
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1265
     }
+
     private fun parserDefinedNode1450(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode443()
         return 1543
     }
+
     private fun parserDefinedNode1451(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(154)
@@ -47077,12 +49817,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1452(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 262
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode392()
         return 1544
     }
+
     private fun parserDefinedNode1453(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(105)
@@ -47100,6 +49842,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1455(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(247)
@@ -47117,6 +49860,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1456(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(248)
@@ -47134,6 +49878,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1457(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(137)
@@ -47154,6 +49899,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1458(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -47168,15 +49914,17 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1458, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1458, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1459(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1503
     }
+
     private fun parserDefinedNode1460(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -47189,11 +49937,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 645
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1460, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1460, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1461(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -47206,17 +49955,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 645
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1461, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1461, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1462(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 238
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode707()
         return 646
     }
+
     private fun parserDefinedNode1463(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -47235,6 +49986,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1464(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(249)
@@ -47256,6 +50008,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1465(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47274,6 +50027,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1466(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47292,6 +50046,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1467(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47310,6 +50065,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1468(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47328,6 +50084,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1469(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47346,6 +50103,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1470(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(115)
@@ -47364,6 +50122,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1471(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -47381,12 +50140,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1472(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 261
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode398()
         return 1390
     }
+
     private fun parserDefinedNode1473(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(250)
@@ -47406,6 +50167,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1476(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(251)
@@ -47423,12 +50185,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1477(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode354()
         userCode355()
         return 1367
     }
+
     private fun parserDefinedNode1478(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(252)
@@ -47448,6 +50212,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1479(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(253)
@@ -47467,6 +50232,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1482(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(251)
@@ -47484,17 +50250,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1483(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode325()
         userCode326()
         return 1371
     }
+
     private fun parserDefinedNode1484(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 337
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1485(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(254)
@@ -47535,53 +50304,62 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1486(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1487(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1488(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1489(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1490(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1491(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode447()
         userCode448()
         return 1450
     }
+
     private fun parserDefinedNode1495(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 274
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode387()
         return 1472
     }
+
     private fun parserDefinedNode1496(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode381()
         return 1577
     }
+
     private fun parserDefinedNode1497(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(222)
@@ -47601,6 +50379,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1498(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(222)
@@ -47620,12 +50399,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1499(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 420
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode271()
         return 771
     }
+
     private fun parserDefinedNode1503(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -47639,11 +50420,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 338
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1503, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1503, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1506(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47663,17 +50445,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1507(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 24
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1551
     }
+
     private fun parserDefinedNode1508(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 25
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1509(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47693,12 +50478,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1510(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 27
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1511(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47718,12 +50505,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1512(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 29
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1513(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47743,12 +50532,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1514(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 31
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1515(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47768,12 +50559,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1516(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 33
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1517(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47793,12 +50586,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1518(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 35
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1519(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -47818,18 +50613,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1520(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 37
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1521(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 74
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1522(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(121)
@@ -47848,6 +50646,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1524(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(103)
@@ -47866,10 +50665,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1525(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 847
     }
+
     private fun parserDefinedNode1527(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(121)
@@ -47888,6 +50689,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1529(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(121)
@@ -47906,63 +50708,74 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1531(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 306
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 636
     }
+
     private fun parserDefinedNode1532(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 850
     }
+
     private fun parserDefinedNode1534(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 362
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode449()
         return 1598
     }
+
     private fun parserDefinedNode1535(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 364
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode451()
         return 1599
     }
+
     private fun parserDefinedNode1536(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 366
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode453()
         return 1600
     }
+
     private fun parserDefinedNode1537(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 368
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode455()
         return 1601
     }
+
     private fun parserDefinedNode1538(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 370
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode457()
         return 1602
     }
+
     private fun parserDefinedNode1539(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 372
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode459()
         return 1603
     }
+
     private fun parserDefinedNode1540(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 374
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode461()
         return 1604
     }
+
     private fun parserDefinedNode1541(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 376
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode463()
         return 1605
     }
+
     private fun parserDefinedNode1543(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -47976,16 +50789,18 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1606
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1543, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1543, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1544(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 263
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1576
     }
+
     private fun parserDefinedNode1548(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -48003,6 +50818,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1549(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(255)
@@ -48025,6 +50841,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1551(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -48043,6 +50860,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1559(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48065,23 +50883,26 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 371
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1559, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1559, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1560(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 288
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode369()
         return 845
     }
+
     private fun parserDefinedNode1561(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 289
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode371()
         return 846
     }
+
     private fun parserDefinedNode1563(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48097,11 +50918,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 235
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1563, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1563, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1565(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48129,11 +50951,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 294
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1565, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1565, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1576(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(256)
@@ -48158,6 +50981,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1577(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48169,11 +50993,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1639
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1577, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1577, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1578(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48188,11 +51013,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1641
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1578, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1578, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1579(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48207,21 +51033,24 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1642
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1579, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1579, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1580(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1581(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 218
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode667()
         return 1643
     }
+
     private fun parserDefinedNode1582(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(257)
@@ -48239,6 +51068,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1584(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(258)
@@ -48257,6 +51087,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1586(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(71)
@@ -48277,6 +51108,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1590(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(54)
@@ -48297,6 +51129,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1593(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(67)
@@ -48317,6 +51150,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1598(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(259)
@@ -48334,6 +51168,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1599(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(260)
@@ -48351,6 +51186,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1600(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(261)
@@ -48368,6 +51204,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1601(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(262)
@@ -48385,6 +51222,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1602(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(263)
@@ -48402,6 +51240,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1603(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(264)
@@ -48419,6 +51258,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1604(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(265)
@@ -48436,6 +51276,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1605(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(211)
@@ -48453,6 +51294,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1606(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(266)
@@ -48472,16 +51314,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1607(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 264
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1608(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 265
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 853
     }
+
     private fun parserDefinedNode1609(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(242)
@@ -48499,6 +51344,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1610(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -48516,6 +51362,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1611(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -48533,79 +51380,93 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1617(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1619(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 219
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 166
     }
+
     private fun parserDefinedNode1620(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode637()
         return 1655
     }
+
     private fun parserDefinedNode1621(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 312
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode253()
         return 421
     }
+
     private fun parserDefinedNode1623(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 402
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode313()
         return 257
     }
+
     private fun parserDefinedNode1625(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 452
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode233()
         return 316
     }
+
     private fun parserDefinedNode1627(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 363
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1628(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 365
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1629(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 367
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1630(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 369
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1631(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 371
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1632(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 373
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode465()
         return 753
     }
+
     private fun parserDefinedNode1633(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 375
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1328
     }
+
     private fun parserDefinedNode1634(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(265)
@@ -48623,6 +51484,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1635(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(267)
@@ -48640,17 +51502,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1637(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 266
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1648
     }
+
     private fun parserDefinedNode1638(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 272
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode380()
         return 1116
     }
+
     private fun parserDefinedNode1639(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48663,11 +51528,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 498
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1639, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1639, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1640(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(268)
@@ -48687,12 +51553,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1641(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode109()
         userCode110()
         return 1015
     }
+
     private fun parserDefinedNode1642(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(269)
@@ -48712,6 +51580,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1643(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(270)
@@ -48731,17 +51600,20 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1645(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 377
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 1328
     }
+
     private fun parserDefinedNode1646(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 378
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode442()
         return 478
     }
+
     private fun parserDefinedNode1647(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -48755,11 +51627,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1662
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1647, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1647, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1648(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(271)
@@ -48778,18 +51651,21 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1649(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 207
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode147()
         return 1456
     }
+
     private fun parserDefinedNode1652(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 209
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode145()
         return 1455
     }
+
     private fun parserDefinedNode1655(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -48807,12 +51683,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1658(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 267
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode409()
         return 873
     }
+
     private fun parserDefinedNode1659(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(53)
@@ -48831,16 +51709,19 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1660(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode665()
         userCode666()
         return 398
     }
+
     private fun parserDefinedNode1661(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1662(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(272)
@@ -48860,6 +51741,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1664(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(273)
@@ -48877,6 +51759,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1666(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(274)
@@ -48896,23 +51779,27 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1667(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 379
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode437()
         return 366
     }
+
     private fun parserDefinedNode1668(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode431()
         return 1672
     }
+
     private fun parserDefinedNode1671(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 270
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode409()
         return 873
     }
+
     private fun parserDefinedNode1672(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -49242,11 +52129,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 1825
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1672, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1672, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1687(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49265,6 +52153,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1751(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49282,6 +52171,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1752(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49299,6 +52189,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1753(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49316,6 +52207,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1754(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49333,6 +52225,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1755(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49350,6 +52243,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1756(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49367,6 +52261,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1757(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(275)
@@ -49386,6 +52281,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1758(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49403,6 +52299,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1759(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49420,6 +52317,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1760(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49437,6 +52335,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1761(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49454,6 +52353,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1762(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49471,6 +52371,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1763(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49488,6 +52389,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1764(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49505,6 +52407,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1765(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49522,6 +52425,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1766(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49539,6 +52443,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1767(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49556,6 +52461,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1768(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49573,6 +52479,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1769(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(276)
@@ -49592,6 +52499,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1770(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49609,6 +52517,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1771(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(276)
@@ -49628,6 +52537,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1772(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49645,6 +52555,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1773(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49662,6 +52573,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1774(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49679,6 +52591,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1775(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49696,6 +52609,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1776(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(276)
@@ -49715,6 +52629,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1777(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49732,6 +52647,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1778(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49749,6 +52665,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1779(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49766,6 +52683,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1780(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49783,6 +52701,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1781(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49800,6 +52719,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1782(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49817,6 +52737,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1783(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49834,6 +52755,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1784(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49851,6 +52773,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1785(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49868,6 +52791,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1786(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49885,6 +52809,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1787(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49902,6 +52827,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1788(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49919,6 +52845,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1789(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -49936,6 +52863,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1790(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49953,6 +52881,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1791(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49970,6 +52899,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1792(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -49987,6 +52917,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1793(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50004,6 +52935,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1794(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50021,6 +52953,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1795(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50038,6 +52971,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1796(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50055,6 +52989,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1797(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50072,6 +53007,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1798(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50089,6 +53025,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1799(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50106,6 +53043,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1800(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50123,6 +53061,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1801(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50140,6 +53079,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1802(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50157,6 +53097,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1803(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50174,6 +53115,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1804(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50191,6 +53133,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1805(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50208,6 +53151,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1806(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50225,6 +53169,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1807(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50242,6 +53187,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1808(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50259,6 +53205,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1809(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50276,6 +53223,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1810(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50293,6 +53241,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1811(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50310,6 +53259,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1812(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50327,6 +53277,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1813(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50344,6 +53295,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1814(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50361,6 +53313,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1815(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50378,6 +53331,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1816(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50395,6 +53349,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1817(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50412,6 +53367,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1818(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50429,6 +53385,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1819(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(276)
@@ -50448,6 +53405,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1820(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -50465,6 +53423,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1821(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(276)
@@ -50484,6 +53443,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1822(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(277)
@@ -50503,6 +53463,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1823(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(278)
@@ -50520,6 +53481,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1824(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(278)
@@ -50537,6 +53499,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1825(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(278)
@@ -50554,6 +53517,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1826(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -50564,31 +53528,37 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 549
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1826, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0,parserDefinedStackPosition)}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 1826, at position $bufferDefinedPosition. stack was ${parserDefinedStackData.toList().subList(0, parserDefinedStackPosition)}"
                 return -1
             }
         }
     }
+
     private fun parserDefinedNode1827(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1828(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1829(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1830(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1831(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 1617
     }
+
     private fun parserDefinedNode1832(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(99)
@@ -50606,52 +53576,64 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1834(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1835(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1836(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 49
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1837(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1838(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1839(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1840(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1841(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1842(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1843(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1844(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1845(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50669,12 +53651,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1847(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 78
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1848(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50692,26 +53676,31 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1850(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1851(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1852(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 84
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1853(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 85
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1854(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50729,196 +53718,239 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1856(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1857(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1858(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1859(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1860(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 95
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1861(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1862(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 98
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1863(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1864(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 101
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1865(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1866(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 104
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1867(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1868(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 107
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1869(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1870(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1871(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1872(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1873(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1874(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1875(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1876(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1877(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1878(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1879(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1880(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1881(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1882(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1883(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 144
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1884(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 145
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1885(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1886(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 148
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1887(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1888(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 151
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1889(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1890(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 154
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1891(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1892(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1893(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1894(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1895(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1896(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1897(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 167
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1898(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50936,10 +53968,12 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1900(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 486
     }
+
     private fun parserDefinedNode1901(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(120)
@@ -50957,6 +53991,7 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1903(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(278)
@@ -50974,21 +54009,25 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1905(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 331
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1906(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 380
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1907(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 383
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1908(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(279)
@@ -51006,12 +54045,14 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1909(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 75
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1910(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -51029,30 +54070,35 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1911(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 79
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1912(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 86
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1913(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 168
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1914(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 188
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode430()
         return 254
     }
+
     private fun parserDefinedNode1915(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(78)
@@ -51070,11 +54116,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1916(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 190
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 165
     }
+
     private fun parserDefinedNode1917(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(259)
@@ -51092,11 +54140,13 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
+
     private fun parserDefinedNode1918(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 38
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 754
     }
+
     public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
@@ -54896,2542 +57946,3251 @@ public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             TODO(parsererror!!)
         }
     }
+
     private fun userCode0() {
         stack.add(ASTSparqlDoc())
     }
+
     private fun userCode1() {
         val tmp430 = stack.removeLast()
         (stack[stack.size - 1] as ASTSparqlDoc).astAssign(0, tmp430)
     }
+
     private fun userCode2() {
         stack.add(ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional())
     }
+
     private fun userCode3() {
         val tmp422 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(0, tmp422)
     }
+
     private fun userCode4() {
         stack.add(ASTValuesClauseOptional())
     }
+
     private fun userCode5() {
         val tmp421 = stack.removeLast()
         (stack[stack.size - 1] as ASTValuesClauseOptional).astAssign(0, tmp421)
     }
+
     private fun userCode6() {
         val tmp423 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional).astAssign(1, tmp423)
     }
+
     private fun userCode7() {
         stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional())
     }
+
     private fun userCode8() {
         stack.add(ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional())
     }
+
     private fun userCode9() {
         val tmp427 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0, tmp427)
     }
+
     private fun userCode10() {
         stack.add(ASTClassOfPrologueAndUpdateOptional())
     }
+
     private fun userCode11() {
         stack.add(ASTClassOfPrologueAndUpdate())
     }
+
     private fun userCode12() {
         val tmp424 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(0, tmp424)
     }
+
     private fun userCode13() {
         val tmp425 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(1, tmp425)
     }
+
     private fun userCode14() {
         val tmp426 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0, tmp426)
     }
+
     private fun userCode15() {
         val tmp428 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1, tmp428)
     }
+
     private fun userCode16() {
         val tmp429 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional).astAssign(0, tmp429)
     }
+
     private fun userCode17() {
         val tmp431 = stack.removeLast()
         (stack[stack.size - 1] as ASTSparqlDoc).astAssign(1, tmp431)
     }
+
     private fun userCode18() {
         stack.add(ASTUpdate())
     }
+
     private fun userCode19() {
         val tmp435 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(0, tmp435)
     }
+
     private fun userCode20() {
         val tmp432 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(0, tmp432)
     }
+
     private fun userCode21() {
         val tmp433 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdate).astAssign(1, tmp433)
     }
+
     private fun userCode22() {
         val tmp434 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPrologueAndUpdateOptional).astAssign(0, tmp434)
     }
+
     private fun userCode23() {
         val tmp436 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional).astAssign(1, tmp436)
     }
+
     private fun userCode24() {
         val tmp437 = stack.removeLast()
         (stack[stack.size - 1] as ASTUpdate).astAssign(0, tmp437)
     }
+
     private fun userCode25() {
         stack.add(ASTPrologue())
     }
+
     private fun userCode26() {
         val tmp438 = stack.removeLast()
         (stack[stack.size - 1] as ASTPrologue).astAssign(0, tmp438)
     }
+
     private fun userCode27() {
         stack.add(ASTBaseDecl())
     }
+
     private fun userCode28() {
         stack.add(getLastTokenString())
     }
+
     private fun userCode29() {
         val tmp439 = stack.removeLast()
         (stack[stack.size - 1] as ASTBaseDecl).astAssign(0, tmp439)
     }
+
     private fun userCode30() {
         stack.add(ASTPrefixDecl())
     }
+
     private fun userCode31() {
         val tmp440 = stack.removeLast()
         (stack[stack.size - 1] as ASTPrefixDecl).astAssign(0, tmp440)
     }
+
     private fun userCode32() {
         val tmp441 = stack.removeLast()
         (stack[stack.size - 1] as ASTPrefixDecl).astAssign(1, tmp441)
     }
+
     private fun userCode33() {
         stack.add(ASTSelectQuery())
     }
+
     private fun userCode34() {
         val tmp443 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectQuery).astAssign(0, tmp443)
     }
+
     private fun userCode35() {
         stack.add(ASTListOfDatasetClause())
     }
+
     private fun userCode36() {
         val tmp442 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp442)
     }
+
     private fun userCode37() {
         val tmp444 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectQuery).astAssign(1, tmp444)
     }
+
     private fun userCode38() {
         val tmp445 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectQuery).astAssign(2, tmp445)
     }
+
     private fun userCode39() {
         val tmp446 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectQuery).astAssign(3, tmp446)
     }
+
     private fun userCode40() {
         stack.add(ASTSubSelect())
     }
+
     private fun userCode41() {
         val tmp448 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubSelect).astAssign(0, tmp448)
     }
+
     private fun userCode42() {
         val tmp449 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubSelect).astAssign(1, tmp449)
     }
+
     private fun userCode43() {
         val tmp450 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubSelect).astAssign(2, tmp450)
     }
+
     private fun userCode44() {
         val tmp447 = stack.removeLast()
         (stack[stack.size - 1] as ASTValuesClauseOptional).astAssign(0, tmp447)
     }
+
     private fun userCode45() {
         val tmp451 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubSelect).astAssign(3, tmp451)
     }
+
     private fun userCode46() {
         stack.add(ASTSelectClause())
     }
+
     private fun userCode47() {
         stack.add(ASTAnonymous("DISTINCT"))
     }
+
     private fun userCode48() {
         stack.add(ASTAnonymous("REDUCED"))
     }
+
     private fun userCode49() {
         val tmp455 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectClause).astAssign(0, tmp455)
     }
+
     private fun userCode50() {
         stack.add(ASTListOfInterfaceOfVarOrClassOfExpressionAndVar())
     }
+
     private fun userCode51() {
         stack.add(ASTClassOfExpressionAndVar())
     }
+
     private fun userCode52() {
         val tmp452 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndVar).astAssign(0, tmp452)
     }
+
     private fun userCode53() {
         val tmp453 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndVar).astAssign(1, tmp453)
     }
+
     private fun userCode54() {
         val tmp454 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfInterfaceOfVarOrClassOfExpressionAndVar).astAssign(0, tmp454)
     }
+
     private fun userCode55() {
         val tmp456 = stack.removeLast()
         (stack[stack.size - 1] as ASTSelectClause).astAssign(1, tmp456)
     }
+
     private fun userCode56() {
         stack.add(ASTSelectClauseAll())
     }
+
     private fun userCode57() {
         stack.add(ASTConstructQuery())
     }
+
     private fun userCode58() {
         stack.add(ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier())
     }
+
     private fun userCode59() {
         val tmp458 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(0, tmp458)
     }
+
     private fun userCode60() {
         val tmp457 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp457)
     }
+
     private fun userCode61() {
         val tmp459 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(1, tmp459)
     }
+
     private fun userCode62() {
         val tmp460 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(2, tmp460)
     }
+
     private fun userCode63() {
         val tmp461 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier).astAssign(3, tmp461)
     }
+
     private fun userCode64() {
         stack.add(ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier())
     }
+
     private fun userCode65() {
         val tmp462 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp462)
     }
+
     private fun userCode66() {
         val tmp463 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(0, tmp463)
     }
+
     private fun userCode67() {
         val tmp464 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(1, tmp464)
     }
+
     private fun userCode68() {
         val tmp465 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier).astAssign(2, tmp465)
     }
+
     private fun userCode69() {
         val tmp466 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructQuery).astAssign(0, tmp466)
     }
+
     private fun userCode70() {
         stack.add(ASTDescribeQuery())
     }
+
     private fun userCode71() {
         stack.add(ASTListOfVarOrIri())
     }
+
     private fun userCode72() {
         val tmp467 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfVarOrIri).astAssign(0, tmp467)
     }
+
     private fun userCode73() {
         val tmp470 = stack.removeLast()
         (stack[stack.size - 1] as ASTDescribeQuery).astAssign(0, tmp470)
     }
+
     private fun userCode74() {
         val tmp468 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp468)
     }
+
     private fun userCode75() {
         val tmp471 = stack.removeLast()
         (stack[stack.size - 1] as ASTDescribeQuery).astAssign(1, tmp471)
     }
+
     private fun userCode76() {
         stack.add(ASTWhereClauseOptional())
     }
+
     private fun userCode77() {
         val tmp469 = stack.removeLast()
         (stack[stack.size - 1] as ASTWhereClauseOptional).astAssign(0, tmp469)
     }
+
     private fun userCode78() {
         val tmp472 = stack.removeLast()
         (stack[stack.size - 1] as ASTDescribeQuery).astAssign(2, tmp472)
     }
+
     private fun userCode79() {
         val tmp473 = stack.removeLast()
         (stack[stack.size - 1] as ASTDescribeQuery).astAssign(3, tmp473)
     }
+
     private fun userCode80() {
         stack.add(ASTDescribeQueryAll())
     }
+
     private fun userCode81() {
         stack.add(ASTAskQuery())
     }
+
     private fun userCode82() {
         val tmp474 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDatasetClause).astAssign(0, tmp474)
     }
+
     private fun userCode83() {
         val tmp475 = stack.removeLast()
         (stack[stack.size - 1] as ASTAskQuery).astAssign(0, tmp475)
     }
+
     private fun userCode84() {
         val tmp476 = stack.removeLast()
         (stack[stack.size - 1] as ASTAskQuery).astAssign(1, tmp476)
     }
+
     private fun userCode85() {
         val tmp477 = stack.removeLast()
         (stack[stack.size - 1] as ASTAskQuery).astAssign(2, tmp477)
     }
+
     private fun userCode86() {
         stack.add(ASTDatasetClause())
     }
+
     private fun userCode87() {
         val tmp478 = stack.removeLast()
         (stack[stack.size - 1] as ASTDatasetClause).astAssign(0, tmp478)
     }
+
     private fun userCode88() {
         stack.add(ASTDefaultGraphClause())
     }
+
     private fun userCode89() {
         val tmp479 = stack.removeLast()
         (stack[stack.size - 1] as ASTDefaultGraphClause).astAssign(0, tmp479)
     }
+
     private fun userCode90() {
         stack.add(ASTNamedGraphClause())
     }
+
     private fun userCode91() {
         val tmp480 = stack.removeLast()
         (stack[stack.size - 1] as ASTNamedGraphClause).astAssign(0, tmp480)
     }
+
     private fun userCode92() {
         stack.add(ASTSourceSelector())
     }
+
     private fun userCode93() {
         val tmp481 = stack.removeLast()
         (stack[stack.size - 1] as ASTSourceSelector).astAssign(0, tmp481)
     }
+
     private fun userCode94() {
         stack.add(ASTWhereClause())
     }
+
     private fun userCode95() {
         stack.add(ASTAnonymous("WHERE"))
     }
+
     private fun userCode96() {
         val tmp482 = stack.removeLast()
         (stack[stack.size - 1] as ASTWhereClause).astAssign(0, tmp482)
     }
+
     private fun userCode97() {
         val tmp483 = stack.removeLast()
         (stack[stack.size - 1] as ASTWhereClause).astAssign(1, tmp483)
     }
+
     private fun userCode98() {
         stack.add(ASTSolutionModifier())
     }
+
     private fun userCode99() {
         stack.add(ASTGroupClauseOptional())
     }
+
     private fun userCode100() {
         val tmp484 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupClauseOptional).astAssign(0, tmp484)
     }
+
     private fun userCode101() {
         val tmp488 = stack.removeLast()
         (stack[stack.size - 1] as ASTSolutionModifier).astAssign(0, tmp488)
     }
+
     private fun userCode102() {
         stack.add(ASTHavingClauseOptional())
     }
+
     private fun userCode103() {
         val tmp485 = stack.removeLast()
         (stack[stack.size - 1] as ASTHavingClauseOptional).astAssign(0, tmp485)
     }
+
     private fun userCode104() {
         val tmp489 = stack.removeLast()
         (stack[stack.size - 1] as ASTSolutionModifier).astAssign(1, tmp489)
     }
+
     private fun userCode105() {
         stack.add(ASTOrderClauseOptional())
     }
+
     private fun userCode106() {
         val tmp486 = stack.removeLast()
         (stack[stack.size - 1] as ASTOrderClauseOptional).astAssign(0, tmp486)
     }
+
     private fun userCode107() {
         val tmp490 = stack.removeLast()
         (stack[stack.size - 1] as ASTSolutionModifier).astAssign(2, tmp490)
     }
+
     private fun userCode108() {
         stack.add(ASTLimitOffsetClausesOptional())
     }
+
     private fun userCode109() {
         val tmp487 = stack.removeLast()
         (stack[stack.size - 1] as ASTLimitOffsetClausesOptional).astAssign(0, tmp487)
     }
+
     private fun userCode110() {
         val tmp491 = stack.removeLast()
         (stack[stack.size - 1] as ASTSolutionModifier).astAssign(3, tmp491)
     }
+
     private fun userCode111() {
         stack.add(ASTGroupClause())
     }
+
     private fun userCode112() {
         stack.add(ASTListOfGroupCondition())
     }
+
     private fun userCode113() {
         val tmp492 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfGroupCondition).astAssign(0, tmp492)
     }
+
     private fun userCode114() {
         val tmp493 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupClause).astAssign(0, tmp493)
     }
+
     private fun userCode115() {
         stack.add(ASTClassOfExpressionAndVarOptional())
     }
+
     private fun userCode116() {
         val tmp495 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndVarOptional).astAssign(0, tmp495)
     }
+
     private fun userCode117() {
         stack.add(ASTVarOptional())
     }
+
     private fun userCode118() {
         val tmp494 = stack.removeLast()
         (stack[stack.size - 1] as ASTVarOptional).astAssign(0, tmp494)
     }
+
     private fun userCode119() {
         val tmp496 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndVarOptional).astAssign(1, tmp496)
     }
+
     private fun userCode120() {
         stack.add(ASTHavingClause())
     }
+
     private fun userCode121() {
         stack.add(ASTListOfHavingCondition())
     }
+
     private fun userCode122() {
         val tmp497 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfHavingCondition).astAssign(0, tmp497)
     }
+
     private fun userCode123() {
         val tmp498 = stack.removeLast()
         (stack[stack.size - 1] as ASTHavingClause).astAssign(0, tmp498)
     }
+
     private fun userCode124() {
         stack.add(ASTHavingCondition())
     }
+
     private fun userCode125() {
         val tmp499 = stack.removeLast()
         (stack[stack.size - 1] as ASTHavingCondition).astAssign(0, tmp499)
     }
+
     private fun userCode126() {
         stack.add(ASTOrderClause())
     }
+
     private fun userCode127() {
         stack.add(ASTListOfOrderCondition())
     }
+
     private fun userCode128() {
         val tmp500 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfOrderCondition).astAssign(0, tmp500)
     }
+
     private fun userCode129() {
         val tmp501 = stack.removeLast()
         (stack[stack.size - 1] as ASTOrderClause).astAssign(0, tmp501)
     }
+
     private fun userCode130() {
         stack.add(ASTOrderCondition())
     }
+
     private fun userCode131() {
         stack.add(ASTAnonymous("ASC"))
     }
+
     private fun userCode132() {
         stack.add(ASTAnonymous("DESC"))
     }
+
     private fun userCode133() {
         val tmp502 = stack.removeLast()
         (stack[stack.size - 1] as ASTOrderCondition).astAssign(0, tmp502)
     }
+
     private fun userCode134() {
         val tmp503 = stack.removeLast()
         (stack[stack.size - 1] as ASTOrderCondition).astAssign(1, tmp503)
     }
+
     private fun userCode135() {
         stack.add(ASTClassOfLimitClauseAndOffsetClauseOptional())
     }
+
     private fun userCode136() {
         val tmp505 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(0, tmp505)
     }
+
     private fun userCode137() {
         stack.add(ASTOffsetClauseOptional())
     }
+
     private fun userCode138() {
         val tmp504 = stack.removeLast()
         (stack[stack.size - 1] as ASTOffsetClauseOptional).astAssign(0, tmp504)
     }
+
     private fun userCode139() {
         val tmp506 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfLimitClauseAndOffsetClauseOptional).astAssign(1, tmp506)
     }
+
     private fun userCode140() {
         stack.add(ASTClassOfOffsetClauseAndLimitClauseOptional())
     }
+
     private fun userCode141() {
         val tmp508 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(0, tmp508)
     }
+
     private fun userCode142() {
         stack.add(ASTLimitClauseOptional())
     }
+
     private fun userCode143() {
         val tmp507 = stack.removeLast()
         (stack[stack.size - 1] as ASTLimitClauseOptional).astAssign(0, tmp507)
     }
+
     private fun userCode144() {
         val tmp509 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfOffsetClauseAndLimitClauseOptional).astAssign(1, tmp509)
     }
+
     private fun userCode145() {
         stack.add(ASTLimitClause())
     }
+
     private fun userCode146() {
         val tmp510 = stack.removeLast()
         (stack[stack.size - 1] as ASTLimitClause).astAssign(0, tmp510)
     }
+
     private fun userCode147() {
         stack.add(ASTOffsetClause())
     }
+
     private fun userCode148() {
         val tmp511 = stack.removeLast()
         (stack[stack.size - 1] as ASTOffsetClause).astAssign(0, tmp511)
     }
+
     private fun userCode149() {
         stack.add(ASTLoad())
     }
+
     private fun userCode150() {
         stack.add(ASTAnonymous("SILENT"))
     }
+
     private fun userCode151() {
         val tmp513 = stack.removeLast()
         (stack[stack.size - 1] as ASTLoad).astAssign(0, tmp513)
     }
+
     private fun userCode152() {
         val tmp514 = stack.removeLast()
         (stack[stack.size - 1] as ASTLoad).astAssign(1, tmp514)
     }
+
     private fun userCode153() {
         stack.add(ASTGraphRefOptional())
     }
+
     private fun userCode154() {
         val tmp512 = stack.removeLast()
         (stack[stack.size - 1] as ASTGraphRefOptional).astAssign(0, tmp512)
     }
+
     private fun userCode155() {
         val tmp515 = stack.removeLast()
         (stack[stack.size - 1] as ASTLoad).astAssign(2, tmp515)
     }
+
     private fun userCode156() {
         stack.add(ASTClear())
     }
+
     private fun userCode157() {
         val tmp516 = stack.removeLast()
         (stack[stack.size - 1] as ASTClear).astAssign(0, tmp516)
     }
+
     private fun userCode158() {
         val tmp517 = stack.removeLast()
         (stack[stack.size - 1] as ASTClear).astAssign(1, tmp517)
     }
+
     private fun userCode159() {
         stack.add(ASTDrop())
     }
+
     private fun userCode160() {
         val tmp518 = stack.removeLast()
         (stack[stack.size - 1] as ASTDrop).astAssign(0, tmp518)
     }
+
     private fun userCode161() {
         val tmp519 = stack.removeLast()
         (stack[stack.size - 1] as ASTDrop).astAssign(1, tmp519)
     }
+
     private fun userCode162() {
         stack.add(ASTCreate())
     }
+
     private fun userCode163() {
         val tmp520 = stack.removeLast()
         (stack[stack.size - 1] as ASTCreate).astAssign(0, tmp520)
     }
+
     private fun userCode164() {
         val tmp521 = stack.removeLast()
         (stack[stack.size - 1] as ASTCreate).astAssign(1, tmp521)
     }
+
     private fun userCode165() {
         stack.add(ASTAdd())
     }
+
     private fun userCode166() {
         val tmp522 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdd).astAssign(0, tmp522)
     }
+
     private fun userCode167() {
         val tmp523 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdd).astAssign(1, tmp523)
     }
+
     private fun userCode168() {
         val tmp524 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdd).astAssign(2, tmp524)
     }
+
     private fun userCode169() {
         stack.add(ASTMove())
     }
+
     private fun userCode170() {
         val tmp525 = stack.removeLast()
         (stack[stack.size - 1] as ASTMove).astAssign(0, tmp525)
     }
+
     private fun userCode171() {
         val tmp526 = stack.removeLast()
         (stack[stack.size - 1] as ASTMove).astAssign(1, tmp526)
     }
+
     private fun userCode172() {
         val tmp527 = stack.removeLast()
         (stack[stack.size - 1] as ASTMove).astAssign(2, tmp527)
     }
+
     private fun userCode173() {
         stack.add(ASTCopy())
     }
+
     private fun userCode174() {
         val tmp528 = stack.removeLast()
         (stack[stack.size - 1] as ASTCopy).astAssign(0, tmp528)
     }
+
     private fun userCode175() {
         val tmp529 = stack.removeLast()
         (stack[stack.size - 1] as ASTCopy).astAssign(1, tmp529)
     }
+
     private fun userCode176() {
         val tmp530 = stack.removeLast()
         (stack[stack.size - 1] as ASTCopy).astAssign(2, tmp530)
     }
+
     private fun userCode177() {
         stack.add(ASTInsertData())
     }
+
     private fun userCode178() {
         val tmp531 = stack.removeLast()
         (stack[stack.size - 1] as ASTInsertData).astAssign(0, tmp531)
     }
+
     private fun userCode179() {
         stack.add(ASTDeleteData())
     }
+
     private fun userCode180() {
         val tmp532 = stack.removeLast()
         (stack[stack.size - 1] as ASTDeleteData).astAssign(0, tmp532)
     }
+
     private fun userCode181() {
         stack.add(ASTDeleteWhere())
     }
+
     private fun userCode182() {
         val tmp533 = stack.removeLast()
         (stack[stack.size - 1] as ASTDeleteWhere).astAssign(0, tmp533)
     }
+
     private fun userCode183() {
         stack.add(ASTModify())
     }
+
     private fun userCode184() {
         stack.add(ASTiriOptional())
     }
+
     private fun userCode185() {
         val tmp534 = stack.removeLast()
         (stack[stack.size - 1] as ASTiriOptional).astAssign(0, tmp534)
     }
+
     private fun userCode186() {
         val tmp539 = stack.removeLast()
         (stack[stack.size - 1] as ASTModify).astAssign(0, tmp539)
     }
+
     private fun userCode187() {
         stack.add(ASTClassOfDeleteClauseAndInsertClauseOptional())
     }
+
     private fun userCode188() {
         val tmp536 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(0, tmp536)
     }
+
     private fun userCode189() {
         stack.add(ASTInsertClauseOptional())
     }
+
     private fun userCode190() {
         val tmp535 = stack.removeLast()
         (stack[stack.size - 1] as ASTInsertClauseOptional).astAssign(0, tmp535)
     }
+
     private fun userCode191() {
         val tmp537 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfDeleteClauseAndInsertClauseOptional).astAssign(1, tmp537)
     }
+
     private fun userCode192() {
         val tmp540 = stack.removeLast()
         (stack[stack.size - 1] as ASTModify).astAssign(1, tmp540)
     }
+
     private fun userCode193() {
         stack.add(ASTListOfUsingClause())
     }
+
     private fun userCode194() {
         val tmp538 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfUsingClause).astAssign(0, tmp538)
     }
+
     private fun userCode195() {
         val tmp541 = stack.removeLast()
         (stack[stack.size - 1] as ASTModify).astAssign(2, tmp541)
     }
+
     private fun userCode196() {
         val tmp542 = stack.removeLast()
         (stack[stack.size - 1] as ASTModify).astAssign(3, tmp542)
     }
+
     private fun userCode197() {
         stack.add(ASTDeleteClause())
     }
+
     private fun userCode198() {
         val tmp543 = stack.removeLast()
         (stack[stack.size - 1] as ASTDeleteClause).astAssign(0, tmp543)
     }
+
     private fun userCode199() {
         stack.add(ASTInsertClause())
     }
+
     private fun userCode200() {
         val tmp544 = stack.removeLast()
         (stack[stack.size - 1] as ASTInsertClause).astAssign(0, tmp544)
     }
+
     private fun userCode201() {
         stack.add(ASTUsingClause())
     }
+
     private fun userCode202() {
         val tmp545 = stack.removeLast()
         (stack[stack.size - 1] as ASTUsingClause).astAssign(0, tmp545)
     }
+
     private fun userCode203() {
         stack.add(ASTClassOfGRAPHAndiri())
     }
+
     private fun userCode204() {
         stack.add(ASTAnonymous("GRAPH"))
     }
+
     private fun userCode205() {
         val tmp546 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfGRAPHAndiri).astAssign(0, tmp546)
     }
+
     private fun userCode206() {
         val tmp547 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfGRAPHAndiri).astAssign(1, tmp547)
     }
+
     private fun userCode207() {
         stack.add(ASTGraphRef())
     }
+
     private fun userCode208() {
         val tmp548 = stack.removeLast()
         (stack[stack.size - 1] as ASTGraphRef).astAssign(0, tmp548)
     }
+
     private fun userCode209() {
         stack.add(ASTGraphRefDefault())
     }
+
     private fun userCode210() {
         stack.add(ASTGraphRefNamed())
     }
+
     private fun userCode211() {
         stack.add(ASTGraphRefAll2())
     }
+
     private fun userCode212() {
         stack.add(ASTQuadPattern())
     }
+
     private fun userCode213() {
         val tmp549 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuadPattern).astAssign(0, tmp549)
     }
+
     private fun userCode214() {
         stack.add(ASTQuadData())
     }
+
     private fun userCode215() {
         val tmp550 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuadData).astAssign(0, tmp550)
     }
+
     private fun userCode216() {
         stack.add(ASTQuads())
     }
+
     private fun userCode217() {
         stack.add(ASTTriplesTemplateOptional())
     }
+
     private fun userCode218() {
         val tmp551 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp551)
     }
+
     private fun userCode219() {
         val tmp557 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuads).astAssign(0, tmp557)
     }
+
     private fun userCode220() {
         stack.add(ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
     }
+
     private fun userCode221() {
         stack.add(ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
     }
+
     private fun userCode222() {
         val tmp553 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0, tmp553)
     }
+
     private fun userCode223() {
         stack.add(ASTAnonymous("point"))
     }
+
     private fun userCode224() {
         val tmp554 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(1, tmp554)
     }
+
     private fun userCode225() {
         val tmp552 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp552)
     }
+
     private fun userCode226() {
         val tmp555 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(2, tmp555)
     }
+
     private fun userCode227() {
         val tmp556 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional).astAssign(0, tmp556)
     }
+
     private fun userCode228() {
         val tmp558 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuads).astAssign(1, tmp558)
     }
+
     private fun userCode229() {
         stack.add(ASTQuadsNotTriples())
     }
+
     private fun userCode230() {
         val tmp560 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuadsNotTriples).astAssign(0, tmp560)
     }
+
     private fun userCode231() {
         val tmp559 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp559)
     }
+
     private fun userCode232() {
         val tmp561 = stack.removeLast()
         (stack[stack.size - 1] as ASTQuadsNotTriples).astAssign(1, tmp561)
     }
+
     private fun userCode233() {
         stack.add(ASTTriplesTemplate())
     }
+
     private fun userCode234() {
         val tmp565 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplate).astAssign(0, tmp565)
     }
+
     private fun userCode235() {
         stack.add(ASTTriplesTemplateOptionalOptional())
     }
+
     private fun userCode236() {
         val tmp562 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplateOptional).astAssign(0, tmp562)
     }
+
     private fun userCode237() {
         val tmp564 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplateOptionalOptional).astAssign(0, tmp564)
     }
+
     private fun userCode238() {
         val tmp566 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesTemplate).astAssign(1, tmp566)
     }
+
     private fun userCode239() {
         stack.add(ASTGroupGraphPattern())
     }
+
     private fun userCode240() {
         val tmp567 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupGraphPattern).astAssign(0, tmp567)
     }
+
     private fun userCode241() {
         stack.add(ASTGroupGraphPatternSub())
     }
+
     private fun userCode242() {
         stack.add(ASTTriplesBlockOptional())
     }
+
     private fun userCode243() {
         val tmp568 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp568)
     }
+
     private fun userCode244() {
         val tmp574 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupGraphPatternSub).astAssign(0, tmp574)
     }
+
     private fun userCode245() {
         stack.add(ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
     }
+
     private fun userCode246() {
         stack.add(ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
     }
+
     private fun userCode247() {
         val tmp570 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0, tmp570)
     }
+
     private fun userCode248() {
         val tmp571 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(1, tmp571)
     }
+
     private fun userCode249() {
         val tmp569 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp569)
     }
+
     private fun userCode250() {
         val tmp572 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(2, tmp572)
     }
+
     private fun userCode251() {
         val tmp573 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional).astAssign(0, tmp573)
     }
+
     private fun userCode252() {
         val tmp575 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupGraphPatternSub).astAssign(1, tmp575)
     }
+
     private fun userCode253() {
         stack.add(ASTTriplesBlock())
     }
+
     private fun userCode254() {
         val tmp579 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlock).astAssign(0, tmp579)
     }
+
     private fun userCode255() {
         stack.add(ASTTriplesBlockOptionalOptional())
     }
+
     private fun userCode256() {
         val tmp576 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlockOptional).astAssign(0, tmp576)
     }
+
     private fun userCode257() {
         val tmp578 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlockOptionalOptional).astAssign(0, tmp578)
     }
+
     private fun userCode258() {
         val tmp580 = stack.removeLast()
         (stack[stack.size - 1] as ASTTriplesBlock).astAssign(1, tmp580)
     }
+
     private fun userCode259() {
         stack.add(ASTOptionalGraphPattern())
     }
+
     private fun userCode260() {
         val tmp581 = stack.removeLast()
         (stack[stack.size - 1] as ASTOptionalGraphPattern).astAssign(0, tmp581)
     }
+
     private fun userCode261() {
         stack.add(ASTGraphGraphPattern())
     }
+
     private fun userCode262() {
         val tmp582 = stack.removeLast()
         (stack[stack.size - 1] as ASTGraphGraphPattern).astAssign(0, tmp582)
     }
+
     private fun userCode263() {
         val tmp583 = stack.removeLast()
         (stack[stack.size - 1] as ASTGraphGraphPattern).astAssign(1, tmp583)
     }
+
     private fun userCode264() {
         stack.add(ASTServiceGraphPattern())
     }
+
     private fun userCode265() {
         val tmp584 = stack.removeLast()
         (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(0, tmp584)
     }
+
     private fun userCode266() {
         val tmp585 = stack.removeLast()
         (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(1, tmp585)
     }
+
     private fun userCode267() {
         val tmp586 = stack.removeLast()
         (stack[stack.size - 1] as ASTServiceGraphPattern).astAssign(2, tmp586)
     }
+
     private fun userCode268() {
         stack.add(ASTBind())
     }
+
     private fun userCode269() {
         val tmp587 = stack.removeLast()
         (stack[stack.size - 1] as ASTBind).astAssign(0, tmp587)
     }
+
     private fun userCode270() {
         val tmp588 = stack.removeLast()
         (stack[stack.size - 1] as ASTBind).astAssign(1, tmp588)
     }
+
     private fun userCode271() {
         stack.add(ASTValuesClause())
     }
+
     private fun userCode272() {
         val tmp589 = stack.removeLast()
         (stack[stack.size - 1] as ASTValuesClause).astAssign(0, tmp589)
     }
+
     private fun userCode273() {
         stack.add(ASTInlineDataOneVar())
     }
+
     private fun userCode274() {
         val tmp591 = stack.removeLast()
         (stack[stack.size - 1] as ASTInlineDataOneVar).astAssign(0, tmp591)
     }
+
     private fun userCode275() {
         stack.add(ASTListOfDataBlockValue())
     }
+
     private fun userCode276() {
         val tmp590 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDataBlockValue).astAssign(0, tmp590)
     }
+
     private fun userCode277() {
         val tmp592 = stack.removeLast()
         (stack[stack.size - 1] as ASTInlineDataOneVar).astAssign(1, tmp592)
     }
+
     private fun userCode278() {
         stack.add(ASTInlineDataFull())
     }
+
     private fun userCode279() {
         stack.add(ASTListOfVar())
     }
+
     private fun userCode280() {
         val tmp593 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfVar).astAssign(0, tmp593)
     }
+
     private fun userCode281() {
         val tmp598 = stack.removeLast()
         (stack[stack.size - 1] as ASTInlineDataFull).astAssign(0, tmp598)
     }
+
     private fun userCode282() {
         stack.add(ASTListOfInterfaceOfListOfDataBlockValueOrNILParam())
     }
+
     private fun userCode283() {
         val tmp595 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfDataBlockValue).astAssign(0, tmp595)
     }
+
     private fun userCode284() {
         val tmp597 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam).astAssign(0, tmp597)
     }
+
     private fun userCode285() {
         val tmp599 = stack.removeLast()
         (stack[stack.size - 1] as ASTInlineDataFull).astAssign(1, tmp599)
     }
+
     private fun userCode286() {
         stack.add(ASTUNDEF())
     }
+
     private fun userCode287() {
         stack.add(ASTMinusGraphPattern())
     }
+
     private fun userCode288() {
         val tmp600 = stack.removeLast()
         (stack[stack.size - 1] as ASTMinusGraphPattern).astAssign(0, tmp600)
     }
+
     private fun userCode289() {
         stack.add(ASTGroupOrUnionGraphPattern())
     }
+
     private fun userCode290() {
         val tmp602 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupOrUnionGraphPattern).astAssign(0, tmp602)
     }
+
     private fun userCode291() {
         stack.add(ASTListOfGroupGraphPattern())
     }
+
     private fun userCode292() {
         val tmp601 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfGroupGraphPattern).astAssign(0, tmp601)
     }
+
     private fun userCode293() {
         val tmp603 = stack.removeLast()
         (stack[stack.size - 1] as ASTGroupOrUnionGraphPattern).astAssign(1, tmp603)
     }
+
     private fun userCode294() {
         stack.add(ASTFilter())
     }
+
     private fun userCode295() {
         val tmp604 = stack.removeLast()
         (stack[stack.size - 1] as ASTFilter).astAssign(0, tmp604)
     }
+
     private fun userCode296() {
         stack.add(ASTFunctionCall())
     }
+
     private fun userCode297() {
         val tmp605 = stack.removeLast()
         (stack[stack.size - 1] as ASTFunctionCall).astAssign(0, tmp605)
     }
+
     private fun userCode298() {
         val tmp606 = stack.removeLast()
         (stack[stack.size - 1] as ASTFunctionCall).astAssign(1, tmp606)
     }
+
     private fun userCode299() {
         stack.add(ASTClassOfDISTINCTAndExpressionAndListOfExpression())
     }
+
     private fun userCode300() {
         val tmp608 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(0, tmp608)
     }
+
     private fun userCode301() {
         val tmp609 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(1, tmp609)
     }
+
     private fun userCode302() {
         stack.add(ASTListOfExpression())
     }
+
     private fun userCode303() {
         val tmp607 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfExpression).astAssign(0, tmp607)
     }
+
     private fun userCode304() {
         val tmp610 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfDISTINCTAndExpressionAndListOfExpression).astAssign(2, tmp610)
     }
+
     private fun userCode305() {
         stack.add(ASTClassOfExpressionAndListOfExpression())
     }
+
     private fun userCode306() {
         val tmp612 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndListOfExpression).astAssign(0, tmp612)
     }
+
     private fun userCode307() {
         val tmp611 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfExpression).astAssign(0, tmp611)
     }
+
     private fun userCode308() {
         val tmp613 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfExpressionAndListOfExpression).astAssign(1, tmp613)
     }
+
     private fun userCode309() {
         stack.add(ASTConstructTemplate())
     }
+
     private fun userCode310() {
         stack.add(ASTConstructTriplesOptional())
     }
+
     private fun userCode311() {
         val tmp614 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTriplesOptional).astAssign(0, tmp614)
     }
+
     private fun userCode312() {
         val tmp615 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTemplate).astAssign(0, tmp615)
     }
+
     private fun userCode313() {
         stack.add(ASTConstructTriples())
     }
+
     private fun userCode314() {
         val tmp619 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTriples).astAssign(0, tmp619)
     }
+
     private fun userCode315() {
         stack.add(ASTConstructTriplesOptionalOptional())
     }
+
     private fun userCode316() {
         val tmp616 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTriplesOptional).astAssign(0, tmp616)
     }
+
     private fun userCode317() {
         val tmp618 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTriplesOptionalOptional).astAssign(0, tmp618)
     }
+
     private fun userCode318() {
         val tmp620 = stack.removeLast()
         (stack[stack.size - 1] as ASTConstructTriples).astAssign(1, tmp620)
     }
+
     private fun userCode319() {
         stack.add(ASTClassOfVarOrTermAndPropertyListNotEmpty())
     }
+
     private fun userCode320() {
         val tmp621 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(0, tmp621)
     }
+
     private fun userCode321() {
         val tmp622 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListNotEmpty).astAssign(1, tmp622)
     }
+
     private fun userCode322() {
         stack.add(ASTClassOfTriplesNodeAndPropertyListOptional())
     }
+
     private fun userCode323() {
         val tmp624 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(0, tmp624)
     }
+
     private fun userCode324() {
         stack.add(ASTPropertyListOptional())
     }
+
     private fun userCode325() {
         val tmp623 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListOptional).astAssign(0, tmp623)
     }
+
     private fun userCode326() {
         val tmp625 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfTriplesNodeAndPropertyListOptional).astAssign(1, tmp625)
     }
+
     private fun userCode327() {
         stack.add(ASTPropertyList())
     }
+
     private fun userCode328() {
         val tmp626 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyList).astAssign(0, tmp626)
     }
+
     private fun userCode329() {
         stack.add(ASTPropertyListNotEmpty())
     }
+
     private fun userCode330() {
         val tmp632 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(0, tmp632)
     }
+
     private fun userCode331() {
         val tmp633 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(1, tmp633)
     }
+
     private fun userCode332() {
         stack.add(ASTListOfClassOfVerbAndObjectListOptional())
     }
+
     private fun userCode333() {
         stack.add(ASTClassOfVerbAndObjectListOptional())
     }
+
     private fun userCode334() {
         stack.add(ASTClassOfVerbAndObjectList())
     }
+
     private fun userCode335() {
         val tmp627 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVerbAndObjectList).astAssign(0, tmp627)
     }
+
     private fun userCode336() {
         val tmp628 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVerbAndObjectList).astAssign(1, tmp628)
     }
+
     private fun userCode337() {
         val tmp629 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVerbAndObjectListOptional).astAssign(0, tmp629)
     }
+
     private fun userCode338() {
         val tmp631 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfClassOfVerbAndObjectListOptional).astAssign(0, tmp631)
     }
+
     private fun userCode339() {
         val tmp634 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListNotEmpty).astAssign(2, tmp634)
     }
+
     private fun userCode340() {
         stack.add(ASTRDFType())
     }
+
     private fun userCode341() {
         stack.add(ASTObjectList())
     }
+
     private fun userCode342() {
         val tmp636 = stack.removeLast()
         (stack[stack.size - 1] as ASTObjectList).astAssign(0, tmp636)
     }
+
     private fun userCode343() {
         stack.add(ASTListOfObject())
     }
+
     private fun userCode344() {
         val tmp635 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfObject).astAssign(0, tmp635)
     }
+
     private fun userCode345() {
         val tmp637 = stack.removeLast()
         (stack[stack.size - 1] as ASTObjectList).astAssign(1, tmp637)
     }
+
     private fun userCode346() {
         stack.add(ASTObject())
     }
+
     private fun userCode347() {
         val tmp638 = stack.removeLast()
         (stack[stack.size - 1] as ASTObject).astAssign(0, tmp638)
     }
+
     private fun userCode348() {
         stack.add(ASTClassOfVarOrTermAndPropertyListPathNotEmpty())
     }
+
     private fun userCode349() {
         val tmp639 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(0, tmp639)
     }
+
     private fun userCode350() {
         val tmp640 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfVarOrTermAndPropertyListPathNotEmpty).astAssign(1, tmp640)
     }
+
     private fun userCode351() {
         stack.add(ASTClassOfTriplesNodePathAndPropertyListPathOptional())
     }
+
     private fun userCode352() {
         val tmp642 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(0, tmp642)
     }
+
     private fun userCode353() {
         stack.add(ASTPropertyListPathOptional())
     }
+
     private fun userCode354() {
         val tmp641 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListPathOptional).astAssign(0, tmp641)
     }
+
     private fun userCode355() {
         val tmp643 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfTriplesNodePathAndPropertyListPathOptional).astAssign(1, tmp643)
     }
+
     private fun userCode356() {
         stack.add(ASTPropertyListPath())
     }
+
     private fun userCode357() {
         val tmp644 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListPath).astAssign(0, tmp644)
     }
+
     private fun userCode358() {
         stack.add(ASTPropertyListPathNotEmpty())
     }
+
     private fun userCode359() {
         val tmp650 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(0, tmp650)
     }
+
     private fun userCode360() {
         val tmp651 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(1, tmp651)
     }
+
     private fun userCode361() {
         stack.add(ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
     }
+
     private fun userCode362() {
         stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
     }
+
     private fun userCode363() {
         stack.add(ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList())
     }
+
     private fun userCode364() {
         val tmp645 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(0, tmp645)
     }
+
     private fun userCode365() {
         val tmp646 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList).astAssign(1, tmp646)
     }
+
     private fun userCode366() {
         val tmp647 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0, tmp647)
     }
+
     private fun userCode367() {
         val tmp649 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional).astAssign(0, tmp649)
     }
+
     private fun userCode368() {
         val tmp652 = stack.removeLast()
         (stack[stack.size - 1] as ASTPropertyListPathNotEmpty).astAssign(2, tmp652)
     }
+
     private fun userCode369() {
         stack.add(ASTVerbPath())
     }
+
     private fun userCode370() {
         val tmp653 = stack.removeLast()
         (stack[stack.size - 1] as ASTVerbPath).astAssign(0, tmp653)
     }
+
     private fun userCode371() {
         stack.add(ASTVerbSimple())
     }
+
     private fun userCode372() {
         val tmp654 = stack.removeLast()
         (stack[stack.size - 1] as ASTVerbSimple).astAssign(0, tmp654)
     }
+
     private fun userCode373() {
         stack.add(ASTObjectListPath())
     }
+
     private fun userCode374() {
         val tmp656 = stack.removeLast()
         (stack[stack.size - 1] as ASTObjectListPath).astAssign(0, tmp656)
     }
+
     private fun userCode375() {
         stack.add(ASTListOfObjectPath())
     }
+
     private fun userCode376() {
         val tmp655 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfObjectPath).astAssign(0, tmp655)
     }
+
     private fun userCode377() {
         val tmp657 = stack.removeLast()
         (stack[stack.size - 1] as ASTObjectListPath).astAssign(1, tmp657)
     }
+
     private fun userCode378() {
         stack.add(ASTObjectPath())
     }
+
     private fun userCode379() {
         val tmp658 = stack.removeLast()
         (stack[stack.size - 1] as ASTObjectPath).astAssign(0, tmp658)
     }
+
     private fun userCode380() {
         stack.add(ASTPath())
     }
+
     private fun userCode381() {
         val tmp659 = stack.removeLast()
         (stack[stack.size - 1] as ASTPath).astAssign(0, tmp659)
     }
+
     private fun userCode382() {
         stack.add(ASTPathAlternative())
     }
+
     private fun userCode383() {
         val tmp661 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathAlternative).astAssign(0, tmp661)
     }
+
     private fun userCode384() {
         stack.add(ASTListOfPathSequence())
     }
+
     private fun userCode385() {
         val tmp660 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfPathSequence).astAssign(0, tmp660)
     }
+
     private fun userCode386() {
         val tmp662 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathAlternative).astAssign(1, tmp662)
     }
+
     private fun userCode387() {
         stack.add(ASTPathSequence())
     }
+
     private fun userCode388() {
         val tmp664 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathSequence).astAssign(0, tmp664)
     }
+
     private fun userCode389() {
         stack.add(ASTListOfPathEltOrInverse())
     }
+
     private fun userCode390() {
         val tmp663 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfPathEltOrInverse).astAssign(0, tmp663)
     }
+
     private fun userCode391() {
         val tmp665 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathSequence).astAssign(1, tmp665)
     }
+
     private fun userCode392() {
         stack.add(ASTPathElt())
     }
+
     private fun userCode393() {
         val tmp666 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathElt).astAssign(0, tmp666)
     }
+
     private fun userCode394() {
         stack.add(ASTAnonymous("optional"))
     }
+
     private fun userCode395() {
         stack.add(ASTAnonymous("any"))
     }
+
     private fun userCode396() {
         stack.add(ASTAnonymous("atLeastOne"))
     }
+
     private fun userCode397() {
         val tmp667 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathElt).astAssign(1, tmp667)
     }
+
     private fun userCode398() {
         stack.add(ASTPathEltOrInverse())
     }
+
     private fun userCode399() {
         stack.add(ASTAnonymous("negated"))
     }
+
     private fun userCode400() {
         val tmp668 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathEltOrInverse).astAssign(0, tmp668)
     }
+
     private fun userCode401() {
         val tmp669 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathEltOrInverse).astAssign(1, tmp669)
     }
+
     private fun userCode402() {
         stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional())
     }
+
     private fun userCode403() {
         stack.add(ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet())
     }
+
     private fun userCode404() {
         val tmp671 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(0, tmp671)
     }
+
     private fun userCode405() {
         stack.add(ASTListOfPathOneInPropertySet())
     }
+
     private fun userCode406() {
         val tmp670 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfPathOneInPropertySet).astAssign(0, tmp670)
     }
+
     private fun userCode407() {
         val tmp672 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet).astAssign(1, tmp672)
     }
+
     private fun userCode408() {
         val tmp673 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional).astAssign(0, tmp673)
     }
+
     private fun userCode409() {
         stack.add(ASTPathOneInPropertySet())
     }
+
     private fun userCode410() {
         val tmp675 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathOneInPropertySet).astAssign(0, tmp675)
     }
+
     private fun userCode411() {
         val tmp676 = stack.removeLast()
         (stack[stack.size - 1] as ASTPathOneInPropertySet).astAssign(1, tmp676)
     }
+
     private fun userCode412() {
         stack.add(ASTInteger())
     }
+
     private fun userCode413() {
         val tmp677 = stack.removeLast()
         (stack[stack.size - 1] as ASTInteger).astAssign(0, tmp677)
     }
+
     private fun userCode414() {
         stack.add(ASTBlankNodePropertyList())
     }
+
     private fun userCode415() {
         val tmp678 = stack.removeLast()
         (stack[stack.size - 1] as ASTBlankNodePropertyList).astAssign(0, tmp678)
     }
+
     private fun userCode416() {
         stack.add(ASTBlankNodePropertyListPath())
     }
+
     private fun userCode417() {
         val tmp679 = stack.removeLast()
         (stack[stack.size - 1] as ASTBlankNodePropertyListPath).astAssign(0, tmp679)
     }
+
     private fun userCode418() {
         stack.add(ASTCollection())
     }
+
     private fun userCode419() {
         stack.add(ASTListOfGraphNode())
     }
+
     private fun userCode420() {
         val tmp680 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfGraphNode).astAssign(0, tmp680)
     }
+
     private fun userCode421() {
         val tmp681 = stack.removeLast()
         (stack[stack.size - 1] as ASTCollection).astAssign(0, tmp681)
     }
+
     private fun userCode422() {
         stack.add(ASTCollectionPath())
     }
+
     private fun userCode423() {
         stack.add(ASTListOfGraphNodePath())
     }
+
     private fun userCode424() {
         val tmp682 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfGraphNodePath).astAssign(0, tmp682)
     }
+
     private fun userCode425() {
         val tmp683 = stack.removeLast()
         (stack[stack.size - 1] as ASTCollectionPath).astAssign(0, tmp683)
     }
+
     private fun userCode426() {
         stack.add(ASTVar1())
     }
+
     private fun userCode427() {
         val tmp684 = stack.removeLast()
         (stack[stack.size - 1] as ASTVar1).astAssign(0, tmp684)
     }
+
     private fun userCode428() {
         stack.add(ASTVar2())
     }
+
     private fun userCode429() {
         val tmp685 = stack.removeLast()
         (stack[stack.size - 1] as ASTVar2).astAssign(0, tmp685)
     }
+
     private fun userCode430() {
         stack.add(ASTExpression())
     }
+
     private fun userCode431() {
         val tmp686 = stack.removeLast()
         (stack[stack.size - 1] as ASTExpression).astAssign(0, tmp686)
     }
+
     private fun userCode432() {
         stack.add(ASTConditionalOrExpression())
     }
+
     private fun userCode433() {
         val tmp688 = stack.removeLast()
         (stack[stack.size - 1] as ASTConditionalOrExpression).astAssign(0, tmp688)
     }
+
     private fun userCode434() {
         stack.add(ASTListOfConditionalAndExpression())
     }
+
     private fun userCode435() {
         val tmp687 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfConditionalAndExpression).astAssign(0, tmp687)
     }
+
     private fun userCode436() {
         val tmp689 = stack.removeLast()
         (stack[stack.size - 1] as ASTConditionalOrExpression).astAssign(1, tmp689)
     }
+
     private fun userCode437() {
         stack.add(ASTConditionalAndExpression())
     }
+
     private fun userCode438() {
         val tmp691 = stack.removeLast()
         (stack[stack.size - 1] as ASTConditionalAndExpression).astAssign(0, tmp691)
     }
+
     private fun userCode439() {
         stack.add(ASTListOfValueLogical())
     }
+
     private fun userCode440() {
         val tmp690 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfValueLogical).astAssign(0, tmp690)
     }
+
     private fun userCode441() {
         val tmp692 = stack.removeLast()
         (stack[stack.size - 1] as ASTConditionalAndExpression).astAssign(1, tmp692)
     }
+
     private fun userCode442() {
         stack.add(ASTValueLogical())
     }
+
     private fun userCode443() {
         val tmp693 = stack.removeLast()
         (stack[stack.size - 1] as ASTValueLogical).astAssign(0, tmp693)
     }
+
     private fun userCode444() {
         stack.add(ASTRelationalExpression())
     }
+
     private fun userCode445() {
         val tmp695 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpression).astAssign(0, tmp695)
     }
+
     private fun userCode446() {
         stack.add(ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional())
     }
+
     private fun userCode447() {
         val tmp694 = stack.removeLast()
         (stack[stack.size - 1] as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional).astAssign(0, tmp694)
     }
+
     private fun userCode448() {
         val tmp696 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpression).astAssign(1, tmp696)
     }
+
     private fun userCode449() {
         stack.add(ASTRelationalExpressionEQ())
     }
+
     private fun userCode450() {
         val tmp697 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionEQ).astAssign(0, tmp697)
     }
+
     private fun userCode451() {
         stack.add(ASTRelationalExpressionNEQ())
     }
+
     private fun userCode452() {
         val tmp698 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionNEQ).astAssign(0, tmp698)
     }
+
     private fun userCode453() {
         stack.add(ASTRelationalExpressionLT())
     }
+
     private fun userCode454() {
         val tmp699 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionLT).astAssign(0, tmp699)
     }
+
     private fun userCode455() {
         stack.add(ASTRelationalExpressionGT())
     }
+
     private fun userCode456() {
         val tmp700 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionGT).astAssign(0, tmp700)
     }
+
     private fun userCode457() {
         stack.add(ASTRelationalExpressionLEQ())
     }
+
     private fun userCode458() {
         val tmp701 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionLEQ).astAssign(0, tmp701)
     }
+
     private fun userCode459() {
         stack.add(ASTRelationalExpressionGEQ())
     }
+
     private fun userCode460() {
         val tmp702 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionGEQ).astAssign(0, tmp702)
     }
+
     private fun userCode461() {
         stack.add(ASTRelationalExpressionIN())
     }
+
     private fun userCode462() {
         val tmp703 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionIN).astAssign(0, tmp703)
     }
+
     private fun userCode463() {
         stack.add(ASTRelationalExpressionNOTIN())
     }
+
     private fun userCode464() {
         val tmp704 = stack.removeLast()
         (stack[stack.size - 1] as ASTRelationalExpressionNOTIN).astAssign(0, tmp704)
     }
+
     private fun userCode465() {
         stack.add(ASTNumericExpression())
     }
+
     private fun userCode466() {
         val tmp705 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericExpression).astAssign(0, tmp705)
     }
+
     private fun userCode467() {
         stack.add(ASTAdditiveExpression())
     }
+
     private fun userCode468() {
         val tmp710 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpression).astAssign(0, tmp710)
     }
+
     private fun userCode469() {
         stack.add(ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
+
     private fun userCode470() {
         stack.add(ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
+
     private fun userCode471() {
         val tmp707 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp707)
     }
+
     private fun userCode472() {
         stack.add(ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
+
     private fun userCode473() {
         val tmp706 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp706)
     }
+
     private fun userCode474() {
         val tmp708 = stack.removeLast()
         (stack[stack.size - 1] as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(1, tmp708)
     }
+
     private fun userCode475() {
         val tmp709 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE).astAssign(0, tmp709)
     }
+
     private fun userCode476() {
         val tmp711 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpression).astAssign(1, tmp711)
     }
+
     private fun userCode477() {
         stack.add(ASTAdditiveExpressionPLUS())
     }
+
     private fun userCode478() {
         val tmp712 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpressionPLUS).astAssign(0, tmp712)
     }
+
     private fun userCode479() {
         stack.add(ASTAdditiveExpressionMINUS())
     }
+
     private fun userCode480() {
         val tmp713 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpressionMINUS).astAssign(0, tmp713)
     }
+
     private fun userCode481() {
         stack.add(ASTAdditiveExpressionMULTIPLY())
     }
+
     private fun userCode482() {
         val tmp714 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpressionMULTIPLY).astAssign(0, tmp714)
     }
+
     private fun userCode483() {
         stack.add(ASTAdditiveExpressionDIVIDE())
     }
+
     private fun userCode484() {
         val tmp715 = stack.removeLast()
         (stack[stack.size - 1] as ASTAdditiveExpressionDIVIDE).astAssign(0, tmp715)
     }
+
     private fun userCode485() {
         stack.add(ASTMultiplicativeExpression())
     }
+
     private fun userCode486() {
         val tmp717 = stack.removeLast()
         (stack[stack.size - 1] as ASTMultiplicativeExpression).astAssign(0, tmp717)
     }
+
     private fun userCode487() {
         stack.add(ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE())
     }
+
     private fun userCode488() {
         val tmp716 = stack.removeLast()
         (stack[stack.size - 1] as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE).astAssign(0, tmp716)
     }
+
     private fun userCode489() {
         val tmp718 = stack.removeLast()
         (stack[stack.size - 1] as ASTMultiplicativeExpression).astAssign(1, tmp718)
     }
+
     private fun userCode490() {
         stack.add(ASTMultiplicativeExpressionMULTIPLY())
     }
+
     private fun userCode491() {
         val tmp719 = stack.removeLast()
         (stack[stack.size - 1] as ASTMultiplicativeExpressionMULTIPLY).astAssign(0, tmp719)
     }
+
     private fun userCode492() {
         stack.add(ASTMultiplicativeExpressionDIVIDE())
     }
+
     private fun userCode493() {
         val tmp720 = stack.removeLast()
         (stack[stack.size - 1] as ASTMultiplicativeExpressionDIVIDE).astAssign(0, tmp720)
     }
+
     private fun userCode494() {
         stack.add(ASTUnaryExpressionNOT())
     }
+
     private fun userCode495() {
         val tmp721 = stack.removeLast()
         (stack[stack.size - 1] as ASTUnaryExpressionNOT).astAssign(0, tmp721)
     }
+
     private fun userCode496() {
         stack.add(ASTUnaryExpressionPLUS())
     }
+
     private fun userCode497() {
         val tmp722 = stack.removeLast()
         (stack[stack.size - 1] as ASTUnaryExpressionPLUS).astAssign(0, tmp722)
     }
+
     private fun userCode498() {
         stack.add(ASTUnaryExpressionMINUS())
     }
+
     private fun userCode499() {
         val tmp723 = stack.removeLast()
         (stack[stack.size - 1] as ASTUnaryExpressionMINUS).astAssign(0, tmp723)
     }
+
     private fun userCode500() {
         stack.add(ASTBrackettedExpression())
     }
+
     private fun userCode501() {
         val tmp724 = stack.removeLast()
         (stack[stack.size - 1] as ASTBrackettedExpression).astAssign(0, tmp724)
     }
+
     private fun userCode502() {
         stack.add(ASTBuiltInCallYear())
     }
+
     private fun userCode503() {
         val tmp725 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallYear).astAssign(0, tmp725)
     }
+
     private fun userCode504() {
         stack.add(ASTBuiltInCallMonth())
     }
+
     private fun userCode505() {
         val tmp726 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallMonth).astAssign(0, tmp726)
     }
+
     private fun userCode506() {
         stack.add(ASTBuiltInCallHours())
     }
+
     private fun userCode507() {
         val tmp727 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallHours).astAssign(0, tmp727)
     }
+
     private fun userCode508() {
         stack.add(ASTBuiltInCallNow())
     }
+
     private fun userCode509() {
         val tmp728 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallNow).astAssign(0, tmp728)
     }
+
     private fun userCode510() {
         stack.add(ASTBuiltInCallSameTerm())
     }
+
     private fun userCode511() {
         val tmp729 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSameTerm).astAssign(0, tmp729)
     }
+
     private fun userCode512() {
         val tmp730 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSameTerm).astAssign(1, tmp730)
     }
+
     private fun userCode513() {
         stack.add(ASTBuiltInCallIsIri())
     }
+
     private fun userCode514() {
         val tmp731 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIsIri).astAssign(0, tmp731)
     }
+
     private fun userCode515() {
         stack.add(ASTBuiltInCallIsBlanc())
     }
+
     private fun userCode516() {
         val tmp732 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIsBlanc).astAssign(0, tmp732)
     }
+
     private fun userCode517() {
         stack.add(ASTBuiltInCallIsLiteral())
     }
+
     private fun userCode518() {
         val tmp733 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIsLiteral).astAssign(0, tmp733)
     }
+
     private fun userCode519() {
         stack.add(ASTBuiltInCallMD5())
     }
+
     private fun userCode520() {
         val tmp734 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallMD5).astAssign(0, tmp734)
     }
+
     private fun userCode521() {
         stack.add(ASTBuiltInCallUUID())
     }
+
     private fun userCode522() {
         val tmp735 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallUUID).astAssign(0, tmp735)
     }
+
     private fun userCode523() {
         stack.add(ASTBuiltInCallSTRUUID())
     }
+
     private fun userCode524() {
         val tmp736 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSTRUUID).astAssign(0, tmp736)
     }
+
     private fun userCode525() {
         stack.add(ASTBuiltInCallSHA1())
     }
+
     private fun userCode526() {
         val tmp737 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSHA1).astAssign(0, tmp737)
     }
+
     private fun userCode527() {
         stack.add(ASTBuiltInCallSHA384())
     }
+
     private fun userCode528() {
         val tmp738 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSHA384).astAssign(0, tmp738)
     }
+
     private fun userCode529() {
         stack.add(ASTBuiltInCallSHA512())
     }
+
     private fun userCode530() {
         val tmp739 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSHA512).astAssign(0, tmp739)
     }
+
     private fun userCode531() {
         stack.add(ASTBuiltInCallCoalesce())
     }
+
     private fun userCode532() {
         val tmp740 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallCoalesce).astAssign(0, tmp740)
     }
+
     private fun userCode533() {
         stack.add(ASTBuiltInCallIf())
     }
+
     private fun userCode534() {
         val tmp741 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(0, tmp741)
     }
+
     private fun userCode535() {
         val tmp742 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(1, tmp742)
     }
+
     private fun userCode536() {
         val tmp743 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIf).astAssign(2, tmp743)
     }
+
     private fun userCode537() {
         stack.add(ASTBuiltInCallStrLang())
     }
+
     private fun userCode538() {
         val tmp744 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrLang).astAssign(0, tmp744)
     }
+
     private fun userCode539() {
         val tmp745 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrLang).astAssign(1, tmp745)
     }
+
     private fun userCode540() {
         stack.add(ASTBuiltInCallIsUri())
     }
+
     private fun userCode541() {
         val tmp746 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIsUri).astAssign(0, tmp746)
     }
+
     private fun userCode542() {
         stack.add(ASTBuiltInCallMinutes())
     }
+
     private fun userCode543() {
         val tmp747 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallMinutes).astAssign(0, tmp747)
     }
+
     private fun userCode544() {
         stack.add(ASTBuiltInCallSHA256())
     }
+
     private fun userCode545() {
         val tmp748 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSHA256).astAssign(0, tmp748)
     }
+
     private fun userCode546() {
         stack.add(ASTBuiltInCallStrDt())
     }
+
     private fun userCode547() {
         val tmp749 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrDt).astAssign(0, tmp749)
     }
+
     private fun userCode548() {
         val tmp750 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrDt).astAssign(1, tmp750)
     }
+
     private fun userCode549() {
         stack.add(ASTBuiltInCallIsNumeric())
     }
+
     private fun userCode550() {
         val tmp751 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIsNumeric).astAssign(0, tmp751)
     }
+
     private fun userCode551() {
         stack.add(ASTBuiltInCallSeconds())
     }
+
     private fun userCode552() {
         val tmp752 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallSeconds).astAssign(0, tmp752)
     }
+
     private fun userCode553() {
         stack.add(ASTBuiltInCallTimezone())
     }
+
     private fun userCode554() {
         val tmp753 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallTimezone).astAssign(0, tmp753)
     }
+
     private fun userCode555() {
         stack.add(ASTBuiltInCallTz())
     }
+
     private fun userCode556() {
         val tmp754 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallTz).astAssign(0, tmp754)
     }
+
     private fun userCode557() {
         stack.add(ASTBuiltInCallConcat())
     }
+
     private fun userCode558() {
         val tmp755 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallConcat).astAssign(0, tmp755)
     }
+
     private fun userCode559() {
         stack.add(ASTBuiltInCallStrLen())
     }
+
     private fun userCode560() {
         val tmp756 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrLen).astAssign(0, tmp756)
     }
+
     private fun userCode561() {
         stack.add(ASTBuiltInCallUCase())
     }
+
     private fun userCode562() {
         val tmp757 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallUCase).astAssign(0, tmp757)
     }
+
     private fun userCode563() {
         stack.add(ASTBuiltInCallStrBefore())
     }
+
     private fun userCode564() {
         val tmp758 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrBefore).astAssign(0, tmp758)
     }
+
     private fun userCode565() {
         val tmp759 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrBefore).astAssign(1, tmp759)
     }
+
     private fun userCode566() {
         stack.add(ASTBuiltInCallStrAfter())
     }
+
     private fun userCode567() {
         val tmp760 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrAfter).astAssign(0, tmp760)
     }
+
     private fun userCode568() {
         val tmp761 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrAfter).astAssign(1, tmp761)
     }
+
     private fun userCode569() {
         stack.add(ASTBuiltInCallEncodeForUri())
     }
+
     private fun userCode570() {
         val tmp762 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallEncodeForUri).astAssign(0, tmp762)
     }
+
     private fun userCode571() {
         stack.add(ASTBuiltInCallContains())
     }
+
     private fun userCode572() {
         val tmp763 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallContains).astAssign(0, tmp763)
     }
+
     private fun userCode573() {
         val tmp764 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallContains).astAssign(1, tmp764)
     }
+
     private fun userCode574() {
         stack.add(ASTBuiltInCallStrStarts())
     }
+
     private fun userCode575() {
         val tmp765 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrStarts).astAssign(0, tmp765)
     }
+
     private fun userCode576() {
         val tmp766 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrStarts).astAssign(1, tmp766)
     }
+
     private fun userCode577() {
         stack.add(ASTBuiltInCallStrEnds())
     }
+
     private fun userCode578() {
         val tmp767 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrEnds).astAssign(0, tmp767)
     }
+
     private fun userCode579() {
         val tmp768 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStrEnds).astAssign(1, tmp768)
     }
+
     private fun userCode580() {
         stack.add(ASTBuiltInCallDay())
     }
+
     private fun userCode581() {
         val tmp769 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallDay).astAssign(0, tmp769)
     }
+
     private fun userCode582() {
         stack.add(ASTBuiltInCallStr())
     }
+
     private fun userCode583() {
         val tmp770 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallStr).astAssign(0, tmp770)
     }
+
     private fun userCode584() {
         stack.add(ASTBuiltInCallLang())
     }
+
     private fun userCode585() {
         val tmp771 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallLang).astAssign(0, tmp771)
     }
+
     private fun userCode586() {
         stack.add(ASTBuildInCallLangMatches())
     }
+
     private fun userCode587() {
         val tmp772 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuildInCallLangMatches).astAssign(0, tmp772)
     }
+
     private fun userCode588() {
         val tmp773 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuildInCallLangMatches).astAssign(1, tmp773)
     }
+
     private fun userCode589() {
         stack.add(ASTBuiltInCallDataType())
     }
+
     private fun userCode590() {
         val tmp774 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallDataType).astAssign(0, tmp774)
     }
+
     private fun userCode591() {
         stack.add(ASTBuiltInCallBound())
     }
+
     private fun userCode592() {
         val tmp775 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallBound).astAssign(0, tmp775)
     }
+
     private fun userCode593() {
         stack.add(ASTBuiltInCallIri())
     }
+
     private fun userCode594() {
         val tmp776 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallIri).astAssign(0, tmp776)
     }
+
     private fun userCode595() {
         stack.add(ASTBuiltInCallUri())
     }
+
     private fun userCode596() {
         val tmp777 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallUri).astAssign(0, tmp777)
     }
+
     private fun userCode597() {
         stack.add(ASTBuiltInCallBNode())
     }
+
     private fun userCode598() {
         val tmp778 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallBNode).astAssign(0, tmp778)
     }
+
     private fun userCode599() {
         stack.add(ASTBuiltInCallRand())
     }
+
     private fun userCode600() {
         val tmp779 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallRand).astAssign(0, tmp779)
     }
+
     private fun userCode601() {
         stack.add(ASTBuiltInCallAbs())
     }
+
     private fun userCode602() {
         val tmp780 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallAbs).astAssign(0, tmp780)
     }
+
     private fun userCode603() {
         stack.add(ASTBuiltInCallCeil())
     }
+
     private fun userCode604() {
         val tmp781 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallCeil).astAssign(0, tmp781)
     }
+
     private fun userCode605() {
         stack.add(ASTBuiltInCallLCase())
     }
+
     private fun userCode606() {
         val tmp782 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallLCase).astAssign(0, tmp782)
     }
+
     private fun userCode607() {
         stack.add(ASTBuiltInCallFloor())
     }
+
     private fun userCode608() {
         val tmp783 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallFloor).astAssign(0, tmp783)
     }
+
     private fun userCode609() {
         stack.add(ASTBuiltInCallRound())
     }
+
     private fun userCode610() {
         val tmp784 = stack.removeLast()
         (stack[stack.size - 1] as ASTBuiltInCallRound).astAssign(0, tmp784)
     }
+
     private fun userCode611() {
         stack.add(ASTRegexExpression())
     }
+
     private fun userCode612() {
         val tmp786 = stack.removeLast()
         (stack[stack.size - 1] as ASTRegexExpression).astAssign(0, tmp786)
     }
+
     private fun userCode613() {
         val tmp787 = stack.removeLast()
         (stack[stack.size - 1] as ASTRegexExpression).astAssign(1, tmp787)
     }
+
     private fun userCode614() {
         stack.add(ASTExpressionOptional())
     }
+
     private fun userCode615() {
         val tmp785 = stack.removeLast()
         (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp785)
     }
+
     private fun userCode616() {
         val tmp788 = stack.removeLast()
         (stack[stack.size - 1] as ASTRegexExpression).astAssign(2, tmp788)
     }
+
     private fun userCode617() {
         stack.add(ASTSubstringExpression())
     }
+
     private fun userCode618() {
         val tmp790 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubstringExpression).astAssign(0, tmp790)
     }
+
     private fun userCode619() {
         val tmp791 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubstringExpression).astAssign(1, tmp791)
     }
+
     private fun userCode620() {
         val tmp789 = stack.removeLast()
         (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp789)
     }
+
     private fun userCode621() {
         val tmp792 = stack.removeLast()
         (stack[stack.size - 1] as ASTSubstringExpression).astAssign(2, tmp792)
     }
+
     private fun userCode622() {
         stack.add(ASTStrReplaceExpression())
     }
+
     private fun userCode623() {
         val tmp794 = stack.removeLast()
         (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(0, tmp794)
     }
+
     private fun userCode624() {
         val tmp795 = stack.removeLast()
         (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(1, tmp795)
     }
+
     private fun userCode625() {
         val tmp796 = stack.removeLast()
         (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(2, tmp796)
     }
+
     private fun userCode626() {
         val tmp793 = stack.removeLast()
         (stack[stack.size - 1] as ASTExpressionOptional).astAssign(0, tmp793)
     }
+
     private fun userCode627() {
         val tmp797 = stack.removeLast()
         (stack[stack.size - 1] as ASTStrReplaceExpression).astAssign(3, tmp797)
     }
+
     private fun userCode628() {
         stack.add(ASTExistsFunc())
     }
+
     private fun userCode629() {
         val tmp798 = stack.removeLast()
         (stack[stack.size - 1] as ASTExistsFunc).astAssign(0, tmp798)
     }
+
     private fun userCode630() {
         stack.add(ASTNotExistsFunc())
     }
+
     private fun userCode631() {
         val tmp799 = stack.removeLast()
         (stack[stack.size - 1] as ASTNotExistsFunc).astAssign(0, tmp799)
     }
+
     private fun userCode632() {
         stack.add(ASTAggregateAvg())
     }
+
     private fun userCode633() {
         val tmp800 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateAvg).astAssign(0, tmp800)
     }
+
     private fun userCode634() {
         val tmp801 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateAvg).astAssign(1, tmp801)
     }
+
     private fun userCode635() {
         stack.add(ASTAggregateCount())
     }
+
     private fun userCode636() {
         val tmp802 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateCount).astAssign(0, tmp802)
     }
+
     private fun userCode637() {
         val tmp803 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateCount).astAssign(1, tmp803)
     }
+
     private fun userCode638() {
         stack.add(ASTAggregateCountAll())
     }
+
     private fun userCode639() {
         stack.add(ASTAggregateSum())
     }
+
     private fun userCode640() {
         val tmp804 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateSum).astAssign(0, tmp804)
     }
+
     private fun userCode641() {
         val tmp805 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateSum).astAssign(1, tmp805)
     }
+
     private fun userCode642() {
         stack.add(ASTAggregateMin())
     }
+
     private fun userCode643() {
         val tmp806 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateMin).astAssign(0, tmp806)
     }
+
     private fun userCode644() {
         val tmp807 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateMin).astAssign(1, tmp807)
     }
+
     private fun userCode645() {
         stack.add(ASTAggregateMax())
     }
+
     private fun userCode646() {
         val tmp808 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateMax).astAssign(0, tmp808)
     }
+
     private fun userCode647() {
         val tmp809 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateMax).astAssign(1, tmp809)
     }
+
     private fun userCode648() {
         stack.add(ASTAggregateSample())
     }
+
     private fun userCode649() {
         val tmp810 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateSample).astAssign(0, tmp810)
     }
+
     private fun userCode650() {
         val tmp811 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateSample).astAssign(1, tmp811)
     }
+
     private fun userCode651() {
         stack.add(ASTAggregateGroupConcat())
     }
+
     private fun userCode652() {
         val tmp813 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(0, tmp813)
     }
+
     private fun userCode653() {
         val tmp814 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(1, tmp814)
     }
+
     private fun userCode654() {
         stack.add(ASTStringOptional())
     }
+
     private fun userCode655() {
         val tmp812 = stack.removeLast()
         (stack[stack.size - 1] as ASTStringOptional).astAssign(0, tmp812)
     }
+
     private fun userCode656() {
         val tmp815 = stack.removeLast()
         (stack[stack.size - 1] as ASTAggregateGroupConcat).astAssign(2, tmp815)
     }
+
     private fun userCode657() {
         stack.add(ASTiriOrFunction())
     }
+
     private fun userCode658() {
         val tmp817 = stack.removeLast()
         (stack[stack.size - 1] as ASTiriOrFunction).astAssign(0, tmp817)
     }
+
     private fun userCode659() {
         stack.add(ASTArgListOptional())
     }
+
     private fun userCode660() {
         val tmp816 = stack.removeLast()
         (stack[stack.size - 1] as ASTArgListOptional).astAssign(0, tmp816)
     }
+
     private fun userCode661() {
         val tmp818 = stack.removeLast()
         (stack[stack.size - 1] as ASTiriOrFunction).astAssign(1, tmp818)
     }
+
     private fun userCode662() {
         stack.add(ASTRDFLiteral())
     }
+
     private fun userCode663() {
         val tmp820 = stack.removeLast()
         (stack[stack.size - 1] as ASTRDFLiteral).astAssign(0, tmp820)
     }
+
     private fun userCode664() {
         stack.add(ASTInterfaceOfRDFLiteralLangOririOptional())
     }
+
     private fun userCode665() {
         val tmp819 = stack.removeLast()
         (stack[stack.size - 1] as ASTInterfaceOfRDFLiteralLangOririOptional).astAssign(0, tmp819)
     }
+
     private fun userCode666() {
         val tmp821 = stack.removeLast()
         (stack[stack.size - 1] as ASTRDFLiteral).astAssign(1, tmp821)
     }
+
     private fun userCode667() {
         stack.add(ASTRDFLiteralLang())
     }
+
     private fun userCode668() {
         val tmp822 = stack.removeLast()
         (stack[stack.size - 1] as ASTRDFLiteralLang).astAssign(0, tmp822)
     }
+
     private fun userCode669() {
         stack.add(ASTNumericLiteralUnsignedInteger())
     }
+
     private fun userCode670() {
         val tmp823 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralUnsignedInteger).astAssign(0, tmp823)
     }
+
     private fun userCode671() {
         stack.add(ASTNumericLiteralUnsignedDecimal())
     }
+
     private fun userCode672() {
         val tmp824 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralUnsignedDecimal).astAssign(0, tmp824)
     }
+
     private fun userCode673() {
         stack.add(ASTNumericLiteralUnsignedDouble())
     }
+
     private fun userCode674() {
         val tmp825 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralUnsignedDouble).astAssign(0, tmp825)
     }
+
     private fun userCode675() {
         stack.add(ASTNumericLiteralPositiveInteger())
     }
+
     private fun userCode676() {
         val tmp826 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralPositiveInteger).astAssign(0, tmp826)
     }
+
     private fun userCode677() {
         stack.add(ASTNumericLiteralPositiveDecimal())
     }
+
     private fun userCode678() {
         val tmp827 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralPositiveDecimal).astAssign(0, tmp827)
     }
+
     private fun userCode679() {
         stack.add(ASTNumericLiteralPositiveDouble())
     }
+
     private fun userCode680() {
         val tmp828 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralPositiveDouble).astAssign(0, tmp828)
     }
+
     private fun userCode681() {
         stack.add(ASTNumericLiteralNegativeInteger())
     }
+
     private fun userCode682() {
         val tmp829 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralNegativeInteger).astAssign(0, tmp829)
     }
+
     private fun userCode683() {
         stack.add(ASTNumericLiteralNegativeDecimal())
     }
+
     private fun userCode684() {
         val tmp830 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralNegativeDecimal).astAssign(0, tmp830)
     }
+
     private fun userCode685() {
         stack.add(ASTNumericLiteralNegativeDouble())
     }
+
     private fun userCode686() {
         val tmp831 = stack.removeLast()
         (stack[stack.size - 1] as ASTNumericLiteralNegativeDouble).astAssign(0, tmp831)
     }
+
     private fun userCode687() {
         stack.add(ASTBooleanLiteralTrue())
     }
+
     private fun userCode688() {
         stack.add(ASTBooleanLiteralFalse())
     }
+
     private fun userCode689() {
         stack.add(ASTString1())
     }
+
     private fun userCode690() {
         val tmp832 = stack.removeLast()
         (stack[stack.size - 1] as ASTString1).astAssign(0, tmp832)
     }
+
     private fun userCode691() {
         stack.add(ASTString2())
     }
+
     private fun userCode692() {
         val tmp833 = stack.removeLast()
         (stack[stack.size - 1] as ASTString2).astAssign(0, tmp833)
     }
+
     private fun userCode693() {
         stack.add(ASTString1long())
     }
+
     private fun userCode694() {
         val tmp834 = stack.removeLast()
         (stack[stack.size - 1] as ASTString1long).astAssign(0, tmp834)
     }
+
     private fun userCode695() {
         stack.add(ASTString2long())
     }
+
     private fun userCode696() {
         val tmp835 = stack.removeLast()
         (stack[stack.size - 1] as ASTString2long).astAssign(0, tmp835)
     }
+
     private fun userCode697() {
         stack.add(ASTiriRef())
     }
+
     private fun userCode698() {
         val tmp836 = stack.removeLast()
         (stack[stack.size - 1] as ASTiriRef).astAssign(0, tmp836)
     }
+
     private fun userCode699() {
         stack.add(ASTPrefixedNameLN())
     }
+
     private fun userCode700() {
         val tmp837 = stack.removeLast()
         (stack[stack.size - 1] as ASTPrefixedNameLN).astAssign(0, tmp837)
     }
+
     private fun userCode701() {
         stack.add(ASTPrefixedNameNS())
     }
+
     private fun userCode702() {
         val tmp838 = stack.removeLast()
         (stack[stack.size - 1] as ASTPrefixedNameNS).astAssign(0, tmp838)
     }
+
     private fun userCode703() {
         stack.add(ASTBlankNodeLabel())
     }
+
     private fun userCode704() {
         val tmp839 = stack.removeLast()
         (stack[stack.size - 1] as ASTBlankNodeLabel).astAssign(0, tmp839)
     }
+
     private fun userCode705() {
         stack.add(ASTBlankNodeANON())
     }
+
     private fun userCode706() {
         val tmp840 = stack.removeLast()
         (stack[stack.size - 1] as ASTBlankNodeANON).astAssign(0, tmp840)
     }
+
     private fun userCode707() {
         stack.add(ASTNILParam())
     }
+
     private fun userCode708() {
         val tmp841 = stack.removeLast()
         (stack[stack.size - 1] as ASTNILParam).astAssign(0, tmp841)

@@ -88,9 +88,11 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
     internal val partitionToChildID = mutableListOf<Pair<Pair<MutableMap<Int, Int>, Long>, Int>>()/*(thePartition,operatorID)->childID*/
     internal var currentPartition = mutableMapOf<Int, Int>()/*partitionID->partitionIndex*/
     internal val partitionToKey = mutableMapOf<Pair<Map<Int, Int>, Int>, MutableMap<Long, IntArray>>()/*(currentPartition,ID)->(operatorID->keys)*/
+
     internal companion object {
         internal var global_keys = 0
     }
+
     internal fun getNextKey(): Int = global_keys++
 
     // for optimization

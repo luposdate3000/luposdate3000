@@ -114,5 +114,5 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, children[0]as AOPBase)
+    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, children[0] as AOPBase)
 }

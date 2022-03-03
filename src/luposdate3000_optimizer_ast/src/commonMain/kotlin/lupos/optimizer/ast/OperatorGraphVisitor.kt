@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.ast
+
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
@@ -1130,6 +1131,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTGraphTerm -> visit(blankNodeToVariable, node) to listOf()
         is ASTTriplesNodePath -> visit(blankNodeToVariable, graph, graphVar, node)
     }
+
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTTriplesNodePath) = when (node) {
         is ASTBlankNodePropertyListPath -> visit(blankNodeToVariable, graph, graphVar, node)
         is ASTCollectionPath -> visit(blankNodeToVariable, graph, graphVar, node)
@@ -1224,6 +1226,7 @@ public class OperatorGraphVisitor(public val query: Query) {
             }
         )
     }
+
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): IOPBase = when (node) {
         is ASTOptionalGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node, child)
         is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node, child)
@@ -1234,6 +1237,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTBind -> visit(blankNodeToVariable, graph, graphVar, node, child)
         is ASTValuesClause -> visit(node, child)
     }
+
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
         is ASTGroupOrUnionGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node)
         is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
@@ -1241,6 +1245,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTBind -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
         else -> TODO(node.toString())
     }
+
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
         ?: listOf()
 
@@ -1258,7 +1263,9 @@ public class OperatorGraphVisitor(public val query: Query) {
 
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPathOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, subject, it) }
         ?: listOf()
-    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClauseOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, it) } ?: listOf()
+
+    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClauseOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, it) }
+        ?: listOf()
 
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
@@ -1332,5 +1339,6 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit(node: ASTLimitClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTOffsetClause, tmp: IOPBase) = LOPOffset(query, node.INTEGER!!.toInt(), tmp)
     private fun visit(node: ASTLimitClause, tmp: IOPBase) = LOPLimit(query, node.INTEGER!!.toInt(), tmp)
-    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = v1.variable0?.let { visit(v0, it) } ?: OPBaseCompound(query, arrayOf(), mutableListOf())
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = v1.variable0?.let { visit(v0, it) }
+        ?: OPBaseCompound(query, arrayOf(), mutableListOf())
 }

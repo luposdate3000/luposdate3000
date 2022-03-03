@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
