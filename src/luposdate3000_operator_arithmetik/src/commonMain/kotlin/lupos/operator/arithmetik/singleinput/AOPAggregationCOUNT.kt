@@ -37,7 +37,9 @@ public class AOPAggregationCOUNT public constructor(
     @JvmField public val distinct: Boolean,
     child: AOPBase?
 ) : AOPAggregationBase(
-    query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT",
+    query,
+    EOperatorIDExt.AOPAggregationCOUNTID,
+    "AOPAggregationCOUNT",
     if (child == null) {
         arrayOf()
     } else {
@@ -102,7 +104,8 @@ public class AOPAggregationCOUNT public constructor(
     }
 
     override fun cloneOP(): IOPBase = AOPAggregationCOUNT(
-        query, distinct,
+        query,
+        distinct,
         if (children.size == 0) {
             null
         } else {

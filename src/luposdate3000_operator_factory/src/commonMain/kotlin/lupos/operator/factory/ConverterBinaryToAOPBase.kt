@@ -121,7 +121,8 @@ public object ConverterBinaryToAOPBase {
                     arrayOf()
                 }
                 AOPAggregationCOUNT(
-                    query, distinct,
+                    query,
+                    distinct,
                     if (childs.size == 0) {
                         null
                     } else {
