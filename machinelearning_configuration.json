@@ -1,0 +1,128 @@
+{
+    "applications": {
+        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+            "REPLACE_STORE_WITH_VALUES": false,
+            "SharedMemoryDictionaryCheat": false,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "enabled": false,
+            "mergeLocalOperatorgraphs": true,
+            "predefinedPartitionScheme": "PartitionByKeyAllCollations",
+            "queryDistributionMode": "Routing",
+            "useDictionaryInlineEncoding": true,
+        },
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_DataImport": {
+                    "enabled": true,
+                    "fileName": "src/machinelearning/sp2b.n3",
+                    "sendStartClockInSec": 10,
+                },
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+            },
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {},
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "patterns": [
+                {
+                    "count": 255,
+                    "deviceType": "Mesh Hop",
+                    "mode": "count",
+                    "radius": 500,
+                    "type": "uniform",
+                },
+                {
+                    "count": 15,
+                    "deviceType": "Database Device",
+                    "mode": "count",
+                    "patterns": [
+                        {
+                            "count": 10,
+                            "deviceType": "Sensor Device",
+                            "mode": "count",
+                            "provideCounterAs": "spotInArea",
+                            "radius": 50,
+                            "type": "random_fill",
+                        },
+                    ],
+                    "provideCounterAs": "area",
+                    "radius": 500,
+                    "type": "uniform",
+                },
+            ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 150,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 60,
+        },
+    },
+    "logging": {
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
+            "enabled": false,
+        },
+        "simora.LoggerMeasure": {
+            "enabled": true,
+        },
+        "simora.LoggerStdout": {
+            "enabled": false,
+        },
+    },
+    "rootRouter": "Fog",
+    "routing": {
+        "compatibilityMode": false,
+        "multicast": "None",
+        "protocol": "RPL_Fast",
+    },
+}
