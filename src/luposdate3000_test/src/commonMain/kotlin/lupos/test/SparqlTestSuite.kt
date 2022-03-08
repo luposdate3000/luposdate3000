@@ -34,7 +34,7 @@ import lupos.parser.rdf.Dictionary
 import lupos.parser.rdf.IRI
 import lupos.parser.rdf.SimpleLiteral
 import lupos.parser.sparql1_1.SparqlParser
-import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
+import lupos.parser.sparql1_1.ASTSparqlDoc
 import lupos.parser.turtle.TurtleParserWithDictionary
 import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.QueryResultToMemoryTable

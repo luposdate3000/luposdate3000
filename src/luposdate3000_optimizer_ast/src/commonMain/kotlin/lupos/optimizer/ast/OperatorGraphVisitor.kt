@@ -111,6 +111,7 @@ import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.parser.sparql1_1.SparqlParser.*
+import lupos.parser.sparql1_1.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EGraphOperationTypeExt
@@ -130,7 +131,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         DictionaryHelper.dateTimeToByteArray(queryExecutionStartTime)
     }
 
-    private fun initializeEnum(value: Int?): Int = value?.let { it } ?: -1
+    private fun initializeEnum(value: Int?): Int = value?.let { it } ?: 0
     private fun decodeIri(ns: String) = prefixMap[ns]!!
     private fun decodeIri(ns: String, p: String): String {
         val tmp = prefixMap[ns]
@@ -281,8 +282,8 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         res = when (duplicateModifier) {
             ASTEnumOfDISTINCTAndREDUCED._UNDEFINED -> res
-            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> LOPDistinct(query, res)
-            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> LOPReduced(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.ASTEnumOfDISTINCTAndREDUCEDDISTINCT -> LOPDistinct(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.ASTEnumOfDISTINCTAndREDUCEDREDUCED -> LOPReduced(query, res)
             else -> TODO("invalid value")
         }
         return res
@@ -343,8 +344,8 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         res = when (duplicateModifier) {
             ASTEnumOfDISTINCTAndREDUCED._UNDEFINED -> res
-            ASTEnumOfDISTINCTAndREDUCED.DISTINCT -> LOPDistinct(query, res)
-            ASTEnumOfDISTINCTAndREDUCED.REDUCED -> LOPReduced(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.ASTEnumOfDISTINCTAndREDUCEDDISTINCT -> LOPDistinct(query, res)
+            ASTEnumOfDISTINCTAndREDUCED.ASTEnumOfDISTINCTAndREDUCEDREDUCED -> LOPReduced(query, res)
             else -> TODO("invalid value")
         }
         return res
@@ -397,7 +398,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         var res = tmp
         val names = mutableListOf<Pair<Boolean, String>>()
         for (v in node.variable0!!.value) {
-            val asc = initializeEnum(v.variable0) != ASTEnumOfASCAndDESC.DESC
+            val asc = initializeEnum(v.variable0) != ASTEnumOfASCAndDESC.ASTEnumOfASCAndDESCDESC
             val tt = visit(graph, graphVar, v.variable1!!)
             if (tt is AOPVariable) {
                 names.add(0, asc to tt.name)

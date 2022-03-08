@@ -15,23 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
+import simora.addQuerySender
 import lupos.operator.base.Query
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.EIndexPatternExt
-import lupos.shared.EPartitionModeExt
-import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
-import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+import simora.SimulationRun
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import simora.SimulationRun
-import simora.addQuerySender
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -74,34 +78,32 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
 
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - None - Simple - true`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = true
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - None - Simple - false`() {
-        var instance = Luposdate3000Instance()
-        try {
-            instance.LUPOS_BUFFER_SIZE = 128
-            instance.LUPOS_PARTITION_MODE = EPartitionModeExt.None
-            instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.Simple
-            instance.useDictionaryInlineEncoding = false
-            instance = LuposdateEndpoint.initializeB(instance)
-            normalHelper(instance)
-        } finally {
-            LuposdateEndpoint.close(instance)
-        }
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - RPL`() {
         simulatorHelper(
@@ -117,7 +119,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
         simulatorHelper(
@@ -133,7 +134,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
@@ -149,7 +149,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
@@ -165,7 +164,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
         simulatorHelper(
@@ -181,7 +179,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
@@ -197,7 +194,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -213,7 +209,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -229,7 +224,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -245,7 +239,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -261,7 +254,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -277,7 +269,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -293,7 +284,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -309,7 +299,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -325,7 +314,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -341,7 +329,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -357,7 +344,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -373,7 +359,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -389,7 +374,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -405,7 +389,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -421,7 +404,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -437,7 +419,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -453,7 +434,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -469,7 +449,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -485,7 +464,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -501,7 +479,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -517,7 +494,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -533,7 +509,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -549,7 +524,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -565,7 +539,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -581,7 +554,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -597,7 +569,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -613,7 +584,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -629,7 +599,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -645,7 +614,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -661,7 +629,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -677,7 +644,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -693,7 +659,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -709,7 +674,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -725,7 +689,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -741,7 +704,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -757,7 +719,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -773,7 +734,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -789,7 +749,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -805,7 +764,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -821,7 +779,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -837,7 +794,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -853,7 +809,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -869,7 +824,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -885,7 +839,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -901,7 +854,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -917,7 +869,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -933,7 +884,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -949,7 +899,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -965,7 +914,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -981,7 +929,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -997,7 +944,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1013,7 +959,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -1029,7 +974,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1045,7 +989,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1061,7 +1004,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -1077,7 +1019,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1093,7 +1034,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1109,7 +1049,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -1125,7 +1064,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1141,7 +1079,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1157,7 +1094,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -1173,7 +1109,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1189,7 +1124,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1205,7 +1139,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -1221,7 +1154,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1237,7 +1169,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1253,7 +1184,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -1269,7 +1199,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1285,7 +1214,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1301,7 +1229,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
@@ -1317,7 +1244,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
@@ -1333,7 +1259,6 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "RPL_Fast",
         )
     }
-
     @Test
     public fun `resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
@@ -1349,42 +1274,38 @@ public class resourcesmyqueriessimulatorparkingquery6sparql377simulatorparkingin
             "AllShortestPath",
         )
     }
-
-    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
+    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
         val simRun = SimulationRun()
-        simRun.parseConfig(
-            fileName,
-            false,
-            {
-                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
-                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
-            }
-        )
-
+        simRun.parseConfig(fileName,false,{
+            it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
+            it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+        })
+        
+        
+        
         simRun.startUp()
-        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first() as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         var verifyExecuted1 = 0
-        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted1++ }, inputGraph[0], instance)
+        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted1++},inputGraph[0],instance)
         pkg0.setOnFinish(pkg1)
         var verifyExecuted2 = 0
-        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted2++ }, "", instance)
+        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, {verifyExecuted2++},"",instance)
         pkg1.setOnFinish(pkg2)
-        simRun.addQuerySender(10, 1, 1, pkg0)
+        simRun.addQuerySender(10,1,1,pkg0)
         simRun.run()
         simRun.shutDown()
-        if (verifyExecuted1 == 0) {
+        if (verifyExecuted1==0) {
             fail("pck1 not verified")
         }
-        if (verifyExecuted2 == 0) {
+        if (verifyExecuted2==0) {
             fail("pck2 not verified")
         }
     }
-
-    internal fun normalHelper(instance: Luposdate3000Instance) {
+    internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
-            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0], inputType[0], inputGraph[0])
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
         } else {
             TODO()
         }

@@ -28,7 +28,7 @@ import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
 import lupos.parser.sparql1_1.SparqlParser
-import lupos.parser.sparql1_1.SparqlParser.ASTSparqlDoc
+import lupos.parser.sparql1_1.ASTSparqlDoc
 import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
