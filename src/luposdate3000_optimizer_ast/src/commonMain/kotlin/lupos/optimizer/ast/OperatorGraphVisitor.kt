@@ -208,12 +208,12 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-        println("inputAST " + node)
+       // println("inputAST " + node)
         val res = when (val v1 = node.variable1!!) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
         }
-        println(res)
+       // println(res)
         return res
     }
 

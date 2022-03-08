@@ -29,6 +29,7 @@ public fun SimulationRun.addQuerySender(
     val sender = Application_QuerySender( query, receiver, outputDirectory,"")
     val device = getDeviceByAddress(receiver)
     device.applicationStack.addChildApplication(sender)
+globalApplications.add(sender)
 }
 
 public fun SimulationRun.addQuerySender(
@@ -41,4 +42,5 @@ public fun SimulationRun.addQuerySender(
     val sender = Application_QuerySender( queryPck, receiver, outputDirectory,"")
     val device = getDeviceByAddress(receiver)
     device.applicationStack.addChildApplication(sender)
+globalApplications.add(sender)
 }
