@@ -34,6 +34,7 @@ public class Application_DatabaseDummy public constructor(
     dbDeviceAddressesApplication_DatabaseDummy_QueryList: MutableList<Int>,
     private val databaseFeatureID: Int,
 ) : IApplicationStack_Actuator {
+override  fun emptyEventQueue(): String?=null
     internal lateinit var state: Application_DatabaseDummy_State
 
     internal lateinit var sender: IApplicationStack_Middleware

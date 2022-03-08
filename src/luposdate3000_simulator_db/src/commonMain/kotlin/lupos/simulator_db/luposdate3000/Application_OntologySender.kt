@@ -54,4 +54,5 @@ public class Application_OntologySender(
         parent.send(receiver, queryPck)
         parent.flush()
     }
+override  fun emptyEventQueue(): String?=null
 }

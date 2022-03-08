@@ -102,7 +102,7 @@ public class Application_Luposdate3000 public constructor(
     private var doWorkFlag = false
     private var hasOntology = false
     private var queryCache = mutableMapOf<Int, Query>() // only works on root node ... queryID -> Query
-
+override  fun emptyEventQueue(): String?=null
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
         if (dbDeviceAddressesStoreList.isEmpty()) {

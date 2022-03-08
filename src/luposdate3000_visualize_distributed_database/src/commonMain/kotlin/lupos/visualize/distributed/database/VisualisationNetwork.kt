@@ -511,4 +511,5 @@ public class VisualisationNetwork : ILogger {
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
     override fun onReceivePackage(address: Int, pck: IPayload) {}
+override fun reset(label: String, finish: Boolean){}
 }

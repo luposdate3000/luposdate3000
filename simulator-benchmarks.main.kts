@@ -86,14 +86,12 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
         "routing/routing_RPL_Fast.json",
         "routing/routing_AllShortestPath.json",
     )
-    val queryList = List(9) {
-        when (ontologyVersion) {
-            2 -> "queries/Q_SOSA_$it.json"
-            1 -> "queries/Q_SOSA_$it.json"
-            0 -> "queries/Q$it.json"
+    val query =         when (ontologyVersion) {
+            2 -> "queries/SOSA_Queries.json"
+            1 -> "queries/SOSA_Queries.json"
+            0 -> "queries/Queries.json"
             else -> TODO()
         }
-    }
     val databaseTopologyList = listOf(
         "programDistribution/distributed.json",
         "programDistribution/distributedWithQueryHops.json",
@@ -131,7 +129,6 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
         val json_campus = "$BASE_PATH/$campus"
         for (networkTopology in networkTopologyList) {
             val json_networkTopology = "$BASE_PATH/$networkTopology"
-            for (query in queryList) {
                 val json_query = "$BASE_PATH/$query"
                 for (routing in routingList) {
                     val json_routing = "$BASE_PATH/$routing"
@@ -210,7 +207,6 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                     printStatus()
                 }
             }
-        }
     }
 }
 printStatus()
