@@ -16,8 +16,8 @@
  */
 package lupos.operator.physical.singleinput
 import lupos.operator.base.IPOPLimit
-import lupos.operator.physical.POPBase
 import lupos.operator.base.POPLimitHandler
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -44,8 +44,8 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         if (tmp == null) {
             return null
         }
-        val res= POPMakeBooleanResult(query, projectedVariables, tmp)
+        val res = POPMakeBooleanResult(query, projectedVariables, tmp)
         onFoundLimit(res.finishHandler)
-return res
+        return res
     }
 }

@@ -40,7 +40,7 @@ public object EvalLimit {
                     return if (label != 0) {
                         if (count == limit) {
                             _close()
-handler?.setFinished()
+                            handler?.setFinished()
                             DictionaryValueHelper.nullValue
                         } else {
                             count++

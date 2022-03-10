@@ -52,14 +52,15 @@ public class POPTripleStoreIterator(
 ) {
     @JvmField
     public var partitionColumn: String? = null
-private var enforcePartition:Partition?=null
-private fun getEnforcedPartition(fallback:Partition):Partition{
-if(enforcePartition!=null){
-return enforcePartition!!
-}else{
-return fallback
-}
-}
+    private var enforcePartition: Partition? = null
+    private fun getEnforcedPartition(fallback: Partition): Partition {
+        if (enforcePartition != null) {
+            return enforcePartition!!
+        } else {
+            return fallback
+        }
+    }
+
     @JvmField
     public var hasSplitFromStore: Boolean = false
     public fun requireSplitFromStore(): Boolean = tripleStoreIndexDescription.requireSplitFromStore()
@@ -76,8 +77,8 @@ return fallback
     }
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         if (getDesiredHostnameFor(parent) == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]) {
-val tmp=POPTripleStoreIterator(query,projectedVariables,tripleStoreIndexDescription,children)
-tmp.enforcePartition=parent
+            val tmp = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
+            tmp.enforcePartition = parent
             return tmp
         } else {
             return null

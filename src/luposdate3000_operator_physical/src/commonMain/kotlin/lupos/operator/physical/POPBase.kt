@@ -19,7 +19,6 @@ import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.IQuery
-import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement

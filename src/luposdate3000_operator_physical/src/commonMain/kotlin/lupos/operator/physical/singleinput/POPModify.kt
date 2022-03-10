@@ -17,8 +17,8 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.base.IPOPLimit
+import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
@@ -132,5 +132,5 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     override fun usesDictionary(): Boolean {
         return true
     }
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? =throw Exception("modify does not work on partial result")
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("modify does not work on partial result")
 }

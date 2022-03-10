@@ -16,8 +16,8 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 import lupos.operator.base.IPOPLimit
-import lupos.operator.physical.POPBase
 import lupos.operator.base.POPLimitHandler
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -52,9 +52,9 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
             return null
-}
-        val res= POPLimit(query, projectedVariables, limit, tmp)
+        }
+        val res = POPLimit(query, projectedVariables, limit, tmp)
         onFoundLimit(res.finishHandler)
-return res
+        return res
     }
 }

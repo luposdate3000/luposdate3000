@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.base.IPOPLimit
-import lupos.operator.base.OPBase
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.DictionaryValueHelper

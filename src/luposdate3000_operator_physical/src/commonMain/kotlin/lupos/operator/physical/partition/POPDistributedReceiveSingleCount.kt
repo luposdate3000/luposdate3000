@@ -69,5 +69,5 @@ public class POPDistributedReceiveSingleCount public constructor(
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0]
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingleCount(input, output)
-override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase?=TODO()
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()
 }

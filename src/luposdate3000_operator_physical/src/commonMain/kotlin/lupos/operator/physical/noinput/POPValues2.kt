@@ -49,5 +49,5 @@ public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTab
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = TODO()
-override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase?=TODO()
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()
 }

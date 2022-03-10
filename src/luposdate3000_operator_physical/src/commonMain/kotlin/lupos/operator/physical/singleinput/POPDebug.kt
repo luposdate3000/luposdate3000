@@ -17,11 +17,11 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.base.IPOPLimit
+import lupos.operator.base.OPBase
 import lupos.operator.physical.ITERATOR_DEBUG_MODE
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.operator.base.OPBase
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt

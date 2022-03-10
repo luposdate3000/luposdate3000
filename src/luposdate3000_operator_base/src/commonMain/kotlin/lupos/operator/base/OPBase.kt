@@ -52,7 +52,7 @@ public abstract class OPBase public constructor(
     internal companion object {
         internal var hadXMLWarning = false // show the warning stacktrace only once ... to prevent cluttering the output
     }
-public open fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase?=TODO()
+    public open fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? = TODO()
 
     override fun getClassname(): String = classname
 

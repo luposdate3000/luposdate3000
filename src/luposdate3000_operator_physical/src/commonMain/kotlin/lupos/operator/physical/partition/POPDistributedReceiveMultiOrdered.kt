@@ -81,5 +81,5 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts, orderedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, projectedVariables)
-override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase?=TODO()
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()
 }

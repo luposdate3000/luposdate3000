@@ -74,5 +74,5 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveMultiCount(inputs, outputs)
-override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase?=TODO()
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()
 }

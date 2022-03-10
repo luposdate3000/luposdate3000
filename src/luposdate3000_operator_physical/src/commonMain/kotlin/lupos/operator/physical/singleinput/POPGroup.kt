@@ -19,8 +19,8 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
-import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.base.IPOPLimit
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -261,5 +261,5 @@ public class POPGroup : POPBase {
             by.map { it.name }.toTypedArray(),
         )
     }
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? =throw Exception("aggregates wont work with partial results")
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("aggregates wont work with partial results")
 }
