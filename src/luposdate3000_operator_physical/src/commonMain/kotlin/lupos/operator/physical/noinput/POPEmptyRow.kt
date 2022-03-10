@@ -31,7 +31,5 @@ public class POPEmptyRow public constructor(query: IQuery, projectedVariables: L
     override fun toSparql(): String = "{}"
     override fun equals(other: Any?): Boolean = other is POPEmptyRow
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalEmptyRow()
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        return this
-    }
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? =this
 }

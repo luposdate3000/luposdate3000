@@ -74,10 +74,12 @@ public class POPJoinHashMap public constructor(
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp1 == null) {
+println("deny POPJoinHashMap a")
             return null
         }
         val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp2 == null) {
+println("deny POPJoinHashMap b")
             return null
         }
         return POPJoinHashMap(query, projectedVariables, tmp1, tmp2, optional)

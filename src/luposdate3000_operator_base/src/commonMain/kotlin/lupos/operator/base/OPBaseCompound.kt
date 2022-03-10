@@ -40,11 +40,13 @@ val c2=mutableListOf<OPBase>()
 for(c in children){
 val tmp=(c as OPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
 if(tmp==null){
+println("deny OPBaseCompound")
 return null
 }else{
 c2.add(tmp)
 }
 }
+println("accept OPBaseCompound")
 return OPBaseCompound(query,c2.toTypedArray(),columnProjectionOrder)
 }
 

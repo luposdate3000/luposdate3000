@@ -164,6 +164,9 @@ public class POPMergePartitionCount public constructor(
                 }
             }
         }
+if(res==null){
+println("deny POPMergePartitionCount")
+}
         return res
     }
 }

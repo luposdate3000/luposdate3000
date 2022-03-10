@@ -216,7 +216,5 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
             }
         }
     }
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? {
-        return (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
-    }
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
 }

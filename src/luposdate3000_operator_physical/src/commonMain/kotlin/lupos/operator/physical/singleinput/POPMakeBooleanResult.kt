@@ -43,6 +43,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         onFoundLimit(finishHandler)
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
+println("deny POPMakeBooleanResult")
             return null
         }
         return POPMakeBooleanResult(query, projectedVariables, tmp)

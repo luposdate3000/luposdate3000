@@ -52,8 +52,11 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         onFoundLimit(finishHandler)
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
+println("deny POPLimit")
             return null
-        }
+        }else{
+println("accept POPLimit")
+}
         return POPLimit(query, projectedVariables, limit, tmp)
     }
 }

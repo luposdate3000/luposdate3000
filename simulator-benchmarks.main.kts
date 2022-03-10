@@ -98,8 +98,8 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
 //    "programDistribution/central.json",
     )
     val dataDistributionList = listOf(
-        "dataDistribution/luposdate3000_by_key.json",
         "dataDistribution/luposdate3000_by_id_S_all_collations.json",
+        "dataDistribution/luposdate3000_by_key.json",
         "dataDistribution/luposdate3000_by_id_1_all_collations.json",
         "dataDistribution/luposdate3000_by_id_2_all_collations.json",
         "dataDistribution/luposdate3000_by_id_O_all_collations.json",
@@ -114,14 +114,14 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
         "luposdate3000_distribution_routing.json",
     )
     val networkTopologyList = mutableListOf<String>(
-//        "topology/RandomDB.json",
-//        "topology/RingDB.json",
-//        "topology/FullDB.json",
-//        "topology/UniformDB.json",
-//        "topology/Random128DB.json",
-//        "topology/Ring128DB.json",
-//        "topology/Full128DB.json",
+        "topology/UniformDB.json",
+        "topology/RandomDB.json",
+        "topology/RingDB.json",
+        "topology/FullDB.json",
         "topology/Uniform128DB.json",
+        "topology/Random128DB.json",
+        "topology/Ring128DB.json",
+        "topology/Full128DB.json",
     )
 
 

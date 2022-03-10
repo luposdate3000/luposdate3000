@@ -204,7 +204,5 @@ public open class POPValues : POPBase {
     override fun usesDictionary(): Boolean {
         return true
     }
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        return this
-    }
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? =this
 }

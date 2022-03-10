@@ -52,10 +52,12 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp1 == null) {
+println("deny POPUnion a")
             return null
         }
         val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp2 == null) {
+println("deny POPUnion b")
             return null
         }
         return POPUnion(query, projectedVariables, tmp1, tmp2)
