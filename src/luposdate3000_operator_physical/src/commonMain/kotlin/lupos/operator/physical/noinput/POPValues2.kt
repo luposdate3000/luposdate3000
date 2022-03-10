@@ -19,6 +19,7 @@ package lupos.operator.physical.noinput
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.Partition
@@ -48,7 +49,7 @@ public open class POPValues2(query: IQuery, @JvmField public val data: MemoryTab
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = TODO()
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = TODO()
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

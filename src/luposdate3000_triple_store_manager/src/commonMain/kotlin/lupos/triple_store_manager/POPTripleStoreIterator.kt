@@ -25,6 +25,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.LuposStoreKey
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -66,7 +67,7 @@ public class POPTripleStoreIterator(
         }
         return res
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 if(getDesiredHostnameFor(parent)==query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]){
 return this
 }else{
@@ -139,7 +140,7 @@ return null
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:141"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:142"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {

@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.singleinput
 
+import lupos.operator.physical.POPLimitHandler
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
@@ -24,7 +25,8 @@ import lupos.shared.operator.iterator.IteratorBundle
 public object EvalMakeBooleanResult {
     public operator fun invoke(
         child: IteratorBundle,
-    ): IteratorBundle {
+    handler:POPLimitHandler?,
+): IteratorBundle {
         val variables = child.names
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -38,6 +40,7 @@ public object EvalMakeBooleanResult {
             child.hasNext2Close()
         }
         val value = if (flag) {
+handler?.setFinished()
             DictionaryValueHelper.booleanTrueValue
         } else {
             DictionaryValueHelper.booleanFalseValue

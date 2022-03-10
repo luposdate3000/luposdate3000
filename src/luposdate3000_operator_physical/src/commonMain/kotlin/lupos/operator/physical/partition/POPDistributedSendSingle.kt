@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -24,6 +24,7 @@ import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
@@ -44,7 +45,7 @@ public class POPDistributedSendSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:46"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:47"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -57,7 +58,7 @@ public class POPDistributedSendSingle public constructor(
     override fun getPartitionCount(variable: String): Int = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

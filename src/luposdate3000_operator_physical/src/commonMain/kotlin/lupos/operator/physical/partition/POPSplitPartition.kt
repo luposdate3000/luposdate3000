@@ -15,9 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.operator.physical.POPBase
 import lupos.operator.base.PartitionHelper2
 import lupos.operator.base.Query
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
@@ -50,7 +51,7 @@ public class POPSplitPartition public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:52"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:53"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -120,9 +121,9 @@ public class POPSplitPartition public constructor(
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:122"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:123"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:124"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:123"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:124"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:125"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -157,7 +158,7 @@ public class POPSplitPartition public constructor(
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:159"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:160"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()
@@ -260,6 +261,7 @@ public class POPSplitPartition public constructor(
             return iterators[parent.data[partitionVariable]!!]
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 return toLocalOperatorGraph(Partition(parent, partitionVariable!!),onFoundLimit,onFoundSort)
+}
 }

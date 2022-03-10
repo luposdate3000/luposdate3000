@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical
-
+import lupos.shared.Partition
 import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
@@ -38,7 +38,7 @@ public abstract class POPBase public constructor(
 ) :
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
 
-abstract public fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?
+abstract public fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?
     public open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
     override fun getProvidedVariableNames(): List<String> = projectedVariables
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {

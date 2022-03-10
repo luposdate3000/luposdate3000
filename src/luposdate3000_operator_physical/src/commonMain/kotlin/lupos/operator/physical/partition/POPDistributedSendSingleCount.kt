@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -52,7 +53,7 @@ public class POPDistributedSendSingleCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

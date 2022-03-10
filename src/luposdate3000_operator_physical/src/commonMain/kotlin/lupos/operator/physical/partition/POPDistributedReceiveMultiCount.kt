@@ -17,6 +17,8 @@
 package lupos.operator.physical.partition
 
 import lupos.shared.EOperatorIDExt
+import  lupos.operator.physical.POPBase
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
@@ -72,7 +74,7 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionID, children[0].cloneOP(), inputs, outputs, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveMultiCount(inputs, outputs)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

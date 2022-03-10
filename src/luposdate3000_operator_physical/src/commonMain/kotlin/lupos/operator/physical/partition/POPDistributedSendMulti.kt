@@ -15,10 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
+import lupos.operator.physical.POPBase
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -47,7 +48,7 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:50"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -67,7 +68,7 @@ public class POPDistributedSendMulti public constructor(
         }
         EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable)
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

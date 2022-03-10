@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.base.noinput.OPEmptyRow
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -57,7 +58,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:59"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:60"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -123,7 +124,7 @@ public class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:125"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPGroup.kt:126"/*SOURCE_FILE_END*/ }, { additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -260,7 +261,7 @@ public class POPGroup : POPBase {
             by.map { it.name }.toTypedArray(),
         )
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 throw Exception("aggregates wont work with partial results")
 }
 }

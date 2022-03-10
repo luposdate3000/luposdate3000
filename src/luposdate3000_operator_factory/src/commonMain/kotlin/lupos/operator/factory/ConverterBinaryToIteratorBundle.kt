@@ -303,7 +303,7 @@ public object ConverterBinaryToIteratorBundle {
             { query, data, off, operatorMap ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }), operatorMap)
                 val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
-                EvalLimit(child, limit)
+                EvalLimit(child, limit,null)
             },
         )
         assignOperatorPhysicalDecode(
@@ -345,7 +345,7 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPMakeBooleanResultID,
             { query, data, off, operatorMap ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" }), operatorMap)
-                EvalMakeBooleanResult(child)
+                EvalMakeBooleanResult(child,null)
             },
         )
         assignOperatorPhysicalDecode(

@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.noinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.logical.noinput.LOPValues
@@ -161,7 +162,7 @@ public open class POPValues : POPBase {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:163"/*SOURCE_FILE_END*/ }, { v is AOPValue })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPValues.kt:164"/*SOURCE_FILE_END*/ }, { v is AOPValue })
                 val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)
@@ -203,7 +204,7 @@ public open class POPValues : POPBase {
     override fun usesDictionary(): Boolean {
         return true
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 return this
 }
 }

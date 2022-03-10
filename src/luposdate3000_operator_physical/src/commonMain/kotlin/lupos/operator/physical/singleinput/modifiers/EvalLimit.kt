@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput.modifiers
-
+import lupos.operator.physical.POPLimitHandler
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
@@ -23,7 +23,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public object EvalLimit {
-    public operator fun invoke(child: IteratorBundle, limit: Int): IteratorBundle {
+    public operator fun invoke(child: IteratorBundle, limit: Int,handler:POPLimitHandler?): IteratorBundle {
         val variables = child.columns.keys
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (variable in variables) {
@@ -43,6 +43,9 @@ public object EvalLimit {
                             DictionaryValueHelper.nullValue
                         } else {
                             count++
+if (count == limit) {
+handler?.setFinished()
+}
                             iterator.next()
                         }
                     } else {

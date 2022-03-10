@@ -20,6 +20,8 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -40,7 +42,7 @@ public class POPSplitMergePartitionFromStore public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitMergePartitionFromStore.kt:42"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitMergePartitionFromStore.kt:44"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -79,7 +81,7 @@ public class POPSplitMergePartitionFromStore public constructor(
     override fun cloneOP(): IOPBase = POPSplitMergePartitionFromStore(query, projectedVariables, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitMergePartitionFromStore && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = children[0].evaluate(parent)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
 }
 }

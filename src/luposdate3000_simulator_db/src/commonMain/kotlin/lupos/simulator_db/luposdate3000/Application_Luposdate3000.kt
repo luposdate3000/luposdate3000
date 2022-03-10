@@ -17,10 +17,13 @@
 
 package lupos.simulator_db.luposdate3000
 
+import lupos.operator.physical.POPBase
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.Partition
 import lupos.endpoint.PathMappingHelper
+import lupos.operator.physical.IPOPLimit
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -220,15 +223,25 @@ override  fun emptyEventQueue(): String?=null
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
 //try to evaluate local-->>
+if(expectedResult==null&&onFinish==null){
 try{
 var hasLimit=false
 var hasSort=false
-val localOP=op.toLocalOperatorGraph({hasLimit=true},{hasSort=true})
-if(hasLimit&&!hasSort){
-TODO("yes local evaluation!!")
+var limitOperators=mutableListOf<IPOPLimit>()
+val localOP=(op as POPBase).toLocalOperatorGraph(Partition(),{limitOperators.add(it)},{hasSort=true})
+if(hasLimit&&!hasSort&&localOP!=null){
+val iteratorBundle=localOP.evaluateRootBundle()
+val buf = MyPrintWriter(true)
+                                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                                    evaluatorInstance(iteratorBundle, buf)
+if(limitOperators.fold(true){s,t->s&&t.limitFullfilled()}){
+                                        router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
 return
 }
+}
 }catch(e:Throwable){
+e.printStackTrace()
+}
 }
 //try to evaluate local<<--
         val q = op.getQuery()
@@ -270,7 +283,7 @@ return
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:272"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:285"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -617,7 +630,6 @@ return
             doWorkFlag = false
         }
     }
-
     override fun receive(pck: IPayload): IPayload? {
         try {
             if (!hadInitDatabaseHopsWithinLuposdate3000) {

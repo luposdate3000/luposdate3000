@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -29,7 +30,7 @@ public class POPMinus public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPMinus.kt:31"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPMinus.kt:32"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -47,7 +48,7 @@ public class POPMinus public constructor(query: IQuery, projectedVariables: List
     override fun toSparql(): String = "{" + children[0].toSparql() + "} MINUS {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPMinus && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMinus(children[0].evaluate(parent), children[1].evaluate(parent), projectedVariables)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 val tmp1=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
 if(tmp1==null){
 return null

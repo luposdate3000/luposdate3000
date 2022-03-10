@@ -16,10 +16,12 @@
  */
 package lupos.operator.physical.partition
 
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.operator.physical.POPBase
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -67,7 +69,7 @@ public class POPDistributedReceiveSingleCount public constructor(
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0]
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingleCount(input, output)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 TODO()
 }
 }

@@ -24,6 +24,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -63,8 +64,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:65"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:66"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:66"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:67"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) })
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
@@ -89,8 +90,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:91"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:92"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:92"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:93"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                 }
                 return child
             }
@@ -174,14 +175,14 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             }
                             outMap[k] = iterator
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:176"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:177"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:177"/*SOURCE_FILE_END*/ }, { columnMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:178"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {
                         val rowMode = child.rows.columns.toMutableList()
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:182"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:183"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:183"/*SOURCE_FILE_END*/ }, { rowMode.containsAll(target) })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:184"/*SOURCE_FILE_END*/ }, { target.containsAll(rowMode) })
                         val iterator = RowIterator()
                         var counter = 0
                         iterator.columns = child.rows.columns
@@ -214,7 +215,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
             }
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
 }
 }

@@ -22,6 +22,7 @@ import lupos.shared.EGraphOperationTypeExt
 import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EOperatorIDExt
+import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -119,14 +120,14 @@ public class POPGraphOperation public constructor(
     override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:121"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPGraphOperation.kt:122"/*SOURCE_FILE_END*/ },
             {
                 res = true
             }
         )
         return res
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
 throw Exception("graph operation must not be local")
 }
 }
