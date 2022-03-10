@@ -40,15 +40,15 @@ public object EvalLimit {
                     return if (label != 0) {
                         if (count == limit) {
                             _close()
-                            handler?.setFinished()
                             DictionaryValueHelper.nullValue
                         } else {
                             count++
-                            if (count == limit) {
+val res=                            iterator.next()
+                            if (count == limit&&res!=DictionaryValueHelper.nullValue) {
                                 handler?.setFinished()
                             }
-                            iterator.next()
-                        }
+        res
+                }
                     } else {
                         DictionaryValueHelper.nullValue
                     }

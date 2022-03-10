@@ -40,7 +40,7 @@ inline fun execute(args: List<String>): List<String> {
 val baseCmd = execute(listOf("./launcher.main.kts", "--run", "--mainClass=Launch_Simulator_Config", "--dryMode=Enable")).filter { it.contains("exec") }.first().replace("exec :: ", "").split(" ")
 
 val headerLine = mutableListOf<String>()
-val contentLines = mutableListOf<MutableList<Double>>()
+val contentLines = mutableListOf<MutableList<String>>()
 val attributeLines = mutableListOf<MutableList<String>>()
 val specializedCmdHeaders = listOf("campus", "networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
 headerLine.addAll(specializedCmdHeaders)
@@ -59,7 +59,7 @@ val json_luposdate3000 = "$BASE_PATH/luposdate3000.json"
         println(headerLine.joinToString())
         for (i in 0 until contentLines.size) {
             while (contentLines[i].size < headerLine.size - specializedCmdHeaders.size) {
-                contentLines[i].add(0.0)
+                contentLines[i].add("0.0")
             }
             println(attributeLines[i].joinToString() + "," + contentLines[i].joinToString())
         }
@@ -174,7 +174,7 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                                             println(l)
                                         }
                                         var firstLine = listOf<String>()
-                                        var contentLine = mutableListOf<Double>()
+                                        var contentLine = mutableListOf<String>()
                                         val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
                                         attributeLines.add(attributeLine)
                                         File(measurementFile).forEachLine {
@@ -190,9 +190,9 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                                                     }
                                                     idx -= specializedCmdHeaders.size
                                                     while (contentLine.size <= idx) {
-                                                        contentLine.add(0.0)
+                                                        contentLine.add("0.0")
                                                     }
-                                                    contentLine[idx] = data[i].toDouble()
+                                                    contentLine[idx] = data[i]
                                                 }
                                             }
                                         }
