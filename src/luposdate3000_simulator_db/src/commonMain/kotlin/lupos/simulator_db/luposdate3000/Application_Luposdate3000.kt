@@ -227,7 +227,7 @@ public class Application_Luposdate3000 public constructor(
             var hasLimit = false
             var hasSort = false
             var limitOperators = mutableListOf<IPOPLimit>()
-            val localOP = (op as POPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+            val localOP = op.toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
             if (hasLimit && !hasSort && localOP != null) {
                 val iteratorBundle = localOP.evaluateRootBundle()
                 val buf = MyPrintWriter(true)

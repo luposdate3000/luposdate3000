@@ -33,6 +33,21 @@ public class OPBaseCompound public constructor(
     children: Array<IOPBase>,
     @JvmField public val columnProjectionOrder: List<List<String>>
 ) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
+
+
+override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase?{
+val c2=mutableListOf<OPBase>()
+for(c in children){
+val tmp=(c as OPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+if(tmp==null){
+return null
+}else{
+c2.add(tmp)
+}
+}
+return OPBaseCompound(query,c2.toTypedArray(),columnProjectionOrder)
+}
+
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override fun cloneOP(): IOPBase = OPBaseCompound(query, getChildren().map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {

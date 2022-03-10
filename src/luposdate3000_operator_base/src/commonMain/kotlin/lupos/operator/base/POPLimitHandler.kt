@@ -14,10 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator.physical
-public interface IPOPLimit {
-    public fun limitFullfilled(): Boolean
-}
+package lupos.operator.base
 public class POPLimitHandler() : IPOPLimit {
     private var finished = false
     public fun setFinished() {
