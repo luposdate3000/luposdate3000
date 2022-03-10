@@ -17,7 +17,7 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

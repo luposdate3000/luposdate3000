@@ -19,7 +19,7 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EOperatorIDExt

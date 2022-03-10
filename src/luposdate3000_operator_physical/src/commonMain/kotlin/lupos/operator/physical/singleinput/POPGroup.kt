@@ -20,7 +20,7 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

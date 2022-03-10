@@ -17,7 +17,7 @@
 package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPattern

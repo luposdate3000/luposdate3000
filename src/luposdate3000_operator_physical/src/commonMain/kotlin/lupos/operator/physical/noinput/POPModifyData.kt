@@ -18,7 +18,7 @@ package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType

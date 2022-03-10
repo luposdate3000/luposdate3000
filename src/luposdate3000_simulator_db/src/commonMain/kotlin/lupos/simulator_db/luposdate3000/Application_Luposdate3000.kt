@@ -32,7 +32,7 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -46,6 +46,7 @@ import lupos.operator.physical.partition.EvalDistributedSendWrapper
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
+import lupos.operator.base.OPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
@@ -227,7 +228,7 @@ public class Application_Luposdate3000 public constructor(
             var hasLimit = false
             var hasSort = false
             var limitOperators = mutableListOf<IPOPLimit>()
-            val localOP = op.toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+            val localOP = (op as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
             if (hasLimit && !hasSort && localOP != null) {
                 val iteratorBundle = localOP.evaluateRootBundle()
                 val buf = MyPrintWriter(true)
@@ -254,6 +255,7 @@ public class Application_Luposdate3000 public constructor(
                             router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
                         }
                     }
+println("usedLocalResult!!!")
                     return
                 }
             }
@@ -300,7 +302,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:302"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:303"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data

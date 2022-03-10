@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.operator.physical.IPOPLimit
+import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.DictionaryValueHelper
@@ -294,7 +294,7 @@ public class POPMergePartition public constructor(
             val tmp = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable!!, p, partitionCount), onFoundLimit, onFoundSort)
             if (tmp != null) {
                 if (res == null) {
-                    res = tmp
+                    res = tmp as POPBase
                 } else {
                     res = POPUnion(query, projectedVariables, res, tmp)
                 }
