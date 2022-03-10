@@ -223,25 +223,42 @@ public class Application_Luposdate3000 public constructor(
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
 // try to evaluate local-->>
-        if (expectedResult == null && onFinish == null) {
-            try {
-                var hasLimit = false
-                var hasSort = false
-                var limitOperators = mutableListOf<IPOPLimit>()
-                val localOP = (op as POPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
-                if (hasLimit && !hasSort && localOP != null) {
-                    val iteratorBundle = localOP.evaluateRootBundle()
-                    val buf = MyPrintWriter(true)
-                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                    evaluatorInstance(iteratorBundle, buf)
-                    if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
-                        router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
-                        return
+        try {
+            var hasLimit = false
+            var hasSort = false
+            var limitOperators = mutableListOf<IPOPLimit>()
+            val localOP = (op as POPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+            if (hasLimit && !hasSort && localOP != null) {
+                val iteratorBundle = localOP.evaluateRootBundle()
+                val buf = MyPrintWriter(true)
+                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                evaluatorInstance(iteratorBundle, buf)
+                if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
+                    if (expectedResult != null) {
+                        val buf = MyPrintWriter(false)
+                        val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                        val buf_err = MyPrintWriter()
+                        if (!result.equalsVerbose(expectedResult, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
+                            throw Exception(buf_err.toString())
+                        }
+                        verifyAction()
+                        if (onFinish != null) {
+                            receive(onFinish)
+                        } else {
+                            router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
+                        }
+                    } else {
+                        if (onFinish != null) {
+                            receive(onFinish)
+                        } else {
+                            router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
+                        }
                     }
+                    return
                 }
-            } catch (e: Throwable) {
-                e.printStackTrace()
             }
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
 // try to evaluate local<<--
         val q = op.getQuery()
@@ -283,7 +300,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:285"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:302"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
