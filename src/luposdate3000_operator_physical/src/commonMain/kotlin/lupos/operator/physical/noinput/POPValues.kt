@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.operator.physical.IPOPLimit
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.logical.noinput.LOPValues
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -204,7 +204,7 @@ public open class POPValues : POPBase {
     override fun usesDictionary(): Boolean {
         return true
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return this
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return this
+    }
 }

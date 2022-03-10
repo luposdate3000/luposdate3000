@@ -17,9 +17,9 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
@@ -127,8 +127,8 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override fun usesDictionary(): Boolean {
         return true
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-onFoundSort()
-throw Exception("sorting does not work on partial result")
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        onFoundSort()
+        throw Exception("sorting does not work on partial result")
+    }
 }

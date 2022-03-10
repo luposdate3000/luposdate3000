@@ -17,6 +17,7 @@
 package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.EIndexPattern
@@ -25,7 +26,6 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.LuposStoreKey
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -67,13 +67,13 @@ public class POPTripleStoreIterator(
         }
         return res
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-if(getDesiredHostnameFor(parent)==query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]){
-return this
-}else{
-return null
-}
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        if (getDesiredHostnameFor(parent) == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]) {
+            return this
+        } else {
+            return null
+        }
+    }
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         res.addAttribute("hasSplitFromStore", "$hasSplitFromStore")

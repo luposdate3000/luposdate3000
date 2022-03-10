@@ -16,13 +16,13 @@
  */
 package lupos.operator.physical.noinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
 import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EOperatorIDExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -127,7 +127,7 @@ public class POPGraphOperation public constructor(
         )
         return res
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-throw Exception("graph operation must not be local")
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        throw Exception("graph operation must not be local")
+    }
 }

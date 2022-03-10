@@ -16,11 +16,11 @@
  */
 package lupos.operator.physical.multiinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -65,15 +65,15 @@ public class POPJoinMergeOptional public constructor(
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-val tmp1=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp1==null){
-return null
-}
-val tmp2=(children[1]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp2==null){
-return null
-}
-return POPJoinMergeOptional(query,projectedVariables,tmp1,tmp2,optional)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp1 == null) {
+            return null
+        }
+        val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp2 == null) {
+            return null
+        }
+        return POPJoinMergeOptional(query, projectedVariables, tmp1, tmp2, optional)
+    }
 }

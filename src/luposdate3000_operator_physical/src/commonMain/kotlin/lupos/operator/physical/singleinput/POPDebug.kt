@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.singleinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.ITERATOR_DEBUG_MODE
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
@@ -24,7 +25,6 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -215,7 +215,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
             }
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+    }
 }

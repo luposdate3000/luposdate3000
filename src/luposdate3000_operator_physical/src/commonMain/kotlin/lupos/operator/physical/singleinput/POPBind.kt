@@ -68,11 +68,11 @@ public class POPBind public constructor(
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("name", name.name)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalBind(children[0].evaluate(parent), getProvidedVariableNames(), name.name, (children[1] as AOPBase))
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp==null){
-return null
-}
-return POPBind(query,projectedVariables,name,children[1]as AOPBase,tmp)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp == null) {
+            return null
+        }
+        return POPBind(query, projectedVariables, name, children[1]as AOPBase, tmp)
+    }
 }

@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput.modifiers
-import lupos.operator.physical.POPLimitHandler
-import lupos.operator.physical.POPBase
-import lupos.shared.EOperatorIDExt
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.POPLimitHandler
+import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
@@ -30,7 +30,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class POPLimit public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
- private val finishHandler=POPLimitHandler()
+    private val finishHandler = POPLimitHandler()
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPLimit.kt:34"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
@@ -46,14 +46,14 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalLimit(children[0].evaluate(parent), limit,finishHandler)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalLimit(children[0].evaluate(parent), limit, finishHandler)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-onFoundLimit(finishHandler)
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp==null){
-return null
-}
-return POPLimit(query,projectedVariables,limit,tmp)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        onFoundLimit(finishHandler)
+        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp == null) {
+            return null
+        }
+        return POPLimit(query, projectedVariables, limit, tmp)
+    }
 }

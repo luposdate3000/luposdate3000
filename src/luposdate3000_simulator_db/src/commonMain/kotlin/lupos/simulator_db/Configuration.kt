@@ -26,10 +26,10 @@ public fun SimulationRun.addQuerySender(
     query: String,
     receiver: Int = rootRouterAddress
 ) {
-    val sender = Application_QuerySender( query, receiver, outputDirectory,"")
+    val sender = Application_QuerySender(query, receiver, outputDirectory, "")
     val device = getDeviceByAddress(receiver)
     device.applicationStack.addChildApplication(sender)
-globalApplications.add(sender)
+    globalApplications.add(sender)
 }
 
 public fun SimulationRun.addQuerySender(
@@ -39,8 +39,8 @@ public fun SimulationRun.addQuerySender(
     queryPck: IPackage_Database,
     receiver: Int = rootRouterAddress
 ) {
-    val sender = Application_QuerySender( queryPck, receiver, outputDirectory,"")
+    val sender = Application_QuerySender(queryPck, receiver, outputDirectory, "")
     val device = getDeviceByAddress(receiver)
     device.applicationStack.addChildApplication(sender)
-globalApplications.add(sender)
+    globalApplications.add(sender)
 }

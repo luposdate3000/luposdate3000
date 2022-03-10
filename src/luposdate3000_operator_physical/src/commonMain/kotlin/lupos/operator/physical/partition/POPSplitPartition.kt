@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.operator.physical.POPBase
 import lupos.operator.base.PartitionHelper2
 import lupos.operator.base.Query
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
@@ -261,7 +261,7 @@ public class POPSplitPartition public constructor(
             return iterators[parent.data[partitionVariable]!!]
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return toLocalOperatorGraph(Partition(parent, partitionVariable!!),onFoundLimit,onFoundSort)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return toLocalOperatorGraph(Partition(parent, partitionVariable!!), onFoundLimit, onFoundSort)
+    }
 }

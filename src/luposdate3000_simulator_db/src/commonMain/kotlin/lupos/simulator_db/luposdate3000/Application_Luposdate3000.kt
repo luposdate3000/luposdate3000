@@ -17,13 +17,10 @@
 
 package lupos.simulator_db.luposdate3000
 
-import lupos.operator.physical.POPBase
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.Partition
 import lupos.endpoint.PathMappingHelper
-import lupos.operator.physical.IPOPLimit
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -35,6 +32,8 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
+import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -58,6 +57,7 @@ import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyInputStreamFromByteArray
+import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
@@ -105,7 +105,7 @@ public class Application_Luposdate3000 public constructor(
     private var doWorkFlag = false
     private var hasOntology = false
     private var queryCache = mutableMapOf<Int, Query>() // only works on root node ... queryID -> Query
-override  fun emptyEventQueue(): String?=null
+    override fun emptyEventQueue(): String? = null
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
         if (dbDeviceAddressesStoreList.isEmpty()) {
@@ -222,28 +222,28 @@ override  fun emptyEventQueue(): String?=null
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
-//try to evaluate local-->>
-if(expectedResult==null&&onFinish==null){
-try{
-var hasLimit=false
-var hasSort=false
-var limitOperators=mutableListOf<IPOPLimit>()
-val localOP=(op as POPBase).toLocalOperatorGraph(Partition(),{limitOperators.add(it)},{hasSort=true})
-if(hasLimit&&!hasSort&&localOP!=null){
-val iteratorBundle=localOP.evaluateRootBundle()
-val buf = MyPrintWriter(true)
-                                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                                    evaluatorInstance(iteratorBundle, buf)
-if(limitOperators.fold(true){s,t->s&&t.limitFullfilled()}){
-                                        router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
-return
-}
-}
-}catch(e:Throwable){
-e.printStackTrace()
-}
-}
-//try to evaluate local<<--
+// try to evaluate local-->>
+        if (expectedResult == null && onFinish == null) {
+            try {
+                var hasLimit = false
+                var hasSort = false
+                var limitOperators = mutableListOf<IPOPLimit>()
+                val localOP = (op as POPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+                if (hasLimit && !hasSort && localOP != null) {
+                    val iteratorBundle = localOP.evaluateRootBundle()
+                    val buf = MyPrintWriter(true)
+                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                    evaluatorInstance(iteratorBundle, buf)
+                    if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
+                        router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
+                        return
+                    }
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+// try to evaluate local<<--
         val q = op.getQuery()
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())

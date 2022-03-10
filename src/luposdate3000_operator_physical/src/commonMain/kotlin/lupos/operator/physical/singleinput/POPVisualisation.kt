@@ -26,12 +26,12 @@
 
 package lupos.operator.physical.singleinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.IVisualisation
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -54,7 +54,7 @@ public class POPVisualisation public constructor(
     override fun usesDictionary(): Boolean {
         return true
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+    }
 }

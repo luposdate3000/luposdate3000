@@ -16,15 +16,15 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
-import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
-import lupos.operator.physical.POPBase
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -288,18 +288,18 @@ public class POPMergePartition public constructor(
             return IteratorBundle(iterator)
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-var res:POPBase?=null
-for (p in 0 until partitionCount) {
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable!!, p, partitionCount),onFoundLimit,onFoundSort)
-if(tmp!=null){
-if(res==null){
-res=tmp
-}else{
-res=POPUnion(query,projectedVariables,res,tmp)
-}
-}
-}
-return res
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        var res: POPBase? = null
+        for (p in 0 until partitionCount) {
+            val tmp = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable!!, p, partitionCount), onFoundLimit, onFoundSort)
+            if (tmp != null) {
+                if (res == null) {
+                    res = tmp
+                } else {
+                    res = POPUnion(query, projectedVariables, res, tmp)
+                }
+            }
+        }
+        return res
+    }
 }

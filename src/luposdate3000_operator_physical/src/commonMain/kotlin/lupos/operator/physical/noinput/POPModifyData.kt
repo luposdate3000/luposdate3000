@@ -18,11 +18,11 @@ package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -89,7 +89,7 @@ public class POPModifyData public constructor(
     override fun usesDictionary(): Boolean {
         return true
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-throw Exception("inserting can not be local")
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        throw Exception("inserting can not be local")
+    }
 }

@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -47,7 +47,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalOffset(children[0].evaluate(parent), offset)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("offset", "" + offset)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-throw Exception("offset does not work with partial result")
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        throw Exception("offset does not work with partial result")
+    }
 }

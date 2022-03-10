@@ -22,8 +22,8 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
-import lupos.parser.sparql1_1.SparqlParser
 import lupos.parser.sparql1_1.ASTSparqlDoc
+import lupos.parser.sparql1_1.SparqlParser
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.OPVisualGraph

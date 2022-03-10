@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
-import lupos.operator.physical.POPLimitHandler
 import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
+import lupos.operator.physical.POPLimitHandler
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -27,7 +27,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPMakeBooleanResult public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-private val finishHandler=POPLimitHandler()
+    private val finishHandler = POPLimitHandler()
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPMakeBooleanResult.kt:31"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
@@ -38,13 +38,13 @@ private val finishHandler=POPLimitHandler()
     override fun cloneOP(): IOPBase = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal(): MutableList<String> = mutableListOf("?boolean")
     override fun getRequiredVariableNames(): List<String> = listOf()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent),finishHandler)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-onFoundLimit(finishHandler)
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp==null){
-return null
-}
-return POPMakeBooleanResult(query,projectedVariables,tmp)
-}
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent), finishHandler)
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        onFoundLimit(finishHandler)
+        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp == null) {
+            return null
+        }
+        return POPMakeBooleanResult(query, projectedVariables, tmp)
+    }
 }

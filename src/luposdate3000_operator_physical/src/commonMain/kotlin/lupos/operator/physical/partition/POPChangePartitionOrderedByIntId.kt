@@ -17,10 +17,10 @@
 package lupos.operator.physical.partition
 import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
+import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
-import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
@@ -120,22 +120,22 @@ public class POPChangePartitionOrderedByIntId public constructor(
     override fun cloneOP(): IOPBase = POPChangePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCountFrom, partitionCountTo, partitionIDFrom, partitionIDTo, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-var res:POPBase?=null
-val partitionCountSrc = partitionCountFrom / partitionCountTo
-for (p1 in 0 until partitionCountSrc) {
-val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
-val tmp=toLocalOperatorGraph(Partition(parent, partitionVariable, pChild, partitionCountFrom),onFoundLimit,onFoundSort)
-if(tmp!=null){
-if(res==null){
-res=tmp
-}else{
-res=POPUnion(query,projectedVariables,res,tmp)
-}
-}
-}
-return res
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        var res: POPBase? = null
+        val partitionCountSrc = partitionCountFrom / partitionCountTo
+        for (p1 in 0 until partitionCountSrc) {
+            val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
+            val tmp = toLocalOperatorGraph(Partition(parent, partitionVariable, pChild, partitionCountFrom), onFoundLimit, onFoundSort)
+            if (tmp != null) {
+                if (res == null) {
+                    res = tmp
+                } else {
+                    res = POPUnion(query, projectedVariables, res, tmp)
+                }
+            }
+        }
+        return res
+    }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:140"/*SOURCE_FILE_END*/ }, { partitionCountTo < partitionCountFrom })

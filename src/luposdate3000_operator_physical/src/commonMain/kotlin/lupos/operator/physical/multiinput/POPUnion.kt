@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.multiinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -49,15 +49,15 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun toSparql(): String = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalUnion(children[0].evaluate(parent), children[1].evaluate(parent), getProvidedVariableNames())
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-val tmp1=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp1==null){
-return null
-}
-val tmp2=(children[1]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp2==null){
-return null
-}
-return POPUnion(query,projectedVariables,tmp1,tmp2)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp1 == null) {
+            return null
+        }
+        val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp2 == null) {
+            return null
+        }
+        return POPUnion(query, projectedVariables, tmp1, tmp2)
+    }
 }

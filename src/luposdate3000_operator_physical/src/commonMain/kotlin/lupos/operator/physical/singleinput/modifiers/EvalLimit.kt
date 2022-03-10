@@ -23,7 +23,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public object EvalLimit {
-    public operator fun invoke(child: IteratorBundle, limit: Int,handler:POPLimitHandler?): IteratorBundle {
+    public operator fun invoke(child: IteratorBundle, limit: Int, handler: POPLimitHandler?): IteratorBundle {
         val variables = child.columns.keys
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (variable in variables) {
@@ -43,9 +43,9 @@ public object EvalLimit {
                             DictionaryValueHelper.nullValue
                         } else {
                             count++
-if (count == limit) {
-handler?.setFinished()
-}
+                            if (count == limit) {
+                                handler?.setFinished()
+                            }
                             iterator.next()
                         }
                     } else {

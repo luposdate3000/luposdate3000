@@ -16,11 +16,11 @@
  */
 package lupos.operator.physical.noinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -35,7 +35,7 @@ public class POPNothing public constructor(
     override fun equals(other: Any?): Boolean = other is POPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalNothing(getProvidedVariableNames())
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return this
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return this
+    }
 }

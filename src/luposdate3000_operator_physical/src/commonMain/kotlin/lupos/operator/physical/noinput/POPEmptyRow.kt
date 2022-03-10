@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.noinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -23,7 +24,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.operator.physical.IPOPLimit
 
 public class POPEmptyRow public constructor(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorIDExt.POPEmptyRowID, "POPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
@@ -31,7 +31,7 @@ public class POPEmptyRow public constructor(query: IQuery, projectedVariables: L
     override fun toSparql(): String = "{}"
     override fun equals(other: Any?): Boolean = other is POPEmptyRow
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalEmptyRow()
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return this
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return this
+    }
 }

@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -31,7 +32,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.operator.physical.POPBase
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
@@ -323,18 +323,18 @@ public class POPMergePartitionOrderedByIntId public constructor(
             return IteratorBundle(iterator)
         }
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{  
-var res:POPBase?=null
-for (p in 0 until partitionCount2) {
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount2),onFoundLimit,onFoundSort)
-if(tmp!=null){
-if(res==null){
-res=tmp
-}else{
-res=POPUnion(query,projectedVariables,res,tmp)
-}
-}
-}
-return res
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        var res: POPBase? = null
+        for (p in 0 until partitionCount2) {
+            val tmp = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount2), onFoundLimit, onFoundSort)
+            if (tmp != null) {
+                if (res == null) {
+                    res = tmp
+                } else {
+                    res = POPUnion(query, projectedVariables, res, tmp)
+                }
+            }
+        }
+        return res
+    }
 }

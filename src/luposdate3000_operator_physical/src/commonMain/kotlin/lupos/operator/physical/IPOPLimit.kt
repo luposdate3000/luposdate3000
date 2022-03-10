@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical
-public interface IPOPLimit{
-public fun limitFullfilled():Boolean
+public interface IPOPLimit {
+    public fun limitFullfilled(): Boolean
 }
-public class POPLimitHandler():IPOPLimit{
-private var finished=false
-public fun setFinished(){
-finished=true
-}
-override fun limitFullfilled():Boolean=finished
+public class POPLimitHandler() : IPOPLimit {
+    private var finished = false
+    public fun setFinished() {
+        finished = true
+    }
+    override fun limitFullfilled(): Boolean = finished
 }

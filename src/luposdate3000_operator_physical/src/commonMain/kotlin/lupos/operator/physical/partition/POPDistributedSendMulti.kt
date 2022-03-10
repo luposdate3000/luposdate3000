@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
-import lupos.operator.physical.POPBase
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
@@ -68,7 +68,7 @@ public class POPDistributedSendMulti public constructor(
         }
         EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable)
     }
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-TODO()
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        TODO()
+    }
 }

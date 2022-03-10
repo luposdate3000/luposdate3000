@@ -110,8 +110,8 @@ import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
-import lupos.parser.sparql1_1.SparqlParser.*
 import lupos.parser.sparql1_1.*
+import lupos.parser.sparql1_1.SparqlParser.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EGraphOperationTypeExt
@@ -208,12 +208,12 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-       // println("inputAST " + node)
+        // println("inputAST " + node)
         val res = when (val v1 = node.variable1!!) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
         }
-       // println(res)
+        // println(res)
         return res
     }
 

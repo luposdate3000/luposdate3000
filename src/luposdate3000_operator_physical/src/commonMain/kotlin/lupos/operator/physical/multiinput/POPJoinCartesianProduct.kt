@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.multiinput
 
+import lupos.operator.physical.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -23,7 +24,6 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
-import lupos.operator.physical.IPOPLimit
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -64,15 +64,15 @@ public class POPJoinCartesianProduct public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinCartesianProduct(children[0].evaluate(parent), children[1].evaluate(parent), optional)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-val tmp1=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp1==null){
-return null
-}
-val tmp2=(children[1]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp2==null){
-return null
-}
-return POPJoinCartesianProduct(query,projectedVariables,tmp1,tmp2,optional)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp1 == null) {
+            return null
+        }
+        val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp2 == null) {
+            return null
+        }
+        return POPJoinCartesianProduct(query, projectedVariables, tmp1, tmp2, optional)
+    }
 }

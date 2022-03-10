@@ -16,7 +16,6 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.shared.inline.File
 import simora.IPayload
 import simora.ITimer
 import simora.applications.IApplicationStack_Actuator
@@ -54,5 +53,5 @@ public class Application_DataImport(
         parent.send(receiver, queryPck)
         parent.flush()
     }
-override  fun emptyEventQueue(): String?=null
+    override fun emptyEventQueue(): String? = null
 }

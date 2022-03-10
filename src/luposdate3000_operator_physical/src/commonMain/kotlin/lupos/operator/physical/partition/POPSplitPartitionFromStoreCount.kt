@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.partition
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -25,7 +26,6 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-import lupos.operator.physical.POPBase
 
 public class POPSplitPartitionFromStoreCount public constructor(
     query: IQuery,
@@ -84,7 +84,7 @@ public class POPSplitPartitionFromStoreCount public constructor(
     override fun cloneOP(): IOPBase = POPSplitPartitionFromStoreCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStoreCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = children[0].evaluate(parent)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        return (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+    }
 }

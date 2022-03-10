@@ -16,8 +16,8 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 
-import lupos.operator.physical.POPBase
 import lupos.operator.physical.IPOPLimit
+import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -38,11 +38,11 @@ public class POPReduced public constructor(query: IQuery, projectedVariables: Li
 
     override fun cloneOP(): IOPBase = POPReduced(query, projectedVariables, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalReduced(children[0].evaluate(parent), projectedVariables.size)
-override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:(IPOPLimit)->Unit,onFoundSort:()->Unit):POPBase?{
-val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
-if(tmp==null){
-return null
-}
-return POPReduced(query,projectedVariables,tmp)
-}
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
+        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        if (tmp == null) {
+            return null
+        }
+        return POPReduced(query, projectedVariables, tmp)
+    }
 }
