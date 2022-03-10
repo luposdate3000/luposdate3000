@@ -126,4 +126,8 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override fun usesDictionary(): Boolean {
         return true
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+onFoundSort()
+throw Exception("sorting does not work on partial result")
+}
 }

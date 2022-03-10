@@ -321,4 +321,18 @@ public class POPMergePartitionOrderedByIntId public constructor(
             return IteratorBundle(iterator)
         }
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{  
+var res:POPBase?=null
+for (p in 0 until partitionCount2) {
+val tmp=(children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount2),onFoundLimit,onFoundSort)
+if(tmp!=null){
+if(res==null){
+res=tmp
+}else{
+res=POPUnion(query,res,tmp)
+}
+}
+}
+return res
+}
 }

@@ -46,4 +46,11 @@ public class POPFilter public constructor(
     override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalFilter(children[0].evaluate(parent), getProvidedVariableNames(), (children[1] as AOPBase))
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+if(tmp==null){
+return null
+}
+return POPFilter(query,projectedVariables,children[1]as AOPBase,tmp)
+}
 }

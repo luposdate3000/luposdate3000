@@ -34,4 +34,7 @@ public class POPNothing public constructor(
     override fun equals(other: Any?): Boolean = other is POPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalNothing(getProvidedVariableNames())
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+return this
+}
 }

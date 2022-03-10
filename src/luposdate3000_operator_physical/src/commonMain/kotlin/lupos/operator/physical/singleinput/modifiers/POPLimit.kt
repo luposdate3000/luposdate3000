@@ -46,4 +46,12 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
     override fun cloneOP(): IOPBase = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalLimit(children[0].evaluate(parent), limit)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+onFoundLimit()
+val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+if(tmp==null){
+return null
+}
+return POPLimit(query,projectedVariables,limit,tmp)
+}
 }

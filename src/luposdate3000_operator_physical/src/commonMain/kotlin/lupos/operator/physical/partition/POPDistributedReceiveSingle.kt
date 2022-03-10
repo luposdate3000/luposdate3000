@@ -71,4 +71,7 @@ public class POPDistributedReceiveSingle public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveSingle(query, projectedVariables, partitionID, children[0].cloneOP(), input, output, hosts)
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingle && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalDistributedReceiveSingle(input, output)
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+TODO()
+}
 }

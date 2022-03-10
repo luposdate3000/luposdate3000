@@ -260,4 +260,7 @@ public class POPGroup : POPBase {
             by.map { it.name }.toTypedArray(),
         )
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+throw Exception("aggregates wont work with partial results")
+}
 }

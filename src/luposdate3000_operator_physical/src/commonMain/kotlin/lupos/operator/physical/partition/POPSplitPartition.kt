@@ -260,4 +260,6 @@ public class POPSplitPartition public constructor(
             return iterators[parent.data[partitionVariable]!!]
         }
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+return toLocalOperatorGraph(Partition(parent, partitionVariable!!),onFoundLimit,onFoundSort)
 }

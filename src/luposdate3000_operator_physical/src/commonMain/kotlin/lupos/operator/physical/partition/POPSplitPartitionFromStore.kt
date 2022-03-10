@@ -88,4 +88,7 @@ public class POPSplitPartitionFromStore public constructor(
     override fun cloneOP(): IOPBase = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = children[0].evaluate(parent)
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{ 
+return (children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+}
 }

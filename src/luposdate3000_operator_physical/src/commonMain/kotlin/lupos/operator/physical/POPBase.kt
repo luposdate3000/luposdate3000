@@ -37,6 +37,8 @@ public abstract class POPBase public constructor(
     sortPriority: ESortPriority
 ) :
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
+
+abstract public fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?
     public open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
     override fun getProvidedVariableNames(): List<String> = projectedVariables
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {

@@ -88,4 +88,7 @@ public class POPModifyData public constructor(
     override fun usesDictionary(): Boolean {
         return true
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+throw Exception("inserting can not be local")
+}
 }

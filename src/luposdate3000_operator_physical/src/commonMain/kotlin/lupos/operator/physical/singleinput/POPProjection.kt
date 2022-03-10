@@ -54,4 +54,11 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
     public fun passThroughChild(): Boolean {
         return getProvidedVariableNames().containsAll(children[0].getProvidedVariableNames())
     }
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+if(tmp==null){
+return null
+}
+return POPProjection(query,projectedVariables,tmp)
+}
 }

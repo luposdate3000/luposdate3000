@@ -219,6 +219,18 @@ override  fun emptyEventQueue(): String?=null
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
+//try to evaluate local-->>
+try{
+var hasLimit=false
+var hasSort=false
+val localOP=op.toLocalOperatorGraph({hasLimit=true},{hasSort=true})
+if(hasLimit&&!hasSort){
+TODO("yes local evaluation!!")
+return
+}
+}catch(e:Throwable){
+}
+//try to evaluate local<<--
         val q = op.getQuery()
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
@@ -258,7 +270,7 @@ override  fun emptyEventQueue(): String?=null
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:260"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:272"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data

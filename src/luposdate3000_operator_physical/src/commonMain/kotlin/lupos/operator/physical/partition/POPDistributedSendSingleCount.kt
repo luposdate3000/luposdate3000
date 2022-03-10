@@ -52,4 +52,7 @@ public class POPDistributedSendSingleCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+TODO()
+}
 }

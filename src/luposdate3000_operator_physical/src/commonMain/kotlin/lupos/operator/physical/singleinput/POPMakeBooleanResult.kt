@@ -37,4 +37,12 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
     override fun getProvidedVariableNamesInternal(): MutableList<String> = mutableListOf("?boolean")
     override fun getRequiredVariableNames(): List<String> = listOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent))
+override fun toLocalOperatorGraph(parent: Partition,onFoundLimit:()->Unit,onFoundSort:()->Unit):POPBase?{
+onFoundLimit()
+val tmp=(children[0]as POPBase).toLocalOperatorGraph(parent,onFoundLimit,onFoundSort)
+if(tmp==null){
+return null
+}
+return POPMakeBooleanResult(query,projectedVariables,tmp)
+}
 }
