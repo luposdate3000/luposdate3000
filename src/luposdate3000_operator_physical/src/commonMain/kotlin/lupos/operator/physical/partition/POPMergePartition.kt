@@ -300,9 +300,6 @@ public class POPMergePartition public constructor(
                 }
             }
         }
-if(res==null){
-println("deny POPMergePartition")
-}
         return res
     }
 }

@@ -40,12 +40,12 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
     override fun getRequiredVariableNames(): List<String> = listOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent), finishHandler)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        onFoundLimit(finishHandler)
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
-println("deny POPMakeBooleanResult")
             return null
         }
-        return POPMakeBooleanResult(query, projectedVariables, tmp)
+        val res= POPMakeBooleanResult(query, projectedVariables, tmp)
+        onFoundLimit(res.finishHandler)
+return res
     }
 }

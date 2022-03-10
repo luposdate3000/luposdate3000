@@ -68,12 +68,10 @@ public class POPJoinMergeSingleColumn public constructor(
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp1 == null) {
-println("deny POPJoinMergeSingleColumn a")
             return null
         }
         val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp2 == null) {
-println("deny POPJoinMergeSingleColumn b")
             return null
         }
         return POPJoinMergeSingleColumn(query, projectedVariables, tmp1, tmp2, optional)

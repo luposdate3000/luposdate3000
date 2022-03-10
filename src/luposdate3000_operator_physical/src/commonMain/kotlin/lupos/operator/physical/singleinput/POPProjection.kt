@@ -58,7 +58,6 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
-println("deny POPProjection")
             return null
         }
         return POPProjection(query, projectedVariables, tmp)

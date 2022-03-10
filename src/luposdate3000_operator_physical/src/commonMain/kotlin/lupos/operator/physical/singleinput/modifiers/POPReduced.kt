@@ -41,7 +41,6 @@ public class POPReduced public constructor(query: IQuery, projectedVariables: Li
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
-println("deny POPReduced")
             return null
         }
         return POPReduced(query, projectedVariables, tmp)

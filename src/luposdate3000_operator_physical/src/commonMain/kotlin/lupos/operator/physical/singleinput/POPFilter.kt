@@ -50,7 +50,6 @@ public class POPFilter public constructor(
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
-println("deny POPFilter")
             return null
         }
         return POPFilter(query, projectedVariables, children[1]as AOPBase, tmp)

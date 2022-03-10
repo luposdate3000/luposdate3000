@@ -52,7 +52,14 @@ public class POPTripleStoreIterator(
 ) {
     @JvmField
     public var partitionColumn: String? = null
-
+private var enforcePartition:Partition?=null
+private fun getEnforcedPartition(fallback:Partition):Partition{
+if(enforcePartition!=null){
+return enforcePartition!!
+}else{
+return fallback
+}
+}
     @JvmField
     public var hasSplitFromStore: Boolean = false
     public fun requireSplitFromStore(): Boolean = tripleStoreIndexDescription.requireSplitFromStore()
@@ -69,10 +76,10 @@ public class POPTripleStoreIterator(
     }
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         if (getDesiredHostnameFor(parent) == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]) {
-println("accept POPTripleStoreIterator due to '${getDesiredHostnameFor(parent)}' != '${query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]}'")
-            return this
+val tmp=POPTripleStoreIterator(query,projectedVariables,tripleStoreIndexDescription,children)
+tmp.enforcePartition=parent
+            return tmp
         } else {
-println("deny POPTripleStoreIterator due to '${getDesiredHostnameFor(parent)}' != '${query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]}'")
             return null
         }
     }
@@ -142,7 +149,7 @@ println("deny POPTripleStoreIterator due to '${getDesiredHostnameFor(parent)}' !
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:144"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/POPTripleStoreIterator.kt:151"/*SOURCE_FILE_END*/ }, { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count })
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {
@@ -160,11 +167,11 @@ println("deny POPTripleStoreIterator due to '${getDesiredHostnameFor(parent)}' !
         }
     }
 
-    public fun getDesiredHostnameFor(parent: Partition): LuposHostname = getTarget(parent).first
-    public fun getTarget(parent: Partition): Pair<LuposHostname, LuposStoreKey> = tripleStoreIndexDescription.getStore(query, children, parent)
+    public fun getDesiredHostnameFor(parent: Partition): LuposHostname = getTarget(getEnforcedPartition(parent)).first
+    public fun getTarget(parent: Partition): Pair<LuposHostname, LuposStoreKey> = tripleStoreIndexDescription.getStore(query, children, getEnforcedPartition(parent))
     override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalTripleStoreIterator(
-        getTarget(parent),
+        getTarget(getEnforcedPartition(parent)),
         query,
         tripleStoreIndexDescription.idx_set[0],
         children.map { child ->
