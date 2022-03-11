@@ -114,10 +114,14 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
         "luposdate3000_distribution_routing.json",
     )
     val networkTopologyList = mutableListOf<String>(
-        "topology/UniformDB.json",
-        "topology/RandomDB.json",
-        "topology/RingDB.json",
-        "topology/FullDB.json",
+        "topology/Uniform4DB.json",
+        "topology/Random4DB.json",
+        "topology/Ring4DB.json",
+        "topology/Full4DB.json",
+        "topology/Uniform16DB.json",
+        "topology/Random16DB.json",
+        "topology/Ring16DB.json",
+        "topology/Full16DB.json",
         "topology/Uniform128DB.json",
         "topology/Random128DB.json",
         "topology/Ring128DB.json",
@@ -174,13 +178,12 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                                             println(l)
                                         }
                                         var firstLine = listOf<String>()
-                                        var contentLine = mutableListOf<String>()
                                         val attributeLine = specializedCmd.map { it.substring(it.lastIndexOf("/") + 1, it.length - 5) }.toMutableList()
-                                        attributeLines.add(attributeLine)
                                         File(measurementFile).forEachLine {
                                             if (firstLine.isEmpty()) {
                                                 firstLine = it.split(",")
-                                            } else if (contentLine.isEmpty()) {
+                                            } else {
+                                        var contentLine = mutableListOf<String>()
                                                 val data = it.split(",")
                                                 for (i in 0 until firstLine.size) {
                                                     var idx = headerLine.indexOf(firstLine[i])
@@ -194,17 +197,18 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                                                     }
                                                     contentLine[idx] = data[i]
                                                 }
+                                        attributeLines.add(attributeLine)
+                                        contentLines.add(contentLine)
                                             }
                                         }
-                                        contentLines.add(contentLine)
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                     }
                                 }
                             }
                         }
-                    }
                     printStatus()
+                    }
                 }
             }
     }

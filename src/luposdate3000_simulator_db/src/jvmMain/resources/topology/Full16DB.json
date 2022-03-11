@@ -7,13 +7,6 @@
             "longitude": 10.702377248379614,
             "patterns": [
                 {
-                    "count": 255,
-                    "deviceType": "Mesh Hop",
-                    "mode": "count",
-                    "radius": 500,
-                    "type": "random_fill",
-                },
-                {
                     "count": 15,
                     "deviceType": "Database Device",
                     "mode": "count",
@@ -28,8 +21,8 @@
                         },
                     ],
                     "provideCounterAs": "area",
-                    "radius": 500,
-                    "type": "random_fill",
+                    "radius": 50000,
+                    "type": "full",
                 },
             ],
         },
