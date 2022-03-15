@@ -429,7 +429,6 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
-println("evaluateOperatorgraphToResultA $node")
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, true)
     }
 

@@ -1342,6 +1342,7 @@ println("yyy $returning")
         is ASTFilter -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
         is ASTValuesClause -> visit(node)
         is ASTBind -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
+is ASTGraphGraphPattern -> visit(blankNodeToVariable, graph, graphVar, node, OPEmptyRow(query))
         else -> TODO(node.toString())
     }
 
