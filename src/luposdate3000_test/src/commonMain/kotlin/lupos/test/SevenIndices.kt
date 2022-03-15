@@ -18,54 +18,24 @@ package lupos.test
 
 import kotlin.jvm.JvmField
 public class SevenIndices {
-    @JvmField
-    internal val s = mutableMapOf<String, Array<Pair<String, String>>>()
+    
+    private val s = mutableMapOf<String, Array<Pair<String, String>>>()
+       private val sp = mutableMapOf<Pair<String, String>, Array<String>>()
+    private val po = mutableMapOf<Pair<String, String>, Array<String>>()
 
-    @JvmField
-    internal val p = mutableMapOf<String, Array<Pair<String, String>>>()
-
-    @JvmField
-    internal val o = mutableMapOf<String, Array<Pair<String, String>>>()
-
-    @JvmField
-    internal val sp = mutableMapOf<Pair<String, String>, Array<String>>()
-
-    @JvmField
-    internal val so = mutableMapOf<Pair<String, String>, Array<String>>()
-
-    @JvmField
-    internal val po = mutableMapOf<Pair<String, String>, Array<String>>()
-
-    @JvmField
-    public val spo: MutableSet<Triple<String, String,String>> = mutableSetOf()
-
-    public fun s(key: String): Array<Pair<String, String>> {
-return this.s[key] ?: arrayOf()
-}
-    public fun sp(key1: String, key2: String): Array<String> {
-return this.sp[Pair(key1, key2)] ?: arrayOf()
-}
-    public fun po(key1: String, key2: String): Array<String> {
-return this.po[Pair(key1, key2)] ?: arrayOf()
-}
+    public fun s(key: String): Array<Pair<String, String>> =this.s[key] ?: arrayOf()
+    public fun sp(key1: String, key2: String): Array<String> =this.sp[Pair(key1, key2)] ?: arrayOf()
+    public fun po(key1: String, key2: String): Array<String> =this.po[Pair(key1, key2)] ?: arrayOf()
     public fun distinct() {
         distinctOneKeyMap(this.s)
-        distinctOneKeyMap(this.p)
-        distinctOneKeyMap(this.o)
         distinctTwoKeysMap(this.sp)
-        distinctTwoKeysMap(this.so)
         distinctTwoKeysMap(this.po)
-        // duplicates are already eliminated in this.spo!
     }
 
     public fun add(triple_s: String, triple_p: String, triple_o: String) {
         addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
-        addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
-        addToOneKeyMap(this.o, triple_o, triple_s, triple_p)
         addToTwoKeysMap(this.sp, triple_s, triple_p, triple_o)
-        addToTwoKeysMap(this.so, triple_s, triple_o, triple_p)
         addToTwoKeysMap(this.po, triple_p, triple_o, triple_s)
-        this.spo += Triple(triple_s, triple_p, triple_o)
     }
 
     private fun addToOneKeyMap(onekeymap: MutableMap<String, Array<Pair<String, String>>>, key: String, value1: String, value2: String) {
