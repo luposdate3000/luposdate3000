@@ -24,7 +24,7 @@ internal var stackOfBlankNode = Array<String>(100){""}
 internal var stackOfBlankNodeLastIndex = 0
 internal var stackOfLiteral = Array<String>(100){""}
 internal var stackOfLiteralLastIndex = 0
-public var consumeTriple:(String, String, String) -> Unit = {}
+public var consumeTriple:(String, String, String) -> Unit = {s,p,o->}
 
 
 internal var parsererror: String? = null

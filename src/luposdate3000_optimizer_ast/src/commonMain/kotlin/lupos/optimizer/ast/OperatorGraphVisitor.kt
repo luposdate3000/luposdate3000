@@ -110,8 +110,8 @@ import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
-import lupos.parser.sparql1_1.*
-import lupos.parser.sparql1_1.SparqlParser.*
+import lupos.parser.newParser.sparql.*
+import lupos.parser.newParser.sparql.SparqlParser.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EGraphOperationTypeExt

@@ -15,35 +15,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-
-import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
+import lupos.shared.inline.MyStringStream
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.parser.newParser.turtle.TurtleParser
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
-
+import lupos.shared.inline.DictionaryHelper
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))
         res.query = query
         var dictionary = res.query!!.getDictionary()
-        val parserObject = TurtleParserWithDictionaryValueTypeTriples(
-            consume_triple = { s, p, o ->
+val dataStream=MyStringStream(data)
+        val parserObject = TurtleParser(dataStream)
+parserObject.            consumeTriple = { s, p, o ->
+val s1=ByteArrayWrapper()
+val p1=ByteArrayWrapper()
+val o1=ByteArrayWrapper()
+DictionaryHelper.sparqlToByteArray(s1,s)
+DictionaryHelper.sparqlToByteArray(p1,p)
+DictionaryHelper.sparqlToByteArray(o1,o)
                 val row = DictionaryValueTypeArray(3)
-                row[0] = s
-                row[1] = p
-                row[2] = o
+                row[0] = dictionary.createValue(s1)
+                row[1] = dictionary.createValue(p1)
+                row[2] = dictionary.createValue(o1)
                 res.data.add(row)
-            },
-            data = data,
-            unusedParam = false,
-        )
-        parserObject.convertByteArrayWrapperToID = {
-            dictionary.createValue(it)
-        }
-        parserObject.initializeCache()
+            }
         try {
-            parserObject.turtleDoc()
+            parserObject.parserDefinedParse()
         } catch (e: Throwable) {
             println(">>>>")
             println(data)
@@ -51,6 +52,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
             e.printStackTrace()
             throw e
         }
+dataStream.close()
         return res
     }
 }
