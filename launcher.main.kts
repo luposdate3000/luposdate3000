@@ -627,7 +627,7 @@ ParamClass(
     ),
     ParamClass(
         "--compilerVersion",
-        "1.6.20-M1",
+        "1.7.255-SNAPSHOT",
         listOf(
             "1.4.0",
             "1.5.0",
