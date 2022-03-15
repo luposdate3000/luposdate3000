@@ -16,6 +16,7 @@
  */
 package lupos.test
 
+import lupos.parser.newParser.turtle.TurtleParser
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.MemoryTableFromXML
 import lupos.jena_wrapper.JenaWrapper
@@ -29,10 +30,6 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.ParseError
-import lupos.parser.rdf.BlankNode
-import lupos.parser.rdf.Dictionary
-import lupos.parser.rdf.IRI
-import lupos.parser.rdf.SimpleLiteral
 import lupos.parser.newParser.sparql.ASTSparqlDoc
 import lupos.parser.newParser.sparql.SparqlParser
 import lupos.parser.turtle.TurtleParserWithDictionary
@@ -99,19 +96,11 @@ public open class SparqlTestSuite {
         }
     }
 
-    private /*suspend*/ fun listMembers(data: SevenIndices, start: Long, f: /*suspend*/ (Long) -> Unit) {
-        val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        val nil = rdf + "nil"
-        val first = rdf + "first"
-        val rest = rdf + "rest"
-        val nilIri = Dictionary.IRI(nil)
-        val firstIri = Dictionary.IRI(first)
-        val restIri = Dictionary.IRI(rest)
-
-        /*suspend*/ fun recursiveListMembers(current: Long) {
-            data.sp(current, firstIri).forEach { f(it) }
-            data.sp(current, restIri).forEach {
-                if (it != nilIri) {
+    private /*suspend*/ fun listMembers(data: SevenIndices, start: String, f: /*suspend*/ (String) -> Unit) {
+        /*suspend*/ fun recursiveListMembers(current: String) {
+            data.sp(current, ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>")).forEach { f(it) }
+            data.sp(current, ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>")).forEach {
+                if (it != ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>")) {
                     listMembers(data, it, f)
                 }
             }
@@ -119,14 +108,16 @@ public open class SparqlTestSuite {
         recursiveListMembers(start)
     }
 
-    private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-        val ltit = LookAheadTokenIterator(TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
+    private fun readTurtleData(filename: String, consume_triple: (String,String ,String ) -> Unit) {
         try {
-            TurtleParserWithDictionary(consume_triple, ltit).parse()
+            val parserObject = TurtleParser(MyStringStream(File(filename).readAsString()))
+            parserObject.consumeTriple = { s, p, o ->
+                consume_triple((s), (p), (o))
+            }
+            parserObject.parserDefinedParse()
         } catch (e: ParseError) {
+            println("error in file '$filename'")
             e.printStackTrace()
-            println("Error in the following line:")
-            println(e.lineNumber)
         }
     }
 
@@ -143,29 +134,28 @@ public open class SparqlTestSuite {
         SanityCheck.println { "Reading file $filename..." }
         val data = createSevenIndices(prefix + filename)
         val newprefix = prefix + filename.substringBeforeLast("/") + "/"
-        val manifestEntries = data.po(Dictionary.IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest"))
+        val manifestEntries = data.po(("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest>"))
         manifestEntries.forEach {
             // Are other manifest files included?
-            val included = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include"))
+            val included = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include>"))
             included.forEach { it2 ->
                 // follow list of included manifest files:
                 listMembers(data, it2) { it3 ->
-                    val includedfile = Dictionary[it3]
+                    val includedfile = it3
                     if (includedfile != null) {
-                        includedfile as IRI
-                        val (nr_t, nr_e) = parseManifestFile(prefix, includedfile.iri)
+                        val (nr_t, nr_e) = parseManifestFile(prefix, includedfile.drop(1).dropLast(1))
                         numberOfTests += nr_t
                         numberOfErrors += nr_e
                     }
                 }
             }
             // Now look for_ the tests:
-            val tests = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries"))
+            val tests = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries>"))
             tests.forEach { it2 ->
                 // follow list of entries:
                 listMembers(data, it2) { it3 ->
                     // for_ printing out the name:
-//                    val name = data.sp(it3, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
+//                    val name = data.sp(it3, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name>"))
                     numberOfTests++
                     if (!testOneEntry(data, it3, newprefix)) {
                         numberOfErrors++
@@ -182,8 +172,14 @@ public open class SparqlTestSuite {
         }
         return File(name).readAsString()
     }
-
-    private /*suspend*/ fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
+private fun removePrefixForFileName(s:String):String{
+return if(s.contains("/manifest#")){
+s.drop("/manifest#".length+s.indexOf("/manifest#")).dropLast(1)
+}else{
+TODO(s)
+}
+}
+    private /*suspend*/ fun testOneEntry(data: SevenIndices, node: String, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
         val features = mutableListOf<String>()
@@ -197,93 +193,93 @@ public open class SparqlTestSuite {
         val inputDataGraph = mutableListOf<MutableMap<String, String>>()
         val outputDataGraph = mutableListOf<MutableMap<String, String>>()
         data.s(node).forEach { (first, second) ->
-            when ((Dictionary[first] as IRI).iri) {
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
+            when (first) {
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result>") -> {
                     when {
-                        Dictionary[second] is IRI -> {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:203"/*SOURCE_FILE_END*/ }, { resultFile == null })
-                            resultFile = prefix + (Dictionary[second] as IRI).iri
+                        second.startsWith("<") && second.endsWith(">") -> {
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:199"/*SOURCE_FILE_END*/ }, { resultFile == null })
+                            resultFile = prefix + removePrefixForFileName(second)
                         }
-                        Dictionary[second] is BlankNode -> {
+                        second.startsWith("_:") -> {
                             data.s(second).forEach { (first, second) ->
-                                when ((Dictionary[first] as IRI).iri) {
-                                    "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
+                                when (first) {
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
-                                        graph["filename"] = prefix + (Dictionary[second] as IRI).iri
+                                        graph["filename"] = prefix + removePrefixForFileName(second)
                                         outputDataGraph.add(graph)
                                     }
-                                    "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(second).forEach { (first, second) ->
-                                            when ((Dictionary[first] as IRI).iri) {
-                                                "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
-                                                    graph["filename"] = prefix + (Dictionary[second] as IRI).iri
+                                            when (first) {
+                                                ("<http://www.w3.org/2009/sparql/tests/test-update#graph>") -> {
+                                                    graph["filename"] = prefix + removePrefixForFileName(second)
                                                 }
-                                                "http://www.w3.org/2000/01/rdf-schema#label" -> {
-                                                    graph["name"] = (Dictionary[second] as SimpleLiteral).content
+                                                ("<http://www.w3.org/2000/01/rdf-schema#label>") -> {
+                                                    graph["name"] = second.drop(1).dropLast(1)
                                                 }
                                                 else -> {
-                                                    TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                                    TODO("SparqlTestSuite" + first + " # " + second)
                                                 }
                                             }
                                         }
                                         outputDataGraph.add(graph)
                                     }
-                                    "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[second] as IRI).iri }
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#result>") -> {
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + second }
                                     }
                                     else -> {
-                                        TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                        TODO("SparqlTestSuite" + first + " # " + second)
                                     }
                                 }
                             }
                         }
                         else -> {
-                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                            TODO("SparqlTestSuite" + first + " # " + second)
                         }
                     }
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action>") -> {
                     when {
-                        Dictionary[second] is IRI -> {
-                            queryFile = prefix + (Dictionary[second] as IRI).iri
+                        second.startsWith("<") && second.endsWith(">") -> {
+                            queryFile = prefix + removePrefixForFileName(second)
                         }
-                        Dictionary[second] is BlankNode -> {
+                        second.startsWith("_:") -> {
                             data.s(second).forEach { (first, second) ->
-                                when ((Dictionary[first] as IRI).iri) {
-                                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:255"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
-                                        inputDataFile = prefix + (Dictionary[second] as IRI).iri
+                                when (first) {
+                                    ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:251"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        inputDataFile = prefix + removePrefixForFileName(second)
                                     }
-                                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:259"/*SOURCE_FILE_END*/ }, { queryFile == null })
-                                        queryFile = prefix + (Dictionary[second] as IRI).iri
+                                    ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#query>") -> {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:255"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        queryFile = prefix + removePrefixForFileName(second)
                                     }
-                                    "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[second] }
+                                    ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second }
                                     }
-                                    "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[second] }
+                                    ("<http://www.w3.org/ns/sparql-service-description#EntailmentProfile>") -> {
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + second }
                                     }
-                                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
+                                    ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
-                                        graph["name"] = (Dictionary[second] as IRI).iri
-                                        graph["filename"] = prefix + (Dictionary[second] as IRI).iri
+                                        graph["name"] = second.drop(1).dropLast(1)
+                                        graph["filename"] = prefix + removePrefixForFileName(second)
                                         inputDataGraph.add(graph)
                                     }
-                                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
+                                    ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData>") -> {
                                         val service = mutableMapOf<String, String>()
                                         data.s(second).forEach {
-                                            when ((Dictionary[it.first] as IRI).iri) {
-                                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
-                                                    service["name"] = (Dictionary[it.second] as IRI).iri
+                                            when (it.first) {
+                                                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint>") -> {
+                                                    service["name"] = it.second.drop(1).dropLast(1)
                                                 }
-                                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                                    service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
+                                                    service["filename"] = prefix + removePrefixForFileName(it.second)
                                                 }
                                                 else -> {
-                                                    TODO("SparqlTestSuite" + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    TODO("SparqlTestSuite" + it.first + " # " + it.second)
                                                 }
                                             }
                                         }
@@ -291,99 +287,99 @@ public open class SparqlTestSuite {
                                             services.add(service)
                                         }
                                     }
-                                    "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:294"/*SOURCE_FILE_END*/ }, { queryFile == null })
-                                        queryFile = prefix + (Dictionary[second] as IRI).iri
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#request>") -> {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:290"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        queryFile = prefix + removePrefixForFileName(second)
                                     }
-                                    "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:298"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
-                                        inputDataFile = prefix + (Dictionary[second] as IRI).iri
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:294"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        inputDataFile = prefix + removePrefixForFileName(second)
                                     }
-                                    "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
+                                    ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(second).forEach {
-                                            when ((Dictionary[it.first] as IRI).iri) {
-                                                "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
-                                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                            when (it.first) {
+                                                ("<http://www.w3.org/2009/sparql/tests/test-update#graph>") -> {
+                                                    graph["filename"] = prefix + removePrefixForFileName(it.second)
                                                 }
-                                                "http://www.w3.org/2000/01/rdf-schema#label" -> {
-                                                    graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
+                                                ("<http://www.w3.org/2000/01/rdf-schema#label>") -> {
+                                                    graph["name"] = it.second.drop(1).dropLast(1)
                                                 }
                                                 else -> {
-                                                    TODO("SparqlTestSuite" + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    TODO("SparqlTestSuite" + it.first + " # " + it.second)
                                                 }
                                             }
                                         }
                                         inputDataGraph.add(graph)
                                     }
                                     else -> {
-                                        TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                                        TODO("SparqlTestSuite" + first + " # " + second)
                                     }
                                 }
                             }
                         }
                         else -> {
-                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                            TODO("SparqlTestSuite" + first + " # " + second)
                         }
                     }
                 }
-                "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:330"/*SOURCE_FILE_END*/ }, { testType == null })
-                    testType = (Dictionary[second] as IRI).iri
-                    when ((Dictionary[second] as IRI).iri) {
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
+                ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") -> {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:326"/*SOURCE_FILE_END*/ }, { testType == null })
+                    testType = second.drop(1).dropLast(1)
+                    when (second) {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11>") -> {
                             expectedResult = false
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ProtocolTest" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ProtocolTest>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ServiceDescriptionTest" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ServiceDescriptionTest>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest>") -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest11" -> {
+                        ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest11>") -> {
                             expectedResult = false
                         }
                         else -> {
-                            TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + (Dictionary[second] as IRI).iri)
+                            TODO("SparqlTestSuite" + first + " # " + second)
                         }
                     }
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name" -> {
-                    names.add((Dictionary[second] as SimpleLiteral).content)
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name>") -> {
+                    names.add(second.drop(1).dropLast(1))
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature" -> {
-                    features.add((Dictionary[second] as IRI).iri)
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature>") -> {
+                    features.add(second.drop(1).dropLast(1))
                 }
-                "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:365"/*SOURCE_FILE_END*/ }, { comment == null })
-                    comment = (Dictionary[second] as SimpleLiteral).content
+                ("<http://www.w3.org/2000/01/rdf-schema#comment>") -> {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:361"/*SOURCE_FILE_END*/ }, { comment == null })
+                    comment = second.drop(1).dropLast(1)
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[second] }
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second }
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[second] }
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy>") -> {
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + second }
                 }
-                "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[second] as IRI).iri }
+                ("<http://www.w3.org/2000/01/rdf-schema#seeAlso>") -> {
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + second }
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[second] as IRI).iri }
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm>") -> {
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second }
                 }
-                "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:381"/*SOURCE_FILE_END*/ }, { description == null })
-                    description = (Dictionary[second] as SimpleLiteral).content
+                ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:377"/*SOURCE_FILE_END*/ }, { description == null })
+                    description = second.drop(1).dropLast(1)
                 }
                 else -> {
-                    TODO("SparqlTestSuite" + (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
+                    TODO("SparqlTestSuite" + first + " # " + second)
                 }
             }
         }
@@ -591,14 +587,14 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:593"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:589"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:600"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:596"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println { x }
@@ -606,8 +602,8 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:608"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:609"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:604"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:605"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println { x }

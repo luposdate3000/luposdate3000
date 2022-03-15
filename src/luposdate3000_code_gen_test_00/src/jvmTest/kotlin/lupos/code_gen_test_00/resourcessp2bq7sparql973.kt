@@ -111,6 +111,62 @@ public class resourcessp2bq7sparql973 {
       }
     }
     @Test
+    public fun `resourcessp2bq7sparql973 - Thread - PartitionByIDTwiceAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcessp2bq7sparql973 - Thread - PartitionByID_1_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcessp2bq7sparql973 - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcessp2bq7sparql973 - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcessp2bq7sparql973 - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",

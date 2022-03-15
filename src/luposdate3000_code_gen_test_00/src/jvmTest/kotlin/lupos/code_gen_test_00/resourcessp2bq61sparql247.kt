@@ -99,6 +99,48 @@ public class resourcessp2bq61sparql247 {
       }
     }
     @Test
+    public fun `resourcessp2bq61sparql247 - Thread - PartitionByIDTwiceAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcessp2bq61sparql247 - Thread - PartitionByID_1_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcessp2bq61sparql247 - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcessp2bq61sparql247 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{

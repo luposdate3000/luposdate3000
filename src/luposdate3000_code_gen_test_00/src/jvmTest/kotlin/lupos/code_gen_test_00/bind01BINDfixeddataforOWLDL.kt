@@ -426,21 +426,6 @@ public class bind01BINDfixeddataforOWLDL {
             "AllShortestPath",
         )
     }
-    @Test
-    public fun `bind01  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
         val simRun = SimulationRun()
         simRun.parseConfig(fileName,false,{

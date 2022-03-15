@@ -97,6 +97,48 @@ public class resourcesmyqueriessimulatorparkingquery811sparql377simulatorparking
       }
     }
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{

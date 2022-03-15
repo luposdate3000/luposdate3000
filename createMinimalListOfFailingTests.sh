@@ -7,7 +7,7 @@ rm -rf tmp
 mkdir tmp
 sleep 1
 ./launcher.main.kts --setup
-./gradlew assemble
+./gradlew --offline assemble
 sleep 1
 i=0
 while true
@@ -42,7 +42,7 @@ cat tmp/blacklist1 \
 
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
-timeout2 -t 600 ./gradlew build > x
+timeout2 -t 600 ./gradlew --offline build > x
 cp x backupX$i
 pkill java -9
 sleep 5

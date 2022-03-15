@@ -65,6 +65,34 @@ public class resourcesmyqueriessimulatorparkingquery212sparql2502simulatorparkin
         ""
 
     @Test
+    public fun `resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{

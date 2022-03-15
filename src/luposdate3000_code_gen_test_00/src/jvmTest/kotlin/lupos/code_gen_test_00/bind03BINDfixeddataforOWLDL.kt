@@ -69,6 +69,34 @@ public class bind03BINDfixeddataforOWLDL {
         ""
 
     @Test
+    public fun `bind03  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `bind03  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `bind03  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -454,6 +482,31 @@ public class bind03BINDfixeddataforOWLDL {
         }
         if (verifyExecuted2==0) {
             fail("pck2 not verified")
+        }
+    }
+    internal fun normalHelper(instance:Luposdate3000Instance) {
+        val buf = MyPrintWriter(false)
+        if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
+        } else {
+            TODO()
+        }
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val buf_err0 = MyPrintWriter()
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
+            fail(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
+        }
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
+            fail(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
         }
     }
 }
