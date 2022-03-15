@@ -426,6 +426,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        mavenLocal()")
                 out.println("        google()")
                 out.println("        mavenCentral()")
+out.println("        maven { url = uri(\"https://oss.sonatype.org/content/repositories/snapshots/\") }")
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
@@ -485,6 +486,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    mavenLocal()")
                 out.println("    google()")
                 out.println("    mavenCentral()")
+out..println("    maven { url = uri(\"https://oss.sonatype.org/content/repositories/snapshots/\") }")
                 out.println("}")
                 out.println("group = \"luposdate3000\"") // maven-groupID
                 out.println("version = \"0.0.1\"") // maven-version

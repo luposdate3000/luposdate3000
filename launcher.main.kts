@@ -638,6 +638,7 @@ ParamClass(
             "1.6.10",
             "1.6.20-M1",
             "1.6.255-SNAPSHOT",
+            "1.7.255-SNAPSHOT",
         ),
         false,
     ),
@@ -862,6 +863,7 @@ fun onSetupGradle() {
             outSettingsGradle.println("        mavenLocal()")
             outSettingsGradle.println("        google()")
             outSettingsGradle.println("        gradlePluginPortal()")
+            outSettingsGradle.println("        maven { url = uri(\"https://oss.sonatype.org/content/repositories/snapshots/\") }")
             outSettingsGradle.println("    }")
             outSettingsGradle.println("}")
             outSettingsGradle.println("rootProject.name = \"Luposdate3000\"")

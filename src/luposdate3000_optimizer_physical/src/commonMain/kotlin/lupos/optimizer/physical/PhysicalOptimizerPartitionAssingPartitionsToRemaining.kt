@@ -60,13 +60,23 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                 for ((key, count) in requiredPartition) {
                                     val partitionID = query.getNextPartitionOperatorID()
                                     ids.add(partitionID)
-                                    res = POPSplitPartitionFromStore(query, res.getProvidedVariableNames(), key, count, partitionID, res)
+val pp=res.getProvidedVariableNames()
+if(pp.size==0){
+                                    res = POPSplitPartitionFromStoreCount(query, pp, key, count, partitionID, res)
+}else{
+                                    res = POPSplitPartitionFromStore(query, pp, key, count, partitionID, res)
+}
 // println("PhysicalOptimizerPartitionAssingPartitionsToRemaining a ${res.getUUID()} $count")
                                     query.addPartitionOperator(res.getUUID(), partitionID)
                                 }
                                 for ((key, count) in requiredPartition) {
                                     val partitionID = ids.removeAt(0)
-                                    res = POPMergePartition(query, res.getProvidedVariableNames(), key, count, partitionID, res)
+val pp=res.getProvidedVariableNames()
+if(pp.size==0){
+                                    res = POPMergePartitionCount(query, pp, key, count, partitionID, res)
+}else{
+                                    res = POPMergePartition(query, pp, key, count, partitionID, res)
+}
                                     query.addPartitionOperator(res.getUUID(), partitionID)
                                 }
                             } else {
