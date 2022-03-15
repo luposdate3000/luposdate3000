@@ -43,12 +43,12 @@ public object EvalLimit {
                             DictionaryValueHelper.nullValue
                         } else {
                             count++
-val res=                            iterator.next()
-                            if (count == limit&&res!=DictionaryValueHelper.nullValue) {
+                            val res = iterator.next()
+                            if (count == limit && res != DictionaryValueHelper.nullValue) {
                                 handler?.setFinished()
                             }
-        res
-                }
+                            res
+                        }
                     } else {
                         DictionaryValueHelper.nullValue
                     }

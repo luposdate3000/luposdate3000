@@ -16,16 +16,15 @@
  */
 package lupos.test
 
-import kotlin.jvm.JvmField
 public class SevenIndices {
-    
+
     private val s = mutableMapOf<String, Array<Pair<String, String>>>()
-       private val sp = mutableMapOf<Pair<String, String>, Array<String>>()
+    private val sp = mutableMapOf<Pair<String, String>, Array<String>>()
     private val po = mutableMapOf<Pair<String, String>, Array<String>>()
 
-    public fun s(key: String): Array<Pair<String, String>> =this.s[key] ?: arrayOf()
-    public fun sp(key1: String, key2: String): Array<String> =this.sp[Pair(key1, key2)] ?: arrayOf()
-    public fun po(key1: String, key2: String): Array<String> =this.po[Pair(key1, key2)] ?: arrayOf()
+    public fun s(key: String): Array<Pair<String, String>> = this.s[key] ?: arrayOf()
+    public fun sp(key1: String, key2: String): Array<String> = this.sp[Pair(key1, key2)] ?: arrayOf()
+    public fun po(key1: String, key2: String): Array<String> = this.po[Pair(key1, key2)] ?: arrayOf()
     public fun distinct() {
         distinctOneKeyMap(this.s)
         distinctTwoKeysMap(this.sp)

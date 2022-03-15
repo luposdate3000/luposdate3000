@@ -495,7 +495,7 @@ without minify mode only the passing tests will be added
                                 val fileBufferTest = MyPrintWriter(true)
                                 fileBufferTests[finalTestName] = fileBufferTest
                                 if (fastMode) {
-                                        fileBufferTest.println("    @Ignore")
+                                    fileBufferTest.println("    @Ignore")
                                 } else {
                                     if (isIgnored(finalTestName) || !withSimulator) {
                                         fileBufferTest.println("    @Ignore")
