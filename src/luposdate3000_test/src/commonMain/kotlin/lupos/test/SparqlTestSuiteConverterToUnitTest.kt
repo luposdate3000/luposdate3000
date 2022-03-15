@@ -73,11 +73,6 @@ without minify mode only the passing tests will be added
         if (minifyMode) {
             return listOfRemoved.contains(testName)
         } else {
-            if (testName.contains("simulatorparking") && testName.contains("small")) {
-                if (!testName.contains("Thread")) {
-                    return false
-                }
-            }
             return !listOfPassed.contains(testName)
         }
     }
@@ -261,7 +256,8 @@ without minify mode only the passing tests will be added
         fun myActualDataOperatorGraph(counter: Int, graph: String, out: IMyOutputStream) {
             out.println("        val query$counter = Query(instance)")
             out.println("        val graph$counter = instance.tripleStoreManager!!.getGraph($graph)")
-            out.println("        val operator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
+            out.println("        val iterator$counter = graph$counter.getIterator(query$counter, arrayOf(AOPVariable(query$counter, \"s\"), AOPVariable(query$counter, \"p\"), AOPVariable(query$counter, \"o\")), EIndexPatternExt.SPO)")
+            out.println("        val operator$counter = PhysicalOptimizer(query$counter).optimizeCall(iterator$counter)")
         }
 
         fun myActualDataEvaluate(counter: Int, out: IMyOutputStream) {
@@ -302,6 +298,7 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
         fileBufferPrefix.println(" */")
         fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
+        fileBufferPrefix.println("import lupos.optimizer.physical.PhysicalOptimizer")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")
         fileBufferPrefix.println("import simora.addQuerySender")
@@ -484,10 +481,6 @@ without minify mode only the passing tests will be added
                                     continue // this errors ...
                                 }
 
-                                if (predefinedPartitionScheme == EPredefinedPartitionSchemesExt.names[EPredefinedPartitionSchemesExt.PartitionByAll]) {
-                                    continue
-                                }
-
                                 if (LUPOS_PARTITION_MODE != EPartitionModeExt.names[EPartitionModeExt.Process] && queryDistributionMode == EQueryDistributionModeExt.names[EQueryDistributionModeExt.Routing]) {
                                     continue
                                 }
@@ -502,9 +495,7 @@ without minify mode only the passing tests will be added
                                 val fileBufferTest = MyPrintWriter(true)
                                 fileBufferTests[finalTestName] = fileBufferTest
                                 if (fastMode) {
-                                    if (predefinedPartitionScheme != "PartitionByAll") {
                                         fileBufferTest.println("    @Ignore")
-                                    }
                                 } else {
                                     if (isIgnored(finalTestName) || !withSimulator) {
                                         fileBufferTest.println("    @Ignore")

@@ -19,7 +19,6 @@ package lupos.shared
 public interface ITripleStoreIndexDescriptionFactory {
     public fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory
     public fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory
-    public fun partitionedByAll(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory
     public fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory
     public fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory
 }

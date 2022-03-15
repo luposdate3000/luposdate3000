@@ -36,11 +36,6 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
         return this
     }
 
-    override fun partitionedByAll(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
-        res = TripleStoreIndexDescriptionPartitionedByAll(idx, partitionCount, instance)
-        return this
-    }
-
     override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount, instance)
         return this
@@ -78,29 +73,6 @@ public open class TripleStoreIndexDescriptionFactory(@JvmField internal var inst
                 off += 4
                 val tmp = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn, instance)
                 for (i in 0 until partitionCount) {
-                    val l1 = ByteArrayHelper.readInt4(buffer, off)
-                    off += 4
-                    val buf1 = ByteArray(l1)
-                    buffer.copyInto(buf1, 0, off, off + l1)
-                    off += l1
-                    val l2 = ByteArrayHelper.readInt4(buffer, off)
-                    off += 4
-                    val buf2 = ByteArray(l2)
-                    buffer.copyInto(buf2, 0, off, off + l2)
-                    off += l2
-                    tmp.hostnames[i] = buf1.decodeToString()
-                    tmp.keys[i] = buf2.decodeToString()
-                }
-                res = tmp
-            }
-            ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByAll -> {
-                val idx = ByteArrayHelper.readInt4(buffer, off)
-                off += 4
-                val partitionCount = ByteArrayHelper.readInt4(buffer, off)
-                off += 4
-                val tmp = TripleStoreIndexDescriptionPartitionedByAll(idx, partitionCount, instance)
-                val partitionCount3 = partitionCount * partitionCount * partitionCount
-                for (i in 0 until partitionCount3) {
                     val l1 = ByteArrayHelper.readInt4(buffer, off)
                     off += 4
                     val buf1 = ByteArray(l1)

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import simora.addQuerySender
@@ -1332,7 +1333,8 @@ public class CREATESILENTiri {
         }
         val query0 = Query(instance)
         val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
@@ -1343,7 +1345,8 @@ public class CREATESILENTiri {
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query2 = Query(instance)
         val graph2 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val operator2 = graph2.getIterator(query2, arrayOf(AOPVariable(query2, "s"), AOPVariable(query2, "p"), AOPVariable(query2, "o")), EIndexPatternExt.SPO)
+        val iterator2 = graph2.getIterator(query2, arrayOf(AOPVariable(query2, "s"), AOPVariable(query2, "p"), AOPVariable(query2, "o")), EIndexPatternExt.SPO)
+        val operator2 = PhysicalOptimizer(query2).optimizeCall(iterator2)
         val actual2 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected2 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err2 = MyPrintWriter()

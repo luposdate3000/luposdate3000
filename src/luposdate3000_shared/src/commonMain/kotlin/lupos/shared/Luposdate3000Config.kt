@@ -40,7 +40,7 @@ public object Luposdate3000Config {
     public var tripleStoreManager: TripleStoreManager? = null
 
     @JvmField
-    public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM
+    public var LUPOS_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "1048576")!!.toInt() // set this to at most 5% of your available RAM
 
     @JvmField
     public var LUPOS_REAL_WORLD_DATA_ROOT: String = Platform.getEnv("LUPOS_REAL_WORLD_DATA_ROOT", "/mnt/luposdate-testdata/")!! // set this to a huge storage device, to store your benchmark data

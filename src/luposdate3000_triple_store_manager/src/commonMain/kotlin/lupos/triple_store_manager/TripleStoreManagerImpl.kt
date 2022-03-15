@@ -399,19 +399,6 @@ public class TripleStoreManagerImpl public constructor(
                     .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = partitionCount, partitionColumn = 1) }
                     .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = partitionCount, partitionColumn = 1) }
             }
-            EPredefinedPartitionSchemesExt.PartitionByAll -> {
-                partitionCount = 2
-                while (partitionCount * partitionCount * partitionCount < instance.LUPOS_PROCESS_URLS_STORE.size) {
-                    partitionCount *= 2
-                }
-                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.SPO, partitionCount = partitionCount) }
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.SOP, partitionCount = partitionCount) }
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.PSO, partitionCount = partitionCount) }
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.POS, partitionCount = partitionCount) }
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.OSP, partitionCount = partitionCount) }
-                    .addIndex { it.partitionedByAll(idx = EIndexPatternExt.OPS, partitionCount = partitionCount) }
-            }
             EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations -> {
                 defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
                     .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = partitionCount, partitionColumn = 2) }
@@ -537,7 +524,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:539"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:526"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)
@@ -678,13 +665,6 @@ public class TripleStoreManagerImpl public constructor(
                                 if (index.partitionColumn == node2.attributes["partitionColumn"]!!.toInt()) {
                                     return index
                                 }
-                            }
-                        }
-                    }
-                    is TripleStoreIndexDescriptionPartitionedByAll -> {
-                        if (node2.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByAll") {
-                            if (index.partitionCount == node2.attributes["partitionCount"]!!.toInt()) {
-                                return index
                             }
                         }
                     }

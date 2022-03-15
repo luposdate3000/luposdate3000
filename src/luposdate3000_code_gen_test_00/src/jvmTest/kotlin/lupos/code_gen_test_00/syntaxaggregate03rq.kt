@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import simora.addQuerySender
@@ -64,34 +65,6 @@ public class syntaxaggregate03rq {
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `syntaxaggregate03rq - Thread - PartitionByAll - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByAll
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `syntaxaggregate03rq - Thread - PartitionByAll - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByAll
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)

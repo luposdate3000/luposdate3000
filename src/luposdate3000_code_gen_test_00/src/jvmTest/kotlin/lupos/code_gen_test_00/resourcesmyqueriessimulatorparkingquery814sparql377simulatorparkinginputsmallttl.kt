@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import simora.addQuerySender
@@ -1329,7 +1330,8 @@ public class resourcesmyqueriessimulatorparkingquery814sparql377simulatorparking
         }
         val query0 = Query(instance)
         val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()

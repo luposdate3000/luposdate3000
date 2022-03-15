@@ -57,14 +57,6 @@ public class TripleStoreDescription(
                     }
                     res.append("|")
                 }
-                is TripleStoreIndexDescriptionPartitionedByAll -> {
-                    res.append("PartitionedByAll;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.partitionCount}")
-                    val i3 = idx.partitionCount * idx.partitionCount * idx.partitionCount
-                    for (i in 0 until i3) {
-                        res.append(";${idx.hostnames[i]};${idx.keys[i]}")
-                    }
-                    res.append("|")
-                }
                 is TripleStoreIndexDescriptionPartitionedByKey -> {
                     res.append("PartitionedByKey;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.partitionCount}")
                     for (i in 0 until idx.partitionCount) {
@@ -99,16 +91,6 @@ public class TripleStoreDescription(
                                 for (i in 0 until args[2].toInt()) {
                                     idx.hostnames[i] = args[4 + i * 2]
                                     idx.keys[i] = args[4 + i * 2 + 1]
-                                }
-                                indices.add(idx)
-                            }
-                            "PartitionedByAll" -> {
-                                val idx = TripleStoreIndexDescriptionPartitionedByAll(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), instance)
-                                val i = args[2].toInt()
-                                val i3 = i * i * i
-                                for (ii in 0 until i3) {
-                                    idx.hostnames[ii] = args[3 + ii * 2]
-                                    idx.keys[ii] = args[3 + ii * 2 + 1]
                                 }
                                 indices.add(idx)
                             }
@@ -173,7 +155,7 @@ public class TripleStoreDescription(
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:175"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:157"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {
@@ -210,7 +192,7 @@ public class TripleStoreDescription(
                         } catch (e: Throwable) {
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true
-                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:212"/*SOURCE_FILE_END*/)
+                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:194"/*SOURCE_FILE_END*/)
                                 e.printStackTrace()
                             }
                             first += 100

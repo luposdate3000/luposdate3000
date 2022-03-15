@@ -2,7 +2,6 @@ PartitionByIDTwiceAllCollations
 PartitionByKeyAllCollations
 Simple
 PartitionByID_1_AllCollations
-PartitionByAll
 PartitionByID_2_AllCollations
 PartitionByID_S_AllCollations
 PartitionByID_O_AllCollations

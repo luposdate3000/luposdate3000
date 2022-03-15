@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import simora.addQuerySender
@@ -1349,7 +1350,8 @@ public class MOVE1 {
         }
         val query0 = Query(instance)
         val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
-        val operator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
         val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
         val buf_err0 = MyPrintWriter()
@@ -1358,7 +1360,8 @@ public class MOVE1 {
         }
         val query1 = Query(instance)
         val graph1 = instance.tripleStoreManager!!.getGraph(inputGraph[1])
-        val operator1 = graph1.getIterator(query1, arrayOf(AOPVariable(query1, "s"), AOPVariable(query1, "p"), AOPVariable(query1, "o")), EIndexPatternExt.SPO)
+        val iterator1 = graph1.getIterator(query1, arrayOf(AOPVariable(query1, "s"), AOPVariable(query1, "p"), AOPVariable(query1, "o")), EIndexPatternExt.SPO)
+        val operator1 = PhysicalOptimizer(query1).optimizeCall(iterator1)
         val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected1 = MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!
         val buf_err1 = MyPrintWriter()
@@ -1369,7 +1372,8 @@ public class MOVE1 {
         LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator2, buf, EQueryResultToStreamExt.EMPTY_STREAM)
         val query3 = Query(instance)
         val graph3 = instance.tripleStoreManager!!.getGraph(outputGraph[0])
-        val operator3 = graph3.getIterator(query3, arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPatternExt.SPO)
+        val iterator3 = graph3.getIterator(query3, arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPatternExt.SPO)
+        val operator3 = PhysicalOptimizer(query3).optimizeCall(iterator3)
         val actual3 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator3, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
         val expected3 = MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!
         val buf_err3 = MyPrintWriter()

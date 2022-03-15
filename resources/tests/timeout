@@ -322,8 +322,6 @@ resourcesbsbmbiquery12553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery12553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery12553sparql2553 - None - Simple - false
 resourcesbsbmbiquery12553sparql2553 - None - Simple - true
-resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -472,8 +470,6 @@ resourcesbsbmbiquery22210sparql2210 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery22210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmbiquery22210sparql2210 - None - Simple - false
 resourcesbsbmbiquery22210sparql2210 - None - Simple - true
-resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -563,8 +559,6 @@ resourcesbsbmbiquery22553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery22553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery22553sparql2553 - None - Simple - false
 resourcesbsbmbiquery22553sparql2553 - None - Simple - true
-resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -643,8 +637,6 @@ resourcesbsbmbiquery31853sparql1853 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery31853sparql1853 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmbiquery31853sparql1853 - None - Simple - false
 resourcesbsbmbiquery31853sparql1853 - None - Simple - true
-resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByAll - false
-resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByAll - true
 resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByID_2_AllCollations - false
 resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByID_O_AllCollations - false
@@ -733,7 +725,6 @@ resourcesbsbmbiquery32210sparql2210 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery32210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmbiquery32210sparql2210 - None - Simple - false
 resourcesbsbmbiquery32210sparql2210 - None - Simple - true
-resourcesbsbmbiquery32210sparql2210 - Thread - PartitionByAll - false
 resourcesbsbmbiquery32210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery32210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery32210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -818,8 +809,6 @@ resourcesbsbmbiquery32553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery32553sparql2553 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmbiquery32553sparql2553 - None - Simple - false
 resourcesbsbmbiquery32553sparql2553 - None - Simple - true
-resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -1150,7 +1139,6 @@ resourcesbsbmbiquery51853sparql1853 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery51853sparql1853 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery51853sparql1853 - None - Simple - false
 resourcesbsbmbiquery51853sparql1853 - None - Simple - true
-resourcesbsbmbiquery51853sparql1853 - Thread - PartitionByAll - false
 resourcesbsbmbiquery51853sparql1853 - Thread - PartitionByID_O_AllCollations - true
 resourcesbsbmbiquery51853sparql1853 - Thread - PartitionByID_S_AllCollations - false
 resourcesbsbmbiquery51853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
@@ -1228,8 +1216,6 @@ resourcesbsbmbiquery52210sparql2210 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery52210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmbiquery52210sparql2210 - None - Simple - false
 resourcesbsbmbiquery52210sparql2210 - None - Simple - true
-resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -1315,8 +1301,6 @@ resourcesbsbmbiquery52553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery52553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery52553sparql2553 - None - Simple - false
 resourcesbsbmbiquery52553sparql2553 - None - Simple - true
-resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -1403,7 +1387,6 @@ resourcesbsbmbiquery61853sparql1853 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery61853sparql1853 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery61853sparql1853 - None - Simple - false
 resourcesbsbmbiquery61853sparql1853 - None - Simple - true
-resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByAll - false
 resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
 resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByKeyAllCollations - true
@@ -1477,8 +1460,6 @@ resourcesbsbmbiquery62210sparql2210 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery62210sparql2210 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery62210sparql2210 - None - Simple - false
 resourcesbsbmbiquery62210sparql2210 - None - Simple - true
-resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -1561,8 +1542,6 @@ resourcesbsbmbiquery62553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery62553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery62553sparql2553 - None - Simple - false
 resourcesbsbmbiquery62553sparql2553 - None - Simple - true
-resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -1642,7 +1621,6 @@ resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery71853sparql1853 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery71853sparql1853 - None - Simple - false
 resourcesbsbmbiquery71853sparql1853 - None - Simple - true
-resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByAll - true
 resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByID_2_AllCollations - true
@@ -1724,8 +1702,6 @@ resourcesbsbmbiquery72210sparql2210 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery72210sparql2210 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery72210sparql2210 - None - Simple - false
 resourcesbsbmbiquery72210sparql2210 - None - Simple - true
-resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByID_2_AllCollations - false
 resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByID_2_AllCollations - true
 resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByID_O_AllCollations - false
@@ -1816,8 +1792,6 @@ resourcesbsbmbiquery72553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery72553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery72553sparql2553 - None - Simple - false
 resourcesbsbmbiquery72553sparql2553 - None - Simple - true
-resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByID_2_AllCollations - true
@@ -2070,8 +2044,6 @@ resourcesbsbmbiquery82553sparql2553 - in simulator - Simple - Centralized - true
 resourcesbsbmbiquery82553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmbiquery82553sparql2553 - None - Simple - false
 resourcesbsbmbiquery82553sparql2553 - None - Simple - true
-resourcesbsbmbiquery82553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmbiquery82553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmbiquery82553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmbiquery82553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmbiquery82553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -2233,8 +2205,6 @@ resourcesbsbmexplorequery102210sparql2210 - in simulator - Simple - Centralized 
 resourcesbsbmexplorequery102210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery102210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery102210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByID_2_AllCollations - true
@@ -2316,8 +2286,6 @@ resourcesbsbmexplorequery102553sparql2553 - in simulator - Simple - Centralized 
 resourcesbsbmexplorequery102553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery102553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery102553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -2581,8 +2549,6 @@ resourcesbsbmexplorequery112553sparql2553 - in simulator - Simple - Centralized 
 resourcesbsbmexplorequery112553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery112553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery112553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -2661,7 +2627,6 @@ resourcesbsbmexplorequery11853sparql1853 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery11853sparql1853 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery11853sparql1853 - None - Simple - false
 resourcesbsbmexplorequery11853sparql1853 - None - Simple - true
-resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByID_2_AllCollations - false
 resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByID_2_AllCollations - true
@@ -2819,7 +2784,6 @@ resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery12210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery12210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery12210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -2902,8 +2866,6 @@ resourcesbsbmexplorequery122210sparql2210 - in simulator - Simple - Centralized 
 resourcesbsbmexplorequery122210sparql2210 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery122210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery122210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -3081,8 +3043,6 @@ resourcesbsbmexplorequery12553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery12553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery12553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery12553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -3256,7 +3216,6 @@ resourcesbsbmexplorequery22210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery22210sparql2210 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery22210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByAll - false
 resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -3426,8 +3385,6 @@ resourcesbsbmexplorequery31853sparql1853 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery31853sparql1853 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery31853sparql1853 - None - Simple - false
 resourcesbsbmexplorequery31853sparql1853 - None - Simple - true
-resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_2_AllCollations - false
@@ -3510,8 +3467,6 @@ resourcesbsbmexplorequery32210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery32210sparql2210 - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesbsbmexplorequery32210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery32210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -3599,8 +3554,6 @@ resourcesbsbmexplorequery32553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery32553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery32553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery32553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -3808,8 +3761,6 @@ resourcesbsbmexplorequery42553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery42553sparql2553 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery42553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery42553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -3969,8 +3920,6 @@ resourcesbsbmexplorequery52210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery52210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery52210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery52210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -4056,8 +4005,6 @@ resourcesbsbmexplorequery52553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery52553sparql2553 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery52553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery52553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -4218,8 +4165,6 @@ resourcesbsbmexplorequery62210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery62210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery62210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery62210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery62210sparql2210 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery62210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery62210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery62210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery62210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -4304,8 +4249,6 @@ resourcesbsbmexplorequery62553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery62553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery62553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery62553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -4566,8 +4509,6 @@ resourcesbsbmexplorequery72553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery72553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery72553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery72553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery72553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery72553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery72553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery72553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery72553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -4652,7 +4593,6 @@ resourcesbsbmexplorequery81853sparql1853 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery81853sparql1853 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
 resourcesbsbmexplorequery81853sparql1853 - None - Simple - true
-resourcesbsbmexplorequery81853sparql1853 - Thread - PartitionByAll - false
 resourcesbsbmexplorequery81853sparql1853 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery81853sparql1853 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery81853sparql1853 - Thread - PartitionByID_2_AllCollations - false
@@ -4736,7 +4676,6 @@ resourcesbsbmexplorequery82210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery82210sparql2210 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery82210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery82210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery82210sparql2210 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery82210sparql2210 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery82210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery82210sparql2210 - Thread - PartitionByID_2_AllCollations - false
@@ -4819,7 +4758,6 @@ resourcesbsbmexplorequery82553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery82553sparql2553 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery82553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery82553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery82553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery82553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery82553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery82553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -4993,7 +4931,6 @@ resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbsbmexplorequery92210sparql2210 - None - Simple - false
 resourcesbsbmexplorequery92210sparql2210 - None - Simple - true
-resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByAll - false
 resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByID_2_AllCollations - false
 resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByID_O_AllCollations - false
@@ -5072,8 +5009,6 @@ resourcesbsbmexplorequery92553sparql2553 - in simulator - Simple - Centralized -
 resourcesbsbmexplorequery92553sparql2553 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbsbmexplorequery92553sparql2553 - None - Simple - false
 resourcesbsbmexplorequery92553sparql2553 - None - Simple - true
-resourcesbsbmexplorequery92553sparql2553 - Thread - PartitionByAll - false
-resourcesbsbmexplorequery92553sparql2553 - Thread - PartitionByAll - true
 resourcesbsbmexplorequery92553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 resourcesbsbmexplorequery92553sparql2553 - Thread - PartitionByID_1_AllCollations - true
 resourcesbsbmexplorequery92553sparql2553 - Thread - PartitionByID_2_AllCollations - false
@@ -5174,8 +5109,6 @@ resourcesbtc028sparql3778 - in simulator - Simple - Centralized - true - None - 
 resourcesbtc028sparql3778 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesbtc028sparql3778 - None - Simple - false
 resourcesbtc028sparql3778 - None - Simple - true
-resourcesbtc028sparql3778 - Thread - PartitionByAll - false
-resourcesbtc028sparql3778 - Thread - PartitionByAll - true
 resourcesbtc028sparql3778 - Thread - PartitionByID_1_AllCollations - false
 resourcesbtc028sparql3778 - Thread - PartitionByID_1_AllCollations - true
 resourcesbtc028sparql3778 - Thread - PartitionByID_2_AllCollations - false
@@ -5309,8 +5242,6 @@ resourcesbtc035sparql61664 - in simulator - Simple - Centralized - true - None -
 resourcesbtc035sparql61664 - in simulator - Simple - Centralized - true - None - RPL
 resourcesbtc035sparql61664 - None - Simple - false
 resourcesbtc035sparql61664 - None - Simple - true
-resourcesbtc035sparql61664 - Thread - PartitionByAll - false
-resourcesbtc035sparql61664 - Thread - PartitionByAll - true
 resourcesbtc035sparql61664 - Thread - PartitionByID_1_AllCollations - false
 resourcesbtc035sparql61664 - Thread - PartitionByID_1_AllCollations - true
 resourcesbtc035sparql61664 - Thread - PartitionByID_2_AllCollations - false
@@ -5475,8 +5406,6 @@ resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5530,7 +5459,6 @@ resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5603,8 +5531,6 @@ resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5681,8 +5607,6 @@ resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5762,8 +5686,6 @@ resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5843,8 +5765,6 @@ resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
@@ -5915,8 +5835,6 @@ resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -5992,7 +5910,6 @@ resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
@@ -6077,7 +5994,6 @@ resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - true
@@ -6156,8 +6072,6 @@ resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6241,8 +6155,6 @@ resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6320,8 +6232,6 @@ resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6483,8 +6393,6 @@ resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6562,8 +6470,6 @@ resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6647,7 +6553,6 @@ resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6726,8 +6631,6 @@ resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -6809,8 +6712,6 @@ resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
-resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7084,8 +6985,6 @@ resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7165,7 +7064,6 @@ resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - None - Simple - false
-resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7250,8 +7148,6 @@ resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7336,7 +7232,6 @@ resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7416,8 +7311,6 @@ resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7494,7 +7387,6 @@ resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7567,7 +7459,6 @@ resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7691,8 +7582,6 @@ resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - false - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7857,8 +7746,6 @@ resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - None - Simple - false
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7942,8 +7829,6 @@ resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -7991,8 +7876,6 @@ resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8070,7 +7953,6 @@ resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - None - Simple - false
-resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8146,8 +8028,6 @@ resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8233,8 +8113,6 @@ resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8465,8 +8343,6 @@ resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8545,8 +8421,6 @@ resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8623,7 +8497,6 @@ resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8700,8 +8573,6 @@ resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - AllShortestPath
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8773,7 +8644,6 @@ resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8864,7 +8734,6 @@ resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -8950,8 +8819,6 @@ resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9035,8 +8902,6 @@ resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9114,8 +8979,6 @@ resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9177,8 +9040,6 @@ resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9261,8 +9122,6 @@ resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9429,8 +9288,6 @@ resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9511,7 +9368,6 @@ resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9543,8 +9399,6 @@ resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9623,8 +9477,6 @@ resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9701,8 +9553,6 @@ resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - 
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9786,8 +9636,6 @@ resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - i
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9872,8 +9720,6 @@ resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - in
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - in simulator - Simple - Centralized - true - None - RPL
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - None - Simple - false
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - None - Simple - true
-resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - false
-resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - Thread - PartitionByAll - true
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - false
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - Thread - PartitionByID_1_AllCollations - true
 resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - Thread - PartitionByID_2_AllCollations - false
@@ -9961,7 +9807,6 @@ resourcessp2bq10sparql1640 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq10sparql1640 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq10sparql1640 - None - Simple - false
 resourcessp2bq10sparql1640 - None - Simple - true
-resourcessp2bq10sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq10sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq10sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq10sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -10050,8 +9895,6 @@ resourcessp2bq10sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq10sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq10sparql32978 - None - Simple - false
 resourcessp2bq10sparql32978 - None - Simple - true
-resourcessp2bq10sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq10sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq10sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq10sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq10sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -10185,7 +10028,6 @@ resourcessp2bq111sparql1640 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq111sparql1640 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq111sparql1640 - None - Simple - false
 resourcessp2bq111sparql1640 - None - Simple - true
-resourcessp2bq111sparql1640 - Thread - PartitionByAll - false
 resourcessp2bq111sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq111sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq111sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -10278,8 +10120,6 @@ resourcessp2bq111sparql32978 - in simulator - Simple - Centralized - true - None
 resourcessp2bq111sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq111sparql32978 - None - Simple - false
 resourcessp2bq111sparql32978 - None - Simple - true
-resourcessp2bq111sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq111sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq111sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq111sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq111sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -10487,8 +10327,6 @@ resourcessp2bq11sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq11sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq11sparql32978 - None - Simple - false
 resourcessp2bq11sparql32978 - None - Simple - true
-resourcessp2bq11sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq11sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq11sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq11sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq11sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -10670,8 +10508,6 @@ resourcessp2bq12a1sparql32978 - in simulator - Simple - Centralized - true - Non
 resourcessp2bq12a1sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12a1sparql32978 - None - Simple - false
 resourcessp2bq12a1sparql32978 - None - Simple - true
-resourcessp2bq12a1sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12a1sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12a1sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12a1sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12a1sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -10859,8 +10695,6 @@ resourcessp2bq12asparql32978 - in simulator - Simple - Centralized - true - None
 resourcessp2bq12asparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12asparql32978 - None - Simple - false
 resourcessp2bq12asparql32978 - None - Simple - true
-resourcessp2bq12asparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12asparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12asparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12asparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12asparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -10982,7 +10816,6 @@ resourcessp2bq12b1sparql1640 - in simulator - Simple - Centralized - true - None
 resourcessp2bq12b1sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12b1sparql1640 - None - Simple - false
 resourcessp2bq12b1sparql1640 - None - Simple - true
-resourcessp2bq12b1sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq12b1sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b1sparql1640 - Thread - PartitionByID_2_AllCollations - false
 resourcessp2bq12b1sparql1640 - Thread - PartitionByID_O_AllCollations - false
@@ -11075,8 +10908,6 @@ resourcessp2bq12b1sparql32978 - in simulator - Simple - Centralized - true - Non
 resourcessp2bq12b1sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12b1sparql32978 - None - Simple - false
 resourcessp2bq12b1sparql32978 - None - Simple - true
-resourcessp2bq12b1sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12b1sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12b1sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12b1sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b1sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -11321,8 +11152,6 @@ resourcessp2bq12b2sparql32978 - in simulator - Simple - Centralized - true - Non
 resourcessp2bq12b2sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12b2sparql32978 - None - Simple - false
 resourcessp2bq12b2sparql32978 - None - Simple - true
-resourcessp2bq12b2sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12b2sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12b2sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12b2sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b2sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -11570,8 +11399,6 @@ resourcessp2bq12b3sparql32978 - in simulator - Simple - Centralized - true - Non
 resourcessp2bq12b3sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq12b3sparql32978 - None - Simple - false
 resourcessp2bq12b3sparql32978 - None - Simple - true
-resourcessp2bq12b3sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12b3sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12b3sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12b3sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b3sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -11777,8 +11604,6 @@ resourcessp2bq12b4sparql32978 - in simulator - Simple - Centralized - true - Non
 resourcessp2bq12b4sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12b4sparql32978 - None - Simple - false
 resourcessp2bq12b4sparql32978 - None - Simple - true
-resourcessp2bq12b4sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12b4sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12b4sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12b4sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12b4sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12040,8 +11865,6 @@ resourcessp2bq12bsparql32978 - in simulator - Simple - Centralized - true - None
 resourcessp2bq12bsparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12bsparql32978 - None - Simple - false
 resourcessp2bq12bsparql32978 - None - Simple - true
-resourcessp2bq12bsparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12bsparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12bsparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12bsparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12bsparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12086,7 +11909,6 @@ resourcessp2bq12csparql1294 - in simulator - PartitionByIDTwiceAllCollations - R
 resourcessp2bq12csparql1294 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
 resourcessp2bq12csparql1294 - None - Simple - false
 resourcessp2bq12csparql1294 - None - Simple - true
-resourcessp2bq12csparql1294 - Thread - PartitionByAll - true
 resourcessp2bq12csparql1294 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12csparql1294 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq12csparql1294 - Thread - Simple - false
@@ -12218,8 +12040,6 @@ resourcessp2bq12csparql32978 - in simulator - Simple - Centralized - true - None
 resourcessp2bq12csparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq12csparql32978 - None - Simple - false
 resourcessp2bq12csparql32978 - None - Simple - true
-resourcessp2bq12csparql32978 - Thread - PartitionByAll - false
-resourcessp2bq12csparql32978 - Thread - PartitionByAll - true
 resourcessp2bq12csparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq12csparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq12csparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12331,8 +12151,6 @@ resourcessp2bq1sparql1640 - in simulator - Simple - Centralized - true - None - 
 resourcessp2bq1sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq1sparql1640 - None - Simple - false
 resourcessp2bq1sparql1640 - None - Simple - true
-resourcessp2bq1sparql1640 - Thread - PartitionByAll - false
-resourcessp2bq1sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq1sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq1sparql1640 - Thread - PartitionByID_2_AllCollations - false
 resourcessp2bq1sparql1640 - Thread - PartitionByID_2_AllCollations - true
@@ -12426,8 +12244,6 @@ resourcessp2bq1sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq1sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq1sparql32978 - None - Simple - false
 resourcessp2bq1sparql32978 - None - Simple - true
-resourcessp2bq1sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq1sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq1sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq1sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq1sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12568,8 +12384,6 @@ resourcessp2bq2sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq2sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq2sparql32978 - None - Simple - false
 resourcessp2bq2sparql32978 - None - Simple - true
-resourcessp2bq2sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq2sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq2sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq2sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq2sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12739,8 +12553,6 @@ resourcessp2bq3asparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq3asparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq3asparql32978 - None - Simple - false
 resourcessp2bq3asparql32978 - None - Simple - true
-resourcessp2bq3asparql32978 - Thread - PartitionByAll - false
-resourcessp2bq3asparql32978 - Thread - PartitionByAll - true
 resourcessp2bq3asparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq3asparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq3asparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -12922,8 +12734,6 @@ resourcessp2bq3bsparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq3bsparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq3bsparql32978 - None - Simple - false
 resourcessp2bq3bsparql32978 - None - Simple - true
-resourcessp2bq3bsparql32978 - Thread - PartitionByAll - false
-resourcessp2bq3bsparql32978 - Thread - PartitionByAll - true
 resourcessp2bq3bsparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq3bsparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq3bsparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -13102,8 +12912,6 @@ resourcessp2bq3csparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq3csparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq3csparql32978 - None - Simple - false
 resourcessp2bq3csparql32978 - None - Simple - true
-resourcessp2bq3csparql32978 - Thread - PartitionByAll - false
-resourcessp2bq3csparql32978 - Thread - PartitionByAll - true
 resourcessp2bq3csparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq3csparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq3csparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -13360,8 +13168,6 @@ resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq41sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq41sparql32978 - None - Simple - false
 resourcessp2bq41sparql32978 - None - Simple - true
-resourcessp2bq41sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq41sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq41sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq41sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq41sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -13695,8 +13501,6 @@ resourcessp2bq42sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq42sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq42sparql32978 - None - Simple - false
 resourcessp2bq42sparql32978 - None - Simple - true
-resourcessp2bq42sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq42sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq42sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq42sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq42sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14015,8 +13819,6 @@ resourcessp2bq4sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq4sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq4sparql32978 - None - Simple - false
 resourcessp2bq4sparql32978 - None - Simple - true
-resourcessp2bq4sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq4sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq4sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq4sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq4sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14216,8 +14018,6 @@ resourcessp2bq5asparql1640 - in simulator - Simple - Centralized - false - None 
 resourcessp2bq5asparql1640 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq5asparql1640 - None - Simple - false
 resourcessp2bq5asparql1640 - None - Simple - true
-resourcessp2bq5asparql1640 - Thread - PartitionByAll - false
-resourcessp2bq5asparql1640 - Thread - PartitionByAll - true
 resourcessp2bq5asparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq5asparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq5asparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -14304,8 +14104,6 @@ resourcessp2bq5asparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq5asparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq5asparql32978 - None - Simple - false
 resourcessp2bq5asparql32978 - None - Simple - true
-resourcessp2bq5asparql32978 - Thread - PartitionByAll - false
-resourcessp2bq5asparql32978 - Thread - PartitionByAll - true
 resourcessp2bq5asparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq5asparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq5asparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14453,8 +14251,6 @@ resourcessp2bq5bsparql32978 - in simulator - Simple - Centralized - false - None
 resourcessp2bq5bsparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq5bsparql32978 - None - Simple - false
 resourcessp2bq5bsparql32978 - None - Simple - true
-resourcessp2bq5bsparql32978 - Thread - PartitionByAll - false
-resourcessp2bq5bsparql32978 - Thread - PartitionByAll - true
 resourcessp2bq5bsparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq5bsparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq5bsparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14650,8 +14446,6 @@ resourcessp2bq61sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq61sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq61sparql32978 - None - Simple - false
 resourcessp2bq61sparql32978 - None - Simple - true
-resourcessp2bq61sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq61sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq61sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq61sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq61sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14725,7 +14519,6 @@ resourcessp2bq62sparql1640 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq62sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq62sparql1640 - None - Simple - false
 resourcessp2bq62sparql1640 - None - Simple - true
-resourcessp2bq62sparql1640 - Thread - PartitionByAll - false
 resourcessp2bq62sparql1640 - Thread - PartitionByID_2_AllCollations - true
 resourcessp2bq62sparql1640 - Thread - PartitionByID_O_AllCollations - false
 resourcessp2bq62sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
@@ -14792,8 +14585,6 @@ resourcessp2bq62sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq62sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq62sparql32978 - None - Simple - false
 resourcessp2bq62sparql32978 - None - Simple - true
-resourcessp2bq62sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq62sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq62sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq62sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq62sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -14891,8 +14682,6 @@ resourcessp2bq63sparql1640 - in simulator - PartitionByIDTwiceAllCollations - Ro
 resourcessp2bq63sparql1640 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq63sparql1640 - None - Simple - false
 resourcessp2bq63sparql1640 - None - Simple - true
-resourcessp2bq63sparql1640 - Thread - PartitionByAll - false
-resourcessp2bq63sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq63sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq63sparql1640 - Thread - PartitionByID_2_AllCollations - false
 resourcessp2bq63sparql1640 - Thread - PartitionByID_2_AllCollations - true
@@ -14971,8 +14760,6 @@ resourcessp2bq63sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq63sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq63sparql32978 - None - Simple - false
 resourcessp2bq63sparql32978 - None - Simple - true
-resourcessp2bq63sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq63sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq63sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq63sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq63sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -15187,8 +14974,6 @@ resourcessp2bq65sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq65sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq65sparql32978 - None - Simple - false
 resourcessp2bq65sparql32978 - None - Simple - true
-resourcessp2bq65sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq65sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq65sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq65sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq65sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -15428,8 +15213,6 @@ resourcessp2bq66sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq66sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq66sparql32978 - None - Simple - false
 resourcessp2bq66sparql32978 - None - Simple - true
-resourcessp2bq66sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq66sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq66sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq66sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq66sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -15588,7 +15371,6 @@ resourcessp2bq67sparql1640 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq67sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq67sparql1640 - None - Simple - false
 resourcessp2bq67sparql1640 - None - Simple - true
-resourcessp2bq67sparql1640 - Thread - PartitionByAll - false
 resourcessp2bq67sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq67sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq67sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -15658,8 +15440,6 @@ resourcessp2bq67sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq67sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq67sparql32978 - None - Simple - false
 resourcessp2bq67sparql32978 - None - Simple - true
-resourcessp2bq67sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq67sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq67sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq67sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq67sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -15786,8 +15566,6 @@ resourcessp2bq68sparql1640 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq68sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq68sparql1640 - None - Simple - false
 resourcessp2bq68sparql1640 - None - Simple - true
-resourcessp2bq68sparql1640 - Thread - PartitionByAll - false
-resourcessp2bq68sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq68sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq68sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq68sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -15870,8 +15648,6 @@ resourcessp2bq68sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq68sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq68sparql32978 - None - Simple - false
 resourcessp2bq68sparql32978 - None - Simple - true
-resourcessp2bq68sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq68sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq68sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq68sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq68sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -15967,7 +15743,6 @@ resourcessp2bq6sparql1640 - in simulator - Simple - Centralized - true - None - 
 resourcessp2bq6sparql1640 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq6sparql1640 - None - Simple - false
 resourcessp2bq6sparql1640 - None - Simple - true
-resourcessp2bq6sparql1640 - Thread - PartitionByAll - false
 resourcessp2bq6sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq6sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq6sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -16050,8 +15825,6 @@ resourcessp2bq6sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq6sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq6sparql32978 - None - Simple - false
 resourcessp2bq6sparql32978 - None - Simple - true
-resourcessp2bq6sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq6sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq6sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq6sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq6sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -16241,8 +16014,6 @@ resourcessp2bq71sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq71sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq71sparql32978 - None - Simple - false
 resourcessp2bq71sparql32978 - None - Simple - true
-resourcessp2bq71sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq71sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq71sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq71sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq71sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -16263,7 +16034,6 @@ resourcessp2bq71sparql700 - in simulator - PartitionByIDTwiceAllCollations - Cen
 resourcessp2bq71sparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
 resourcessp2bq71sparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
 resourcessp2bq71sparql700 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-resourcessp2bq71sparql973 - Thread - PartitionByAll - false
 resourcessp2bq71sparql973 - Thread - PartitionByIDTwiceAllCollations - false
 resourcessp2bq71sparql973 - Thread - PartitionByIDTwiceAllCollations - true
 resourcessp2bq71sparql973 - Thread - Simple - false
@@ -16450,8 +16220,6 @@ resourcessp2bq72sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq72sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq72sparql32978 - None - Simple - false
 resourcessp2bq72sparql32978 - None - Simple - true
-resourcessp2bq72sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq72sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq72sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq72sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq72sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -16621,8 +16389,6 @@ resourcessp2bq7sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq7sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq7sparql32978 - None - Simple - false
 resourcessp2bq7sparql32978 - None - Simple - true
-resourcessp2bq7sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq7sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq7sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq7sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq7sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -16786,8 +16552,6 @@ resourcessp2bq8sparql1640 - in simulator - Simple - Centralized - true - None - 
 resourcessp2bq8sparql1640 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq8sparql1640 - None - Simple - false
 resourcessp2bq8sparql1640 - None - Simple - true
-resourcessp2bq8sparql1640 - Thread - PartitionByAll - false
-resourcessp2bq8sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq8sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq8sparql1640 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq8sparql1640 - Thread - PartitionByID_2_AllCollations - false
@@ -16889,8 +16653,6 @@ resourcessp2bq8sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq8sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq8sparql32978 - None - Simple - false
 resourcessp2bq8sparql32978 - None - Simple - true
-resourcessp2bq8sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq8sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq8sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq8sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq8sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -17075,8 +16837,6 @@ resourcessp2bq91sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq91sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq91sparql32978 - None - Simple - false
 resourcessp2bq91sparql32978 - None - Simple - true
-resourcessp2bq91sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq91sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq91sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq91sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq91sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -17179,8 +16939,6 @@ resourcessp2bq92sparql1640 - in simulator - PartitionByKeyAllCollations - Routin
 resourcessp2bq92sparql1640 - in simulator - Simple - Centralized - false - None - RPL_Fast
 resourcessp2bq92sparql1640 - None - Simple - false
 resourcessp2bq92sparql1640 - None - Simple - true
-resourcessp2bq92sparql1640 - Thread - PartitionByAll - false
-resourcessp2bq92sparql1640 - Thread - PartitionByAll - true
 resourcessp2bq92sparql1640 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq92sparql1640 - Thread - PartitionByID_2_AllCollations - false
 resourcessp2bq92sparql1640 - Thread - PartitionByID_2_AllCollations - true
@@ -17259,8 +17017,6 @@ resourcessp2bq92sparql32978 - in simulator - Simple - Centralized - true - None 
 resourcessp2bq92sparql32978 - in simulator - Simple - Centralized - true - None - RPL_Fast
 resourcessp2bq92sparql32978 - None - Simple - false
 resourcessp2bq92sparql32978 - None - Simple - true
-resourcessp2bq92sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq92sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq92sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq92sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq92sparql32978 - Thread - PartitionByID_2_AllCollations - false
@@ -17423,8 +17179,6 @@ resourcessp2bq9sparql32978 - in simulator - Simple - Centralized - true - None -
 resourcessp2bq9sparql32978 - in simulator - Simple - Centralized - true - None - RPL
 resourcessp2bq9sparql32978 - None - Simple - false
 resourcessp2bq9sparql32978 - None - Simple - true
-resourcessp2bq9sparql32978 - Thread - PartitionByAll - false
-resourcessp2bq9sparql32978 - Thread - PartitionByAll - true
 resourcessp2bq9sparql32978 - Thread - PartitionByID_1_AllCollations - false
 resourcessp2bq9sparql32978 - Thread - PartitionByID_1_AllCollations - true
 resourcessp2bq9sparql32978 - Thread - PartitionByID_2_AllCollations - false

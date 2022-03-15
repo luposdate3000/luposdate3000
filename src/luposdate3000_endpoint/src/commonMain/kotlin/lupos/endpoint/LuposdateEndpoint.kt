@@ -169,7 +169,6 @@ public object LuposdateEndpoint {
                         val idx = EIndexPatternExt.names.indexOf(t[0])
                         when (t[1]) {
                             "Simple" -> layout.addIndex { it.simple(idx) }
-                            "All" -> layout.addIndex { it.partitionedByAll(idx, t[2].toInt()) }
                             "ID0" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 0) }
                             "ID1" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
                             "ID2" -> layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
@@ -274,7 +273,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:276"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:275"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -283,17 +282,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:285"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:284"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:290"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:289"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:295"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:294"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
@@ -430,6 +429,7 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
+println("evaluateOperatorgraphToResultA $node")
         return evaluateOperatorgraphToResultInternal(instance, node, output, evaluator, -1, true)
     }
 
