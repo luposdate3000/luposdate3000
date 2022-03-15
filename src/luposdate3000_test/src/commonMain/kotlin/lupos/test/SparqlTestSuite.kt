@@ -26,7 +26,6 @@ import lupos.operator.physical.noinput.POPValues2
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
-import lupos.parser.ParseError
 import lupos.parser.newParser.sparql.ASTSparqlDoc
 import lupos.parser.newParser.sparql.SparqlParser
 import lupos.parser.newParser.turtle.TurtleParser
@@ -111,7 +110,7 @@ public open class SparqlTestSuite {
                 consume_triple((s), (p), (o))
             }
             parserObject.parserDefinedParse()
-        } catch (e: ParseError) {
+        } catch (e: Throwable) {
             println("error in file '$filename'")
             e.printStackTrace()
         }
@@ -193,7 +192,7 @@ public open class SparqlTestSuite {
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result>") -> {
                     when {
                         second.startsWith("<") && second.endsWith(">") -> {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:195"/*SOURCE_FILE_END*/ }, { resultFile == null })
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:194"/*SOURCE_FILE_END*/ }, { resultFile == null })
                             resultFile = prefix + removePrefixForFileName(second)
                         }
                         second.startsWith("_:") -> {
@@ -245,11 +244,11 @@ public open class SparqlTestSuite {
                             data.s(second).forEach { (first, second) ->
                                 when (first) {
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:247"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:246"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
                                         inputDataFile = prefix + removePrefixForFileName(second)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#query>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:251"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:250"/*SOURCE_FILE_END*/ }, { queryFile == null })
                                         queryFile = prefix + removePrefixForFileName(second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
@@ -284,11 +283,11 @@ public open class SparqlTestSuite {
                                         }
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#request>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:286"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:285"/*SOURCE_FILE_END*/ }, { queryFile == null })
                                         queryFile = prefix + removePrefixForFileName(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:290"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:289"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
                                         inputDataFile = prefix + removePrefixForFileName(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
@@ -320,7 +319,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:322"/*SOURCE_FILE_END*/ }, { testType == null })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:321"/*SOURCE_FILE_END*/ }, { testType == null })
                     testType = second.drop(1).dropLast(1)
                     when (second) {
                         ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest>") -> {
@@ -355,7 +354,7 @@ public open class SparqlTestSuite {
                     features.add(second.drop(1).dropLast(1))
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#comment>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:357"/*SOURCE_FILE_END*/ }, { comment == null })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:356"/*SOURCE_FILE_END*/ }, { comment == null })
                     comment = second.drop(1).dropLast(1)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
@@ -371,7 +370,7 @@ public open class SparqlTestSuite {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second }
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:373"/*SOURCE_FILE_END*/ }, { description == null })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:372"/*SOURCE_FILE_END*/ }, { description == null })
                     description = second.drop(1).dropLast(1)
                 }
                 else -> {
@@ -583,14 +582,14 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:585"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:584"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:592"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:591"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println { x }
@@ -598,8 +597,8 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:600"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:601"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:599"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:600"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println { x }
@@ -723,12 +722,10 @@ public open class SparqlTestSuite {
                 LuposdateEndpoint.close(instance)
                 return expectedResult
             }
-        } catch (e: ParseError) {
+        } catch (e: Throwable) {
             e.printStackTrace()
             if (expectedResult) {
                 SanityCheck.println { e }
-                SanityCheck.println { "Error in the following line:" }
-                SanityCheck.println { e.lineNumber }
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(ParseError)")
             } else {

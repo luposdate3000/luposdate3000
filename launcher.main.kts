@@ -1078,7 +1078,6 @@ fun onGenerateParser() {
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
         "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
-    val turtleFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserGenerated.kt"
     val turtlePackage = "lupos.parser.turtle"
     val xmlGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
@@ -1140,7 +1139,6 @@ fun onGenerateParser() {
     )
     val nQuadsFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/nQuads/NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage)
     ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage)
     ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage)
 }
@@ -1238,7 +1236,6 @@ fun onGenerateEnums() {
         listOf("EDictionaryType", "lupos.shared.dictionary", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType"),
         listOf("EGraphOperationType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGraphOperationType"),
         listOf("EGroupMember", "lupos.optimizer.ast", "public", "src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/EGroupMember"),
-        listOf("Turtle2ParserState", "lupos.parser.turtle", "internal", "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserState"),
         listOf("EQueryResultToStream", "lupos.result_format", "public", "src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/EQueryResultToStream"),
         listOf("EOptimizerID", "lupos.optimizer.logical", "public", "src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerID"),
         listOf("EVariablePlaceholder", "lupos.code_generator_shared", "internal", "src/luposdate3000_code_generator_shared/src/commonMain/kotlin/lupos/code_generator_shared/EVariablePlaceholder"),
