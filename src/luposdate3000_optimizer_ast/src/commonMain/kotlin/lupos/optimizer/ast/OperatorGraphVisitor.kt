@@ -351,6 +351,104 @@ public class OperatorGraphVisitor(public val query: Query) {
         return res
     }
 
+    private fun visit(node: ASTConstructQuery, valuesClause: ASTValuesClause?): IOPBase {
+        var constructTriples = mutableListOf<LOPTriple>()
+        var datasetClauses: ASTListOfDatasetClause? = null
+        var solutionModifier:ASTSolutionModifier? = null
+        var dataSource: IOPBase = when (val tmp = node.variable0!!) {
+            is ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier -> {
+                constructTriples.addAll(visit(tmp.variable0!!))
+                datasetClauses = tmp.variable1!!
+                solutionModifier = tmp.variable3!!
+                visit(true, "", false, tmp.variable2!!.variable1!!)
+            }
+            is ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier -> {
+                datasetClauses = tmp.variable0!!
+                solutionModifier = tmp.variable2!!
+                val tt = visit(true, "", false, tmp.variable1!!)
+                fun extractTriplesFromSimpleJoins(node2: IOPBase): List<LOPTriple> {
+                    when (node2) {
+                        is LOPTriple -> return listOf(node2)
+                        is LOPJoin -> {
+                            if (node2.optional) {
+                                TODO("optional is not allowed in short construct query form")
+                            }
+                            return extractTriplesFromSimpleJoins(node2.children[0]) + extractTriplesFromSimpleJoins(node2.children[1])
+                        }
+                        else -> TODO("this operator (${node2.getClassname()}) is not allowed in short construct query form")
+                    }
+                }
+                constructTriples.addAll(extractTriplesFromSimpleJoins(tt))
+                tt
+            }
+        }
+        val labels = arrayOf("s", "p", "o")
+        if (constructTriples.size == 0) {
+            return LOPProjection(query, labels.map { AOPVariable(query, it) }.toMutableList(), OPEmptyRow(query))
+        }
+        if (datasetClauses.value.size > 0) {
+            TODO("datasets not supported")
+        }
+        if (valuesClause != null) {
+            dataSource = LOPJoin(query, dataSource, visit(valuesClause), false)
+        }
+        val groupClause = solutionModifier.variable0!!.variable0
+        val havingClause = solutionModifier.variable1!!.variable0
+        if (groupClause != null) {
+            TODO("group clause not supported for construct")
+        } else if (havingClause != null) {
+            TODO("having clause not supported for construct")
+        }
+        val orderClause = solutionModifier.variable2!!.variable0
+        if (orderClause != null) {
+            dataSource = visit("", false, orderClause, dataSource)
+        }
+        val limitOffsetClause = solutionModifier.variable3!!.variable0
+        if (limitOffsetClause != null) {
+            dataSource = visit(limitOffsetClause, dataSource)
+        }
+        val returning = LOPDistinct(query, LOPProjection(query, labels.map { AOPVariable(query, it) }.toMutableList(), constructTriples.map {
+            val constants = mutableListOf<Pair<String, AOPConstant>>()
+            val variables = mutableListOf<Pair<String, AOPVariable>>()
+            for (i in 0 until 3) {
+                if (it.children[i] is AOPConstant) {
+                    constants.add(labels[i] to it.children[i] as AOPConstant)
+                } else {
+                    variables.add(labels[i] to it.children[i] as AOPVariable)
+                }
+            }
+            val cc = if (constants.size > 0) {
+                LOPValues(query, constants.map { AOPVariable(query, it.first) }, listOf(AOPValue(query, constants.map { it.second })))
+            } else {
+                null
+            }
+            val vv = if (variables.size > 0) {
+                var x:IOPBase = dataSource.cloneOP()
+                 x = LOPProjection(query, variables.map { it.second }.toMutableList(), x)
+                 x = LOPDistinct(query, x)
+                for (e in variables) {
+                    x = LOPBind(query,AOPVariable(query, "construct#" + e.first), e.second, x)
+                }
+                x = LOPProjection(query, variables.map { AOPVariable(query, "construct#" + it.first) }.toMutableList(), x)
+                for (e2 in variables) {
+                    x = LOPBind(query, AOPVariable(query,e2.first), AOPVariable(query, "construct#" + e2.first), x)
+                }
+                x
+            } else {
+                null
+            }
+            if (vv == null) {
+                cc!!
+            } else if (cc == null) {
+                vv!!
+            } else {
+                LOPJoin(query, cc!!, vv!!, false)
+            }
+        }.reduce { s, t -> LOPUnion(query, s, t) }))
+println("yyy $returning")
+        return returning
+    }
+
     private fun visit(node: ASTAskQuery, valuesClause: ASTValuesClause?): LOPMakeBooleanResult {
         val nodeListOfDatasetClause = node.variable0!!
         val nodeWhereClause = node.variable1
@@ -1268,6 +1366,15 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTInsertClauseOptional): List<LOPTriple> = node.variable0?.let { visit(blankNodeToVariable, graph, graphVar, it) }
         ?: listOf()
 
+    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = v1.variable0?.let { visit(v0, it) }
+        ?: OPBaseCompound(query, arrayOf(), mutableListOf())
+
+    private fun visit(node: ASTConstructTriplesOptionalOptional): List<LOPTriple> = node.variable0?.let { visit(it) }
+        ?: listOf()
+
+    private fun visit(node: ASTConstructTriplesOptional): List<LOPTriple> = node.variable0?.let { visit(it) }
+        ?: listOf()
+
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingCondition) = visit(graph, graphVar, node.variable0!!)
     private fun visit(graph: String, graphVar: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit(graph, graphVar, it) }
     private fun visit(graph: String, graphVar: Boolean, node: ASTHavingClause) = visit(graph, graphVar, node.variable0!!)
@@ -1333,13 +1440,12 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = LOPFilter(query, visit(graph, graphVar, node.variable0!!), child)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTBind, child: IOPBase) = LOPBind(query, visit(node.variable1!!), visit(graph, graphVar, node.variable0!!), child)
     private fun visit(graph: String, graphVar: Boolean, node: ASTServiceGraphPattern, child: IOPBase): IOPBase = TODO("service not implemented")
-    private fun visit(node: ASTConstructQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("construct query not implemented")
     private fun visit(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, subject: AOPBase, node: ASTPropertyListPath): List<LOPTriple> = visit(blankNodeToVariable, graph, graphVar, subject, node.variable0!!)
     private fun visit(node: ASTOffsetClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTLimitClauseOptional, tmp: IOPBase) = node.variable0?.let { visit(it, tmp) } ?: tmp
     private fun visit(node: ASTOffsetClause, tmp: IOPBase) = LOPOffset(query, node.INTEGER!!.toInt(), tmp)
     private fun visit(node: ASTLimitClause, tmp: IOPBase) = LOPLimit(query, node.INTEGER!!.toInt(), tmp)
-    private fun visit(v0: ASTPrologue, v1: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional) = v1.variable0?.let { visit(v0, it) }
-        ?: OPBaseCompound(query, arrayOf(), mutableListOf())
+    private fun visit(node: ASTConstructTriples): List<LOPTriple> = visit(true, "", false, node.variable0!!) + visit(node.variable1!!)
+    private fun visit(node: ASTConstructTemplate): List<LOPTriple> = visit(node.variable0!!)
 }
