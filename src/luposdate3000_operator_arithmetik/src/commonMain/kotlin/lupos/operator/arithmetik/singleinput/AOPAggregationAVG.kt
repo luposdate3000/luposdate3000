@@ -58,6 +58,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         override fun evaluate() {
             if (!isError) {
                 dictionary.getValue(bufferCurrent, child())
+counter++
                 try {
                     if (!hasInit) {
                         ByteArrayWrapperExt.copyInto(bufferCurrent, buffer, false)

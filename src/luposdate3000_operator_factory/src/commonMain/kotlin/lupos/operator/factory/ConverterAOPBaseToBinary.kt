@@ -63,6 +63,7 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
 import lupos.operator.arithmetik.singleinput.AOPAggregationMIN
+import lupos.operator.arithmetik.singleinput.AOPAggregationAVG
 import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.shared.DictionaryValueHelper
@@ -167,6 +168,18 @@ public object ConverterAOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationMINID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt1(data, off + 4, if (op.distinct) 0x1 else 0x0, { "AOPAggregationMIN.distinct" })
                 ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationMIN.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPAggregationAVGID,
+            { op, data, mapping ->
+                op as AOPAggregationAVG
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 9, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPAggregationAVGID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt1(data, off + 4, if (op.distinct) 0x1 else 0x0, { "AOPAggregationAVG.distinct" })
+                ByteArrayWrapperExt.writeInt4(data, off + 5, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPAggregationAVG.child" })
                 off
             },
         )

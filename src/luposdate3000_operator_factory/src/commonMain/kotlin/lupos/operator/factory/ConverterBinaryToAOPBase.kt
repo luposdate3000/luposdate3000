@@ -64,6 +64,7 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.arithmetik.singleinput.AOPAggregationMAX
 import lupos.operator.arithmetik.singleinput.AOPAggregationMIN
+import lupos.operator.arithmetik.singleinput.AOPAggregationAVG
 import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.operator.base.Query
@@ -161,6 +162,14 @@ public object ConverterBinaryToAOPBase {
                 val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationMIN.distinct" }) != 0x0
                 val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationMIN.child" })))
                 AOPAggregationMIN(query, distinct, childs[0])
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPAggregationAVGID,
+            { query, data, off ->
+                val distinct = ByteArrayWrapperExt.readInt1(data, off + 4, { "AOPAggregationAVG.distinct" }) != 0x0
+                val childs = arrayOf(decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 5, { "AOPAggregationAVG.child" })))
+                AOPAggregationAVG(query, distinct, childs[0])
             },
         )
         assignOperatorArithmetikDecode(

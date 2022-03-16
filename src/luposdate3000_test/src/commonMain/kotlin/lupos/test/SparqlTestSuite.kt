@@ -111,9 +111,12 @@ public open class SparqlTestSuite {
             }
             parserObject.parserDefinedParse()
         } catch (e: Throwable) {
-            println("error in file '$filename'")
-            e.printStackTrace()
+try{
+throw Exception(filename,e)
+} catch (e2: Throwable) {
+            e2.printStackTrace()
         }
+}
     }
 
     private fun createSevenIndices(filename: String): SevenIndices {
@@ -124,6 +127,7 @@ public open class SparqlTestSuite {
     }
 
     private /*suspend*/ fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
+try{
         var numberOfErrors = 0
         var numberOfTests = 0
         SanityCheck.println { "Reading file $filename..." }
@@ -138,7 +142,7 @@ public open class SparqlTestSuite {
                 listMembers(data, it2) { it3 ->
                     val includedfile = it3
                     if (includedfile != null) {
-                        val (nr_t, nr_e) = parseManifestFile(prefix, includedfile.drop(1).dropLast(1))
+                        val (nr_t, nr_e) = parseManifestFile(prefix, extractValueFromIriOrString(includedfile))
                         numberOfTests += nr_t
                         numberOfErrors += nr_e
                     }
@@ -159,6 +163,9 @@ public open class SparqlTestSuite {
             }
         }
         return Pair(numberOfTests, numberOfErrors)
+}catch (e: Throwable) {
+throw Exception(prefix+filename,e)
+}
     }
 
     private fun readFileOrNull(name: String?): String? {
@@ -168,11 +175,26 @@ public open class SparqlTestSuite {
         return File(name).readAsString()
     }
 
-    private fun removePrefixForFileName(s: String): String {
-        return if (s.contains("/manifest#")) {
-            s.drop("/manifest#".length + s.indexOf("/manifest#")).dropLast(1)
+    private fun extractValueFromIriOrString(s: String): String {
+  return      if(s.startsWith("\"")&&s.endsWith("\"")){
+s.drop(1).dropLast(1)
+	}else if(s.startsWith("\"")&&s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")){
+s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
+        }else if (s.startsWith("<")&&s.endsWith(">")&&!s.contains("#")) {
+            s.drop(1).dropLast(1)
         } else {
-            TODO(s)
+TODO(s)
+        }
+    }
+    private fun extractValueFromIriOrString2(s: String): String {
+  return      if(s.startsWith("\"")&&s.endsWith("\"")){
+s.drop(1).dropLast(1)
+	}else if(s.startsWith("\"")&&s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")){
+s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
+        }else if (s.startsWith("<")&&s.endsWith(">")&&!s.contains("#")) {
+            s.drop(1).dropLast(1)
+        } else {
+s.drop(s.indexOf("#")+1).dropLast(1)
         }
     }
 
@@ -194,8 +216,8 @@ public open class SparqlTestSuite {
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result>") -> {
                     when {
                         second.startsWith("<") && second.endsWith(">") -> {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:196"/*SOURCE_FILE_END*/ }, { resultFile == null })
-                            resultFile = prefix + removePrefixForFileName(second)
+                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:218"/*SOURCE_FILE_END*/ }, { resultFile == null })
+                            resultFile = prefix + extractValueFromIriOrString2(second)
                         }
                         second.startsWith("_:") -> {
                             data.s(second).forEach { (first, second) ->
@@ -203,7 +225,7 @@ public open class SparqlTestSuite {
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
-                                        graph["filename"] = prefix + removePrefixForFileName(second)
+                                        graph["filename"] = prefix + extractValueFromIriOrString2(second)
                                         outputDataGraph.add(graph)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
@@ -211,10 +233,10 @@ public open class SparqlTestSuite {
                                         data.s(second).forEach { (first, second) ->
                                             when (first) {
                                                 ("<http://www.w3.org/2009/sparql/tests/test-update#graph>") -> {
-                                                    graph["filename"] = prefix + removePrefixForFileName(second)
+                                                    graph["filename"] = prefix + extractValueFromIriOrString2(second)
                                                 }
                                                 ("<http://www.w3.org/2000/01/rdf-schema#label>") -> {
-                                                    graph["name"] = second.drop(1).dropLast(1)
+                                                    graph["name"] = extractValueFromIriOrString2(second)
                                                 }
                                                 else -> {
                                                     TODO("SparqlTestSuite" + first + " # " + second)
@@ -240,18 +262,18 @@ public open class SparqlTestSuite {
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action>") -> {
                     when {
                         second.startsWith("<") && second.endsWith(">") -> {
-                            queryFile = prefix + removePrefixForFileName(second)
+                            queryFile = prefix + extractValueFromIriOrString2(second)
                         }
                         second.startsWith("_:") -> {
                             data.s(second).forEach { (first, second) ->
                                 when (first) {
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:248"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
-                                        inputDataFile = prefix + removePrefixForFileName(second)
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:270"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#query>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:252"/*SOURCE_FILE_END*/ }, { queryFile == null })
-                                        queryFile = prefix + removePrefixForFileName(second)
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:274"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
                                         SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second }
@@ -261,8 +283,8 @@ public open class SparqlTestSuite {
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
-                                        graph["name"] = second.drop(1).dropLast(1)
-                                        graph["filename"] = prefix + removePrefixForFileName(second)
+                                        graph["name"] = extractValueFromIriOrString2(second)
+                                        graph["filename"] = prefix + extractValueFromIriOrString2(second)
                                         inputDataGraph.add(graph)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData>") -> {
@@ -270,10 +292,10 @@ public open class SparqlTestSuite {
                                         data.s(second).forEach {
                                             when (it.first) {
                                                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint>") -> {
-                                                    service["name"] = it.second.drop(1).dropLast(1)
+                                                    service["name"] = extractValueFromIriOrString2(it.second)
                                                 }
                                                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
-                                                    service["filename"] = prefix + removePrefixForFileName(it.second)
+                                                    service["filename"] = prefix + extractValueFromIriOrString2(it.second)
                                                 }
                                                 else -> {
                                                     TODO("SparqlTestSuite" + it.first + " # " + it.second)
@@ -285,22 +307,22 @@ public open class SparqlTestSuite {
                                         }
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#request>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:287"/*SOURCE_FILE_END*/ }, { queryFile == null })
-                                        queryFile = prefix + removePrefixForFileName(second)
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:309"/*SOURCE_FILE_END*/ }, { queryFile == null })
+                                        queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:291"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
-                                        inputDataFile = prefix + removePrefixForFileName(second)
+                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:313"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+                                        inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(second).forEach {
                                             when (it.first) {
                                                 ("<http://www.w3.org/2009/sparql/tests/test-update#graph>") -> {
-                                                    graph["filename"] = prefix + removePrefixForFileName(it.second)
+                                                    graph["filename"] = prefix + extractValueFromIriOrString2(it.second)
                                                 }
                                                 ("<http://www.w3.org/2000/01/rdf-schema#label>") -> {
-                                                    graph["name"] = it.second.drop(1).dropLast(1)
+                                                    graph["name"] = extractValueFromIriOrString2(it.second)
                                                 }
                                                 else -> {
                                                     TODO("SparqlTestSuite" + it.first + " # " + it.second)
@@ -321,8 +343,8 @@ public open class SparqlTestSuite {
                     }
                 }
                 ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:323"/*SOURCE_FILE_END*/ }, { testType == null })
-                    testType = second.drop(1).dropLast(1)
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:345"/*SOURCE_FILE_END*/ }, { testType == null })
+                    testType = second
                     when (second) {
                         ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest>") -> {
                         }
@@ -350,14 +372,14 @@ public open class SparqlTestSuite {
                     }
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name>") -> {
-                    names.add(second.drop(1).dropLast(1))
+                    names.add(extractValueFromIriOrString(second))
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature>") -> {
-                    features.add(second.drop(1).dropLast(1))
+                    features.add(second)
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#comment>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:358"/*SOURCE_FILE_END*/ }, { comment == null })
-                    comment = second.drop(1).dropLast(1)
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:380"/*SOURCE_FILE_END*/ }, { comment == null })
+                    comment = extractValueFromIriOrString(second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second }
@@ -372,8 +394,8 @@ public open class SparqlTestSuite {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second }
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:374"/*SOURCE_FILE_END*/ }, { description == null })
-                    description = second.drop(1).dropLast(1)
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:396"/*SOURCE_FILE_END*/ }, { description == null })
+                    description = extractValueFromIriOrString(second)
                 }
                 else -> {
                     TODO("SparqlTestSuite" + first + " # " + second)
@@ -584,14 +606,14 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:586"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:608"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:593"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:615"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println { x }
@@ -599,8 +621,8 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:601"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:602"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:623"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:624"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println { x }
