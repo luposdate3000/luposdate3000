@@ -1165,7 +1165,7 @@ public fun close() {
     private fun parserDefinedNode21(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode0()
-        return 26
+        return 27
     }
     private fun parserDefinedNode22(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
@@ -1180,6 +1180,7 @@ public fun close() {
                 return 25
             }
             7, 1, 2 -> {
+                userCode10()
                 return 21
             }
             else -> {
@@ -1197,7 +1198,7 @@ public fun close() {
             5 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 27
+                return 28
             }
             else -> {
                 parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
@@ -1223,35 +1224,17 @@ public fun close() {
             }
         }
     }
-    private fun parserDefinedNode26(): Int {
+    private fun parserDefinedNode27(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
         }
-        val currentToken26: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
-        when (currentToken26) {
-            1, 2 -> {
-                return 29
-            }
-            7 -> {
-                return 30
-            }
-            else -> {
-                parsererror = "found token ${currentToken26} unexpectedly in node 26, at position ${bufferDefinedPosition}"
-                return -1
-            }
-        }
-    }
-    private fun parserDefinedNode27(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(5)
-        }
         val currentToken27: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken27) {
-            1 -> {
-                userCode8()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 21
+            1, 2 -> {
+                return 30
+            }
+            7 -> {
+                return 31
             }
             else -> {
                 parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
@@ -1259,78 +1242,96 @@ public fun close() {
             }
         }
     }
-    private fun parserDefinedNode29(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 4
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        return 32
+    private fun parserDefinedNode28(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(5)
+        }
+        val currentToken28: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        when (currentToken28) {
+            1 -> {
+                userCode8()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 21
+            }
+            else -> {
+                parsererror = "found token ${currentToken28} unexpectedly in node 28, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
     }
     private fun parserDefinedNode30(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 4
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        return 33
+    }
+    private fun parserDefinedNode31(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
         }
-        val currentToken30: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
-        when (currentToken30) {
+        val currentToken31: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        when (currentToken31) {
             7 -> {
                 userCode1()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 36
+                return 37
             }
             else -> {
-                parsererror = "found token ${currentToken30} unexpectedly in node 30, at position ${bufferDefinedPosition}"
+                parsererror = "found token ${currentToken31} unexpectedly in node 31, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode32(): Int {
+    private fun parserDefinedNode33(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
         }
-        val currentToken32: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
-        when (currentToken32) {
+        val currentToken33: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        when (currentToken33) {
             1 -> {
-                userCode10()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 37
-            }
-            2 -> {
                 userCode11()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 37
-            }
-            else -> {
-                parsererror = "found token ${currentToken32} unexpectedly in node 32, at position ${bufferDefinedPosition}"
-                return -1
-            }
-        }
-    }
-    private fun parserDefinedNode36(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        when ((parserDefinedStackData[parserDefinedStackPosition])) {
-            0 -> {
                 return 38
             }
-            5 -> {
+            2 -> {
+                userCode12()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 38
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 36, at position ${bufferDefinedPosition}"
+                parsererror = "found token ${currentToken33} unexpectedly in node 33, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode37(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        return 30
+        when ((parserDefinedStackData[parserDefinedStackPosition])) {
+            0 -> {
+                return 39
+            }
+            5 -> {
+                return 39
+            }
+            else -> {
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
     }
     private fun parserDefinedNode38(): Int {
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        return 31
+    }
+    private fun parserDefinedNode39(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
         }
-        val currentToken38: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
-        when (currentToken38) {
+        val currentToken39: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        when (currentToken39) {
             3 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
@@ -1342,7 +1343,7 @@ public fun close() {
                 return 6
             }
             else -> {
-                parsererror = "found token ${currentToken38} unexpectedly in node 38, at position ${bufferDefinedPosition}"
+                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1408,29 +1409,29 @@ public fun close() {
                 25 -> {
                     node = parserDefinedNode25()
                 }
-                26 -> {
-                    node = parserDefinedNode26()
-                }
                 27 -> {
                     node = parserDefinedNode27()
                 }
-                29 -> {
-                    node = parserDefinedNode29()
+                28 -> {
+                    node = parserDefinedNode28()
                 }
                 30 -> {
                     node = parserDefinedNode30()
                 }
-                32 -> {
-                    node = parserDefinedNode32()
+                31 -> {
+                    node = parserDefinedNode31()
                 }
-                36 -> {
-                    node = parserDefinedNode36()
+                33 -> {
+                    node = parserDefinedNode33()
                 }
                 37 -> {
                     node = parserDefinedNode37()
                 }
                 38 -> {
                     node = parserDefinedNode38()
+                }
+                39 -> {
+                    node = parserDefinedNode39()
                 }
             }
         }
@@ -1469,9 +1470,12 @@ public fun close() {
         currentO+=getLastTokenString()
     }
     private fun userCode10(): Unit {
-        currentG=getLastTokenString()
+        currentO+="^^<http://www.w3.org/2001/XMLSchema#string>"
     }
     private fun userCode11(): Unit {
+        currentG=getLastTokenString()
+    }
+    private fun userCode12(): Unit {
         currentG=getLastTokenString()
     }
 internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}

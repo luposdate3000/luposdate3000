@@ -4352,13 +4352,13 @@ public fun close() {
         val currentToken34: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken34) {
             6 -> {
-                userCode41()
+                userCode42()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 53
             }
             7 -> {
-                userCode42()
+                userCode43()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 53
@@ -4438,7 +4438,7 @@ public fun close() {
         val currentToken41: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken41) {
             5 -> {
-                userCode38()
+                userCode39()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 59
@@ -4491,13 +4491,13 @@ public fun close() {
         val currentToken52: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken52) {
             9 -> {
-                userCode39()
+                userCode40()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 73
             }
             10 -> {
-                userCode40()
+                userCode41()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 73
@@ -4951,13 +4951,13 @@ public fun close() {
         val currentToken113: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken113) {
             16 -> {
-                userCode36()
+                userCode37()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 126
             }
             17 -> {
-                userCode37()
+                userCode38()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 126
@@ -5125,6 +5125,7 @@ public fun close() {
                 return 139
             }
             24, 22, 25, 6, 7, 26, 5, 11, 8, 9, 10, 13, 14, 15, 16, 17, 12, 18, 19, 20, 21 -> {
+                userCode36()
                 return 81
             }
             else -> {
@@ -5142,7 +5143,7 @@ public fun close() {
             }
             33 -> {
                 userCode7()
-                return 144
+                return 145
             }
             else -> {
                 parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 136, at position ${bufferDefinedPosition}"
@@ -5194,7 +5195,7 @@ public fun close() {
             28 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 143
+                return 144
             }
             else -> {
                 parsererror = "found token ${currentToken139} unexpectedly in node 139, at position ${bufferDefinedPosition}"
@@ -5202,31 +5203,31 @@ public fun close() {
             }
         }
     }
-    private fun parserDefinedNode143(): Int {
+    private fun parserDefinedNode144(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 29
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 33
     }
-    private fun parserDefinedNode144(): Int {
+    private fun parserDefinedNode145(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(36)
         }
-        val currentToken144: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
-        when (currentToken144) {
+        val currentToken145: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        when (currentToken145) {
             23, 5, 9, 10 -> {
-                return 145
+                return 146
             }
             12 -> {
                 userCode8()
                 return 134
             }
             else -> {
-                parsererror = "found token ${currentToken144} unexpectedly in node 144, at position ${bufferDefinedPosition}"
+                parsererror = "found token ${currentToken145} unexpectedly in node 145, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode145(): Int {
+    private fun parserDefinedNode146(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 34
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 46
@@ -5538,14 +5539,14 @@ public fun close() {
                 139 -> {
                     node = parserDefinedNode139()
                 }
-                143 -> {
-                    node = parserDefinedNode143()
-                }
                 144 -> {
                     node = parserDefinedNode144()
                 }
                 145 -> {
                     node = parserDefinedNode145()
+                }
+                146 -> {
+                    node = parserDefinedNode146()
                 }
             }
         }
@@ -5673,25 +5674,28 @@ public fun close() {
         stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+="^^"+stackOfIri[stackOfIriLastIndex--]
     }
     private fun userCode36(): Unit {
-        stackOfLiteral[++stackOfLiteralLastIndex]="\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+        stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+="^^<http://www.w3.org/2001/XMLSchema#string>"
     }
     private fun userCode37(): Unit {
-        stackOfLiteral[++stackOfLiteralLastIndex]="\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+        stackOfLiteral[++stackOfLiteralLastIndex]="\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
     private fun userCode38(): Unit {
-        stackOfIri[++stackOfIriLastIndex]="<"+(prefixMap[""]?:"")+getLastTokenString().drop(1)
+        stackOfLiteral[++stackOfLiteralLastIndex]="\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
     private fun userCode39(): Unit {
+        stackOfIri[++stackOfIriLastIndex]="<"+(prefixMap[""]?:"")+getLastTokenString().drop(1)
+    }
+    private fun userCode40(): Unit {
         val tmp=getLastTokenString().split(":")
         stackOfIri[++stackOfIriLastIndex]="<"+prefixMap[tmp[0]]!!+tmp[1]+">"
     }
-    private fun userCode40(): Unit {
+    private fun userCode41(): Unit {
         stackOfIri[++stackOfIriLastIndex]=prefixMap[getLastTokenString().dropLast(1)]!!
     }
-    private fun userCode41(): Unit {
+    private fun userCode42(): Unit {
         stackOfBlankNode[++stackOfBlankNodeLastIndex]=getLastTokenString()
     }
-    private fun userCode42(): Unit {
+    private fun userCode43(): Unit {
         stackOfBlankNode[++stackOfBlankNodeLastIndex]="_:${bnode_counter++}"
     }
 internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}

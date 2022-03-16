@@ -404,6 +404,7 @@ public object DictionaryHelperLarge {
                 "http://www.w3.org/2001/XMLSchema#float" -> DictionaryHelper.floatToByteArray(buffer, content.toDouble())
                 "http://www.w3.org/2001/XMLSchema#boolean" -> DictionaryHelper.booleanToByteArray(buffer, content.lowercase() == "true")
                 "http://www.w3.org/2001/XMLSchema#dateTime" -> DictionaryHelper.dateTimeToByteArray(buffer, content)
+                "http://www.w3.org/2001/XMLSchema#string" -> DictionaryHelper.stringToByteArray(buffer, content)
                 else -> {
                     val buf1 = type.encodeToByteArray()
                     val buf2 = content.encodeToByteArray()
@@ -477,7 +478,7 @@ public object DictionaryHelperLarge {
                 typedToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, typeIdx + 1)), value.substring(typeIdx + 4, value.length - 1))
                 return
             } else {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:479"/*SOURCE_FILE_END*/ }, { langIdx > 0 }, { "$langIdx :: $value" })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:480"/*SOURCE_FILE_END*/ }, { langIdx > 0 }, { "$langIdx :: $value" })
                 DictionaryHelper.langToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, langIdx + 1)), value.substring(langIdx + 2, value.length))
                 return
             }
