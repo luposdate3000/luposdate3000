@@ -76,17 +76,23 @@ when (val v = parent.variable2!!) {
                 return ""
             }
 fun attributesOfElement(n:String,parent:ASTelement):List<String>{
-return parent.variable1!!.value.filter { it.KEY == n }.map { it.VALUE!! }
+return parent.variable1!!.value.filter { it.KEY == n }.map { when(val i=it.variable1!!){
+is ASTvalue1 -> i.VALUE1!!
+is ASTvalue2 -> i.VALUE2!!
+} }
 } 
 fun attributeOfElement(n:String,parent:ASTelement):String{
 return attributesOfElement(n,parent).getOrElse(0,{i->""})
+}
+fun maybeAttributeOfElement(n:String,parent:ASTelement):String?{
+return attributesOfElement(n,parent).getOrElse(0,{i->null})
 }
 
             val dataStream = MyStringStream(data)
             val parserObject = XMLParser(dataStream)
             parserObject.parserDefinedParse()
             val xml = parserObject.getResult()
-            val xmlSparql = xml.variable0!!
+            val xmlSparql = xml.variable1!!
             if (xmlSparql.TAG != "sparql") {
                 return null
             }
@@ -119,13 +125,13 @@ return attributesOfElement(n,parent).getOrElse(0,{i->""})
                                         row[column] = tmp
                                     }
                                     "literal" -> {
-                                        val lang = attributeOfElement("xml:lang",child)
+                                        val lang = maybeAttributeOfElement("xml:lang",child)
                                         if (lang != null) {
                                             DictionaryHelper.langToByteArray(buffer, contentOfXMLElement(child), lang)
                                             val tmp = dictionary.createValue(buffer)
                                             row[column] = tmp
                                         } else {
-                                            val datatype = attributeOfElement("datatype",child)
+                                            val datatype = maybeAttributeOfElement("datatype",child)
                                             if (datatype != null) {
                                                 DictionaryHelper.typedToByteArray(buffer, contentOfXMLElement(child), datatype)
                                                 val tmp = dictionary.createValue(buffer)
@@ -145,7 +151,11 @@ return attributesOfElement(n,parent).getOrElse(0,{i->""})
             }
             return res
         } catch (e: Throwable) {
-            e.printStackTrace()
+try{
+throw Exception(data,e)
+}catch(e2:Throwable){
+            e2.printStackTrace()
+}
             return null
         }
     }
