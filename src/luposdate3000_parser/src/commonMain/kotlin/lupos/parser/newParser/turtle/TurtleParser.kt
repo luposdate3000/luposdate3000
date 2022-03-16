@@ -1,37 +1,37 @@
 package lupos.parser.newParser.turtle
 
 public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
-    internal companion object {
-        internal var bnode_counter = 0
-    }
+internal companion object{
+internal var bnode_counter = 0
+}
+internal var prefixMap = mutableMapOf<String, String>()
+internal var prefixHelper = ""
+internal var stackOfSubject = Array<String>(100){""}
+internal var stackOfSubjectLastIndex = 0
+internal var stackOfVerb = Array<String>(100){""}
+internal var stackOfVerbLastIndex = 0
+internal var stackOfObject = Array<String>(100){""}
+internal var stackOfObjectLastIndex = 0
+internal var stackOfBlankNodePropertyList = Array<String>(100){""}
+internal var stackOfBlankNodePropertyListLastIndex = 0
+internal var stackOfIri = Array<String>(100){""}
+internal var stackOfIriLastIndex = 0
+internal var stackOfCollectionCurrent = Array<String>(100){""}
+internal var stackOfCollectionCurrentLastIndex = 0
+internal var stackOfCollection = Array<String>(100){""}
+internal var stackOfCollectionLastIndex = 0
+internal var stackOfRDFLiteral = Array<String>(100){""}
+internal var stackOfRDFLiteralLastIndex = 0
+internal var stackOfBlankNode = Array<String>(100){""}
+internal var stackOfBlankNodeLastIndex = 0
+internal var stackOfLiteral = Array<String>(100){""}
+internal var stackOfLiteralLastIndex = 0
+public var consumeTriple:(String, String, String) -> Unit = {s,p,o->
+    println("consumeTriple($s, $p, $o)")
+}
 
-    internal var prefixMap = mutableMapOf<String, String>()
-    internal var prefixHelper = ""
-    internal var stackOfSubject = Array<String>(100) { "" }
-    internal var stackOfSubjectLastIndex = 0
-    internal var stackOfVerb = Array<String>(100) { "" }
-    internal var stackOfVerbLastIndex = 0
-    internal var stackOfObject = Array<String>(100) { "" }
-    internal var stackOfObjectLastIndex = 0
-    internal var stackOfBlankNodePropertyList = Array<String>(100) { "" }
-    internal var stackOfBlankNodePropertyListLastIndex = 0
-    internal var stackOfIri = Array<String>(100) { "" }
-    internal var stackOfIriLastIndex = 0
-    internal var stackOfCollectionCurrent = Array<String>(100) { "" }
-    internal var stackOfCollectionCurrentLastIndex = 0
-    internal var stackOfCollection = Array<String>(100) { "" }
-    internal var stackOfCollectionLastIndex = 0
-    internal var stackOfRDFLiteral = Array<String>(100) { "" }
-    internal var stackOfRDFLiteralLastIndex = 0
-    internal var stackOfBlankNode = Array<String>(100) { "" }
-    internal var stackOfBlankNodeLastIndex = 0
-    internal var stackOfLiteral = Array<String>(100) { "" }
-    internal var stackOfLiteralLastIndex = 0
-    public var consumeTriple: (String, String, String) -> Unit = { s, p, o ->
-        println("consumeTriple($s, $p, $o)")
-    }
 
-    internal var parsererror: String? = null
+internal var parsererror: String? = null
     public var bufferDefinedDataSize: Int = 0
     public var bufferDefinedPosition: Int = 0
     public var bufferDefinedLastSize: Int = 0
@@ -55,7 +55,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
     public val parserDefinedStackData: IntArray = IntArray(1024)
     public var parserDefinedStackPosition: Int = 0
     public val parserDefinedScannerTokens: Array<String> = arrayOf<String>("", "generated0", "generated2", "generated3", "generated4", "IRIREF", "BLANK_NODE_LABEL", "ANON", "generated6", "PNAME_LN", "PNAME_NS", "generated5", "generated1", "INTEGER", "DECIMAL", "DOUBLE", "generated12", "generated13", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "generated14", "generated7", "generated8", "generated9", "generated10", "LANGTAG", "generated11")
-
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
@@ -79,12 +78,12 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-    }
 
-    public fun close() {
-        bufferDefinedInputStream.close()
     }
+public fun close() {
+    bufferDefinedInputStream.close()
 
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 29
@@ -103,7 +102,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode1(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -141,7 +139,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode2(): Int {
         if ((scannerDefinedCurrentChar == -2)) {
             return -2
@@ -149,7 +146,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode3(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -169,7 +165,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode4(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -198,7 +193,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode5(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -212,7 +206,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode6(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -226,7 +219,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode7(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -240,7 +232,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode8(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -254,7 +245,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode9(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -283,7 +273,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode10(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -300,7 +289,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode11(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -314,7 +302,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode12(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -328,7 +315,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode13(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -348,7 +334,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode14(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -365,7 +350,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode15(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -379,7 +363,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode16(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -393,7 +376,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode17(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -410,7 +392,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode18(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -463,7 +444,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode19(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -486,7 +466,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode20(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -500,7 +479,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode21(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -514,7 +492,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode22(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -564,7 +541,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode23(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -587,7 +563,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode24(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -619,7 +594,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode25(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -633,7 +607,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode26(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -653,7 +626,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode27(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -670,7 +642,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode28(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -690,7 +661,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode29(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -707,7 +677,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode30(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -721,7 +690,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode31(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -753,7 +721,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode32(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -767,7 +734,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode33(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -835,7 +801,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode34(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -849,7 +814,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode35(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -863,7 +827,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode36(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -889,7 +852,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode37(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -906,7 +868,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode38(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -923,7 +884,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode39(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -946,7 +906,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode40(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -969,7 +928,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode41(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -989,7 +947,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode42(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1003,7 +960,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode43(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -1028,7 +984,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode44(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1048,7 +1003,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode45(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 10
@@ -1073,7 +1027,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode46(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 11
@@ -1086,7 +1039,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode47(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1100,7 +1052,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode48(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1114,7 +1065,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode49(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1128,7 +1078,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode50(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1142,7 +1091,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode51(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1162,7 +1110,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode52(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1182,7 +1129,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode53(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 10
@@ -1195,7 +1141,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode54(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -1208,7 +1153,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode55(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 12
@@ -1221,7 +1165,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode56(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1238,7 +1181,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode57(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 13
@@ -1263,7 +1205,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode58(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1277,7 +1218,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode59(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1300,7 +1240,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode60(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1323,7 +1262,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode61(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1343,7 +1281,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode62(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1363,7 +1300,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode63(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 22
@@ -1376,7 +1312,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode64(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 23
@@ -1401,7 +1336,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode65(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 23
@@ -1414,7 +1348,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode66(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 24
@@ -1427,7 +1360,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode67(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 25
@@ -1440,7 +1372,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode68(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 26
@@ -1453,7 +1384,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode69(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1467,7 +1397,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode70(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1481,7 +1410,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode71(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1495,7 +1423,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode72(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1509,7 +1436,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode73(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 12
@@ -1528,7 +1454,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode74(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1542,7 +1467,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode75(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1556,7 +1480,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode76(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1579,7 +1502,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode77(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1596,7 +1518,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode78(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1619,7 +1540,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode79(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1636,7 +1556,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode80(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 5
@@ -1649,7 +1568,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode81(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1663,7 +1581,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode82(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1680,7 +1597,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode83(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 7
@@ -1693,7 +1609,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode84(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 9
@@ -1721,7 +1636,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode85(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1735,7 +1649,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode86(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1749,7 +1662,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode87(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1763,7 +1675,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode88(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1777,7 +1688,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode89(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1794,7 +1704,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode90(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1811,7 +1720,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode91(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1828,7 +1736,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode92(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 14
@@ -1850,7 +1757,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode93(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1873,7 +1779,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode94(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1896,7 +1801,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode95(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1916,7 +1820,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode96(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1936,7 +1839,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode97(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 18
@@ -1955,7 +1857,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode98(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1975,7 +1876,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode99(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -1995,7 +1895,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode100(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 19
@@ -2014,7 +1913,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode101(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2028,7 +1926,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode102(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2042,7 +1939,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode103(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 27
@@ -2064,7 +1960,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode104(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 28
@@ -2077,7 +1972,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode105(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2091,7 +1985,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode106(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2105,7 +1998,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode107(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2128,7 +2020,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode108(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2151,7 +2042,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode109(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2165,7 +2055,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode110(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2179,7 +2068,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode111(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 6
@@ -2201,7 +2089,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode112(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2224,7 +2111,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode113(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2238,7 +2124,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode114(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2252,7 +2137,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode115(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2266,7 +2150,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode116(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2280,7 +2163,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode117(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 15
@@ -2299,7 +2181,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode118(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2322,7 +2203,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode119(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2345,7 +2225,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode120(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 18
@@ -2358,7 +2237,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode121(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2372,7 +2250,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode122(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2386,7 +2263,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode123(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2406,7 +2282,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode124(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 19
@@ -2419,7 +2294,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode125(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2433,7 +2307,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode126(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2447,7 +2320,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode127(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2467,7 +2339,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode128(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2481,7 +2352,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode129(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2495,7 +2365,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode130(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2509,7 +2378,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode131(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2523,7 +2391,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode132(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2537,7 +2404,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode133(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 3
@@ -2562,7 +2428,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode134(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2585,7 +2450,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode135(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2599,7 +2463,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode136(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2613,7 +2476,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode137(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2630,7 +2492,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode138(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 3
@@ -2643,7 +2504,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode139(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2657,7 +2517,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode140(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 16
@@ -2682,7 +2541,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode141(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2705,7 +2563,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode142(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2719,7 +2576,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode143(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2733,7 +2589,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode144(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2753,7 +2608,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode145(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2773,7 +2627,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode146(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2787,7 +2640,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode147(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2801,7 +2653,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode148(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2821,7 +2672,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode149(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2841,7 +2691,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode150(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 16
@@ -2854,7 +2703,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode151(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2868,7 +2716,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode152(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 27
@@ -2890,7 +2737,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode153(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2904,7 +2750,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode154(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 2
@@ -2917,7 +2762,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode155(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2940,7 +2784,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode156(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2954,7 +2797,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode157(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2968,7 +2810,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode158(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -2982,7 +2823,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode159(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 17
@@ -3007,7 +2847,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode160(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3021,7 +2860,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode161(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3035,7 +2873,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode162(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3055,7 +2892,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode163(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3069,7 +2905,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode164(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3083,7 +2918,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode165(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3097,7 +2931,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode166(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3111,7 +2944,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode167(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3131,7 +2963,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode168(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3145,7 +2976,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode169(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3159,7 +2989,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode170(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 17
@@ -3172,7 +3001,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode171(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3186,7 +3014,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode172(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 4
@@ -3211,7 +3038,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode173(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3225,7 +3051,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode174(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3239,7 +3064,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode175(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 4
@@ -3252,7 +3076,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode176(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3266,7 +3089,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode177(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3280,7 +3102,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode178(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 21
@@ -3293,7 +3114,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode179(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3307,7 +3127,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode180(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3321,7 +3140,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode181(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3335,7 +3153,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode182(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3349,7 +3166,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode183(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 20
@@ -3362,7 +3178,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode184(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3376,7 +3191,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode185(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3390,7 +3204,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode186(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 1
@@ -3403,7 +3216,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             return -1
         }
     }
-
     private fun scannerDefinedNode187(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3417,7 +3229,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode188(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3431,7 +3242,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode189(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3445,7 +3255,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode190(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3459,7 +3268,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode191(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3473,7 +3281,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode192(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3487,7 +3294,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode193(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3501,7 +3307,6 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
     private fun scannerDefinedNode194(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -3515,15 +3320,13 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -4178,16 +3981,14 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
-
     private fun getLastTokenString(): String {
         return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
     }
-
     private fun parserDefinedNode0(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(1)
@@ -4201,18 +4002,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 2
             }
             else -> {
-                parsererror = "found token $currentToken0 unexpectedly in node 0, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken0} unexpectedly in node 0, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode1(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 0
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 3
     }
-
     private fun parserDefinedNode2(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(2)
@@ -4225,12 +4024,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 4
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode3(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(1)
@@ -4244,28 +4042,24 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode4(): Int {
         return -2
     }
-
     private fun parserDefinedNode5(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 1
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 7
     }
-
     private fun parserDefinedNode6(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 6
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 8
     }
-
     private fun parserDefinedNode7(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
@@ -4285,12 +4079,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 12
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode8(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
@@ -4304,49 +4097,42 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 14
             }
             else -> {
-                parsererror = "found token $currentToken8 unexpectedly in node 8, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken8} unexpectedly in node 8, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode9(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 2
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 15
     }
-
     private fun parserDefinedNode10(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 3
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 16
     }
-
     private fun parserDefinedNode11(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 4
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 17
     }
-
     private fun parserDefinedNode12(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 5
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 18
     }
-
     private fun parserDefinedNode13(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 7
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 19
     }
-
     private fun parserDefinedNode14(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 33
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode24()
         return 28
     }
-
     private fun parserDefinedNode15(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
@@ -4359,12 +4145,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode16(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
@@ -4377,12 +4162,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 22
             }
             else -> {
-                parsererror = "found token $currentToken16 unexpectedly in node 16, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken16} unexpectedly in node 16, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode17(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
@@ -4395,12 +4179,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 23
             }
             else -> {
-                parsererror = "found token $currentToken17 unexpectedly in node 17, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken17} unexpectedly in node 17, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode18(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(8)
@@ -4413,12 +4196,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 24
             }
             else -> {
-                parsererror = "found token $currentToken18 unexpectedly in node 18, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken18} unexpectedly in node 18, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode19(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
@@ -4435,12 +4217,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 27
             }
             else -> {
-                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken19} unexpectedly in node 19, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode21(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
@@ -4454,12 +4235,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 37
             }
             else -> {
-                parsererror = "found token $currentToken21 unexpectedly in node 21, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken21} unexpectedly in node 21, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode22(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -4473,12 +4253,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 38
             }
             else -> {
-                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode23(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -4492,12 +4271,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 39
             }
             else -> {
-                parsererror = "found token $currentToken23 unexpectedly in node 23, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken23} unexpectedly in node 23, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode24(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
@@ -4511,31 +4289,27 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 40
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode25(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 8
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 33
     }
-
     private fun parserDefinedNode26(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 10
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 34
     }
-
     private fun parserDefinedNode27(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 11
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode26()
         return 45
     }
-
     private fun parserDefinedNode28(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(12)
@@ -4548,12 +4322,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 36
             }
             else -> {
-                parsererror = "found token $currentToken28 unexpectedly in node 28, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken28} unexpectedly in node 28, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode33(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(13)
@@ -4567,12 +4340,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 42
             }
             else -> {
-                parsererror = "found token $currentToken33 unexpectedly in node 33, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken33} unexpectedly in node 33, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode34(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(14)
@@ -4592,18 +4364,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 53
             }
             else -> {
-                parsererror = "found token $currentToken34 unexpectedly in node 34, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken34} unexpectedly in node 34, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode36(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 17
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 46
     }
-
     private fun parserDefinedNode37(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -4617,12 +4387,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 56
             }
             else -> {
-                parsererror = "found token $currentToken37 unexpectedly in node 37, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken37} unexpectedly in node 37, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode38(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(15)
@@ -4635,17 +4404,15 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 48
             }
             else -> {
-                parsererror = "found token $currentToken38 unexpectedly in node 38, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken38} unexpectedly in node 38, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode39(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 49
     }
-
     private fun parserDefinedNode40(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -4659,12 +4426,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 58
             }
             else -> {
-                parsererror = "found token $currentToken40 unexpectedly in node 40, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken40} unexpectedly in node 40, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode41(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -4678,18 +4444,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 59
             }
             else -> {
-                parsererror = "found token $currentToken41 unexpectedly in node 41, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken41} unexpectedly in node 41, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode42(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 9
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 52
     }
-
     private fun parserDefinedNode45(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(16)
@@ -4702,28 +4466,24 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 54
             }
             else -> {
-                parsererror = "found token $currentToken45 unexpectedly in node 45, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken45} unexpectedly in node 45, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode46(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 18
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 55
     }
-
     private fun parserDefinedNode48(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 49
     }
-
     private fun parserDefinedNode49(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 57
     }
-
     private fun parserDefinedNode52(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(17)
@@ -4743,12 +4503,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 73
             }
             else -> {
-                parsererror = "found token $currentToken52 unexpectedly in node 52, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken52} unexpectedly in node 52, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode53(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -4761,12 +4520,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 75
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 53, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 53, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode54(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(18)
@@ -4780,12 +4538,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 65
             }
             else -> {
-                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode55(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(19)
@@ -4799,12 +4556,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 67
             }
             else -> {
-                parsererror = "found token $currentToken55 unexpectedly in node 55, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken55} unexpectedly in node 55, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode56(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(15)
@@ -4817,22 +4573,19 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 68
             }
             else -> {
-                parsererror = "found token $currentToken56 unexpectedly in node 56, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken56} unexpectedly in node 56, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode57(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 0
     }
-
     private fun parserDefinedNode58(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 49
     }
-
     private fun parserDefinedNode59(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -4853,18 +4606,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 81
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 59, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 59, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode64(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 12
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 76
     }
-
     private fun parserDefinedNode65(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(20)
@@ -4879,18 +4630,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 91
             }
             else -> {
-                parsererror = "found token $currentToken65 unexpectedly in node 65, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken65} unexpectedly in node 65, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode66(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 19
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 78
     }
-
     private fun parserDefinedNode67(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(21)
@@ -4904,27 +4653,23 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 92
             }
             else -> {
-                parsererror = "found token $currentToken67 unexpectedly in node 67, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken67} unexpectedly in node 67, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode68(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 49
     }
-
     private fun parserDefinedNode73(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 59
     }
-
     private fun parserDefinedNode74(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 82
     }
-
     private fun parserDefinedNode75(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -4941,12 +4686,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 54
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 75, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 75, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode76(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(22)
@@ -4969,67 +4713,57 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 90
             }
             else -> {
-                parsererror = "found token $currentToken76 unexpectedly in node 76, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken76} unexpectedly in node 76, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode78(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 20
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 33
     }
-
     private fun parserDefinedNode80(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 92
     }
-
     private fun parserDefinedNode81(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode23()
         return 100
     }
-
     private fun parserDefinedNode82(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 32
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 46
     }
-
     private fun parserDefinedNode86(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 13
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 33
     }
-
     private fun parserDefinedNode87(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 14
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 34
     }
-
     private fun parserDefinedNode88(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 15
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode26()
         return 45
     }
-
     private fun parserDefinedNode89(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 16
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         userCode24()
         return 28
     }
-
     private fun parserDefinedNode90(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 26
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 95
     }
-
     private fun parserDefinedNode91(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -5042,12 +4776,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 74
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 91, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 91, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode92(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -5058,12 +4791,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 99
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 92, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 92, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode94(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(23)
@@ -5077,12 +4809,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 102
             }
             else -> {
-                parsererror = "found token $currentToken94 unexpectedly in node 94, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken94} unexpectedly in node 94, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode95(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(24)
@@ -5099,30 +4830,26 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 105
             }
             else -> {
-                parsererror = "found token $currentToken95 unexpectedly in node 95, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken95} unexpectedly in node 95, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode98(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 21
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 106
     }
-
     private fun parserDefinedNode99(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 25
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 106
     }
-
     private fun parserDefinedNode100(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode22()
         return 75
     }
-
     private fun parserDefinedNode101(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(25)
@@ -5135,12 +4862,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 108
             }
             else -> {
-                parsererror = "found token $currentToken101 unexpectedly in node 101, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken101} unexpectedly in node 101, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode102(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -5153,48 +4879,41 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 114
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 102, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 102, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode103(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 27
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 111
     }
-
     private fun parserDefinedNode104(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 30
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 112
     }
-
     private fun parserDefinedNode105(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 31
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 113
     }
-
     private fun parserDefinedNode106(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 22
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 76
     }
-
     private fun parserDefinedNode108(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 23
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 76
     }
-
     private fun parserDefinedNode111(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 28
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 115
     }
-
     private fun parserDefinedNode112(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(26)
@@ -5220,12 +4939,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 125
             }
             else -> {
-                parsererror = "found token $currentToken112 unexpectedly in node 112, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken112} unexpectedly in node 112, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode113(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(27)
@@ -5245,12 +4963,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 126
             }
             else -> {
-                parsererror = "found token $currentToken113 unexpectedly in node 113, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken113} unexpectedly in node 113, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode114(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(28)
@@ -5267,12 +4984,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 123
             }
             else -> {
-                parsererror = "found token $currentToken114 unexpectedly in node 114, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken114} unexpectedly in node 114, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode115(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(29)
@@ -5285,12 +5001,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 124
             }
             else -> {
-                parsererror = "found token $currentToken115 unexpectedly in node 115, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken115} unexpectedly in node 115, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode121(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(30)
@@ -5303,17 +5018,15 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 127
             }
             else -> {
-                parsererror = "found token $currentToken121 unexpectedly in node 121, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken121} unexpectedly in node 121, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode122(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 128
     }
-
     private fun parserDefinedNode123(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -5326,12 +5039,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 134
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 123, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 123, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode124(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 2) % 3)
@@ -5341,17 +5053,14 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
         return 135
     }
-
     private fun parserDefinedNode125(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 100
     }
-
     private fun parserDefinedNode126(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 100
     }
-
     private fun parserDefinedNode127(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(31)
@@ -5371,12 +5080,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 123
             }
             else -> {
-                parsererror = "found token $currentToken127 unexpectedly in node 127, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken127} unexpectedly in node 127, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode128(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(32)
@@ -5390,23 +5098,20 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 136
             }
             else -> {
-                parsererror = "found token $currentToken128 unexpectedly in node 128, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken128} unexpectedly in node 128, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode132(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 24
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 55
     }
-
     private fun parserDefinedNode134(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 137
     }
-
     private fun parserDefinedNode135(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(33)
@@ -5423,12 +5128,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 81
             }
             else -> {
-                parsererror = "found token $currentToken135 unexpectedly in node 135, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken135} unexpectedly in node 135, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode136(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -5441,12 +5145,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 144
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 136, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 136, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode137(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(15)
@@ -5459,12 +5162,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 57
             }
             else -> {
-                parsererror = "found token $currentToken137 unexpectedly in node 137, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken137} unexpectedly in node 137, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode138(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(34)
@@ -5478,12 +5180,11 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 81
             }
             else -> {
-                parsererror = "found token $currentToken138 unexpectedly in node 138, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken138} unexpectedly in node 138, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode139(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(35)
@@ -5496,18 +5197,16 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 143
             }
             else -> {
-                parsererror = "found token $currentToken139 unexpectedly in node 139, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken139} unexpectedly in node 139, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode143(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 29
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 33
     }
-
     private fun parserDefinedNode144(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(36)
@@ -5522,19 +5221,17 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 134
             }
             else -> {
-                parsererror = "found token $currentToken144 unexpectedly in node 144, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken144} unexpectedly in node 144, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode145(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 34
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 46
     }
-
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -5856,190 +5553,146 @@ public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             TODO(parsererror!!)
         }
     }
-
-    private fun userCode0() {
+    private fun userCode0(): Unit {
         prefixHelper = getLastTokenString().dropLast(1)
     }
-
-    private fun userCode1() {
+    private fun userCode1(): Unit {
         prefixMap[prefixHelper] = getLastTokenString().drop(1).dropLast(1)
     }
-
-    private fun userCode2() {
+    private fun userCode2(): Unit {
         prefixMap[""] = getLastTokenString().drop(1).dropLast(1)
     }
-
-    private fun userCode3() {
+    private fun userCode3(): Unit {
         prefixMap[""] = getLastTokenString().drop(1).dropLast(1)
     }
-
-    private fun userCode4() {
+    private fun userCode4(): Unit {
         prefixHelper = getLastTokenString().dropLast(1)
     }
-
-    private fun userCode5() {
+    private fun userCode5(): Unit {
         prefixMap[prefixHelper] = getLastTokenString().drop(1).dropLast(1)
     }
-
-    private fun userCode6() {
+    private fun userCode6(): Unit {
         stackOfSubjectLastIndex--
     }
-
-    private fun userCode7() {
-        stackOfSubject[++stackOfSubjectLastIndex] = stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex--]
+    private fun userCode7(): Unit {
+        stackOfSubject[++stackOfSubjectLastIndex]=stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex--]
     }
-
-    private fun userCode8() {
+    private fun userCode8(): Unit {
         stackOfSubjectLastIndex--
     }
-
-    private fun userCode9() {
+    private fun userCode9(): Unit {
         stackOfVerbLastIndex--
     }
-
-    private fun userCode10() {
+    private fun userCode10(): Unit {
         stackOfVerbLastIndex--
     }
-
-    private fun userCode11() {
+    private fun userCode11(): Unit {
         consumeTriple(stackOfSubject[stackOfSubjectLastIndex], stackOfVerb[stackOfVerbLastIndex], stackOfObject[stackOfObjectLastIndex--])
     }
-
-    private fun userCode12() {
+    private fun userCode12(): Unit {
         consumeTriple(stackOfSubject[stackOfSubjectLastIndex], stackOfVerb[stackOfVerbLastIndex], stackOfObject[stackOfObjectLastIndex--])
     }
-
-    private fun userCode13() {
-        stackOfVerb[++stackOfVerbLastIndex] = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
+    private fun userCode13(): Unit {
+        stackOfVerb[++stackOfVerbLastIndex]="<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
     }
-
-    private fun userCode14() {
-        stackOfSubject[++stackOfSubjectLastIndex] = stackOfIri[stackOfIriLastIndex--]
+    private fun userCode14(): Unit {
+        stackOfSubject[++stackOfSubjectLastIndex]=stackOfIri[stackOfIriLastIndex--]
     }
-
-    private fun userCode15() {
-        stackOfSubject[++stackOfSubjectLastIndex] = stackOfBlankNode[stackOfBlankNodeLastIndex--]
+    private fun userCode15(): Unit {
+        stackOfSubject[++stackOfSubjectLastIndex]=stackOfBlankNode[stackOfBlankNodeLastIndex--]
     }
-
-    private fun userCode16() {
-        stackOfSubject[++stackOfSubjectLastIndex] = stackOfCollection[stackOfCollectionLastIndex--]
+    private fun userCode16(): Unit {
+        stackOfSubject[++stackOfSubjectLastIndex]=stackOfCollection[stackOfCollectionLastIndex--]
     }
-
-    private fun userCode17() {
-        stackOfVerb[++stackOfVerbLastIndex] = stackOfIri[stackOfIriLastIndex--]
+    private fun userCode17(): Unit {
+        stackOfVerb[++stackOfVerbLastIndex]=stackOfIri[stackOfIriLastIndex--]
     }
-
-    private fun userCode18() {
-        stackOfObject[++stackOfObjectLastIndex] = stackOfIri[stackOfIriLastIndex--]
+    private fun userCode18(): Unit {
+        stackOfObject[++stackOfObjectLastIndex]=stackOfIri[stackOfIriLastIndex--]
     }
-
-    private fun userCode19() {
-        stackOfObject[++stackOfObjectLastIndex] = stackOfBlankNode[stackOfBlankNodeLastIndex--]
+    private fun userCode19(): Unit {
+        stackOfObject[++stackOfObjectLastIndex]=stackOfBlankNode[stackOfBlankNodeLastIndex--]
     }
-
-    private fun userCode20() {
-        stackOfObject[++stackOfObjectLastIndex] = stackOfCollection[stackOfCollectionLastIndex--]
+    private fun userCode20(): Unit {
+        stackOfObject[++stackOfObjectLastIndex]=stackOfCollection[stackOfCollectionLastIndex--]
     }
-
-    private fun userCode21() {
-        stackOfObject[++stackOfObjectLastIndex] = stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex--]
+    private fun userCode21(): Unit {
+        stackOfObject[++stackOfObjectLastIndex]=stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex--]
     }
-
-    private fun userCode22() {
-        stackOfObject[++stackOfObjectLastIndex] = stackOfLiteral[stackOfLiteralLastIndex--]
+    private fun userCode22(): Unit {
+        stackOfObject[++stackOfObjectLastIndex]=stackOfLiteral[stackOfLiteralLastIndex--]
     }
-
-    private fun userCode23() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = stackOfRDFLiteral[stackOfRDFLiteralLastIndex--]
+    private fun userCode23(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]=stackOfRDFLiteral[stackOfRDFLiteralLastIndex--]
     }
-
-    private fun userCode24() {
-        stackOfBlankNodePropertyList[++stackOfBlankNodePropertyListLastIndex] = "_:${bnode_counter++}"
-        stackOfSubject[++stackOfSubjectLastIndex] = stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex]
+    private fun userCode24(): Unit {
+        stackOfBlankNodePropertyList[++stackOfBlankNodePropertyListLastIndex]="_:${bnode_counter++}"
+        stackOfSubject[++stackOfSubjectLastIndex]=stackOfBlankNodePropertyList[stackOfBlankNodePropertyListLastIndex]
     }
-
-    private fun userCode25() {
+    private fun userCode25(): Unit {
         stackOfSubjectLastIndex--
     }
-
-    private fun userCode26() {
-        stackOfCollection[++stackOfCollectionLastIndex] = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"
-        stackOfCollectionCurrent[++stackOfCollectionCurrentLastIndex] = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"
+    private fun userCode26(): Unit {
+        stackOfCollection[++stackOfCollectionLastIndex]="<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"
+        stackOfCollectionCurrent[++stackOfCollectionCurrentLastIndex]="<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"
     }
-
-    private fun userCode27() {
+    private fun userCode27(): Unit {
         val next = "_:_${bnode_counter++}"
-        if (stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex] == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>") {
-            stackOfCollection[stackOfCollectionLastIndex] = next
-        } else {
-            consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex], "<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>", next)
+        if (stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex]=="<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"){
+        stackOfCollection[stackOfCollectionLastIndex]=next
+        }else{
+        consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex], "<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>", next)
         }
-        stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex] = next
+        stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex]=next
         consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex], "<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>", stackOfObject[stackOfObjectLastIndex--])
     }
-
-    private fun userCode28() {
-        if (stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex] != "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>") {
-            consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex], "<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>")
+    private fun userCode28(): Unit {
+        if(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex]!="<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"){
+        consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex],"<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>")
         }
     }
-
-    private fun userCode29() {
+    private fun userCode29(): Unit {
         stackOfCollectionCurrentLastIndex--
     }
-
-    private fun userCode30() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = "\"" + getLastTokenString() + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+    private fun userCode30(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#integer>"
     }
-
-    private fun userCode31() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = "\"" + getLastTokenString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    private fun userCode31(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     }
-
-    private fun userCode32() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = "\"" + getLastTokenString() + "\"^^<http://www.w3.org/2001/XMLSchema#double>"
+    private fun userCode32(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#double>"
     }
-
-    private fun userCode33() {
-        stackOfRDFLiteral[++stackOfRDFLiteralLastIndex] = getLastTokenString()
+    private fun userCode33(): Unit {
+        stackOfRDFLiteral[++stackOfRDFLiteralLastIndex]=getLastTokenString()
     }
-
-    private fun userCode34() {
-        stackOfRDFLiteral[stackOfRDFLiteralLastIndex] += getLastTokenString()
+    private fun userCode34(): Unit {
+        stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+=getLastTokenString()
     }
-
-    private fun userCode35() {
-        stackOfRDFLiteral[stackOfRDFLiteralLastIndex] += "^^" + stackOfIri[stackOfIriLastIndex--]
+    private fun userCode35(): Unit {
+        stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+="^^"+stackOfIri[stackOfIriLastIndex--]
     }
-
-    private fun userCode36() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+    private fun userCode36(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]="\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
-
-    private fun userCode37() {
-        stackOfLiteral[++stackOfLiteralLastIndex] = "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+    private fun userCode37(): Unit {
+        stackOfLiteral[++stackOfLiteralLastIndex]="\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
-
-    private fun userCode38() {
-        stackOfIri[++stackOfIriLastIndex] = "<" + (prefixMap[""] ?: "") + getLastTokenString().drop(1)
+    private fun userCode38(): Unit {
+        stackOfIri[++stackOfIriLastIndex]="<"+(prefixMap[""]?:"")+getLastTokenString().drop(1)
     }
-
-    private fun userCode39() {
-        val tmp = getLastTokenString().split(":")
-        stackOfIri[++stackOfIriLastIndex] = "<" + prefixMap[tmp[0]]!! + tmp[1] + ">"
+    private fun userCode39(): Unit {
+        val tmp=getLastTokenString().split(":")
+        stackOfIri[++stackOfIriLastIndex]="<"+prefixMap[tmp[0]]!!+tmp[1]+">"
     }
-
-    private fun userCode40() {
-        stackOfIri[++stackOfIriLastIndex] = prefixMap[getLastTokenString().dropLast(1)]!!
+    private fun userCode40(): Unit {
+        stackOfIri[++stackOfIriLastIndex]=prefixMap[getLastTokenString().dropLast(1)]!!
     }
-
-    private fun userCode41() {
-        stackOfBlankNode[++stackOfBlankNodeLastIndex] = getLastTokenString()
+    private fun userCode41(): Unit {
+        stackOfBlankNode[++stackOfBlankNodeLastIndex]=getLastTokenString()
     }
-
-    private fun userCode42() {
-        stackOfBlankNode[++stackOfBlankNodeLastIndex] = "_:${bnode_counter++}"
+    private fun userCode42(): Unit {
+        stackOfBlankNode[++stackOfBlankNodeLastIndex]="_:${bnode_counter++}"
     }
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
 
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}

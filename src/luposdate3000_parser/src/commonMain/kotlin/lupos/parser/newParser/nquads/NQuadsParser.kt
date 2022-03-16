@@ -1,22 +1,22 @@
 package lupos.parser.newParser.nquads
 
-public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
-    internal var currentS: String? = null
-    internal var currentP: String? = null
-    internal var currentO: String? = null
-    internal var currentG: String? = null
-    public var consumeQuad: (String, String, String, String?) -> Unit = { s, p, o, g ->
-        println("consumeQuad($s, $p, $s, $g)")
-    }
+public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
+internal var currentS:String?=null
+internal var currentP:String?=null
+internal var currentO:String?=null
+internal var currentG:String?=null
+public var consumeQuad:(String, String, String, String?) -> Unit = {s,p,o,g->
+    println("consumeQuad($s, $p, $s, $g)")
+}
 
-    internal var parsererror: String? = null
+internal var parsererror: String? = null
     public var bufferDefinedDataSize: Int = 0
     public var bufferDefinedPosition: Int = 0
     public var bufferDefinedLastSize: Int = 0
     public var bufferDefinedAllocatedSize: Int = 4096
     public var bufferDefinedData: ByteArray = ByteArray(bufferDefinedAllocatedSize)
     public var bufferDefinedRangeStart: Int = 0
-    public lateinit var bufferDefinedInputStream: java.io.InputStream
+    public lateinit var bufferDefinedInputStream: lupos.shared.IMyInputStream
     public var bufferDefinedMaxPositionAvailable: Int = 0
     public var scannerDefinedTokenFoundType: IntArray = IntArray(3)
     public var scannerDefinedTokenFoundStart: IntArray = IntArray(3)
@@ -33,7 +33,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
     public val parserDefinedStackData: IntArray = IntArray(1024)
     public var parserDefinedStackPosition: Int = 0
     public val parserDefinedScannerTokens: Array<String> = arrayOf<String>("", "IRIREF", "BLANK_NODE_LABEL", "EOL", "STRING_LITERAL_QUOTE", "generated0", "LANGTAG", "generated1")
-
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
@@ -57,12 +56,12 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-    }
 
-    public fun close() {
-        bufferDefinedInputStream.close()
     }
+public fun close() {
+    bufferDefinedInputStream.close()
 
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -81,7 +80,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode1(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -101,7 +99,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode2(): Int {
         if ((scannerDefinedCurrentChar == -2)) {
             return -2
@@ -109,7 +106,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             return -1
         }
     }
-
     private fun scannerDefinedNode3(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -123,7 +119,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode4(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -140,7 +135,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode5(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -154,7 +148,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode6(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -174,7 +167,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode7(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -200,7 +192,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode8(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -214,7 +205,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode9(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -228,7 +218,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode10(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -248,7 +237,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode11(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -262,7 +250,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode12(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -278,7 +265,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode13(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -298,7 +284,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode14(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -312,7 +297,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode15(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 3
@@ -331,7 +315,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode16(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -351,7 +334,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode17(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -365,7 +347,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode18(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -379,7 +360,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode19(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 7
@@ -392,7 +372,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             return -1
         }
     }
-
     private fun scannerDefinedNode20(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -409,7 +388,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode21(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 1
@@ -422,7 +400,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             return -1
         }
     }
-
     private fun scannerDefinedNode22(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -436,7 +413,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode23(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -456,7 +432,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode24(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 4
@@ -469,7 +444,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             return -1
         }
     }
-
     private fun scannerDefinedNode25(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 5
@@ -482,7 +456,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             return -1
         }
     }
-
     private fun scannerDefinedNode26(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 6
@@ -504,7 +477,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode27(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -518,7 +490,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode28(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -532,7 +503,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode29(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 2
@@ -554,7 +524,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode30(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -568,7 +537,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode31(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -582,7 +550,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode32(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -596,7 +563,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode33(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -610,7 +576,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode34(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -624,7 +589,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode35(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -641,7 +605,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode36(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -655,7 +618,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode37(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -669,7 +631,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode38(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 6
@@ -691,7 +652,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode39(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -705,7 +665,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode40(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -719,7 +678,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode41(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -733,7 +691,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode42(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -747,7 +704,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode43(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -761,7 +717,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode44(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -775,7 +730,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode45(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -789,7 +743,6 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
     private fun scannerDefinedNode46(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
@@ -803,15 +756,13 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             }
         }
     }
-
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -1022,16 +973,14 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
-
     private fun getLastTokenString(): String {
         return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
     }
-
     private fun parserDefinedNode0(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(1)
@@ -1048,18 +997,16 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken0 unexpectedly in node 0, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken0} unexpectedly in node 0, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode1(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 0
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 4
     }
-
     private fun parserDefinedNode2(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
@@ -1072,12 +1019,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode3(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(2)
@@ -1090,18 +1036,16 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode4(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 1
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 7
     }
-
     private fun parserDefinedNode5(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
@@ -1115,16 +1059,14 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken5 unexpectedly in node 5, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode6(): Int {
         return -2
     }
-
     private fun parserDefinedNode7(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
@@ -1144,29 +1086,25 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 11
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode8(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 5
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 4
     }
-
     private fun parserDefinedNode11(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 12
     }
-
     private fun parserDefinedNode12(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 2
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 13
     }
-
     private fun parserDefinedNode13(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
@@ -1180,23 +1118,20 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 15
             }
             else -> {
-                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode15(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 16
     }
-
     private fun parserDefinedNode16(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 3
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 17
     }
-
     private fun parserDefinedNode17(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
@@ -1222,18 +1157,16 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 22
             }
             else -> {
-                parsererror = "found token $currentToken17 unexpectedly in node 17, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken17} unexpectedly in node 17, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode21(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode0()
         return 26
     }
-
     private fun parserDefinedNode22(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
@@ -1250,12 +1183,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode24(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(8)
@@ -1268,12 +1200,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 27
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode25(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
@@ -1287,12 +1218,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode26(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
@@ -1306,12 +1236,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 30
             }
             else -> {
-                parsererror = "found token $currentToken26 unexpectedly in node 26, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken26} unexpectedly in node 26, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode27(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
@@ -1325,18 +1254,16 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken27 unexpectedly in node 27, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode29(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 4
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 32
     }
-
     private fun parserDefinedNode30(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(11)
@@ -1350,12 +1277,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 36
             }
             else -> {
-                parsererror = "found token $currentToken30 unexpectedly in node 30, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken30} unexpectedly in node 30, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode32(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
@@ -1375,12 +1301,11 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 37
             }
             else -> {
-                parsererror = "found token $currentToken32 unexpectedly in node 32, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken32} unexpectedly in node 32, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode36(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         when ((parserDefinedStackData[parserDefinedStackPosition])) {
@@ -1391,17 +1316,15 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 38
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 36, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 36, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
     private fun parserDefinedNode37(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         return 30
     }
-
     private fun parserDefinedNode38(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
@@ -1419,13 +1342,12 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken38 unexpectedly in node 38, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken38} unexpectedly in node 38, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1516,54 +1438,41 @@ public class NQuadsParser(bufferDefinedInputStreamParam: java.io.InputStream) {
             TODO(parsererror!!)
         }
     }
-
-    private fun userCode0() {
-        currentG = null
+    private fun userCode0(): Unit {
+        currentG=null
     }
-
-    private fun userCode1() {
-        consumeQuad(currentS!!, currentP!!, currentO!!, currentG!!)
+    private fun userCode1(): Unit {
+        consumeQuad(currentS!!,currentP!!,currentO!!,currentG!!)
     }
-
-    private fun userCode2() {
-        currentS = getLastTokenString()
+    private fun userCode2(): Unit {
+        currentS=getLastTokenString()
     }
-
-    private fun userCode3() {
-        currentS = getLastTokenString()
+    private fun userCode3(): Unit {
+        currentS=getLastTokenString()
     }
-
-    private fun userCode4() {
-        currentP = getLastTokenString()
+    private fun userCode4(): Unit {
+        currentP=getLastTokenString()
     }
-
-    private fun userCode5() {
-        currentO = getLastTokenString()
+    private fun userCode5(): Unit {
+        currentO=getLastTokenString()
     }
-
-    private fun userCode6() {
-        currentO = getLastTokenString()
+    private fun userCode6(): Unit {
+        currentO=getLastTokenString()
     }
-
-    private fun userCode7() {
-        currentO = getLastTokenString()
+    private fun userCode7(): Unit {
+        currentO=getLastTokenString()
     }
-
-    private fun userCode8() {
-        currentO += "^^" + getLastTokenString()
+    private fun userCode8(): Unit {
+        currentO+="^^"+getLastTokenString()
     }
-
-    private fun userCode9() {
-        currentO += getLastTokenString()
+    private fun userCode9(): Unit {
+        currentO+=getLastTokenString()
     }
-
-    private fun userCode10() {
-        currentG = getLastTokenString()
+    private fun userCode10(): Unit {
+        currentG=getLastTokenString()
     }
-
-    private fun userCode11() {
-        currentG = getLastTokenString()
+    private fun userCode11(): Unit {
+        currentG=getLastTokenString()
     }
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
 
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}

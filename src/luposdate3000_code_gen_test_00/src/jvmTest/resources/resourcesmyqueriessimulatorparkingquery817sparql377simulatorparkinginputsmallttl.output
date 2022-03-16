@@ -1,0 +1,85 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="o"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="o"><bnode>nodeID://b10010</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10013</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10014</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10016</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10018</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10020</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10022</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10023</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10024</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10025</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10026</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10031</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10033</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10040</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10042</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10051</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10052</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10054</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10057</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10060</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10061</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10063</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10065</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10070</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10072</bnode></binding>
+  </result>
+  <result>
+   <binding name="o"><bnode>nodeID://b10074</bnode></binding>
+  </result>
+ </results>
+</sparql>

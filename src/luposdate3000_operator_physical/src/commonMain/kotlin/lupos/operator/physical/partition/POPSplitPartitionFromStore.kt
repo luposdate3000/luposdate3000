@@ -46,7 +46,7 @@ public class POPSplitPartitionFromStore public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:47"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartitionFromStore.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {

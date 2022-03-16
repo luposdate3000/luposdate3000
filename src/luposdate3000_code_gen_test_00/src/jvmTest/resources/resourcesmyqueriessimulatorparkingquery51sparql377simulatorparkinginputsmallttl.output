@@ -1,0 +1,20 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="b"/>
+  <variable name="d"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="b"><bnode>nodeID://b10009</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.600</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10034</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.310</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10059</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.560</literal></binding>
+  </result>
+ </results>
+</sparql>

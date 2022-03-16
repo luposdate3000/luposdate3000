@@ -315,7 +315,6 @@ public object InputToIntermediate {
             dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
             chunc++
             outTriples.close()
-            iter.close()
             val parseTime = DateHelperRelative.elapsedSeconds(startTime)
 // merge dictionaries
             val outDictionary = DictionaryIntermediateWriter(inputFileName)
