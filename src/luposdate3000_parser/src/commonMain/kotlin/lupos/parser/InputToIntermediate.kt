@@ -263,6 +263,15 @@ public object InputToIntermediate {
                     }
                 }
                 try {
+addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+val bb=ByteArrayWrapper()
+DictionaryHelper.sparqlToByteArray(bb, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+addToDict(bb)
+DictionaryHelper.sparqlToByteArray(bb, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+addToDict(bb)
                     parserObject.parserDefinedParse()
                 } catch (e: Throwable) {
                     throw Exception(inputFileName, e)
