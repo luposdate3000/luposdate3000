@@ -75,6 +75,7 @@ public class POPTripleStoreIterator(
         }
         return res
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         if (getDesiredHostnameFor(parent) == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]) {
             val tmp = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
@@ -84,6 +85,7 @@ public class POPTripleStoreIterator(
             return null
         }
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         res.addAttribute("hasSplitFromStore", "$hasSplitFromStore")

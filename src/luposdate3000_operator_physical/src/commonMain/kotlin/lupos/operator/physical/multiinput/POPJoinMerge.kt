@@ -59,11 +59,11 @@ public class POPJoinMerge public constructor(
     override fun equals(other: Any?): Boolean = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMerge(children[0].evaluate(parent), children[1].evaluate(parent), projectedVariables)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        val tmp1 = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        val tmp1 = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp1 == null) {
             return null
         }
-        val tmp2 = (children[1]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        val tmp2 = (children[1] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp2 == null) {
             return null
         }

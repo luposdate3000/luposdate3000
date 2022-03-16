@@ -127,5 +127,6 @@ public class POPGraphOperation public constructor(
         )
         return res
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("graph operation must not be local")
 }

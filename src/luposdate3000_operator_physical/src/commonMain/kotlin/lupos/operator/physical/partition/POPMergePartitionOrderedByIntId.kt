@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPUnion
@@ -323,10 +324,11 @@ public class POPMergePartitionOrderedByIntId public constructor(
             return IteratorBundle(iterator)
         }
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         var res: POPBase? = null
         for (p in 0 until partitionCount2) {
-            val tmp = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount2), onFoundLimit, onFoundSort)
+            val tmp = (children[0] as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount2), onFoundLimit, onFoundSort)
             if (tmp != null) {
                 if (res == null) {
                     res = tmp as POPBase

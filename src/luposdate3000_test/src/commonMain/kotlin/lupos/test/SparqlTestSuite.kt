@@ -167,6 +167,7 @@ public open class SparqlTestSuite {
         }
         return File(name).readAsString()
     }
+
     private fun removePrefixForFileName(s: String): String {
         return if (s.contains("/manifest#")) {
             s.drop("/manifest#".length + s.indexOf("/manifest#")).dropLast(1)
@@ -174,6 +175,7 @@ public open class SparqlTestSuite {
             TODO(s)
         }
     }
+
     private /*suspend*/ fun testOneEntry(data: SevenIndices, node: String, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null

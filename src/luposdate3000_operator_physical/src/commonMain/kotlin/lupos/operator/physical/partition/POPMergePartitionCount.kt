@@ -151,10 +151,11 @@ public class POPMergePartitionCount public constructor(
             }
         }
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         var res: POPBase? = null
         for (p in 0 until partitionCount) {
-            val tmp = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount), onFoundLimit, onFoundSort)
+            val tmp = (children[0] as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable, p, partitionCount), onFoundLimit, onFoundSort)
             if (tmp != null) {
                 if (res == null) {
                     res = tmp as POPBase

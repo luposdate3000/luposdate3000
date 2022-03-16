@@ -132,5 +132,6 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     override fun usesDictionary(): Boolean {
         return true
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("modify does not work on partial result")
 }

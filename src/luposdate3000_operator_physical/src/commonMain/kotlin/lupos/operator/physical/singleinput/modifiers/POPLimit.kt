@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput.modifiers
+
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.POPLimitHandler
 import lupos.operator.physical.POPBase
@@ -49,7 +50,7 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalLimit(children[0].evaluate(parent), limit, finishHandler)
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("limit", "" + limit)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        val tmp = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
             return null
         }

@@ -53,5 +53,6 @@ public class Application_DataImport(
         parent.send(receiver, queryPck)
         parent.flush()
     }
+
     override fun emptyEventQueue(): String? = null
 }

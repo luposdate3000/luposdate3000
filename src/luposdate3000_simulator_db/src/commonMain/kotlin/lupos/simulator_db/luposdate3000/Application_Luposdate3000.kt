@@ -227,7 +227,7 @@ public class Application_Luposdate3000 public constructor(
             var hasSort = false
             var limitOperators = mutableListOf<IPOPLimit>()
             val localOP = (op as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
-            if (limitOperators.size> 0 && !hasSort && localOP != null) {
+            if (limitOperators.size > 0 && !hasSort && localOP != null) {
                 val iteratorBundle = localOP.evaluateRootBundle()
                 val buf = MyPrintWriter(true)
                 val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
@@ -645,6 +645,7 @@ public class Application_Luposdate3000 public constructor(
             doWorkFlag = false
         }
     }
+
     override fun receive(pck: IPayload): IPayload? {
         try {
             if (!hadInitDatabaseHopsWithinLuposdate3000) {

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
 import lupos.operator.base.PartitionHelper2
@@ -262,5 +263,6 @@ public class POPSplitPartition public constructor(
             return iterators[parent.data[partitionVariable]!!]
         }
     }
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? = (children[0]as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable!!), onFoundLimit, onFoundSort)
+
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? = (children[0] as POPBase).toLocalOperatorGraph(Partition(parent, partitionVariable!!), onFoundLimit, onFoundSort)
 }

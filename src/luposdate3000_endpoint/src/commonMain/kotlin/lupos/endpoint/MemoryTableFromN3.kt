@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+
 import lupos.parser.newParser.turtle.TurtleParser
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
@@ -23,6 +24,7 @@ import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyStringStream
+
 public class MemoryTableFromN3 : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))

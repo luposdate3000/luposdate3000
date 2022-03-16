@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.POPLimitHandler
 import lupos.operator.physical.POPBase
@@ -40,7 +41,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
     override fun getRequiredVariableNames(): List<String> = listOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalMakeBooleanResult(children[0].evaluate(parent), finishHandler)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
-        val tmp = (children[0]as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
+        val tmp = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp == null) {
             return null
         }

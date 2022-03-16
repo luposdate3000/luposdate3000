@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+
 import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
@@ -68,5 +69,6 @@ public class POPDistributedSendMulti public constructor(
         }
         EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable)
     }
+
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()
 }
