@@ -410,7 +410,8 @@ public class OperatorGraphVisitor(public val query: Query) {
         val returning = LOPDistinct(
             query,
             LOPProjection(
-                query, labels.map { AOPVariable(query, it) }.toMutableList(),
+                query,
+                labels.map { AOPVariable(query, it) }.toMutableList(),
                 constructTriples.map {
                     val constants = mutableListOf<Pair<String, AOPConstant>>()
                     val variables = mutableListOf<Pair<String, AOPVariable>>()

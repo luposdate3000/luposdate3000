@@ -1,3 +1,5 @@
+// ktlint-disable
+// @formatter:off
 package lupos.parser.newParser.turtle
 
 public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {

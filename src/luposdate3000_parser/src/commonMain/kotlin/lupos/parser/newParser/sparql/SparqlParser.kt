@@ -1,3 +1,5 @@
+// ktlint-disable
+// @formatter:off
 package lupos.parser.newParser.sparql
 
 public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery {

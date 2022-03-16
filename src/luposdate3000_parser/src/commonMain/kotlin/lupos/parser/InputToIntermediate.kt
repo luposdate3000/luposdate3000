@@ -16,8 +16,8 @@
  */
 package lupos.parser
 
+import lupos.parser.newParser.nquads.NQuadsParser
 import lupos.parser.newParser.turtle.TurtleParser
-import lupos.parser.nQuads.NQuads2Parser
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -232,7 +232,6 @@ public object InputToIntermediate {
         val inferenceOriginal_SubClassOf_ID = addIriToDict("http://www.w3.org/2000/01/rdf-schema#subClassOf")
 
         var dictionaryInitialSortTime = 0.0
-        val iter = File(inputFileName).openInputStream()
         when (fileType) {
             ".n3", ".ttl", ".nt" -> {
                 val parserObject = TurtleParser(File(inputFileName).openInputStream())
@@ -263,41 +262,46 @@ public object InputToIntermediate {
                     }
                 }
                 try {
-addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
-addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
-addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
-addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-val bb=ByteArrayWrapper()
-DictionaryHelper.sparqlToByteArray(bb, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-addToDict(bb)
-DictionaryHelper.sparqlToByteArray(bb, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-addToDict(bb)
+                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+                    val bb = ByteArrayWrapper()
+                    DictionaryHelper.sparqlToByteArray(bb, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                    addToDict(bb)
+                    DictionaryHelper.sparqlToByteArray(bb, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                    addToDict(bb)
                     parserObject.parserDefinedParse()
                 } catch (e: Throwable) {
                     throw Exception(inputFileName, e)
                 }
             }
             ".n4" -> {
-                val x = object : NQuads2Parser(iter) {
-                    override fun onQuad() {
-                        for (i in 0 until 3) {
-                            row[i] = addToDict(quad[i])
-                        }
-                        outTriples.write(row)
-                        cnt++
-                        if (cnt % 10000L == 0L) {
-                            println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
-                        }
-                        if (dictSizeEstimated > dictSizeLimit) {
-                            val startTime2 = DateHelperRelative.markNow()
-                            DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
-                            dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
-                            dictSizeEstimated = 0
-                            chunc++
-                        }
+                val parserObject = NQuadsParser(File(inputFileName).openInputStream())
+                parserObject.consumeQuad = { s, p, o, g ->
+                    val s2 = ByteArrayWrapper()
+                    val p2 = ByteArrayWrapper()
+                    val o2 = ByteArrayWrapper()
+                    DictionaryHelper.sparqlToByteArray(s2, s)
+                    DictionaryHelper.sparqlToByteArray(p2, p)
+                    DictionaryHelper.sparqlToByteArray(o2, o)
+                    row[0] = addToDict(s2)
+                    row[1] = addToDict(p2)
+                    row[2] = addToDict(o2)
+                    outTriples.write(row)
+                    cnt++
+                    if (cnt % 10000L == 0L) {
+                        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
+                    }
+                    if (dictSizeEstimated > dictSizeLimit) {
+                        val startTime2 = DateHelperRelative.markNow()
+                        DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                        dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
+                        dictSizeEstimated = 0
+                        chunc++
                     }
                 }
-                x.parse()
+                parserObject.parserDefinedParse()
             }
             else -> {
                 throw Exception("unknown filetype $inputFileName")

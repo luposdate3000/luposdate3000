@@ -23,18 +23,19 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.shared.DictionaryValueType
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
 import lupos.parser.newParser.sparql.ASTSparqlDoc
 import lupos.parser.newParser.sparql.SparqlParser
+import lupos.parser.newParser.turtle.TurtleParser
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyTypeExt
@@ -56,6 +57,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.FileExt
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.MyStringStream
 import lupos.shared.inline.Platform
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
@@ -65,8 +67,6 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
-import lupos.parser.newParser.turtle.TurtleParser
-import lupos.shared.inline.MyStringStream
 
 /*
  * This is the _interface_ of the database
@@ -96,13 +96,13 @@ public object LuposdateEndpoint {
         val buffer = ByteArrayWrapper()
         val dataStream = MyStringStream(data)
         val parserObject = TurtleParser(dataStream)
-fun dHelper(b:ByteArrayWrapper):DictionaryValueType{
-return if (DictionaryHelper.byteArrayToType(b) != ETripleComponentTypeExt.BLANK_NODE) {
+        fun dHelper(b: ByteArrayWrapper): DictionaryValueType {
+            return if (DictionaryHelper.byteArrayToType(b) != ETripleComponentTypeExt.BLANK_NODE) {
                 dict.createValue(b)
             } else {
                 DictionaryValueHelper.booleanTrueValue
             }
-}
+        }
         parserObject.consumeTriple = { s, p, o ->
             DictionaryHelper.sparqlToByteArray(buffer, s)
             var id = dHelper(buffer)
@@ -266,7 +266,7 @@ return if (DictionaryHelper.byteArrayToType(b) != ETripleComponentTypeExt.BLANK_
                     val orderName = orderNames[o]
                     val sortedBy = orderPatterns[o]
                     val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT, sortedBy, true)
-println("opening the file :: $fileName.$orderName")
+                    println("opening the file :: $fileName.$orderName")
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     var oldA = DictionaryValueHelper.NULL
                     var oldB = DictionaryValueHelper.NULL
