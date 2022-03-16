@@ -16,8 +16,8 @@
  */
 package lupos.parser
 
+import lupos.parser.newParser.turtle.TurtleParser
 import lupos.parser.nQuads.NQuads2Parser
-import lupos.parser.turtle.TurtleParserWithDictionaryValueTypeTriples
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -235,32 +235,35 @@ public object InputToIntermediate {
         val iter = File(inputFileName).openInputStream()
         when (fileType) {
             ".n3", ".ttl", ".nt" -> {
-                val parserObject = TurtleParserWithDictionaryValueTypeTriples(
-                    consume_triple = { s, p, o ->
-                        row[0] = s
-                        row[1] = p
-                        row[2] = o
-                        outTriples.write(row)
-                        cnt++
-                        if (cnt % 10000L == 0L) {
-                            println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
-                        }
-                        if (dictSizeEstimated > dictSizeLimit) {
-                            val startTime2 = DateHelperRelative.markNow()
-                            DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
-                            dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
-                            dictSizeEstimated = 0
-                            chunc++
-                        }
-                    },
-                    kpFileLoc = inputFileName,
-                )
-                parserObject.convertByteArrayWrapperToID = {
-                    addToDict(it)
+                val parserObject = TurtleParser(File(inputFileName).openInputStream())
+                parserObject.consumeTriple = { s1, p1, o1 ->
+                    val s2 = ByteArrayWrapper()
+                    val p2 = ByteArrayWrapper()
+                    val o2 = ByteArrayWrapper()
+                    DictionaryHelper.sparqlToByteArray(s2, s1)
+                    DictionaryHelper.sparqlToByteArray(p2, p1)
+                    DictionaryHelper.sparqlToByteArray(o2, o1)
+                    val s = addToDict(s2)
+                    val p = addToDict(p2)
+                    val o = addToDict(o2)
+                    row[0] = s
+                    row[1] = p
+                    row[2] = o
+                    outTriples.write(row)
+                    cnt++
+                    if (cnt % 10000L == 0L) {
+                        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
+                    }
+                    if (dictSizeEstimated > dictSizeLimit) {
+                        val startTime2 = DateHelperRelative.markNow()
+                        DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                        dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
+                        dictSizeEstimated = 0
+                        chunc++
+                    }
                 }
                 try {
-                    parserObject.initializeCache()
-                    parserObject.turtleDoc()
+                    parserObject.parserDefinedParse()
                 } catch (e: Throwable) {
                     throw Exception(inputFileName, e)
                 }

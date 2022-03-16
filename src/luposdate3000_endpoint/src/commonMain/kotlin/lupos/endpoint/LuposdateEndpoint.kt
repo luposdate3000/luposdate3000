@@ -23,6 +23,7 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.shared.DictionaryValueType
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -66,6 +67,7 @@ import kotlin.js.JsName
 import kotlin.jvm.JvmField
 import lupos.parser.newParser.turtle.TurtleParser
 import lupos.shared.inline.MyStringStream
+
 /*
  * This is the _interface_ of the database
  * Do not overload any function here - because that would yield bad function names in the exported headers.
@@ -81,7 +83,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:83"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:85"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val dict = instance.nodeGlobalDictionary!!
         val cache2 = instance.nodeGlobalOntologyCache
         val cache = if (cache2 == null) {
@@ -92,23 +94,30 @@ public object LuposdateEndpoint {
             cache2
         }
         val buffer = ByteArrayWrapper()
-val dataStream = MyStringStream(data)
+        val dataStream = MyStringStream(data)
         val parserObject = TurtleParser(dataStream)
-parserObject.consumeTriple ={ s, p, o ->
-DictionaryHelper.sparqlToByteArray(buffer, s)
-var id=                dict.createValue(buffer)
-                cache.insertValuePairExtend(buffer, id)
-DictionaryHelper.sparqlToByteArray(buffer, p)
-id=                dict.createValue(buffer)
-                dict.getValue(buffer, id)
-                cache.insertValuePairExtend(buffer, id)
-DictionaryHelper.sparqlToByteArray(buffer, o)
-id=                dict.createValue(buffer)
-                dict.getValue(buffer, id)
-                cache.insertValuePairExtend(buffer, id)
+fun dHelper(b:ByteArrayWrapper):DictionaryValueType{
+return if (DictionaryHelper.byteArrayToType(b) != ETripleComponentTypeExt.BLANK_NODE) {
+                dict.createValue(b)
+            } else {
+                DictionaryValueHelper.booleanTrueValue
             }
+}
+        parserObject.consumeTriple = { s, p, o ->
+            DictionaryHelper.sparqlToByteArray(buffer, s)
+            var id = dHelper(buffer)
+            cache.insertValuePairExtend(buffer, id)
+
+            DictionaryHelper.sparqlToByteArray(buffer, p)
+            id = dHelper(buffer)
+            cache.insertValuePairExtend(buffer, id)
+
+            DictionaryHelper.sparqlToByteArray(buffer, o)
+            id = dHelper(buffer)
+            cache.insertValuePairExtend(buffer, id)
+        }
         try {
-parserObject.parserDefinedParse()
+            parserObject.parserDefinedParse()
         } catch (e: Throwable) {
             println(data)
             throw e
@@ -257,6 +266,7 @@ parserObject.parserDefinedParse()
                     val orderName = orderNames[o]
                     val sortedBy = orderPatterns[o]
                     val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT, sortedBy, true)
+println("opening the file :: $fileName.$orderName")
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
                     var oldA = DictionaryValueHelper.NULL
                     var oldB = DictionaryValueHelper.NULL
@@ -267,7 +277,7 @@ parserObject.parserDefinedParse()
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:269"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:279"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -276,17 +286,17 @@ parserObject.parserDefinedParse()
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:278"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:288"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:283"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:293"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:288"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:298"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
