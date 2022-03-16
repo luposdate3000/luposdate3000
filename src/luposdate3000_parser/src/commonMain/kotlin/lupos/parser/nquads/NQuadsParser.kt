@@ -1,4 +1,4 @@
-package lupos.parser.newParser.nquads
+package lupos.parser.nquads
 
 public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 internal var currentS:String?=null

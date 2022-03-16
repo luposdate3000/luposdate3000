@@ -1,4 +1,4 @@
-package lupos.parser.newParser.turtle
+package lupos.parser.turtle
 
 public class TurtleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 internal companion object{

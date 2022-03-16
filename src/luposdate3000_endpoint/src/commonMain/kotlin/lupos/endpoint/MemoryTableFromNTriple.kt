@@ -16,7 +16,7 @@
  */
 package lupos.endpoint
 
-import lupos.parser.turtle.TurtleParser
+import lupos.parser.ntriple.NTripleParser
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
@@ -25,13 +25,13 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyStringStream
 
-public class MemoryTableFromN3 : MemoryTableParser {
+public class MemoryTableFromNTriple : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
         var res = MemoryTable(arrayOf("s", "p", "o"))
         res.query = query
         var dictionary = res.query!!.getDictionary()
         val dataStream = MyStringStream(data)
-        val parserObject = TurtleParser(dataStream)
+        val parserObject = NTripleParser(dataStream)
         parserObject.consumeTriple = { s, p, o ->
             val s1 = ByteArrayWrapper()
             val p1 = ByteArrayWrapper()

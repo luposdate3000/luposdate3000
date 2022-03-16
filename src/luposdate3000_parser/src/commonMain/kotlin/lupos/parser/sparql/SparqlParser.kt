@@ -1,4 +1,4 @@
-package lupos.parser.newParser.sparql
+package lupos.parser.sparql
 
 public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery {
     public var id: Int

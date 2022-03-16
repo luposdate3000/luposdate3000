@@ -27,9 +27,9 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.InputToIntermediate
-import lupos.parser.newParser.sparql.ASTSparqlDoc
-import lupos.parser.newParser.sparql.SparqlParser
-import lupos.parser.newParser.turtle.TurtleParser
+import lupos.parser.sparql.ASTSparqlDoc
+import lupos.parser.sparql.SparqlParser
+import lupos.parser.turtle.TurtleParser
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
@@ -589,7 +589,7 @@ public object LuposdateEndpoint {
     init {
         MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
         MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
-        MemoryTable.parseFromAnyRegistered["nt"] = MemoryTableFromN3()
+        MemoryTable.parseFromAnyRegistered["nt"] = MemoryTableFromNTriple()
         MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
         MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
         MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()

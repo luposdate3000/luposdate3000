@@ -26,9 +26,9 @@ import lupos.operator.physical.noinput.POPValues2
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
-import lupos.parser.newParser.sparql.ASTSparqlDoc
-import lupos.parser.newParser.sparql.SparqlParser
-import lupos.parser.newParser.turtle.TurtleParser
+import lupos.parser.sparql.ASTSparqlDoc
+import lupos.parser.sparql.SparqlParser
+import lupos.parser.turtle.TurtleParser
 import lupos.result_format.QueryResultToMemoryTable
 import lupos.shared.*
 import lupos.shared.PartitionHelper

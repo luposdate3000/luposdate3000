@@ -16,8 +16,8 @@
  */
 package lupos.parser
 
-import lupos.parser.newParser.nquads.NQuadsParser
-import lupos.parser.newParser.turtle.TurtleParser
+import lupos.parser.nquads.NQuadsParser
+import lupos.parser.turtle.TurtleParser
 import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
