@@ -83,7 +83,7 @@ res = DictionaryValueHelper.errorValue
                             val tmp_140: String = DictionaryHelper.byteArrayToString(tmp_0)
                             val tmp_141: String = DictionaryHelper.byteArrayToString(tmp_1)
                             val tmp_142_content: String = tmp_140
-                            val tmp_142_lang: String = tmp_141.lowercase()
+                            val tmp_142_lang: String = tmp_141
                             DictionaryHelper.langToByteArray(tmp_4, tmp_142_content, tmp_142_lang)
                             res = query.getDictionary().createValue(tmp_4)
                         }

@@ -505,7 +505,7 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun langToByteArray(buffer: ByteArrayWrapper, content: String, lang: String) {
-        val buf1 = lang.encodeToByteArray()
+        val buf1 = lang.lowercase().encodeToByteArray()
         val buf2 = content.encodeToByteArray()
         ByteArrayWrapperExt.setSize(buffer, headerSize() + 4 + buf1.size + buf2.size, false)
         headerEncode(buffer, ETripleComponentTypeExt.STRING_LANG, 0)
