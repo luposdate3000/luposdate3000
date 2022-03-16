@@ -16,9 +16,11 @@
  */
 package lupos.endpoint
 
+import lupos.parser.xml.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
+import lupos.shared.inline.MyStringStream
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
 import lupos.shared.XMLElementFromXML
@@ -27,53 +29,109 @@ import lupos.shared.inline.DictionaryHelper
 
 public class MemoryTableFromXML : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable? {
-        val xml = XMLElementFromXML()(data)
-        if (xml == null || xml.tag != "sparql") {
-            return null
-        }
         try {
-            val xmlHead = xml["head"]!!
-            val variables = xmlHead.childs.map { it.attributes["name"]!! }
+            fun findChildElements(parent: ASTelement): List<ASTelement> {
+                when (val v = parent.variable2!!) {
+                    is ASTClassOfInterfaceOfListOfelementOrtextAndTAG -> {
+                        when (val v2 = v.variable0!!) {
+                            is ASTListOfelement -> {
+                                return v2.value!!
+                            }
+                            is ASTtext -> return listOf()
+                        }
+                    }
+                    is ASTcloseimmediately -> return listOf()
+                }
+                return listOf()
+            }
+
+            fun findChildElementByName(n: String, parent: ASTelement): ASTelement {
+                for (e in findChildElements(parent)) {
+                    if (e.TAG == n) {
+                        return e
+                    }
+                }
+                TODO("malformed xml")
+            }
+
+            fun maybeFindChildElementByName(n: String, parent: ASTelement): ASTelement? {
+                for (e in findChildElements(parent)) {
+                    if (e.TAG == n) {
+                        return e
+                    }
+                }
+                return null
+            }
+
+            fun contentOfXMLElement(parent: ASTelement): String {
+when (val v = parent.variable2!!) {
+                    is ASTClassOfInterfaceOfListOfelementOrtextAndTAG -> {
+                        when (val v2 = v.variable0!!) {
+                            is ASTListOfelement -> return ""
+                            is ASTtext -> return v2.TEXT!!
+                        }
+                    }
+                    is ASTcloseimmediately -> return ""
+                }
+                return ""
+            }
+fun attributesOfElement(n:String,parent:ASTelement):List<String>{
+return parent.variable1!!.value.filter { it.KEY == n }.map { it.VALUE!! }
+} 
+fun attributeOfElement(n:String,parent:ASTelement):String{
+return attributesOfElement(n,parent).getOrElse(0,{i->""})
+}
+
+            val dataStream = MyStringStream(data)
+            val parserObject = XMLParser(dataStream)
+            parserObject.parserDefinedParse()
+            val xml = parserObject.getResult()
+            val xmlSparql = xml.variable0!!
+            if (xmlSparql.TAG != "sparql") {
+                return null
+            }
+            val xmlHead = findChildElementByName("head", xmlSparql)!!
+            val variables = findChildElements(xmlHead).map { attributesOfElement("name",it) }.flatten()
             val res = MemoryTable(variables.toTypedArray())
             res.query = query
             val dictionary = res.query!!.getDictionary()
-            val xmlBoolean = xml["boolean"]
+            val xmlBoolean = maybeFindChildElementByName("boolean", xmlSparql)
             if (xmlBoolean != null) {
-                res.booleanResult = xmlBoolean.content.toBoolean()
+                res.booleanResult = contentOfXMLElement(xmlBoolean).toBoolean()
             } else {
-                val xmlResults = xml["results"]!!
+                val xmlResults = findChildElementByName("results", xmlSparql)
                 val buffer = ByteArrayWrapper()
-                for (xmlResult in xmlResults.childs) {
-                    if (xmlResult.tag == "result") {
+                for (xmlResult in findChildElements(xmlResults)) {
+                    if (xmlResult.TAG == "result") {
                         val row = DictionaryValueTypeArray(variables.size) { DictionaryValueHelper.undefValue }
                         res.data.add(row)
-                        for (xmlBinding in xmlResult.childs) {
-                            if (xmlBinding.tag == "binding") {
-                                val column = variables.indexOf(xmlBinding.attributes["name"]!!)
-                                val child = xmlBinding.childs.first()
-                                when (child.tag) {
+                        for (xmlBinding in findChildElements(xmlResult)) {
+                            if (xmlBinding.TAG == "binding") {
+                                val column = variables.indexOf(attributeOfElement("name",xmlBinding))
+                                val child = findChildElements(xmlBinding).first()
+                                when (child.TAG) {
                                     "bnode" -> {
-                                        row[column] = dictionary.createNewBNode(child.content)
+                                        row[column] = dictionary.createNewBNode(contentOfXMLElement(child))
                                     }
                                     "uri" -> {
-                                        DictionaryHelper.iriToByteArray(buffer, child.content)
+                                        DictionaryHelper.iriToByteArray(buffer, contentOfXMLElement(child))
                                         val tmp = dictionary.createValue(buffer)
                                         row[column] = tmp
                                     }
                                     "literal" -> {
-                                        val lang = child.attributes["xml:lang"]
+                                        val lang = attributeOfElement("xml:lang",child)
                                         if (lang != null) {
-                                            DictionaryHelper.langToByteArray(buffer, child.content, lang)
+                                            DictionaryHelper.langToByteArray(buffer, contentOfXMLElement(child), lang)
                                             val tmp = dictionary.createValue(buffer)
                                             row[column] = tmp
                                         } else {
-                                            val datatype = child.attributes["datatype"]
+                                            val datatype = attributeOfElement("datatype",child)
                                             if (datatype != null) {
-                                                DictionaryHelper.typedToByteArray(buffer, child.content, datatype)
+                                                DictionaryHelper.typedToByteArray(buffer, contentOfXMLElement(child), datatype)
                                                 val tmp = dictionary.createValue(buffer)
                                                 row[column] = tmp
                                             } else {
-                                                DictionaryHelper.stringToByteArray(buffer, child.content)
+                                                DictionaryHelper.stringToByteArray(buffer, contentOfXMLElement(child))
                                                 val tmp = dictionary.createValue(buffer)
                                                 row[column] = tmp
                                             }
