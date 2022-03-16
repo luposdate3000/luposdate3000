@@ -593,6 +593,7 @@ public object LuposdateEndpoint {
         MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
         MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
         MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
+//*.srj
         Platform.setShutdownHock {
             close()
         }

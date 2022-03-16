@@ -785,6 +785,10 @@ internal object DictionaryHelper {
                     cv.compareTo(byteArrayToFloat_I(d))
                 } else if (typeD == ETripleComponentTypeExt.INTEGER) {
                     cv.compareTo(BigDecimal.fromBigInteger(byteArrayToInteger_I(d)))
+                } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
+"http://www.w3.org/2001/XMLSchema#decimal".compareTo(byteArrayToTyped_Type(d))
+                } else if (typeD == ETripleComponentTypeExt.STRING) {
+"http://www.w3.org/2001/XMLSchema#decimal".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
@@ -794,6 +798,10 @@ internal object DictionaryHelper {
                     cv.compareTo(byteArrayToFloat_I(d))
                 } else if (typeD == ETripleComponentTypeExt.INTEGER) {
                     -byteArrayToInteger_I(d).compareTo(cv)
+                } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
+"http://www.w3.org/2001/XMLSchema#double".compareTo(byteArrayToTyped_Type(d))
+                } else if (typeD == ETripleComponentTypeExt.STRING) {
+"http://www.w3.org/2001/XMLSchema#double".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
@@ -801,6 +809,28 @@ internal object DictionaryHelper {
                 val cv = byteArrayToFloat_I(c)
                 if (typeD == ETripleComponentTypeExt.INTEGER) {
                     -byteArrayToInteger_I(d).compareTo(cv)
+                } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
+"http://www.w3.org/2001/XMLSchema#float".compareTo(byteArrayToTyped_Type(d))
+                } else if (typeD == ETripleComponentTypeExt.STRING) {
+"http://www.w3.org/2001/XMLSchema#float".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                } else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                }
+            } else if (typeC == ETripleComponentTypeExt.INTEGER) {
+                val cv = byteArrayToFloat_I(c)
+                if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
+"http://www.w3.org/2001/XMLSchema#integer".compareTo(byteArrayToTyped_Type(d))
+                } else if (typeD == ETripleComponentTypeExt.STRING) {
+"http://www.w3.org/2001/XMLSchema#integer".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                } else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                }
+} else if (typeC == ETripleComponentTypeExt.DATE_TIME) {
+                val cv = byteArrayToFloat_I(c)
+                if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
+"http://www.w3.org/2001/XMLSchema#dateTime".compareTo(byteArrayToTyped_Type(d))
+                } else if (typeD == ETripleComponentTypeExt.STRING) {
+"http://www.w3.org/2001/XMLSchema#dateTime".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }

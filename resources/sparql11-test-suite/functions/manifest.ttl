@@ -136,7 +136,7 @@
     dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <strlang03.rq> ;
-           qt:data   <data.ttl> ] ;
+           qt:data   <data1.ttl> ] ;
     mf:result  <strlang03.srx> ;
 	.
 

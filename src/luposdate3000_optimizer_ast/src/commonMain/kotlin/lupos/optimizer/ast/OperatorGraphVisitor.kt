@@ -566,7 +566,7 @@ return LOPBind(query,name,expression,child)
             AOPFunctionCallString(query, t.second[0])
         }
         else -> {
-            TODO("ASTFunctionCall $iri $node")
+            TODO("ASTFunctionCall $iri ${node.variable0}")
         }
     }
 
