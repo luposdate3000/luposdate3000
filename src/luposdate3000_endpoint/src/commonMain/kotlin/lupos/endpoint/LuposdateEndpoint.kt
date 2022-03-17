@@ -591,9 +591,9 @@ public object LuposdateEndpoint {
         MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
         MemoryTable.parseFromAnyRegistered["nt"] = MemoryTableFromNTriple()
         MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
+        MemoryTable.parseFromAnyRegistered["srj"] = MemoryTableFromJson()
         MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
         MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
-//*.srj
         Platform.setShutdownHock {
             close()
         }

@@ -20,12 +20,11 @@ import lupos.parser.xml.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
-import lupos.shared.inline.MyStringStream
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
-import lupos.shared.XMLElementFromXML
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyStringStream
 
 public class MemoryTableFromXML : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable? {
@@ -64,7 +63,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             }
 
             fun contentOfXMLElement(parent: ASTelement): String {
-when (val v = parent.variable2!!) {
+                when (val v = parent.variable2!!) {
                     is ASTClassOfInterfaceOfListOfelementOrtextAndTAG -> {
                         when (val v2 = v.variable0!!) {
                             is ASTListOfelement -> return ""
@@ -75,18 +74,20 @@ when (val v = parent.variable2!!) {
                 }
                 return ""
             }
-fun attributesOfElement(n:String,parent:ASTelement):List<String>{
-return parent.variable1!!.value.filter { it.KEY == n }.map { when(val i=it.variable1!!){
-is ASTvalue1 -> i.VALUE1!!
-is ASTvalue2 -> i.VALUE2!!
-} }
-} 
-fun attributeOfElement(n:String,parent:ASTelement):String{
-return attributesOfElement(n,parent).getOrElse(0,{i->""})
-}
-fun maybeAttributeOfElement(n:String,parent:ASTelement):String?{
-return attributesOfElement(n,parent).getOrElse(0,{i->null})
-}
+            fun attributesOfElement(n: String, parent: ASTelement): List<String> {
+                return parent.variable1!!.value.filter { it.KEY == n }.map {
+                    when (val i = it.variable1!!) {
+                        is ASTvalue1 -> i.VALUE1!!
+                        is ASTvalue2 -> i.VALUE2!!
+                    }
+                }
+            }
+            fun attributeOfElement(n: String, parent: ASTelement): String {
+                return attributesOfElement(n, parent).getOrElse(0, { i -> "" })
+            }
+            fun maybeAttributeOfElement(n: String, parent: ASTelement): String? {
+                return attributesOfElement(n, parent).getOrElse(0, { i -> null })
+            }
 
             val dataStream = MyStringStream(data)
             val parserObject = XMLParser(dataStream)
@@ -97,7 +98,7 @@ return attributesOfElement(n,parent).getOrElse(0,{i->null})
                 return null
             }
             val xmlHead = findChildElementByName("head", xmlSparql)!!
-            val variables = findChildElements(xmlHead).map { attributesOfElement("name",it) }.flatten()
+            val variables = findChildElements(xmlHead).map { attributesOfElement("name", it) }.flatten()
             val res = MemoryTable(variables.toTypedArray())
             res.query = query
             val dictionary = res.query!!.getDictionary()
@@ -113,7 +114,7 @@ return attributesOfElement(n,parent).getOrElse(0,{i->null})
                         res.data.add(row)
                         for (xmlBinding in findChildElements(xmlResult)) {
                             if (xmlBinding.TAG == "binding") {
-                                val column = variables.indexOf(attributeOfElement("name",xmlBinding))
+                                val column = variables.indexOf(attributeOfElement("name", xmlBinding))
                                 val child = findChildElements(xmlBinding).first()
                                 when (child.TAG) {
                                     "bnode" -> {
@@ -125,13 +126,13 @@ return attributesOfElement(n,parent).getOrElse(0,{i->null})
                                         row[column] = tmp
                                     }
                                     "literal" -> {
-                                        val lang = maybeAttributeOfElement("xml:lang",child)
+                                        val lang = maybeAttributeOfElement("xml:lang", child)
                                         if (lang != null) {
                                             DictionaryHelper.langToByteArray(buffer, contentOfXMLElement(child), lang)
                                             val tmp = dictionary.createValue(buffer)
                                             row[column] = tmp
                                         } else {
-                                            val datatype = maybeAttributeOfElement("datatype",child)
+                                            val datatype = maybeAttributeOfElement("datatype", child)
                                             if (datatype != null) {
                                                 DictionaryHelper.typedToByteArray(buffer, contentOfXMLElement(child), datatype)
                                                 val tmp = dictionary.createValue(buffer)
@@ -142,20 +143,26 @@ return attributesOfElement(n,parent).getOrElse(0,{i->null})
                                                 row[column] = tmp
                                             }
                                         }
-                                    }
+                                    }else->{
+TODO("malformed xml .. unknown type ${child.TAG}")
+}
                                 }
-                            }
+                            }else{
+TODO("malformed xml .. unknown type ${xmlBinding.TAG}")
+}
                         }
-                    }
+                    }else{
+TODO("malformed xml .. unknown type ${xmlResult.TAG}")
+}
                 }
             }
             return res
         } catch (e: Throwable) {
-try{
-throw Exception(data,e)
-}catch(e2:Throwable){
-            e2.printStackTrace()
-}
+            try {
+                throw Exception(data, e)
+            } catch (e2: Throwable) {
+                e2.printStackTrace()
+            }
             return null
         }
     }
