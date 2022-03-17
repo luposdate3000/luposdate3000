@@ -1,0 +1,28 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+ <head>
+  <variable name="b"/>
+  <variable name="d"/>
+ </head>
+ <results distinct="false" ordered="true">
+  <result>
+   <binding name="b"><bnode>nodeID://b10014</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10114</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.111</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10214</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.211</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10314</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.311</literal></binding>
+  </result>
+  <result>
+   <binding name="b"><bnode>nodeID://b10414</bnode></binding>
+   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal></binding>
+  </result>
+ </results>
+</sparql>

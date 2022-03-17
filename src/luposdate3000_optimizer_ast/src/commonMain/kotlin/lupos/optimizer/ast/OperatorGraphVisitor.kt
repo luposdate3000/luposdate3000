@@ -531,28 +531,28 @@ public class OperatorGraphVisitor(public val query: Query) {
         if (groupClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val groupingBy = visit069("", false, groupClause.variable0!!)
-            for (f in groupingBy.filter { it.first != null }) {
-                res = createBind(f.second, f.first!!, res)
+            for ((first, second) in groupingBy.filter { it.first != null }) {
+                res = createBind(second, first!!, res)
             }
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit071("", false, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindings + bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         } else if (havingClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit071("", false, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindings + bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         } else if (selectClause != null) {
             if (selectClause.mapNotNull { it.first }.map { it.containsAggregate() }.fold(false) { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
-                for (b in selectClause.filter { it.first != null }) {
-                    res = createBind(AOPVariable(query, b.second), b.first!!, res)
+                for ((first, second) in selectClause.filter { it.first != null }) {
+                    res = createBind(AOPVariable(query, second), first!!, res)
                 }
             }
         }
@@ -593,28 +593,28 @@ public class OperatorGraphVisitor(public val query: Query) {
         if (groupClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val groupingBy = visit069(graph, graphVar, groupClause.variable0!!)
-            for (f in groupingBy.filter { it.first != null }) {
-                res = createBind(f.second, f.first!!, res)
+            for ((first, second) in groupingBy.filter { it.first != null }) {
+                res = createBind(second, first!!, res)
             }
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit071(graph, graphVar, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindings + bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         } else if (havingClause != null) {
             val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit071(graph, graphVar, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindings + bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         } else if (selectClause != null) {
             if (selectClause.mapNotNull { it.first }.map { it.containsAggregate() }.fold(false) { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
-                for (b in selectClause.filter { it.first != null }) {
-                    res = createBind(AOPVariable(query, b.second), b.first!!, res)
+                for ((first, second) in selectClause.filter { it.first != null }) {
+                    res = createBind(AOPVariable(query, second), first!!, res)
                 }
             }
         }
@@ -710,7 +710,7 @@ public class OperatorGraphVisitor(public val query: Query) {
                         }
                     }
                     val cc = if (constants.size > 0) {
-                        LOPValues(query, constants.map { it2 -> AOPVariable(query, it2.first) }, listOf(AOPValue(query, constants.map { it2 -> it2.second })))
+                        LOPValues(query, constants.map { (first) -> AOPVariable(query, first) }, listOf(AOPValue(query, constants.map { it2 -> it2.second })))
                     } else {
                         null
                     }
@@ -718,12 +718,12 @@ public class OperatorGraphVisitor(public val query: Query) {
                         var x: IOPBase = dataSource.cloneOP()
                         x = LOPProjection(query, variables.map { it2 -> it2.second }.toMutableList(), x)
                         x = LOPDistinct(query, x)
-                        for (e in variables) {
-                            x = createBind(AOPVariable(query, "construct#" + e.first), e.second, x)
+                        for ((first, second) in variables) {
+                            x = createBind(AOPVariable(query, "construct#$first"), second, x)
                         }
-                        x = LOPProjection(query, variables.map { it2 -> AOPVariable(query, "construct#" + it2.first) }.toMutableList(), x)
-                        for (e2 in variables) {
-                            x = createBind(AOPVariable(query, e2.first), AOPVariable(query, "construct#" + e2.first), x)
+                        x = LOPProjection(query, variables.map { (first) -> AOPVariable(query, "construct#$first") }.toMutableList(), x)
+                        for ((first) in variables) {
+                            x = createBind(AOPVariable(query, first), AOPVariable(query, "construct#$first"), x)
                         }
                         x
                     } else {
@@ -760,19 +760,19 @@ public class OperatorGraphVisitor(public val query: Query) {
         val havingClause = solutionModifier.variable1!!.variable0
         if (groupClause != null) {
             val groupingBy = visit069("", false, groupClause.variable0!!)
-            for (f in groupingBy.filter { it.first != null }) {
-                res = createBind(f.second, f.first!!, res)
+            for ((first, second) in groupingBy.filter { it.first != null }) {
+                res = createBind(second, first!!, res)
             }
             val bindingsForHaving: List<Pair<String, AOPBase>> = havingClause?.let { visit071("", false, it).map { it2 -> "_ASTSelectQuery#${counter++}" to it2 } }.orEmpty()
             res = LOPGroup(query, groupingBy.map { it.second }, bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         } else if (havingClause != null) {
             val bindingsForHaving: List<Pair<String, AOPBase>> = visit071("", false, havingClause).map { "_ASTSelectQuery#${counter++}" to it }
             res = LOPGroup(query, listOf(), bindingsForHaving, res)
-            for (x in bindingsForHaving) {
-                res = LOPFilter(query, AOPVariable(query, x.first), res)
+            for ((first) in bindingsForHaving) {
+                res = LOPFilter(query, AOPVariable(query, first), res)
             }
         }
         val orderClause = solutionModifier.variable2!!.variable0
@@ -800,8 +800,8 @@ public class OperatorGraphVisitor(public val query: Query) {
                 res = createBind(AOPVariable(query, name), tt, res)
             }
         }
-        for (x in names) {
-            res = LOPSort(query, x.first, AOPVariable(query, x.second), res)
+        for ((first, second) in names) {
+            res = LOPSort(query, first, AOPVariable(query, second), res)
         }
         return res
     }
@@ -1603,39 +1603,48 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit086(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
         var triplesBlockPrevious = visit082(blankNodeToVariable, graph, graphVar, node.variable0!!) as List<IOPBase>
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
+        val allFilter = mutableListOf<ASTFilter>()//filters are always applied at the end of a ASTGroupGraphPatternSub
         if (triplesBlockPrevious.isEmpty()) {
             if (listNotTriples.size == 0) {
                 return OPEmptyRow(query)
             }
             val v = listNotTriples.removeAt(0)
-            triplesBlockPrevious = visit082(blankNodeToVariable, graph, graphVar, v.variable2!!) + visit084(blankNodeToVariable, graph, graphVar, v.variable0!!)
+            val tmp = visit084(blankNodeToVariable, graph, graphVar, v.variable0!!)
+            triplesBlockPrevious = visit082(blankNodeToVariable, graph, graphVar, v.variable2!!) + tmp.second
+
         }
-        return listNotTriples.fold(
+        var res = listNotTriples.fold(
             triplesBlockPrevious.reduce { s, t ->
                 LOPJoin(query, s, t, false)
             }
         ) { u, v ->
-            (visit082(blankNodeToVariable, graph, graphVar, v.variable2!!) + visit085(blankNodeToVariable, graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
+            val tmp = visit085(blankNodeToVariable, graph, graphVar, v.variable0!!, u)
+            allFilter.addAll(tmp.first)
+            (visit082(blankNodeToVariable, graph, graphVar, v.variable2!!) + tmp.second).reduce { s, t -> LOPJoin(query, s, t, false) }
         }
+        for (f in allFilter) {
+            res = LOPFilter(query, visit155(graph, graphVar, f.variable0!!), res)
+        }
+        return res
     }
 
-    private fun visit085(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): IOPBase = when (node) {
-        is ASTOptionalGraphPattern -> visit015(blankNodeToVariable, graph, graphVar, node, child)
-        is ASTGroupOrUnionGraphPattern -> visit014(blankNodeToVariable, graph, graphVar, node, child)
-        is ASTMinusGraphPattern -> visit012(blankNodeToVariable, graph, graphVar, node, child)
-        is ASTGraphGraphPattern -> visit087(blankNodeToVariable, node, child)
-        is ASTServiceGraphPattern -> visit009(graph, graphVar, node, child)
+    private fun visit085(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): Pair<List<ASTFilter>, IOPBase> = when (node) {
+        is ASTOptionalGraphPattern -> listOf<ASTFilter>() to visit015(blankNodeToVariable, graph, graphVar, node, child)
+        is ASTGroupOrUnionGraphPattern -> listOf<ASTFilter>() to visit014(blankNodeToVariable, graph, graphVar, node, child)
+        is ASTMinusGraphPattern -> listOf<ASTFilter>() to visit012(blankNodeToVariable, graph, graphVar, node, child)
+        is ASTGraphGraphPattern -> listOf<ASTFilter>() to visit087(blankNodeToVariable, node, child)
+        is ASTServiceGraphPattern -> listOf<ASTFilter>() to visit009(graph, graphVar, node, child)
         is ASTFilter -> visit011(graph, graphVar, node, child)
-        is ASTBind -> visit010(graph, graphVar, node, child)
-        is ASTValuesClause -> visit058(node)
+        is ASTBind -> listOf<ASTFilter>() to visit010(graph, graphVar, node, child)
+        is ASTValuesClause -> listOf<ASTFilter>() to visit058(node)
     }
 
-    private fun visit084(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): IOPBase = when (node) {
-        is ASTGroupOrUnionGraphPattern -> visit013(blankNodeToVariable, graph, graphVar, node)
+    private fun visit084(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples): Pair<List<ASTFilter>, IOPBase> = when (node) {
+        is ASTGroupOrUnionGraphPattern -> listOf<ASTFilter>() to visit013(blankNodeToVariable, graph, graphVar, node)
         is ASTFilter -> visit011(graph, graphVar, node, OPEmptyRow(query))
-        is ASTValuesClause -> visit064(node)
-        is ASTBind -> visit010(graph, graphVar, node, OPEmptyRow(query))
-        is ASTGraphGraphPattern -> visit087(blankNodeToVariable, node, OPEmptyRow(query))
+        is ASTValuesClause -> listOf<ASTFilter>() to visit064(node)
+        is ASTBind -> listOf<ASTFilter>() to visit010(graph, graphVar, node, OPEmptyRow(query))
+        is ASTGraphGraphPattern -> listOf<ASTFilter>() to visit087(blankNodeToVariable, node, OPEmptyRow(query))
         else -> TODO(node.toString())
     }
 
@@ -1731,7 +1740,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit014(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit026(blankNodeToVariable, graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }, false)
     private fun visit013(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit026(blankNodeToVariable, graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }
     private fun visit012(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTMinusGraphPattern, child: IOPBase) = LOPMinus(query, child, visit026(blankNodeToVariable, graph, graphVar, node.variable0!!), mutableListOf())
-    private fun visit011(graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = /*TODO move this to end of group*/LOPFilter(query, visit155(graph, graphVar, node.variable0!!), child)
+    private fun visit011(graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = listOf(node) to child
     private fun visit010(graph: String, graphVar: Boolean, node: ASTBind, child: IOPBase) = createBind(visit153(node.variable1!!), visit033(graph, graphVar, node.variable0!!), child)
     private fun visit009(graph: String, graphVar: Boolean, node: ASTServiceGraphPattern, child: IOPBase): IOPBase = TODO("service not implemented")
     private fun visit008(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")
