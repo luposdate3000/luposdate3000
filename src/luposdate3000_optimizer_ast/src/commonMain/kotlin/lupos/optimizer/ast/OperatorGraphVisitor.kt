@@ -472,7 +472,7 @@ public class OperatorGraphVisitor(public val query: Query) {
             is ASTDescribeQuery -> visit008(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
             is ASTAskQuery -> visit164(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, valuesClause)
         }
-        if (variableOrdering.size == 0) {
+        if (variableOrdering.isEmpty()) {
             variableOrdering.add(child.getProvidedVariableNames().filter { !it.contains("#") })
         }
         return OPBaseCompound(query, arrayOf(child), variableOrdering)
@@ -495,12 +495,15 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-        // println("inputAST " + node)
+
+//         println("inputAST " + node)
+//lupos.parser.sparql.SparqlParser(lupos.shared.inline.MyStringStream("")).printASTSparqlDoc(node)
+//println()
         val res = when (val v1 = node.variable1!!) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit171(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit076(node.variable0!!, v1)
         }
-        //println(res)
+  //      println(res)
         return res
     }
 
@@ -670,7 +673,7 @@ public class OperatorGraphVisitor(public val query: Query) {
             }
         }
         val labels = arrayOf("s", "p", "o")
-        if (constructTriples.size == 0) {
+        if (constructTriples.isEmpty()) {
             return LOPProjection(query, labels.map { AOPVariable(query, it) }.toMutableList(), OPEmptyRow(query))
         }
         if (datasetClauses.value.size > 0) {
@@ -1605,13 +1608,13 @@ public class OperatorGraphVisitor(public val query: Query) {
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
         val allFilter = mutableListOf<ASTFilter>()//filters are always applied at the end of a ASTGroupGraphPatternSub
         if (triplesBlockPrevious.isEmpty()) {
-            if (listNotTriples.size == 0) {
+            if (listNotTriples.isEmpty()) {
                 return OPEmptyRow(query)
             }
             val v = listNotTriples.removeAt(0)
             val tmp = visit084(blankNodeToVariable, graph, graphVar, v.variable0!!)
+allFilter.addAll(tmp.first)
             triplesBlockPrevious = visit082(blankNodeToVariable, graph, graphVar, v.variable2!!) + tmp.second
-
         }
         var res = listNotTriples.fold(
             triplesBlockPrevious.reduce { s, t ->
