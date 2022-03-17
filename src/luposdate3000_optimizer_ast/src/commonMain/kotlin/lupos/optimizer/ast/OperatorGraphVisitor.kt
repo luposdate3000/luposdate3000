@@ -110,8 +110,291 @@ import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
-import lupos.parser.sparql.*
-import lupos.parser.sparql.SparqlParser.*
+import lupos.parser.sparql.ASTAdd
+import lupos.parser.sparql.ASTAdditiveExpression
+import lupos.parser.sparql.ASTAdditiveExpressionDIVIDE
+import lupos.parser.sparql.ASTAdditiveExpressionMINUS
+import lupos.parser.sparql.ASTAdditiveExpressionMULTIPLY
+import lupos.parser.sparql.ASTAdditiveExpressionPLUS
+import lupos.parser.sparql.ASTAggregate
+import lupos.parser.sparql.ASTAggregateAvg
+import lupos.parser.sparql.ASTAggregateCount
+import lupos.parser.sparql.ASTAggregateCountAll
+import lupos.parser.sparql.ASTAggregateGroupConcat
+import lupos.parser.sparql.ASTAggregateMax
+import lupos.parser.sparql.ASTAggregateMin
+import lupos.parser.sparql.ASTAggregateSample
+import lupos.parser.sparql.ASTAggregateSum
+import lupos.parser.sparql.ASTArgList
+import lupos.parser.sparql.ASTAskQuery
+import lupos.parser.sparql.ASTBaseDecl
+import lupos.parser.sparql.ASTBind
+import lupos.parser.sparql.ASTBlankNode
+import lupos.parser.sparql.ASTBlankNodeANON
+import lupos.parser.sparql.ASTBlankNodeLabel
+import lupos.parser.sparql.ASTBlankNodePropertyList
+import lupos.parser.sparql.ASTBlankNodePropertyListPath
+import lupos.parser.sparql.ASTBooleanLiteral
+import lupos.parser.sparql.ASTBooleanLiteralFalse
+import lupos.parser.sparql.ASTBooleanLiteralTrue
+import lupos.parser.sparql.ASTBrackettedExpression
+import lupos.parser.sparql.ASTBuildInCallLangMatches
+import lupos.parser.sparql.ASTBuiltInCall
+import lupos.parser.sparql.ASTBuiltInCallAbs
+import lupos.parser.sparql.ASTBuiltInCallBNode
+import lupos.parser.sparql.ASTBuiltInCallBound
+import lupos.parser.sparql.ASTBuiltInCallCeil
+import lupos.parser.sparql.ASTBuiltInCallCoalesce
+import lupos.parser.sparql.ASTBuiltInCallConcat
+import lupos.parser.sparql.ASTBuiltInCallContains
+import lupos.parser.sparql.ASTBuiltInCallDataType
+import lupos.parser.sparql.ASTBuiltInCallDay
+import lupos.parser.sparql.ASTBuiltInCallEncodeForUri
+import lupos.parser.sparql.ASTBuiltInCallFloor
+import lupos.parser.sparql.ASTBuiltInCallHours
+import lupos.parser.sparql.ASTBuiltInCallIf
+import lupos.parser.sparql.ASTBuiltInCallIri
+import lupos.parser.sparql.ASTBuiltInCallIsBlanc
+import lupos.parser.sparql.ASTBuiltInCallIsIri
+import lupos.parser.sparql.ASTBuiltInCallIsLiteral
+import lupos.parser.sparql.ASTBuiltInCallIsNumeric
+import lupos.parser.sparql.ASTBuiltInCallIsUri
+import lupos.parser.sparql.ASTBuiltInCallLCase
+import lupos.parser.sparql.ASTBuiltInCallLang
+import lupos.parser.sparql.ASTBuiltInCallMD5
+import lupos.parser.sparql.ASTBuiltInCallMinutes
+import lupos.parser.sparql.ASTBuiltInCallMonth
+import lupos.parser.sparql.ASTBuiltInCallNow
+import lupos.parser.sparql.ASTBuiltInCallRand
+import lupos.parser.sparql.ASTBuiltInCallRound
+import lupos.parser.sparql.ASTBuiltInCallSHA1
+import lupos.parser.sparql.ASTBuiltInCallSHA256
+import lupos.parser.sparql.ASTBuiltInCallSHA384
+import lupos.parser.sparql.ASTBuiltInCallSHA512
+import lupos.parser.sparql.ASTBuiltInCallSTRUUID
+import lupos.parser.sparql.ASTBuiltInCallSameTerm
+import lupos.parser.sparql.ASTBuiltInCallSeconds
+import lupos.parser.sparql.ASTBuiltInCallStr
+import lupos.parser.sparql.ASTBuiltInCallStrAfter
+import lupos.parser.sparql.ASTBuiltInCallStrBefore
+import lupos.parser.sparql.ASTBuiltInCallStrDt
+import lupos.parser.sparql.ASTBuiltInCallStrEnds
+import lupos.parser.sparql.ASTBuiltInCallStrLang
+import lupos.parser.sparql.ASTBuiltInCallStrLen
+import lupos.parser.sparql.ASTBuiltInCallStrStarts
+import lupos.parser.sparql.ASTBuiltInCallTimezone
+import lupos.parser.sparql.ASTBuiltInCallTz
+import lupos.parser.sparql.ASTBuiltInCallUCase
+import lupos.parser.sparql.ASTBuiltInCallUUID
+import lupos.parser.sparql.ASTBuiltInCallUri
+import lupos.parser.sparql.ASTBuiltInCallYear
+import lupos.parser.sparql.ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier
+import lupos.parser.sparql.ASTClassOfDISTINCTAndExpressionAndListOfExpression
+import lupos.parser.sparql.ASTClassOfDeleteClauseAndInsertClauseOptional
+import lupos.parser.sparql.ASTClassOfExpressionAndListOfExpression
+import lupos.parser.sparql.ASTClassOfExpressionAndVar
+import lupos.parser.sparql.ASTClassOfExpressionAndVarOptional
+import lupos.parser.sparql.ASTClassOfGRAPHAndiri
+import lupos.parser.sparql.ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional
+import lupos.parser.sparql.ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE
+import lupos.parser.sparql.ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional
+import lupos.parser.sparql.ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList
+import lupos.parser.sparql.ASTClassOfLimitClauseAndOffsetClauseOptional
+import lupos.parser.sparql.ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier
+import lupos.parser.sparql.ASTClassOfOffsetClauseAndLimitClauseOptional
+import lupos.parser.sparql.ASTClassOfPrologueAndUpdate
+import lupos.parser.sparql.ASTClassOfPrologueAndUpdateOptional
+import lupos.parser.sparql.ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional
+import lupos.parser.sparql.ASTClassOfTriplesNodeAndPropertyListOptional
+import lupos.parser.sparql.ASTClassOfTriplesNodePathAndPropertyListPathOptional
+import lupos.parser.sparql.ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional
+import lupos.parser.sparql.ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional
+import lupos.parser.sparql.ASTClassOfVarOrTermAndPropertyListNotEmpty
+import lupos.parser.sparql.ASTClassOfVarOrTermAndPropertyListPathNotEmpty
+import lupos.parser.sparql.ASTClassOfVerbAndObjectList
+import lupos.parser.sparql.ASTClassOfVerbAndObjectListOptional
+import lupos.parser.sparql.ASTClear
+import lupos.parser.sparql.ASTCollection
+import lupos.parser.sparql.ASTCollectionPath
+import lupos.parser.sparql.ASTConditionalAndExpression
+import lupos.parser.sparql.ASTConditionalOrExpression
+import lupos.parser.sparql.ASTConstraint
+import lupos.parser.sparql.ASTConstructQuery
+import lupos.parser.sparql.ASTConstructTemplate
+import lupos.parser.sparql.ASTConstructTriples
+import lupos.parser.sparql.ASTConstructTriplesOptional
+import lupos.parser.sparql.ASTConstructTriplesOptionalOptional
+import lupos.parser.sparql.ASTCopy
+import lupos.parser.sparql.ASTCreate
+import lupos.parser.sparql.ASTDataBlock
+import lupos.parser.sparql.ASTDataBlockValue
+import lupos.parser.sparql.ASTDeleteClause
+import lupos.parser.sparql.ASTDeleteData
+import lupos.parser.sparql.ASTDeleteWhere
+import lupos.parser.sparql.ASTDescribeQuery
+import lupos.parser.sparql.ASTDrop
+import lupos.parser.sparql.ASTEnumOfASCAndDESC
+import lupos.parser.sparql.ASTEnumOfDISTINCTAndREDUCED
+import lupos.parser.sparql.ASTEnumOfoptionalAndanyAndatLeastOne
+import lupos.parser.sparql.ASTExistsFunc
+import lupos.parser.sparql.ASTExpression
+import lupos.parser.sparql.ASTExpressionList
+import lupos.parser.sparql.ASTFilter
+import lupos.parser.sparql.ASTFunctionCall
+import lupos.parser.sparql.ASTGraphGraphPattern
+import lupos.parser.sparql.ASTGraphNode
+import lupos.parser.sparql.ASTGraphNodePath
+import lupos.parser.sparql.ASTGraphOrDefault
+import lupos.parser.sparql.ASTGraphPatternNotTriples
+import lupos.parser.sparql.ASTGraphRef
+import lupos.parser.sparql.ASTGraphRefAll
+import lupos.parser.sparql.ASTGraphRefAll2
+import lupos.parser.sparql.ASTGraphRefDefault
+import lupos.parser.sparql.ASTGraphRefNamed
+import lupos.parser.sparql.ASTGraphTerm
+import lupos.parser.sparql.ASTGroupCondition
+import lupos.parser.sparql.ASTGroupGraphPattern
+import lupos.parser.sparql.ASTGroupGraphPatternSub
+import lupos.parser.sparql.ASTGroupOrUnionGraphPattern
+import lupos.parser.sparql.ASTHavingClause
+import lupos.parser.sparql.ASTHavingCondition
+import lupos.parser.sparql.ASTInlineDataFull
+import lupos.parser.sparql.ASTInlineDataOneVar
+import lupos.parser.sparql.ASTInsertClause
+import lupos.parser.sparql.ASTInsertClauseOptional
+import lupos.parser.sparql.ASTInsertData
+import lupos.parser.sparql.ASTInterfaceOfAggregateCountAllOrExpression
+import lupos.parser.sparql.ASTInterfaceOfBaseDeclOrPrefixDecl
+import lupos.parser.sparql.ASTInterfaceOfConstraintOrVar
+import lupos.parser.sparql.ASTInterfaceOfListOfDataBlockValueOrNILParam
+import lupos.parser.sparql.ASTInterfaceOfSubSelectOrGroupGraphPatternSub
+import lupos.parser.sparql.ASTInterfaceOfVerbPathOrVerbSimple
+import lupos.parser.sparql.ASTLimitClause
+import lupos.parser.sparql.ASTLimitClauseOptional
+import lupos.parser.sparql.ASTLimitOffsetClauses
+import lupos.parser.sparql.ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional
+import lupos.parser.sparql.ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional
+import lupos.parser.sparql.ASTListOfClassOfVerbAndObjectListOptional
+import lupos.parser.sparql.ASTListOfConditionalAndExpression
+import lupos.parser.sparql.ASTListOfDataBlockValue
+import lupos.parser.sparql.ASTListOfDatasetClause
+import lupos.parser.sparql.ASTListOfGroupCondition
+import lupos.parser.sparql.ASTListOfHavingCondition
+import lupos.parser.sparql.ASTListOfInterfaceOfListOfDataBlockValueOrNILParam
+import lupos.parser.sparql.ASTListOfInterfaceOfVarOrClassOfExpressionAndVar
+import lupos.parser.sparql.ASTListOfUsingClause
+import lupos.parser.sparql.ASTListOfValueLogical
+import lupos.parser.sparql.ASTListOfVar
+import lupos.parser.sparql.ASTLoad
+import lupos.parser.sparql.ASTMinusGraphPattern
+import lupos.parser.sparql.ASTModify
+import lupos.parser.sparql.ASTMove
+import lupos.parser.sparql.ASTMultiplicativeExpression
+import lupos.parser.sparql.ASTMultiplicativeExpressionDIVIDE
+import lupos.parser.sparql.ASTMultiplicativeExpressionMULTIPLY
+import lupos.parser.sparql.ASTNILParam
+import lupos.parser.sparql.ASTNotExistsFunc
+import lupos.parser.sparql.ASTNumericExpression
+import lupos.parser.sparql.ASTNumericLiteral
+import lupos.parser.sparql.ASTNumericLiteralNegative
+import lupos.parser.sparql.ASTNumericLiteralNegativeDecimal
+import lupos.parser.sparql.ASTNumericLiteralNegativeDouble
+import lupos.parser.sparql.ASTNumericLiteralNegativeInteger
+import lupos.parser.sparql.ASTNumericLiteralPositive
+import lupos.parser.sparql.ASTNumericLiteralPositiveDecimal
+import lupos.parser.sparql.ASTNumericLiteralPositiveDouble
+import lupos.parser.sparql.ASTNumericLiteralPositiveInteger
+import lupos.parser.sparql.ASTNumericLiteralUnsigned
+import lupos.parser.sparql.ASTNumericLiteralUnsignedDecimal
+import lupos.parser.sparql.ASTNumericLiteralUnsignedDouble
+import lupos.parser.sparql.ASTNumericLiteralUnsignedInteger
+import lupos.parser.sparql.ASTObject
+import lupos.parser.sparql.ASTObjectList
+import lupos.parser.sparql.ASTObjectListPath
+import lupos.parser.sparql.ASTObjectPath
+import lupos.parser.sparql.ASTOffsetClause
+import lupos.parser.sparql.ASTOffsetClauseOptional
+import lupos.parser.sparql.ASTOptionalGraphPattern
+import lupos.parser.sparql.ASTOrderClause
+import lupos.parser.sparql.ASTPath
+import lupos.parser.sparql.ASTPathAlternative
+import lupos.parser.sparql.ASTPathElt
+import lupos.parser.sparql.ASTPathEltOrInverse
+import lupos.parser.sparql.ASTPathNegatedPropertySet
+import lupos.parser.sparql.ASTPathPrimary
+import lupos.parser.sparql.ASTPathSequence
+import lupos.parser.sparql.ASTPrefixDecl
+import lupos.parser.sparql.ASTPrefixedNameLN
+import lupos.parser.sparql.ASTPrefixedNameNS
+import lupos.parser.sparql.ASTPrimaryExpression
+import lupos.parser.sparql.ASTPrologue
+import lupos.parser.sparql.ASTPropertyList
+import lupos.parser.sparql.ASTPropertyListNotEmpty
+import lupos.parser.sparql.ASTPropertyListOptional
+import lupos.parser.sparql.ASTPropertyListPath
+import lupos.parser.sparql.ASTPropertyListPathNotEmpty
+import lupos.parser.sparql.ASTPropertyListPathOptional
+import lupos.parser.sparql.ASTQuadData
+import lupos.parser.sparql.ASTQuadPattern
+import lupos.parser.sparql.ASTQuads
+import lupos.parser.sparql.ASTQuadsNotTriples
+import lupos.parser.sparql.ASTRDFLiteral
+import lupos.parser.sparql.ASTRDFLiteralLang
+import lupos.parser.sparql.ASTRDFType
+import lupos.parser.sparql.ASTRegexExpression
+import lupos.parser.sparql.ASTRelationalExpression
+import lupos.parser.sparql.ASTRelationalExpressionEQ
+import lupos.parser.sparql.ASTRelationalExpressionGEQ
+import lupos.parser.sparql.ASTRelationalExpressionGT
+import lupos.parser.sparql.ASTRelationalExpressionIN
+import lupos.parser.sparql.ASTRelationalExpressionLEQ
+import lupos.parser.sparql.ASTRelationalExpressionLT
+import lupos.parser.sparql.ASTRelationalExpressionNEQ
+import lupos.parser.sparql.ASTRelationalExpressionNOTIN
+import lupos.parser.sparql.ASTSelectClause
+import lupos.parser.sparql.ASTSelectClauseAll
+import lupos.parser.sparql.ASTSelectQuery
+import lupos.parser.sparql.ASTServiceGraphPattern
+import lupos.parser.sparql.ASTSolutionModifier
+import lupos.parser.sparql.ASTSparqlDoc
+import lupos.parser.sparql.ASTStrReplaceExpression
+import lupos.parser.sparql.ASTString
+import lupos.parser.sparql.ASTString1
+import lupos.parser.sparql.ASTString1long
+import lupos.parser.sparql.ASTString2
+import lupos.parser.sparql.ASTString2long
+import lupos.parser.sparql.ASTSubSelect
+import lupos.parser.sparql.ASTSubstringExpression
+import lupos.parser.sparql.ASTTriplesBlock
+import lupos.parser.sparql.ASTTriplesBlockOptional
+import lupos.parser.sparql.ASTTriplesBlockOptionalOptional
+import lupos.parser.sparql.ASTTriplesNode
+import lupos.parser.sparql.ASTTriplesNodePath
+import lupos.parser.sparql.ASTTriplesSameSubject
+import lupos.parser.sparql.ASTTriplesSameSubjectPath
+import lupos.parser.sparql.ASTTriplesTemplate
+import lupos.parser.sparql.ASTTriplesTemplateOptional
+import lupos.parser.sparql.ASTTriplesTemplateOptionalOptional
+import lupos.parser.sparql.ASTUNDEF
+import lupos.parser.sparql.ASTUnaryExpression
+import lupos.parser.sparql.ASTUnaryExpressionMINUS
+import lupos.parser.sparql.ASTUnaryExpressionNOT
+import lupos.parser.sparql.ASTUnaryExpressionPLUS
+import lupos.parser.sparql.ASTUpdate
+import lupos.parser.sparql.ASTUpdate1
+import lupos.parser.sparql.ASTValueLogical
+import lupos.parser.sparql.ASTValuesClause
+import lupos.parser.sparql.ASTVar
+import lupos.parser.sparql.ASTVar1
+import lupos.parser.sparql.ASTVar2
+import lupos.parser.sparql.ASTVarOrTerm
+import lupos.parser.sparql.ASTVerb
+import lupos.parser.sparql.ASTVerbPath
+import lupos.parser.sparql.ASTVerbSimple
+import lupos.parser.sparql.ASTWhereClause
+import lupos.parser.sparql.ASTiri
+import lupos.parser.sparql.ASTiriOrFunction
+import lupos.parser.sparql.ASTiriRef
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.EGraphOperationTypeExt
@@ -123,7 +406,7 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 
 public class OperatorGraphVisitor(public val query: Query) {
-    public val queryExecutionStartTime: ByteArrayWrapper = ByteArrayWrapper()
+    private val queryExecutionStartTime: ByteArrayWrapper = ByteArrayWrapper()
     private var counter = 0
     private val prefixMap = mutableMapOf("" to "")
 
@@ -131,13 +414,10 @@ public class OperatorGraphVisitor(public val query: Query) {
         DictionaryHelper.dateTimeToByteArray(queryExecutionStartTime)
     }
 
-    private fun initializeEnum(value: Int?): Int = value?.let { it } ?: 0
+    private fun initializeEnum(value: Int?): Int = value ?: 0
     private fun decodeIri(ns: String) = prefixMap[ns]!!
     private fun decodeIri(ns: String, p: String): String {
-        val tmp = prefixMap[ns]
-        if (tmp == null) {
-            TODO("prefix '$ns' not registered - instead there are ${prefixMap.toList()}")
-        }
+        val tmp = prefixMap[ns] ?: TODO("prefix '$ns' not registered - instead there are ${prefixMap.toList()}")
         return tmp + p
     }
 
@@ -155,7 +435,7 @@ return LOPBind(query,name,expression,child)
     private fun visit(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar): MutableList<Pair<AOPBase?, String>> {
         val names = mutableListOf<Pair<AOPBase?, String>>()
         fun extractName(b: AOPBase?, n: ASTVar) {
-            val unused = when (n) {
+            val unused= when (n) {
                 is ASTVar1 -> names.add(b to n.VAR1!!.drop(1))
                 is ASTVar2 -> names.add(b to n.VAR2!!.drop(1))
             }
@@ -180,7 +460,7 @@ return LOPBind(query,name,expression,child)
         val classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional = v1.variable0!!
         val valuesClauseOptional = v1.variable1
         val valuesClause = valuesClauseOptional!!.variable0
-        var child = when (classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional) {
+        val child = when (classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional) {
             is ASTSelectQuery -> {
                 val tmp = visit(classOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional.variable0!!).second
                 if (tmp != null) {
@@ -267,7 +547,7 @@ return LOPBind(query,name,expression,child)
                 res = LOPFilter(query, AOPVariable(query, x.first), res)
             }
         } else if (selectClause != null) {
-            if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.fold(false) { s, t -> s || t }) {
+            if (selectClause.mapNotNull { it.first }.map { it.containsAggregate() }.fold(false) { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
@@ -329,7 +609,7 @@ return LOPBind(query,name,expression,child)
                 res = LOPFilter(query, AOPVariable(query, x.first), res)
             }
         } else if (selectClause != null) {
-            if (selectClause.map { it.first }.filterNotNull().map { it!!.containsAggregate() }.fold(false) { s, t -> s || t }) {
+            if (selectClause.mapNotNull { it.first }.map { it.containsAggregate() }.fold(false) { s, t -> s || t }) {
                 val bindings = selectClause.orEmpty().filter { it.first != null }.map { it.second to it.first!! }
                 res = LOPGroup(query, listOf(), bindings, res)
             } else {
@@ -359,7 +639,7 @@ return LOPBind(query,name,expression,child)
     }
 
     private fun visit(node: ASTConstructQuery, valuesClause: ASTValuesClause?): IOPBase {
-        var constructTriples = mutableListOf<LOPTriple>()
+        val constructTriples = mutableListOf<LOPTriple>()
         var datasetClauses: ASTListOfDatasetClause? = null
         var solutionModifier: ASTSolutionModifier? = null
         var dataSource: IOPBase = when (val tmp = node.variable0!!) {
@@ -374,13 +654,13 @@ return LOPBind(query,name,expression,child)
                 solutionModifier = tmp.variable2!!
                 val tt = visit(true, "", false, tmp.variable1!!)
                 fun extractTriplesFromSimpleJoins(node2: IOPBase): List<LOPTriple> {
-                    when (node2) {
-                        is LOPTriple -> return listOf(node2)
+                    return when (node2) {
+                        is LOPTriple -> listOf(node2)
                         is LOPJoin -> {
                             if (node2.optional) {
                                 TODO("optional is not allowed in short construct query form")
                             }
-                            return extractTriplesFromSimpleJoins(node2.children[0]) + extractTriplesFromSimpleJoins(node2.children[1])
+                            extractTriplesFromSimpleJoins(node2.children[0]) + extractTriplesFromSimpleJoins(node2.children[1])
                         }
                         else -> TODO("this operator (${node2.getClassname()}) is not allowed in short construct query form")
                     }
@@ -430,18 +710,18 @@ return LOPBind(query,name,expression,child)
                         }
                     }
                     val cc = if (constants.size > 0) {
-                        LOPValues(query, constants.map { AOPVariable(query, it.first) }, listOf(AOPValue(query, constants.map { it.second })))
+                        LOPValues(query, constants.map { it2->AOPVariable(query, it2.first) }, listOf(AOPValue(query, constants.map {it2-> it2.second })))
                     } else {
                         null
                     }
                     val vv = if (variables.size > 0) {
                         var x: IOPBase = dataSource.cloneOP()
-                        x = LOPProjection(query, variables.map { it.second }.toMutableList(), x)
+                        x = LOPProjection(query, variables.map { it2->it2.second }.toMutableList(), x)
                         x = LOPDistinct(query, x)
                         for (e in variables) {
                             x = createBind( AOPVariable(query, "construct#" + e.first), e.second, x)
                         }
-                        x = LOPProjection(query, variables.map { AOPVariable(query, "construct#" + it.first) }.toMutableList(), x)
+                        x = LOPProjection(query, variables.map {it2-> AOPVariable(query, "construct#" + it2.first) }.toMutableList(), x)
                         for (e2 in variables) {
                             x = createBind( AOPVariable(query, e2.first), AOPVariable(query, "construct#" + e2.first), x)
                         }
@@ -452,9 +732,9 @@ return LOPBind(query,name,expression,child)
                     if (vv == null) {
                         cc!!
                     } else if (cc == null) {
-                        vv!!
+                        vv
                     } else {
-                        LOPJoin(query, cc!!, vv!!, false)
+                        LOPJoin(query, cc, vv, false)
                     }
                 }.reduce { s, t -> LOPUnion(query, s, t) }
             )
@@ -1323,7 +1603,7 @@ return LOPBind(query,name,expression,child)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupGraphPatternSub): IOPBase {
         var triplesBlockPrevious = visit(blankNodeToVariable, graph, graphVar, node.variable0!!) as List<IOPBase>
         val listNotTriples: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional> = node.variable1!!.value
-        if (triplesBlockPrevious.size == 0) {
+        if (triplesBlockPrevious.isEmpty()) {
             if (listNotTriples.size == 0) {
                 return OPEmptyRow(query)
             }
@@ -1333,11 +1613,10 @@ return LOPBind(query,name,expression,child)
         return listNotTriples.fold(
             triplesBlockPrevious.reduce { s, t ->
                 LOPJoin(query, s, t, false)
-            },
-            { u, v ->
-                (visit(blankNodeToVariable, graph, graphVar, v.variable2!!) + visit(blankNodeToVariable, graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
             }
-        )
+        ) { u, v ->
+            (visit(blankNodeToVariable, graph, graphVar, v.variable2!!) + visit(blankNodeToVariable, graph, graphVar, v.variable0!!, u)).reduce { s, t -> LOPJoin(query, s, t, false) }
+        }
     }
 
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGraphPatternNotTriples, child: IOPBase): IOPBase = when (node) {
