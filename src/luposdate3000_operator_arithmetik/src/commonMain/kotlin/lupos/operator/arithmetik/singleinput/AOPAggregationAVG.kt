@@ -17,6 +17,10 @@
 package lupos.operator.arithmetik.singleinput
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.DecimalMode
+import com.ionspin.kotlin.bignum.decimal.div
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorAggregate
@@ -50,7 +54,10 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         private var isError = false
         private var hasInit = false
         private var counter = 0
-
+internal companion object{
+private var debugCounter=0
+}
+private val debugID=debugCounter++
         init {
             DictionaryHelper.undefToByteArray(buffer)
         }
@@ -80,22 +87,22 @@ counter++
                 when (DictionaryHelper.byteArrayToType(buffer)) {
                     ETripleComponentTypeExt.DECIMAL -> {
                         val a = DictionaryHelper.byteArrayToDecimal_I(buffer)
-                        val res = a / counter
+                        val res = a.divide(counter.toBigDecimal() ,DecimalMode(20, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO))
                         DictionaryHelper.decimalToByteArray(buffer, res)
                     }
                     ETripleComponentTypeExt.DOUBLE -> {
                         val a = DictionaryHelper.byteArrayToDouble_I(buffer)
-                        val res = a / counter
+val res=a/counter
                         DictionaryHelper.doubleToByteArray(buffer, res)
                     }
                     ETripleComponentTypeExt.FLOAT -> {
                         val a = DictionaryHelper.byteArrayToFloat_I(buffer)
-                        val res = a / counter
+val res=a/counter
                         DictionaryHelper.floatToByteArray(buffer, res)
                     }
                     ETripleComponentTypeExt.INTEGER -> {
                         val a = DictionaryHelper.byteArrayToInteger_I(buffer)
-                        val res = BigDecimal.fromBigInteger(a) / counter
+                        val res = BigDecimal.fromBigInteger(a).divide(counter.toBigDecimal() ,DecimalMode(20, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO))
                         DictionaryHelper.decimalToByteArray(buffer, res)
                     }
                 }

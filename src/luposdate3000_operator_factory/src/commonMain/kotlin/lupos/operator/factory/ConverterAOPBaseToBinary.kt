@@ -54,6 +54,7 @@ import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
 import lupos.operator.arithmetik.multiinput.AOPGEQ
+import lupos.operator.arithmetik.multiinput.AOPLEQ
 import lupos.operator.arithmetik.multiinput.AOPGT
 import lupos.operator.arithmetik.multiinput.AOPIn
 import lupos.operator.arithmetik.multiinput.AOPLT
@@ -472,6 +473,18 @@ public object ConverterAOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPGEQID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPGEQ.child[0]" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPGEQ.child[1]" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPLEQID,
+            { op, data, mapping ->
+                op as AOPLEQ
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPLEQID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPLEQ.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPLEQ.child[1]" })
                 off
             },
         )

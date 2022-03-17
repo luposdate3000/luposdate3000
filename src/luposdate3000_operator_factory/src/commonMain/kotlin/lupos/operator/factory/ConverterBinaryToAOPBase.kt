@@ -54,6 +54,7 @@ import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
 import lupos.operator.arithmetik.multiinput.AOPGEQ
+import lupos.operator.arithmetik.multiinput.AOPLEQ
 import lupos.operator.arithmetik.multiinput.AOPGT
 import lupos.operator.arithmetik.multiinput.AOPIn
 import lupos.operator.arithmetik.multiinput.AOPLT
@@ -342,6 +343,16 @@ public object ConverterBinaryToAOPBase {
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGEQ.child[0]" })),
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGEQ.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPLEQID,
+            { query, data, off ->
+                AOPLEQ(
+                    query,
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPLEQ.child[0]" })),
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLEQ.child[1]" }))
                 )
             },
         )
