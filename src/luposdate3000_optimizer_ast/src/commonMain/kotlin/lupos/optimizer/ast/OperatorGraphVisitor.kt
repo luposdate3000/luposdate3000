@@ -215,12 +215,12 @@ return LOPBind(query,name,expression,child)
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-        // println("inputAST " + node)
+       // println("inputAST " + node)
         val res = when (val v1 = node.variable1!!) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit(node.variable0!!, v1)
         }
-        // println(res)
+        //println(res)
         return res
     }
 
@@ -1452,7 +1452,7 @@ return LOPBind(query,name,expression,child)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit(blankNodeToVariable, graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(blankNodeToVariable, graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }, false)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit(blankNodeToVariable, graph, graphVar, node.variable0!!)) + node.variable1!!.value.map { visit(blankNodeToVariable, graph, graphVar, it) }).reduce { s, t -> LOPUnion(query, s, t) }
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTMinusGraphPattern, child: IOPBase) = LOPMinus(query, child, visit(blankNodeToVariable, graph, graphVar, node.variable0!!), mutableListOf())
-    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = LOPFilter(query, visit(graph, graphVar, node.variable0!!), child)
+    private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTFilter, child: IOPBase) = /*TODO move this to end of group*/LOPFilter(query, visit(graph, graphVar, node.variable0!!), child)
     private fun visit(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, node: ASTBind, child: IOPBase) = createBind( visit(node.variable1!!), visit(graph, graphVar, node.variable0!!), child)
     private fun visit(graph: String, graphVar: Boolean, node: ASTServiceGraphPattern, child: IOPBase): IOPBase = TODO("service not implemented")
     private fun visit(node: ASTDescribeQuery, valuesClause: ASTValuesClause?): IOPBase = TODO("describe query not implemented")

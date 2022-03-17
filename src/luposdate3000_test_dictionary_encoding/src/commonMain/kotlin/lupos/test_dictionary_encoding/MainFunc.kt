@@ -352,7 +352,7 @@ public fun executeDictionaryEncodingTest(nextRandom: () -> Int, hasNextRandom: (
             DictionaryHelper.langToByteArray(buffer, a, b)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_LANG })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Content(buffer) }, { a })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Lang(buffer) }, { b })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Lang(buffer) }, { b.lowercase() })
             DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
             AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         }
