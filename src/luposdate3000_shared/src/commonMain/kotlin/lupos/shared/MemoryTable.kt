@@ -62,7 +62,8 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         return equalsVerbose(other, false, false, true, null)
     }
 
-    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean, checkColumnOrder: Boolean, out: IMyOutputStream?): Boolean {
+    public fun equalsVerbose(actual: Any?, ignoreOrder: Boolean, verbose: Boolean, checkColumnOrder: Boolean, out: IMyOutputStream?): Boolean {
+val other=actual
         if (other !is MemoryTable) {
             if (verbose) {
                 out!!.println("other is not a MemoryTable")
@@ -156,7 +157,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         result = false
                         if (verbose) {
                             out!!.println(
-                                "left has ${data[i].map { it }} : ${
+                                "expected has ${data[i].map { it }} : ${
                                 data[i].map {
                                     dict1.getValue(buffer1, it)
                                     DictionaryHelper.byteArrayToSparql(buffer1)
@@ -171,7 +172,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         result = false
                         if (verbose) {
                             out!!.println(
-                                "right has ${other.data[i].map { it }} : ${
+                                "actual has ${other.data[i].map { it }} : ${
                                 other.data[i].map {
                                     dict2.getValue(buffer2, it)
                                     DictionaryHelper.byteArrayToSparql(buffer2)
@@ -191,7 +192,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         result = false
                         if (verbose) {
                             out!!.println(
-                                "left has ${data[i].map { it }} : ${
+                                "expected has ${data[i].map { it }} : ${
                                 data[i].map {
                                     dict1.getValue(buffer1, it)
                                     DictionaryHelper.byteArrayToSparql(buffer1)
@@ -206,7 +207,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         result = false
                         if (verbose) {
                             out!!.println(
-                                "right has ${other.data[i].map { it }} : ${
+                                "actual has ${other.data[i].map { it }} : ${
                                 other.data[i].map {
                                     dict2.getValue(buffer2, it)
                                     DictionaryHelper.byteArrayToSparql(buffer2)

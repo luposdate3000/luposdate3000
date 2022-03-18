@@ -238,7 +238,7 @@ public class Application_Luposdate3000 public constructor(
                         val buf = MyPrintWriter(false)
                         val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
                         val buf_err = MyPrintWriter()
-                        if (!result.equalsVerbose(expectedResult, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
+                        if (!expectedResult.equalsVerbose(result, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
                             throw Exception(buf_err.toString())
                         }
                         verifyAction()
@@ -604,7 +604,7 @@ public class Application_Luposdate3000 public constructor(
                                     val buf = MyPrintWriter(false)
                                     val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
                                     val buf_err = MyPrintWriter()
-                                    if (!result.equalsVerbose(w.expectedResult, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
+                                    if (!w.expectedResult.equalsVerbose(result, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
                                         throw Exception(buf_err.toString())
                                     }
                                     w.verifyAction()

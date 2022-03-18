@@ -5,7 +5,7 @@
 </head>
 <results>
 		<result>
-			<binding name="hash"><literal>0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee</literal></binding>
+			<binding name="hash"><literal>d9da86a1e7a1db436955b3e3217ad819b50ec414b248633337df1c95c7f511c8</literal></binding>
 		</result>
 </results>
 </sparql>
