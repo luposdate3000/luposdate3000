@@ -383,21 +383,6 @@ public class PostqueryVALUESwithsubjobjvars2rowswithUNDEF {
             "AllShortestPath",
         )
     }
-    @Test
-    public fun `Postquery VALUES with subjobjvars 2 rows with UNDEF - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
         val simRun = SimulationRun()
         simRun.parseConfig(fileName,false,{
