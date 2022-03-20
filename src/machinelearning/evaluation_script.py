@@ -1,7 +1,7 @@
 import sys
 
 eval_file = sys.argv[1]
-
+N_JOIN_ORDERS = 15
 
 with open(eval_file, "r") as evaluation:
     lines = evaluation.readlines()
@@ -12,8 +12,27 @@ with open(eval_file, "r") as evaluation:
         rewards.append([])
         for j in line.split(" "):
             rewards[i].append(float(j))
-
+    
+#print(rewards)
 # vergleich, ob max
+ranking = {}
+for i in range(N_JOIN_ORDERS):
+    ranking[i] = 0
+
+ranking["Invalid"] = 0
+for i in rewards:
+    order = sorted(i[1:],reverse=True)
+    try:
+        rank = order.index(i[0])
+        ranking[rank]+=1
+    except:
+        ranking["Invalid"]+=1
+
+
+
+
+print(ranking)
+'''
 average_reward = 0
 is_max = []
 num_maxs = 0
@@ -34,18 +53,21 @@ for i in rewards:
     average_reward += i[0]
 
 average_reward = average_reward/len(rewards)
+'''
 
 
-print(is_max)
-print(num_maxs)
-print(num_maxs/len(rewards))
+'''
+#print("is_max:"+str(is_max))
+print("num_max:"+str(num_maxs))
+print("Percentage of success of optimization:"+str(num_maxs/len(rewards)))
 
-print(is_min)
-print(num_mins)
-print(num_mins/len(rewards))
+#print("is_min:"+str(is_min))
+print("num_mins:"+str(num_mins))
+print("Percentage of failure:"+str(num_mins/len(rewards)))
 
-print(len(rewards))
+print("Length of rewards:"+str(len(rewards)))
 
-print(len(rewards)-num_mins-num_maxs)
+print("Length of rewards - mins - max:"+str(len(rewards)-num_mins-num_maxs))
 print(f"Average reward: {average_reward}")
 # complete reward
+'''

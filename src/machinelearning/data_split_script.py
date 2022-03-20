@@ -36,7 +36,7 @@ for i, line in enumerate(lines):
     if c == 0:
         q.append([])
     q[d].append(line)
-    if c == 2:
+    if c == 14:
         c = 0
         d += 1
         continue

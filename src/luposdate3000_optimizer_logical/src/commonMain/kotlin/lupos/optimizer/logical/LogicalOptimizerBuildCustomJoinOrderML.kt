@@ -23,7 +23,7 @@ import lupos.shared.operator.IOPBase
 public object LogicalOptimizerBuildCustomJoinOrderML {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int): IOPBase? {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:25"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/home/ubuntu/lupos/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:25"/*SOURCE_FILE_END*/ },
             {
                 allChilds.isNotEmpty()
             }
@@ -32,151 +32,185 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
         val nodes = mutableListOf<IOPBase>()
         nodes.addAll(allChilds)
 
+        // 18 Join Orders Possible
+	/*
+	        val b = nodes.removeAt(1)
+                val a = nodes.removeAt(0)
+                val c = LOPJoin(root.query, a, b, false)
+                val d = nodes.removeAt(0)
+                val e = LOPJoin(root.query, c, d, false)
+                val f = nodes.removeAt(0)
+                val g = LOPJoin(root.query, e, f, false)
+                nodes.add(g)
+                return nodes[0]
+	*/
         when (joinOrder) {
+            // pattern: (01 2 3)
             0 -> {
-                val b = nodes.removeAt(1)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, b, false)
+                val join2 = LOPJoin(root.query, join1, c, false)
+                val join3 = LOPJoin(root.query, join2, d, false)
+                return join3
             }
 
+            // pattern: (01 3 2)
             1 -> {
-                val b = nodes.removeAt(2)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, b, false)
+                val join2 = LOPJoin(root.query, join1, d, false)
+                val join3 = LOPJoin(root.query, join2, c, false)
+                return join3
             }
-
+            // pattern: (01 23)
             2 -> {
-                val b = nodes.removeAt(2)
-                val a = nodes.removeAt(1)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, b, false)
+                val join2 = LOPJoin(root.query, c, d, false)
+                val join3 = LOPJoin(root.query, join1, join2, false)
+                return join3
             }
-
+            // pattern: (02 1 3)
             3 -> {
-                val b = nodes.removeAt(3)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, c, false)
+                val join2 = LOPJoin(root.query, join1, b, false)
+                val join3 = LOPJoin(root.query, join2, d, false)
+                return join3
             }
-
+            // pattern: (02 3 1)
             4 -> {
-                val b = nodes.removeAt(3)
-                val a = nodes.removeAt(1)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, c, false)
+                val join2 = LOPJoin(root.query, join1, d, false)
+                val join3 = LOPJoin(root.query, join2, b, false)
+                return join3
             }
-
+            // pattern: (02 13)
             5 -> {
-                val b = nodes.removeAt(3)
-                val a = nodes.removeAt(2)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, c, false)
+                val join2 = LOPJoin(root.query, b, d, false)
+                val join3 = LOPJoin(root.query, join1, join2, false)
+                return join3
             }
-
+            // pattern: (03 1 2)
             6 -> {
-                val b = nodes.removeAt(4)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, d, false)
+                val join2 = LOPJoin(root.query, join1, b, false)
+                val join3 = LOPJoin(root.query, join2, c, false)
+                return join3
             }
-
+            // pattern: (03 2 1)
             7 -> {
-                val b = nodes.removeAt(4)
-                val a = nodes.removeAt(1)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, d, false)
+                val join2 = LOPJoin(root.query, join1, c, false)
+                val join3 = LOPJoin(root.query, join2, b, false)
+                return join3
             }
-
+            // pattern: (03 21)
             8 -> {
-                val b = nodes.removeAt(4)
-                val a = nodes.removeAt(2)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, a, d, false)
+                val join2 = LOPJoin(root.query, b, c, false)
+                val join3 = LOPJoin(root.query, join1, join2, false)
+                return join3
             }
-
+            // pattern: (12 3 0)
             9 -> {
-                val b = nodes.removeAt(4)
-                val a = nodes.removeAt(3)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, b, c, false)
+                val join2 = LOPJoin(root.query, join1, d, false)
+                val join3 = LOPJoin(root.query, join2, a, false)
+                return join3
             }
-
+            // pattern: (12 0 3)
             10 -> {
-                val b = nodes.removeAt(5)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, b, c, false)
+                val join2 = LOPJoin(root.query, join1, a, false)
+                val join3 = LOPJoin(root.query, join2, d, false)
+                return join3
             }
-
+            // pattern: (13 2 0)
             11 -> {
-                val b = nodes.removeAt(5)
-                val a = nodes.removeAt(1)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, b, d, false)
+                val join2 = LOPJoin(root.query, join1, c, false)
+                val join3 = LOPJoin(root.query, join2, a, false)
+                return join3
             }
-
+            // pattern: (13 0 2)
+            12 -> {
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, b, d, false)
+                val join2 = LOPJoin(root.query, join1, a, false)
+                val join3 = LOPJoin(root.query, join2, c, false)
+                return join3
+            }
+            // pattern: (23 0 1)
+            13 -> {
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, c, d, false)
+                val join2 = LOPJoin(root.query, join1, a, false)
+                val join3 = LOPJoin(root.query, join2, b, false)
+                return join3
+            }
+            // pattern: (23 1 0)
+            14 -> {
+                val a = nodes[0]
+                val b = nodes[1]
+                val c = nodes[2]
+                val d = nodes[3]
+                val join1 = LOPJoin(root.query, c, d, false)
+                val join2 = LOPJoin(root.query, join1, b, false)
+                val join3 = LOPJoin(root.query, join2, a, false)
+                return join3
+            }
             else -> return null
         }
 

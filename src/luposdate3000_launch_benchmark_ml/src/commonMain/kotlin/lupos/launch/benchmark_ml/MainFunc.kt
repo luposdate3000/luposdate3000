@@ -40,6 +40,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
 
     // Load turtle data
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
+    val time = DateHelperRelative.elapsedSeconds(timer)
 
     // avoid unnecessary overhead during measurement
     val groupSize = IntArray(queryFiles2.size) { 1 }
@@ -48,14 +49,16 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     if (optimizerMode == "Test") {
         File("${queryFiles2[0]}.luposTestDataFile").withOutputStream { testResult ->
             for (queryFileIdx in queryFiles2.indices) { // for every query
-                val queryFile = queryFiles2[queryFileIdx]
+                val queryFile = "/home/ubuntu/lupos/luposdate3000/src/machinelearning/Test/" + queryFiles2[queryFileIdx]
+                println(queryFile)
                 File("$queryFile.test").withOutputStream { testOut ->
 
                     // Read in query file
+
                     val query = File(queryFile).readAsString()
 
                     // Optimize query and convert to operatorgraph
-                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query)
+                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query, true)
                     var lopjoin0 = node.getChildren() // lopjoin
 
                     // ERROR : this is NOT typesafe, and may error. Especially for more than 2 Joins. Please Check for the Class-Types here !!
@@ -74,10 +77,10 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     } else {
         File("$datasourceFiles.bench").withOutputStream { benchOut ->
             for (queryFileIdx in queryFiles2.indices) { // for every query
-                for (joinOrder in 0..2) { // for every permutation
-
+                // for (joinOrder in 0..2) { // for every permutation
+                for (joinOrder in 0..14) {
                     // Read in query file
-                    val queryFile = queryFiles2[queryFileIdx]
+                    val queryFile = "/home/ubuntu/lupos/luposdate3000/src/machinelearning/Test/" + queryFiles2[queryFileIdx]
                     val query = File(queryFile).readAsString()
 
                     // Optimize query and convert to operatorgraph
@@ -99,17 +102,17 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
 
                     // Benchmark
-                    val timer2 = DateHelperRelative.markNow()
-                    var time2: Double
+                    val timer = DateHelperRelative.markNow()
+                    var time: Double
                     var counter = 0 // counts how often the query gets executed
                     do {
                         counter += groupSize[queryFileIdx]
                         for (i in 0 until groupSize[queryFileIdx]) {
                             LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                         }
-                        time2 = DateHelperRelative.elapsedSeconds(timer2)
-                    } while (time2 < minimumTime2)
-                    benchOut.println("$queryFile $joinOrder ${counter / time2}")
+                        time = DateHelperRelative.elapsedSeconds(timer)
+                    } while (time <minimumTime2)
+                    benchOut.println("$queryFile $joinOrder ${counter / time}")
                 }
             }
         }
