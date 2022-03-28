@@ -160,7 +160,6 @@ internal class NodeLeafColumnIterator0(node: BufferManagerPageWrapper, nodeid: I
                 }
                 toSkip--
             }
-            updateRemaining()
             return value
         } else {
             return DictionaryValueHelper.nullValue

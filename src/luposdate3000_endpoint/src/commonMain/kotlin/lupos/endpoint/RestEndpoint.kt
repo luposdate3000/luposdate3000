@@ -666,6 +666,7 @@ public object RestEndpoint {
                         try {
                             c!!.close()
                         } catch (e: Throwable) {
+e.printStackTrace()
                         }
                     }
                     for (c in queryContainer.inputStreams.values) {

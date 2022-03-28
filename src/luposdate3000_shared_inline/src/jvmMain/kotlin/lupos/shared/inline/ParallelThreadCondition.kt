@@ -29,6 +29,7 @@ internal actual class ParallelThreadCondition {
                 try {
                     (this as Object).wait()
                 } catch (e: Exception) {
+e.printStackTrace()
                 }
             }
             wasSignalled = false

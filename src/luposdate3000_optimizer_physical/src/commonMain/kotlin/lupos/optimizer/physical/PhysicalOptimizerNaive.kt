@@ -140,6 +140,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                         try {
                             manager.createGraph(query, sourceName) // TODO this is very bad, because it is an modification during query optimisation phase
                         } catch (e: Throwable) {
+e.printStackTrace()
                         }
                         return POPModify(
                             query,
