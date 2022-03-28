@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Generate query files and training files for the ML module.
 
@@ -193,7 +194,7 @@ def print_error():
 if __name__ == '__main__':
 	try:
 		input_file = sys.argv[1]
-		output_directory = sys.argv[2]
+		output_directory = sys.argv[2]+"/"
 		joins = sys.argv[3]
 	except:
 		print_error()
