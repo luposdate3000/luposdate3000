@@ -78,6 +78,9 @@ public class resourcesmyqueriessimulatorparkingquery611sparql2502simulatorparkin
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }

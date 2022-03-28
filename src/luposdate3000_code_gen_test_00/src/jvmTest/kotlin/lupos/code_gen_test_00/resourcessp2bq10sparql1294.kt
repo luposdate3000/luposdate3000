@@ -72,6 +72,9 @@ public class resourcessp2bq10sparql1294 {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -86,6 +89,9 @@ public class resourcessp2bq10sparql1294 {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }

@@ -77,6 +77,9 @@ public class bind02BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -91,6 +94,9 @@ public class bind02BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -105,6 +111,9 @@ public class bind02BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -119,6 +128,9 @@ public class bind02BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -304,21 +316,6 @@ public class bind02BINDfixeddataforOWLDL {
         )
     }
     @Test
-    public fun `bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    @Test
     public fun `bind02  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -492,21 +489,6 @@ public class bind02BINDfixeddataforOWLDL {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    @Test
-    public fun `bind02  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),

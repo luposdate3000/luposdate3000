@@ -76,6 +76,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -90,6 +93,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -104,6 +110,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -118,6 +127,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -132,6 +144,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -146,6 +161,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -160,6 +178,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -174,6 +195,9 @@ public class bind04BINDfixeddataforOWLDL {
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -1076,21 +1100,6 @@ public class bind04BINDfixeddataforOWLDL {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
-        )
-    }
-    @Test
-    public fun `bind04  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
