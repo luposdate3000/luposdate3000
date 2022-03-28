@@ -32,25 +32,6 @@ dependencieshome=/opt
     cd kotlinc/bin/
     echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
 }
-#kotlin (optional)
-{
-    cd $dependencieshome
-    # the default settings use an precompiled-compiler from maven-repository such that this is not necessary
-
-    apt install openjdk-16-jdk
-    # not every commit in that repository is compileable. If the HEAD-commit does not work try another commit or another branch
-    git clone https://github.com/JetBrains/kotlin.git --depth=1
-    cd kotlin
-    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
-    echo "export JDK_16=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
-    echo "export JDK_17=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
-    echo "export JDK_18=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
-    echo "export JDK_9=/usr/lib/jvm/java-16-openjdk-amd64/" >> ~/.bashrc
-    ./gradlew install
-    ./gradlew dist
-    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
-    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
-}
 #intellij (optional)
 {
     cd $dependencieshome
@@ -72,7 +53,7 @@ dependencieshome=/opt
 ```
 
 #if you have less than 8GB of memory  
-Look at this guide [compile with a few GB of RAM](README-compile-with-too-less-RAM.md)
+Look at this guide [compile with a few GB of RAM](..README-compile-with-too-less-RAM.md)
 
 # usage
 

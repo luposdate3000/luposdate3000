@@ -1,3 +1,28 @@
+# 1. Install luposdate3000 dependencies
+
+Clone luposdate3000 git and install kotlin compiler.
+More details in [README-linux](documentation/installation/README-linux.md) or [README-windows](documentation/installation/README-windows.md).
+
+# 2. Compile the database
+
+```bash
+./launcher.main.kts --setup --releaseMode=Enable
+./gradlew assemble
+```
+Mode details in [compile](documentation/README-usage-compile.md).
+
+# 3. Measure execution times
+
+```bash
+./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles="" --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles="" --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
+```
+
+
+
+
+##########old documentation below
+
+
 # git
 sudo apt install git
 git config --global http.sslVerify false
