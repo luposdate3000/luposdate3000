@@ -111,12 +111,12 @@ public open class SparqlTestSuite {
             }
             parserObject.parserDefinedParse()
         } catch (e: Throwable) {
-try{
-throw Exception(filename,e)
-} catch (e2: Throwable) {
-            e2.printStackTrace()
+            try {
+                throw Exception(filename, e)
+            } catch (e2: Throwable) {
+                e2.printStackTrace()
+            }
         }
-}
     }
 
     private fun createSevenIndices(filename: String): SevenIndices {
@@ -127,45 +127,45 @@ throw Exception(filename,e)
     }
 
     private /*suspend*/ fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
-try{
-        var numberOfErrors = 0
-        var numberOfTests = 0
-        SanityCheck.println { "Reading file $filename..." }
-        val data = createSevenIndices(prefix + filename)
-        val newprefix = prefix + filename.substringBeforeLast("/") + "/"
-        val manifestEntries = data.po(("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest>"))
-        manifestEntries.forEach {
-            // Are other manifest files included?
-            val included = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include>"))
-            included.forEach { it2 ->
-                // follow list of included manifest files:
-                listMembers(data, it2) { it3 ->
-                    val includedfile = it3
-                    if (includedfile != null) {
-                        val (nr_t, nr_e) = parseManifestFile(prefix, extractValueFromIriOrString(includedfile))
-                        numberOfTests += nr_t
-                        numberOfErrors += nr_e
+        try {
+            var numberOfErrors = 0
+            var numberOfTests = 0
+            SanityCheck.println { "Reading file $filename..." }
+            val data = createSevenIndices(prefix + filename)
+            val newprefix = prefix + filename.substringBeforeLast("/") + "/"
+            val manifestEntries = data.po(("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest>"))
+            manifestEntries.forEach {
+                // Are other manifest files included?
+                val included = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include>"))
+                included.forEach { it2 ->
+                    // follow list of included manifest files:
+                    listMembers(data, it2) { it3 ->
+                        val includedfile = it3
+                        if (includedfile != null) {
+                            val (nr_t, nr_e) = parseManifestFile(prefix, extractValueFromIriOrString(includedfile))
+                            numberOfTests += nr_t
+                            numberOfErrors += nr_e
+                        }
                     }
                 }
-            }
-            // Now look for_ the tests:
-            val tests = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries>"))
-            tests.forEach { it2 ->
-                // follow list of entries:
-                listMembers(data, it2) { it3 ->
-                    // for_ printing out the name:
+                // Now look for_ the tests:
+                val tests = data.sp(it, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries>"))
+                tests.forEach { it2 ->
+                    // follow list of entries:
+                    listMembers(data, it2) { it3 ->
+                        // for_ printing out the name:
 //                    val name = data.sp(it3, ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name>"))
-                    numberOfTests++
-                    if (!testOneEntry(data, it3, newprefix)) {
-                        numberOfErrors++
+                        numberOfTests++
+                        if (!testOneEntry(data, it3, newprefix)) {
+                            numberOfErrors++
+                        }
                     }
                 }
             }
+            return Pair(numberOfTests, numberOfErrors)
+        } catch (e: Throwable) {
+            throw Exception(prefix + filename, e)
         }
-        return Pair(numberOfTests, numberOfErrors)
-}catch (e: Throwable) {
-throw Exception(prefix+filename,e)
-}
     }
 
     private fun readFileOrNull(name: String?): String? {
@@ -176,25 +176,25 @@ throw Exception(prefix+filename,e)
     }
 
     private fun extractValueFromIriOrString(s: String): String {
-  return      if(s.startsWith("\"")&&s.endsWith("\"")){
-s.drop(1).dropLast(1)
-	}else if(s.startsWith("\"")&&s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")){
-s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
-        }else if (s.startsWith("<")&&s.endsWith(">")&&!s.contains("#")) {
+        return if (s.startsWith("\"") && s.endsWith("\"")) {
+            s.drop(1).dropLast(1)
+        } else if (s.startsWith("\"") && s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")) {
+            s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
+        } else if (s.startsWith("<") && s.endsWith(">") && !s.contains("#")) {
             s.drop(1).dropLast(1)
         } else {
-TODO(s)
+            TODO(s)
         }
     }
     private fun extractValueFromIriOrString2(s: String): String {
-  return      if(s.startsWith("\"")&&s.endsWith("\"")){
-s.drop(1).dropLast(1)
-	}else if(s.startsWith("\"")&&s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")){
-s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
-        }else if (s.startsWith("<")&&s.endsWith(">")&&!s.contains("#")) {
+        return if (s.startsWith("\"") && s.endsWith("\"")) {
+            s.drop(1).dropLast(1)
+        } else if (s.startsWith("\"") && s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#string>")) {
+            s.drop(1).dropLast("\"^^<http://www.w3.org/2001/XMLSchema#string>".length)
+        } else if (s.startsWith("<") && s.endsWith(">") && !s.contains("#")) {
             s.drop(1).dropLast(1)
         } else {
-s.drop(s.indexOf("#")+1).dropLast(1)
+            s.drop(s.indexOf("#") + 1).dropLast(1)
         }
     }
 

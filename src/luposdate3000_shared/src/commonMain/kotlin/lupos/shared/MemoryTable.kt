@@ -63,7 +63,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     public fun equalsVerbose(actual: Any?, ignoreOrder: Boolean, verbose: Boolean, checkColumnOrder: Boolean, out: IMyOutputStream?): Boolean {
-val other=actual
+        val other = actual
         if (other !is MemoryTable) {
             if (verbose) {
                 out!!.println("other is not a MemoryTable")

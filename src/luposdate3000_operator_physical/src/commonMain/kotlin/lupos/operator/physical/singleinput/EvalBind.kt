@@ -41,13 +41,13 @@ public object EvalBind {
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
         var expression: () -> DictionaryValueType = { DictionaryValueHelper.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
-fun expressionWrapper():DictionaryValueType{
-var res=expression()
-if(res==DictionaryValueHelper.errorValue){
-return DictionaryValueHelper.undefValue
-}
-return res
-}
+        fun expressionWrapper(): DictionaryValueType {
+            var res = expression()
+            if (res == DictionaryValueHelper.errorValue) {
+                return DictionaryValueHelper.undefValue
+            }
+            return res
+        }
         if (variablesLocal.size == 1 && variablesInCount == 0) {
             outMap[name] = ColumnIteratorRepeatValue(child.count(), expressionWrapper())
         } else {

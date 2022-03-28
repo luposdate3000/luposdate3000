@@ -228,7 +228,7 @@ public object LuposdateEndpoint {
             try {
                 instance.tripleStoreManager!!.createGraph(query, graphName)
             } catch (e: Throwable) {
-e.printStackTrace()
+                e.printStackTrace()
             }
             val store = instance.tripleStoreManager!!.getGraph(graphName)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
@@ -464,23 +464,23 @@ e.printStackTrace()
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
-try{
-val bundle=if (asRoot) {
+        try {
+            val bundle = if (asRoot) {
                 node.evaluateRootBundle()
             } else {
                 node.evaluateBundle()
             }
-        return evaluateIteratorBundleToResultInternal(
-            instance,
-bundle,
-            output,
-            evaluator,
-            timeoutInMs
-        )
-}catch(e:Throwable){
-e.printStackTrace()
-throw e
-}
+            return evaluateIteratorBundleToResultInternal(
+                instance,
+                bundle,
+                output,
+                evaluator,
+                timeoutInMs
+            )
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")

@@ -48,28 +48,28 @@ public class AOPBuildInCallSTRLANG public constructor(query: IQuery, child0: AOP
             val tmp_3: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_1)
             when (tmp_2) {
                 ETripleComponentTypeExt.BLANK_NODE -> {
-res = DictionaryValueHelper.errorValue
+                    res = DictionaryValueHelper.errorValue
                 }
                 ETripleComponentTypeExt.BOOLEAN -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.ERROR -> {
-res = DictionaryValueHelper.errorValue
+                    res = DictionaryValueHelper.errorValue
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.IRI -> {
                     res = DictionaryValueHelper.errorValue
@@ -77,7 +77,7 @@ res = DictionaryValueHelper.undefValue
                 ETripleComponentTypeExt.STRING -> {
                     when (tmp_3) {
                         ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
-res = DictionaryValueHelper.errorValue
+                            res = DictionaryValueHelper.errorValue
                         }
                         ETripleComponentTypeExt.STRING -> {
                             val tmp_140: String = DictionaryHelper.byteArrayToString(tmp_0)
@@ -93,14 +93,14 @@ res = DictionaryValueHelper.errorValue
                     }
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-res = DictionaryValueHelper.undefValue
+                    res = DictionaryValueHelper.undefValue
                 }
                 ETripleComponentTypeExt.UNDEF -> {
-res = DictionaryValueHelper.errorValue
-}
+                    res = DictionaryValueHelper.errorValue
+                }
                 else -> {
                     res = DictionaryValueHelper.errorValue
                 }
@@ -109,5 +109,3 @@ res = DictionaryValueHelper.errorValue
         }
     }
 }
-
-

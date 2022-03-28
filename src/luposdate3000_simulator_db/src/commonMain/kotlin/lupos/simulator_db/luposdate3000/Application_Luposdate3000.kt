@@ -222,7 +222,7 @@ public class Application_Luposdate3000 public constructor(
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
         }
-//println(op)
+// println(op)
 // try to evaluate local-->>
         try {
             var hasSort = false
@@ -258,7 +258,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
         } catch (e: Throwable) {
-e.printStackTrace()
+            e.printStackTrace()
         }
 // try to evaluate local<<--
         val q = op.getQuery()

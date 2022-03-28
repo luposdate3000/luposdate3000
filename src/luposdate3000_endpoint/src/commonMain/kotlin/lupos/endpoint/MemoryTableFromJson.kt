@@ -84,7 +84,7 @@ public class MemoryTableFromJson : MemoryTableParser {
                     res.data.add(row)
                     for (jsonBinding in iterateMembers(jsonResult as ASTobject)) {
                         val column = variables.indexOf(typeToString(jsonBinding))
-val jsonBindingContent=jsonBinding.variable1!! as ASTobject
+                        val jsonBindingContent = jsonBinding.variable1!! as ASTobject
                         val childType = valueToString(findMemberByName("type", jsonBindingContent))
                         when (childType) {
                             "bnode" -> {
@@ -105,9 +105,9 @@ val jsonBindingContent=jsonBinding.variable1!! as ASTobject
                                 val tmp = dictionary.createValue(buffer)
                                 row[column] = tmp
                             }
-else->{
-TODO("malformed json value type $childType")
-}
+                            else -> {
+                                TODO("malformed json value type $childType")
+                            }
                         }
                     }
                 }

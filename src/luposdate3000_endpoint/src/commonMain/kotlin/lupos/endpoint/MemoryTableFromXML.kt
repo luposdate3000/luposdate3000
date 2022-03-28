@@ -143,17 +143,17 @@ public class MemoryTableFromXML : MemoryTableParser {
                                                 row[column] = tmp
                                             }
                                         }
-                                    }else->{
-TODO("malformed xml .. unknown type ${child.TAG}")
-}
+                                    } else -> {
+                                        TODO("malformed xml .. unknown type ${child.TAG}")
+                                    }
                                 }
-                            }else{
-TODO("malformed xml .. unknown type ${xmlBinding.TAG}")
-}
+                            } else {
+                                TODO("malformed xml .. unknown type ${xmlBinding.TAG}")
+                            }
                         }
-                    }else{
-TODO("malformed xml .. unknown type ${xmlResult.TAG}")
-}
+                    } else {
+                        TODO("malformed xml .. unknown type ${xmlResult.TAG}")
+                    }
                 }
             }
             return res
