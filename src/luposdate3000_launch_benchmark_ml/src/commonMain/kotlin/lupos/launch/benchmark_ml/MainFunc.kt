@@ -97,6 +97,7 @@ TODO("loposdate optimizer should be deterministic")
                 } while (time < minimumTime2)
                 val res = counter / time
                 timings[joinOrder] = res
+benchmarkValues["timeFor($joinOrder)"]=res.toString()
             }
             benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
             if (luposChoice == -1) {

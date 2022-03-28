@@ -29,22 +29,35 @@ conda install pip
 pip install stable-baselines3
 ```
 
-# 4. Generate RDF-data
+# 4. Define some variables to make sure the following commands always find the correct file/folder
+
+You must use absolute paths for each file and folder name, in any following steps because those file names are written to files, which are real later from different run-directories.
+
+```bash
+dataDirectory="$(pwd)/_tmpdata/"
+tripleFile="${dataDirectory}/"
+queriesDirectory="${dataDirectory}/queries/"
+
+mkdir $dataDirectory
+```
+
+# 5. Generate RDF-data
 
 Choose any dataset e.g. sp2b
 Mode details in [sp2b](documentation/README-real-world-benchmark-data.md)
 Or at their homepage [home page of sp2b](http://dbis.informatik.uni-freiburg.de/index.php?project=SP2B/download.php)
 
-# 5. Generate SPARQL-queries
+# 6. Generate SPARQL-queries
+
 
 ```bash
-mkdir -p <query-folder>
-./generate_four_queries.py <triple-file> <query-folder> "s"
+mkdir -p $queriesDirectory
+./generate_four_queries.py $tripleFile $queriesDirectory "s"
 ```
-# 6. Measure execution times
+# 7. Measure execution times
 
 ```bash
-./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=<triple-file> --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=<query-folder> --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
+./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
 ```
 
 

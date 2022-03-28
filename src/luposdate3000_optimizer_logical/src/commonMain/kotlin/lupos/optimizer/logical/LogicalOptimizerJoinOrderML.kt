@@ -82,7 +82,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
 
 internal fun equalResults(actual:IOPBase, original:IOPBase):Boolean{
 if(actual is LOPJoin && original is LOPJoin){
-return equalResults(actual.getChildren()[0],original.getChildren()[0]) &&equalResults(actual.getChildren()[1],original.getChildren()[1])
+return (equalResults(actual.getChildren()[0],original.getChildren()[0]) &&equalResults(actual.getChildren()[1],original.getChildren()[1]))||(equalResults(actual.getChildren()[1],original.getChildren()[0]) &&equalResults(actual.getChildren()[0],original.getChildren()[1]))
 }else if(actual !is LOPJoin && original !is LOPJoin){
 return actual.getUUID()==original.getUUID()
 }else{
