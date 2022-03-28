@@ -35,7 +35,7 @@ You must use absolute paths for each file and folder name, in any following step
 
 ```bash
 dataDirectory="$(pwd)/_tmpdata/"
-tripleFile="${dataDirectory}/"
+tripleFile="${dataDirectory}/complete.n3"
 queriesDirectory="${dataDirectory}/queries/"
 
 mkdir $dataDirectory
@@ -47,8 +47,12 @@ Choose any dataset e.g. sp2b
 Mode details in [sp2b](documentation/README-real-world-benchmark-data.md)
 Or at their homepage [home page of sp2b](http://dbis.informatik.uni-freiburg.de/index.php?project=SP2B/download.php)
 
-# 6. Generate SPARQL-queries
+Or use any locally available file e.g.
+```bash
+cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
+```
 
+# 6. Generate SPARQL-queries
 
 ```bash
 mkdir -p $queriesDirectory
