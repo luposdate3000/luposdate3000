@@ -24,97 +24,105 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit = Parallel.runBlocking {
     val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
         HttpEndpointLauncher.start(instance)
     }
-    // Cast input string to internal data types
+
     val inputString = File(queryFiles).readAsString()
     val queryFiles2 = inputString.split(";")
 
     val minimumTime2 = minimumTime.toDouble()
 
-    // measure time for turtle data load
-    val timer = DateHelperRelative.markNow()
-
-    // Load turtle data
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
-    val time = DateHelperRelative.elapsedSeconds(timer)
 
     // avoid unnecessary overhead during measurement
     val groupSize = IntArray(queryFiles2.size) { 1 }
     val writer = MyPrintWriter(false)
 
-    if (optimizerMode == "Test") {
-        File("${queryFiles2[0]}.luposTestDataFile").withOutputStream { testResult ->
-            for (queryFileIdx in queryFiles2.indices) { // for every query
-                val queryFile = "/home/ubuntu/lupos/luposdate3000/src/machinelearning/Test/" + queryFiles2[queryFileIdx]
-                println(queryFile)
-                File("$queryFile.test").withOutputStream { testOut ->
+    val joinOrders = List(15) { it }
+    val columnNames = listOf(
+        "queryFile",
+        "luposdateWouldChoose",
+        "luposdateAbsoluteRanking",
+        "luposdateRelativeRanking",
+    ) + joinOrders.map { "timeFor($it)" }
 
-                    // Read in query file
+    File("$datasourceFiles.bench").withOutputStream { benchOut ->
+        benchOut.println(columnNames.joinToString())
+        for (queryFileIdx in queryFiles2.indices) { // for every query
+            val queryFile = queryFiles2[queryFileIdx]
+            val query = File(queryFile).readAsString()
+            val benchmarkValues = mutableMapOf("queryFile" to queryFile)
+            var luposChoice = -1
+            var timings = DoubleArray(joinOrders.size)
+            for (joinOrder in joinOrders) {
+                // Read in query file
 
-                    val query = File(queryFile).readAsString()
-
-                    // Optimize query and convert to operatorgraph
-                    val node = LuposdateEndpoint.evaluateSparqlToLogicalOperatorgraphB(instance, query, true)
-                    var lopjoin0 = node.getChildren() // lopjoin
-
-                    // ERROR : this is NOT typesafe, and may error. Especially for more than 2 Joins. Please Check for the Class-Types here !!
-                    var pred0 = lopjoin0[0].getChildren()[0].getChildren()[1]
-                    var pred1 = lopjoin0[0].getChildren()[1].getChildren()[0].getChildren()[1]
-                    var pred2 = lopjoin0[0].getChildren()[1].getChildren()[1].getChildren()[1]
-
-                    testOut.print(query)
-                    testOut.print(pred0.toString())
-                    testOut.print(pred1.toString())
-                    testOut.print(pred2.toString())
-                    testResult.print("$queryFile.test;")
+                // Optimize query and convert to operatorgraph
+                instance.useMachineLearningOptimizer = true
+                instance.machineLearningOptimizerOrder = joinOrder
+                instance.machineLearningOptimizerOrderWouldBeChoosen = false
+                val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
+                if (instance.machineLearningOptimizerOrderWouldBeChoosen) {
+if(luposChoice!=-1){
+TODO("loposdate optimizer should be deterministic")
+}
+                    luposChoice = joinOrder
                 }
+                // dry run, to prevent caching issues
+                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+
+                // measure time for executing the query
+                val timerFirst = DateHelperRelative.markNow()
+
+                // Execute query
+                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+
+                // save time, and predict how often we could execute this within one second. This is only required to benchmark super fast queries. otherwise groupsize of 1 is ok
+                val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+                groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
+
+                // Benchmark
+                val timer = DateHelperRelative.markNow()
+                var time: Double
+                var counter = 0 // counts how often the query gets executed
+                do {
+                    counter += groupSize[queryFileIdx]
+                    for (i in 0 until groupSize[queryFileIdx]) {
+                        LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+                    }
+                    time = DateHelperRelative.elapsedSeconds(timer)
+                } while (time < minimumTime2)
+                val res = counter / time
+                timings[joinOrder] = res
             }
-        }
-    } else {
-        File("$datasourceFiles.bench").withOutputStream { benchOut ->
-            for (queryFileIdx in queryFiles2.indices) { // for every query
-                // for (joinOrder in 0..2) { // for every permutation
-                for (joinOrder in 0..14) {
-                    // Read in query file
-                    val queryFile = "/home/ubuntu/lupos/luposdate3000/src/machinelearning/Test/" + queryFiles2[queryFileIdx]
-                    val query = File(queryFile).readAsString()
-
-                    // Optimize query and convert to operatorgraph
-                    instance.useMachineLearningOptimizer = true
-                    instance.machineLearningOptimizerOrder = joinOrder
-                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
-
-                    // dry run, to prevent caching issues
-                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-
-                    // measure time for executing the query
-                    val timerFirst = DateHelperRelative.markNow()
-
-                    // Execute query
-                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-
-                    // save time, and predict how often we could execute this
-                    val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-                    groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-
-                    // Benchmark
-                    val timer = DateHelperRelative.markNow()
-                    var time: Double
-                    var counter = 0 // counts how often the query gets executed
-                    do {
-                        counter += groupSize[queryFileIdx]
-                        for (i in 0 until groupSize[queryFileIdx]) {
-                            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-                        }
-                        time = DateHelperRelative.elapsedSeconds(timer)
-                    } while (time <minimumTime2)
-                    benchOut.println("$queryFile $joinOrder ${counter / time}")
+            benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
+            if (luposChoice == -1) {
+                benchmarkValues["luposdateAbsoluteRanking"] = ""
+                benchmarkValues["luposdateRelativeRanking"] = ""
+TODO("luposdate did not choose any join order??")
+            } else {
+                var luposAbsolute = 0
+                var timeMin = timings[0]
+                var timeMax = timings[0]
+                for (joinOrder in joinOrders) {
+                    if (timings[joinOrder] < timings[luposChoice]) {
+                        luposAbsolute++
+                    }
+                    if (timings[joinOrder] < timeMin) {
+                        timeMin = timings[joinOrder]
+                    }
+                    if (timings[joinOrder] > timeMax) {
+                        timeMax = timings[joinOrder]
+                    }
                 }
+                val luposRelative = (timings[luposChoice] - timeMin) / (timeMax - timeMin)
+                benchmarkValues["luposdateAbsoluteRanking"] = "$luposAbsolute"
+                benchmarkValues["luposdateRelativeRanking"] = "$luposRelative"
             }
+            benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
         }
     }
 }

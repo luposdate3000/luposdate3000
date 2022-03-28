@@ -143,13 +143,10 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
 /*Coverage Unreachable*/
     }
 
-    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: IOPBase = node
-        if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
+internal fun internalOptimize(node: LOPJoin, allChilds2:List<IOPBase>, onChange: () -> Unit):IOPBase{
+var res: IOPBase = node
             val originalProvided = node.getProvidedVariableNames()
-            try {
-                val allChilds2 = findAllJoinsInChildren(node)
-                if (allChilds2.size > 2) {
+if (allChilds2.size > 2) {
                     var result: IOPBase? = null
                     if (result == null) {
                         val allChilds3 = clusterizeChildren(allChilds2)
@@ -167,6 +164,16 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                         res = result
                     }
                 }
+return res
+}
+
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        var res: IOPBase = node
+        if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
+            val originalProvided = node.getProvidedVariableNames()
+            try {
+                val allChilds2 = findAllJoinsInChildren(node)
+res=internalOptimize(node,allChilds2,onChange)
             } catch (e: EmptyResultException) {
                 e.printStackTrace()
                 res = POPNothing(query, originalProvided)

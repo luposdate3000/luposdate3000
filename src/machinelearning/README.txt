@@ -20,17 +20,6 @@ echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
 sudo ln -s ~/lupos/kotlin/bin/kotlin /bin/kotlin
 sudo ln -s ~/lupos/kotlin/bin/kotlinc /bin/kotlinc
 
-# bignum
-cd ~/lupos/
-git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
-cd kotlin-multiplatform-bignum/bignum
-# patch buildfile
-sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
-sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
-sed 's/version.*=.*/version = "0.3.1-SNAPSHOT"/g' -i build.gradle.kts
-cd ..
-./gradlew publishToMavenLocal
-
 # intellij
 cd ~/lupos/
 wget https://download-cf.jetbrains.com/idea/ideaIC-2021.1.1.tar.gz

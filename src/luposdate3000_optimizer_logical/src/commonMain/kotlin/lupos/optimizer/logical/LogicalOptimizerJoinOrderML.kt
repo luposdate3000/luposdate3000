@@ -80,6 +80,16 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
 /*Coverage Unreachable*/
     }
 
+internal fun equalResults(actual:IOPBase, original:IOPBase):Boolean{
+if(actual is LOPJoin && original is LOPJoin){
+return equalResults(actual.getChildren()[0],original.getChildren()[0]) &&equalResults(actual.getChildren()[1],original.getChildren()[1])
+}else if(actual !is LOPJoin && original !is LOPJoin){
+return actual.getUUID()==original.getUUID()
+}else{
+return false
+}
+}
+
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
@@ -87,10 +97,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
-                    var result: IOPBase? = null
-                    if (result == null) {
-                        result = buildJoinOrder(allChilds2, node, joinOrder)
-                    }
+                    var result = buildJoinOrder(allChilds2, node, joinOrder)
                     if (result != res) {
                         onChange()
                         if (!originalProvided.containsAll(result.getProvidedVariableNames())) {
@@ -99,6 +106,12 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
                         res = result
                     }
                 }
+val realOptimizer=LogicalOptimizerJoinOrder(query)
+val realResult=realOptimizer.internalOptimize(node,allChilds2){}
+if(equalResults(res,realResult)){
+query.getInstance().machineLearningOptimizerOrderWouldBeChoosen=true
+}
+
             } catch (e: EmptyResultException) {
                 e.printStackTrace()
                 res = POPNothing(query, originalProvided)

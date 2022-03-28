@@ -53,29 +53,5 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--minimumTime' is missing on the arguments list")
     }
-    flag = false
-    var numberOfTriples: String = ""
-    for (a in args) {
-        if (a.startsWith("--numberOfTriples=")) {
-            numberOfTriples = a.substring(18)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--numberOfTriples' is missing on the arguments list")
-    }
-    flag = false
-    var optimizerMode: String = ""
-    for (a in args) {
-        if (a.startsWith("--optimizerMode=")) {
-            optimizerMode = a.substring(16)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--optimizerMode' is missing on the arguments list")
-    }
-    mainFunc(datasourceFiles, queryFiles, minimumTime, numberOfTriples, optimizerMode)
+    mainFunc(datasourceFiles, queryFiles, minimumTime)
 }
