@@ -66,8 +66,8 @@ def generate_queries():
         join_patterns.append(["?x", "?x", "?x", "?o0", "?o1", "?o2"])
     # join patterns for subject - object joins
     if joins == "a":
-        join_patterns.append(["?x", "?x", "?s2", "?o0", "?o1", "?x"])
-        join_patterns.append(["?x", "?s1", "?x", "?o0", "?x", "?o2"])
+        join_patterns.append(["?x", "?x", "?s2", "?o0", "?o1", "?x"])# ?x ?x ?s2 ?s3 ?o0 ?01 ?x ?x, ?x ?x ?s2 ?x ?o0 ?01 ?x ?o3
+        join_patterns.append(["?x", "?s1", "?x", "?o0", "?x", "?o2"])# ?x ?s1 ?x ?s3 ?o0 ?x ?o2 ?x, 
         join_patterns.append(["?s0", "?x", "?x", "?x", "?o1", "?o2"])
 
         join_patterns.append(["?x", "?s1", "?s2", "?o0", "?x", "?x"])

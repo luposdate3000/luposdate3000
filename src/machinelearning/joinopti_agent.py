@@ -8,12 +8,12 @@ from stable_baselines3 import DQN, PPO, DDPG, A2C
 from stable_baselines3.common.env_util import make_vec_env
 import math
 
-N_JOIN_ORDERS = 3
+N_JOIN_ORDERS = 5
 
 
 def train_model():
     benched_queries = read_query(benched_query_file)
-
+    
     # find min max execution times
     max_execution_time = max_ex_t(benched_queries)
     min_execution_time = min_ex_t(benched_queries)
@@ -46,7 +46,7 @@ def train_model():
     model.learn(total_timesteps=25000000, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     #model.save("train.me.s.50k" + ".ppo_model")
-    model.save("train.me.s.25000k" + "3:7" + ".ppo_model")
+    model.save("train.me.s.25000k" + "3:7_4_triples" + ".ppo_model")
 
 
 

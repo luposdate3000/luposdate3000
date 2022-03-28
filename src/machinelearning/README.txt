@@ -27,7 +27,7 @@ cd kotlin-multiplatform-bignum/bignum
 # patch buildfile
 sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
 sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
-sed 's/version.*=.*/version = "0.3.3-SNAPSHOT"/g' -i build.gradle.kts
+sed 's/version.*=.*/version = "0.3.1-SNAPSHOT"/g' -i build.gradle.kts
 cd ..
 ./gradlew publishToMavenLocal
 

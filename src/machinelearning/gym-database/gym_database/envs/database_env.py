@@ -9,7 +9,7 @@ from gym.utils import seeding
 import numpy as np
 import gym_database.envs.helper_funcs as hf
 from timeit import default_timer
-
+import pickle
 class DatabaseEnv(gym.Env):
     """
     Description:
@@ -63,10 +63,12 @@ class DatabaseEnv(gym.Env):
 
     # TODO: reward_range
     def __init__(self):
+        #print("database init function")
         self.conn = None
         """Socket to establish connection to client database."""
 
-        self.size_matrix: int = 3
+        #self.size_matrix: int = 3#need to change this based on triples
+        self.size_matrix: int = 4
         """Size of observation space matrix."""
 
         self.observation_space = None
@@ -127,13 +129,24 @@ class DatabaseEnv(gym.Env):
         self.min_exec_time: float = None
         """Minimum execution time of benched queries - used for reward."""
 
+        self.check_print :int =0
+        # A counter variable that will limit the console output
+
+        self.executed_action_list = []
+
+        self.executed_join_orders=[]
+
+
     def step(self, action: int):
+        #print("Step")
         """The step function takes an action from the agent and executes it.
        It calculates the next state and returns the observation of the new state."""
         # 1. choose action from action_space
         left = self.action_list[action][0]
         right = self.action_list[action][1]
+        
 
+        #print(self.query)
         # return and redo if values index empty rows or invalid join attempts
         if left >= len(self.query) or right >= len(self.query) \
                 or hf.is_empty(left, self.observation_matrix) \
@@ -149,7 +162,9 @@ class DatabaseEnv(gym.Env):
         right = temp_two
 
         # 2. Execute action & 3. update observation_space & 4. remember join order
+
         hf.perform_join(left, right, self.observation_matrix)
+
         hf.update_join_order(left, right, self.join_order, self.join_order_h)
 
         # 5. Check if episode is done (all triples joined)
@@ -158,6 +173,8 @@ class DatabaseEnv(gym.Env):
         # 6. Calculate reward
         # if networking: send join order over socket to database and calculate reward there
         if done:
+
+            #print(self.executed_join_orders)
             if self.networking:
                 # Encode join order in utf-8 and send to client
                 self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
@@ -184,6 +201,7 @@ class DatabaseEnv(gym.Env):
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
+        #print("Reset")
         """Resets environment and returns a first observation."""
         if not self.redo: # If episode has not to be redone
             if self.networking:
@@ -201,8 +219,8 @@ class DatabaseEnv(gym.Env):
 
         ####### CREATE MATRIX: FILL MATRIX WITH TRIPLES
         # Create initial observation matrix, in this state no joins have happened
-        self.observation_matrix = hf.fill_matrix(self.query,
-                                                 np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+        self.observation_matrix = hf.fill_matrix(self.query,np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+        #self.observation_matrix = hf.fill_matrix(self.query,np.zeros((self.size_matrix, self.size_matrix, 4), np.int32))
         ####### CREATE MATRIX
 
         # Initialize dictionary to save the join order
@@ -216,23 +234,29 @@ class DatabaseEnv(gym.Env):
         return self.observation_matrix
 
     def set_connection(self, conn):
+        #print("Set connection")
         """Set a socket object with an active connection to the client."""
         self.conn = conn
         self.networking = True
 
     def set_training_data(self, training_data):
+        #print("Set training data")
         """Set training data."""
         self.training_data = training_data
         self.networking = False
 
-    def set_observation_space(self, n_dictionary_ids, size_matrix=3):
+    def set_observation_space(self, n_dictionary_ids, size_matrix=4):#need to change this
+        #print("Set observation space")
         """Set and adjust observation space."""
         self.size_matrix = size_matrix
-        self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,
-                                            shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
+        self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
+        ###print(self.observation_space)
+        #self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,shape=(self.size_matrix, self.size_matrix, 4), dtype=np.int32) #Not sure
 
     def set_max_exec_t(self, max_exec_time: float):
+        #print("Set max execution time")
         self.max_exec_time = max_exec_time
 
     def set_min_exec_t(self, min_exec_time: float):
+        #print("Set min execution time")
         self.min_exec_time = min_exec_time
