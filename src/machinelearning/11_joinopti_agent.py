@@ -9,7 +9,7 @@ from stable_baselines3 import DQN, PPO, DDPG, A2C
 from stable_baselines3.common.env_util import make_vec_env
 import math
 
-N_JOIN_ORDERS = 5
+N_JOIN_ORDERS = 15
 
 
 def train_model():
@@ -140,6 +140,10 @@ def read_query(q_file):
                 counter2 += 1
             else:
                 counter += 1
+    print("warnke")
+    print(benched_queries[0])
+    print("warnke")
+    print(benched_queries)
     return benched_queries
 
 

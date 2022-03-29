@@ -3,6 +3,8 @@
 Clone luposdate3000 git and install kotlin compiler.
 More details in [README-linux](documentation/installation/README-linux.md) or [README-windows](documentation/installation/README-windows.md).
 
+All the following steps assume that you are in the luposdate3000 root directory
+
 # 2. Compile the database
 
 ```bash
@@ -27,6 +29,14 @@ conda create -n pythonEnvironment
 conda activate pythonEnvironment
 conda install pip
 pip install stable-baselines3
+```
+
+repeat the following each time you change the environment
+
+```bash
+cd src/machinelearning/gym-database
+pip install -e .
+cd ../../..
 ```
 
 # 4. Define some variables to make sure the following commands always find the correct file/folder
@@ -94,14 +104,13 @@ ratio=7
 # 11. Start the machine learning itself
 
 ```bash
-conda activate pythonEnvironment
-./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train"
+./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train7_3"
 ```
 
 # 12. Evaluate the model
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test" "your_trained_model.ppo_model"
+./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "your_trained_model.ppo_model"
 ```
 
 
@@ -111,3 +120,6 @@ conda activate pythonEnvironment
 
 
 
+######
+
+can I remove "gym-database/gym_database/__pycache__/" and "gym-database/gym_database/envs/__pycache__/"
