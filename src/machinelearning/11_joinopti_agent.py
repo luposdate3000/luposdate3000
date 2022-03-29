@@ -17,9 +17,12 @@ def train_model():
     
     # find min max execution times
     max_execution_time = max_ex_t(benched_queries)
+    
     min_execution_time = min_ex_t(benched_queries)
+    
     # find max id of predicate
     max_dict_id = max_id(benched_queries)
+    
     # setup environment
     env = gym.make('gym_database:Database-v0')
     #env = make_vec_env('gym_database:Database-v0')
@@ -32,7 +35,6 @@ def train_model():
     #model = DQN("MlpPolicy", env, verbose=2)
     #model = A2C("MlpPolicy", env, verbose=0)
     #print(model)
-
     # for i in range(len(benched_queries)):
     # for i in range(21):
     #     env.set_training_data([benched_queries[i]])
@@ -100,15 +102,15 @@ def optimize_query():
     for i in rewards:
         print(i)
 
-    with open("evaluation." + optimizer_model_file, "w") as evaluation:
+    with open(optimizer_model_file+".evaluation", "w") as evaluation:
         evaluation.write(str(max_execution_time) + "\n")
         evaluation.write(str(min_execution_time) + "\n")
         for i in range(len(benched_queries)):
             evaluation.write(str(rewards[i]) + " ")
-            for j in range(3):
+            for j in range(N_JOIN_ORDERS):
                 evaluation.write(str(-(math.sqrt(abs(float(benched_queries[i][j][2]) - max_execution_time)) /
                                        math.sqrt(max_execution_time - min_execution_time) * 10)))
-                if j != 2:
+                if j != N_JOIN_ORDERS-1:
                     evaluation.write(" ")
                 else:
                     evaluation.write("\n")
@@ -149,6 +151,7 @@ def max_ex_t(benched_q):
     for i in benched_q:
         for j in range(0, 3):
             tmp.append(float(i[j][2]))
+    #print(max(tmp))
     return max(tmp)
 
 
@@ -164,7 +167,8 @@ def max_id(benched_q):
     tmp = []
     for i in benched_q:
         for j in range(len(i)):
-            tmp.append(int(i[j][0].split(";")[2].split(",")[1]))
+            #tmp.append(int(i[j][0].split(";")[2].split(",")[1]))
+            tmp.append(int(i[j][0].split(";")[3].split(",")[1]))
     return max(tmp)
 
 

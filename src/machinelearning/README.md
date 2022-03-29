@@ -113,9 +113,11 @@ ratio=7
 ./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "${trainingDirectory}/train.me.train7_3.10000.ppo_model"
 ```
 
+# 13. Print results
 
-
-
+```bash
+./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation"
+```
 
 
 

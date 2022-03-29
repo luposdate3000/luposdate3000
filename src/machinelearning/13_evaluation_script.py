@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 
 eval_file = sys.argv[1]
