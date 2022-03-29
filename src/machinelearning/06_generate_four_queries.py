@@ -20,7 +20,6 @@ def generate_queries():
 	with open(input_file, "r") as file:
 		for line in file:
 			# Check if input triple file is sorted by checking if the previous line is lexicographically greater than the current line
-			print(prev_line, line)
 			if prev_line>line:
 				print("Error! The input triple file has to be sorted")
 				exit(1)
@@ -37,6 +36,8 @@ def generate_queries():
 			else:
 				lis = line.split(' ')
 				current_subject, cur_predicate = lis[0], lis[1]
+				#if cur_predicate.startswith("rdf:_"):
+				#	continue
 				# To find the unique predicates
 				unique_predicates_set.add(cur_predicate)
 
@@ -106,6 +107,12 @@ def generate_queries():
 		
 		for predicate_combo in all_predicates:
 			#Creating the .sparql files
+				flag=0
+				for i in range(n_triples):
+					if (predicate_combo[i]).startswith("rdf:_"):
+						flag=flag+1
+				if flag>1:
+					continue
 				with open(output_directory +"q" + join_on + str(file_index) + ".sparql", "w") as query:
 					for sparql_prefix in sparql_prefixes:
 						query.write(sparql_prefix)
