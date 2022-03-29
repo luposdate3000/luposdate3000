@@ -87,6 +87,23 @@ public class resourcessp2bq12b2sparql973 {
       }
     }
     @Test
+    public fun `resourcessp2bq12b2sparql973 - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcessp2bq12b2sparql973 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{

@@ -173,6 +173,23 @@ public class SimpleDELETE3USING {
       }
     }
     @Test
+    public fun `Simple DELETE 3 USING - Thread - PartitionByID_1_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `Simple DELETE 3 USING - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -264,6 +281,23 @@ public class SimpleDELETE3USING {
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `Simple DELETE 3 USING - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)

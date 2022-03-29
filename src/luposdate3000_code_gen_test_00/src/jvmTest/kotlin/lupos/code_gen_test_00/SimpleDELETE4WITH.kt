@@ -122,40 +122,6 @@ public class SimpleDELETE4WITH {
       }
     }
     @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByIDTwiceAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
     public fun `Simple DELETE 4 WITH - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -179,142 +145,6 @@ public class SimpleDELETE4WITH {
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_2_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_2_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_O_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_S_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
-        throw e
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -821,36 +651,6 @@ public class SimpleDELETE4WITH {
         )
     }
     @Test
-    public fun `Simple DELETE 4 WITH - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    @Test
     public fun `Simple DELETE 4 WITH - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -878,21 +678,6 @@ public class SimpleDELETE4WITH {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
-        )
-    }
-    @Test
-    public fun `Simple DELETE 4 WITH - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
         )
     }
     @Test

@@ -160,6 +160,21 @@ public class resourcessp2bq91sparql1640 {
         )
     }
     @Test
+    public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    @Test
     public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -187,6 +202,21 @@ public class resourcessp2bq91sparql1640 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    @Test
+    public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     @Test
@@ -277,6 +307,21 @@ public class resourcessp2bq91sparql1640 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
+        )
+    }
+    @Test
+    public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     @Test
@@ -397,6 +442,36 @@ public class resourcessp2bq91sparql1640 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    @Test
+    public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    @Test
+    public fun `resourcessp2bq91sparql1640 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test

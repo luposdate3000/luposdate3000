@@ -164,6 +164,21 @@ public class resourcessp2bq8sparql700 {
         )
     }
     @Test
+    public fun `resourcessp2bq8sparql700 - in simulator - Simple - Centralized - false - None - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL",
+        )
+    }
+    @Test
     public fun `resourcessp2bq8sparql700 - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",

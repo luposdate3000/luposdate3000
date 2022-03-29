@@ -126,6 +126,23 @@ public class resourcessp2bq12b1sparql700 {
       }
     }
     @Test
+    public fun `resourcessp2bq12b1sparql700 - Thread - PartitionByIDTwiceAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `resourcessp2bq12b1sparql700 - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{

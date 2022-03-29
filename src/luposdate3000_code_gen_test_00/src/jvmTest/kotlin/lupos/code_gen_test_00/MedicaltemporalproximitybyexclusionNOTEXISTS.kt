@@ -40,12 +40,12 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.fail
 
-public class resourcesmyqueriessimulatorparkingquery71sparql2502simulatorparkinginputttl {
+public class MedicaltemporalproximitybyexclusionNOTEXISTS {
     internal val inputData = arrayOf(
-        File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery71sparql2502simulatorparkinginputttl.input").readAsString(),
+        File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.input").readAsString(),
     )
     internal val inputDataFile = arrayOf(
-        "src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery71sparql2502simulatorparkinginputttl.input",
+        "src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.input",
     )
     internal val inputGraph = arrayOf(
         "",
@@ -53,34 +53,36 @@ public class resourcesmyqueriessimulatorparkingquery71sparql2502simulatorparking
     internal val inputType = arrayOf(
         ".ttl",
     )
-    internal val targetData = File("src/jvmTest/resources/resourcesmyqueriessimulatorparkingquery71sparql2502simulatorparkinginputttl.output").readAsString()
+    internal val targetData = File("src/jvmTest/resources/MedicaltemporalproximitybyexclusionNOTEXISTS.output").readAsString()
     internal val targetType = ".srx"
-    internal val query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-        "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +
-        "PREFIX parking: <https://github.com/luposdate3000/parking#> \n" +
-        "SELECT ?area ?spot ?isOccupied ?lastObservedAt \n" +
-        "WHERE { \n" +
-        "  ?o a parking:Observation ; \n" +
-        "  parking:area ?area ; \n" +
-        "  parking:spotInArea ?spot ; \n" +
-        "  parking:isOccupied ?isOccupied ; \n" +
-        "  parking:resultTime ?lastObservedAt . \n" +
-        "} \n" +
-        ""
+    internal val query = "PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#> \n" +
+        "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" +
+        "# The closest pre-operative physical examination \n" +
+        "SELECT ?exam ?date {  \n" +
+        "  ?exam a ex:PhysicalExamination;  \n" +
+        "        dc:date ?date; \n" +
+        "        ex:precedes ex:operation1 . \n" +
+        "  ?op   a ex:SurgicalProcedure; dc:date ?opDT . \n" +
+        "  FILTER NOT EXISTS { \n" +
+        "    ?otherExam a ex:PhysicalExamination;  \n" +
+        "               ex:follows ?exam; \n" +
+        "               ex:precedes ex:operation1 \n" +
+        "  }  \n" +
+        "}"
 
     @Test
-    public fun `resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Medical temporal proximity by exclusion NOT EXISTS - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {

@@ -283,6 +283,23 @@ public class SimpleDELETE4 {
       }
     }
     @Test
+    public fun `Simple DELETE 4 - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `Simple DELETE 4 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{

@@ -64,6 +64,21 @@ public class resourcessp2bq111sparql1640 {
         ""
 
     @Test
+    public fun `resourcessp2bq111sparql1640 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    @Test
     public fun `resourcessp2bq111sparql1640 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",

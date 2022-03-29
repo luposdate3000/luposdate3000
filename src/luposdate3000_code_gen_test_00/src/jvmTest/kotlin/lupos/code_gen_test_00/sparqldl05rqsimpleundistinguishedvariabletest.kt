@@ -64,6 +64,40 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         ""
 
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - None - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - None - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.printStackTrace() //otherwise this would be silently ignored
+        throw e
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -249,6 +283,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         )
     }
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
@@ -276,6 +325,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "None",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
         )
     }
     @Test
@@ -309,6 +373,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         )
     }
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -336,6 +415,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test
@@ -369,6 +463,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         )
     }
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -396,6 +505,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test
@@ -654,6 +778,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         )
     }
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -681,6 +820,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test
@@ -756,6 +910,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test
@@ -879,6 +1048,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         )
     }
     @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    @Test
     public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -906,6 +1090,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    @Test
+    public fun `sparqldl05rq simple undistinguished variable test - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     @Test

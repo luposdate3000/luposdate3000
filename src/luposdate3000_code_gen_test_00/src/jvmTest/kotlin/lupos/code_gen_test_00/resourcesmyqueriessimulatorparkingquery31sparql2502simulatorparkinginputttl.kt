@@ -81,6 +81,21 @@ public class resourcesmyqueriessimulatorparkingquery31sparql2502simulatorparking
             "AllShortestPath",
         )
     }
+    @Test
+    public fun `resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
         val simRun = SimulationRun()
         simRun.parseConfig(fileName,false,{

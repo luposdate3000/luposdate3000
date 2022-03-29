@@ -539,6 +539,21 @@ public class resourcessp2bq5asparql700 {
         )
     }
     @Test
+    public fun `resourcessp2bq5asparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    @Test
     public fun `resourcessp2bq5asparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
