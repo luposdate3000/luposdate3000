@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Generate query files and training files for the ML module.
 
@@ -48,7 +49,6 @@ def generate_queries():
 		if predicate.split(":")[1] != '':
 			unique_predicates.append(predicate)
 	print(unique_predicates)
-	'''
 	######################## ID GENERATION #############################
 
 	# Write dictionary for predicates to file. Ids starting at 1.
@@ -190,7 +190,6 @@ def print_error():
 	print("Param 2: output directory for files")
 	print("Param 3: \"s\", \"o\" or \"a\": join on subject/object/all")
 
-'''
 if __name__ == '__main__':
 	try:
 		input_file = sys.argv[1]

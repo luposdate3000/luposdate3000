@@ -118,3 +118,19 @@ ratio=7
 ```bash
 ./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation"
 ```
+
+
+
+
+# open issues
+ - 06_generate_four_queries.py produces duplicate queries. When using 32768 triples there are 790024 queries, which seems to be wrong. (1024 input triples result in 17714 queries)
+ - move some constants into parameters, such that it is not required to change every source-file
+ - move the "4" which is the number of triples into an program argument, and make everything automatically generated
+ - "sort" the input triples before optimize their join order, to make sure, that the result is independent of how the user writes the query
+   -> this should ensure, that the same triples always receive the same "result-number" from the optimizer, right now depending of the user another number would be the best
+ - make the filenames more predictable such that this readme does not need so complex file names - should be trivial once the constants are changed by parameter and not within source code
+
+
+
+
+
