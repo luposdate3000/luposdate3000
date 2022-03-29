@@ -63,10 +63,18 @@ cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 mkdir -p $queriesDirectory
 ./src/machinelearning/generate_four_queries.py $tripleFile $queriesDirectory "s"
 ```
-# 7. Measure execution times
+# 7. Measure the values, which are used later as the base for the machine learning
 
 ```bash
 ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
 ```
+
+# 8. Extract the exact values, which are used for machine learning
+
+
+
+
+
+
 
 

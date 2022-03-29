@@ -53,7 +53,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         "luposdateRelativeRanking(results)",
     ) + joinOrders.map { "timeFor($it)" }    +joinOrders.map { "joinResultsFor($it)" }
 
-    File("$datasourceFiles.bench").withOutputStream { benchOut ->
+    File("$datasourceFiles.bench.csv").withOutputStream { benchOut ->
         benchOut.println(columnNames.joinToString())
         for (queryFileIdx in queryFiles2.indices) { // for every query
             val queryFile = queryFiles2[queryFileIdx]
