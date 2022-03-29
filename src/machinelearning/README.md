@@ -91,9 +91,18 @@ ratio=7
 ./src/machinelearning/10_data_split_script.py "${trainingDirectory}/train.me" $ratio
 ```
 
-# 11.
+# 11. Start the machine learning itself
 
+```bash
+conda activate pythonEnvironment
+./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train"
+```
 
+# 12. Evaluate the model
+
+```bash
+./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test" "your_trained_model.ppo_model"
+```
 
 
 

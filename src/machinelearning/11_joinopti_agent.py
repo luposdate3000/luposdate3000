@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import gym
 import gym_database
 import socket
