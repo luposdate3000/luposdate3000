@@ -118,10 +118,3 @@ ratio=7
 ```bash
 ./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation"
 ```
-
-
-
-
-######
-
-can I remove "gym-database/gym_database/__pycache__/" and "gym-database/gym_database/envs/__pycache__/"
