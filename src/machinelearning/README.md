@@ -40,6 +40,7 @@ cd src/machinelearning
 dataDirectory="$(pwd)/_tmpdata/"
 tripleFile="${dataDirectory}/complete.n3"
 queriesDirectory="${dataDirectory}/queries/"
+trainingDirectory="${dataDirectory}/training/"
 
 cd ../..
 
@@ -74,6 +75,27 @@ mkdir -p $queriesDirectory
 ```bash
 cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts > ${tripleFile}.bench
 ```
+
+# 9. Convert data into machinelearning readable data
+
+```bash
+mkdir -p trainingDirectory
+./src/machinelearning/09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
+```
+# 10. Split data into training and test dataset
+
+ratio must be a number between 1 and 9
+
+```bash
+ratio=7
+./src/machinelearning/10_data_split_script.py "${trainingDirectory}/train.me" $ratio
+```
+
+# 11.
+
+
+
+
 
 
 

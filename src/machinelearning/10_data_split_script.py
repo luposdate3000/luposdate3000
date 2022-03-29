@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Split the input data in a ratio of 1:9 - 9:1.
 
@@ -55,13 +56,13 @@ for d in reversed(del_list):
     test_set.append(q.pop(d))
 
 # After deleting of elements, the resulting list is the training set. Write training set to file.
-with open("train.me.train"+str(split_value)+"_"+str(10-split_value), "w") as train:
+with open(input_file+".train"+str(split_value)+"_"+str(10-split_value), "w") as train:
     for query in q:
         for line in query:
             train.write(line)
 
 # Write test set to file.
-with open("train.me.test"+str(split_value)+"_"+str(10-split_value), "w") as test:
+with open(input_file+".test"+str(split_value)+"_"+str(10-split_value), "w") as test:
     for query in test_set:
         for line in query:
             test.write(line)

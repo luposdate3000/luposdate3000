@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Generate the training file that is used for training the ML model.
 
