@@ -110,7 +110,7 @@ ratio=7
 # 12. Evaluate the model
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "your_trained_model.ppo_model"
+./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "${trainingDirectory}/train.me.train7_3.10000.ppo_model"
 ```
 
 
