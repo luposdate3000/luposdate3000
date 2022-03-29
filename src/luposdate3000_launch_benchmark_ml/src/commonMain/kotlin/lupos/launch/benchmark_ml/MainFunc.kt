@@ -17,14 +17,17 @@
 package lupos.launch.benchmark_ml
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.endpoint_launcher.HttpEndpointLauncher
+import lupos.operator.base.OPBaseCompound
+import lupos.shared.operator.IOPBase
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit {
     val instance = LuposdateEndpoint.initialize()
     Parallel.launch {
         HttpEndpointLauncher.start(instance)
@@ -38,16 +41,17 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
     // avoid unnecessary overhead during measurement
-    val groupSize = IntArray(queryFiles2.size) { 1 }
     val writer = MyPrintWriter(false)
 
     val joinOrders = List(15) { it }
     val columnNames = listOf(
         "queryFile",
         "luposdateWouldChoose",
-        "luposdateAbsoluteRanking",
-        "luposdateRelativeRanking",
-    ) + joinOrders.map { "timeFor($it)" }
+        "luposdateAbsoluteRanking(time)",
+        "luposdateRelativeRanking(time)",
+        "luposdateAbsoluteRanking(results)",
+        "luposdateRelativeRanking(results)",
+    ) + joinOrders.map { "timeFor($it)" }    +joinOrders.map { "joinResultsFor($it)" }
 
     File("$datasourceFiles.bench").withOutputStream { benchOut ->
         benchOut.println(columnNames.joinToString())
@@ -56,7 +60,8 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             val query = File(queryFile).readAsString()
             val benchmarkValues = mutableMapOf("queryFile" to queryFile)
             var luposChoice = -1
-            var timings = DoubleArray(joinOrders.size)
+            var measured_time = DoubleArray(joinOrders.size)
+            var measured_results = DoubleArray(joinOrders.size)
             for (joinOrder in joinOrders) {
                 // Read in query file
 
@@ -64,66 +69,89 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                 instance.useMachineLearningOptimizer = true
                 instance.machineLearningOptimizerOrder = joinOrder
                 instance.machineLearningOptimizerOrderWouldBeChoosen = false
-                val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, true)
+                instance.machineLearningCounter = 0
+                val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, false)
                 if (instance.machineLearningOptimizerOrderWouldBeChoosen) {
-if(luposChoice!=-1){
-TODO("loposdate optimizer should be deterministic")
-}
+                    if (luposChoice != -1) {
+                        TODO("loposdate optimizer should be deterministic")
+                    }
                     luposChoice = joinOrder
                 }
                 // dry run, to prevent caching issues
-                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+                fun addCounters(node: IOPBase): IOPBase {
+                    return when (node){
+is OPBaseCompound->{
+val a = addCounters(node.children[0])
+OPBaseCompound(node.getQuery(),arrayOf(a),node.columnProjectionOrder)
+}
+ is POPJoinMerge-> {
+                        val a = addCounters(node.children[0])
+                        val b = addCounters(node.children[1])
+                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                    }
+ else-> {
+                        node
+                    }
+}
+                }
+                LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
+                measured_results[joinOrder] = instance.machineLearningCounter.toDouble()
+                benchmarkValues["joinResultsFor($joinOrder)"] = instance.machineLearningCounter.toString()
 
                 // measure time for executing the query
-                val timerFirst = DateHelperRelative.markNow()
+                val timer = DateHelperRelative.markNow()
 
                 // Execute query
                 LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
 
                 // save time, and predict how often we could execute this within one second. This is only required to benchmark super fast queries. otherwise groupsize of 1 is ok
-                val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-                groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
+                var time = DateHelperRelative.elapsedSeconds(timer)
+                var counter = 1 // counts how often the query gets executed
+                var groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
 
                 // Benchmark
-                val timer = DateHelperRelative.markNow()
-                var time: Double
-                var counter = 0 // counts how often the query gets executed
                 do {
-                    counter += groupSize[queryFileIdx]
-                    for (i in 0 until groupSize[queryFileIdx]) {
+                    counter += groupSize
+                    for (i in 0 until groupSize) {
                         LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                     }
                     time = DateHelperRelative.elapsedSeconds(timer)
+                    groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
                 } while (time < minimumTime2)
-                val res = counter / time
-                timings[joinOrder] = res
-benchmarkValues["timeFor($joinOrder)"]=res.toString()
+                val res = time / counter
+                measured_time[joinOrder] = res
+                benchmarkValues["timeFor($joinOrder)"] = res.toString()
             }
             benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
             if (luposChoice == -1) {
-                benchmarkValues["luposdateAbsoluteRanking"] = ""
-                benchmarkValues["luposdateRelativeRanking"] = ""
-TODO("luposdate did not choose any join order??")
+                benchmarkValues["luposdateAbsoluteRanking(time)"] = ""
+                benchmarkValues["luposdateRelativeRanking(time)"] = ""
+                TODO("luposdate did not choose any join order??")
             } else {
-                var luposAbsolute = 0
-                var timeMin = timings[0]
-                var timeMax = timings[0]
-                for (joinOrder in joinOrders) {
-                    if (timings[joinOrder] < timings[luposChoice]) {
-                        luposAbsolute++
+                fun relAndAbsRanking(label: String, data: DoubleArray) {
+                    var luposAbsolute = 0
+                    var timeMin = data[0]
+                    var timeMax = data[0]
+                    for (joinOrder in joinOrders) {
+                        if (data[joinOrder] < data[luposChoice]) {
+                            luposAbsolute++
+                        }
+                        if (data[joinOrder] < timeMin) {
+                            timeMin = data[joinOrder]
+                        }
+                        if (data[joinOrder] > timeMax) {
+                            timeMax = data[joinOrder]
+                        }
                     }
-                    if (timings[joinOrder] < timeMin) {
-                        timeMin = timings[joinOrder]
-                    }
-                    if (timings[joinOrder] > timeMax) {
-                        timeMax = timings[joinOrder]
-                    }
+                    val luposRelative = (data[luposChoice] - timeMin) / (timeMax - timeMin)
+                    benchmarkValues["luposdateAbsoluteRanking($label)"] = "$luposAbsolute"
+                    benchmarkValues["luposdateRelativeRanking($label)"] = "$luposRelative"
                 }
-                val luposRelative = (timings[luposChoice] - timeMin) / (timeMax - timeMin)
-                benchmarkValues["luposdateAbsoluteRanking"] = "$luposAbsolute"
-                benchmarkValues["luposdateRelativeRanking"] = "$luposRelative"
+                relAndAbsRanking("time", measured_time)
+                relAndAbsRanking("results", measured_results)
             }
             benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
+            benchOut.flush()
         }
     }
 }

@@ -34,11 +34,16 @@ pip install stable-baselines3
 You must use absolute paths for each file and folder name, in any following steps because those file names are written to files, which are real later from different run-directories.
 
 ```bash
+
+cd src/machinelearning
+
 dataDirectory="$(pwd)/_tmpdata/"
 tripleFile="${dataDirectory}/complete.n3"
 queriesDirectory="${dataDirectory}/queries/"
 
-mkdir $dataDirectory
+cd ../..
+
+mkdir -p $dataDirectory
 ```
 
 # 5. Generate RDF-data
@@ -56,7 +61,7 @@ cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 
 ```bash
 mkdir -p $queriesDirectory
-./generate_four_queries.py $tripleFile $queriesDirectory "s"
+./src/machinelearning/generate_four_queries.py $tripleFile $queriesDirectory "s"
 ```
 # 7. Measure execution times
 

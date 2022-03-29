@@ -116,4 +116,6 @@ public class Luposdate3000Instance {
     public var machineLearningOptimizerOrder: Int = 0
  @JvmField
     public var machineLearningOptimizerOrderWouldBeChoosen:Boolean=false
+ @JvmField
+    public var machineLearningCounter:Long=0L
 }
