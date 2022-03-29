@@ -61,7 +61,7 @@ cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 
 ```bash
 mkdir -p $queriesDirectory
-./src/machinelearning/generate_four_queries.py $tripleFile $queriesDirectory "s"
+./src/machinelearning/06_generate_four_queries.py $tripleFile $queriesDirectory "s"
 ```
 # 7. Measure the values, which are used later as the base for the machine learning
 
@@ -71,7 +71,9 @@ mkdir -p $queriesDirectory
 
 # 8. Extract the exact values, which are used for machine learning
 
-
+```bash
+cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts > ${tripleFile}.bench
+```
 
 
 
