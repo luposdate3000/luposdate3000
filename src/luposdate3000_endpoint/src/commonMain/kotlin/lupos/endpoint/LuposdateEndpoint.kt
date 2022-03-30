@@ -79,7 +79,7 @@ public object LuposdateEndpoint {
     internal val initializerLock = MyLock()
 
     @JvmField
-    internal val instances = mutableListOf<Luposdate3000Instance>()
+    public val instances :MutableList<Luposdate3000Instance> = mutableListOf<Luposdate3000Instance>()
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {

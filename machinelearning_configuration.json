@@ -23,8 +23,13 @@
                 },
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_DataImport": {
                     "enabled": true,
-                    "fileName": "src/machinelearning/sp2b.n3",
+                    "fileName": "/mnt/luposdate-testdata/sp2b/1024/complete.n3",
                     "sendStartClockInSec": 10,
+                },
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_MachineLearning": {
+                    "enabled": true,
+                    "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata/queries/luposdate3000_query_params",
+                    "joinOrders": 15,
                 },
             },
             "performance": 100.0,
