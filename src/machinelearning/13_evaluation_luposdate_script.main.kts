@@ -1,14 +1,14 @@
 #!/usr/bin/env kotlin
 
 // -----------------------configure here ->
-val label="joinResultsFor" // choose one of : setOf("timeFor", "joinResultsFor")
-val joinOrders=15
-val choiceColumn="luposdateWouldChoose"
+val label=args[0] // choose one of : setOf("timeFor", "joinResultsFor")
+val joinOrders=args[1].toInt()
+val choiceColumn=args[2]
 // -----------------------configure here <-
 
 val absoluteRanks=IntArray(joinOrders)
 val relativeRanks=IntArray(joinOrders)
-
+var countLines=0
 val header=mutableListOf<String>()
 do{
 val line=readLine()
@@ -20,6 +20,7 @@ val columns=ll.split(",")
 if(header.size==0){
 header.addAll(columns)
 }else{
+countLines++
 val choice=columns[header.indexOf(choiceColumn)].toInt()
 val values=DoubleArray(joinOrders){columns[header.indexOf("$label($it)")].toDouble()}
 var absolute=0
@@ -42,7 +43,15 @@ relativeRanks[relative]++
 }
 }while(true)
 
-println("rank,absolute,relative")
+var absoluteAccumulator=0
+var relativeAccumulator=0
+println("rank,absolute,relative,absolute-accumulated,relative-accumulated")
 for(i in 0 until joinOrders){
-println("$i,${absoluteRanks[i]},${relativeRanks[i]}")
+absoluteAccumulator+=absoluteRanks[i]
+relativeAccumulator+=relativeRanks[i]
+val a=absoluteRanks[i].toDouble()/countLines.toDouble()
+val b=relativeRanks[i].toDouble()/countLines.toDouble()
+val c=absoluteAccumulator.toDouble()/countLines.toDouble()
+val d=relativeAccumulator.toDouble()/countLines.toDouble()
+println("$i,${a},${b},${c},${d}")
 }
