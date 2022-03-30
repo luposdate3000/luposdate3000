@@ -83,8 +83,15 @@ LC_ALL=C sort $tripleFile > ${tripleFile}.sorted
 
 # 7. Measure the values, which are used later as the base for the machine learning
 
+values for time and intermediate result count:
+
 ```bash
 ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
+```
+
+values for network traffic
+```bash
+
 ```
 
 # 8. Extract the exact values, which are used for machine learning

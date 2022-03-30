@@ -26,9 +26,9 @@ val joinorder=phase[1].toInt()
 var arr=data[filename]
 if(arr==null){
 arr=DoubleArray(joinOrders)
-data[filename]=arr
+data[filename]=arr!!
 }
-arr[joinorder]=columns[header.indexOf("network traffic total (Bytes)")].toDouble()
+arr!![joinorder]=columns[header.indexOf("networktraffictotal(Bytes)")].toDouble()
 }
     }
 } while (true)
