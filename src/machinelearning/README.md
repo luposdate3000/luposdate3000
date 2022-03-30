@@ -1,7 +1,8 @@
 # 1. Install luposdate3000 dependencies
 
-Clone luposdate3000 git and install kotlin compiler.
-More details in [README-linux](documentation/installation/README-linux.md) or [README-windows](documentation/installation/README-windows.md).
+Clone luposdate3000 git and install kotlin compiler. More details
+in [README-linux](documentation/installation/README-linux.md)
+or [README-windows](documentation/installation/README-windows.md).
 
 All the following steps assume that you are in the luposdate3000 root directory
 
@@ -11,7 +12,8 @@ All the following steps assume that you are in the luposdate3000 root directory
 ./launcher.main.kts --setup --releaseMode=Enable
 ./gradlew assemble
 ```
-Mode details in [compile](documentation/README-usage-compile.md).
+
+More details in [compile](documentation/README-usage-compile.md).
 
 # 3. Install python dependencies
 
@@ -41,7 +43,8 @@ cd ../../..
 
 # 4. Define some variables to make sure the following commands always find the correct file/folder
 
-You must use absolute paths for each file and folder name, in any following steps because those file names are written to files, which are real later from different run-directories.
+You must use absolute paths for each file and folder name, in any following steps because those file names are written
+to files, which are real later from different run-directories.
 
 ```bash
 
@@ -61,11 +64,12 @@ mkdir -p $trainingDirectory
 
 # 5. Generate RDF-data
 
-Choose any dataset e.g. sp2b and make sure, that the triple file is sorted
-Mode details in [sp2b](documentation/README-real-world-benchmark-data.md)
+Choose any dataset e.g. sp2b and make sure, that the triple file is sorted More details
+in [sp2b](documentation/README-real-world-benchmark-data.md)
 Or at their homepage [home page of sp2b](http://dbis.informatik.uni-freiburg.de/index.php?project=SP2B/download.php)
 
 Or use any locally available file e.g.
+
 ```bash
 cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 ```
@@ -76,6 +80,7 @@ cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 LC_ALL=C sort $tripleFile > ${tripleFile}.sorted
 ./src/machinelearning/06_generate_four_queries.py ${tripleFile}.sorted $queriesDirectory "s"
 ```
+
 # 7. Measure the values, which are used later as the base for the machine learning
 
 ```bash
@@ -93,6 +98,7 @@ cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts > 
 ```bash
 ./src/machinelearning/09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
 ```
+
 # 10. Split data into training and test dataset
 
 ratio must be a number between 1 and 9
@@ -123,14 +129,14 @@ cat ${tripleFile}.bench.csv | ./src/machinelearning/13_evaluation_luposdate_scri
 ./src/machinelearning/13_visualization.gnuplot
 ```
 
-
-
-
 # open issues
- - move some constants into parameters, such that it is not required to change every source-file
- - move the "4" which is the number of triples into an program argument, and make everything automatically generated
- - "sort" the input triples before optimize their join order, to make sure, that the result is independent of how the user writes the query
-   -> this should ensure, that the same triples always receive the same "result-number" from the optimizer, right now depending of the user another number would be the best
- - make the filenames more predictable such that this readme does not need so complex file names - should be trivial once the constants are changed by parameter and not within source code
- - 06_generate_four_queries.py is not deterministic ??? every execution yields another query
+
+- move some constants into parameters, such that it is not required to change every source-file
+- move the "4" which is the number of triples into an program argument, and make everything automatically generated
+- "sort" the input triples before optimize their join order, to make sure, that the result is independent of how the
+  user writes the query -> this should ensure, that the same triples always receive the same "result-number" from the
+  optimizer, right now depending of the user another number would be the best
+- make the filenames more predictable such that this readme does not need so complex file names - should be trivial once
+  the constants are changed by parameter and not within source code
+- 06_generate_four_queries.py is not deterministic ??? every execution yields another query
 
