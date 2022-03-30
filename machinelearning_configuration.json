@@ -16,15 +16,15 @@
     "deviceType": {
         "Central Tower": {
             "applications": {
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
-                    "databaseQuery": true,
-                    "databaseStore": true,
-                    "enabled": true,
-                },
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_DataImport": {
                     "enabled": true,
                     "fileName": "/mnt/luposdate-testdata/sp2b/1024/complete.n3",
                     "sendStartClockInSec": 10,
+                },
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
                 },
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_MachineLearning": {
                     "enabled": true,
@@ -60,8 +60,7 @@
             ],
         },
         "Sensor Device": {
-            "applications": {
-            },
+            "applications": {},
             "performance": 1.0,
             "supportedLinkTypes": [
                 "WPAN",

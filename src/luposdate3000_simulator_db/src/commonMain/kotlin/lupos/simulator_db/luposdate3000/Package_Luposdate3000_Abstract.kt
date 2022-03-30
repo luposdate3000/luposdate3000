@@ -50,6 +50,8 @@ public class Package_Luposdate3000_Abstract(
             "simulator-intermediate-result" -> "Database-Intermadiate-Result"
             "/shacl/ontology/load" -> "Database-Ontology-Load"
             "/shacl/ontology/import" -> "Database-Ontology-Import"
+"/import/turtle" -> "Database-Turtle-Import"
+"/distributed/graph/commit" -> "Database-Graph-Commit"
             else -> TODO(path)
         }
     }
