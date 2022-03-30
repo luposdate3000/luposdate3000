@@ -13,7 +13,7 @@ do {
     if (line == null) {
         break
     }
-    val ll = line.replace(" ", "").replace("//", "/")
+    val ll = line.replace(" ", "")
     val columns = ll.split(",")
     if (columns.contains("phase")) {
 header.clear()

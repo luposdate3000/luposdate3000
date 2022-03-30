@@ -83,17 +83,25 @@ LC_ALL=C sort $tripleFile > ${tripleFile}.sorted
 
 # 7. Measure the values, which are used later as the base for the machine learning
 
-values for time and intermediate result count:
+Values for time and intermediate result count:
 
 ```bash
 ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
 ```
 
-values for network traffic
+Values for network traffic:
+The file is merged with the previous result for time and intermediate results, to gain one overview file.
+
 ```bash
 simoraCmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep java | sed "s/exec :: //g")
 ${simoraCmd} src/machinelearning/simora_config.json
-cat simulator_output/_machinelearning_configuration/measurement.csv | ./src/machinelearning/07_extract_network_traffic.main.kts > ${tripleFile}.benchNetwork.csv
+cat simulator_output/_simora_config/measurement.csv | ./src/machinelearning/07_extract_network_traffic.main.kts > ${tripleFile}.benchNetwork.csv
+head -n1 ${tripleFile}.bench.csv > a
+tail -n +2 ${tripleFile}.bench.csv | sort >> a
+head -n1 ${tripleFile}.benchNetwork.csv > b
+tail -n +2 ${tripleFile}.benchNetwork.csv | sort >> b
+join -t, a b -1 1 -2 1 > ${tripleFile}.bench.csv
+rm a b ${tripleFile}.benchNetwork.csv
 ```
 
 # 8. Extract the exact values, which are used for machine learning
