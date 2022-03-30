@@ -76,7 +76,7 @@ val p=Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToB
 awaitingQueries.add(p.queryID)
 parent.send(receiver, p)
         parent.flush()
-return "${queries[queryIndex]}_${joinOrder++}"
+return "${queries[queryIndex]}#${joinOrder++}"
 }else{
 return null
 }
