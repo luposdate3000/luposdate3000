@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-
+import kotlin.random.Random
 // -----------------------configure here ->
 val label = args[0] // choose one of : setOf("timeFor", "joinResultsFor")
 val joinOrders = args[1].toInt() //numeric value
@@ -10,6 +10,7 @@ val absoluteRanks = IntArray(joinOrders)
 val relativeRanks = IntArray(joinOrders)
 var countLines = 0
 val header = mutableListOf<String>()
+val random=Random(0)
 do {
     val line = readLine()
     if (line == null) {
@@ -33,12 +34,12 @@ do {
                 max = v
             }
         }
-        if (choiceColumn == "random") {
-            val relative = (((values.average()) - min) * 14.0 / (max - min)).toInt()
-            relativeRanks[relative]++
+val choice =        if (choiceColumn == "random") {
+random.nextInt(0,joinOrders)
         } else {
-            val choice = columns[header.indexOf(choiceColumn)].toInt()
-            for (v in values) {
+            columns[header.indexOf(choiceColumn)].toInt()
+           }
+ for (v in values) {
                 if (v < values[choice]) {
                     absolute++
                 }
@@ -46,15 +47,8 @@ do {
             val relative = ((values[choice] - min) * 14.0 / (max - min)).toInt()
             absoluteRanks[absolute]++
             relativeRanks[relative]++
-        }
     }
 } while (true)
-
-if (choiceColumn == "random") {
-    for (i in 0 until joinOrders) {
-        absoluteRanks[i] = (countLines / joinOrders) + if (countLines % joinOrders < i) 1 else 0
-    }
-}
 
 var absoluteAccumulator = 0
 var relativeAccumulator = 0
