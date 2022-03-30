@@ -131,14 +131,15 @@ cat ${tripleFile}.bench.csv | ./src/machinelearning/13_evaluation_luposdate_scri
 ./src/machinelearning/13_visualization.gnuplot
 ```
 
-# open issues
+# vv. Verify the uniform distribution of the input ... before any machine learning, to prevent the model to learn a constant.
 
-- move some constants into parameters, such that it is not required to change every source-file
-- move the "4" which is the number of triples into an program argument, and make everything automatically generated
-- "sort" the input triples before optimize their join order, to make sure, that the result is independent of how the
-  user writes the query -> this should ensure, that the same triples always receive the same "result-number" from the
-  optimizer, right now depending of the user another number would be the best
-- make the filenames more predictable such that this readme does not need so complex file names - should be trivial once
-  the constants are changed by parameter and not within source code
-- 06_generate_four_queries.py is not deterministic ??? every execution yields another query
+look at all the resulting images.
+They should have the similar values along the whole grafik - for each grafik
 
+```bash
+cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts joinResultsFor 15 abs > results_abs.csv
+cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts joinResultsFor 15 rel > results_rel.csv
+cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts timeFor 15 abs > time_abs.csv
+cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts timeFor 15 rel > time_rel.csv
+./src/machinelearning/vv_visualize.gnuplot
+```

@@ -4,6 +4,7 @@ import kotlin.random.Random
 // -----------------------configure here ->
 val label = args[0] // choose one of : setOf("timeFor", "joinResultsFor")
 val joinOrders = args[1].toInt() //numeric value
+val absOrRel=args[2]=="abs"
 // -----------------------configure here <-
 
 val absoluteRanks = Array(joinOrders){DoubleArray(joinOrders)}
@@ -47,11 +48,13 @@ for(choice in 0 until joinOrders){
     }
 } while (true)
 
-println("absolute")
+println(",${List(joinOrders){"Rank"+it}.joinToString()}")
+if(absOrRel){
 for(i in 0 until joinOrders){
-println(absoluteRanks[i].joinToString())
+println("Choice$i,"+absoluteRanks[i].map{it.toDouble()/countLines.toDouble()}.joinToString())
 }
-println("relative")
+}else{
 for(i in 0 until joinOrders){
-println(relativeRanks[i].joinToString())
+println("Choice$i,"+relativeRanks[i].map{it.toDouble()/countLines.toDouble()}.joinToString())
+}
 }
