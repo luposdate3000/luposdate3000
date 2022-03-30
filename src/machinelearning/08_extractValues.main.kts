@@ -1,7 +1,7 @@
 #!/usr/bin/env kotlin
 
 // -----------------------configure here ->
-val label = "timeFor" // choose one of : setOf("timeFor", "joinResultsFor")
+val label = "timeFor" // choose one of : setOf("timeFor", "joinResultsFor", "networkTrafficFor")
 val joinOrders = 15
 // -----------------------configure here <-
 

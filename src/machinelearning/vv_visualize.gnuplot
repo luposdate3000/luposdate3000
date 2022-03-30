@@ -9,3 +9,7 @@ set output 'time_abs.png'
 plot "time_abs.csv" matrix rowheaders columnheaders with image notitle
 set output 'time_rel.png'
 plot "time_rel.csv" matrix rowheaders columnheaders with image notitle
+set output 'networkTraffic_abs.png'
+plot "networkTraffic_abs.csv" matrix rowheaders columnheaders with image notitle
+set output 'networkTraffic_rel.png'
+plot "networkTraffic_rel.csv" matrix rowheaders columnheaders with image notitle
