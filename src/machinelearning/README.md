@@ -91,7 +91,9 @@ values for time and intermediate result count:
 
 values for network traffic
 ```bash
-
+simoraCmd=$(./launcher.main.kts --run --mainClass=Launch_Simulator_Config --dryMode=Enable | grep java | sed "s/exec :: //g")
+${simoraCmd} src/machinelearning/simora_config.json
+cat simulator_output/_machinelearning_configuration/measurement.csv | ./src/machinelearning/07_extract_network_traffic.main.kts > ${tripleFile}.benchNetwork.csv
 ```
 
 # 8. Extract the exact values, which are used for machine learning
