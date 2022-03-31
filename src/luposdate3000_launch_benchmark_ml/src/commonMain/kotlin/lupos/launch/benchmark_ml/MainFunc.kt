@@ -34,9 +34,9 @@ import lupos.shared.inline.MyPrintWriter
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit {
     val instance = LuposdateEndpoint.initialize()
-    Parallel.launch {
-        HttpEndpointLauncher.start(instance)
-    }
+//    Parallel.launch {
+//        HttpEndpointLauncher.start(instance)
+//    }
 
     val inputString = File(queryFiles).readAsString()
     val queryFiles2 = inputString.split(";")
