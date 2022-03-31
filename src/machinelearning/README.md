@@ -74,11 +74,20 @@ Or use any locally available file e.g.
 cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
 ```
 
-# 6. Generate SPARQL-queries
+# 6a. Generate SPARQL-queries
 
 ```bash
 LC_ALL=C sort $tripleFile > ${tripleFile}.sorted
 ./src/machinelearning/06_generate_four_queries.py ${tripleFile}.sorted $queriesDirectory "s"
+```
+
+# 6b. Generate SPARQL-queries - new algorithm
+
+first convert to n-triples - and eliminate ALL prefix directives, which makes sorting the data much easier
+
+```bash
+./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | sort > ${tripleFile}.nt
+./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt 3 $queriesDirectory
 ```
 
 # 7. Measure the values, which are used later as the base for the machine learning

@@ -1,0 +1,280 @@
+#!/usr/bin/env kotlin
+@file:Import("06_Turtle.kt")
+
+import parser.Parser
+
+val parser = Parser(java.io.File(args[0]).inputStream())
+val numberOfJoins = args[1].toInt()
+val outputfolder = java.io.File(args[2])
+outputfolder.mkdirs()
+
+
+class MyClass(val key: Set<String>) {
+    val variables = mutableMapOf<String, MyType>()
+    val id = knownClassesIDMap.size
+    fun mergeWith(values: List<Pair<String, String>>) {
+        val counter = mutableMapOf<String, Int>()
+        for (k in variables.keys) {
+            counter[k] = 0
+        }
+        for (v in values) {
+            if (counter[v.first] == null) {
+                counter[v.first] = 1
+            } else {
+                counter[v.first] = counter[v.first]!! + 1
+            }
+        }
+        for ((k, v) in counter) {
+            var vv = variables[k]
+            if (vv == null) {
+                vv = MyType(v)
+                variables[k] = vv
+            }
+            vv.updateMinMax(v)
+        }
+        for (v in values) {
+            if (v.second.startsWith("_:") || (v.second.startsWith("<") && v.second.endsWith(">"))) {
+                variables[v.first]!!.addPossibleReference(v.second)
+            }
+        }
+    }
+
+    fun checkPossibleReferences(): Boolean {
+        var res = false
+        for (v in variables.values) {
+            res = v.checkPossibleReferences() || res
+        }
+        return res
+    }
+}
+
+class MyType(count: Int) {
+    var minCount = count
+    var maxCount = count
+    var referencedSubjectClasses = mutableSetOf<Int>()
+    var possibleSubjectReferences = mutableSetOf<String>()
+    fun addPossibleReference(s: String) {
+        var x = subjectTypeMap[s]
+        if (x != null) {
+            referencedSubjectClasses.add(x)
+        } else {
+            possibleSubjectReferences.add(s)
+        }
+    }
+
+    fun checkPossibleReferences(): Boolean {
+        var tmp = mutableSetOf<String>()
+        tmp.addAll(possibleSubjectReferences)
+        possibleSubjectReferences.clear()
+        for (s in tmp) {
+            addPossibleReference(s)
+        }
+        return possibleSubjectReferences.size > 0
+    }
+
+    fun updateMinMax(count: Int) {
+        if (minCount > count) {
+            minCount = count
+        }
+        if (maxCount < count) {
+            maxCount = count
+        }
+    }
+}
+
+var currentClass = mutableListOf<Pair<String, String>>()
+var currentSubject: String? = null
+val knownClassesIDMap = mutableListOf<MyClass>()
+val knownClassesMap = mutableMapOf<Set<String>, MyClass>()
+val subjectTypeMap = mutableMapOf<String, Int>()
+
+
+fun findClassFor(values: List<Pair<String, String>>): Set<String> {
+    // return currentClass.map { it.first }.toSet()
+    return currentClass.filter { it.first == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" }.map { it.second }.toSet()
+}
+
+fun consumeClass() {
+    val key = findClassFor(currentClass)
+    if (key.size > 0) {
+        var t: MyClass? = knownClassesMap[key]
+        if (t == null) {
+            t = MyClass(key)
+            knownClassesMap[key] = t
+            knownClassesIDMap.add(t)
+        }
+        t.mergeWith(currentClass)
+        if (subjectTypeMap[currentSubject] != null) {
+            TODO("currentSubject $currentSubject")
+        }
+        subjectTypeMap[currentSubject!!] = t.id
+    }
+}
+
+fun checkAllPossibleReferences() {
+    for (c in knownClassesIDMap) {
+        c.checkPossibleReferences()
+    }
+}
+
+
+parser.consumeTriple = { s, p, o ->
+    if (currentSubject != s) {
+        if (currentSubject != null) {
+            consumeClass()
+        }
+        currentClass.clear()
+        currentSubject = s
+    }
+    if (p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") && p.endsWith(">")) {
+        currentClass.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" to o)
+    } else {
+        currentClass.add(p to o)
+    }
+}
+
+parser.parserDefinedParse()
+parser.close();
+consumeClass()
+checkAllPossibleReferences()
+
+
+for (clazz in knownClassesIDMap) {
+    println()
+    println(clazz.key)
+    for ((k, v) in clazz.variables) {
+        println("$k [${v.minCount}:${v.maxCount}] -> ${v.referencedSubjectClasses.map { knownClassesIDMap[it].key }}")
+    }
+}
+
+class MyJoin {
+    val patterns = mutableListOf<Triple<String, String, String>>()
+    var variableClasses = mutableListOf<Int>()
+    fun myClone(): MyJoin {
+        val res = MyJoin()
+        res.patterns.addAll(patterns)
+        res.variableClasses.addAll(variableClasses)
+        return res
+    }
+
+    fun nextVariableName(clazz: Int): String {
+        variableClasses.add(clazz)
+        return "?v${variableClasses.size - 1}"
+    }
+
+    fun variableFor(i: Int): String = "?v${i}"
+    fun extractVariableID(s: String): Int {
+        return if (s.startsWith("?v")) {
+            s.drop(2).toInt()
+        } else {
+            return -1
+        }
+    }
+}
+
+var knownJoins = mutableListOf<MyJoin>()
+
+
+fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String? = null) {
+    var flag = lastPredicate == null
+    for ((predicate, objects) in clazz.variables) {
+        if (flag) {
+            when (predicate) {
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" -> {
+                    val j = jj.myClone()
+                    j.patterns.add(Triple(subjectName, predicate, clazz.key.first()))
+                    knownJoins.add(j)
+                }
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" -> {
+                    if (objects.referencedSubjectClasses.size == 0) {
+                        val j = jj.myClone()
+                        j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(-1)))
+                        knownJoins.add(j)
+                    } else {
+                        for (objClazz in objects.referencedSubjectClasses) {
+                            val j = jj.myClone()
+                            j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(objClazz)))
+                            knownJoins.add(j)
+                        }
+                    }
+                }
+                else -> {
+                    if (objects.referencedSubjectClasses.size == 0) {
+                        val j = jj.myClone()
+                        j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(-1)))
+                        knownJoins.add(j)
+                    } else {
+                        for (objClazz in objects.referencedSubjectClasses) {
+                            val j = jj.myClone()
+                            j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(objClazz)))
+                            knownJoins.add(j)
+                        }
+                    }
+                }
+            }
+        }
+        if (predicate == lastPredicate) {
+            flag = true
+        }
+    }
+}
+
+for (clazz in knownClassesIDMap) {
+    val j = MyJoin()
+    addToJoin(j, j.nextVariableName(clazz.id), clazz)
+}
+
+fun writeDownQueries(patternCount: Int) {
+    val folder = java.io.File(outputfolder, "patterns_$patternCount")
+    folder.mkdirs()
+    var idx = 0
+    for (query in knownJoins) {
+        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
+            out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
+            for (p in query.patterns) {
+                out.println("  ${p.first} ${p.second} ${p.third} . ")
+            }
+            out.println("}")
+            for (i in 0 until query.variableClasses.size) {
+                var k = query.variableClasses[i]
+                if (k < 0) {
+                    out.println("# ${query.variableFor(i)} -> ANY")
+                } else {
+                    out.println("# ${query.variableFor(i)} -> ${knownClassesIDMap[k].key}")
+                }
+            }
+        }
+        idx++
+    }
+
+}
+
+
+var knownJoinsPrev = mutableListOf<MyJoin>()
+writeDownQueries(1)
+for (joinCount in 0 until numberOfJoins) {
+    knownJoinsPrev = knownJoins
+    knownJoins = mutableListOf()
+    for (j in knownJoinsPrev) {
+        var lastPattern = j.patterns.last()
+        var lastSubjectType = j.extractVariableID(lastPattern.first)
+        if (lastSubjectType != -1) {
+            val lastSubjectType2 = j.variableClasses[lastSubjectType]
+            if (lastSubjectType2 != -1) {
+                val clazz = knownClassesIDMap[lastSubjectType2]
+                addToJoin(j, lastPattern.first, clazz, lastPattern.second)
+            }
+        }
+        var lastObjectType = j.extractVariableID(lastPattern.third)
+        if (lastObjectType != -1) {
+            val lastObjectType2 = j.variableClasses[lastObjectType]
+            if (lastObjectType2 != -1) {
+                val clazz = knownClassesIDMap[lastObjectType2]
+                addToJoin(j, lastPattern.third, clazz)
+            }
+        }
+    }
+    writeDownQueries(joinCount + 2)
+}
+
+
