@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
+
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
@@ -56,7 +57,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         "luposdateRelativeRanking(time)",
         "luposdateAbsoluteRanking(results)",
         "luposdateRelativeRanking(results)",
-    ) + joinOrders.map { "timeFor($it)" }    +joinOrders.map { "joinResultsFor($it)" }
+    ) + joinOrders.map { "timeFor($it)" } + joinOrders.map { "joinResultsFor($it)" }
 
     File("$datasourceFiles.bench.csv").withOutputStream { benchOut ->
         benchOut.println(columnNames.joinToString())
@@ -84,44 +85,44 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                 }
                 // dry run, to prevent caching issues
                 fun addCounters(node: IOPBase): IOPBase {
-                    return when (node){
-is OPBaseCompound->{
-val a = addCounters(node.children[0])
-OPBaseCompound(node.getQuery(),arrayOf(a),node.columnProjectionOrder)
-}
-is POPJoinCartesianProduct->{
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinCartesianProduct(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-}
-is POPJoinHashMap->{
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinHashMap(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-}
-is POPJoinMergeSingleColumn->{
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMergeSingleColumn(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-}
- is POPJoinMerge-> {
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                    return when (node) {
+                        is OPBaseCompound -> {
+                            val a = addCounters(node.children[0])
+                            OPBaseCompound(node.getQuery(), arrayOf(a), node.columnProjectionOrder)
+                        }
+                        is POPJoinCartesianProduct -> {
+                            val a = addCounters(node.children[0])
+                            val b = addCounters(node.children[1])
+                            POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinCartesianProduct(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                        }
+                        is POPJoinHashMap -> {
+                            val a = addCounters(node.children[0])
+                            val b = addCounters(node.children[1])
+                            POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinHashMap(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                        }
+                        is POPJoinMergeSingleColumn -> {
+                            val a = addCounters(node.children[0])
+                            val b = addCounters(node.children[1])
+                            POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMergeSingleColumn(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                        }
+                        is POPJoinMerge -> {
+                            val a = addCounters(node.children[0])
+                            val b = addCounters(node.children[1])
+                            POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+                        }
+                        is POPProjection -> {
+                            POPProjection(node.getQuery(), node.getProvidedVariableNames(), addCounters(node.children[0]))
+                        }
+                        is POPGroup -> {
+                            POPGroup(node.getQuery(), node.getProvidedVariableNames(), node.by, node.bindings, addCounters(node.children[0]))
+                        }
+                        is POPTripleStoreIterator -> {
+                            node
+                        }
+                        else -> {
+                            TODO(node.getClassname())
+                        }
                     }
-is POPProjection->{
-POPProjection(node.getQuery(),node.getProvidedVariableNames(),addCounters(node.children[0]))
-}
-is POPGroup->{
-POPGroup(node.getQuery(),node.getProvidedVariableNames(),node.by,node.bindings,addCounters(node.children[0]))
-}
-is POPTripleStoreIterator->{
-node
-}
- else-> {
-TODO(node.getClassname())
-                    }
-}
                 }
                 LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
                 measured_results[joinOrder] = instance.machineLearningCounter.toDouble()
