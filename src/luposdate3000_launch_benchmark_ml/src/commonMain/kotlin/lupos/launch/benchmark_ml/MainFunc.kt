@@ -22,6 +22,7 @@ import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.multiinput.POPJoinHashMap
+import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.shared.operator.IOPBase
@@ -87,6 +88,11 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
 is OPBaseCompound->{
 val a = addCounters(node.children[0])
 OPBaseCompound(node.getQuery(),arrayOf(a),node.columnProjectionOrder)
+}
+is POPJoinCartesianProduct->{
+                        val a = addCounters(node.children[0])
+                        val b = addCounters(node.children[1])
+                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinCartesianProduct(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
 }
 is POPJoinHashMap->{
                         val a = addCounters(node.children[0])

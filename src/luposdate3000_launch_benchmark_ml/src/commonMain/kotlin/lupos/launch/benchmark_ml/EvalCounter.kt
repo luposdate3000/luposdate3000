@@ -24,6 +24,10 @@ import kotlin.jvm.JvmField
 
 public object EvalCounter {
     public operator fun invoke(child: IteratorBundle,instance:Luposdate3000Instance): IteratorBundle {
+if(child.hasCountMode()){
+instance.machineLearningCounter++
+return child
+}
         val variables = child.columns.keys
         val outMap = mutableMapOf<String, ColumnIterator>()
 var first=true
