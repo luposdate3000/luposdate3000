@@ -15,11 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
-
+import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.endpoint_launcher.HttpEndpointLauncher
+import lupos.operator.physical.singleinput.POPGroup
+import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.base.OPBaseCompound
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.shared.operator.IOPBase
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
@@ -84,14 +88,32 @@ is OPBaseCompound->{
 val a = addCounters(node.children[0])
 OPBaseCompound(node.getQuery(),arrayOf(a),node.columnProjectionOrder)
 }
+is POPJoinHashMap->{
+                        val a = addCounters(node.children[0])
+                        val b = addCounters(node.children[1])
+                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinHashMap(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+}
+is POPJoinMergeSingleColumn->{
+                        val a = addCounters(node.children[0])
+                        val b = addCounters(node.children[1])
+                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMergeSingleColumn(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+}
  is POPJoinMerge-> {
                         val a = addCounters(node.children[0])
                         val b = addCounters(node.children[1])
                         POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
                     }
+is POPProjection->{
+POPProjection(node.getQuery(),node.getProvidedVariableNames(),addCounters(node.children[0]))
+}
+is POPGroup->{
+POPGroup(node.getQuery(),node.getProvidedVariableNames(),node.by,node.bindings,addCounters(node.children[0]))
+}
+is POPTripleStoreIterator->{
+node
+}
  else-> {
-TODO(node)
-                        node
+TODO(node.getClassname())
                     }
 }
                 }
