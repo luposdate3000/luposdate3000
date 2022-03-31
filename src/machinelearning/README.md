@@ -84,10 +84,12 @@ LC_ALL=C sort $tripleFile > ${tripleFile}.sorted
 # 6b. Generate SPARQL-queries - new algorithm
 
 first convert to n-triples - and eliminate ALL prefix directives, which makes sorting the data much easier
+if the parameter "fast" is replaced with something else, than the queries do print all the joined values.
+In fast-mode only the count is returned, which is a huge speed improvement, if you only want to measure intermediate results, and not timings
 
 ```bash
 ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | sort > ${tripleFile}.nt
-./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt 3 $queriesDirectory
+./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt 3 $queriesDirectory fast
 ```
 
 # 7. Measure the values, which are used later as the base for the machine learning
@@ -95,7 +97,7 @@ first convert to n-triples - and eliminate ALL prefix directives, which makes so
 Values for time and intermediate result count:
 
 ```bash
-./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
+./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params_4 --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
 ```
 
 Values for network traffic:

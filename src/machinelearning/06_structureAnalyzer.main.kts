@@ -5,9 +5,11 @@ import parser.Parser
 
 val parser = Parser(java.io.File(args[0]).inputStream())
 val numberOfJoins = args[1].toInt()
-val outputfolder = java.io.File(args[2])
+val outputfolderName=args[2]
+val outputfolder = java.io.File(outputfolderName)
 outputfolder.mkdirs()
-
+var dictionarySet=mutableSetOf<String>()
+val fastQueryMode=args[3]=="fast"
 
 class MyClass(val key: Set<String>) {
     val variables = mutableMapOf<String, MyType>()
@@ -119,6 +121,7 @@ fun checkAllPossibleReferences() {
 
 
 parser.consumeTriple = { s, p, o ->
+dictionarySet.add(p)
     if (currentSubject != s) {
         if (currentSubject != null) {
             consumeClass()
@@ -137,7 +140,7 @@ parser.parserDefinedParse()
 parser.close();
 consumeClass()
 checkAllPossibleReferences()
-
+val dictionary=listOf("")+dictionarySet.toList()
 
 for (clazz in knownClassesIDMap) {
     println()
@@ -228,9 +231,17 @@ fun writeDownQueries(patternCount: Int) {
     val folder = java.io.File(outputfolder, "patterns_$patternCount")
     folder.mkdirs()
     var idx = 0
+val luposdate3000_query_params=StringBuilder()
+val python_ml_params=StringBuilder()
     for (query in knownJoins) {
-        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
+luposdate3000_query_params.append(outputfolderName+"/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
+python_ml_params.append(outputfolderName+"/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
+       java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
+if(fastQueryMode){
+            out.println("SELECT (COUNT(*) as ?c) WHERE {")
+}else{
             out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
+}
             for (p in query.patterns) {
                 out.println("  ${p.first} ${p.second} ${p.third} . ")
             }
@@ -244,9 +255,38 @@ fun writeDownQueries(patternCount: Int) {
                 }
             }
         }
+java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
+for (p in query.patterns) {
+fun mlqMapping(s:String):Int{
+var c=query.extractVariableID(s)
+if(c<0){
+return dictionary.indexOf(s)
+}else{
+return -c-1
+}
+}
+out.print(mlqMapping(p.first))
+out.print(",")
+out.print(mlqMapping(p.second))
+out.print(",")
+out.print(mlqMapping(p.third))
+out.print(";")
+}
+}
         idx++
     }
+java.io.File(outputfolder, "luposdate3000_query_params_$patternCount").printWriter().use { out ->
+out.print(luposdate3000_query_params.toString().dropLast(1))
+}
+java.io.File(outputfolder, "python_ml_params_$patternCount").printWriter().use { out ->
+out.print(python_ml_params.toString().dropLast(1))
+}
+}
 
+java.io.File(outputfolder, "dictionary").printWriter().use { out ->
+for(i in 1 until dictionary.size){
+out.println("$i ${dictionary[i]}")
+}
 }
 
 

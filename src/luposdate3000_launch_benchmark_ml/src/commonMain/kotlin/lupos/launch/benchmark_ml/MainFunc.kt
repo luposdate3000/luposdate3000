@@ -90,6 +90,7 @@ OPBaseCompound(node.getQuery(),arrayOf(a),node.columnProjectionOrder)
                         POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
                     }
  else-> {
+TODO(node)
                         node
                     }
 }
