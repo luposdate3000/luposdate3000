@@ -49,6 +49,7 @@ val timeout=10.0
                 if (line == null) {
                     break
                 }
+benchFileHasHeader=true
                 queryFiles3.remove(line.split(",")[0])
             }
         }

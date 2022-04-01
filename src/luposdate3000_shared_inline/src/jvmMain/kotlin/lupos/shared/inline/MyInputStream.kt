@@ -36,7 +36,6 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
-        // kotlin.io.println("MyInputStream.constructor $this")
     }
 
     actual override fun read(buf: ByteArray): Int {
@@ -72,27 +71,34 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     }
 
     actual override fun readInt(): Int {
-        read(buf8, 4)
+if(        read(buf8, 4)<4){
+throw Exception("eof")
+}
         return ByteArrayHelper.readInt4(buf8, 0)
     }
 
     actual override fun readDictionaryValueType(): DictionaryValueType {
-        read(buf8, DictionaryValueHelper.getSize())
+if(        read(buf8, DictionaryValueHelper.getSize())<DictionaryValueHelper.getSize()){
+throw Exception("eof")
+}
         return DictionaryValueHelper.fromByteArray(buf8Wrapper, 0)
     }
 
     actual override fun readLong(): Long {
-        read(buf8, 8)
+if(        read(buf8, 8)<8){ 
+throw Exception("eof")
+}
         return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     actual override fun readByte(): Byte {
-        read(buf8, 1)
+if(        read(buf8, 1)<1){ 
+throw Exception("eof")
+}
         return buf8[0]
     }
 
     actual override fun close() {
-        // kotlin.io.println("MyInputStream.close $this")
         stream.close()
     }
 
@@ -105,7 +111,9 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
             var b = readByte()
             while (true) {
                 when (b) {
-                    '\n'.code.toByte() -> break
+                    '\n'.code.toByte() -> {
+                        break
+                    }
                     '\r'.code.toByte() -> {
                     }
                     0.toByte() -> throw Exception("zero Bytes not allowed within utf8-string")
