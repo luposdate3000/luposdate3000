@@ -20,9 +20,10 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
-
+import lupos.shared.IQuery
 public object EvalJoinMergeSingleColumn {
     public operator fun invoke(
+query:IQuery,
         child0: IteratorBundle,
         child1: IteratorBundle,
     ): IteratorBundle {
@@ -32,7 +33,7 @@ public object EvalJoinMergeSingleColumn {
         val a = child00.next()
         val b = child11.next()
         if (a != DictionaryValueHelper.nullValue && b != DictionaryValueHelper.nullValue) {
-            outMap[child0.columns.keys.first()] = POPJoinMergeSingleColumn_Iterator(child00, child11, a, b)
+            outMap[child0.columns.keys.first()] = POPJoinMergeSingleColumn_Iterator(query,child00, child11, a, b)
         } else {
             outMap[child0.columns.keys.first()] = ColumnIteratorEmpty()
             child00.close()

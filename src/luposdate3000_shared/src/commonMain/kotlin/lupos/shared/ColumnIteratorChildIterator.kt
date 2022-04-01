@@ -18,8 +18,8 @@ package lupos.shared
 
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
-public abstract class ColumnIteratorChildIterator : ColumnIterator() {
+import lupos.shared.IQuery
+public abstract class ColumnIteratorChildIterator (public val query:IQuery): ColumnIterator() {
     @JvmField
     public var queue: Array<ColumnIterator> = Array(100) { this }
 

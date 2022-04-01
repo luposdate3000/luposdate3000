@@ -251,7 +251,7 @@ public object ConverterBinaryToIteratorBundle {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMergeOptional.variables[$i]" })))
                 }
-                EvalJoinMergeOptional(arrayOf(child0, child1), projectedVariables)
+                EvalJoinMergeOptional(query,arrayOf(child0, child1), projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -264,7 +264,7 @@ public object ConverterBinaryToIteratorBundle {
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
                 }
-                EvalJoinMerge(child0, child1, projectedVariables)
+                EvalJoinMerge(query,child0, child1, projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -272,7 +272,7 @@ public object ConverterBinaryToIteratorBundle {
             { query, data, off, operatorMap ->
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }), operatorMap)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }), operatorMap)
-                EvalJoinMergeSingleColumn(child0, child1)
+                EvalJoinMergeSingleColumn(query,child0, child1)
             },
         )
         assignOperatorPhysicalDecode(
@@ -286,7 +286,7 @@ public object ConverterBinaryToIteratorBundle {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                EvalJoinHashMap(child0, child1, optional, projectedVariables)
+                EvalJoinHashMap(query,child0, child1, optional, projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -295,7 +295,7 @@ public object ConverterBinaryToIteratorBundle {
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }), operatorMap)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }), operatorMap)
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
-                EvalJoinCartesianProduct(child0, child1, optional)
+                EvalJoinCartesianProduct(query,child0, child1, optional)
             },
         )
         assignOperatorPhysicalDecode(

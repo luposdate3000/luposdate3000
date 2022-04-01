@@ -17,6 +17,7 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.multiinput.LOPJoin_Helper
+import lupos.shared.IQuery
 import lupos.operator.physical.MapKey
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
@@ -29,6 +30,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalJoinHashMap {
     public operator fun invoke(
+query:IQuery,
         childA: IteratorBundle,
         childB: IteratorBundle,
         optional: Boolean,
@@ -36,7 +38,7 @@ public object EvalJoinHashMap {
     ): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(childA.columns.keys.toList(), childB.columns.keys.toList())
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:38"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:40"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val columnsINAJ = mutableListOf<ColumnIterator>() // join columnA
@@ -81,7 +83,7 @@ public object EvalJoinHashMap {
         var count: Int
         var countA: Int
         var countB: Int
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:83"/*SOURCE_FILE_END*/ }, { columnsINAJ.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:85"/*SOURCE_FILE_END*/ }, { columnsINAJ.size > 0 })
 // --- insert second child into hash table
         while (true) {
             count = if (currentKey != null) {
@@ -139,7 +141,7 @@ public object EvalJoinHashMap {
 // --- iterate first child
 // --- calculate next "cartesian product"
         for ((first, second) in outIterators) {
-            val iterator = object : ColumnIteratorChildIterator() {
+            val iterator = object : ColumnIteratorChildIterator(query) {
                 override /*suspend*/ fun close() {
                     __close()
                 }
@@ -162,7 +164,7 @@ public object EvalJoinHashMap {
 
                 override /*suspend*/ fun next(): DictionaryValueType {
                     return ColumnIteratorChildIteratorExt.nextHelper(
-                        this,
+query,                        this,
                         {
                             var done = false
                             while (!done) {
@@ -177,7 +179,7 @@ public object EvalJoinHashMap {
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:179"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:181"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             nextKey = null
                                             break@loopA
                                         }
@@ -227,7 +229,7 @@ public object EvalJoinHashMap {
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:229"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:231"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }

@@ -19,13 +19,13 @@ package lupos.operator.base.iterator
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
-
-public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
+import lupos.shared.IQuery
+public class ColumnIteratorChildIteratorEmpty(query:IQuery) : ColumnIteratorChildIterator(query) {
     override /*suspend*/ fun close() {
         _close()
     }
 
     override /*suspend*/ fun next(): DictionaryValueType {
-        return ColumnIteratorChildIteratorExt.nextHelper(this, {}, { _close() })
+        return ColumnIteratorChildIteratorExt.nextHelper(query,this, {}, { _close() })
     }
 }

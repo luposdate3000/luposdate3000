@@ -62,7 +62,7 @@ public class POPJoinMergeSingleColumn public constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeSingleColumn(children[0].evaluate(parent), children[1].evaluate(parent))
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeSingleColumn(query,children[0].evaluate(parent), children[1].evaluate(parent))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeSingleColumn(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {

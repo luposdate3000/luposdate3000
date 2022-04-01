@@ -21,9 +21,10 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-
+import lupos.shared.IQuery
 public object EvalJoinMerge {
     public operator fun invoke(
+query:IQuery,
         child0: IteratorBundle,
         child1: IteratorBundle,
         projectedVariables: List<String>,
@@ -60,8 +61,8 @@ public object EvalJoinMerge {
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1.columns[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:62"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:63"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:63"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:64"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
@@ -69,7 +70,7 @@ public object EvalJoinMerge {
         val key0 = DictionaryValueTypeArray(columnsINJ0.size)
         val key1 = DictionaryValueTypeArray(columnsINJ1.size)
         for ((first, second) in outIterators) {
-            val iterator = POPJoinMerge_Iterator(columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
+            val iterator = POPJoinMerge_Iterator(query,columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
             when (second) {
                 0 -> {
                     outMap[first] = iterator

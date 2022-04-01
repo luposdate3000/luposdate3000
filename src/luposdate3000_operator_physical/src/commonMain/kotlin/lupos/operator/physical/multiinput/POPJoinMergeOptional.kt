@@ -61,7 +61,7 @@ public class POPJoinMergeOptional public constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeOptional(Array(2) { children[it].evaluate(parent) }, projectedVariables)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeOptional(query,Array(2) { children[it].evaluate(parent) }, projectedVariables)
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)

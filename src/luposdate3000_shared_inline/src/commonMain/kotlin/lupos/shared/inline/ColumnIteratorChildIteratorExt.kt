@@ -20,9 +20,13 @@ package lupos.shared.inline
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-
+import lupos.shared.IQuery
 internal object ColumnIteratorChildIteratorExt {
-    /*suspend*/ public inline fun nextHelper(iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
+    /*suspend*/ public inline fun nextHelper(query:IQuery,iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
+if(query.shouldAbortNow()){
+onClose()
+return DictionaryValueHelper.nullValue
+}else{
         when (iterator.label) {
             1 -> {
                 while (iterator.queueRead < iterator.queueWrite) {
@@ -64,4 +68,5 @@ internal object ColumnIteratorChildIteratorExt {
             }
         }
     }
+}
 }
