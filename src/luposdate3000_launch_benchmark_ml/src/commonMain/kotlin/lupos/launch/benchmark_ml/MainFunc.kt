@@ -40,8 +40,23 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
 //    }
 
     val inputString = File(queryFiles).readAsString()
-    val queryFiles2 = inputString.split(";")
-
+    val queryFiles3 = inputString.split(";").toMutableSet()
+var benchFileHasHeader=false
+try{
+File("$datasourceFiles.bench.csv").withInputStream{benchIn->
+while(true){
+val line=benchIn.readLine()
+if(line==null){
+break
+}
+queryFiles3.remove(line.split(",")[0])
+}
+}
+}catch(e:Throwable){
+benchFileHasHeader=false
+}
+val queryFiles2=queryFiles3.toTypedArray()
+queryFiles2.shuffle()
     val minimumTime2 = minimumTime.toDouble()
 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
@@ -59,10 +74,13 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         "luposdateRelativeRanking(results)",
     ) + joinOrders.map { "timeFor($it)" } + joinOrders.map { "joinResultsFor($it)" }
 
-    File("$datasourceFiles.bench.csv").withOutputStream { benchOut ->
+val benchOut=    File("$datasourceFiles.bench.csv").openOutputStream(true)
+if(!benchFileHasHeader){
         benchOut.println(columnNames.joinToString())
+}
         for (queryFileIdx in queryFiles2.indices) { // for every query
             val queryFile = queryFiles2[queryFileIdx]
+println("going to benchmark $queryFile")
             val query = File(queryFile).readAsString()
             val benchmarkValues = mutableMapOf("queryFile" to queryFile)
             var luposChoice = -1
@@ -70,7 +88,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             var measured_results = DoubleArray(joinOrders.size)
             for (joinOrder in joinOrders) {
                 // Read in query file
-
+println("going to benchmark $queryFile for joinOrder $joinOrder")
                 // Optimize query and convert to operatorgraph
                 instance.useMachineLearningOptimizer = true
                 instance.machineLearningOptimizerOrder = joinOrder
@@ -125,6 +143,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                     }
                 }
                 LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
+println(addCounters(node))
                 measured_results[joinOrder] = instance.machineLearningCounter.toDouble()
                 benchmarkValues["joinResultsFor($joinOrder)"] = instance.machineLearningCounter.toString()
 
@@ -182,6 +201,6 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             }
             benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
             benchOut.flush()
-        }
     }
+benchOut.close()
 }
