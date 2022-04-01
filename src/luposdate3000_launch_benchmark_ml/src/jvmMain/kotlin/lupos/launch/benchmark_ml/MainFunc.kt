@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
+
 import  kotlin.concurrent.timer
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.endpoint.LuposdateEndpoint
@@ -32,13 +33,24 @@ import lupos.shared.Parallel
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.operator.base.Query
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit {
     val instance = LuposdateEndpoint.initialize()
 //    Parallel.launch {
 //        HttpEndpointLauncher.start(instance)
 //    }
-val timeout=10.0
+    var noTimeMeasurement = minimumTime2 <= 0
+    val minimumTime2 = if (noTimeMeasurement) {
+        if (minimumTime2 == 0) {
+            1.0
+        } else {
+            -minimumTime
+        }
+    } else {
+        minimumTime
+    }
+    val timeout = minimumTime2 * 10.0
     val inputString = File(queryFiles).readAsString()
     val queryFiles3 = inputString.split(";").toMutableSet()
     var benchFileHasHeader = false
@@ -49,7 +61,7 @@ val timeout=10.0
                 if (line == null) {
                     break
                 }
-benchFileHasHeader=true
+                benchFileHasHeader = true
                 queryFiles3.remove(line.split(",")[0])
             }
         }
@@ -58,7 +70,7 @@ benchFileHasHeader=true
     }
     val queryFiles2 = queryFiles3.toTypedArray()
     queryFiles2.shuffle()
-    val minimumTime2 = minimumTime.toDouble()
+    val minimumTime22 = minimumTime2.toDouble()
 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
@@ -143,12 +155,13 @@ benchFileHasHeader=true
                     }
                 }
             }
-var hadEnforcedAbort=false
-val timeoutTimer=timer(daemon=true,initialDelay=(timeout*1000).toLong(),period=1000){
-(node.getQuery()as Query)._shouldAbortNow=true
-hadEnforcedAbort=true
-println("enforcing abort ...")
-}
+
+            var hadEnforcedAbort = false
+            val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
+                (node.getQuery() as Query)._shouldAbortNow = true
+                hadEnforcedAbort = true
+                println("enforcing abort ...")
+            }
             LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
             measured_results[joinOrder] = instance.machineLearningCounter.toDouble()
             benchmarkValues["joinResultsFor($joinOrder)"] = instance.machineLearningCounter.toString()
@@ -162,7 +175,7 @@ println("enforcing abort ...")
             // save time, and predict how often we could execute this within one second. This is only required to benchmark super fast queries. otherwise groupsize of 1 is ok
             var time = DateHelperRelative.elapsedSeconds(timer)
             var counter = 1 // counts how often the query gets executed
-            var groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
+            var groupSize = (1 + 0.25 * (minimumTime22 - time) / (time / counter.toDouble())).toInt()
 
             // Benchmark
             do {
@@ -171,18 +184,18 @@ println("enforcing abort ...")
                     LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
                 }
                 time = DateHelperRelative.elapsedSeconds(timer)
-                groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
-            } while (time < minimumTime2&&!hadEnforcedAbort)
-timeoutTimer.cancel()
+                groupSize = (1 + 0.25 * (minimumTime22 - time) / (time / counter.toDouble())).toInt()
+            } while (time < minimumTime22 && !hadEnforcedAbort)
+            timeoutTimer.cancel()
             val res = time / counter
             measured_time[joinOrder] = res
             benchmarkValues["timeFor($joinOrder)"] = res.toString()
-if(hadEnforcedAbort){
-measured_results[joinOrder] =9999999999.toDouble()
-benchmarkValues["joinResultsFor($joinOrder)"] ="9999999999"
-measured_time[joinOrder] = timeout*10
-benchmarkValues["timeFor($joinOrder)"]=(timeout*10).toString()
-}
+            if (hadEnforcedAbort) {
+                measured_results[joinOrder] = 9999999999.toDouble()
+                benchmarkValues["joinResultsFor($joinOrder)"] = "9999999999"
+                measured_time[joinOrder] = timeout * 10
+                benchmarkValues["timeFor($joinOrder)"] = (timeout * 10).toString()
+            }
         }
         benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
         if (luposChoice == -1) {
