@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
+import lupos.operator.base.Query
 import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
@@ -36,7 +37,7 @@ public class POPCounter public constructor(query: IQuery, projectedVariables: Li
 
     override fun equals(other: Any?): Boolean = other is POPCounter && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPCounter(query, projectedVariables, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalCounter(children[0].evaluate(parent),query.getInstance())
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalCounter(query as Query,children[0].evaluate(parent),query.getInstance())
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)

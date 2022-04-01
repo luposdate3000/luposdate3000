@@ -92,7 +92,7 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
             LogicalOptimizerExists(query) //
         ),
         arrayOf(
-            if (query.getInstance().useMachineLearningOptimizer) {
+            if (query.useMachineLearningOptimizer) {
                 LogicalOptimizerJoinOrderML(query) //
             } else {
                 LogicalOptimizerJoinOrder(query) //

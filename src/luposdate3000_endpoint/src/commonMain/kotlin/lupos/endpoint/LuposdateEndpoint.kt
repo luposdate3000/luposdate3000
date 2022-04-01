@@ -343,13 +343,20 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_sparql_to_operatorgraph_a")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, query: String): IOPBase {
-        return evaluateSparqlToOperatorgraphB(instance, query, false)
+return evaluateSparqlToOperatorgraphA(instance,Query(instance),query)
+}
+    @JsName("evaluate_sparql_to_operatorgraph_a")
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, q:Query,query: String): IOPBase {
+        return evaluateSparqlToOperatorgraphB(instance, q,query, false)
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
+return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperatorGraph)
+}
+    @JsName("evaluate_sparql_to_operatorgraph_b")
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance,q:Query, query: String, logOperatorGraph: Boolean): IOPBase {
         try {
-            val q = Query(instance)
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }

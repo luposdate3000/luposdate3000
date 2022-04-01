@@ -21,11 +21,12 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+import lupos.operator.base.Query
 
 public object EvalCounter {
-    public operator fun invoke(child: IteratorBundle,instance:Luposdate3000Instance): IteratorBundle {
+    public operator fun invoke(query:Query,child: IteratorBundle,instance:Luposdate3000Instance): IteratorBundle {
 if(child.hasCountMode()){
-instance.machineLearningCounter++
+query.machineLearningCounter++
 return child
 }
         val variables = child.columns.keys
@@ -43,7 +44,7 @@ first=false
                 var label = 1
                 override /*suspend*/ fun next(): DictionaryValueType {
                     return if (label != 0) {
-instance.machineLearningCounter++
+query.machineLearningCounter++
                             val res = iterator.next()
                             res
                     } else {

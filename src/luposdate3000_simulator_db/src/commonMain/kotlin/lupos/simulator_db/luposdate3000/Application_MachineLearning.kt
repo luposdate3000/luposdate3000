@@ -69,10 +69,7 @@ joinOrder=0
 queryIndex++
 }
 if(queryIndex<queries.size){
-for(instance in LuposdateEndpoint.instances){
-instance.machineLearningOptimizerOrder = joinOrder
-}
-val p=Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray())
+val p=Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(),mapOf("machineLearningOptimizerOrder" to joinOrder))
 awaitingQueries.add(p.queryID)
 parent.send(receiver, p)
         parent.flush()

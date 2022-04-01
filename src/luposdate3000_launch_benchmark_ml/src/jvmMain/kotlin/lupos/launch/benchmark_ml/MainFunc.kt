@@ -17,6 +17,16 @@
 package lupos.launch.benchmark_ml
 
 import  kotlin.concurrent.timer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.newSingleThreadContext
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
@@ -34,21 +44,25 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.operator.base.Query
 
+private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
+    map { async { f(it) } }.awaitAll()
+}
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String): Unit {
     val instance = LuposdateEndpoint.initialize()
 //    Parallel.launch {
 //        HttpEndpointLauncher.start(instance)
 //    }
-    var noTimeMeasurement = minimumTime2 <= 0
+    var noTimeMeasurement = minimumTime.toDouble() <= 0
     val minimumTime2 = if (noTimeMeasurement) {
-        if (minimumTime2 == 0) {
+        if (minimumTime.toDouble() < 0.1 && minimumTime.toDouble() > -0.1) {
             1.0
         } else {
-            -minimumTime
+            -minimumTime.toDouble()
         }
     } else {
-        minimumTime
+        minimumTime.toDouble()
     }
     val timeout = minimumTime2 * 10.0
     val inputString = File(queryFiles).readAsString()
@@ -70,12 +84,10 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     }
     val queryFiles2 = queryFiles3.toTypedArray()
     queryFiles2.shuffle()
-    val minimumTime22 = minimumTime2.toDouble()
 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
     // avoid unnecessary overhead during measurement
-    val writer = MyPrintWriter(false)
 
     val joinOrders = List(15) { it }
     val columnNames = listOf(
@@ -87,146 +99,156 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         "luposdateRelativeRanking(results)",
     ) + joinOrders.map { "timeFor($it)" } + joinOrders.map { "joinResultsFor($it)" }
 
+    fun addCounters(node: IOPBase): IOPBase {
+        return when (node) {
+            is OPBaseCompound -> {
+                val a = addCounters(node.children[0])
+                OPBaseCompound(node.getQuery(), arrayOf(a), node.columnProjectionOrder)
+            }
+            is POPJoinCartesianProduct -> {
+                val a = addCounters(node.children[0])
+                val b = addCounters(node.children[1])
+                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinCartesianProduct(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+            }
+            is POPJoinHashMap -> {
+                val a = addCounters(node.children[0])
+                val b = addCounters(node.children[1])
+                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinHashMap(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+            }
+            is POPJoinMergeSingleColumn -> {
+                val a = addCounters(node.children[0])
+                val b = addCounters(node.children[1])
+                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMergeSingleColumn(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+            }
+            is POPJoinMerge -> {
+                val a = addCounters(node.children[0])
+                val b = addCounters(node.children[1])
+                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
+            }
+            is POPProjection -> {
+                POPProjection(node.getQuery(), node.getProvidedVariableNames(), addCounters(node.children[0]))
+            }
+            is POPGroup -> {
+                POPGroup(node.getQuery(), node.getProvidedVariableNames(), node.by, node.bindings, addCounters(node.children[0]))
+            }
+            is POPTripleStoreIterator -> {
+                node
+            }
+            else -> {
+                TODO(node.getClassname())
+            }
+        }
+    }
+
     val benchOut = File("$datasourceFiles.bench.csv").openOutputStream(true)
     if (!benchFileHasHeader) {
         benchOut.println(columnNames.joinToString())
     }
-    for (queryFileIdx in queryFiles2.indices) { // for every query
-        val queryFile = queryFiles2[queryFileIdx]
-        println("going to benchmark $queryFile")
-        val query = File(queryFile).readAsString()
-        val benchmarkValues = mutableMapOf("queryFile" to queryFile)
-        var luposChoice = -1
-        var measured_time = DoubleArray(joinOrders.size)
-        var measured_results = DoubleArray(joinOrders.size)
-        for (joinOrder in joinOrders) {
-            // Read in query file
-            println("going to benchmark $queryFile for joinOrder $joinOrder")
-            // Optimize query and convert to operatorgraph
-            instance.useMachineLearningOptimizer = true
-            instance.machineLearningOptimizerOrder = joinOrder
-            instance.machineLearningOptimizerOrderWouldBeChoosen = false
-            instance.machineLearningCounter = 0
-            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, query, false)
-            if (instance.machineLearningOptimizerOrderWouldBeChoosen) {
-                if (luposChoice != -1) {
-                    TODO("loposdate optimizer should be deterministic")
-                }
-                luposChoice = joinOrder
-            }
-            // dry run, to prevent caching issues
-            fun addCounters(node: IOPBase): IOPBase {
-                return when (node) {
-                    is OPBaseCompound -> {
-                        val a = addCounters(node.children[0])
-                        OPBaseCompound(node.getQuery(), arrayOf(a), node.columnProjectionOrder)
-                    }
-                    is POPJoinCartesianProduct -> {
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinCartesianProduct(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-                    }
-                    is POPJoinHashMap -> {
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinHashMap(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-                    }
-                    is POPJoinMergeSingleColumn -> {
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMergeSingleColumn(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-                    }
-                    is POPJoinMerge -> {
-                        val a = addCounters(node.children[0])
-                        val b = addCounters(node.children[1])
-                        POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false))
-                    }
-                    is POPProjection -> {
-                        POPProjection(node.getQuery(), node.getProvidedVariableNames(), addCounters(node.children[0]))
-                    }
-                    is POPGroup -> {
-                        POPGroup(node.getQuery(), node.getProvidedVariableNames(), node.by, node.bindings, addCounters(node.children[0]))
-                    }
-                    is POPTripleStoreIterator -> {
-                        node
-                    }
-                    else -> {
-                        TODO(node.getClassname())
-                    }
-                }
-            }
-
-            var hadEnforcedAbort = false
-            val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
-                (node.getQuery() as Query)._shouldAbortNow = true
-                hadEnforcedAbort = true
-                println("enforcing abort ...")
-            }
-            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
-            measured_results[joinOrder] = instance.machineLearningCounter.toDouble()
-            benchmarkValues["joinResultsFor($joinOrder)"] = instance.machineLearningCounter.toString()
-
-            // measure time for executing the query
-            val timer = DateHelperRelative.markNow()
-
-            // Execute query
-            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-
-            // save time, and predict how often we could execute this within one second. This is only required to benchmark super fast queries. otherwise groupsize of 1 is ok
-            var time = DateHelperRelative.elapsedSeconds(timer)
-            var counter = 1 // counts how often the query gets executed
-            var groupSize = (1 + 0.25 * (minimumTime22 - time) / (time / counter.toDouble())).toInt()
-
-            // Benchmark
-            do {
-                counter += groupSize
-                for (i in 0 until groupSize) {
-                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
-                }
-                time = DateHelperRelative.elapsedSeconds(timer)
-                groupSize = (1 + 0.25 * (minimumTime22 - time) / (time / counter.toDouble())).toInt()
-            } while (time < minimumTime22 && !hadEnforcedAbort)
-            timeoutTimer.cancel()
-            val res = time / counter
-            measured_time[joinOrder] = res
-            benchmarkValues["timeFor($joinOrder)"] = res.toString()
-            if (hadEnforcedAbort) {
-                measured_results[joinOrder] = 9999999999.toDouble()
-                benchmarkValues["joinResultsFor($joinOrder)"] = "9999999999"
-                measured_time[joinOrder] = timeout * 10
-                benchmarkValues["timeFor($joinOrder)"] = (timeout * 10).toString()
-            }
-        }
-        benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
-        if (luposChoice == -1) {
-            benchmarkValues["luposdateAbsoluteRanking(time)"] = ""
-            benchmarkValues["luposdateRelativeRanking(time)"] = ""
-            TODO("luposdate did not choose any join order??")
-        } else {
-            fun relAndAbsRanking(label: String, data: DoubleArray) {
-                var luposAbsolute = 0
-                var timeMin = data[0]
-                var timeMax = data[0]
+    runBlocking {
+val mutex = Mutex()
+        withContext(Dispatchers.Default) {
+            queryFiles2.pmap { queryFile ->
+                println("going to benchmark $queryFile")
+                val writer = MyPrintWriter(false)
+                val query = File(queryFile).readAsString()
+                val benchmarkValues = mutableMapOf("queryFile" to queryFile)
+                var luposChoice = -1
+                var measured_time = DoubleArray(joinOrders.size)
+                var measured_results = DoubleArray(joinOrders.size)
                 for (joinOrder in joinOrders) {
-                    if (data[joinOrder] < data[luposChoice]) {
-                        luposAbsolute++
+                    // Read in query file
+                    println("going to benchmark $queryFile for joinOrder $joinOrder")
+                    // Optimize query and convert to operatorgraph
+val q=Query(instance)
+                    q.useMachineLearningOptimizer = true
+                    q.machineLearningOptimizerOrder = joinOrder
+                    q.machineLearningOptimizerOrderWouldBeChoosen = false
+                    q.machineLearningCounter = 0
+                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance,q, query, false)
+                    if (q.machineLearningOptimizerOrderWouldBeChoosen) {
+                        if (luposChoice != -1) {
+                            TODO("loposdate optimizer should be deterministic")
+                        }
+                        luposChoice = joinOrder
                     }
-                    if (data[joinOrder] < timeMin) {
-                        timeMin = data[joinOrder]
+                    // dry run, to prevent caching issues
+
+                    var hadEnforcedAbort = false
+                    val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
+                        (node.getQuery() as Query)._shouldAbortNow = true
+                        hadEnforcedAbort = true
+                        println("enforcing abort ...")
                     }
-                    if (data[joinOrder] > timeMax) {
-                        timeMax = data[joinOrder]
+                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
+                    measured_results[joinOrder] = q.machineLearningCounter.toDouble()
+                    benchmarkValues["joinResultsFor($joinOrder)"] = q.machineLearningCounter.toString()
+
+                    // measure time for executing the query
+                    val timer = DateHelperRelative.markNow()
+
+                    // Execute query
+                    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+
+                    // save time, and predict how often we could execute this within one second. This is only required to benchmark super fast queries. otherwise groupsize of 1 is ok
+                    var time = DateHelperRelative.elapsedSeconds(timer)
+                    var counter = 1 // counts how often the query gets executed
+                    var groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
+
+                    // Benchmark
+                    do {
+                        counter += groupSize
+                        for (i in 0 until groupSize) {
+                            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, writer)
+                        }
+                        time = DateHelperRelative.elapsedSeconds(timer)
+                        groupSize = (1 + 0.25 * (minimumTime2 - time) / (time / counter.toDouble())).toInt()
+                    } while (time < minimumTime2 && !hadEnforcedAbort)
+                    timeoutTimer.cancel()
+                    val res = time / counter
+                    measured_time[joinOrder] = res
+                    benchmarkValues["timeFor($joinOrder)"] = res.toString()
+                    if (hadEnforcedAbort) {
+                        measured_results[joinOrder] = 9999999999.toDouble()
+                        benchmarkValues["joinResultsFor($joinOrder)"] = "9999999999"
+                        measured_time[joinOrder] = timeout * 10
+                        benchmarkValues["timeFor($joinOrder)"] = (timeout * 10).toString()
                     }
                 }
-                val luposRelative = (data[luposChoice] - timeMin) / (timeMax - timeMin)
-                benchmarkValues["luposdateAbsoluteRanking($label)"] = "$luposAbsolute"
-                benchmarkValues["luposdateRelativeRanking($label)"] = "$luposRelative"
+                benchmarkValues["luposdateWouldChoose"] = luposChoice.toString()
+                if (luposChoice == -1) {
+                    benchmarkValues["luposdateAbsoluteRanking(time)"] = ""
+                    benchmarkValues["luposdateRelativeRanking(time)"] = ""
+                    TODO("luposdate did not choose any join order??")
+                } else {
+                    fun relAndAbsRanking(label: String, data: DoubleArray) {
+                        var luposAbsolute = 0
+                        var timeMin = data[0]
+                        var timeMax = data[0]
+                        for (joinOrder in joinOrders) {
+                            if (data[joinOrder] < data[luposChoice]) {
+                                luposAbsolute++
+                            }
+                            if (data[joinOrder] < timeMin) {
+                                timeMin = data[joinOrder]
+                            }
+                            if (data[joinOrder] > timeMax) {
+                                timeMax = data[joinOrder]
+                            }
+                        }
+                        val luposRelative = (data[luposChoice] - timeMin) / (timeMax - timeMin)
+                        benchmarkValues["luposdateAbsoluteRanking($label)"] = "$luposAbsolute"
+                        benchmarkValues["luposdateRelativeRanking($label)"] = "$luposRelative"
+                    }
+                    relAndAbsRanking("time", measured_time)
+                    relAndAbsRanking("results", measured_results)
+                }
+mutex.withLock {
+                    benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
+                    benchOut.flush()
+                }
+                true
             }
-            relAndAbsRanking("time", measured_time)
-            relAndAbsRanking("results", measured_results)
         }
-        benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
-        benchOut.flush()
     }
     benchOut.close()
 }

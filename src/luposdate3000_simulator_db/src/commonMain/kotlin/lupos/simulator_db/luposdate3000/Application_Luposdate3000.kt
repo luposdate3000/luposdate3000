@@ -215,12 +215,16 @@ public class Application_Luposdate3000 public constructor(
 //            TODO("query before ontology ${queryString}")
 //        }
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
-        val op = if (enforcedIndex != null) {
             val q = Query(instance)
+val pck_attr=pck.attributes["machineLearningOptimizerOrder"] 
+if(pck_attr!=null){
+q.machineLearningOptimizerOrder=pck_attr as Int
+}
+        val op = if (enforcedIndex != null) {
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
             PhysicalOptimizer(q).optimizeCall(o)
         } else {
-            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, queryString)
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance,q, queryString)
         }
 // println(op)
 // try to evaluate local-->>
@@ -261,7 +265,6 @@ public class Application_Luposdate3000 public constructor(
             e.printStackTrace()
         }
 // try to evaluate local<<--
-        val q = op.getQuery()
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
@@ -300,7 +303,7 @@ public class Application_Luposdate3000 public constructor(
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:302"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:305"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data

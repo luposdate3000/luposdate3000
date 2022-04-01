@@ -27,7 +27,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
-    private val joinOrder: Int = query.getInstance().machineLearningOptimizerOrder
+    private val joinOrder: Int = query.machineLearningOptimizerOrder
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
@@ -109,7 +109,7 @@ return false
 val realOptimizer=LogicalOptimizerJoinOrder(query)
 val realResult=realOptimizer.internalOptimize(node,allChilds2){}
 if(equalResults(res,realResult)){
-query.getInstance().machineLearningOptimizerOrderWouldBeChoosen=true
+query.machineLearningOptimizerOrderWouldBeChoosen=true
 }
 
             } catch (e: EmptyResultException) {
