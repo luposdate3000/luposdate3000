@@ -23,7 +23,6 @@ class MyClass(val key: MutableSet<String>) {
     val variables = mutableMapOf<String, MyType>()
     val id = knownClassesIDMap3.size
     fun mergeWith(other: MyClass) {
-        println("merging $key ${other.key}")
         key.addAll(other.key)
         val a = other.variables.keys - variables.keys
         val b = other.variables.keys - a
@@ -149,6 +148,7 @@ val knownClassesIDMap3 = mutableListOf<MyClass>()
 val knownClassesMap3 = mutableMapOf<String, Int>()
 val knownClassesRenamed3 = mutableListOf<Int>()
 val subjectTypeMap = mutableMapOf<String, Int>()
+val knownClassesMemberMap=mutableMapOf<Set<String>,Int>()
 fun getClazz(s: String): MyClass? = knownClassesMap3[s]?.let { knownClassesRenamed3[it]?.let { it2 -> knownClassesIDMap3[it2] } }
 fun getClazz(id: Int): MyClass? = knownClassesRenamed3[id]?.let { it -> knownClassesIDMap3[it] }
 fun getAllClazzes(): List<MyClass> = knownClassesRenamed3.toSet().map { knownClassesIDMap3[it]!! }
@@ -171,6 +171,20 @@ fun setClazzKeys(clazzID: Int, keys: Set<String>) {
         }
     }
 }
+fun checkEqualClazz(clazzID: Int, keys: Set<String>) {
+var clazz = getClazz(clazzID)!!
+var t=knownClassesMemberMap[clazz.variables.keys]
+if(t!=null){
+val otherClazz=getClazz(t)!!
+if (clazz.id != otherClazz.id) {
+clazz.mergeWith(otherClazz)
+                for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
+                    knownClassesRenamed3[k2] = clazz.id
+                }
+}
+}
+knownClassesMemberMap[clazz.variables.keys]=clazzID
+}
 
 fun findClassFor(values: List<Pair<String, String>>): Set<String> {
     // return values.map { it.first }.toSet()
@@ -191,6 +205,7 @@ fun consumeClass() {
         setClazzKeys(key, keys)
         val clazz = getClazz(key)!!
         clazz.mergeWith(currentClass)
+checkEqualClazz(key, keys)
         if (subjectTypeMap[currentSubject] != null) {
             TODO("currentSubject $currentSubject")
         }
