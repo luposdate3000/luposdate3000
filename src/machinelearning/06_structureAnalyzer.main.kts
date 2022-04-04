@@ -3,13 +3,16 @@
 
 import parser.Parser
 
+var ttypeBnode = 1
+var ttypeIri = 2
+var ttypeLiteral = 4
 val parser = Parser(java.io.File(args[0]).inputStream())
 val numberOfJoins = args[1].toInt()
-val outputfolderName=args[2]
+val outputfolderName = args[2]
 val outputfolder = java.io.File(outputfolderName)
 outputfolder.mkdirs()
-var dictionarySet=mutableSetOf<String>()
-val fastQueryMode=args[3]=="fast"
+var dictionarySet = mutableSetOf<String>()
+val fastQueryMode = args[3] == "fast"
 
 class MyClass(val key: Set<String>) {
     val variables = mutableMapOf<String, MyType>()
@@ -35,13 +38,21 @@ class MyClass(val key: Set<String>) {
             vv.updateMinMax(v)
         }
         for (v in values) {
-            if (v.second.startsWith("_:") || (v.second.startsWith("<") && v.second.endsWith(">"))) {
-                variables[v.first]!!.addPossibleReference(v.second)
-            }else if(v.second.startsWith("\"")&&v.second.endsWith(">")&&v.second.contains("\"^^<")){
-variables[v.first]!!.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<")+3))
-}else{
-TODO(v.second)
-}
+            val vv = variables[v.first]!!
+            if (v.second.startsWith("_:")) {
+                vv.addPossibleReference(v.second)
+                vv.datatypes.add("sh:BlankNode")
+                vv.nodeKind = vv.nodeKind or ttypeBnode
+            } else if ((v.second.startsWith("<") && v.second.endsWith(">"))) {
+                vv.addPossibleReference(v.second)
+                vv.datatypes.add("sh:IRI")
+                vv.nodeKind = vv.nodeKind or ttypeIri
+            } else if (v.second.startsWith("\"") && v.second.endsWith(">") && v.second.contains("\"^^<")) {
+                vv.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<") + 3))
+                vv.nodeKind = vv.nodeKind or ttypeLiteral
+            } else {
+                TODO(v.second)
+            }
         }
     }
 
@@ -59,7 +70,8 @@ class MyType(count: Int) {
     var maxCount = count
     var referencedSubjectClasses = mutableSetOf<Int>()
     var possibleSubjectReferences = mutableSetOf<String>()
-    var datatypes=mutableSetOf<String>()
+    var datatypes = mutableSetOf<String>()
+    var nodeKind = 0
     fun addPossibleReference(s: String) {
         var x = subjectTypeMap[s]
         if (x != null) {
@@ -97,8 +109,8 @@ val subjectTypeMap = mutableMapOf<String, Int>()
 
 
 fun findClassFor(values: List<Pair<String, String>>): Set<String> {
-    // return currentClass.map { it.first }.toSet()
-    return currentClass.filter { it.first == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" }.map { it.second }.toSet()
+    // return values.map { it.first }.toSet()
+    return values.filter { it.first == "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" }.map { it.second }.toSet()
 }
 
 fun consumeClass() {
@@ -126,7 +138,7 @@ fun checkAllPossibleReferences() {
 
 
 parser.consumeTriple = { s, p, o ->
-dictionarySet.add(p)
+    dictionarySet.add(p)
     if (currentSubject != s) {
         if (currentSubject != null) {
             consumeClass()
@@ -145,7 +157,7 @@ parser.parserDefinedParse()
 parser.close();
 consumeClass()
 checkAllPossibleReferences()
-val dictionary=listOf("")+dictionarySet.toList()
+val dictionary = listOf("") + dictionarySet.toList()
 
 println()
 for (clazz in knownClassesIDMap) {
@@ -154,22 +166,28 @@ for (clazz in knownClassesIDMap) {
     for ((k, v) in clazz.variables) {
         println("    sh:property [")
         println("        sh:path $k ;")
-        println("        sh:minCount ${v.minCount} ;")
-        println("        sh:maxCount ${v.maxCount} ;")
-        val possibleClasses=v.referencedSubjectClasses.map { knownClassesIDMap[it].key }.flatten().toSet()
-        for(c in possibleClasses){
+        val possibleClasses = v.referencedSubjectClasses.map { knownClassesIDMap[it].key }.flatten().toSet()
+        val datatypes = v.datatypes + v.possibleSubjectReferences.map {
+            if (it.startsWith("_:")) {
+                "sh:BlankNode"
+            } else {
+                "sh:IRI"
+            }
+        }
+        for (c in possibleClasses) {
             println("        sh:class $c ;")
         }
-val datatypes=v.datatypes+v.possibleSubjectReferences.map{
-if(it.startsWith("_:")){
-"sh:BNODE"
-}else{
-"sh:IRI"
-}
-}
-for(dd in datatypes){
-println("        sh:datatype $dd ;")
-}
+        if (possibleClasses.size == 0) {
+            if (datatypes.size == 1) {
+                println("        sh:datatype ${datatypes.toList().first()} ;")
+            }
+        }
+        if (v.nodeKind > 0 && v.nodeKind < 7) {
+            val kind = arrayOf("", "sh:BlankNode", "sh:IRI", "sh:BlankNodeOrIRI", "sh:Literal", "sh:BlankNodeOrLiteral", "sh:IRIOrLiteral")[v.nodeKind]
+            println("        sh:nodeKind $kind ;")
+        }
+        println("        sh:minCount ${v.minCount} ;")
+        println("        sh:maxCount ${v.maxCount} .")
         println("    ] ;")
     }
     println("    a sh:NodeShape .")
@@ -257,17 +275,17 @@ fun writeDownQueries(patternCount: Int) {
     val folder = java.io.File(outputfolder, "patterns_$patternCount")
     folder.mkdirs()
     var idx = 0
-val luposdate3000_query_params=StringBuilder()
-val python_ml_params=StringBuilder()
+    val luposdate3000_query_params = StringBuilder()
+    val python_ml_params = StringBuilder()
     for (query in knownJoins) {
-luposdate3000_query_params.append(outputfolderName+"/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
-python_ml_params.append(outputfolderName+"/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
-       java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
-if(fastQueryMode){
-            out.println("SELECT (COUNT(*) as ?c) WHERE {")
-}else{
-            out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
-}
+        luposdate3000_query_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
+        python_ml_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
+        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
+            if (fastQueryMode) {
+                out.println("SELECT (COUNT(*) as ?c) WHERE {")
+            } else {
+                out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
+            }
             for (p in query.patterns) {
                 out.println("  ${p.first} ${p.second} ${p.third} . ")
             }
@@ -281,38 +299,38 @@ if(fastQueryMode){
                 }
             }
         }
-java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
-for (p in query.patterns) {
-fun mlqMapping(s:String):Int{
-var c=query.extractVariableID(s)
-if(c<0){
-return dictionary.indexOf(s)
-}else{
-return -c-1
-}
-}
-out.print(mlqMapping(p.first))
-out.print(",")
-out.print(mlqMapping(p.second))
-out.print(",")
-out.print(mlqMapping(p.third))
-out.print(";")
-}
-}
+        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
+            for (p in query.patterns) {
+                fun mlqMapping(s: String): Int {
+                    var c = query.extractVariableID(s)
+                    if (c < 0) {
+                        return dictionary.indexOf(s)
+                    } else {
+                        return -c - 1
+                    }
+                }
+                out.print(mlqMapping(p.first))
+                out.print(",")
+                out.print(mlqMapping(p.second))
+                out.print(",")
+                out.print(mlqMapping(p.third))
+                out.print(";")
+            }
+        }
         idx++
     }
-java.io.File(outputfolder, "luposdate3000_query_params_$patternCount").printWriter().use { out ->
-out.print(luposdate3000_query_params.toString().dropLast(1))
-}
-java.io.File(outputfolder, "python_ml_params_$patternCount").printWriter().use { out ->
-out.print(python_ml_params.toString().dropLast(1))
-}
+    java.io.File(outputfolder, "luposdate3000_query_params_$patternCount").printWriter().use { out ->
+        out.print(luposdate3000_query_params.toString().dropLast(1))
+    }
+    java.io.File(outputfolder, "python_ml_params_$patternCount").printWriter().use { out ->
+        out.print(python_ml_params.toString().dropLast(1))
+    }
 }
 
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
-for(i in 1 until dictionary.size){
-out.println("$i ${dictionary[i]}")
-}
+    for (i in 1 until dictionary.size) {
+        out.println("$i ${dictionary[i]}")
+    }
 }
 
 
