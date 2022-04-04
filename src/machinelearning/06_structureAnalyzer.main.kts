@@ -19,9 +19,27 @@ outputfolder.mkdirs()
 var dictionarySet = mutableSetOf<String>()
 val fastQueryMode = args[3] == "fast"
 
-class MyClass(val key: Set<String>) {
+class MyClass(val key: MutableSet<String>) {
     val variables = mutableMapOf<String, MyType>()
-    val id = knownClassesIDMap.size
+    val id = knownClassesIDMap3.size
+    fun mergeWith(other: MyClass) {
+        println("merging $key ${other.key}")
+        key.addAll(other.key)
+        val a = other.variables.keys - variables.keys
+        val b = other.variables.keys - a
+        val c = variables.keys - other.variables.keys
+        for (s in a) {
+            variables[s] = other.variables[s]!!
+            variables[s]!!.minCount = 0
+        }
+        for (s in b) {
+            variables[s]!!.mergeWith(other.variables[s]!!)
+        }
+        for (s in c) {
+            variables[s]!!.minCount = 0
+        }
+    }
+
     fun mergeWith(values: List<Pair<String, String>>) {
         val counter = mutableMapOf<String, Int>()
         for (k in variables.keys) {
@@ -83,6 +101,19 @@ class MyType(count: Int) {
     var possibleSubjectReferences = mutableSetOf<String>()
     var datatypes = mutableSetOf<String>()
     var nodeKind = 0
+    fun mergeWith(other: MyType) {
+        if (other.minCount < minCount) {
+            minCount = other.minCount
+        }
+        if (other.maxCount < maxCount) {
+            maxCount = other.maxCount
+        }
+        referencedSubjectClasses.addAll(other.referencedSubjectClasses)
+        possibleSubjectReferences.addAll(other.possibleSubjectReferences)
+        datatypes.addAll(other.datatypes)
+        nodeKind = nodeKind or other.nodeKind
+    }
+
     fun addPossibleReference(s: String) {
         var x = subjectTypeMap[s]
         if (x != null) {
@@ -114,10 +145,32 @@ class MyType(count: Int) {
 
 var currentClass = mutableListOf<Pair<String, String>>()
 var currentSubject: String? = null
-val knownClassesIDMap = mutableListOf<MyClass>()
-val knownClassesMap = mutableMapOf<Set<String>, MyClass>()
+val knownClassesIDMap3 = mutableListOf<MyClass>()
+val knownClassesMap3 = mutableMapOf<String, Int>()
+val knownClassesRenamed3 = mutableListOf<Int>()
 val subjectTypeMap = mutableMapOf<String, Int>()
+fun getClazz(s: String): MyClass? = knownClassesMap3[s]?.let { knownClassesRenamed3[it]?.let { it2 -> knownClassesIDMap3[it2] } }
+fun getClazz(id: Int): MyClass? = knownClassesRenamed3[id]?.let { it -> knownClassesIDMap3[it] }
+fun getAllClazzes(): List<MyClass> = knownClassesRenamed3.toSet().map { knownClassesIDMap3[it]!! }
 
+fun setClazzKeys(clazzID: Int, keys: Set<String>) {
+    var clazz = getClazz(clazzID)!!
+    clazz.key.addAll(keys)
+    for (k in keys) {
+        val t = knownClassesMap3[k]
+        if (t == null) {
+            knownClassesMap3[k] = clazzID
+        } else {
+            val otherClazz = getClazz(t)!!
+            if (clazz.id != otherClazz.id) {
+                clazz.mergeWith(otherClazz)
+                for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
+                    knownClassesRenamed3[k2] = clazz.id
+                }
+            }
+        }
+    }
+}
 
 fun findClassFor(values: List<Pair<String, String>>): Set<String> {
     // return values.map { it.first }.toSet()
@@ -125,24 +178,28 @@ fun findClassFor(values: List<Pair<String, String>>): Set<String> {
 }
 
 fun consumeClass() {
-    val key = findClassFor(currentClass)
-    if (key.size > 0) {
-        var t: MyClass? = knownClassesMap[key]
-        if (t == null) {
-            t = MyClass(key)
-            knownClassesMap[key] = t
-            knownClassesIDMap.add(t)
+    val keys = findClassFor(currentClass).toMutableSet()
+    if (keys.size > 0) {
+        val tt = keys.map { getClazz(it)?.id }.filterNotNull().toMutableSet()
+        if (tt.size == 0) {
+            val t = MyClass(keys)
+            knownClassesIDMap3.add(t)
+            knownClassesRenamed3.add(t.id)
+            tt.add(t.id)
         }
-        t.mergeWith(currentClass)
+        val key = tt.first()
+        setClazzKeys(key, keys)
+        val clazz = getClazz(key)!!
+        clazz.mergeWith(currentClass)
         if (subjectTypeMap[currentSubject] != null) {
             TODO("currentSubject $currentSubject")
         }
-        subjectTypeMap[currentSubject!!] = t.id
+        subjectTypeMap[currentSubject!!] = key
     }
 }
 
 fun checkAllPossibleReferences() {
-    for (c in knownClassesIDMap) {
+    for (c in getAllClazzes()) {
         c.checkPossibleReferences()
     }
 }
@@ -171,13 +228,16 @@ checkAllPossibleReferences()
 val dictionary = listOf("") + dictionarySet.toList()
 
 println()
-for (clazz in knownClassesIDMap) {
+for (clazz in getAllClazzes()) {
+
     println("[]")
-    println("    <http://www.w3.org/ns/shacl#targetClass> ${clazz.key.first()} ;")
+    for (kk in clazz.key) {
+        println("    <http://www.w3.org/ns/shacl#targetClass> ${kk} ;")
+    }
     for ((k, v) in clazz.variables) {
         println("    <http://www.w3.org/ns/shacl#property> [")
         println("        <http://www.w3.org/ns/shacl#path> $k ;")
-        val possibleClasses = v.referencedSubjectClasses.map { knownClassesIDMap[it].key }.flatten().toSet()
+        val possibleClasses = v.referencedSubjectClasses.map { getClazz(it)!!.key }.flatten().toSet()
         val datatypes = v.datatypes + v.possibleSubjectReferences.map {
             if (it.startsWith("_:")) {
                 "<http://www.w3.org/ns/shacl#BlankNode>"
@@ -277,7 +337,7 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
     }
 }
 
-for (clazz in knownClassesIDMap) {
+for (clazz in getAllClazzes()) {
     val j = MyJoin()
     addToJoin(j, j.nextVariableName(clazz.id), clazz)
 }
@@ -288,7 +348,7 @@ fun writeDownQueries(patternCount: Int) {
     var idx = 0
     val luposdate3000_query_params = StringBuilder()
     val python_ml_params = StringBuilder()
-val knownJoins2=knownJoins.shuffled().take(limitQueries)
+    val knownJoins2 = knownJoins.shuffled().take(limitQueries)
     for (query in knownJoins2) {
         luposdate3000_query_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
         python_ml_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
@@ -307,7 +367,7 @@ val knownJoins2=knownJoins.shuffled().take(limitQueries)
                 if (k < 0) {
                     out.println("# ${query.variableFor(i)} -> ANY")
                 } else {
-                    out.println("# ${query.variableFor(i)} -> ${knownClassesIDMap[k].key}")
+                    out.println("# ${query.variableFor(i)} -> ${getClazz(k)!!.key}")
                 }
             }
         }
@@ -357,7 +417,7 @@ for (joinCount in 0 until numberOfJoins) {
         if (lastSubjectType != -1) {
             val lastSubjectType2 = j.variableClasses[lastSubjectType]
             if (lastSubjectType2 != -1) {
-                val clazz = knownClassesIDMap[lastSubjectType2]
+                val clazz = getClazz(lastSubjectType2)!!
                 addToJoin(j, lastPattern.first, clazz, lastPattern.second)
             }
         }
@@ -365,7 +425,7 @@ for (joinCount in 0 until numberOfJoins) {
         if (lastObjectType != -1) {
             val lastObjectType2 = j.variableClasses[lastObjectType]
             if (lastObjectType2 != -1) {
-                val clazz = knownClassesIDMap[lastObjectType2]
+                val clazz = getClazz(lastObjectType2)!!
                 addToJoin(j, lastPattern.third, clazz)
             }
         }
