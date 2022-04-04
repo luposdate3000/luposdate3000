@@ -41,11 +41,11 @@ class MyClass(val key: Set<String>) {
             val vv = variables[v.first]!!
             if (v.second.startsWith("_:")) {
                 vv.addPossibleReference(v.second)
-                vv.datatypes.add("sh:BlankNode")
+                vv.datatypes.add("<http://www.w3.org/ns/shacl#BlankNode>")
                 vv.nodeKind = vv.nodeKind or ttypeBnode
             } else if ((v.second.startsWith("<") && v.second.endsWith(">"))) {
                 vv.addPossibleReference(v.second)
-                vv.datatypes.add("sh:IRI")
+                vv.datatypes.add("<http://www.w3.org/ns/shacl#IRI>")
                 vv.nodeKind = vv.nodeKind or ttypeIri
             } else if (v.second.startsWith("\"") && v.second.endsWith(">") && v.second.contains("\"^^<")) {
                 vv.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<") + 3))
@@ -162,35 +162,35 @@ val dictionary = listOf("") + dictionarySet.toList()
 println()
 for (clazz in knownClassesIDMap) {
     println("[]")
-    println("    sh:targetClass ${clazz.key.first()} ;")
+    println("    <http://www.w3.org/ns/shacl#targetClass> ${clazz.key.first()} ;")
     for ((k, v) in clazz.variables) {
-        println("    sh:property [")
-        println("        sh:path $k ;")
+        println("    <http://www.w3.org/ns/shacl#property> [")
+        println("        <http://www.w3.org/ns/shacl#path> $k ;")
         val possibleClasses = v.referencedSubjectClasses.map { knownClassesIDMap[it].key }.flatten().toSet()
         val datatypes = v.datatypes + v.possibleSubjectReferences.map {
             if (it.startsWith("_:")) {
-                "sh:BlankNode"
+                "<http://www.w3.org/ns/shacl#BlankNode>"
             } else {
-                "sh:IRI"
+                "<http://www.w3.org/ns/shacl#IRI>"
             }
         }
         for (c in possibleClasses) {
-            println("        sh:class $c ;")
+            println("        <http://www.w3.org/ns/shacl#class> $c ;")
         }
         if (possibleClasses.size == 0) {
             if (datatypes.size == 1) {
-                println("        sh:datatype ${datatypes.toList().first()} ;")
+                println("        <http://www.w3.org/ns/shacl#datatype> ${datatypes.toList().first()} ;")
             }
         }
         if (v.nodeKind > 0 && v.nodeKind < 7) {
-            val kind = arrayOf("", "sh:BlankNode", "sh:IRI", "sh:BlankNodeOrIRI", "sh:Literal", "sh:BlankNodeOrLiteral", "sh:IRIOrLiteral")[v.nodeKind]
-            println("        sh:nodeKind $kind ;")
+            val kind = arrayOf("", "<http://www.w3.org/ns/shacl#BlankNode>", "<http://www.w3.org/ns/shacl#IRI>", "<http://www.w3.org/ns/shacl#BlankNodeOrIRI>", "<http://www.w3.org/ns/shacl#Literal>", "<http://www.w3.org/ns/shacl#BlankNodeOrLiteral>", "<http://www.w3.org/ns/shacl#IRIOrLiteral>")[v.nodeKind]
+            println("        <http://www.w3.org/ns/shacl#nodeKind> $kind ;")
         }
-        println("        sh:minCount ${v.minCount} ;")
-        println("        sh:maxCount ${v.maxCount} .")
+        println("        <http://www.w3.org/ns/shacl#minCount> ${v.minCount} ;")
+        println("        <http://www.w3.org/ns/shacl#maxCount> ${v.maxCount} .")
         println("    ] ;")
     }
-    println("    a sh:NodeShape .")
+    println("    a <http://www.w3.org/ns/shacl#NodeShape> .")
 }
 println()
 
