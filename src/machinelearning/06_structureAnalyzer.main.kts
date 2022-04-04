@@ -1,4 +1,4 @@
-#!/usr/bin/env -S JAVA_OPTS="-Xmx32g" kotlin
+#!/usr/bin/env -S JAVA_OPTS="-Xmx100g" kotlin
 @file:Import("06_Turtle.kt")
 
 import parser.Parser
@@ -146,12 +146,12 @@ var currentClass = mutableListOf<Pair<String, String>>()
 var currentSubject: String? = null
 val knownClassesIDMap3 = mutableListOf<MyClass>()
 val knownClassesMap3 = mutableMapOf<String, Int>()
-val knownClassesRenamed3 = mutableListOf<Int>()
 val subjectTypeMap = mutableMapOf<String, Int>()
-val knownClassesMemberMap=mutableMapOf<Set<String>,Int>()
-fun getClazz(s: String): MyClass? = knownClassesMap3[s]?.let { knownClassesRenamed3[it]?.let { it2 -> knownClassesIDMap3[it2] } }
-fun getClazz(id: Int): MyClass? = knownClassesRenamed3[id]?.let { it -> knownClassesIDMap3[it] }
-fun getAllClazzes(): List<MyClass> = knownClassesRenamed3.toSet().map { knownClassesIDMap3[it]!! }
+val knownClassesMemberMap = mutableMapOf<Set<String>,Int>()
+
+fun getClazz(s: String) = knownClassesMap3[s]?.let {   knownClassesIDMap3[it] } 
+fun getClazz(id: Int) =  knownClassesIDMap3[id] 
+fun getAllClazzes() =  knownClassesIDMap3.filterIndexed{index,it->index==it.id}
 
 fun setClazzKeys(clazzID: Int, keys: Set<String>) {
     var clazz = getClazz(clazzID)!!
@@ -165,7 +165,7 @@ fun setClazzKeys(clazzID: Int, keys: Set<String>) {
             if (clazz.id != otherClazz.id) {
                 clazz.mergeWith(otherClazz)
                 for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
-                    knownClassesRenamed3[k2] = clazz.id
+                    knownClassesIDMap3[k2] = clazz
                 }
             }
         }
@@ -179,7 +179,7 @@ val otherClazz=getClazz(t)!!
 if (clazz.id != otherClazz.id) {
 clazz.mergeWith(otherClazz)
                 for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
-                    knownClassesRenamed3[k2] = clazz.id
+knownClassesIDMap3[k2]=clazz
                 }
 }
 }
@@ -198,7 +198,6 @@ fun consumeClass() {
         if (tt.size == 0) {
             val t = MyClass(keys)
             knownClassesIDMap3.add(t)
-            knownClassesRenamed3.add(t.id)
             tt.add(t.id)
         }
         val key = tt.first()
@@ -219,7 +218,12 @@ fun checkAllPossibleReferences() {
     }
 }
 
+var ctr=0
 parser.consumeTriple = { s, p, o ->
+ctr++
+if(ctr%10000==0){
+println("ctr $ctr")
+}
     dictionarySet.add(p)
     if (currentSubject != s) {
         if (currentSubject != null) {
