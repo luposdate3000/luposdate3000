@@ -37,7 +37,11 @@ class MyClass(val key: Set<String>) {
         for (v in values) {
             if (v.second.startsWith("_:") || (v.second.startsWith("<") && v.second.endsWith(">"))) {
                 variables[v.first]!!.addPossibleReference(v.second)
-            }
+            }else if(v.second.startsWith("\"")&&v.second.endsWith(">")&&v.second.contains("\"^^<")){
+variables[v.first]!!.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<")+3))
+}else{
+TODO(v.second)
+}
         }
     }
 
@@ -55,6 +59,7 @@ class MyType(count: Int) {
     var maxCount = count
     var referencedSubjectClasses = mutableSetOf<Int>()
     var possibleSubjectReferences = mutableSetOf<String>()
+    var datatypes=mutableSetOf<String>()
     fun addPossibleReference(s: String) {
         var x = subjectTypeMap[s]
         if (x != null) {
@@ -142,13 +147,34 @@ consumeClass()
 checkAllPossibleReferences()
 val dictionary=listOf("")+dictionarySet.toList()
 
+println()
 for (clazz in knownClassesIDMap) {
-    println()
-    println(clazz.key)
+    println("[]")
+    println("    sh:targetClass ${clazz.key.first()} ;")
     for ((k, v) in clazz.variables) {
-        println("$k [${v.minCount}:${v.maxCount}] -> ${v.referencedSubjectClasses.map { knownClassesIDMap[it].key }}")
-    }
+        println("    sh:property [")
+        println("        sh:path $k ;")
+        println("        sh:minCount ${v.minCount} ;")
+        println("        sh:maxCount ${v.maxCount} ;")
+        val possibleClasses=v.referencedSubjectClasses.map { knownClassesIDMap[it].key }.flatten().toSet()
+        for(c in possibleClasses){
+            println("        sh:class $c ;")
+        }
+val datatypes=v.datatypes+v.possibleSubjectReferences.map{
+if(it.startsWith("_:")){
+"sh:BNODE"
+}else{
+"sh:IRI"
 }
+}
+for(dd in datatypes){
+println("        sh:datatype $dd ;")
+}
+        println("    ] ;")
+    }
+    println("    a sh:NodeShape .")
+}
+println()
 
 class MyJoin {
     val patterns = mutableListOf<Triple<String, String, String>>()
