@@ -32,23 +32,23 @@ public var consumeTriple:(String, String, String) -> Unit = {s,p,o->
 
 
 internal var parsererror: String? = null
-    public var bufferDefinedDataSize: Int = 0
-    public var bufferDefinedPosition: Int = 0
-    public var bufferDefinedLastSize: Int = 0
+    public var bufferDefinedDataSize: Long = 0
+    public var bufferDefinedPosition: Long = 0
+    public var bufferDefinedLastSize: Long = 0
     public var bufferDefinedAllocatedSize: Int = 4096
     public var bufferDefinedData: ByteArray = ByteArray(bufferDefinedAllocatedSize)
-    public var bufferDefinedRangeStart: Int = 0
+    public var bufferDefinedRangeStart: Long = 0L
     public lateinit var bufferDefinedInputStream: java.io.InputStream
-    public var bufferDefinedMaxPositionAvailable: Int = 0
+    public var bufferDefinedMaxPositionAvailable: Long = 0L
     public var scannerDefinedTokenFoundType: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundStart: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundEnd: IntArray = IntArray(3)
+    public var scannerDefinedTokenFoundStart: LongArray = LongArray(3)
+    public var scannerDefinedTokenFoundEnd: LongArray = LongArray(3)
     public var scannerDefinedTokenFoundReadOffset: Int = 0
     public var scannerDefinedTokenFoundWriteOffset: Int = 0
     public var scannerDefinedTokenFoundAvailable: Int = 0
     public var scannerDefinedTokenPendingType: Int = -1
-    public var scannerDefinedTokenPendingStart: Int = bufferDefinedPosition
-    public var scannerDefinedTokenPendingEnd: Int = bufferDefinedPosition
+    public var scannerDefinedTokenPendingStart: Long = bufferDefinedPosition
+    public var scannerDefinedTokenPendingEnd: Long = bufferDefinedPosition
     public var scannerDefinedCurrentChar: Int = 0
     public val scannerDefinedEntryPoints: Array<String> = arrayOf<String>("[WS_ANY]", "[generated0, generated2, generated3, generated4, IRIREF, BLANK_NODE_LABEL, ANON, generated6, PNAME_LN, PNAME_NS, generated5]", "[]", "[generated0, generated2, generated3, generated4]", "[IRIREF, BLANK_NODE_LABEL, ANON, PNAME_LN, PNAME_NS, generated5, generated6]", "[generated0]", "[generated2]", "[generated3]", "[generated4]", "[IRIREF, PNAME_LN, PNAME_NS, BLANK_NODE_LABEL, ANON, generated5]", "[PNAME_NS]", "[IRIREF]", "[generated6]", "[IRIREF, PNAME_LN, PNAME_NS]", "[BLANK_NODE_LABEL, ANON]", "[generated1]", "[generated5]", "[PNAME_LN, PNAME_NS]", "[BLANK_NODE_LABEL, ANON, IRIREF, generated5, generated6, INTEGER, DECIMAL, DOUBLE, generated12, generated13, PNAME_LN, PNAME_NS, STRING_LITERAL_QUOTE, STRING_LITERAL_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_QUOTE, generated14]", "[IRIREF, PNAME_LN, PNAME_NS, generated7]", "[generated14]", "[generated7]", "[IRIREF, PNAME_LN, PNAME_NS, BLANK_NODE_LABEL, ANON, generated5, generated6, INTEGER, DECIMAL, DOUBLE, generated12, generated13, STRING_LITERAL_QUOTE, STRING_LITERAL_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_QUOTE]", "[generated8, generated9, generated10, generated1]", "[STRING_LITERAL_QUOTE, STRING_LITERAL_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_QUOTE, INTEGER, DECIMAL, DOUBLE, generated12, generated13]", "[generated8]", "[INTEGER, DECIMAL, DOUBLE]", "[generated12, generated13]", "[generated9, generated10, generated1]", "[STRING_LITERAL_QUOTE, STRING_LITERAL_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_QUOTE]", "[generated9]", "[generated7, IRIREF, PNAME_LN, PNAME_NS, generated9, generated10, generated1]", "[generated10]", "[LANGTAG, generated11, generated8, generated14, generated9, BLANK_NODE_LABEL, ANON, generated10, IRIREF, generated5, generated6, PNAME_LN, PNAME_NS, INTEGER, DECIMAL, DOUBLE, generated12, generated13, generated1, STRING_LITERAL_QUOTE, STRING_LITERAL_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_QUOTE]", "[LANGTAG]", "[generated11]", "[generated7, IRIREF, PNAME_LN, PNAME_NS, generated1]")
     public val scannerDefinedScannerTokens: Array<String> = arrayOf<String>("")
@@ -58,21 +58,21 @@ internal var parsererror: String? = null
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-            val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+            val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
             if ((bufferDefinedEreaseLength > 0)) {
-                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                 bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                 bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
             } else {
-                if ((bufferDefinedPosition != 0)) {
+                if ((bufferDefinedPosition != 0L)) {
                     var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                     var data: ByteArray = ByteArray(newSize)
-                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                     bufferDefinedAllocatedSize = newSize
                     bufferDefinedData = data
                 }
             }
-            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
             if ((bufferDefinedLen != -1)) {
                 bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
             }
@@ -3332,26 +3332,26 @@ public fun close() {
         var node: Int = startNode
         while ((node >= 0)) {
             bufferDefinedPosition = (bufferDefinedPosition + bufferDefinedLastSize)
-            val bufferDefinedCurrentPosition: Int = (bufferDefinedPosition - bufferDefinedRangeStart)
+            val bufferDefinedCurrentPosition: Long = (bufferDefinedPosition - bufferDefinedRangeStart)
             if ((bufferDefinedCurrentPosition >= bufferDefinedDataSize)) {
                 scannerDefinedCurrentChar = -2
             } else {
-                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition]).toInt() and 0xff)
+                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition.toInt()]).toInt() and 0xff)
                 if ((firstByte < 0b10000000)) {
                     scannerDefinedCurrentChar = firstByte
                     bufferDefinedLastSize = 1
                 } else {
-                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1)]).toInt() and 0xff) and 0b00111111)
+                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1).toInt()]).toInt() and 0xff) and 0b00111111)
                     if ((((firstByte and 0b11100000) == 0b11000000) && ((secondByte and 0b11000000) == 0b10000000))) {
                         scannerDefinedCurrentChar = (((firstByte and 0b00011111) shl 6) or secondByte)
                         bufferDefinedLastSize = 2
                     } else {
-                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2)]).toInt() and 0xff) and 0b00111111)
+                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2).toInt()]).toInt() and 0xff) and 0b00111111)
                         if (((((firstByte and 0b11110000) == 0b11100000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000))) {
                             scannerDefinedCurrentChar = (((firstByte and 0b00001111) shl 12) or ((secondByte shl 6) or thirdByte))
                             bufferDefinedLastSize = 3
                         } else {
-                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3)]).toInt() and 0xff) and 0b00111111)
+                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3).toInt()]).toInt() and 0xff) and 0b00111111)
                             if ((((((firstByte and 0b11111000) == 0b11110000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000)) && ((fourthByte and 0b11000000) == 0b10000000))) {
                                 scannerDefinedCurrentChar = (((firstByte and 0b00000111) shl 18) or ((secondByte shl 12) or ((thirdByte shl 6) or fourthByte)))
                                 bufferDefinedLastSize = 4
@@ -3363,21 +3363,21 @@ public fun close() {
                     }
                 }
                 if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-                    val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+                    val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
                     if ((bufferDefinedEreaseLength > 0)) {
-                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                         bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
-                        if ((bufferDefinedPosition != 0)) {
+                        if ((bufferDefinedPosition != 0L)) {
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
-                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                             bufferDefinedAllocatedSize = newSize
                             bufferDefinedData = data
                         }
                     }
-                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
                     if ((bufferDefinedLen != -1)) {
                         bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
                     }
@@ -3987,7 +3987,7 @@ public fun close() {
         bufferDefinedLastSize = 0
     }
     private fun getLastTokenString(): String {
-        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
+        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt(), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt())
     }
     private fun parserDefinedNode0(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {

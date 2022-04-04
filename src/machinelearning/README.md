@@ -88,7 +88,7 @@ if the parameter "fast" is replaced with something else, than the queries do pri
 In fast-mode only the count is returned, which is a huge speed improvement, if you only want to measure intermediate results, and not timings
 
 ```bash
-./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | sort > ${tripleFile}.nt
+./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
 ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt 3 $queriesDirectory fast
 ```
 

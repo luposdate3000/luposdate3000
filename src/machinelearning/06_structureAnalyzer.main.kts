@@ -1,7 +1,7 @@
-#!/usr/bin/env kotlin
-@file:Import("06_Turtle.kt")
-
-import parser.Parser
+#!/usr/bin/env -S JAVA_OPTS="-Xmx32g" kotlin
+@file:Import("06_Turtle.kt")       
+ 
+import parser.Parser  
 
 var ttypeBnode = 1
 var ttypeIri = 2
@@ -12,7 +12,7 @@ val outputfolderName = args[2]
 val outputfolder = java.io.File(outputfolderName)
 outputfolder.mkdirs()
 var dictionarySet = mutableSetOf<String>()
-val fastQueryMode = args[3] == "fast"
+val fastQueryMode = args[3] == "fast" 
 
 class MyClass(val key: Set<String>) {
     val variables = mutableMapOf<String, MyType>()
@@ -49,6 +49,12 @@ class MyClass(val key: Set<String>) {
                 vv.nodeKind = vv.nodeKind or ttypeIri
             } else if (v.second.startsWith("\"") && v.second.endsWith(">") && v.second.contains("\"^^<")) {
                 vv.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<") + 3))
+                vv.nodeKind = vv.nodeKind or ttypeLiteral
+            } else if(v.second.startsWith("\"")&&v.second.contains("\"@")){
+vv.datatypes.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#langString>")
+                vv.nodeKind = vv.nodeKind or ttypeLiteral
+            } else if(v.second.startsWith("\"")&&v.second.endsWith("\"")){
+vv.datatypes.add("<http://www.w3.org/2001/XMLSchema#string>")
                 vv.nodeKind = vv.nodeKind or ttypeLiteral
             } else {
                 TODO(v.second)
@@ -135,7 +141,6 @@ fun checkAllPossibleReferences() {
         c.checkPossibleReferences()
     }
 }
-
 
 parser.consumeTriple = { s, p, o ->
     dictionarySet.add(p)
