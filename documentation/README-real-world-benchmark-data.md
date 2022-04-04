@@ -82,6 +82,14 @@ export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     touch ${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-sp2b.main.kts
 }
+#wordnet 3.1
+{
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
+    mkdir wordnet
+    cd wordnet
+    wget http://wordnet-rdf.princeton.edu/static/wordnet.nt.gz
+    gunzip wordnet.nt.gz
+}
 #btc2019
 {
     cd ${LUPOS_REAL_WORLD_DATA_ROOT}

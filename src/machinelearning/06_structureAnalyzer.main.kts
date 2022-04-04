@@ -1,7 +1,12 @@
 #!/usr/bin/env -S JAVA_OPTS="-Xmx32g" kotlin
-@file:Import("06_Turtle.kt")       
- 
-import parser.Parser  
+@file:Import("06_Turtle.kt")
+
+import parser.Parser
+
+
+// configuration -->>
+val limitQueries = 10000
+// configuration <<--
 
 var ttypeBnode = 1
 var ttypeIri = 2
@@ -12,7 +17,7 @@ val outputfolderName = args[2]
 val outputfolder = java.io.File(outputfolderName)
 outputfolder.mkdirs()
 var dictionarySet = mutableSetOf<String>()
-val fastQueryMode = args[3] == "fast" 
+val fastQueryMode = args[3] == "fast"
 
 class MyClass(val key: Set<String>) {
     val variables = mutableMapOf<String, MyType>()
@@ -50,11 +55,11 @@ class MyClass(val key: Set<String>) {
             } else if (v.second.startsWith("\"") && v.second.endsWith(">") && v.second.contains("\"^^<")) {
                 vv.datatypes.add(v.second.drop(v.second.lastIndexOf("\"^^<") + 3))
                 vv.nodeKind = vv.nodeKind or ttypeLiteral
-            } else if(v.second.startsWith("\"")&&v.second.contains("\"@")){
-vv.datatypes.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#langString>")
+            } else if (v.second.startsWith("\"") && v.second.contains("\"@")) {
+                vv.datatypes.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#langString>")
                 vv.nodeKind = vv.nodeKind or ttypeLiteral
-            } else if(v.second.startsWith("\"")&&v.second.endsWith("\"")){
-vv.datatypes.add("<http://www.w3.org/2001/XMLSchema#string>")
+            } else if (v.second.startsWith("\"") && v.second.endsWith("\"")) {
+                vv.datatypes.add("<http://www.w3.org/2001/XMLSchema#string>")
                 vv.nodeKind = vv.nodeKind or ttypeLiteral
             } else {
                 TODO(v.second)
@@ -153,6 +158,7 @@ parser.consumeTriple = { s, p, o ->
     }
     if (p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") && p.endsWith(">")) {
         currentClass.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" to o)
+        dictionarySet.add(o)
     } else {
         currentClass.add(p to o)
     }
@@ -282,7 +288,8 @@ fun writeDownQueries(patternCount: Int) {
     var idx = 0
     val luposdate3000_query_params = StringBuilder()
     val python_ml_params = StringBuilder()
-    for (query in knownJoins) {
+val knownJoins2=knownJoins.shuffled().take(limitQueries)
+    for (query in knownJoins2) {
         luposdate3000_query_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
         python_ml_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
         java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
