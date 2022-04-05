@@ -11,19 +11,34 @@ val limitQueries = 10000
 var ttypeBnode = 1
 var ttypeIri = 2
 var ttypeLiteral = 4
-val parser = Parser(java.io.File(args[0]).inputStream())
+var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
 val numberOfJoins = args[1].toInt()
 val outputfolderName = args[2]
 val outputfolder = java.io.File(outputfolderName)
-outputfolder.mkdirs()
-var dictionarySet = mutableSetOf<String>()
 val fastQueryMode = args[3] == "fast"
+var currentClass = mutableListOf<Pair<String, String>>()
+var currentSubject: String? = null
+
+val knownClassesIDMap3 = mutableListOf<MyClass>()
+val knownClassesMap3 = mutableMapOf<String, Int>()
+val subjectTypeMap = mutableMapOf<String, Int>()
+
+val knownClassesMemberMap = mutableMapOf<Set<String>, Int>()
+
+var ctr = 0
+val dictionary = mutableListOf("")
+var knownJoins = mutableListOf<MyJoin>()
+var knownJoinsPrev = mutableListOf<MyJoin>()
+
+outputfolder.mkdirs()
 
 class MyClass(val key: MutableSet<String>) {
     val variables = mutableMapOf<String, MyType>()
-    val id = knownClassesIDMap3.size
+    var id = knownClassesIDMap3.size
+    var ids = mutableSetOf(id)
     fun mergeWith(other: MyClass) {
         key.addAll(other.key)
+        ids.addAll(other.ids)
         val a = other.variables.keys - variables.keys
         val b = other.variables.keys - a
         val c = variables.keys - other.variables.keys
@@ -142,30 +157,24 @@ class MyType(count: Int) {
     }
 }
 
-var currentClass = mutableListOf<Pair<String, String>>()
-var currentSubject: String? = null
-val knownClassesIDMap3 = mutableListOf<MyClass>()
-val knownClassesMap3 = mutableMapOf<String, Int>()
-val subjectTypeMap = mutableMapOf<String, Int>()
-val knownClassesMemberMap = mutableMapOf<Set<String>, Int>()
 
 fun getClazz(s: String) = knownClassesMap3[s]?.let { knownClassesIDMap3[it] }
 fun getClazz(id: Int) = knownClassesIDMap3[id]
-fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> index == it.id }
+fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> it.id == index }
 
 fun setClazzKeys(clazzID: Int, keys: Set<String>) {
     var clazz = getClazz(clazzID)!!
-    clazz.key.addAll(keys)
-    for (k in keys) {
-        val t = knownClassesMap3[k]
-        if (t == null) {
-            knownClassesMap3[k] = clazzID
-        } else {
-            val otherClazz = getClazz(t)!!
-            if (clazz.id != otherClazz.id) {
-                clazz.mergeWith(otherClazz)
-                for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
-                    knownClassesIDMap3[k2] = clazz
+    if (clazz.key.containsAll(keys)) {
+        clazz.key.addAll(keys)
+        for (k in keys) {
+            val t = knownClassesMap3[k]
+            if (t != null) {
+                val otherClazz = getClazz(t)!!
+                if (clazz.id != otherClazz.id) {
+                    clazz.mergeWith(otherClazz)
+                    for (id in otherClazz.ids) {
+                        knownClassesIDMap3[id] = clazz
+                    }
                 }
             }
         }
@@ -174,17 +183,21 @@ fun setClazzKeys(clazzID: Int, keys: Set<String>) {
 
 fun checkEqualClazz(clazzID: Int, keys: Set<String>) {
     var clazz = getClazz(clazzID)!!
-    var t = knownClassesMemberMap[clazz.variables.keys]
+    var t = knownClassesMemberMap[keys]
     if (t != null) {
         val otherClazz = getClazz(t)!!
         if (clazz.id != otherClazz.id) {
             clazz.mergeWith(otherClazz)
-            for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
-                knownClassesIDMap3[k2] = clazz
+            for (id in otherClazz.ids) {
+                knownClassesIDMap3[id] = clazz
+            }
+            for (k in clazz.key) {
+                knownClassesMap3[k] = clazz.id
             }
         }
     }
     knownClassesMemberMap[clazz.variables.keys] = clazzID
+    knownClassesMemberMap[keys] = clazzID
 }
 
 fun findClassFor(values: List<Pair<String, String>>): Set<String> {
@@ -200,6 +213,9 @@ fun consumeClass() {
             val t = MyClass(keys)
             knownClassesIDMap3.add(t)
             tt.add(t.id)
+            for (k in keys) {
+                knownClassesMap3[k] = t.id
+            }
         }
         val key = tt.first()
         setClazzKeys(key, keys)
@@ -219,13 +235,11 @@ fun checkAllPossibleReferences() {
     }
 }
 
-var ctr = 0
-parser.consumeTriple = { s, p, o ->
+parser!!.consumeTriple = { s, p, o ->
     ctr++
     if (ctr % 10000 == 0) {
-        println("ctr $ctr")
+        println("ctr: $ctr currentClass: ${currentClass.size} knownClassesIDMap3: ${knownClassesIDMap3.size} knownClassesMap3: ${knownClassesMap3.size} subjectTypeMap: ${subjectTypeMap.size} knownClassesMemberMap: ${knownClassesMemberMap.size} dictionary: ${dictionary.size} knownJoins: ${knownJoins.size} knownJoinsPrev: ${knownJoinsPrev.size}")
     }
-    dictionarySet.add(p)
     if (currentSubject != s) {
         if (currentSubject != null) {
             consumeClass()
@@ -235,17 +249,39 @@ parser.consumeTriple = { s, p, o ->
     }
     if (p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") && p.endsWith(">")) {
         currentClass.add("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" to o)
-        dictionarySet.add(o)
     } else {
         currentClass.add(p to o)
     }
 }
 
-parser.parserDefinedParse()
-parser.close();
+parser!!.parserDefinedParse()
+parser!!.close();
+parser = null
 consumeClass()
 checkAllPossibleReferences()
-val dictionary = listOf("") + dictionarySet.toList()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 println()
 for (clazz in getAllClazzes()) {
@@ -310,8 +346,6 @@ class MyJoin {
     }
 }
 
-var knownJoins = mutableListOf<MyJoin>()
-
 
 fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String? = null) {
     var flag = lastPredicate == null
@@ -361,6 +395,11 @@ for (clazz in getAllClazzes()) {
     val j = MyJoin()
     addToJoin(j, j.nextVariableName(clazz.id), clazz)
 }
+fun addToDictionary(s: String) {
+    if (!s.startsWith("?") && !dictionary.contains(s)) {
+        dictionary.add(s)
+    }
+}
 
 fun writeDownQueries(patternCount: Int) {
     val folder = java.io.File(outputfolder, "patterns_$patternCount")
@@ -379,6 +418,9 @@ fun writeDownQueries(patternCount: Int) {
                 out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
             }
             for (p in query.patterns) {
+                addToDictionary(p.first)
+                addToDictionary(p.second)
+                addToDictionary(p.third)
                 out.println("  ${p.first} ${p.second} ${p.third} . ")
             }
             out.println("}")
@@ -425,8 +467,6 @@ java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     }
 }
 
-
-var knownJoinsPrev = mutableListOf<MyJoin>()
 writeDownQueries(1)
 for (joinCount in 0 until numberOfJoins) {
     knownJoinsPrev = knownJoins
