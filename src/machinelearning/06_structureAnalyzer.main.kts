@@ -5,7 +5,7 @@ import parser.Parser
 
 
 // configuration -->>
-val limitQueries = 10000
+val limitQueries = 5000
 // configuration <<--
 
 var ttypeBnode = 1
@@ -574,6 +574,9 @@ java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     }
 }
 
+
+
+TODO("original code ...")
 writeDownQueries(1)
 for (joinCount in 0 until numberOfJoins) {
     knownJoinsPrev = knownJoins
