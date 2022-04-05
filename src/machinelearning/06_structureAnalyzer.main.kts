@@ -236,10 +236,10 @@ fun checkAllPossibleReferences() {
 }
 
 parser!!.consumeTriple = { s, p, o ->
-    ctr++
-    if (ctr % 10000 == 0) {
-        println("ctr: $ctr currentClass: ${currentClass.size} knownClassesIDMap3: ${knownClassesIDMap3.size} knownClassesMap3: ${knownClassesMap3.size} subjectTypeMap: ${subjectTypeMap.size} knownClassesMemberMap: ${knownClassesMemberMap.size} dictionary: ${dictionary.size} knownJoins: ${knownJoins.size} knownJoinsPrev: ${knownJoinsPrev.size}")
-    }
+//    ctr++
+//    if (ctr % 10000 == 0) {
+//        println("ctr: $ctr currentClass: ${currentClass.size} knownClassesIDMap3: ${knownClassesIDMap3.size} knownClassesMap3: ${knownClassesMap3.size} subjectTypeMap: ${subjectTypeMap.size} knownClassesMemberMap: ${knownClassesMemberMap.size} dictionary: ${dictionary.size} knownJoins: ${knownJoins.size} knownJoinsPrev: ${knownJoinsPrev.size}")
+//    }
     if (currentSubject != s) {
         if (currentSubject != null) {
             consumeClass()
