@@ -37,10 +37,37 @@ class MyClass(val key: MutableSet<String>) {
     val variables = mutableMapOf<String, MyType>()
     var id = knownClassesIDMap3.size
     var ids = mutableSetOf(id)
+    fun deduplicateProperties() {
+        val typeMap = mutableMapOf<Triple<Int, Int, Int>, MutableSet<String>>()
+        for ((k, v) in variables) {
+            if (v.referencedSubjectClasses.size == 0) {
+                val tt = Triple(v.minCount, v.maxCount, v.nodeKind)
+                var t = typeMap[tt]
+                if (t == null) {
+                    t = mutableSetOf()
+                    typeMap[tt] = t
+                }
+                t.add(k)
+            }
+        }
+        for (kk in typeMap.values) {
+            val ll = kk.toMutableList()
+            val ff = ll.removeFirst()
+            val v = variables[ff]!!
+            v.paths.addAll(kk)
+            for (l in ll) {
+                v.datatypes.addAll(variables[l]!!.datatypes)
+            }
+for(l in ll){
+            variables.remove(l)
+}
+        }
+    }
+
     fun clearType() {
-id=idMappings[id]
-ids.clear()
-ids.add(id)
+        id = idMappings[id]
+        ids.clear()
+        ids.add(id)
         for (v in variables.values) {
             v.clearType()
         }
@@ -81,6 +108,7 @@ ids.add(id)
             if (vv == null) {
                 vv = MyType(v)
                 variables[k] = vv
+vv.paths.add(k)
             }
             vv.updateMinMax(v)
         }
@@ -125,6 +153,7 @@ class MyType(count: Int) {
     var possibleSubjectReferences = mutableSetOf<String>()
     var datatypes = mutableSetOf<String>()
     var nodeKind = 0
+    val paths = mutableSetOf<String>()
     fun clearType() {
         val tmp = referencedSubjectClasses.map { idMappings[it] }.toSet()
         referencedSubjectClasses.clear()
@@ -215,7 +244,7 @@ fun checkEqualClazz(clazzID: Int, keys: Set<String>) {
     var clazz = getClazz(clazzID)!!
     var t = knownClassesMemberMap[keys]
     if (t != null) {
-        val otherClazz = getClazz(t)!!
+        val otherClazz = getClazz(t!!)!!
         if (clazz.id != otherClazz.id) {
             clazz.mergeWith(otherClazz)
             for (id in otherClazz.ids) {
@@ -292,6 +321,13 @@ consumeClass()
 checkAllPossibleReferences()
 
 
+val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
+for (i in 0 until validIDs.size) {
+    val clazz = knownClassesIDMap3[validIDs[i]]
+    clazz.deduplicateProperties()
+}
+
+
 //grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
 
 var changed = true
@@ -349,13 +385,7 @@ loop@ while (changed) {
     }
 }
 
-//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9552
-
-
-
-
-
-
+//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9006
 
 
 println()
@@ -365,9 +395,11 @@ for (clazz in getAllClazzes()) {
     for (kk in clazz.key) {
         println("    <http://www.w3.org/ns/shacl#targetClass> ${kk} ;")
     }
-    for ((k, v) in clazz.variables) {
+    for (v in clazz.variables.values) {
         println("    <http://www.w3.org/ns/shacl#property> [")
-        println("        <http://www.w3.org/ns/shacl#path> $k ;")
+        for (k in v.paths) {
+            println("        <http://www.w3.org/ns/shacl#path> $k ;")
+        }
         val possibleClasses = v.referencedSubjectClasses.map { getClazz(it)!!.key.first() }.toSet()
         val datatypes = v.datatypes + v.possibleSubjectReferences.map {
             if (it.startsWith("_:")) {
