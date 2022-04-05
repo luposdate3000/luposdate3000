@@ -22,6 +22,7 @@ var currentSubject: String? = null
 val knownClassesIDMap3 = mutableListOf<MyClass>()
 val knownClassesMap3 = mutableMapOf<String, Int>()
 val subjectTypeMap = mutableMapOf<String, Int>()
+var idMappings = IntArray(1)
 
 val knownClassesMemberMap = mutableMapOf<Set<String>, Int>()
 
@@ -37,6 +38,9 @@ class MyClass(val key: MutableSet<String>) {
     var id = knownClassesIDMap3.size
     var ids = mutableSetOf(id)
     fun clearType() {
+id=idMappings[id]
+ids.clear()
+ids.add(id)
         for (v in variables.values) {
             v.clearType()
         }
@@ -122,10 +126,16 @@ class MyType(count: Int) {
     var datatypes = mutableSetOf<String>()
     var nodeKind = 0
     fun clearType() {
-        possibleSubjectReferences.clear()
-        val tmp = referencedSubjectClasses.map { getClazz(it).id }.toSet()
+        val tmp = referencedSubjectClasses.map { idMappings[it] }.toSet()
         referencedSubjectClasses.clear()
         referencedSubjectClasses.addAll(tmp)
+        for (k in possibleSubjectReferences) {
+            var x = subjectTypeMap[k]
+            if (x != null) {
+                referencedSubjectClasses.add(idMappings[x])
+            }
+        }
+        possibleSubjectReferences.clear()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -291,18 +301,33 @@ loop@ while (changed) {
     println("starting loop")
     changed = false
     val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
+    idMappings = IntArray(knownClassesIDMap3.size) { -1 }
+    for (i in 0 until validIDs.size) {
+        val clazz = knownClassesIDMap3[validIDs[i]]
+        for (id in clazz.ids) {
+            idMappings[id] = i
+        }
+    }
     for (i in validIDs) {
         knownClassesIDMap3[i].clearType()
     }
+    var knownClassesIDMap3Tmp = mutableListOf<MyClass>()
+    for (i in 0 until validIDs.size) {
+        val t = knownClassesIDMap3[validIDs[i]]
+        knownClassesIDMap3Tmp.add(t)
+    }
+    knownClassesIDMap3.clear()
+    knownClassesIDMap3.addAll(knownClassesIDMap3Tmp)
+    subjectTypeMap.clear()
     println("had clear type")
     var deletedIDs = mutableSetOf<Int>()
     for (i in 0 until validIDs.size) {
-        if (deletedIDs.size>1000){
+        if (deletedIDs.size > 1000) {
             continue@loop
         }
-if (deletedIDs.contains(i)) {
-                continue
-            }
+        if (deletedIDs.contains(i)) {
+            continue
+        }
         println("$i / (${validIDs.size}-${deletedIDs.size})")
         for (j in i + 1 until validIDs.size) {
             if (deletedIDs.contains(j)) {
@@ -311,19 +336,19 @@ if (deletedIDs.contains(i)) {
             val clazzA = knownClassesIDMap3[i]
             val clazzB = knownClassesIDMap3[j]
             if (clazzA.variables.size == clazzB.variables.size) {
-            if (clazzA.variables.keys == clazzB.variables.keys) {
-            if (clazzA.variables == clazzB.variables) {
-                deletedIDs.add(clazzB.id)
-                changed = true
-                clazzA.mergeWith(clazzB)
-                for (id in clazzB.ids) {
-                    knownClassesIDMap3[id] = clazzA
+                if (clazzA.variables.keys == clazzB.variables.keys) {
+                    if (clazzA.variables == clazzB.variables) {
+                        deletedIDs.add(clazzB.id)
+                        changed = true
+                        clazzA.mergeWith(clazzB)
+                        for (id in clazzB.ids) {
+                            knownClassesIDMap3[id] = clazzA
+                        }
+                        for (k in clazzB.key) {
+                            knownClassesMap3[k] = clazzA.id
+                        }
+                    }
                 }
-                for (k in clazzB.key) {
-                    knownClassesMap3[k] = clazzA.id
-                }
-}
-}
             }
         }
     }
