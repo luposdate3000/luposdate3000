@@ -284,7 +284,6 @@ parser!!.consumeTriple = { s, p, o ->
     }
 }
 
-println("starting to parse")
 
 parser!!.parserDefinedParse()
 parser!!.close();
@@ -295,10 +294,8 @@ checkAllPossibleReferences()
 
 //grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
 
-println("merging identical clazzes ...")
 var changed = true
 loop@ while (changed) {
-    println("starting loop")
     changed = false
     val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
     idMappings = IntArray(knownClassesIDMap3.size) { -1 }
@@ -319,7 +316,6 @@ loop@ while (changed) {
     knownClassesIDMap3.clear()
     knownClassesIDMap3.addAll(knownClassesIDMap3Tmp)
     subjectTypeMap.clear()
-    println("had clear type")
     var deletedIDs = mutableSetOf<Int>()
     for (i in 0 until validIDs.size) {
         if (deletedIDs.size > 1000) {
@@ -328,7 +324,6 @@ loop@ while (changed) {
         if (deletedIDs.contains(i)) {
             continue
         }
-        println("$i / (${validIDs.size}-${deletedIDs.size})")
         for (j in i + 1 until validIDs.size) {
             if (deletedIDs.contains(j)) {
                 continue
@@ -354,8 +349,7 @@ loop@ while (changed) {
     }
 }
 
-
-println("writing shacl ...")
+//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9552
 
 
 
