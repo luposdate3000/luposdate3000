@@ -147,11 +147,11 @@ var currentSubject: String? = null
 val knownClassesIDMap3 = mutableListOf<MyClass>()
 val knownClassesMap3 = mutableMapOf<String, Int>()
 val subjectTypeMap = mutableMapOf<String, Int>()
-val knownClassesMemberMap = mutableMapOf<Set<String>,Int>()
+val knownClassesMemberMap = mutableMapOf<Set<String>, Int>()
 
-fun getClazz(s: String) = knownClassesMap3[s]?.let {   knownClassesIDMap3[it] } 
-fun getClazz(id: Int) =  knownClassesIDMap3[id] 
-fun getAllClazzes() =  knownClassesIDMap3.filterIndexed{index,it->index==it.id}
+fun getClazz(s: String) = knownClassesMap3[s]?.let { knownClassesIDMap3[it] }
+fun getClazz(id: Int) = knownClassesIDMap3[id]
+fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> index == it.id }
 
 fun setClazzKeys(clazzID: Int, keys: Set<String>) {
     var clazz = getClazz(clazzID)!!
@@ -171,19 +171,20 @@ fun setClazzKeys(clazzID: Int, keys: Set<String>) {
         }
     }
 }
+
 fun checkEqualClazz(clazzID: Int, keys: Set<String>) {
-var clazz = getClazz(clazzID)!!
-var t=knownClassesMemberMap[clazz.variables.keys]
-if(t!=null){
-val otherClazz=getClazz(t)!!
-if (clazz.id != otherClazz.id) {
-clazz.mergeWith(otherClazz)
-                for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
-knownClassesIDMap3[k2]=clazz
-                }
-}
-}
-knownClassesMemberMap[clazz.variables.keys]=clazzID
+    var clazz = getClazz(clazzID)!!
+    var t = knownClassesMemberMap[clazz.variables.keys]
+    if (t != null) {
+        val otherClazz = getClazz(t)!!
+        if (clazz.id != otherClazz.id) {
+            clazz.mergeWith(otherClazz)
+            for (k2 in otherClazz.key.map { getClazz(it)!!.id }) {
+                knownClassesIDMap3[k2] = clazz
+            }
+        }
+    }
+    knownClassesMemberMap[clazz.variables.keys] = clazzID
 }
 
 fun findClassFor(values: List<Pair<String, String>>): Set<String> {
@@ -204,7 +205,7 @@ fun consumeClass() {
         setClazzKeys(key, keys)
         val clazz = getClazz(key)!!
         clazz.mergeWith(currentClass)
-checkEqualClazz(key, keys)
+        checkEqualClazz(key, keys)
         if (subjectTypeMap[currentSubject] != null) {
             TODO("currentSubject $currentSubject")
         }
@@ -218,12 +219,12 @@ fun checkAllPossibleReferences() {
     }
 }
 
-var ctr=0
+var ctr = 0
 parser.consumeTriple = { s, p, o ->
-ctr++
-if(ctr%10000==0){
-println("ctr $ctr")
-}
+    ctr++
+    if (ctr % 10000 == 0) {
+        println("ctr $ctr")
+    }
     dictionarySet.add(p)
     if (currentSubject != s) {
         if (currentSubject != null) {
