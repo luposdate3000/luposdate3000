@@ -97,7 +97,7 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 Values for time and intermediate result count:
 
 ```bash
-./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params_4 --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
+./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
 ```
 
 Values for network traffic:

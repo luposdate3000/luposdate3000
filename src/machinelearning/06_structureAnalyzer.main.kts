@@ -557,7 +557,7 @@ fun joinSequenceIterator() = sequence {
     }
 }
 
-val folder = java.io.File(outputfolder, "patterns_$numberOfJoins")
+val folder = outputfolder
 folder.mkdirs()
 var idx = 0
 val luposdate3000_query_params = StringBuilder()
@@ -565,8 +565,8 @@ val python_ml_params = StringBuilder()
 val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
 ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
 for (query in knownJoins) {
-    luposdate3000_query_params.append(outputfolderName + "/patterns_$numberOfJoins/q${idx.toString().padStart(4, '0')}.sparql;")
-    python_ml_params.append(outputfolderName + "/patterns_$numberOfJoins/q${idx.toString().padStart(4, '0')}.mlq;")
+    luposdate3000_query_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.sparql;")
+    python_ml_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.mlq;")
     java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
         if (fastQueryMode) {
             out.println("SELECT (COUNT(*) as ?c) WHERE {")
@@ -609,10 +609,10 @@ for (query in knownJoins) {
     }
     idx++
 }
-java.io.File(outputfolder, "luposdate3000_query_params_$numberOfJoins").printWriter().use { out ->
+java.io.File(outputfolder, "luposdate3000_query_params").printWriter().use { out ->
     out.print(luposdate3000_query_params.toString().dropLast(1))
 }
-java.io.File(outputfolder, "python_ml_params_$numberOfJoins").printWriter().use { out ->
+java.io.File(outputfolder, "python_ml_params").printWriter().use { out ->
     out.print(python_ml_params.toString().dropLast(1))
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->

@@ -1,32 +1,32 @@
 package lupos.parser.nquads
 
 public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
-    internal var currentS: String? = null
-    internal var currentP: String? = null
-    internal var currentO: String? = null
-    internal var currentG: String? = null
-    public var consumeQuad: (String, String, String, String?) -> Unit = { s, p, o, g ->
-        println("consumeQuad($s, $p, $s, $g)")
-    }
+internal var currentS:String?=null
+internal var currentP:String?=null
+internal var currentO:String?=null
+internal var currentG:String?=null
+public var consumeQuad:(String, String, String, String?) -> Unit = {s,p,o,g->
+    println("consumeQuad($s, $p, $s, $g)")
+}
 
-    internal var parsererror: String? = null
-    public var bufferDefinedDataSize: Int = 0
-    public var bufferDefinedPosition: Int = 0
-    public var bufferDefinedLastSize: Int = 0
+internal var parsererror: String? = null
+    public var bufferDefinedDataSize: Long = 0
+    public var bufferDefinedPosition: Long = 0
+    public var bufferDefinedLastSize: Long = 0
     public var bufferDefinedAllocatedSize: Int = 4096
     public var bufferDefinedData: ByteArray = ByteArray(bufferDefinedAllocatedSize)
-    public var bufferDefinedRangeStart: Int = 0
+    public var bufferDefinedRangeStart: Long = 0L
     public lateinit var bufferDefinedInputStream: lupos.shared.IMyInputStream
-    public var bufferDefinedMaxPositionAvailable: Int = 0
+    public var bufferDefinedMaxPositionAvailable: Long = 0L
     public var scannerDefinedTokenFoundType: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundStart: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundEnd: IntArray = IntArray(3)
+    public var scannerDefinedTokenFoundStart: LongArray = LongArray(3)
+    public var scannerDefinedTokenFoundEnd: LongArray = LongArray(3)
     public var scannerDefinedTokenFoundReadOffset: Int = 0
     public var scannerDefinedTokenFoundWriteOffset: Int = 0
     public var scannerDefinedTokenFoundAvailable: Int = 0
     public var scannerDefinedTokenPendingType: Int = -1
-    public var scannerDefinedTokenPendingStart: Int = bufferDefinedPosition
-    public var scannerDefinedTokenPendingEnd: Int = bufferDefinedPosition
+    public var scannerDefinedTokenPendingStart: Long = bufferDefinedPosition
+    public var scannerDefinedTokenPendingEnd: Long = bufferDefinedPosition
     public var scannerDefinedCurrentChar: Int = 0
     public val scannerDefinedEntryPoints: Array<String> = arrayOf<String>("[WS_ANY]", "[IRIREF, BLANK_NODE_LABEL, EOL]", "[]", "[EOL]", "[IRIREF, BLANK_NODE_LABEL]", "[IRIREF]", "[IRIREF, BLANK_NODE_LABEL, STRING_LITERAL_QUOTE]", "[generated0, LANGTAG, generated1, IRIREF, BLANK_NODE_LABEL]", "[generated0]", "[LANGTAG]", "[IRIREF, BLANK_NODE_LABEL, generated1]", "[generated1]")
     public val scannerDefinedScannerTokens: Array<String> = arrayOf<String>("")
@@ -36,30 +36,32 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-            val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+            val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
             if ((bufferDefinedEreaseLength > 0)) {
-                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                 bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                 bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
             } else {
-                if ((bufferDefinedPosition != 0)) {
+                if ((bufferDefinedPosition != 0L)) {
                     var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                     var data: ByteArray = ByteArray(newSize)
-                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                     bufferDefinedAllocatedSize = newSize
                     bufferDefinedData = data
                 }
             }
-            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
             if ((bufferDefinedLen != -1)) {
                 bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
+
     }
-    public fun close() {
-        bufferDefinedInputStream.close()
-    }
+public fun close() {
+    bufferDefinedInputStream.close()
+
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -754,38 +756,38 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
         while ((node >= 0)) {
             bufferDefinedPosition = (bufferDefinedPosition + bufferDefinedLastSize)
-            val bufferDefinedCurrentPosition: Int = (bufferDefinedPosition - bufferDefinedRangeStart)
+            val bufferDefinedCurrentPosition: Long = (bufferDefinedPosition - bufferDefinedRangeStart)
             if ((bufferDefinedCurrentPosition >= bufferDefinedDataSize)) {
                 scannerDefinedCurrentChar = -2
             } else {
-                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition]).toInt() and 0xff)
+                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition.toInt()]).toInt() and 0xff)
                 if ((firstByte < 0b10000000)) {
                     scannerDefinedCurrentChar = firstByte
                     bufferDefinedLastSize = 1
                 } else {
-                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1)]).toInt() and 0xff) and 0b00111111)
+                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1).toInt()]).toInt() and 0xff) and 0b00111111)
                     if ((((firstByte and 0b11100000) == 0b11000000) && ((secondByte and 0b11000000) == 0b10000000))) {
                         scannerDefinedCurrentChar = (((firstByte and 0b00011111) shl 6) or secondByte)
                         bufferDefinedLastSize = 2
                     } else {
-                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2)]).toInt() and 0xff) and 0b00111111)
+                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2).toInt()]).toInt() and 0xff) and 0b00111111)
                         if (((((firstByte and 0b11110000) == 0b11100000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000))) {
                             scannerDefinedCurrentChar = (((firstByte and 0b00001111) shl 12) or ((secondByte shl 6) or thirdByte))
                             bufferDefinedLastSize = 3
                         } else {
-                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3)]).toInt() and 0xff) and 0b00111111)
+                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3).toInt()]).toInt() and 0xff) and 0b00111111)
                             if ((((((firstByte and 0b11111000) == 0b11110000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000)) && ((fourthByte and 0b11000000) == 0b10000000))) {
                                 scannerDefinedCurrentChar = (((firstByte and 0b00000111) shl 18) or ((secondByte shl 12) or ((thirdByte shl 6) or fourthByte)))
                                 bufferDefinedLastSize = 4
@@ -797,21 +799,21 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                     }
                 }
                 if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-                    val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+                    val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
                     if ((bufferDefinedEreaseLength > 0)) {
-                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                         bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
-                        if ((bufferDefinedPosition != 0)) {
+                        if ((bufferDefinedPosition != 0L)) {
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
-                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                             bufferDefinedAllocatedSize = newSize
                             bufferDefinedData = data
                         }
                     }
-                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
                     if ((bufferDefinedLen != -1)) {
                         bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
                     }
@@ -971,13 +973,13 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
     private fun getLastTokenString(): String {
-        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
+        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt(), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt())
     }
     private fun parserDefinedNode0(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
@@ -995,7 +997,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken0 unexpectedly in node 0, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken0} unexpectedly in node 0, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1017,7 +1019,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1034,7 +1036,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1057,7 +1059,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken5 unexpectedly in node 5, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1084,7 +1086,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 11
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1116,7 +1118,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 15
             }
             else -> {
-                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1155,7 +1157,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 22
             }
             else -> {
-                parsererror = "found token $currentToken17 unexpectedly in node 17, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken17} unexpectedly in node 17, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1182,7 +1184,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1199,7 +1201,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 28
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1217,7 +1219,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1235,7 +1237,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 31
             }
             else -> {
-                parsererror = "found token $currentToken27 unexpectedly in node 27, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1253,7 +1255,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken28 unexpectedly in node 28, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken28} unexpectedly in node 28, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1276,7 +1278,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 37
             }
             else -> {
-                parsererror = "found token $currentToken31 unexpectedly in node 31, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken31} unexpectedly in node 31, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1300,7 +1302,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 38
             }
             else -> {
-                parsererror = "found token $currentToken33 unexpectedly in node 33, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken33} unexpectedly in node 33, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1315,7 +1317,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 39
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 37, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1341,12 +1343,12 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1437,44 +1439,44 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             TODO(parsererror!!)
         }
     }
-    private fun userCode0() {
-        currentG = null
+    private fun userCode0(): Unit {
+        currentG=null
     }
-    private fun userCode1() {
-        consumeQuad(currentS!!, currentP!!, currentO!!, currentG!!)
+    private fun userCode1(): Unit {
+        consumeQuad(currentS!!,currentP!!,currentO!!,currentG!!)
     }
-    private fun userCode2() {
-        currentS = getLastTokenString()
+    private fun userCode2(): Unit {
+        currentS=getLastTokenString()
     }
-    private fun userCode3() {
-        currentS = getLastTokenString()
+    private fun userCode3(): Unit {
+        currentS=getLastTokenString()
     }
-    private fun userCode4() {
-        currentP = getLastTokenString()
+    private fun userCode4(): Unit {
+        currentP=getLastTokenString()
     }
-    private fun userCode5() {
-        currentO = getLastTokenString()
+    private fun userCode5(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode6() {
-        currentO = getLastTokenString()
+    private fun userCode6(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode7() {
-        currentO = getLastTokenString()
+    private fun userCode7(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode8() {
-        currentO += "^^" + getLastTokenString()
+    private fun userCode8(): Unit {
+        currentO+="^^"+getLastTokenString()
     }
-    private fun userCode9() {
-        currentO += getLastTokenString()
+    private fun userCode9(): Unit {
+        currentO+=getLastTokenString()
     }
-    private fun userCode10() {
-        currentO += "^^<http://www.w3.org/2001/XMLSchema#string>"
+    private fun userCode10(): Unit {
+        currentO+="^^<http://www.w3.org/2001/XMLSchema#string>"
     }
-    private fun userCode11() {
-        currentG = getLastTokenString()
+    private fun userCode11(): Unit {
+        currentG=getLastTokenString()
     }
-    private fun userCode12() {
-        currentG = getLastTokenString()
+    private fun userCode12(): Unit {
+        currentG=getLastTokenString()
     }
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
+

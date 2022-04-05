@@ -1,29 +1,29 @@
 package lupos.parser.xml
 
-public class ASTVERSIONOptional : IASTBase {
+public class ASTVERSIONOptional: IASTBase {
     override var id: Int = 0
     public var VERSION: String? = null
 }
-public class ASTxmldoc : IASTBase {
+public class ASTxmldoc: IASTBase {
     override var id: Int = 1
     public var variable0: ASTVERSIONOptional? = null
     public var variable1: ASTelement? = null
 }
-public class ASTversion : IASTBase {
+public class ASTversion: IASTBase {
     override var id: Int = 2
 }
-public class ASTListOfattribute : IASTBase {
+public class ASTListOfattribute: IASTBase {
     override var id: Int = 3
     public lateinit var value: MutableList<ASTattribute>
 }
-public class ASTListOfelement : ASTInterfaceOfListOfelementOrtext, IASTBase {
+public class ASTListOfelement: ASTInterfaceOfListOfelementOrtext, IASTBase {
     override var id: Int = 4
     public lateinit var value: MutableList<ASTelement>
 }
 public sealed interface ASTInterfaceOfListOfelementOrtext {
     public var id: Int
 }
-public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
+public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
     override var id: Int = 6
     public var variable0: ASTInterfaceOfListOfelementOrtext? = null
     public var TAG: String? = null
@@ -31,7 +31,7 @@ public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG : ASTInterfaceOfclos
 public sealed interface ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG {
     public var id: Int
 }
-public class ASTelement : IASTBase {
+public class ASTelement: IASTBase {
     override var id: Int = 8
     public var TAG: String? = null
     public var variable1: ASTListOfattribute? = null
@@ -40,24 +40,24 @@ public class ASTelement : IASTBase {
 public sealed interface ASTInterfaceOfvalue1Orvalue2 {
     public var id: Int
 }
-public class ASTattribute : IASTBase {
+public class ASTattribute: IASTBase {
     override var id: Int = 11
     public var KEY: String? = null
     public var variable1: ASTInterfaceOfvalue1Orvalue2? = null
 }
-public class ASTvalue1 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue1: ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 9
     public var VALUE1: String? = null
 }
-public class ASTvalue2 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue2: ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 10
     public var VALUE2: String? = null
 }
-public class ASTtext : ASTInterfaceOfListOfelementOrtext, IASTBase {
+public class ASTtext: ASTInterfaceOfListOfelementOrtext, IASTBase {
     override var id: Int = 5
     public var TEXT: String? = null
 }
-public class ASTcloseimmediately : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
+public class ASTcloseimmediately: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
     override var id: Int = 7
 }
 public sealed interface IASTBase {
@@ -65,25 +65,25 @@ public sealed interface IASTBase {
 }
 public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-    internal var parsererror: String? = null
+internal var parsererror: String? = null
     public val stack: MutableList<Any> = mutableListOf<Any>()
-    public var bufferDefinedDataSize: Int = 0
-    public var bufferDefinedPosition: Int = 0
-    public var bufferDefinedLastSize: Int = 0
+    public var bufferDefinedDataSize: Long = 0
+    public var bufferDefinedPosition: Long = 0
+    public var bufferDefinedLastSize: Long = 0
     public var bufferDefinedAllocatedSize: Int = 4096
     public var bufferDefinedData: ByteArray = ByteArray(bufferDefinedAllocatedSize)
-    public var bufferDefinedRangeStart: Int = 0
+    public var bufferDefinedRangeStart: Long = 0L
     public lateinit var bufferDefinedInputStream: lupos.shared.IMyInputStream
-    public var bufferDefinedMaxPositionAvailable: Int = 0
+    public var bufferDefinedMaxPositionAvailable: Long = 0L
     public var scannerDefinedTokenFoundType: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundStart: IntArray = IntArray(3)
-    public var scannerDefinedTokenFoundEnd: IntArray = IntArray(3)
+    public var scannerDefinedTokenFoundStart: LongArray = LongArray(3)
+    public var scannerDefinedTokenFoundEnd: LongArray = LongArray(3)
     public var scannerDefinedTokenFoundReadOffset: Int = 0
     public var scannerDefinedTokenFoundWriteOffset: Int = 0
     public var scannerDefinedTokenFoundAvailable: Int = 0
     public var scannerDefinedTokenPendingType: Int = -1
-    public var scannerDefinedTokenPendingStart: Int = bufferDefinedPosition
-    public var scannerDefinedTokenPendingEnd: Int = bufferDefinedPosition
+    public var scannerDefinedTokenPendingStart: Long = bufferDefinedPosition
+    public var scannerDefinedTokenPendingEnd: Long = bufferDefinedPosition
     public var scannerDefinedCurrentChar: Int = 0
     public val scannerDefinedEntryPoints: Array<String> = arrayOf<String>("[WS_ANY]", "[]", "[VERSION, generated0]", "[VERSION]", "[generated0]", "[TAG]", "[KEY, generated4, generated5]", "[generated4, generated5]", "[KEY]", "[generated4]", "[generated5]", "[generated1]", "[generated6, generated0, TEXT]", "[generated2, generated3]", "[generated0, generated6]", "[TEXT]", "[VALUE1]", "[VALUE2]", "[generated6]", "[generated2]", "[generated3]")
     public val scannerDefinedScannerTokens: Array<String> = arrayOf<String>("")
@@ -93,30 +93,32 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-            val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+            val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
             if ((bufferDefinedEreaseLength > 0)) {
-                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                 bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                 bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
             } else {
-                if ((bufferDefinedPosition != 0)) {
+                if ((bufferDefinedPosition != 0L)) {
                     var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                     var data: ByteArray = ByteArray(newSize)
-                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                     bufferDefinedAllocatedSize = newSize
                     bufferDefinedData = data
                 }
             }
-            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+            val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
             if ((bufferDefinedLen != -1)) {
                 bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
+
     }
-    public fun close() {
-        bufferDefinedInputStream.close()
-    }
+public fun close() {
+    bufferDefinedInputStream.close()
+
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 14
@@ -719,38 +721,38 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
         while ((node >= 0)) {
             bufferDefinedPosition = (bufferDefinedPosition + bufferDefinedLastSize)
-            val bufferDefinedCurrentPosition: Int = (bufferDefinedPosition - bufferDefinedRangeStart)
+            val bufferDefinedCurrentPosition: Long = (bufferDefinedPosition - bufferDefinedRangeStart)
             if ((bufferDefinedCurrentPosition >= bufferDefinedDataSize)) {
                 scannerDefinedCurrentChar = -2
             } else {
-                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition]).toInt() and 0xff)
+                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition.toInt()]).toInt() and 0xff)
                 if ((firstByte < 0b10000000)) {
                     scannerDefinedCurrentChar = firstByte
                     bufferDefinedLastSize = 1
                 } else {
-                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1)]).toInt() and 0xff) and 0b00111111)
+                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1).toInt()]).toInt() and 0xff) and 0b00111111)
                     if ((((firstByte and 0b11100000) == 0b11000000) && ((secondByte and 0b11000000) == 0b10000000))) {
                         scannerDefinedCurrentChar = (((firstByte and 0b00011111) shl 6) or secondByte)
                         bufferDefinedLastSize = 2
                     } else {
-                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2)]).toInt() and 0xff) and 0b00111111)
+                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2).toInt()]).toInt() and 0xff) and 0b00111111)
                         if (((((firstByte and 0b11110000) == 0b11100000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000))) {
                             scannerDefinedCurrentChar = (((firstByte and 0b00001111) shl 12) or ((secondByte shl 6) or thirdByte))
                             bufferDefinedLastSize = 3
                         } else {
-                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3)]).toInt() and 0xff) and 0b00111111)
+                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3).toInt()]).toInt() and 0xff) and 0b00111111)
                             if ((((((firstByte and 0b11111000) == 0b11110000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000)) && ((fourthByte and 0b11000000) == 0b10000000))) {
                                 scannerDefinedCurrentChar = (((firstByte and 0b00000111) shl 18) or ((secondByte shl 12) or ((thirdByte shl 6) or fourthByte)))
                                 bufferDefinedLastSize = 4
@@ -762,21 +764,21 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                     }
                 }
                 if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-                    val bufferDefinedEreaseLength: Int = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+                    val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
                     if ((bufferDefinedEreaseLength > 0)) {
-                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength, bufferDefinedDataSize)
+                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                         bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
-                        if ((bufferDefinedPosition != 0)) {
+                        if ((bufferDefinedPosition != 0L)) {
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
-                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize)
+                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
                             bufferDefinedAllocatedSize = newSize
                             bufferDefinedData = data
                         }
                     }
-                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize, (bufferDefinedAllocatedSize - bufferDefinedDataSize))
+                    val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
                     if ((bufferDefinedLen != -1)) {
                         bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
                     }
@@ -921,13 +923,13 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
     private fun getLastTokenString(): String {
-        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart))
+        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt(), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt())
     }
     private fun parserDefinedNode0(): Int {
         userCode0()
@@ -948,7 +950,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken1 unexpectedly in node 1, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken1} unexpectedly in node 1, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -968,7 +970,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -991,7 +993,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 8
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1011,7 +1013,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 10
             }
             else -> {
-                parsererror = "found token $currentToken8 unexpectedly in node 8, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken8} unexpectedly in node 8, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1030,7 +1032,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 14
             }
             else -> {
-                parsererror = "found token $currentToken10 unexpectedly in node 10, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken10} unexpectedly in node 10, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1055,7 +1057,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 20
             }
             else -> {
-                parsererror = "found token $currentToken14 unexpectedly in node 14, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken14} unexpectedly in node 14, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1074,7 +1076,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1097,7 +1099,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 25
             }
             else -> {
-                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken19} unexpectedly in node 19, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1114,7 +1116,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 23
             }
             else -> {
-                parsererror = "found token $currentToken20 unexpectedly in node 20, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken20} unexpectedly in node 20, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1131,7 +1133,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 24
             }
             else -> {
-                parsererror = "found token $currentToken21 unexpectedly in node 21, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken21} unexpectedly in node 21, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1150,7 +1152,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 27
             }
             else -> {
-                parsererror = "found token $currentToken23 unexpectedly in node 23, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken23} unexpectedly in node 23, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1172,7 +1174,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 29
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1214,7 +1216,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 43
             }
             else -> {
-                parsererror = "found token $currentToken31 unexpectedly in node 31, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken31} unexpectedly in node 31, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1231,7 +1233,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 47
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 35, at position $bufferDefinedPosition"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 35, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1256,7 +1258,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 49
             }
             else -> {
-                parsererror = "found token $currentToken38 unexpectedly in node 38, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken38} unexpectedly in node 38, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1275,7 +1277,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 50
             }
             else -> {
-                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1294,7 +1296,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 51
             }
             else -> {
-                parsererror = "found token $currentToken40 unexpectedly in node 40, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken40} unexpectedly in node 40, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1311,7 +1313,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 48
             }
             else -> {
-                parsererror = "found token $currentToken43 unexpectedly in node 43, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken43} unexpectedly in node 43, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1328,7 +1330,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 52
             }
             else -> {
-                parsererror = "found token $currentToken47 unexpectedly in node 47, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken47} unexpectedly in node 47, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1347,7 +1349,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 56
             }
             else -> {
-                parsererror = "found token $currentToken48 unexpectedly in node 48, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken48} unexpectedly in node 48, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1381,7 +1383,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 58
             }
             else -> {
-                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1399,7 +1401,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 58
             }
             else -> {
-                parsererror = "found token $currentToken55 unexpectedly in node 55, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken55} unexpectedly in node 55, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1417,7 +1419,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 35
             }
             else -> {
-                parsererror = "found token $currentToken56 unexpectedly in node 56, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken56} unexpectedly in node 56, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1427,7 +1429,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         userCode11()
         return 10
     }
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1548,121 +1550,121 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             TODO(parsererror!!)
         }
     }
-    private fun userCode0() {
+    private fun userCode0(): Unit {
         stack.add(allocASTxmldoc())
     }
-    private fun userCode1() {
+    private fun userCode1(): Unit {
         stack.add(allocASTVERSIONOptional())
     }
-    private fun userCode2() {
+    private fun userCode2(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode3() {
+    private fun userCode3(): Unit {
         val tmp15: Any = stack.removeLast()
         astAssign_ASTVERSIONOptional_0((stack.last() as ASTVERSIONOptional), tmp15)
     }
-    private fun userCode4() {
+    private fun userCode4(): Unit {
         val tmp16: Any = stack.removeLast()
         astAssign_ASTxmldoc_0((stack.last() as ASTxmldoc), tmp16)
     }
-    private fun userCode5() {
+    private fun userCode5(): Unit {
         val tmp17: Any = stack.removeLast()
         astAssign_ASTxmldoc_1((stack.last() as ASTxmldoc), tmp17)
     }
-    private fun userCode6() {
+    private fun userCode6(): Unit {
         stack.add(allocASTversion())
     }
-    private fun userCode7() {
+    private fun userCode7(): Unit {
         stack.add(allocASTelement())
     }
-    private fun userCode8() {
+    private fun userCode8(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode9() {
+    private fun userCode9(): Unit {
         val tmp22: Any = stack.removeLast()
         astAssign_ASTelement_0((stack.last() as ASTelement), tmp22)
     }
-    private fun userCode10() {
+    private fun userCode10(): Unit {
         stack.add(allocASTListOfattribute())
     }
-    private fun userCode11() {
+    private fun userCode11(): Unit {
         val tmp18: Any = stack.removeLast()
         astAssign_ASTListOfattribute_0((stack.last() as ASTListOfattribute), tmp18)
     }
-    private fun userCode12() {
+    private fun userCode12(): Unit {
         val tmp23: Any = stack.removeLast()
         astAssign_ASTelement_1((stack.last() as ASTelement), tmp23)
     }
-    private fun userCode13() {
+    private fun userCode13(): Unit {
         stack.add(allocASTClassOfInterfaceOfListOfelementOrtextAndTAG())
     }
-    private fun userCode14() {
+    private fun userCode14(): Unit {
         stack.add(allocASTListOfelement())
     }
-    private fun userCode15() {
+    private fun userCode15(): Unit {
         val tmp19: Any = stack.removeLast()
         astAssign_ASTListOfelement_0((stack.last() as ASTListOfelement), tmp19)
     }
-    private fun userCode16() {
+    private fun userCode16(): Unit {
         val tmp20: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp20)
     }
-    private fun userCode17() {
+    private fun userCode17(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode18() {
+    private fun userCode18(): Unit {
         val tmp21: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp21)
     }
-    private fun userCode19() {
+    private fun userCode19(): Unit {
         val tmp24: Any = stack.removeLast()
         astAssign_ASTelement_2((stack.last() as ASTelement), tmp24)
     }
-    private fun userCode20() {
+    private fun userCode20(): Unit {
         stack.add(allocASTattribute())
     }
-    private fun userCode21() {
+    private fun userCode21(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode22() {
+    private fun userCode22(): Unit {
         val tmp25: Any = stack.removeLast()
         astAssign_ASTattribute_0((stack.last() as ASTattribute), tmp25)
     }
-    private fun userCode23() {
+    private fun userCode23(): Unit {
         val tmp26: Any = stack.removeLast()
         astAssign_ASTattribute_1((stack.last() as ASTattribute), tmp26)
     }
-    private fun userCode24() {
+    private fun userCode24(): Unit {
         stack.add(allocASTvalue1())
     }
-    private fun userCode25() {
+    private fun userCode25(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode26() {
+    private fun userCode26(): Unit {
         val tmp27: Any = stack.removeLast()
         astAssign_ASTvalue1_0((stack.last() as ASTvalue1), tmp27)
     }
-    private fun userCode27() {
+    private fun userCode27(): Unit {
         stack.add(allocASTvalue2())
     }
-    private fun userCode28() {
+    private fun userCode28(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode29() {
+    private fun userCode29(): Unit {
         val tmp28: Any = stack.removeLast()
         astAssign_ASTvalue2_0((stack.last() as ASTvalue2), tmp28)
     }
-    private fun userCode30() {
+    private fun userCode30(): Unit {
         stack.add(allocASTtext())
     }
-    private fun userCode31() {
+    private fun userCode31(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode32() {
+    private fun userCode32(): Unit {
         val tmp29: Any = stack.removeLast()
         astAssign_ASTtext_0((stack.last() as ASTtext), tmp29)
     }
-    private fun userCode33() {
+    private fun userCode33(): Unit {
         stack.add(allocASTcloseimmediately())
     }
     private fun allocASTVERSIONOptional(): ASTVERSIONOptional {
@@ -1670,7 +1672,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 0
         return tmp
     }
-    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?) {
+    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1679,11 +1681,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?) {
+    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any) {
+    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any): Unit {
         node.VERSION = (value as String)
     }
     private fun allocASTxmldoc(): ASTxmldoc {
@@ -1691,7 +1693,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 1
         return tmp
     }
-    public fun printASTxmldoc(node: ASTxmldoc?) {
+    public fun printASTxmldoc(node: ASTxmldoc?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1703,16 +1705,16 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTxmldoc(node: ASTxmldoc?) {
+    public fun freeASTxmldoc(node: ASTxmldoc?): Unit {
         if ((node != null)) {
             freeASTVERSIONOptional(node.variable0)
             freeASTelement(node.variable1)
         }
     }
-    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any) {
+    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any): Unit {
         node.variable0 = (value as ASTVERSIONOptional)
     }
-    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any) {
+    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any): Unit {
         node.variable1 = (value as ASTelement)
     }
     private fun allocASTversion(): ASTversion {
@@ -1720,7 +1722,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 2
         return tmp
     }
-    public fun printASTversion(node: ASTversion?) {
+    public fun printASTversion(node: ASTversion?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1728,11 +1730,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTversion(node: ASTversion?) {
+    public fun freeASTversion(node: ASTversion?): Unit {
         if ((node != null)) {
         }
     }
-    public fun printASTListOfattribute(node: ASTListOfattribute?) {
+    public fun printASTListOfattribute(node: ASTListOfattribute?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1743,7 +1745,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("],},")
         }
     }
-    public fun freeASTListOfattribute(node: ASTListOfattribute?) {
+    public fun freeASTListOfattribute(node: ASTListOfattribute?): Unit {
         if ((node != null)) {
             node.value.forEach {
                 freeASTattribute(it)
@@ -1756,10 +1758,10 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 3
         return tmp
     }
-    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any) {
+    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any): Unit {
         node.value.add((value as ASTattribute))
     }
-    public fun printASTListOfelement(node: ASTListOfelement?) {
+    public fun printASTListOfelement(node: ASTListOfelement?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1770,7 +1772,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("],},")
         }
     }
-    public fun freeASTListOfelement(node: ASTListOfelement?) {
+    public fun freeASTListOfelement(node: ASTListOfelement?): Unit {
         if ((node != null)) {
             node.value.forEach {
                 freeASTelement(it)
@@ -1783,10 +1785,10 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 4
         return tmp
     }
-    private fun astAssign_ASTListOfelement_0(node: ASTListOfelement, value: Any) {
+    private fun astAssign_ASTListOfelement_0(node: ASTListOfelement, value: Any): Unit {
         node.value.add((value as ASTelement))
     }
-    public fun printASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
+    public fun printASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1800,7 +1802,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    public fun freeASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
+    public fun freeASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?): Unit {
         if ((node != null)) {
             when (node.id) {
                 4 -> {
@@ -1817,7 +1819,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 6
         return tmp
     }
-    public fun printASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun printASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1828,18 +1830,18 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun freeASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
         if ((node != null)) {
             freeASTInterfaceOfListOfelementOrtext(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
+    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any): Unit {
         node.variable0 = (value as ASTInterfaceOfListOfelementOrtext)
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
+    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any): Unit {
         node.TAG = (value as String)
     }
-    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1853,7 +1855,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
         if ((node != null)) {
             when (node.id) {
                 7 -> {
@@ -1870,7 +1872,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 8
         return tmp
     }
-    public fun printASTelement(node: ASTelement?) {
+    public fun printASTelement(node: ASTelement?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1883,22 +1885,22 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTelement(node: ASTelement?) {
+    public fun freeASTelement(node: ASTelement?): Unit {
         if ((node != null)) {
             freeASTListOfattribute(node.variable1)
             freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node.variable2)
         }
     }
-    private fun astAssign_ASTelement_0(node: ASTelement, value: Any) {
+    private fun astAssign_ASTelement_0(node: ASTelement, value: Any): Unit {
         node.TAG = (value as String)
     }
-    private fun astAssign_ASTelement_1(node: ASTelement, value: Any) {
+    private fun astAssign_ASTelement_1(node: ASTelement, value: Any): Unit {
         node.variable1 = (value as ASTListOfattribute)
     }
-    private fun astAssign_ASTelement_2(node: ASTelement, value: Any) {
+    private fun astAssign_ASTelement_2(node: ASTelement, value: Any): Unit {
         node.variable2 = (value as ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG)
     }
-    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
+    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1912,7 +1914,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
+    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
         if ((node != null)) {
             when (node.id) {
                 9 -> {
@@ -1929,7 +1931,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 11
         return tmp
     }
-    public fun printASTattribute(node: ASTattribute?) {
+    public fun printASTattribute(node: ASTattribute?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1940,15 +1942,15 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTattribute(node: ASTattribute?) {
+    public fun freeASTattribute(node: ASTattribute?): Unit {
         if ((node != null)) {
             freeASTInterfaceOfvalue1Orvalue2(node.variable1)
         }
     }
-    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any) {
+    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any): Unit {
         node.KEY = (value as String)
     }
-    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any) {
+    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any): Unit {
         node.variable1 = (value as ASTInterfaceOfvalue1Orvalue2)
     }
     private fun allocASTvalue1(): ASTvalue1 {
@@ -1956,7 +1958,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 9
         return tmp
     }
-    public fun printASTvalue1(node: ASTvalue1?) {
+    public fun printASTvalue1(node: ASTvalue1?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1965,11 +1967,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTvalue1(node: ASTvalue1?) {
+    public fun freeASTvalue1(node: ASTvalue1?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any) {
+    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any): Unit {
         node.VALUE1 = (value as String)
     }
     private fun allocASTvalue2(): ASTvalue2 {
@@ -1977,7 +1979,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 10
         return tmp
     }
-    public fun printASTvalue2(node: ASTvalue2?) {
+    public fun printASTvalue2(node: ASTvalue2?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -1986,11 +1988,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTvalue2(node: ASTvalue2?) {
+    public fun freeASTvalue2(node: ASTvalue2?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any) {
+    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any): Unit {
         node.VALUE2 = (value as String)
     }
     private fun allocASTtext(): ASTtext {
@@ -1998,7 +2000,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 5
         return tmp
     }
-    public fun printASTtext(node: ASTtext?) {
+    public fun printASTtext(node: ASTtext?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2007,11 +2009,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTtext(node: ASTtext?) {
+    public fun freeASTtext(node: ASTtext?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTtext_0(node: ASTtext, value: Any) {
+    private fun astAssign_ASTtext_0(node: ASTtext, value: Any): Unit {
         node.TEXT = (value as String)
     }
     private fun allocASTcloseimmediately(): ASTcloseimmediately {
@@ -2019,7 +2021,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         tmp.id = 7
         return tmp
     }
-    public fun printASTcloseimmediately(node: ASTcloseimmediately?) {
+    public fun printASTcloseimmediately(node: ASTcloseimmediately?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2027,12 +2029,12 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTcloseimmediately(node: ASTcloseimmediately?) {
+    public fun freeASTcloseimmediately(node: ASTcloseimmediately?): Unit {
         if ((node != null)) {
         }
     }
     public fun getResult(): ASTxmldoc {
         return (stack.last() as ASTxmldoc)
     }
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
+
