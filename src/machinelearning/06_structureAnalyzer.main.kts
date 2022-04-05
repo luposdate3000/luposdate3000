@@ -2,7 +2,10 @@
 @file:Import("06_Turtle.kt")
 
 import parser.Parser
-
+import kotlin.math.log
+import kotlin.math.floor
+import kotlin.random.Random
+import kotlin.math.exp
 
 // configuration -->>
 val limitQueries = 5000
@@ -28,8 +31,6 @@ val knownClassesMemberMap = mutableMapOf<Set<String>, Int>()
 
 var ctr = 0
 val dictionary = mutableListOf("")
-var knownJoins = mutableListOf<MyJoin>()
-var knownJoinsPrev = mutableListOf<MyJoin>()
 
 outputfolder.mkdirs()
 
@@ -58,9 +59,9 @@ class MyClass(val key: MutableSet<String>) {
             for (l in ll) {
                 v.datatypes.addAll(variables[l]!!.datatypes)
             }
-for(l in ll){
-            variables.remove(l)
-}
+            for (l in ll) {
+                variables.remove(l)
+            }
         }
     }
 
@@ -108,7 +109,7 @@ for(l in ll){
             if (vv == null) {
                 vv = MyType(v)
                 variables[k] = vv
-vv.paths.add(k)
+                vv.paths.add(k)
             }
             vv.updateMinMax(v)
         }
@@ -295,10 +296,6 @@ fun checkAllPossibleReferences() {
 }
 
 parser!!.consumeTriple = { s, p, o ->
-//    ctr++
-//    if (ctr % 10000 == 0) {
-//        println("ctr: $ctr currentClass: ${currentClass.size} knownClassesIDMap3: ${knownClassesIDMap3.size} knownClassesMap3: ${knownClassesMap3.size} subjectTypeMap: ${subjectTypeMap.size} knownClassesMemberMap: ${knownClassesMemberMap.size} dictionary: ${dictionary.size} knownJoins: ${knownJoins.size} knownJoinsPrev: ${knownJoinsPrev.size}")
-//    }
     if (currentSubject != s) {
         if (currentSubject != null) {
             consumeClass()
@@ -454,7 +451,37 @@ class MyJoin {
 }
 
 
-fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String? = null) {
+fun addToDictionary(s: String) {
+    if (!s.startsWith("?") && !dictionary.contains(s)) {
+        dictionary.add(s)
+    }
+}
+
+
+fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
+    var j = 0
+    var i = 0
+    while (i < output.size && input.hasNext()) {
+        output[i] = input.next()
+        j++
+        i++
+    }
+    var W = exp(log(Random.nextDouble(), kotlin.math.E) / output.size)
+    while (input.hasNext()) {
+        i = i + floor(log(Random.nextDouble(), kotlin.math.E) / log(1 - W, kotlin.math.E)).toInt() + 1
+        j++
+        while (j < i && input.hasNext()) {
+            input.next()
+            j++
+        }
+        if (input.hasNext()) {
+            output[Random.nextInt(0, output.size)] = input.next()
+            W = W * exp(log(Random.nextDouble(), kotlin.math.E) / output.size)
+        }
+    }
+}
+
+fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String?, depth: Int): Sequence<MyJoin> = sequence {
     var flag = lastPredicate == null
     for ((predicate, objects) in clazz.variables) {
         if (flag) {
@@ -462,18 +489,18 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" -> {
                     val j = jj.myClone()
                     j.patterns.add(Triple(subjectName, predicate, clazz.key.first()))
-                    knownJoins.add(j)
+                    yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                 }
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" -> {
                     if (objects.referencedSubjectClasses.size == 0) {
                         val j = jj.myClone()
                         j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(-1)))
-                        knownJoins.add(j)
+                        yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                     } else {
                         for (objClazz in objects.referencedSubjectClasses) {
                             val j = jj.myClone()
                             j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(objClazz)))
-                            knownJoins.add(j)
+                            yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                         }
                     }
                 }
@@ -481,12 +508,12 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
                     if (objects.referencedSubjectClasses.size == 0) {
                         val j = jj.myClone()
                         j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(-1)))
-                        knownJoins.add(j)
+                        yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                     } else {
                         for (objClazz in objects.referencedSubjectClasses) {
                             val j = jj.myClone()
                             j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(objClazz)))
-                            knownJoins.add(j)
+                            yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                         }
                     }
                 }
@@ -498,97 +525,17 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
     }
 }
 
-for (clazz in getAllClazzes()) {
-    val j = MyJoin()
-    addToJoin(j, j.nextVariableName(clazz.id), clazz)
-}
-fun addToDictionary(s: String) {
-    if (!s.startsWith("?") && !dictionary.contains(s)) {
-        dictionary.add(s)
-    }
-}
-
-fun writeDownQueries(patternCount: Int) {
-    val folder = java.io.File(outputfolder, "patterns_$patternCount")
-    folder.mkdirs()
-    var idx = 0
-    val luposdate3000_query_params = StringBuilder()
-    val python_ml_params = StringBuilder()
-    val knownJoins2 = knownJoins.shuffled().take(limitQueries)
-    for (query in knownJoins2) {
-        luposdate3000_query_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.sparql;")
-        python_ml_params.append(outputfolderName + "/patterns_$patternCount/q${idx.toString().padStart(4, '0')}.mlq;")
-        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
-            if (fastQueryMode) {
-                out.println("SELECT (COUNT(*) as ?c) WHERE {")
-            } else {
-                out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
-            }
-            for (p in query.patterns) {
-                addToDictionary(p.first)
-                addToDictionary(p.second)
-                addToDictionary(p.third)
-                out.println("  ${p.first} ${p.second} ${p.third} . ")
-            }
-            out.println("}")
-            for (i in 0 until query.variableClasses.size) {
-                var k = query.variableClasses[i]
-                if (k < 0) {
-                    out.println("# ${query.variableFor(i)} -> ANY")
-                } else {
-                    out.println("# ${query.variableFor(i)} -> ${getClazz(k)!!.key}")
-                }
-            }
-        }
-        java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
-            for (p in query.patterns) {
-                fun mlqMapping(s: String): Int {
-                    var c = query.extractVariableID(s)
-                    if (c < 0) {
-                        return dictionary.indexOf(s)
-                    } else {
-                        return -c - 1
-                    }
-                }
-                out.print(mlqMapping(p.first))
-                out.print(",")
-                out.print(mlqMapping(p.second))
-                out.print(",")
-                out.print(mlqMapping(p.third))
-                out.print(";")
-            }
-        }
-        idx++
-    }
-    java.io.File(outputfolder, "luposdate3000_query_params_$patternCount").printWriter().use { out ->
-        out.print(luposdate3000_query_params.toString().dropLast(1))
-    }
-    java.io.File(outputfolder, "python_ml_params_$patternCount").printWriter().use { out ->
-        out.print(python_ml_params.toString().dropLast(1))
-    }
-}
-
-java.io.File(outputfolder, "dictionary").printWriter().use { out ->
-    for (i in 1 until dictionary.size) {
-        out.println("$i ${dictionary[i]}")
-    }
-}
-
-
-
-TODO("original code ...")
-writeDownQueries(1)
-for (joinCount in 0 until numberOfJoins) {
-    knownJoinsPrev = knownJoins
-    knownJoins = mutableListOf()
-    for (j in knownJoinsPrev) {
+fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = sequence {
+    if (depth == numberOfJoins) {
+        yield(j)
+    } else {
         var lastPattern = j.patterns.last()
         var lastSubjectType = j.extractVariableID(lastPattern.first)
         if (lastSubjectType != -1) {
             val lastSubjectType2 = j.variableClasses[lastSubjectType]
             if (lastSubjectType2 != -1) {
                 val clazz = getClazz(lastSubjectType2)!!
-                addToJoin(j, lastPattern.first, clazz, lastPattern.second)
+                yieldAll(addToJoin(j, lastPattern.first, clazz, lastPattern.second, depth))
             }
         }
         var lastObjectType = j.extractVariableID(lastPattern.third)
@@ -596,11 +543,80 @@ for (joinCount in 0 until numberOfJoins) {
             val lastObjectType2 = j.variableClasses[lastObjectType]
             if (lastObjectType2 != -1) {
                 val clazz = getClazz(lastObjectType2)!!
-                addToJoin(j, lastPattern.third, clazz)
+                yieldAll(addToJoin(j, lastPattern.third, clazz, null, depth))
             }
         }
     }
-    writeDownQueries(joinCount + 2)
 }
 
 
+fun joinSequenceIterator() = sequence {
+    for (clazz in getAllClazzes()) {
+        val j = MyJoin()
+        yieldAll(addToJoin(j, j.nextVariableName(clazz.id), clazz, null, 0))
+    }
+}
+
+val folder = java.io.File(outputfolder, "patterns_$numberOfJoins")
+folder.mkdirs()
+var idx = 0
+val luposdate3000_query_params = StringBuilder()
+val python_ml_params = StringBuilder()
+val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
+ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
+for (query in knownJoins) {
+    luposdate3000_query_params.append(outputfolderName + "/patterns_$numberOfJoins/q${idx.toString().padStart(4, '0')}.sparql;")
+    python_ml_params.append(outputfolderName + "/patterns_$numberOfJoins/q${idx.toString().padStart(4, '0')}.mlq;")
+    java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
+        if (fastQueryMode) {
+            out.println("SELECT (COUNT(*) as ?c) WHERE {")
+        } else {
+            out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
+        }
+        for (p in query.patterns) {
+            addToDictionary(p.first)
+            addToDictionary(p.second)
+            addToDictionary(p.third)
+            out.println("  ${p.first} ${p.second} ${p.third} . ")
+        }
+        out.println("}")
+        for (i in 0 until query.variableClasses.size) {
+            var k = query.variableClasses[i]
+            if (k < 0) {
+                out.println("# ${query.variableFor(i)} -> ANY")
+            } else {
+                out.println("# ${query.variableFor(i)} -> ${getClazz(k)!!.key}")
+            }
+        }
+    }
+    java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
+        for (p in query.patterns) {
+            fun mlqMapping(s: String): Int {
+                var c = query.extractVariableID(s)
+                if (c < 0) {
+                    return dictionary.indexOf(s)
+                } else {
+                    return -c - 1
+                }
+            }
+            out.print(mlqMapping(p.first))
+            out.print(",")
+            out.print(mlqMapping(p.second))
+            out.print(",")
+            out.print(mlqMapping(p.third))
+            out.print(";")
+        }
+    }
+    idx++
+}
+java.io.File(outputfolder, "luposdate3000_query_params_$numberOfJoins").printWriter().use { out ->
+    out.print(luposdate3000_query_params.toString().dropLast(1))
+}
+java.io.File(outputfolder, "python_ml_params_$numberOfJoins").printWriter().use { out ->
+    out.print(python_ml_params.toString().dropLast(1))
+}
+java.io.File(outputfolder, "dictionary").printWriter().use { out ->
+    for (i in 1 until dictionary.size) {
+        out.println("$i ${dictionary[i]}")
+    }
+}
