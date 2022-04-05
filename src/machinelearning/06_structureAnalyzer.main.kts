@@ -223,13 +223,13 @@ fun getClazz(id: Int) = knownClassesIDMap3[id]
 fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> it.id == index }
 
 fun setClazzKeys(clazzID: Int, keys: Set<String>) {
-    var clazz = getClazz(clazzID)!!
+    var clazz = getClazz(clazzID)
     if (clazz.key.containsAll(keys)) {
         clazz.key.addAll(keys)
         for (k in keys) {
             val t = knownClassesMap3[k]
             if (t != null) {
-                val otherClazz = getClazz(t)!!
+                val otherClazz = getClazz(t)
                 if (clazz.id != otherClazz.id) {
                     clazz.mergeWith(otherClazz)
                     for (id in otherClazz.ids) {
@@ -242,10 +242,10 @@ fun setClazzKeys(clazzID: Int, keys: Set<String>) {
 }
 
 fun checkEqualClazz(clazzID: Int, keys: Set<String>) {
-    var clazz = getClazz(clazzID)!!
+    var clazz = getClazz(clazzID)
     var t = knownClassesMemberMap[keys]
     if (t != null) {
-        val otherClazz = getClazz(t!!)!!
+        val otherClazz = getClazz(t!!)
         if (clazz.id != otherClazz.id) {
             clazz.mergeWith(otherClazz)
             for (id in otherClazz.ids) {
@@ -279,7 +279,7 @@ fun consumeClass() {
         }
         val key = tt.first()
         setClazzKeys(key, keys)
-        val clazz = getClazz(key)!!
+        val clazz = getClazz(key)
         clazz.mergeWith(currentClass)
         checkEqualClazz(key, keys)
         if (subjectTypeMap[currentSubject] != null) {
@@ -397,7 +397,7 @@ for (clazz in getAllClazzes()) {
         for (k in v.paths) {
             println("        <http://www.w3.org/ns/shacl#path> $k ;")
         }
-        val possibleClasses = v.referencedSubjectClasses.map { getClazz(it)!!.key.first() }.toSet()
+        val possibleClasses = v.referencedSubjectClasses.map { getClazz(it).key.first() }.toSet()
         val datatypes = v.datatypes + v.possibleSubjectReferences.map {
             if (it.startsWith("_:")) {
                 "<http://www.w3.org/ns/shacl#BlankNode>"
@@ -534,7 +534,7 @@ fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = seque
         if (lastSubjectType != -1) {
             val lastSubjectType2 = j.variableClasses[lastSubjectType]
             if (lastSubjectType2 != -1) {
-                val clazz = getClazz(lastSubjectType2)!!
+                val clazz = getClazz(lastSubjectType2)
                 yieldAll(addToJoin(j, lastPattern.first, clazz, lastPattern.second, depth))
             }
         }
@@ -542,7 +542,7 @@ fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = seque
         if (lastObjectType != -1) {
             val lastObjectType2 = j.variableClasses[lastObjectType]
             if (lastObjectType2 != -1) {
-                val clazz = getClazz(lastObjectType2)!!
+                val clazz = getClazz(lastObjectType2)
                 yieldAll(addToJoin(j, lastPattern.third, clazz, null, depth))
             }
         }
@@ -585,7 +585,7 @@ for (query in knownJoins) {
             if (k < 0) {
                 out.println("# ${query.variableFor(i)} -> ANY")
             } else {
-                out.println("# ${query.variableFor(i)} -> ${getClazz(k)!!.key}")
+                out.println("# ${query.variableFor(i)} -> ${getClazz(k).key}")
             }
         }
     }
