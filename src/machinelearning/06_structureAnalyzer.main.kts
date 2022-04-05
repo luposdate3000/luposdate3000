@@ -36,6 +36,12 @@ class MyClass(val key: MutableSet<String>) {
     val variables = mutableMapOf<String, MyType>()
     var id = knownClassesIDMap3.size
     var ids = mutableSetOf(id)
+    fun clearType() {
+        for (v in variables.values) {
+            v.clearType()
+        }
+    }
+
     fun mergeWith(other: MyClass) {
         key.addAll(other.key)
         ids.addAll(other.ids)
@@ -115,6 +121,20 @@ class MyType(count: Int) {
     var possibleSubjectReferences = mutableSetOf<String>()
     var datatypes = mutableSetOf<String>()
     var nodeKind = 0
+    fun clearType() {
+        possibleSubjectReferences.clear()
+        val tmp = referencedSubjectClasses.map { getClazz(it).id }.toSet()
+        referencedSubjectClasses.clear()
+        referencedSubjectClasses.addAll(tmp)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is MyType) {
+            return false
+        }
+        return referencedSubjectClasses == other.referencedSubjectClasses && datatypes == other.datatypes && nodeKind == other.nodeKind
+    }
+
     fun mergeWith(other: MyType) {
         if (other.minCount < minCount) {
             minCount = other.minCount
@@ -254,6 +274,8 @@ parser!!.consumeTriple = { s, p, o ->
     }
 }
 
+println("starting to parse")
+
 parser!!.parserDefinedParse()
 parser!!.close();
 parser = null
@@ -261,20 +283,54 @@ consumeClass()
 checkAllPossibleReferences()
 
 
+//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
+
+println("merging identical clazzes ...")
+var changed = true
+loop@ while (changed) {
+    println("starting loop")
+    changed = false
+    val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
+    for (i in validIDs) {
+        knownClassesIDMap3[i].clearType()
+    }
+    println("had clear type")
+    var deletedIDs = mutableSetOf<Int>()
+    for (i in 0 until validIDs.size) {
+        if (deletedIDs.size>1000){
+            continue@loop
+        }
+if (deletedIDs.contains(i)) {
+                continue
+            }
+        println("$i / (${validIDs.size}-${deletedIDs.size})")
+        for (j in i + 1 until validIDs.size) {
+            if (deletedIDs.contains(j)) {
+                continue
+            }
+            val clazzA = knownClassesIDMap3[i]
+            val clazzB = knownClassesIDMap3[j]
+            if (clazzA.variables.size == clazzB.variables.size) {
+            if (clazzA.variables.keys == clazzB.variables.keys) {
+            if (clazzA.variables == clazzB.variables) {
+                deletedIDs.add(clazzB.id)
+                changed = true
+                clazzA.mergeWith(clazzB)
+                for (id in clazzB.ids) {
+                    knownClassesIDMap3[id] = clazzA
+                }
+                for (k in clazzB.key) {
+                    knownClassesMap3[k] = clazzA.id
+                }
+}
+}
+            }
+        }
+    }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+println("writing shacl ...")
 
 
 
@@ -293,7 +349,7 @@ for (clazz in getAllClazzes()) {
     for ((k, v) in clazz.variables) {
         println("    <http://www.w3.org/ns/shacl#property> [")
         println("        <http://www.w3.org/ns/shacl#path> $k ;")
-        val possibleClasses = v.referencedSubjectClasses.map { getClazz(it)!!.key }.flatten().toSet()
+        val possibleClasses = v.referencedSubjectClasses.map { getClazz(it)!!.key.first() }.toSet()
         val datatypes = v.datatypes + v.possibleSubjectReferences.map {
             if (it.startsWith("_:")) {
                 "<http://www.w3.org/ns/shacl#BlankNode>"
