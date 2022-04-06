@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package launcher
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.shared.EOperatingSystemExt
@@ -1018,9 +1019,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
     } catch (e: Throwable) {
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
         println("$dummy")
-        throw e
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
     }
 }
 

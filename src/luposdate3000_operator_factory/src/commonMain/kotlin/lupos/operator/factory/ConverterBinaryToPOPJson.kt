@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.operator.arithmetik.AOPBase
@@ -98,8 +99,7 @@ public object ConverterBinaryToPOPJson {
             }
             return "{${result.map { (k, v) -> "\"$k\":$v" }.joinToString()}}"
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:100"/*SOURCE_FILE_END*/ )
-            throw e
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:100"/*SOURCE_FILE_END*/ )
         }
     }
 

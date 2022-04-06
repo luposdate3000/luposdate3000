@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.parser.turtle.TurtleParser
@@ -52,8 +53,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
             println(">>>>")
             println(data)
             println("<<<<")
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromN3.kt:54"/*SOURCE_FILE_END*/ )
-            throw e
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromN3.kt:54"/*SOURCE_FILE_END*/ )
         }
         dataStream.close()
         return res

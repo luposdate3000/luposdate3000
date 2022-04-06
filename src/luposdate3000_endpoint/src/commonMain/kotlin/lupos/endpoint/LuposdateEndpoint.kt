@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.buffer_manager.BufferManager
@@ -121,7 +122,7 @@ public object LuposdateEndpoint {
             parserObject.parserDefinedParse()
         } catch (e: Throwable) {
             println(data)
-            throw e
+                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:330"/*SOURCE_FILE_END*/ )
         }
         var data2 = ByteArrayWrapper()
         cache.forEach { value, key ->
@@ -328,11 +329,10 @@ public object LuposdateEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:330"/*SOURCE_FILE_END*/ )
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
-            throw e
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:330"/*SOURCE_FILE_END*/ )
         }
 /*Coverage Unreachable*/
     }
@@ -392,7 +392,7 @@ return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperator
             return popNode
         } catch (e: Throwable) {
             println(query)
-            throw e
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/ )
         }
     }
 
@@ -486,8 +486,7 @@ return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperator
                 timeoutInMs
             )
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/ )
-            throw e
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/ )
         }
     }
 

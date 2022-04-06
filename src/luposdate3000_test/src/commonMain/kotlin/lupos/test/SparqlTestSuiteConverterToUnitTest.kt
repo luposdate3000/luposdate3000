@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.shared.EPartitionModeExt
@@ -464,8 +465,7 @@ without minify mode only the passing tests will be added
                     fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
                     fileBufferTest.println("        normalHelper(instance)")
                     fileBufferTest.println("      }catch(e:Throwable){")
-                    fileBufferTest.println("        e.myPrintStackTrace(/*SOURCE_FILE_"+"START*/\"\"/*SOURCE_FILE_"+"END*/ ) //otherwise this would be silently ignored")//string replacement during compile MUST be disabled here
-                    fileBufferTest.println("        throw e")
+                    fileBufferTest.println("        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_"+"START*/\"\"/*SOURCE_FILE_"+"END*/ ) //otherwise this would be silently ignored")//string replacement during compile MUST be disabled here
                     fileBufferTest.println("      }finally{")
                     fileBufferTest.println("        LuposdateEndpoint.close(instance)") // for inmemory db this results in complete wipe of ALL data
                     fileBufferTest.println("      }")

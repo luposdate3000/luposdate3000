@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
@@ -142,15 +143,17 @@ public object EvalGraphOperation {
                     }
                 }
             } catch (e: EvaluationException) {
+                if (!silent) {
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/ )
+                }else{
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/ )
-                if (!silent) {
-                    throw e
-                }
+}
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )
                 if (!silent) {
-                    throw e
-                }
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )
+                }else{
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )
+}
             }
             return DictionaryValueHelper.booleanTrueValue
         }

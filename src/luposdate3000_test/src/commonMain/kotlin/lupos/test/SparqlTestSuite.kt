@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.endpoint.LuposdateEndpoint
@@ -775,8 +776,7 @@ public open class SparqlTestSuite {
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(Throwable)")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:777"/*SOURCE_FILE_END*/ )
-                throw e
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:777"/*SOURCE_FILE_END*/ )
             } else {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,Throwable)")

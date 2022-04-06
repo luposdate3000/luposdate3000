@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.singleinput
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.operator.base.IPOPLimit
@@ -58,9 +59,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/ )
                         SanityCheck.println { "debugchildclassname::" + getChildren()[0].getClassname() }
-                        throw e
+                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/ )
                     }
                     val columnMode = mutableListOf<String>()
                     for (k in child.columns.keys) {
@@ -105,9 +105,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:107"/*SOURCE_FILE_END*/ )
                             SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
-                            throw e
+                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:107"/*SOURCE_FILE_END*/ )
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
                         val columnMode = mutableListOf<String>()

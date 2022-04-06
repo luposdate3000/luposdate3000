@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.myPrintStackTrace
 
 import lupos.dictionary.DictionaryCacheLayer
@@ -645,8 +646,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )
-                throw e
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )
             }
             doWorkFlag = false
         }
@@ -672,7 +672,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 else -> return pck
             }
         } catch (e: Throwable) {
-            throw e
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )
         }
         doWork()
         return null

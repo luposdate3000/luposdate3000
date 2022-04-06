@@ -32,7 +32,7 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform") 
 
-import launcher.CreateModuleArgs 
+import launcher.CreateModuleArgs  
 import launcher.DryMode
 import launcher.EDictionaryValueMode
 import launcher.ExecMode
