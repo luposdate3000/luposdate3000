@@ -85,7 +85,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:87"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -101,7 +101,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -117,7 +117,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:119"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -133,7 +133,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:135"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -149,7 +149,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:151"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -165,7 +165,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:167"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -181,7 +181,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:183"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -197,7 +197,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:199"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -213,7 +213,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:215"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -229,7 +229,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:231"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -245,7 +245,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:247"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -261,7 +261,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:263"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -277,7 +277,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:279"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -293,7 +293,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:295"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -309,7 +309,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:311"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -325,7 +325,7 @@ public class resourcesmyqueriesoptional50sparql4 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/resourcesmyqueriesoptional50sparql4.kt:327"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }

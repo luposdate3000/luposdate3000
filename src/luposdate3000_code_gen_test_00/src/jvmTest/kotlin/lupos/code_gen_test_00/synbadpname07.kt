@@ -57,7 +57,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:59"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -73,7 +73,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:75"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -89,7 +89,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:91"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -105,7 +105,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -121,7 +121,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:123"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -137,7 +137,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:139"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -153,7 +153,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:155"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -169,7 +169,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:171"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -185,7 +185,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:187"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -201,7 +201,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:203"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -217,7 +217,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:219"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -233,7 +233,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:235"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -249,7 +249,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:251"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -265,7 +265,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:267"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -281,7 +281,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:283"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -297,7 +297,7 @@ public class synbadpname07 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/synbadpname07.kt:299"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }

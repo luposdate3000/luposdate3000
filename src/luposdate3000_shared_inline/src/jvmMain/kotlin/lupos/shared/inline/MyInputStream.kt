@@ -24,6 +24,7 @@ import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import java.io.InputStream
 import kotlin.jvm.JvmField
+import lupos.shared.EOFException
 
 internal actual class MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
 
@@ -130,7 +131,7 @@ throw EOFException()
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:132"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:133"/*SOURCE_FILE_END*/ )
             if (len == 0) {
                 return null
             }

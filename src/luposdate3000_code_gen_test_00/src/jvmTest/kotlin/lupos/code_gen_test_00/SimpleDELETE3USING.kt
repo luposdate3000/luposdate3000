@@ -100,7 +100,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:102"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -116,7 +116,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -132,7 +132,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:134"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -148,7 +148,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:150"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -164,7 +164,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:166"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -180,7 +180,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:182"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -196,7 +196,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:198"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -212,7 +212,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:214"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -228,7 +228,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:230"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -244,7 +244,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:246"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -260,7 +260,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:262"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -276,7 +276,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:278"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -292,7 +292,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:294"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -308,7 +308,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:310"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -324,7 +324,7 @@ public class SimpleDELETE3USING {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SimpleDELETE3USING.kt:326"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }

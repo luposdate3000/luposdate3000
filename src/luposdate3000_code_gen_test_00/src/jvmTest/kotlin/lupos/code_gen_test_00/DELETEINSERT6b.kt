@@ -95,7 +95,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:97"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -111,7 +111,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:113"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -127,7 +127,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:129"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -143,7 +143,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:145"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -159,7 +159,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:161"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -175,7 +175,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:177"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -191,7 +191,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:193"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -207,7 +207,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:209"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -223,7 +223,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:225"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -239,7 +239,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:241"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -255,7 +255,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:257"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -271,7 +271,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:273"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -287,7 +287,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:289"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -303,7 +303,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:305"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -319,7 +319,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:321"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -335,7 +335,7 @@ public class DELETEINSERT6b {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/DELETEINSERT6b.kt:337"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }

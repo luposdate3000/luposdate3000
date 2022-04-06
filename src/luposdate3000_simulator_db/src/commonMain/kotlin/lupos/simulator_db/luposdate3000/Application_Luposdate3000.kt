@@ -28,6 +28,7 @@ import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.BinaryMetadataHandler
@@ -264,6 +265,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                     return
                 }
             }
+}catch(e:OperationCanNotBeLocalException){
         } catch (e: Throwable) {
             e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:267"/*SOURCE_FILE_END*/ )
         }
