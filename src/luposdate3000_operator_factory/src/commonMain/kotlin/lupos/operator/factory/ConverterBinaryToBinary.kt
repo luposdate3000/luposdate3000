@@ -58,8 +58,8 @@ public object ConverterBinaryToBinary {
     }
 
     public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
-        try {
             val dataOut = ByteArrayWrapper()
+        try {
             val mapping = mutableMapOf<String, Int>()
             var result = mutableMapOf<Int, String>()
             if (filter.contains(-1)) {
@@ -138,10 +138,10 @@ public object ConverterBinaryToBinary {
                 oOut += 8
                 i++
             }
-            return dataOut
         } catch (e: Throwable) {
             e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToBinary.kt:141"/*SOURCE_FILE_END*/ )
         }
+            return dataOut
     }
 
     private fun recodeHelper(query: Query, off: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int): Int {

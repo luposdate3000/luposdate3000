@@ -46,7 +46,7 @@ public fun Throwable.myPrintStackTrace(location:String){
 println(stackTraceToString())
 println("caught at $location")
 }
-public fun Throwable.myPrintStackTraceAndThrowAgain(location:String){
+public fun Throwable.myPrintStackTraceAndThrowAgain(location:String):Nothing{
 println(stackTraceToString())
 println("re-throw at $location")
 throw this

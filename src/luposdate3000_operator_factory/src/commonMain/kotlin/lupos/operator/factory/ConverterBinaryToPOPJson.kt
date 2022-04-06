@@ -99,8 +99,9 @@ public object ConverterBinaryToPOPJson {
             }
             return "{${result.map { (k, v) -> "\"$k\":$v" }.joinToString()}}"
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:100"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:101"/*SOURCE_FILE_END*/ )
         }
+TODO("unreachable")
     }
 
     private fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int): String {

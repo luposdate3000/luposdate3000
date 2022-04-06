@@ -22,10 +22,10 @@ import kotlin.jvm.JvmField
 
 public class EOptimizerIDHelper {
     @JvmField
-    public val optional: BooleanArray
+    public var optional: BooleanArray
 
     @JvmField
-    public val repeatOnChange: BooleanArray
+    public var repeatOnChange: BooleanArray
 
     init {
         try {
@@ -131,7 +131,9 @@ public class EOptimizerIDHelper {
                 }
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:132"/*SOURCE_FILE_END*/ )
+optional = BooleanArray(0){true}
+repeatOnChange=BooleanArray(0){true}
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:135"/*SOURCE_FILE_END*/ )
         }
     }
 }

@@ -44,7 +44,7 @@ query:IQuery,
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val res: IteratorBundle?
+        var res: IteratorBundle?=null
         for (name in columns[1]) {
             columnsINAO.add(childA.columns[name]!!)
         }
@@ -56,7 +56,7 @@ query:IQuery,
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:57"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:58"/*SOURCE_FILE_END*/ )
             }
         } else if (columnsINAO.size == 0) {
             if (childA.count() > 0) {
@@ -225,6 +225,6 @@ query,
             }
             res = IteratorBundle(outMap)
         }
-        return res
+        return res!!
     }
 }

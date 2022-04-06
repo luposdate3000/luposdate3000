@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Exceptions.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
@@ -23,7 +24,6 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
-@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
@@ -671,14 +671,6 @@ ParamClass(
         false,
     ),
     ParamClass(
-        "--generateParser",
-        {
-            execMode = ExecMode.GENERATE_PARSER
-            skipArgs = true
-        },
-        false,
-    ),
-    ParamClass(
         "--generateLauncher",
         {
             execMode = ExecMode.GENERATE_LAUNCHER
@@ -787,7 +779,6 @@ loop@ for (arg in args) {
 when (execMode) {
     ExecMode.HELP -> onHelp()
     ExecMode.RUN -> onRun()
-    ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_GRADLE -> onSetupGradle()
@@ -1011,138 +1002,6 @@ fun onRun() {
     }
 }
 
-fun onGenerateParser() {
-    val turtleGeneratingArgs = arrayOf(
-        listOf("PARSER_CONTEXT"),
-        listOf("parse_dot", "DOT"),
-        listOf("parse_ws", "SKIP_WS"),
-        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
-        listOf("parse_statement", "BASE", "PREFIX", "BASEA", "PREFIXA", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
-        listOf("parse_base", "IRIREF"),
-        listOf("parse_prefix", "PNAME_NS"),
-        listOf("parse_prefix2", "IRIREF"),
-        listOf("parse_predicate", "VERBA", "IRIREF", "PNAME_NS"),
-        listOf("parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
-        listOf("parse_triple_end", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT"),
-        listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
-        listOf("parse_triple_end_or_object_string", "LANGTAG", "IRIA", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
-        listOf("parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
-        listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LISTA", "OBJECT_LISTA", "DOT", "SKIP_WS_FORCED"),
-        listOf("parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-        listOf("parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-    )
-    val turtleGrammar = mapOf(
-        "EXPONENT" to "[eE] [+-]? [0-9]+",
-        "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
-        "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
-        "INTEGER" to "[+-]? [0-9]+",
-        "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
-        "HEX" to "([0-9] | [A-F] | [a-f])",
-        "PERCENT" to "'%' HEX HEX",
-        "PLX" to "(PERCENT | PN_LOCAL_ESC)",
-        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
-        "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
-        "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
-        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
-        "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
-        "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*", // TODO this includes a trailling dot, which is wrong due to the given grammar
-        "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
-        "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
-        "PNAME_NS" to "(PN_PREFIX)? ':'",
-        "PNAME_LN" to "PNAME_NS PN_LOCAL",
-        "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
-        "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
-        "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
-        "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
-        "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
-        "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
-        "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
-        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
-        "IRIREF" to "'<' (IRIREF_A)* '>'",
-        "IRIREF_A" to "IRIREF_B | UCHAR",
-        "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
-        "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
-        "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
-        "BASE" to "('B') ('A') ('S') ('E')",
-        "PREFIXA" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
-        "BASEA" to "('@') ('b') ('a') ('s') ('e')",
-        "COLLECTIONA" to "('(')",
-        "COLLECTIONB" to "(')')",
-        "DOT" to "('.')",
-        "PROPERTY_LISTA" to "('[')",
-        "PROPERTY_LISTB" to "(']')",
-        "OBJECT_LISTA" to "(',')",
-        "PREDICATE_LISTA" to "(';')",
-        "VERBA" to "('a')",
-        "IRIA" to "('^') ('^')",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-    )
-    val turtlePackage = "lupos.parser.turtle"
-    val xmlGeneratingArgs = arrayOf(
-        listOf("PARSER_CONTEXT"),
-        listOf("parse_ws", "SKIP_WS"),
-        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
-        listOf("parse_element_start", "ELEMENT_START"),
-        listOf("parse_element_tag_or_immediate_close_char", "ELEMENT_END_PART", "TAG"),
-        listOf("parse_element_tag", "TAG"),
-        listOf("parse_element_close", "ELEMENT_CLOSE_LATER"),
-        listOf("parse_attribute_or_close_tag", "ATTRIBUTE_NAME", "ELEMENT_CLOSE_IMMEDIATELY", "ELEMENT_CLOSE_LATER"),
-        listOf("parse_attribute_assinment", "ATTRIBUTE_ASSIGNMENT"),
-        listOf("parse_attribute_value", "ATTRIBUTE_VALUE"),
-        listOf("parse_content_or_child", "ELEMENT_CONTENT", "ELEMENT_START"),
-    )
-    val xmlGrammar = mapOf(
-        "ELEMENT_START" to "'<'",
-        "ELEMENT_END_PART" to "'/'", // if this is directly after the ELEMENT_START, than the element is finished
-        "ELEMENT_CLOSE_IMMEDIATELY" to "'/' '>'",
-        "ELEMENT_CLOSE_LATER" to "'>'",
-        "TAG" to "[a-zA-Z][a-zA-Z0-9]*",
-        "ATTRIBUTE_NAME" to "[a-zA-Z][a-zA-Z0-9]*",
-        "ATTRIBUTE_ASSIGNMENT" to "'='",
-        "ATTRIBUTE_VALUE" to "'\"' [^\"]* '\"'",
-        "ELEMENT_CONTENT" to "[^<]*",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-    )
-    val xmlFilename = "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParserGenerated.kt"
-    val xmlPackage = "lupos.shared.xmlParser"
-    val nQuadsGeneratingArgs = arrayOf(
-        listOf("PARSER_CONTEXT"),
-        listOf("parse_dot", "DOT"),
-        listOf("parse_ws", "SKIP_WS"),
-        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
-        listOf("parse_subject", "IRIREF", "BLANK_NODE_LABEL"),
-        listOf("parse_predicate", "IRIREF"),
-        listOf("parse_object", "IRIREF", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE"),
-        listOf("parse_object_string", "IRIA", "LANGTAG", "SKIP_WS"),
-        listOf("parse_object_typed", "IRIREF"),
-        listOf("parse_graph", "IRIREF", "BLANK_NODE_LABEL", "SKIP_WS"),
-    )
-    val nQuadsGrammar = mapOf(
-        "LANGTAG" to "'@' [a-zA-Z0-9_,#x2D]+", // ATTENTION ",", and "_" are not allowed according to the official gramar, and the ordering allows more combinations
-        "IRIREF" to "'<' [^>]* '>'", // ATTENTION this is definetly wrong according to official grammar
-        "STRING_LITERAL_QUOTE" to "('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* ('\"')",
-        "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
-        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
-        "BLANK_NODE_LABEL" to "'_' ':' [^#x20#x9#xD#xA]+", // ATTENTION this is definetly wrong according to official grammar
-        "HEX" to "([0-9] | [A-F] | [a-f])",
-        "DOT" to "('.')",
-        "IRIA" to "('^') ('^')",
-        // "SKIP_WS_A" to "[#x20#x9#xD#xA]",
-        // "SKIP_WS_B" to "[^#xD#xA]",
-        // "SKIP_WS_C" to "[#xD#xA]",
-        // "SKIP_WS" to "( (SKIP_WS_A) | ('#' (SKIP_WS_B)* (SKIP_WS_C) ) )*",
-        // "SKIP_WS_FORCED" to "( (SKIP_WS_A) | ('#' (SKIP_WS_B)* (SKIP_WS_C) ) )+",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-    )
-    val nQuadsFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/nQuads/NQuads2ParserGenerated.kt"
-    val nQuadsPackage = "lupos.parser.nQuads"
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage)
-    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage)
-}
-
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
     val mapping2 = mutableListOf<String>()
     var id = 0
@@ -1214,7 +1073,7 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
 }
 
 fun onGenerateEnums() {
-    val turtleGeneratingArgs = arrayOf(
+    val enumArgs = arrayOf(
         listOf("ETripleStoreIndexDescriptionPartitionedType", "lupos.triple_store_manager", "public", "src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/ETripleStoreIndexDescriptionPartitionedType"),
         listOf("BinaryTestCaseOutputMode", "lupos.test", "public", "src/luposdate3000_test/src/commonMain/kotlin/lupos/test/BinaryTestCaseOutputMode"),
         listOf("ESortPriority", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ESortPriority"),
@@ -1242,7 +1101,7 @@ fun onGenerateEnums() {
         listOf("EQueryDistributionMode", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EQueryDistributionMode"),
         listOf("EPredefinedPartitionSchemes", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPredefinedPartitionSchemes"),
     )
-    for (args in turtleGeneratingArgs) {
+    for (args in enumArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
     }
 }
