@@ -15,7 +15,7 @@ var ttypeBnode = 1
 var ttypeIri = 2
 var ttypeLiteral = 4
 var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
-val numberOfJoins = args[1].toInt()
+val numberOfJoinPatterns = args[1].toInt()
 val outputfolderName = args[2]
 val outputfolder = java.io.File(outputfolderName)
 val fastQueryMode = args[3] == "fast"
@@ -470,6 +470,9 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
     while (input.hasNext()) {
         i = i + floor(log(Random.nextDouble(), kotlin.math.E) / log(1 - W, kotlin.math.E)).toInt() + 1
         j++
+if(i<output.size*100){
+break//my shortcut to prevent extreme calculations for nearly no change
+}
         while (j < i && input.hasNext()) {
             input.next()
             j++
@@ -526,7 +529,7 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
 }
 
 fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = sequence {
-    if (depth == numberOfJoins) {
+    if (depth == numberOfJoinPatterns) {
         yield(j)
     } else {
         var lastPattern = j.patterns.last()
@@ -565,6 +568,9 @@ val python_ml_params = StringBuilder()
 val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
 ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
 for (query in knownJoins) {
+if(query.patterns.size!=numberOfJoinPatterns){
+continue
+}
     luposdate3000_query_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.sparql;")
     python_ml_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.mlq;")
     java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
