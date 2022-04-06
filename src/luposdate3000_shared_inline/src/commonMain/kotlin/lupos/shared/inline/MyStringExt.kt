@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.InvalidInputException
 
 internal object MyStringExt {
     @Suppress("NOTHING_TO_INLINE")
@@ -60,7 +61,7 @@ internal object MyStringExt {
                     }
                     else -> {
                         if (strictMode) {
-                            throw Exception("invalid escape sequence '\\$c2' at offset $i in String '$s'")
+                            throw InvalidInputException("invalid escape sequence '\\$c2' at offset $i in String '$s'")
                         } else {
                             res.append(c)
                             i++

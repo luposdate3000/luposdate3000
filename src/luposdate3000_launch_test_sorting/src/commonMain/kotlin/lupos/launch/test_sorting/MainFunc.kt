@@ -313,7 +313,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     for (j in 1 until dataA.size) {
                         res += ", ${dataA[j]}(${dataA[j] > dataA[j - 1]})"
                     }
-                    throw Exception(res)
+                    TODO(res)
                 }
                 i += step
             }

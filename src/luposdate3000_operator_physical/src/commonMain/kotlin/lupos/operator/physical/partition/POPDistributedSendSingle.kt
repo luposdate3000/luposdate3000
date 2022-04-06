@@ -21,6 +21,7 @@ import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.UnreachableException
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -46,7 +47,7 @@ public class POPDistributedSendSingle public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:48"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendSingle.kt:49"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -55,7 +56,7 @@ public class POPDistributedSendSingle public constructor(
 
     override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw UnreachableException()
     override fun getPartitionCount(variable: String): Int = TODO()
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, true, toXMLElementInternal(partitionID, partial, true, keys, partitionedBy))
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy))

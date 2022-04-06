@@ -25,7 +25,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
-
+import lupos.shared.InvalidInputException
 internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     private val writeOrder: EIndexPattern
     private val i0: Int
@@ -36,7 +36,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
         streamIn = File("$filename$filenameEnding").openInputStream()
         val version = streamIn!!.readInt()
         if (version != TriplesIntermediate.version) {
-            throw Exception("incompatible file format version in '$filename'. Expected ${TriplesIntermediate.version}, but found $version")
+            throw InvalidInputException("incompatible file format version in '$filename'. Expected ${TriplesIntermediate.version}, but found $version")
         }
         writeOrder = streamIn!!.readInt()
         i0 = EIndexPatternHelper.tripleIndiceesInverse[writeOrder][0]

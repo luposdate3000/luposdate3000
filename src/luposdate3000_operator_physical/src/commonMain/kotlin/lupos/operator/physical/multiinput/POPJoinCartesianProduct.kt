@@ -25,6 +25,7 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -39,7 +40,7 @@ public class POPJoinCartesianProduct public constructor(
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:41"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinCartesianProduct.kt:42"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -48,7 +49,7 @@ public class POPJoinCartesianProduct public constructor(
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 children[1].getPartitionCount(variable)
             } else {
-                throw Exception("unknown variable $variable")
+                throw VariableNotDefinedSyntaxException(classname,variable)
             }
         }
     }

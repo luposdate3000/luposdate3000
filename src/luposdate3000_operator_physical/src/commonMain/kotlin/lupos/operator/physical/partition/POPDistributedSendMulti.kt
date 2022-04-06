@@ -23,6 +23,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.UnreachableException
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -49,7 +50,7 @@ public class POPDistributedSendMulti public constructor(
     ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:51"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedSendMulti.kt:52"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     public companion object {
@@ -61,7 +62,7 @@ public class POPDistributedSendMulti public constructor(
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = toXMLElementHelperAddBase(partition, partial, false, toXMLElementInternal(partitionID, partial, false, keys, partitionedBy, partitionVariable, partitionCount))
     override fun cloneOP(): IOPBase = POPDistributedSendMulti(query, projectedVariables, partitionID, children[0].cloneOP(), keys, partitionedBy, partitionVariable, partitionCount)
     override fun equals(other: Any?): Boolean = other is POPDistributedSendMulti && children[0] == other.children[0]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw Exception("this must not be called !!")
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw UnreachableException()
     public fun evaluate(data: Array<IMyOutputStream?>) {
         var partition = Partition()
         for ((k, v) in partitionedBy) {

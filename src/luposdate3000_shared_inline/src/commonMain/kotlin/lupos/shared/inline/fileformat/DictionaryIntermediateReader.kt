@@ -21,13 +21,13 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateRow
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-
+import lupos.shared.InvalidInputException
 internal class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = getFile().openInputStream()
         val version = streamIn!!.readInt()
         if (version != DictionaryIntermediate.version) {
-            throw Exception("incompatible file format version in '$filename'. Expected ${DictionaryIntermediate.version}, but found $version")
+            throw InvalidInputException("incompatible file format version in '$filename'. Expected ${DictionaryIntermediate.version}, but found $version")
         }
     }
 

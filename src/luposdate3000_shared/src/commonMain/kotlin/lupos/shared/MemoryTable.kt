@@ -19,6 +19,7 @@ package lupos.shared
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
+import lupos.shared.IncompatibleInputException
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
 
@@ -231,17 +232,17 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         @Suppress("NOTHING_TO_INLINE")
         internal inline fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
-                throw Exception("incompatible input")
+                throw IncompatibleInputException()
             }
             if (a.booleanResult != null) {
-                throw Exception("incompatible input")
+                throw IncompatibleInputException()
             }
             if (b.booleanResult != null) {
-                throw Exception("incompatible input")
+                throw IncompatibleInputException()
             }
             for (i in a.columns.indices) {
                 if (a.columns[i] != b.columns[i]) {
-                    throw Exception("incompatible input")
+                    throw IncompatibleInputException()
                 }
             }
             val res = MemoryTable(a.columns)

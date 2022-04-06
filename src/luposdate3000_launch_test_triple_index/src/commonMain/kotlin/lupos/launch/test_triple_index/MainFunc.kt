@@ -142,7 +142,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         splitSPO(myRng) { s, p, o ->
             if (myS != s || myP != p || myO != o) {
-                throw Exception("0b${myS.toString(2)} 0b${s.toString(2)} : 0b${myP.toString(2)} 0b${p.toString(2)} : 0b${myO.toString(2)} 0b${o.toString(2)} : $myRng")
+                TODO("0b${myS.toString(2)} 0b${s.toString(2)} : 0b${myP.toString(2)} 0b${p.toString(2)} : 0b${myO.toString(2)} 0b${o.toString(2)} : $myRng")
             }
         }
         insertBuffer[insertBufferSize++] = myS
@@ -196,7 +196,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         myRng = mergeSPO(myS, myP, myO)
         splitSPO(myRng) { s, p, o ->
             if (myS != s || myP != p || myO != o) {
-                throw Exception("")
+                TODO("")
             }
         }
         deleteBuffer[deleteBufferSize++] = myS
@@ -258,7 +258,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         }
         if (flag) {
             println("actual != target")
-            throw Exception("")
+            TODO("")
         }
     }
 
@@ -330,7 +330,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             println("verifyCount")
         }
         if (bundle.count() != dataBuffer.filter(filterArrToFun(filter)).size) {
-            throw Exception("")
+            TODO("")
         }
     }
 
@@ -352,7 +352,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         when (filter.size) {
             0 -> {
                 if (bundle.columns.size != 1) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyS(bundle, filter)
             }
@@ -369,14 +369,14 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         when (filter.size) {
             0 -> {
                 if (bundle.columns.size != 2) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyS(bundle, filter)
                 verifyP(bundle, filter)
             }
             1 -> {
                 if (bundle.columns.size != 1) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyP(bundle, filter)
             }
@@ -393,7 +393,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         when (filter.size) {
             0 -> {
                 if (bundle.columns.size != 3) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyS(bundle, filter)
                 verifyP(bundle, filter)
@@ -401,14 +401,14 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
             1 -> {
                 if (bundle.columns.size != 2) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyP(bundle, filter)
                 verifyO(bundle, filter)
             }
             2 -> {
                 if (bundle.columns.size != 1) {
-                    throw Exception("")
+                    TODO("")
                 }
                 verifyO(bundle, filter)
             }
@@ -486,16 +486,16 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.close()
     if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+        TODO("")
     }
     index = TripleStoreIndexIDTriple(instance.bufferManager!!, rootPage, true)
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.delete()
     if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+        TODO("")
     }
     if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
-        throw Exception("")
+        TODO("")
     }
     instance.bufferManager!!.close()
 }

@@ -66,6 +66,7 @@ import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.InvalidInputException
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -111,7 +112,7 @@ public class Application_Luposdate3000 public constructor(
     override fun startUp() {
         File(absolutePathToDataDirectory).mkdirs()
         if (dbDeviceAddressesStoreList.isEmpty()) {
-            throw Exception("invalid input")
+            throw InvalidInputException()
         }
         router = parent
         instance.enableJoinOrderOnHistogram = false
@@ -264,7 +265,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:266"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:267"/*SOURCE_FILE_END*/ )
         }
 // try to evaluate local<<--
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
@@ -305,7 +306,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:307"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:308"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -646,7 +647,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:648"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:649"/*SOURCE_FILE_END*/ )
             }
             doWorkFlag = false
         }
@@ -672,7 +673,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 else -> return pck
             }
         } catch (e: Throwable) {
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:674"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:675"/*SOURCE_FILE_END*/ )
         }
         doWork()
         return null

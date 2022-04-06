@@ -31,7 +31,7 @@ private object AssertionFunctions {
         val a1 = a()
         val b1 = b()
         if (a1 != b1) {
-            throw Exception("'$a1' == '$b1' -- ${a1.toString().length} ${b1.toString().length}")
+            TODO("'$a1' == '$b1' -- ${a1.toString().length} ${b1.toString().length}")
         }
     }
 
@@ -39,7 +39,7 @@ private object AssertionFunctions {
         val a1 = a()
         val b1 = b()
         if (a1 == b1) {
-            throw Exception("'$a1' != '$b1' -- ${a1.toString().length} ${b1.toString().length}")
+            TODO("'$a1' != '$b1' -- ${a1.toString().length} ${b1.toString().length}")
         }
     }
 
@@ -52,7 +52,7 @@ private object AssertionFunctions {
             flag = false
         }
         if (flag) {
-            throw Exception("expected an Exception")
+            TODO("expected an Exception")
         }
     }
 

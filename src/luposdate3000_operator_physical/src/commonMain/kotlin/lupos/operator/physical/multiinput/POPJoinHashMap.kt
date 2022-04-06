@@ -28,7 +28,7 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
+import lupos.shared.VariableNotDefinedSyntaxException
 public class POPJoinHashMap public constructor(
     query: IQuery,
     projectedVariables: List<String>,
@@ -55,7 +55,7 @@ public class POPJoinHashMap public constructor(
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 children[1].getPartitionCount(variable)
             } else {
-                throw Exception("unknown variable $variable")
+throw VariableNotDefinedSyntaxException(classname,variable)
             }
         }
     }

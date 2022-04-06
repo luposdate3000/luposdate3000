@@ -80,7 +80,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             flag = false
         }
         if (flag) {
-            throw Exception("")
+            TODO()
         }
     }
 
@@ -91,7 +91,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         val a = data[idx]
         val b = arr[idx]
         if (a != b) {
-            throw Exception("$a $b")
+            TODO("$a $b")
         }
     }
 
@@ -107,7 +107,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             flag = false
         }
         if (flag) {
-            throw Exception("")
+            TODO()
         }
     }
 
@@ -145,7 +145,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (!BufferManagerExt.isInMemoryOnly) {
         arr.close()
         if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-            throw Exception("")
+            TODO()
         }
         arr = MyIntArray(instance.bufferManager!!, rootPage, true, instance)
     }
@@ -154,10 +154,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
     arr.delete()
     if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+        TODO()
     }
     if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
-        throw Exception("${instance.bufferManager!!.getNumberOfAllocatedPages()}")
+        TODO("${instance.bufferManager!!.getNumberOfAllocatedPages()}")
     }
     instance.bufferManager!!.close()
 }

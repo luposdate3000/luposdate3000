@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
+import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -39,7 +40,7 @@ public class POPJoinMergeOptional public constructor(
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:41"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMergeOptional.kt:42"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)
@@ -48,7 +49,7 @@ public class POPJoinMergeOptional public constructor(
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 children[1].getPartitionCount(variable)
             } else {
-                throw Exception("unknown variable $variable")
+                throw VariableNotDefinedSyntaxException(classname,variable)
             }
         }
     }

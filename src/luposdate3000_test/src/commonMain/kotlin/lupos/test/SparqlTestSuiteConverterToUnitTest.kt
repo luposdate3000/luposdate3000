@@ -300,6 +300,8 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
         fileBufferPrefix.println(" */")
         fileBufferPrefix.println("package lupos.${folderPathCoponent(folderCurrent)}")
+        fileBufferPrefix.println("import lupos.shared.myPrintStackTraceAndThrowAgain")
+        fileBufferPrefix.println("import lupos.shared.myPrintStackTrace")
         fileBufferPrefix.println("import lupos.optimizer.physical.PhysicalOptimizer")
         fileBufferPrefix.println("import lupos.endpoint.LuposdateEndpoint")
         fileBufferPrefix.println("import lupos.operator.arithmetik.noinput.AOPVariable")

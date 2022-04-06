@@ -23,7 +23,7 @@ import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.inline.File
-
+import lupos.shared.UnreachableException
 public object DictionaryFactory {
     public fun createGlobalDictionary(instance: Luposdate3000Instance): IDictionary {
         return createDictionary(instance.LUPOS_DICTIONARY_MODE, false, instance)
@@ -33,7 +33,7 @@ public object DictionaryFactory {
         return if (isLocal) {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(true, instance)
-                else -> throw Exception("unreachable")
+                else -> throw UnreachableException()
             }
         } else {
             when (type) {
@@ -58,7 +58,7 @@ public object DictionaryFactory {
                     }
                     DictionaryKV(bufferManager, pageId, initFromDisk, instance)
                 }
-                else -> throw Exception("unreachable")
+                else -> throw UnreachableException()
             }
         }
     }
@@ -67,13 +67,13 @@ public object DictionaryFactory {
         return if (isLocal) {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(true, instance)
-                else -> throw Exception("unreachable")
+                else -> throw UnreachableException()
             }
         } else {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(false, instance)
                 EDictionaryTypeExt.KV -> DictionaryKV(bufferManager, rootPageID, initFromRootPage, instance)
-                else -> throw Exception("unreachable")
+                else -> throw UnreachableException()
             }
         }
     }

@@ -106,7 +106,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             println("testCreateValueNotExistingOk $key ${data.map { it }}")
         }
         if (mapping[key] != null) {
-            throw Exception("")
+            TODO()
         }
         mapping[key] = values.size
         values.add(data)
@@ -119,11 +119,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         val value = ByteArrayWrapper()
         kv.getValue(value, key)
         if (ByteArrayWrapperExt.getSize(value) != data.size) {
-            throw Exception("")
+            TODO()
         }
         for (i in 0 until ByteArrayWrapperExt.getSize(value)) {
             if (ByteArrayWrapperExt.getBuf(value)[i] != data[i]) {
-                throw Exception("")
+                TODO()
             }
         }
     }
@@ -141,7 +141,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             flag = false
         }
         if (flag) {
-            throw Exception("")
+            TODO()
         }
     }
 
@@ -161,7 +161,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (!BufferManagerExt.isInMemoryOnly) {
         kv.close()
         if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-            throw Exception("")
+            TODO()
         }
         kv = KeyValueStore(instance.bufferManager!!, rootPage, true, instance)
     }
@@ -170,10 +170,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     }
     kv.delete()
     if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+        TODO()
     }
     if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
-        throw Exception("")
+        TODO()
     }
     instance.bufferManager!!.close()
 }

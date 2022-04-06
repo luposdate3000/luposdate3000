@@ -17,12 +17,15 @@
 package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.GraphAlreadyExistsException
 import lupos.operator.base.Query
 import lupos.shared.BufferManagerPage
+import lupos.shared.UnknownTripleStoreTypeException
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
+import lupos.shared.NoValidIndexFoundException
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EPartitionModeExt
@@ -180,7 +183,7 @@ public class TripleStoreManagerImpl public constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:182"/*SOURCE_FILE_END*/ }, { localStores_[key] == null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:185"/*SOURCE_FILE_END*/ }, { localStores_[key] == null })
         localStores_[key] = tripleStore
     }
 
@@ -193,13 +196,13 @@ public class TripleStoreManagerImpl public constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:195"/*SOURCE_FILE_END*/ }, { metadata_[name] == null })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:198"/*SOURCE_FILE_END*/ }, { metadata_[name] == null })
         metadata_[name] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataRemove(name: LuposGraphName) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:201"/*SOURCE_FILE_END*/ }, { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:204"/*SOURCE_FILE_END*/ }, { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
         metadata_.remove(name)
     }
 
@@ -217,7 +220,7 @@ public class TripleStoreManagerImpl public constructor(
             }
             initialize(bufferManager, pageid, true)
         } else {
-            pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:219"/*SOURCE_FILE_END*/)
+            pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:222"/*SOURCE_FILE_END*/)
             if (BufferManagerExt.allowInitFromDisk) {
                 file.withOutputStream {
                     it.writeInt(pageid)
@@ -230,7 +233,7 @@ public class TripleStoreManagerImpl public constructor(
     @Suppress("NOTHING_TO_INLINE")
     private inline fun initFromPageID() {
         var pageid = rootPageID
-        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:232"/*SOURCE_FILE_END*/, pageid)
+        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:235"/*SOURCE_FILE_END*/, pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
         val size = BufferManagerPage.readInt4(page, 4)
         val buffer = ByteArray(size)
@@ -238,15 +241,15 @@ public class TripleStoreManagerImpl public constructor(
         val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
         BufferManagerPage.copyInto(page, buffer, off, 8, 8 + len)
         off += len
-        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:240"/*SOURCE_FILE_END*/, pageid)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:243"/*SOURCE_FILE_END*/, pageid)
         while (off < size) {
             pageid = nextid
-            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:243"/*SOURCE_FILE_END*/, pageid)
+            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:246"/*SOURCE_FILE_END*/, pageid)
             nextid = BufferManagerPage.readInt4(page, 0)
             val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
             BufferManagerPage.copyInto(page, buffer, off, 4, 4 + len2)
             off += len2
-            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:248"/*SOURCE_FILE_END*/, pageid)
+            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:251"/*SOURCE_FILE_END*/, pageid)
         }
         initFromByteArray(buffer)
     }
@@ -254,20 +257,20 @@ public class TripleStoreManagerImpl public constructor(
     @Suppress("NOTHING_TO_INLINE")
     private inline fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
-        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:256"/*SOURCE_FILE_END*/, pageid)
+        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:259"/*SOURCE_FILE_END*/, pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
         val size = BufferManagerPage.readInt4(page, 4)
         var off = 0
         val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
         off += len
-        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:262"/*SOURCE_FILE_END*/, pageid)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:265"/*SOURCE_FILE_END*/, pageid)
         while (off < size) {
             pageid = nextid
-            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:265"/*SOURCE_FILE_END*/, pageid)
+            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:268"/*SOURCE_FILE_END*/, pageid)
             nextid = BufferManagerPage.readInt4(page, 0)
             val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
             off += len2
-            bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:269"/*SOURCE_FILE_END*/, pageid)
+            bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:272"/*SOURCE_FILE_END*/, pageid)
         }
     }
 
@@ -275,7 +278,7 @@ public class TripleStoreManagerImpl public constructor(
     private inline fun writeToPageID() {
         val buffer = toByteArray()
         var pageid = rootPageID
-        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:277"/*SOURCE_FILE_END*/, pageid)
+        var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:280"/*SOURCE_FILE_END*/, pageid)
         val size = buffer.size
         BufferManagerPage.writeInt4(page, 4, size)
         var off = 0
@@ -283,16 +286,16 @@ public class TripleStoreManagerImpl public constructor(
         BufferManagerPage.copyFrom(page, buffer, 8, off, off + len)
         off += len
         while (off < size) {
-            val pageid2 = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:285"/*SOURCE_FILE_END*/)
+            val pageid2 = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:288"/*SOURCE_FILE_END*/)
             BufferManagerPage.writeInt4(page, 0, pageid2)
-            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:287"/*SOURCE_FILE_END*/, pageid)
+            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:290"/*SOURCE_FILE_END*/, pageid)
             pageid = pageid2
-            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:289"/*SOURCE_FILE_END*/, pageid2)
+            page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:292"/*SOURCE_FILE_END*/, pageid2)
             val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
             BufferManagerPage.copyFrom(page, buffer, 4, off, off + len2)
             off += len2
         }
-        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:294"/*SOURCE_FILE_END*/, pageid)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:297"/*SOURCE_FILE_END*/, pageid)
     }
 
     public fun initialize(bufferManager: IBufferManager, rootPageID: Int, initFromRootPage: Boolean) {
@@ -319,8 +322,8 @@ public class TripleStoreManagerImpl public constructor(
             v.delete()
         }
         deleteAllPagesExceptRootID()
-        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:321"/*SOURCE_FILE_END*/, rootPageID)
-        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:322"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:324"/*SOURCE_FILE_END*/, rootPageID)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:325"/*SOURCE_FILE_END*/, rootPageID)
     }
 
     override fun getLocalhost(): LuposHostname = localhost
@@ -524,7 +527,7 @@ public class TripleStoreManagerImpl public constructor(
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {
-                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:526"/*SOURCE_FILE_END*/)
+                    val page = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:529"/*SOURCE_FILE_END*/)
                     val tripleStore = TripleStoreIndexIDTriple(page, false, instance)
                     tripleStore.debugSortOrder = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
                     localStoresAdd(second, tripleStore)
@@ -535,7 +538,7 @@ public class TripleStoreManagerImpl public constructor(
 
     public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
         if (metadata_[graphName] != null) {
-            throw Exception("graph already exist")
+throw GraphAlreadyExistsException()
         }
         val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
@@ -680,11 +683,11 @@ public class TripleStoreManagerImpl public constructor(
                             return index
                         }
                     }
-                    else -> throw Exception("unexpected type")
+                    else -> throw UnknownTripleStoreTypeException()
                 }
             }
         }
-        throw Exception("desired index not found")
+        throw NoValidIndexFoundException()
     }
 
     override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {

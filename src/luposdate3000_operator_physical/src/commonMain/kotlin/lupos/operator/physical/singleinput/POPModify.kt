@@ -21,6 +21,7 @@ import lupos.operator.base.IPOPLimit
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.EModifyType
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -53,7 +54,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:55"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:56"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
         return 1
     }
 
@@ -133,5 +134,5 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         return true
     }
 
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("modify does not work on partial result")
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw OperationCanNotBeLocalException()
 }

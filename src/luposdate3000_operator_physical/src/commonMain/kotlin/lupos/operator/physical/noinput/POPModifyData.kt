@@ -20,6 +20,7 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.IPOPLimit
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
@@ -65,7 +66,7 @@ public class POPModifyData public constructor(
             if (c.graphVar) {
                 TODO()
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:67"/*SOURCE_FILE_END*/ }, { !c.graphVar })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/POPModifyData.kt:68"/*SOURCE_FILE_END*/ }, { !c.graphVar })
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
@@ -90,5 +91,5 @@ public class POPModifyData public constructor(
         return true
     }
 
-    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw Exception("inserting can not be local")
+    override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = throw OperationCanNotBeLocalException()
 }

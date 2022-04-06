@@ -21,6 +21,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
+import lupos.shared.EOFException
 
 internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
     override fun readDictionaryValueType(): DictionaryValueType {
@@ -28,7 +29,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= DictionaryValueHelper.getSize()
             return stream.readDictionaryValueType()
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -37,7 +38,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= 4
             return stream.readInt()
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -46,7 +47,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= 8
             return stream.readLong()
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -55,7 +56,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= 1
             return stream.readByte()
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -64,7 +65,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= buf.size
             return stream.read(buf)
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -73,7 +74,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= len
             return stream.read(buf, len)
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -82,7 +83,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
             remainingBytes -= len
             return stream.read(buf, off, len)
         } else {
-            throw Exception("not enough bytes available $remainingBytes")
+            throw EOFException("not enough bytes available $remainingBytes")
         }
     }
 
@@ -102,7 +103,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:104"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/ )
             if (buf.size == 0) {
                 return null
             }

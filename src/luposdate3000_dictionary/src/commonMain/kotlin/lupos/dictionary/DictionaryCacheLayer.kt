@@ -20,6 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.UnreachableException
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
@@ -46,7 +47,7 @@ public class DictionaryCacheLayer(
 
     override fun close() {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:48"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:49"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         dictionary.close()
@@ -54,7 +55,7 @@ public class DictionaryCacheLayer(
 
     override fun createNewBNode(): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:56"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:57"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.createNewBNode()
@@ -62,7 +63,7 @@ public class DictionaryCacheLayer(
 
     override fun createNewBNode(s: String): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:64"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:65"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.createNewBNode(s)
@@ -70,7 +71,7 @@ public class DictionaryCacheLayer(
 
     override fun createNewUUID(): Int {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:72"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:73"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.createNewUUID()
@@ -78,7 +79,7 @@ public class DictionaryCacheLayer(
 
     override fun delete() {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:80"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:81"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         dictionary.delete()
@@ -86,7 +87,7 @@ public class DictionaryCacheLayer(
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:88"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:89"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         dictionary.forEachValue(buffer, action)
@@ -94,7 +95,7 @@ public class DictionaryCacheLayer(
 
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:96"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:97"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.importFromDictionaryFile(filename)
@@ -102,7 +103,7 @@ public class DictionaryCacheLayer(
 
     override fun isBnode(value: DictionaryValueType): Boolean {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:104"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:105"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.isBnode(value)
@@ -110,7 +111,7 @@ public class DictionaryCacheLayer(
 
     override fun isInmemoryOnly(): Boolean {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:112"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:113"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.isInmemoryOnly()
@@ -118,7 +119,7 @@ public class DictionaryCacheLayer(
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:120"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:121"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.isLocalValue(value)
@@ -126,7 +127,7 @@ public class DictionaryCacheLayer(
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:128"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:129"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         return dictionary.valueToGlobal(value)
@@ -142,7 +143,7 @@ public class DictionaryCacheLayer(
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:144"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:145"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)
@@ -205,7 +206,7 @@ public class DictionaryCacheLayer(
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:207"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:208"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         when (value) {
@@ -213,7 +214,7 @@ public class DictionaryCacheLayer(
             DictionaryValueHelper.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
             DictionaryValueHelper.errorValue -> DictionaryHelper.errorToByteArray(buffer)
             DictionaryValueHelper.undefValue -> DictionaryHelper.undefToByteArray(buffer)
-            DictionaryValueHelper.nullValue -> throw Exception("invalid call")
+            DictionaryValueHelper.nullValue -> throw UnreachableException()
             else -> {
                 lock.withWriteLock {
                     if ((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode) {
@@ -230,7 +231,7 @@ public class DictionaryCacheLayer(
                         }
                     } else {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:232"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:233"/*SOURCE_FILE_END*/ },
                             { value >= 0 }
                         )
                         DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
@@ -242,7 +243,7 @@ public class DictionaryCacheLayer(
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:244"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:245"/*SOURCE_FILE_END*/ },
             { isLocal != (instance.nodeGlobalDictionary == this) }
         )
         val type = DictionaryHelper.byteArrayToType(buffer)

@@ -19,6 +19,7 @@ import lupos.shared.myPrintStackTrace
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.InvalidInputException
 import lupos.shared.Parallel
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -135,7 +136,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 println("}")
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_display_bibtex/src/commonMain/kotlin/lupos/launch/display_bibtex/MainFunc.kt:137"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_display_bibtex/src/commonMain/kotlin/lupos/launch/display_bibtex/MainFunc.kt:138"/*SOURCE_FILE_END*/ )
             println("xxxx-->>")
             println(s)
             println(vals)
@@ -151,7 +152,7 @@ internal fun extractString(s: String?): String? {
     if (s.startsWith('"') && s.endsWith('"')) {
         return s.substring(1, s.length - 1)
     }
-    throw Exception("not a String '$s'")
+    throw InvalidInputException(s)
 }
 
 internal fun extractIri(s: String?): String? {
@@ -161,7 +162,7 @@ internal fun extractIri(s: String?): String? {
     if (s.startsWith('<') && s.endsWith('>')) {
         return s.substring(1, s.length - 1)
     }
-    throw Exception("not a Iri '$s'")
+    throw InvalidInputException(s)
 }
 
 internal fun extractInteger(s: String?): String? {
@@ -171,5 +172,5 @@ internal fun extractInteger(s: String?): String? {
     if (s.startsWith('"') && s.endsWith("\"^^<http://www.w3.org/2001/XMLSchema#integer>")) {
         return s.substring(1, s.length - "\"^^<http://www.w3.org/2001/XMLSchema#integer>".length)
     }
-    throw Exception("not a Integer '$s'")
+    throw InvalidInputException(s)
 }

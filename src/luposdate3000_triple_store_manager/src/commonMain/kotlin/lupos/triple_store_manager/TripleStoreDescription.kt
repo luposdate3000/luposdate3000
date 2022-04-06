@@ -20,6 +20,7 @@ import lupos.shared.myPrintStackTrace
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.BugException
 import lupos.shared.DictionaryValueType
+import lupos.shared.NoValidIndexFoundException
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -38,6 +39,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
+import lupos.shared.UnknownTripleStoreTypeException
 
 public class TripleStoreDescription(
     @JvmField internal val graph: String,
@@ -68,7 +70,7 @@ public class TripleStoreDescription(
                 is TripleStoreIndexDescriptionSimple -> {
                     res.append("Simple;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.hostname};${idx.key}|")
                 }
-                else -> throw Exception("unexpected type")
+                else -> throw UnknownTripleStoreTypeException()
             }
         }
         return res.toString()
@@ -109,7 +111,7 @@ public class TripleStoreDescription(
                                 idx.key = args[3]
                                 indices.add(idx)
                             }
-                            else -> throw Exception("unexpected type")
+                            else -> throw UnknownTripleStoreTypeException()
                         }
                     }
                 }
@@ -146,7 +148,7 @@ public class TripleStoreDescription(
                 return POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2]))
             }
         }
-        throw Exception("no valid index found")
+throw NoValidIndexFoundException()
     }
 
     override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
@@ -156,7 +158,7 @@ public class TripleStoreDescription(
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:158"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:160"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {
@@ -193,8 +195,8 @@ public class TripleStoreDescription(
                         } catch (e: Throwable) {
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true
-                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:195"/*SOURCE_FILE_END*/)
-                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:196"/*SOURCE_FILE_END*/ )
+                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:197"/*SOURCE_FILE_END*/)
+                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:198"/*SOURCE_FILE_END*/ )
                             }
                             first += 100
                             second += 100
@@ -204,6 +206,6 @@ public class TripleStoreDescription(
                 return Pair(first, second)
             }
         }
-        throw Exception("no valid index found")
+        throw NoValidIndexFoundException()
     }
 }

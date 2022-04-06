@@ -28,6 +28,9 @@ public class VariableNotDefinedSyntaxException public constructor(classname: Str
 public class GroupByColumnMissing public constructor(name: String) : SyntaxException("GroupByColumnMissing", "Group By requires the column '$name', which does not exist within this GroupBy-Clause.")
 public class GroupByDuplicateColumnException public constructor() : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
 public class XMLNotParseableException public constructor() : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
+public class UnableToOutputResultException public constructor() : SyntaxException("UnableToOutputResultException","Unable to output the desired result format.")
+public class IncompatibleInputException public constructor() : SyntaxException("IncompatibleInputException","incompatible input.")
+public class InvalidInputException public constructor(input:String?=null) : SyntaxException("InvalidInputException","Invalid input '$input'.")
 
 // evaluation exceptions --->>>
 public abstract class EvaluationException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
@@ -36,11 +39,22 @@ public class EnpointRecievedInvalidPath public constructor(path: String) : Evalu
 public class UnreachableException public constructor() : EvaluationException("UnreachableException", "This should be unreachable.")
 public class EmptyResultException public constructor() : EvaluationException("EmptyResultException", "")
 public class TooManyIntermediateResultsException public constructor():EvaluationException("TooManyIntermediateResultsException","Too many intermediate results")
+public class UnknownTripleStoreTypeException public constructor():EvaluationException("UnknownTripleStoreTypeException","Unknown TripleStoreType")
+public class NoValidIndexFoundException public constructor():EvaluationException("NoValidIndexFoundException","No valid index found.")
+public class GraphAlreadyExistsException public constructor():EvaluationException("GraphAlreadyExistsException","Graph already exists.")
+public class ConnectionFailedException public constructor(status:Int?):EvaluationException("ConnectionFailedException","Remote returned $status.")
+public class NoMorePagesException public constructor() : EvaluationException("NoMorePagesException","No more pages available.")
+public class OperationCanNotBeLocalException public constructor() : EvaluationException("OperationCanNotBeLocalException","Operation can not be local.")
+public class EOFException public constructor(avail:Any?=null) : EvaluationException("EOFException","eof (available=$avail)")
 
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
 
 public class JenaBugException public constructor(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")
+
+
+
+
 
 public fun Throwable.myPrintStackTrace(location:String){
 println(stackTraceToString())

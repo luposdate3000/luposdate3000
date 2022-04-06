@@ -24,6 +24,7 @@ import lupos.operator.arithmetik.generated.AOPOr
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.shared.InvalidInputException
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPFilter
@@ -84,7 +85,7 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                     optionalIndicatorList.removeAll(node.getChildren()[0].getProvidedVariableNames())
                     val t = optionalIndicatorList.toList()
                     if (t.isEmpty()) {
-                        throw Exception("optional clause must add at least 1 new variable")
+                        throw InvalidInputException("optional clause must add at least 1 new variable")
                     }
                     val optionalIndicator = t[0]
                     res = LOPFilter(

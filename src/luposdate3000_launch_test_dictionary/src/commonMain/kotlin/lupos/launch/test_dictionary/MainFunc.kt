@@ -181,7 +181,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     } else {
                         loop = false
                         if (DictionaryHelper.byteArrayToType(res) == ETripleComponentTypeExt.BLANK_NODE) {
-                            throw Exception("")
+TODO()
                         }
                         action(res)
                     }
@@ -194,7 +194,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 }
                 val key = dict.createValue(data)
                 if (key != targetKey) {
-                    throw Exception("${key.toString(2)} ${targetKey.toString(2)}")
+                    TODO("${key.toString(2)} ${targetKey.toString(2)}")
                 }
             }
 
@@ -204,7 +204,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     println("testCreateValueNotExistingOk $key $data")
                 }
                 if (mapping[key] != null) {
-                    throw Exception("luposdate3000_launch_test_dictionary.MainFunc.testCreateValueNotExistingOk $key")
+                    TODO("luposdate3000_launch_test_dictionary.MainFunc.testCreateValueNotExistingOk $key")
                 }
                 mapping[key] = DictionaryValueHelper.fromInt(values.size)
                 values[DictionaryValueHelper.fromInt(values.size)] = data
@@ -217,11 +217,11 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
                 if (ByteArrayWrapperExt.getSize(value) != ByteArrayWrapperExt.getSize(target)) {
-                    throw Exception("${ByteArrayWrapperExt.getSize(value)} ${ByteArrayWrapperExt.getSize(target)} $value")
+                    TODO("${ByteArrayWrapperExt.getSize(value)} ${ByteArrayWrapperExt.getSize(target)} $value")
                 }
                 for (i in 0 until ByteArrayWrapperExt.getSize(value)) {
                     if (ByteArrayWrapperExt.getBuf(value)[i] != ByteArrayWrapperExt.getBuf(target)[i]) {
-                        throw Exception("")
+                        TODO()
                     }
                 }
             }
@@ -239,7 +239,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     flag = false
                 }
                 if (flag && (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE)) {
-                    throw Exception("${key.toString(16)} $buffer ${DictionaryHelper.byteArrayToType(buffer)}")
+                    TODO("${key.toString(16)} $buffer ${DictionaryHelper.byteArrayToType(buffer)}")
                 }
             }
 
@@ -260,7 +260,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
                 dict.close()
                 if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-                    throw Exception("")
+                    TODO()
                 }
                 dict = createDict(true)
             }
@@ -269,10 +269,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
             }
             dict.delete()
             if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-                throw Exception("")
+                TODO()
             }
             if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
-                throw Exception("")
+                TODO()
             }
             instance.bufferManager!!.close()
         }

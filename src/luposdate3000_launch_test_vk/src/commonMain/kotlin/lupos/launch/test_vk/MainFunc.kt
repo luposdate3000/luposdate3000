@@ -102,10 +102,10 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             println("testCreateValueExistingOk $targetKey $data")
         }
         val key = vk.createValue(data) {
-            throw Exception("")
+            TODO()
         }
         if (key != targetKey) {
-            throw Exception("")
+            TODO()
         }
     }
 
@@ -129,7 +129,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
                 },
                 onNotFound = {
                     if (values.contains(it)) {
-                        throw Exception("")
+                        TODO()
                     }
                     values.add(it)
                     values.size - 1
@@ -146,7 +146,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             println("testCreateValueNotExistingOk $key $data")
         }
         if (key != values.size) {
-            throw Exception("$key != ${values.size}")
+            TODO("$key != ${values.size}")
         }
         values.add(data)
     }
@@ -157,7 +157,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         val res = vk.hasValue(data)
         if (res != targetKey) {
-            throw Exception("$res $targetKey")
+            TODO("$res $targetKey")
         }
     }
 
@@ -167,7 +167,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         }
         val res = vk.hasValue(data)
         if (res != ValueKeyStore.ID_NULL) {
-            throw Exception("$res")
+            TODO("$res")
         }
     }
 
@@ -181,20 +181,20 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         while (iterator.hasNext()) {
             val id = iterator.next()
             if (id < 0) {
-                throw Exception("")
+                TODO()
             }
             if (id >= values.size) {
-                throw Exception("")
+                TODO()
             }
             if (values[id] != buffer) {
-                throw Exception("$id $buffer")
+                TODO("$id $buffer")
             }
             counters[id]++
         }
         iterator.close()
         for (i in 0 until counters.size) {
             if (counters[i] != 1) {
-                throw Exception("$i ${counters[i]}")
+                TODO("$i ${counters[i]}")
             }
         }
     }
@@ -214,17 +214,17 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     if (!BufferManagerExt.isInMemoryOnly) {
         vk.close()
         if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-            throw Exception("${instance.bufferManager!!.getNumberOfReferencedPages()}")
+            TODO("${instance.bufferManager!!.getNumberOfReferencedPages()}")
         }
         vk = ValueKeyStore(instance.bufferManager!!, rootPage, true)
     }
     testAll()
     vk.delete()
     if (instance.bufferManager!!.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+        TODO()
     }
     if (instance.bufferManager!!.getNumberOfAllocatedPages() != 0) {
-        throw Exception("")
+        TODO()
     }
     instance.bufferManager!!.close()
 }
