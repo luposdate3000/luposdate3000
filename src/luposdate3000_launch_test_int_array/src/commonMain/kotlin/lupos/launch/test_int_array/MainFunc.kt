@@ -76,7 +76,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         try {
             arr[idx] = -1
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:78"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:78"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {
@@ -103,7 +103,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         try {
             arr[idx]
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:105"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:105"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {

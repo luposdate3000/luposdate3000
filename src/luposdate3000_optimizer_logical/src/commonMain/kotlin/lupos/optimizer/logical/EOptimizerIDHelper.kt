@@ -130,7 +130,7 @@ public class EOptimizerIDHelper {
                 }
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:132"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:132"/*SOURCE_FILE_END*/ )
             throw e
         }
     }

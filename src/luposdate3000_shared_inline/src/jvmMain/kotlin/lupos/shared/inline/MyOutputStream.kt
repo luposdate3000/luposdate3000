@@ -80,7 +80,7 @@ internal actual class MyOutputStream : IMyOutputStream {
                 }
                 if (stream == null) {
                     for (e in closedBy!!) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:82"/*SOURCE_FILE_END*/ )()
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:82"/*SOURCE_FILE_END*/ )
                     }
                 }
             }

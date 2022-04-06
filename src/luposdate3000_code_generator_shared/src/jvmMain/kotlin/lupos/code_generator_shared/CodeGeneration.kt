@@ -153,7 +153,7 @@ public object CodeGeneration {
             }
             outFile.close()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/CodeGeneration.kt:155"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/CodeGeneration.kt:155"/*SOURCE_FILE_END*/ )
             val outFile = PrintWriter(out)
             outFile.println("package $packageName")
             outFile.println("import lupos.shared.operator.IOPBase")

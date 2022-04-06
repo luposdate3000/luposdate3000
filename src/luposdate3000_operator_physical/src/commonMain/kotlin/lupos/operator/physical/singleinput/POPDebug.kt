@@ -58,7 +58,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/ )()
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/ )
                         SanityCheck.println { "debugchildclassname::" + getChildren()[0].getClassname() }
                         throw e
                     }
@@ -105,7 +105,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:107"/*SOURCE_FILE_END*/ )()
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:107"/*SOURCE_FILE_END*/ )
                             SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
                             throw e
                         }

@@ -45,7 +45,7 @@ public class AOPBuildInCallIF public constructor(query: IQuery, child: AOPBase, 
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPBuildInCallIF.kt:47"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPBuildInCallIF.kt:47"/*SOURCE_FILE_END*/ )
             }
             res
         }

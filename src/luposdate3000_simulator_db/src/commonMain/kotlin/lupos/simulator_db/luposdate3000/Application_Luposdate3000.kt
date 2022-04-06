@@ -263,7 +263,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:265"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:265"/*SOURCE_FILE_END*/ )
         }
 // try to evaluate local<<--
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
@@ -645,7 +645,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )
                 throw e
             }
             doWorkFlag = false

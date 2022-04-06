@@ -78,7 +78,7 @@ public class bind01BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:80"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:80"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -95,7 +95,7 @@ public class bind01BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:97"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:97"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -112,7 +112,7 @@ public class bind01BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:114"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:114"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -129,7 +129,7 @@ public class bind01BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:131"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind01BINDfixeddataforOWLDL.kt:131"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)

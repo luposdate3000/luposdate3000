@@ -55,7 +55,7 @@ public object InputToIntermediate {
             try {
                 throw Exception(s, e)
             } catch (e2: Throwable) {
-                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/InputToIntermediate.kt:57"/*SOURCE_FILE_END*/ )()
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/InputToIntermediate.kt:57"/*SOURCE_FILE_END*/ )
             }
         }
         return res

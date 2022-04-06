@@ -54,7 +54,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.invoke at ${filename()}")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:56"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:56"/*SOURCE_FILE_END*/ )
             }
             throw e
         }
@@ -67,7 +67,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.suspended")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:69"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:69"/*SOURCE_FILE_END*/ )
             }
             throw e
         }
@@ -87,7 +87,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:89"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:89"/*SOURCE_FILE_END*/ )
             }
             throw e
         }
@@ -102,7 +102,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:104"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:104"/*SOURCE_FILE_END*/ )
             }
             throw e
         }

@@ -52,7 +52,7 @@ public class MemoryTableFromN3 : MemoryTableParser {
             println(">>>>")
             println(data)
             println("<<<<")
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromN3.kt:54"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromN3.kt:54"/*SOURCE_FILE_END*/ )
             throw e
         }
         dataStream.close()

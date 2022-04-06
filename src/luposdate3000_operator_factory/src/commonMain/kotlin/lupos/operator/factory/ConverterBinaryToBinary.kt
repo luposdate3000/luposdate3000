@@ -139,7 +139,7 @@ public object ConverterBinaryToBinary {
             }
             return dataOut
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToBinary.kt:141"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToBinary.kt:141"/*SOURCE_FILE_END*/ )
             throw e
         }
     }

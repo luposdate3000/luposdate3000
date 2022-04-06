@@ -66,7 +66,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
         try {
             instance.bufferManager!!.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:66"/*SOURCE_FILE_END*/, pageid)
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:68"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:68"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {
@@ -104,7 +104,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
         try {
             instance.bufferManager!!.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:104"/*SOURCE_FILE_END*/, pageid)
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:106"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:106"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {
@@ -152,7 +152,7 @@ public fun executeBufferManagerTest(nextRandom: () -> Int, hasNextRandom: () -> 
         try {
             instance.bufferManager!!.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:152"/*SOURCE_FILE_END*/, pageid)
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:154"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_buffermanager/src/commonMain/kotlin/lupos/test_buffermanager/executeBufferManagerTest.kt:154"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {

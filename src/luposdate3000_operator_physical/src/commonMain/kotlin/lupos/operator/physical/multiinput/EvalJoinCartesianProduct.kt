@@ -55,7 +55,7 @@ query:IQuery,
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:57"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:57"/*SOURCE_FILE_END*/ )
                 throw e
             }
         } else if (columnsINAO.size == 0) {

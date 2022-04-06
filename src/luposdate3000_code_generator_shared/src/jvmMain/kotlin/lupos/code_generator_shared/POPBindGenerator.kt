@@ -120,7 +120,7 @@ internal fun generatePOPBind(
     // clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
     clazz.iteratorNextBody.println("                    }")
     clazz.iteratorNextBody.println("                    } catch (e: Throwable) {")
-    clazz.iteratorNextBody.println("                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/POPBindGenerator.kt:122"/*SOURCE_FILE_END*/ )()")
+    clazz.iteratorNextBody.println("                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/POPBindGenerator.kt:122"/*SOURCE_FILE_END*/ )")
     clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryValueHelper.errorValue")
     clazz.iteratorNextBody.println("                    } ")
     if (inlineChild) {

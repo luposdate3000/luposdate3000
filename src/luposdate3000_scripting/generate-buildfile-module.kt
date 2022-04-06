@@ -933,7 +933,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                     }
                 }
             }
@@ -942,22 +942,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/commonMain"), ("$shared_inline_base_folder/src/commonMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/jvmMain"), ("$shared_inline_base_folder/src/jvmMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/jsMain"), ("$shared_inline_base_folder/src/jsMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/nativeMain"), ("$shared_inline_base_folder/src/nativeMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                 }
             }
         }
@@ -1003,12 +1003,12 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         try {
             File(srcFolder).deleteRecursively()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
         }
         try {
             File(buildFolder).deleteRecursively()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
         }
         for (f in listOf(File(File(srcFolder), "gradle.log"), File(File(srcFolder), "gradle.err"))) {
             if (f.exists()) {
@@ -1018,7 +1018,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
     } catch (e: Throwable) {
-        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
         println("$dummy")
         throw e
     }

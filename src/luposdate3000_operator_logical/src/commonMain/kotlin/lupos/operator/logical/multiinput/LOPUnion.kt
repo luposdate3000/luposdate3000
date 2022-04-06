@@ -53,7 +53,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
                 res.values[v] = a + b
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:55"/*SOURCE_FILE_END*/ )()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:55"/*SOURCE_FILE_END*/ )
             throw BugException(classname, "calculateHistogram column missing")
         }
         return res

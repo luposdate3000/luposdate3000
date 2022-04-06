@@ -176,7 +176,7 @@ return res
                 val allChilds2 = findAllJoinsInChildren(node)
 res=internalOptimize(node,allChilds2,onChange)
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:178"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:178"/*SOURCE_FILE_END*/ )
                 res = POPNothing(query, originalProvided)
             }
         }

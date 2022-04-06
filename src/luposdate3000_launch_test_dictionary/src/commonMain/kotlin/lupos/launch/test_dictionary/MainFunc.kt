@@ -235,7 +235,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 try {
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
-                    // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:237"/*SOURCE_FILE_END*/ )() this is handled correctly
+                    // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:237"/*SOURCE_FILE_END*/ ) this is handled correctly
                     flag = false
                 }
                 if (flag && (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE)) {

@@ -141,7 +141,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                         try {
                             manager.createGraph(query, sourceName) // TODO this is very bad, because it is an modification during query optimisation phase
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:143"/*SOURCE_FILE_END*/ )()
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:143"/*SOURCE_FILE_END*/ )
                         }
                         return POPModify(
                             query,

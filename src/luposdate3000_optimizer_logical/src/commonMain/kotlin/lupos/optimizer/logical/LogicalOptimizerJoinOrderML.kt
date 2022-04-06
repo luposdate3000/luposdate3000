@@ -114,7 +114,7 @@ query.machineLearningOptimizerOrderWouldBeChoosen=true
 }
 
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:116"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:116"/*SOURCE_FILE_END*/ )
                 res = POPNothing(query, originalProvided)
             }
         }

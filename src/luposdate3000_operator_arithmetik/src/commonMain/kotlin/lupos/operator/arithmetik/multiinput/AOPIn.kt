@@ -47,7 +47,7 @@ public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: I
                         break
                     }
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPIn.kt:49"/*SOURCE_FILE_END*/ )()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPIn.kt:49"/*SOURCE_FILE_END*/ )
                     noError = false
                 }
             }

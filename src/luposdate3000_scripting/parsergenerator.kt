@@ -1421,7 +1421,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             try {
                 comp.myPrintRoot(false)
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
                 comp.myPrintRoot(true)
             }
             out.println("    }")

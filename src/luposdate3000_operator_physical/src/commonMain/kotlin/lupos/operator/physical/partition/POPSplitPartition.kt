@@ -210,7 +210,7 @@ public class POPSplitPartition public constructor(
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:212"/*SOURCE_FILE_END*/ )()
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:212"/*SOURCE_FILE_END*/ )
                         error = e
                     }
                     child2?.close?.invoke()

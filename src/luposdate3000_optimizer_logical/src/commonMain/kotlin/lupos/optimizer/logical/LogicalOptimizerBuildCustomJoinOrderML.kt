@@ -231,7 +231,7 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
 //            }
 //            return nodes[0]
 //        } catch (e: HistogramNotImplementedException) {
-//            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:233"/*SOURCE_FILE_END*/ )()
+//            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:233"/*SOURCE_FILE_END*/ )
 //            return null
 //        }
 /*Coverage Unreachable*/

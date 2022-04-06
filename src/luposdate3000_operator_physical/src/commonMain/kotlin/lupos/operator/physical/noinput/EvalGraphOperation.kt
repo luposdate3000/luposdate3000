@@ -142,12 +142,12 @@ public object EvalGraphOperation {
                     }
                 }
             } catch (e: EvaluationException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/ )
                 if (!silent) {
                     throw e
                 }
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )
                 if (!silent) {
                     throw e
                 }

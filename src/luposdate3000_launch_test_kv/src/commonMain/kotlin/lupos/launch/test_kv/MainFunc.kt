@@ -137,7 +137,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             val buffer = ByteArrayWrapper()
             kv.getValue(buffer, key)
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:139"/*SOURCE_FILE_END*/ )() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:139"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {
