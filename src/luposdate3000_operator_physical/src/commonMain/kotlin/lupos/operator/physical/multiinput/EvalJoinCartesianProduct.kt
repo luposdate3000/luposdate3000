@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
+import lupos.shared.myPrintStackTrace
 
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
@@ -54,7 +55,7 @@ query:IQuery,
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:57"/*SOURCE_FILE_END*/ )()
                 throw e
             }
         } else if (columnsINAO.size == 0) {
@@ -126,7 +127,7 @@ query:IQuery,
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
                                             if (value == DictionaryValueHelper.nullValue) {
-                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:128"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:129"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -194,7 +195,7 @@ query,
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:196"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:197"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

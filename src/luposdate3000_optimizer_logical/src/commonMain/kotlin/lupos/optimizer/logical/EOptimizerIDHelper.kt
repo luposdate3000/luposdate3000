@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
+import lupos.shared.myPrintStackTrace
 
 import kotlin.jvm.JvmField
 
@@ -129,7 +130,7 @@ public class EOptimizerIDHelper {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:132"/*SOURCE_FILE_END*/ )()
             throw e
         }
     }

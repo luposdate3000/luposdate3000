@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.test_int_array
+import lupos.shared.myPrintStackTrace
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
@@ -44,7 +45,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     instance.bufferManager = BufferManager(instance)
     var dataSize = 0
     val data = IntArray(maxSize)
-    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:46"/*SOURCE_FILE_END*/)
+    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:47"/*SOURCE_FILE_END*/)
     var arr = MyIntArray(instance.bufferManager!!, rootPage, false, instance)
 
     fun testSetSizeOk(size: Int) {
@@ -75,7 +76,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         try {
             arr[idx] = -1
         } catch (e: Throwable) {
-            // e.printStackTrace() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:78"/*SOURCE_FILE_END*/ )() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -102,7 +103,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
         try {
             arr[idx]
         } catch (e: Throwable) {
-            // e.printStackTrace() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:105"/*SOURCE_FILE_END*/ )() this is handled correctly
             flag = false
         }
         if (flag) {

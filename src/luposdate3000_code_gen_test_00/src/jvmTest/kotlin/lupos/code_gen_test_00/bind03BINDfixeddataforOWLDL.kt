@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.shared.myPrintStackTrace
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -79,7 +80,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:82"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -96,7 +97,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:99"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -113,7 +114,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:116"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -130,7 +131,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:133"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -147,7 +148,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:150"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -164,7 +165,7 @@ public class bind03BINDfixeddataforOWLDL {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/bind03BINDfixeddataforOWLDL.kt:167"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)

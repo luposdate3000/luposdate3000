@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.test_dictionary_encoding
+import lupos.shared.myPrintStackTrace
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
@@ -47,7 +48,7 @@ private object AssertionFunctions {
         try {
             a()
         } catch (e: Throwable) {
-            // e.printStackTrace() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_dictionary_encoding/src/commonMain/kotlin/lupos/test_dictionary_encoding/MainFunc.kt:50"/*SOURCE_FILE_END*/ )() this is handled correctly
             flag = false
         }
         if (flag) {

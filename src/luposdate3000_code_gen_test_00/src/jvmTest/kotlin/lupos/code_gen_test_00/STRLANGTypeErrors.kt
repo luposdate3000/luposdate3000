@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_gen_test_00
+import lupos.shared.myPrintStackTrace
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -72,7 +73,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:75"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -89,7 +90,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:92"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -106,7 +107,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:109"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -123,7 +124,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:126"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -140,7 +141,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:143"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -157,7 +158,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:160"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -174,7 +175,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:177"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -191,7 +192,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:194"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -208,7 +209,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:211"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -225,7 +226,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:228"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -242,7 +243,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:245"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -259,7 +260,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:262"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -276,7 +277,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:279"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)
@@ -293,7 +294,7 @@ public class STRLANGTypeErrors {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.printStackTrace() //otherwise this would be silently ignored
+        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/STRLANGTypeErrors.kt:296"/*SOURCE_FILE_END*/ )() //otherwise this would be silently ignored
         throw e
       }finally{
         LuposdateEndpoint.close(instance)

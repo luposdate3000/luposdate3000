@@ -106,7 +106,7 @@ public fun main() {
                 try {
                     command.action(args)
                 } catch (e: Throwable) {
-                    e.printStackTrace()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_commandline/src/jvmMain/kotlin/Main.kt:108"/*SOURCE_FILE_END*/ )()
                 }
             }
             println()

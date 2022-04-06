@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
+import lupos.shared.myPrintStackTrace
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
@@ -125,7 +126,7 @@ public object ConverterBinaryToIteratorBundle {
             }
             TODO("dataID $dataID not found")
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:128"/*SOURCE_FILE_END*/ )()
             throw e
         }
     }

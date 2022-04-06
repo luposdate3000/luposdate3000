@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.myPrintStackTrace
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -66,7 +67,7 @@ internal actual class MyOutputStream : IMyOutputStream {
 
     actual override fun close() {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:68"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:69"/*SOURCE_FILE_END*/ },
             {
                 try {
                     throw Exception()
@@ -79,7 +80,7 @@ internal actual class MyOutputStream : IMyOutputStream {
                 }
                 if (stream == null) {
                     for (e in closedBy!!) {
-                        e.printStackTrace()
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:82"/*SOURCE_FILE_END*/ )()
                     }
                 }
             }

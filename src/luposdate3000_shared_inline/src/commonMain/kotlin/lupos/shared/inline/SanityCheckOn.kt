@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.myPrintStackTrace
 
 import lupos.shared.UnreachableException
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
@@ -53,7 +54,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.invoke at ${filename()}")
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:56"/*SOURCE_FILE_END*/ )()
             }
             throw e
         }
@@ -66,7 +67,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.suspended")
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:69"/*SOURCE_FILE_END*/ )()
             }
             throw e
         }
@@ -86,7 +87,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:89"/*SOURCE_FILE_END*/ )()
             }
             throw e
         }
@@ -101,7 +102,7 @@ internal object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:104"/*SOURCE_FILE_END*/ )()
             }
             throw e
         }

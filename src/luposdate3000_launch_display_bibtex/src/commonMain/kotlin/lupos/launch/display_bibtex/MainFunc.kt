@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.display_bibtex
+import lupos.shared.myPrintStackTrace
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.DictionaryValueHelper
@@ -134,7 +135,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 println("}")
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_display_bibtex/src/commonMain/kotlin/lupos/launch/display_bibtex/MainFunc.kt:137"/*SOURCE_FILE_END*/ )()
             println("xxxx-->>")
             println(s)
             println(vals)

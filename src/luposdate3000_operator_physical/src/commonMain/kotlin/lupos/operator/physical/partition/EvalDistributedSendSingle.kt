@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+import lupos.shared.myPrintStackTrace
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.IMyOutputStream
@@ -46,7 +47,7 @@ public object EvalDistributedSendSingle {
         try {
             connectionOut.close()
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedSendSingle.kt:49"/*SOURCE_FILE_END*/ )()
         }
     }
 }

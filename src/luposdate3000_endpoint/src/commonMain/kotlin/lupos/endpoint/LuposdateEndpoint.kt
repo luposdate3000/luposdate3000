@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+import lupos.shared.myPrintStackTrace
 
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
@@ -83,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:85"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:86"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
         val dict = instance.nodeGlobalDictionary!!
         val cache2 = instance.nodeGlobalOntologyCache
         val cache = if (cache2 == null) {
@@ -179,7 +180,7 @@ public object LuposdateEndpoint {
                         }
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:182"/*SOURCE_FILE_END*/ )()
                 }
             }
         }
@@ -228,7 +229,7 @@ public object LuposdateEndpoint {
             try {
                 instance.tripleStoreManager!!.createGraph(query, graphName)
             } catch (e: Throwable) {
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:231"/*SOURCE_FILE_END*/ )()
             }
             val store = instance.tripleStoreManager!!.getGraph(graphName)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
@@ -278,7 +279,7 @@ public object LuposdateEndpoint {
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                         SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:280"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:281"/*SOURCE_FILE_END*/ },
                             {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
@@ -287,17 +288,17 @@ public object LuposdateEndpoint {
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:289"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:290"/*SOURCE_FILE_END*/ },
                                     { newA >= oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:294"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:295"/*SOURCE_FILE_END*/ },
                                     { newB >= oldB || newA > oldA },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
                                 SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:299"/*SOURCE_FILE_END*/ },
+                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:300"/*SOURCE_FILE_END*/ },
                                     { newC > oldC || newA > oldA || newB > oldB },
                                     { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
                                 )
@@ -327,7 +328,7 @@ public object LuposdateEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:330"/*SOURCE_FILE_END*/ )()
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
@@ -485,7 +486,7 @@ return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperator
                 timeoutInMs
             )
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/ )()
             throw e
         }
     }

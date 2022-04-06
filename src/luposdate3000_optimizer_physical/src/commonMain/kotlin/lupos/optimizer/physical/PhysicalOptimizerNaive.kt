@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.physical
+import lupos.shared.myPrintStackTrace
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -132,7 +133,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                 }
                 is LOPGraphOperation -> {
                     SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:134"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:135"/*SOURCE_FILE_END*/ },
                         { parent is OPBaseCompound }
                     )
                     val manager = query.getInstance().tripleStoreManager!!
@@ -140,7 +141,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                         try {
                             manager.createGraph(query, sourceName) // TODO this is very bad, because it is an modification during query optimisation phase
                         } catch (e: Throwable) {
-                            e.printStackTrace()
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:143"/*SOURCE_FILE_END*/ )()
                         }
                         return POPModify(
                             query,

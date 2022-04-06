@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.myPrintStackTrace
 
 import kotlin.jvm.JvmField
 
@@ -29,7 +30,7 @@ internal actual class ParallelThreadCondition {
                 try {
                     (this as Object).wait()
                 } catch (e: Exception) {
-e.printStackTrace()
+e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/ParallelThreadCondition.kt:32"/*SOURCE_FILE_END*/ )()
                 }
             }
             wasSignalled = false

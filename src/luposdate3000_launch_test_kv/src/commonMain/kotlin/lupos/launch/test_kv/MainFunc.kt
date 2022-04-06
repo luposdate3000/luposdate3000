@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.test_kv
+import lupos.shared.myPrintStackTrace
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
@@ -44,7 +45,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
     instance.allowInitFromDisk = false
     BufferManagerExt.allowInitFromDisk = false
     instance.bufferManager = BufferManager(instance)
-    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:46"/*SOURCE_FILE_END*/)
+    val rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:47"/*SOURCE_FILE_END*/)
     var kv = KeyValueStore(instance.bufferManager!!, rootPage, false, instance)
 
     val values = mutableListOf<ByteArray>()
@@ -136,7 +137,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
             val buffer = ByteArrayWrapper()
             kv.getValue(buffer, key)
         } catch (e: Throwable) {
-            // e.printStackTrace() this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:139"/*SOURCE_FILE_END*/ )() this is handled correctly
             flag = false
         }
         if (flag) {

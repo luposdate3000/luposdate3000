@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
+import lupos.shared.myPrintStackTrace
 
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -101,7 +102,7 @@ internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @J
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:104"/*SOURCE_FILE_END*/ )()
             if (buf.size == 0) {
                 return null
             }

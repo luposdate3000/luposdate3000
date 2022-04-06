@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik
+import lupos.shared.myPrintStackTrace
 
 import lupos.operator.base.OPBase
 import lupos.shared.DictionaryValueHelper
@@ -50,10 +51,10 @@ public abstract class AOPBase public constructor(
                 var res: Boolean = try {
                     DictionaryHelper.byteArrayAsBoolean(tmp())
                 } catch (e: EvaluationException) {
-                    e.printStackTrace()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/AOPBase.kt:53"/*SOURCE_FILE_END*/ )()
                     false
                 } catch (e: Throwable) {
-                    e.printStackTrace()
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/AOPBase.kt:56"/*SOURCE_FILE_END*/ )()
                     false
                 }
                 res

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.noinput
+import lupos.shared.myPrintStackTrace
 
 import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.shared.DictionaryValueHelper
@@ -141,12 +142,12 @@ public object EvalGraphOperation {
                     }
                 }
             } catch (e: EvaluationException) {
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/ )()
                 if (!silent) {
                     throw e
                 }
             } catch (e: Throwable) {
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:149"/*SOURCE_FILE_END*/ )()
                 if (!silent) {
                     throw e
                 }

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+import lupos.shared.myPrintStackTrace
 
 import lupos.parser.json.*
 import lupos.shared.DictionaryValueHelper
@@ -117,7 +118,7 @@ public class MemoryTableFromJson : MemoryTableParser {
             try {
                 throw Exception(data, e)
             } catch (e2: Throwable) {
-                e2.printStackTrace()
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromJson.kt:120"/*SOURCE_FILE_END*/ )()
             }
             return null
         }

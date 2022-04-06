@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+import lupos.shared.myPrintStackTrace
 
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
@@ -262,7 +263,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:265"/*SOURCE_FILE_END*/ )()
         }
 // try to evaluate local<<--
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
@@ -303,7 +304,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:305"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:306"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -644,7 +645,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.printStackTrace()
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:647"/*SOURCE_FILE_END*/ )()
                 throw e
             }
             doWorkFlag = false
