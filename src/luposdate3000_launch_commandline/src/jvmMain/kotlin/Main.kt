@@ -18,6 +18,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.myPrintStackTrace
 
 internal class MyCommands(
     internal val params: Array<String>,
@@ -106,7 +107,7 @@ public fun main() {
                 try {
                     command.action(args)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_commandline/src/jvmMain/kotlin/Main.kt:108"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_commandline/src/jvmMain/kotlin/Main.kt:109"/*SOURCE_FILE_END*/ )
                 }
             }
             println()

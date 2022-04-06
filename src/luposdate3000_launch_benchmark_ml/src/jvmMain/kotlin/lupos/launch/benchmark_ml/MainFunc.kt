@@ -43,7 +43,7 @@ import lupos.shared.Parallel
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.operator.base.Query
-
+import lupos.shared.TooManyIntermediateResultsException
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
 }
@@ -145,7 +145,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
         benchOut.println(columnNames.joinToString())
     }
     runBlocking {
-val mutex = Mutex()
+        val mutex = Mutex()
         withContext(Dispatchers.Default) {
             queryFiles2.pmap { queryFile ->
                 println("going to benchmark $queryFile")
@@ -156,15 +156,17 @@ val mutex = Mutex()
                 var measured_time = DoubleArray(joinOrders.size)
                 var measured_results = DoubleArray(joinOrders.size)
                 for (joinOrder in joinOrders) {
+                    var hadEnforcedAbort = false
+try{
                     // Read in query file
                     println("going to benchmark $queryFile for joinOrder $joinOrder")
                     // Optimize query and convert to operatorgraph
-val q=Query(instance)
+                    val q = Query(instance)
                     q.useMachineLearningOptimizer = true
                     q.machineLearningOptimizerOrder = joinOrder
                     q.machineLearningOptimizerOrderWouldBeChoosen = false
                     q.machineLearningCounter = 0
-                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance,q, query, false)
+                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
                     if (q.machineLearningOptimizerOrderWouldBeChoosen) {
                         if (luposChoice != -1) {
                             TODO("loposdate optimizer should be deterministic")
@@ -173,7 +175,6 @@ val q=Query(instance)
                     }
                     // dry run, to prevent caching issues
 
-                    var hadEnforcedAbort = false
                     val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
                         (node.getQuery() as Query)._shouldAbortNow = true
                         hadEnforcedAbort = true
@@ -207,6 +208,10 @@ val q=Query(instance)
                     val res = time / counter
                     measured_time[joinOrder] = res
                     benchmarkValues["timeFor($joinOrder)"] = res.toString()
+}catch(e:TooManyIntermediateResultsException){
+println("abort due to TooManyIntermediateResultsException...")
+hadEnforcedAbort=true
+}
                     if (hadEnforcedAbort) {
                         measured_results[joinOrder] = 9999999999.toDouble()
                         benchmarkValues["joinResultsFor($joinOrder)"] = "9999999999"
@@ -242,7 +247,7 @@ val q=Query(instance)
                     relAndAbsRanking("time", measured_time)
                     relAndAbsRanking("results", measured_results)
                 }
-mutex.withLock {
+                mutex.withLock {
                     benchOut.println(columnNames.map { benchmarkValues[it]!! }.joinToString())
                     benchOut.flush()
                 }
