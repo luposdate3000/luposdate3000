@@ -40,3 +40,8 @@ public class TooManyIntermediateResultsException public constructor():Evaluation
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
 
 public class JenaBugException public constructor(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")
+
+public fun Throwable.myPrintStackTrace(location:String){
+println(stackTraceToString())
+println("caught at $location")
+}
