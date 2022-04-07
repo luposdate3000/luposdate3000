@@ -4352,13 +4352,13 @@ public fun close() {
         val currentToken34: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken34) {
             6 -> {
-                userCode42()
+                userCode41()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 53
             }
             7 -> {
-                userCode43()
+                userCode42()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 53
@@ -4438,7 +4438,7 @@ public fun close() {
         val currentToken41: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken41) {
             5 -> {
-                userCode39()
+                userCode38()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 59
@@ -4491,13 +4491,13 @@ public fun close() {
         val currentToken52: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken52) {
             9 -> {
-                userCode40()
+                userCode39()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 73
             }
             10 -> {
-                userCode41()
+                userCode40()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 73
@@ -4602,7 +4602,7 @@ public fun close() {
                 return 80
             }
             29 -> {
-                userCode35()
+                userCode34()
                 return 81
             }
             else -> {
@@ -4624,7 +4624,6 @@ public fun close() {
         when (currentToken65) {
             22 -> {
                 userCode28()
-                userCode29()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 91
@@ -4921,19 +4920,19 @@ public fun close() {
         val currentToken112: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken112) {
             13 -> {
-                userCode30()
+                userCode29()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 125
             }
             14 -> {
-                userCode31()
+                userCode30()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 125
             }
             15 -> {
-                userCode32()
+                userCode31()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 125
@@ -4951,13 +4950,13 @@ public fun close() {
         val currentToken113: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken113) {
             16 -> {
-                userCode37()
+                userCode36()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 126
             }
             17 -> {
-                userCode38()
+                userCode37()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 126
@@ -5048,7 +5047,7 @@ public fun close() {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 2) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
-        userCode33()
+        userCode32()
         scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
         return 135
@@ -5125,7 +5124,7 @@ public fun close() {
                 return 139
             }
             24, 22, 25, 6, 7, 26, 5, 11, 8, 9, 10, 13, 14, 15, 16, 17, 12, 18, 19, 20, 21 -> {
-                userCode36()
+                userCode35()
                 return 81
             }
             else -> {
@@ -5175,7 +5174,7 @@ public fun close() {
         val currentToken138: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
         when (currentToken138) {
             27 -> {
-                userCode34()
+                userCode33()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 81
@@ -5651,51 +5650,49 @@ public fun close() {
         if(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex]!="<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>"){
         consumeTriple(stackOfCollectionCurrent[stackOfCollectionCurrentLastIndex],"<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>")
         }
-    }
-    private fun userCode29(): Unit {
         stackOfCollectionCurrentLastIndex--
     }
-    private fun userCode30(): Unit {
+    private fun userCode29(): Unit {
         stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#integer>"
     }
-    private fun userCode31(): Unit {
+    private fun userCode30(): Unit {
         stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     }
-    private fun userCode32(): Unit {
+    private fun userCode31(): Unit {
         stackOfLiteral[++stackOfLiteralLastIndex]="\""+getLastTokenString()+"\"^^<http://www.w3.org/2001/XMLSchema#double>"
     }
-    private fun userCode33(): Unit {
+    private fun userCode32(): Unit {
         stackOfRDFLiteral[++stackOfRDFLiteralLastIndex]=getLastTokenString()
     }
-    private fun userCode34(): Unit {
+    private fun userCode33(): Unit {
         stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+=getLastTokenString()
     }
-    private fun userCode35(): Unit {
+    private fun userCode34(): Unit {
         stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+="^^"+stackOfIri[stackOfIriLastIndex--]
     }
-    private fun userCode36(): Unit {
+    private fun userCode35(): Unit {
         stackOfRDFLiteral[stackOfRDFLiteralLastIndex]+="^^<http://www.w3.org/2001/XMLSchema#string>"
     }
-    private fun userCode37(): Unit {
+    private fun userCode36(): Unit {
         stackOfLiteral[++stackOfLiteralLastIndex]="\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
-    private fun userCode38(): Unit {
+    private fun userCode37(): Unit {
         stackOfLiteral[++stackOfLiteralLastIndex]="\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     }
-    private fun userCode39(): Unit {
+    private fun userCode38(): Unit {
         stackOfIri[++stackOfIriLastIndex]="<"+(prefixMap[""]?:"")+getLastTokenString().drop(1)
     }
-    private fun userCode40(): Unit {
+    private fun userCode39(): Unit {
         val tmp=getLastTokenString().split(":")
         stackOfIri[++stackOfIriLastIndex]="<"+prefixMap[tmp[0]]!!+tmp[1]+">"
     }
-    private fun userCode41(): Unit {
+    private fun userCode40(): Unit {
         stackOfIri[++stackOfIriLastIndex]=prefixMap[getLastTokenString().dropLast(1)]!!
     }
-    private fun userCode42(): Unit {
+    private fun userCode41(): Unit {
         stackOfBlankNode[++stackOfBlankNodeLastIndex]=getLastTokenString()
     }
-    private fun userCode43(): Unit {
+    private fun userCode42(): Unit {
         stackOfBlankNode[++stackOfBlankNodeLastIndex]="_:${bnode_counter++}"
     }
 internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}

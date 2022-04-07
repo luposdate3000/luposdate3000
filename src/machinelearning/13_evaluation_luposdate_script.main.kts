@@ -5,6 +5,7 @@ import kotlin.random.Random
 val label = args[0] // choose one of : setOf("timeFor", "joinResultsFor")
 val joinOrders = args[1].toInt() //numeric value
 val choiceColumn = args[2] // choose one of : setOf("luposdateWouldChoose", "random")
+val worstCaseFactor=15.0
 // -----------------------configure here <-
 
 val absoluteRanks = IntArray(joinOrders)
@@ -35,6 +36,15 @@ do {
                 max = v
             }
         }
+val worstcase=min*worstCaseFactor
+for (choice in 0 until joinOrders) {
+if(values[choice]>worstcase){
+values[choice]=worstcase
+}
+}
+if(max>worstcase){
+max=worstcase
+}
         val choice = when (choiceColumn) {
             "random" -> {
                 random.nextInt(0, joinOrders)
