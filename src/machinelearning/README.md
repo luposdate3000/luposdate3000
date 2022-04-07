@@ -36,6 +36,7 @@ pip install stable-baselines3
 repeat the following each time you change the environment
 
 ```bash
+conda activate pythonEnvironment
 cd src/machinelearning/gym-database
 pip install -e .
 cd ../../..

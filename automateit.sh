@@ -51,11 +51,33 @@ mv *.csv $dataDirectory/
 mv *.png $dataDirectory/
 }
 
+function my_learn(){
+echo learning $1 $2
+inputFile=$1
+outputfolder=$2
+dataDirectory="$(pwd)/src/machinelearning/${outputfolder}/"
+tripleFile="${dataDirectory}/complete.n3"
+queriesDirectory="${dataDirectory}/queries/"
+trainingDirectory="${dataDirectory}/training/"
+ratio=7
+cd ./src/machinelearning
+cat ${tripleFile}.bench.csv | ./08_extractValues.main.kts > ${tripleFile}.bench
+echo ./09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
+./09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
+echo ./10_data_split_script.py "${trainingDirectory}/train.me" $ratio
+./10_data_split_script.py "${trainingDirectory}/train.me" $ratio
+echo ./11_joinopti_agent.py train "${trainingDirectory}/train.me.train7_3"
+./11_joinopti_agent.py train "${trainingDirectory}/train.me.train7_3"
+echo ./11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "${trainingDirectory}/train.me.train7_3.10000.ppo_model"
+./11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "${trainingDirectory}/train.me.train7_3.10000.ppo_model"
+echo ./13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation" > $dataDirectory/evaluation.txt
+./13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation" > $dataDirectory/evaluation.txt
+cd ../..
+}
+
 #my_prepare "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" "sp2b_1048576"
 #my_prepare "/mnt/luposdate-testdata/wordnet/wordnet.nt" "wordnet"
 #my_prepare "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.nt" "yago1"
-
-
 
 #my_execute "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" "sp2b_1048576"
 #my_execute "/mnt/luposdate-testdata/wordnet/wordnet.nt" "wordnet"
@@ -64,3 +86,7 @@ mv *.png $dataDirectory/
 #my_visualize "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" "sp2b_1048576"
 #my_visualize "/mnt/luposdate-testdata/wordnet/wordnet.nt" "wordnet"
 #my_visualize "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.nt" "yago1"
+
+my_learn "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" "sp2b_1048576"
+my_learn "/mnt/luposdate-testdata/wordnet/wordnet.nt" "wordnet"
+my_learn "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.nt" "yago1"
