@@ -17,19 +17,17 @@
 package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManagerExt
-import lupos.shared.GraphAlreadyExistsException
 import lupos.operator.base.Query
 import lupos.shared.BufferManagerPage
-import lupos.shared.UnknownTripleStoreTypeException
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
-import lupos.shared.NoValidIndexFoundException
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.GraphAlreadyExistsException
 import lupos.shared.IBufferManager
 import lupos.shared.IMyInputStream
 import lupos.shared.IQuery
@@ -39,9 +37,11 @@ import lupos.shared.LuposGraphName
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.NoValidIndexFoundException
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
+import lupos.shared.UnknownTripleStoreTypeException
 import lupos.shared.XMLElement
 import lupos.shared.inline.ByteArrayHelper
 import lupos.shared.inline.File
@@ -538,7 +538,7 @@ public class TripleStoreManagerImpl public constructor(
 
     public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
         if (metadata_[graphName] != null) {
-throw GraphAlreadyExistsException()
+            throw GraphAlreadyExistsException()
         }
         val factory = TripleStoreDescriptionFactory(instance)
         action(factory)

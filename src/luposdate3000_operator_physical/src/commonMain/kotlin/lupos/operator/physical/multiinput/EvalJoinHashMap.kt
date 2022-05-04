@@ -17,12 +17,12 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.multiinput.LOPJoin_Helper
-import lupos.shared.IQuery
 import lupos.operator.physical.MapKey
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
@@ -30,7 +30,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalJoinHashMap {
     public operator fun invoke(
-query:IQuery,
+        query: IQuery,
         childA: IteratorBundle,
         childB: IteratorBundle,
         optional: Boolean,
@@ -164,7 +164,8 @@ query:IQuery,
 
                 override /*suspend*/ fun next(): DictionaryValueType {
                     return ColumnIteratorChildIteratorExt.nextHelper(
-query,                        this,
+                        query,
+                        this,
                         {
                             var done = false
                             while (!done) {

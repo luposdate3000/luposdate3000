@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.shared.myPrintStackTrace
-
 import lupos.parser.xml.*
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
@@ -26,6 +24,7 @@ import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyStringStream
+import lupos.shared.myPrintStackTrace
 
 public class MemoryTableFromXML : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable? {
@@ -162,7 +161,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             try {
                 throw Exception(data, e)
             } catch (e2: Throwable) {
-                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromXML.kt:164"/*SOURCE_FILE_END*/ )
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromXML.kt:164"/*SOURCE_FILE_END*/)
             }
             return null
         }

@@ -15,29 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
-import lupos.operator.base.Query
 import lupos.operator.base.IPOPLimit
+import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
 public class POPCounter public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPCounter", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
 
-    override fun getPartitionCount(variable: String): Int =1
+    override fun getPartitionCount(variable: String): Int = 1
 
-    override fun toSparql(): String =""
+    override fun toSparql(): String = ""
 
     override fun equals(other: Any?): Boolean = other is POPCounter && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPCounter(query, projectedVariables, children[0].cloneOP())
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalCounter(query as Query,children[0].evaluate(parent),query.getInstance())
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalCounter(query as Query, children[0].evaluate(parent), query.getInstance())
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)

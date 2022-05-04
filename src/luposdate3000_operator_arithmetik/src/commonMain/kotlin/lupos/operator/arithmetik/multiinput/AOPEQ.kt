@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -25,6 +23,7 @@ import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Exception
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -53,7 +52,7 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
                     } catch (e: Luposdate3000Exception) {
                         res = DictionaryValueHelper.errorValue
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPEQ.kt:55"/*SOURCE_FILE_END*/ )
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPEQ.kt:55"/*SOURCE_FILE_END*/)
                         res = DictionaryValueHelper.errorValue
                     }
                 }

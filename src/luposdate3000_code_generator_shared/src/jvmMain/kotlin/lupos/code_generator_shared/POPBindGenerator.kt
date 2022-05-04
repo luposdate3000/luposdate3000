@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_generator_shared
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
@@ -120,7 +118,7 @@ internal fun generatePOPBind(
     // clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
     clazz.iteratorNextBody.println("                    }")
     clazz.iteratorNextBody.println("                    } catch (e: Throwable) {")
-    clazz.iteratorNextBody.println("                    e.myPrintStackTrace(/*SOURCE_FILE_"+"START*/\"\"/*SOURCE_FILE_"+"END*/ )")
+    clazz.iteratorNextBody.println("                    e.myPrintStackTrace(/*SOURCE_FILE_" + "START*/\"\"/*SOURCE_FILE_" + "END*/ )")
     clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryValueHelper.errorValue")
     clazz.iteratorNextBody.println("                    } ")
     if (inlineChild) {

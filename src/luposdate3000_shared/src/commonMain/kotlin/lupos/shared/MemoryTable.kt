@@ -19,7 +19,6 @@ package lupos.shared
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField
-import lupos.shared.IncompatibleInputException
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
 

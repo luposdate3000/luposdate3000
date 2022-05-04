@@ -21,9 +21,9 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.UnableToOutputResultException
 import lupos.shared.MyLock
 import lupos.shared.SanityCheck
+import lupos.shared.UnableToOutputResultException
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -136,7 +136,7 @@ public class QueryResultToTurtleStream : IResultFormat {
             }
             val variables = columnNames.toTypedArray()
             if (variables.size != 3 || !variables.contains("s") || !variables.contains("p") || !variables.contains("o")) {
-throw UnableToOutputResultException()
+                throw UnableToOutputResultException()
             } else {
                 val columns = variables.map { child.columns[it]!! }.toTypedArray()
                 writeAllRows(variables, columns, rootNode.query.getDictionary(), null, output, timeoutInMs)

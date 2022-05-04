@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_generator_shared
-import lupos.shared.myPrintStackTrace
-
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
@@ -47,6 +45,7 @@ import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
@@ -153,7 +152,7 @@ public object CodeGeneration {
             }
             outFile.close()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/CodeGeneration.kt:155"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_shared/src/jvmMain/kotlin/lupos/code_generator_shared/CodeGeneration.kt:155"/*SOURCE_FILE_END*/)
             val outFile = PrintWriter(out)
             outFile.println("package $packageName")
             outFile.println("import lupos.shared.operator.IOPBase")

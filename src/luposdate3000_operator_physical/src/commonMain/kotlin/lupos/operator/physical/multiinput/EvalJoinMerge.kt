@@ -18,13 +18,13 @@ package lupos.operator.physical.multiinput
 
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.IQuery
 public object EvalJoinMerge {
     public operator fun invoke(
-query:IQuery,
+        query: IQuery,
         child0: IteratorBundle,
         child1: IteratorBundle,
         projectedVariables: List<String>,
@@ -70,7 +70,7 @@ query:IQuery,
         val key0 = DictionaryValueTypeArray(columnsINJ0.size)
         val key1 = DictionaryValueTypeArray(columnsINJ1.size)
         for ((first, second) in outIterators) {
-            val iterator = POPJoinMerge_Iterator(query,columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
+            val iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
             when (second) {
                 0 -> {
                     outMap[first] = iterator

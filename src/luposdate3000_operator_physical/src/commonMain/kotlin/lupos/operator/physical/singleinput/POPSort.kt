@@ -22,8 +22,8 @@ import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
-import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.IQuery
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck

@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -78,7 +76,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
                     dataoff = 0
                     executeTest({ data[dataoff++] }, { cnt - dataoff }, { dataoff = 0 })
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:80"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:80"/*SOURCE_FILE_END*/)
                     errors++
                     File("erroredTests").mkdirs()
                     println("errored $tests :: $dataoff $testCase")

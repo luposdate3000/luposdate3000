@@ -19,11 +19,11 @@ package lupos.operator.physical.multiinput
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-import lupos.shared.IQuery
-internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query:IQuery,@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: IQuery, @JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: DictionaryValueType, @JvmField internal var head1: DictionaryValueType) : ColumnIterator() {
     @JvmField
     internal var counter: Int = 0
 
@@ -49,10 +49,10 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query:IQ
     }
 
     override /*suspend*/ fun next(): DictionaryValueType {
-if(query.shouldAbortNow()){
-_close()
-return DictionaryValueHelper.nullValue
-}
+        if (query.shouldAbortNow()) {
+            _close()
+            return DictionaryValueHelper.nullValue
+        }
         when (label) {
             1 -> {
                 if (counter == 0) {

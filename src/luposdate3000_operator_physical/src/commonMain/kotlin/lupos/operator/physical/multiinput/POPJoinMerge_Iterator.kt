@@ -20,13 +20,13 @@ import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-import lupos.shared.IQuery
 internal class POPJoinMerge_Iterator(
-query:IQuery,
+    query: IQuery,
     @JvmField internal val columnsINJ0: List<ColumnIterator>,
     @JvmField internal val columnsINJ1: List<ColumnIterator>,
     @JvmField internal val columnsINO0: List<ColumnIterator>,
@@ -121,7 +121,7 @@ query:IQuery,
 
     override /*suspend*/ fun next(): DictionaryValueType {
         return ColumnIteratorChildIteratorExt.nextHelper(
-query,
+            query,
             this,
             {
                 if (key0[0] != DictionaryValueHelper.nullValue && key1[0] != DictionaryValueHelper.nullValue) {

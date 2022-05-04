@@ -20,10 +20,10 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
-import lupos.shared.UnreachableException
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
+import lupos.shared.UnreachableException
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper

@@ -15,15 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.simulator_db.luposdate3000
-import simora.applications.scenario.parking.Package_QueryResponse
-import simora.applications.scenario.parking.Package_Query
+import lupos.shared.inline.File
 import simora.IPayload
 import simora.ITimer
 import simora.applications.IApplicationStack_Actuator
-import lupos.endpoint.LuposdateEndpoint
 import simora.applications.IApplicationStack_Middleware
-import simora.applications.scenario.parking.IPackage_Database
-import lupos.shared.inline.File
+import simora.applications.scenario.parking.Package_Query
+import simora.applications.scenario.parking.Package_QueryResponse
 
 public class Application_MachineLearning(
     internal val queriesFileName: String,
@@ -32,10 +30,10 @@ public class Application_MachineLearning(
 ) : IApplicationStack_Actuator, ITimer {
 
     private lateinit var parent: IApplicationStack_Middleware
-private val queries=File(queriesFileName).readAsString().split(";").toTypedArray()
-private var queryIndex=0
-private var joinOrder=0
-private var awaitingQueries = mutableSetOf<Int>()
+    private val queries = File(queriesFileName).readAsString().split(";").toTypedArray()
+    private var queryIndex = 0
+    private var joinOrder = 0
+    private var awaitingQueries = mutableSetOf<Int>()
 
     override fun setRouter(router: IApplicationStack_Middleware) {
         parent = router
@@ -48,7 +46,7 @@ private var awaitingQueries = mutableSetOf<Int>()
     }
 
     override fun receive(pck: IPayload): IPayload? {
-return if (pck is Package_QueryResponse) {
+        return if (pck is Package_QueryResponse) {
             if (awaitingQueries.contains(pck.queryID)) {
                 awaitingQueries.remove(pck.queryID)
                 null
@@ -64,18 +62,18 @@ return if (pck is Package_QueryResponse) {
     }
 
     override fun emptyEventQueue(): String? {
-if(joinOrder==joinOrders){
-joinOrder=0
-queryIndex++
-}
-if(queryIndex<queries.size){
-val p=Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(),mapOf("machineLearningOptimizerOrder" to joinOrder))
-awaitingQueries.add(p.queryID)
-parent.send(receiver, p)
-        parent.flush()
-return "${queries[queryIndex]}#${joinOrder++}"
-}else{
-return null
-}
-}
+        if (joinOrder == joinOrders) {
+            joinOrder = 0
+            queryIndex++
+        }
+        if (queryIndex <queries.size) {
+            val p = Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(), mapOf("machineLearningOptimizerOrder" to joinOrder))
+            awaitingQueries.add(p.queryID)
+            parent.send(receiver, p)
+            parent.flush()
+            return "${queries[queryIndex]}#${joinOrder++}"
+        } else {
+            return null
+        }
+    }
 }

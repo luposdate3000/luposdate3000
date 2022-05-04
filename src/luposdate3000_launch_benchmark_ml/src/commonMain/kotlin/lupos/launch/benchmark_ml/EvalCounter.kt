@@ -15,58 +15,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
-import lupos.shared.Luposdate3000Instance
+import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-import lupos.operator.base.Query
 
 public object EvalCounter {
-    public operator fun invoke(query:Query,child: IteratorBundle,instance:Luposdate3000Instance): IteratorBundle {
-if(child.hasCountMode()){
-query.machineLearningCounter++
-return child
-}
+    public operator fun invoke(query: Query, child: IteratorBundle, instance: Luposdate3000Instance): IteratorBundle {
+        if (child.hasCountMode()) {
+            query.machineLearningCounter++
+            return child
+        }
         val variables = child.columns.keys
         val outMap = mutableMapOf<String, ColumnIterator>()
-var first=true
+        var first = true
         for (variable in variables) {
-            val tmp = if(first){
-first=false
- object : ColumnIterator() {
+            val tmp = if (first) {
+                first = false
+                object : ColumnIterator() {
 
-                @JvmField
-                val iterator = child.columns[variable]!!
+                    @JvmField
+                    val iterator = child.columns[variable]!!
 
-                @JvmField
-                var label = 1
-                override /*suspend*/ fun next(): DictionaryValueType {
-                    return if (label != 0) {
-query.machineLearningCounter++
+                    @JvmField
+                    var label = 1
+                    override /*suspend*/ fun next(): DictionaryValueType {
+                        return if (label != 0) {
+                            query.machineLearningCounter++
                             val res = iterator.next()
                             res
-                    } else {
-                        DictionaryValueHelper.nullValue
+                        } else {
+                            DictionaryValueHelper.nullValue
+                        }
+                    }
+
+                    @Suppress("NOTHING_TO_INLINE")
+                    /*suspend*/ inline fun _close() {
+                        if (label != 0) {
+                            label = 0
+                            iterator.close()
+                        }
+                    }
+
+                    override /*suspend*/ fun close() {
+                        _close()
                     }
                 }
-
-                @Suppress("NOTHING_TO_INLINE")
-                /*suspend*/ inline fun _close() {
-                    if (label != 0) {
-                        label = 0
-                        iterator.close()
-                    }
-                }
-
-                override /*suspend*/ fun close() {
-                    _close()
-                }
+            } else {
+                child.columns[variable]!!
             }
-}else{
-child.columns[variable]!!
-}
             outMap[variable] = tmp
         }
         return IteratorBundle(outMap)

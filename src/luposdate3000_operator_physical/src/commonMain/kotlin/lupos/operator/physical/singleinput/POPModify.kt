@@ -21,11 +21,11 @@ import lupos.operator.base.IPOPLimit
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.EModifyType
-import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck

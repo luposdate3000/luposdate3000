@@ -16,8 +16,6 @@
  */
 package lupos.optimizer.logical
 import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import kotlin.jvm.JvmField
 
 public class EOptimizerIDHelper {
@@ -131,9 +129,9 @@ public class EOptimizerIDHelper {
                 }
             }
         } catch (e: Throwable) {
-optional = BooleanArray(0){true}
-repeatOnChange=BooleanArray(0){true}
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:135"/*SOURCE_FILE_END*/ )
+            optional = BooleanArray(0) { true }
+            repeatOnChange = BooleanArray(0) { true }
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:135"/*SOURCE_FILE_END*/)
         }
     }
 }

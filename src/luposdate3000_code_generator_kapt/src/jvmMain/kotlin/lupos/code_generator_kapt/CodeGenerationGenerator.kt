@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.code_generator_kapt
-import lupos.shared.myPrintStackTrace
-
 import lupos.code_generator_shared.CodeGeneration
 import lupos.shared.CodeGenerationAnnotation
+import lupos.shared.myPrintStackTrace
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -56,7 +55,7 @@ public class CodeGenerationGenerator : AbstractProcessor() {
                     CodeGeneration.generateSourceCode(out, className, packageName, variableName, variableValue)
                     out.close()
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_kapt/src/jvmMain/kotlin/lupos/code_generator_kapt/CodeGenerationGenerator.kt:58"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_kapt/src/jvmMain/kotlin/lupos/code_generator_kapt/CodeGenerationGenerator.kt:58"/*SOURCE_FILE_END*/)
                 }
             }
         return true

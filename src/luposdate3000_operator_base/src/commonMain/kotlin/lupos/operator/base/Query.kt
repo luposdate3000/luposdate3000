@@ -30,19 +30,23 @@ import kotlin.jvm.JvmField
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long, @JvmField public val instance: Luposdate3000Instance) : IQuery {
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
-@JvmField
+
+    @JvmField
     public var useMachineLearningOptimizer: Boolean = false
 
-@JvmField
+    @JvmField
     public var machineLearningOptimizerOrder: Int = 0
- @JvmField
-    public var machineLearningOptimizerOrderWouldBeChoosen:Boolean=false
- @JvmField
-    public var machineLearningCounter:Long=0L
 
-//POPJoinMerge_Iterator POPJoinMergeSingleColumn_Iterator
-@JvmField 
-    public var _shouldAbortNow:Boolean=false
+    @JvmField
+    public var machineLearningOptimizerOrderWouldBeChoosen: Boolean = false
+
+    @JvmField
+    public var machineLearningCounter: Long = 0L
+
+// POPJoinMerge_Iterator POPJoinMergeSingleColumn_Iterator
+    @JvmField
+    public var _shouldAbortNow: Boolean = false
+
     @JvmField
     public var container: Any? = null
 
@@ -95,7 +99,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     private var partitionKeyCounterEnd = Int.MAX_VALUE / instance.LUPOS_PROCESS_URLS_ALL.size * (instance.LUPOS_PROCESS_ID + 1)
 
     private var partitionKeyCounter = partitionKeyCounterStart
-override fun shouldAbortNow():Boolean=_shouldAbortNow
+    override fun shouldAbortNow(): Boolean = _shouldAbortNow
 
     override fun getPartitionedBy(): MutableMap<String, Int> = partitionedBy
     override fun getInstance(): Luposdate3000Instance = instance

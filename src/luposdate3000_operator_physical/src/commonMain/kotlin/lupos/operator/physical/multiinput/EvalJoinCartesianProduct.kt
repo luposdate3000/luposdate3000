@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.multiinput
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
@@ -26,15 +23,16 @@ import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.IQuery
 public object EvalJoinCartesianProduct {
     public operator fun invoke(
-query:IQuery,
+        query: IQuery,
         childA: IteratorBundle,
         childB: IteratorBundle,
         optional: Boolean,
@@ -44,7 +42,7 @@ query:IQuery,
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
         val outMap = mutableMapOf<String, ColumnIterator>()
-        var res: IteratorBundle?=null
+        var res: IteratorBundle? = null
         for (name in columns[1]) {
             columnsINAO.add(childA.columns[name]!!)
         }
@@ -56,7 +54,7 @@ query:IQuery,
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:58"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinCartesianProduct.kt:58"/*SOURCE_FILE_END*/)
             }
         } else if (columnsINAO.size == 0) {
             if (childA.count() > 0) {
@@ -120,7 +118,8 @@ query:IQuery,
                             }
 
                             override /*suspend*/ fun next(): DictionaryValueType {
-                                return ColumnIteratorChildIteratorExt.nextHelper(query,
+                                return ColumnIteratorChildIteratorExt.nextHelper(
+                                    query,
                                     this,
                                     {
                                         var done = false
@@ -188,7 +187,7 @@ query:IQuery,
 
                         override /*suspend*/ fun next(): DictionaryValueType {
                             return ColumnIteratorChildIteratorExt.nextHelper(
-query,
+                                query,
                                 this,
                                 {
                                     var done = false

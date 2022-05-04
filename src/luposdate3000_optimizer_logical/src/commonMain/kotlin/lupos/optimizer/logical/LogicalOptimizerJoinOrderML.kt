@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
@@ -25,6 +23,7 @@ import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
@@ -81,15 +80,15 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
 /*Coverage Unreachable*/
     }
 
-internal fun equalResults(actual:IOPBase, original:IOPBase):Boolean{
-if(actual is LOPJoin && original is LOPJoin){
-return (equalResults(actual.getChildren()[0],original.getChildren()[0]) &&equalResults(actual.getChildren()[1],original.getChildren()[1]))||(equalResults(actual.getChildren()[1],original.getChildren()[0]) &&equalResults(actual.getChildren()[0],original.getChildren()[1]))
-}else if(actual !is LOPJoin && original !is LOPJoin){
-return actual.getUUID()==original.getUUID()
-}else{
-return false
-}
-}
+    internal fun equalResults(actual: IOPBase, original: IOPBase): Boolean {
+        if (actual is LOPJoin && original is LOPJoin) {
+            return (equalResults(actual.getChildren()[0], original.getChildren()[0]) && equalResults(actual.getChildren()[1], original.getChildren()[1])) || (equalResults(actual.getChildren()[1], original.getChildren()[0]) && equalResults(actual.getChildren()[0], original.getChildren()[1]))
+        } else if (actual !is LOPJoin && original !is LOPJoin) {
+            return actual.getUUID() == original.getUUID()
+        } else {
+            return false
+        }
+    }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
@@ -107,14 +106,13 @@ return false
                         res = result
                     }
                 }
-val realOptimizer=LogicalOptimizerJoinOrder(query)
-val realResult=realOptimizer.internalOptimize(node,allChilds2){}
-if(equalResults(res,realResult)){
-query.machineLearningOptimizerOrderWouldBeChoosen=true
-}
-
+                val realOptimizer = LogicalOptimizerJoinOrder(query)
+                val realResult = realOptimizer.internalOptimize(node, allChilds2) {}
+                if (equalResults(res, realResult)) {
+                    query.machineLearningOptimizerOrderWouldBeChoosen = true
+                }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:116"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:116"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

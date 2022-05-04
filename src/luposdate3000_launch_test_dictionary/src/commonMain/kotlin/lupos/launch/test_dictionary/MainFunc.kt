@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.test_dictionary
-import lupos.shared.myPrintStackTrace
-
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
@@ -181,7 +179,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     } else {
                         loop = false
                         if (DictionaryHelper.byteArrayToType(res) == ETripleComponentTypeExt.BLANK_NODE) {
-TODO()
+                            TODO()
                         }
                         action(res)
                     }

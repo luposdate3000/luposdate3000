@@ -1,29 +1,29 @@
 package lupos.parser.xml
 
-public class ASTVERSIONOptional: IASTBase {
+public class ASTVERSIONOptional : IASTBase {
     override var id: Int = 0
     public var VERSION: String? = null
 }
-public class ASTxmldoc: IASTBase {
+public class ASTxmldoc : IASTBase {
     override var id: Int = 1
     public var variable0: ASTVERSIONOptional? = null
     public var variable1: ASTelement? = null
 }
-public class ASTversion: IASTBase {
+public class ASTversion : IASTBase {
     override var id: Int = 2
 }
-public class ASTListOfattribute: IASTBase {
+public class ASTListOfattribute : IASTBase {
     override var id: Int = 3
     public lateinit var value: MutableList<ASTattribute>
 }
-public class ASTListOfelement: ASTInterfaceOfListOfelementOrtext, IASTBase {
+public class ASTListOfelement : ASTInterfaceOfListOfelementOrtext, IASTBase {
     override var id: Int = 4
     public lateinit var value: MutableList<ASTelement>
 }
 public sealed interface ASTInterfaceOfListOfelementOrtext {
     public var id: Int
 }
-public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
+public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
     override var id: Int = 6
     public var variable0: ASTInterfaceOfListOfelementOrtext? = null
     public var TAG: String? = null
@@ -31,7 +31,7 @@ public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG: ASTInterfaceOfclose
 public sealed interface ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG {
     public var id: Int
 }
-public class ASTelement: IASTBase {
+public class ASTelement : IASTBase {
     override var id: Int = 8
     public var TAG: String? = null
     public var variable1: ASTListOfattribute? = null
@@ -40,24 +40,24 @@ public class ASTelement: IASTBase {
 public sealed interface ASTInterfaceOfvalue1Orvalue2 {
     public var id: Int
 }
-public class ASTattribute: IASTBase {
+public class ASTattribute : IASTBase {
     override var id: Int = 11
     public var KEY: String? = null
     public var variable1: ASTInterfaceOfvalue1Orvalue2? = null
 }
-public class ASTvalue1: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue1 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 9
     public var VALUE1: String? = null
 }
-public class ASTvalue2: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue2 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 10
     public var VALUE2: String? = null
 }
-public class ASTtext: ASTInterfaceOfListOfelementOrtext, IASTBase {
+public class ASTtext : ASTInterfaceOfListOfelementOrtext, IASTBase {
     override var id: Int = 5
     public var TEXT: String? = null
 }
-public class ASTcloseimmediately: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
+public class ASTcloseimmediately : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
     override var id: Int = 7
 }
 public sealed interface IASTBase {
@@ -65,7 +65,7 @@ public sealed interface IASTBase {
 }
 public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-internal var parsererror: String? = null
+    internal var parsererror: String? = null
     public val stack: MutableList<Any> = mutableListOf<Any>()
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
@@ -113,12 +113,10 @@ internal var parsererror: String? = null
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-
     }
-public fun close() {
-    bufferDefinedInputStream.close()
-
-}
+    public fun close() {
+        bufferDefinedInputStream.close()
+    }
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 14
@@ -721,13 +719,13 @@ public fun close() {
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int): Unit {
+    private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
+    private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -923,7 +921,7 @@ public fun close() {
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -950,7 +948,7 @@ public fun close() {
                 return 5
             }
             else -> {
-                parsererror = "found token ${currentToken1} unexpectedly in node 1, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1 unexpectedly in node 1, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -970,7 +968,7 @@ public fun close() {
                 return 5
             }
             else -> {
-                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -993,7 +991,7 @@ public fun close() {
                 return 8
             }
             else -> {
-                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1013,7 +1011,7 @@ public fun close() {
                 return 10
             }
             else -> {
-                parsererror = "found token ${currentToken8} unexpectedly in node 8, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken8 unexpectedly in node 8, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1032,7 +1030,7 @@ public fun close() {
                 return 14
             }
             else -> {
-                parsererror = "found token ${currentToken10} unexpectedly in node 10, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken10 unexpectedly in node 10, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1057,7 +1055,7 @@ public fun close() {
                 return 20
             }
             else -> {
-                parsererror = "found token ${currentToken14} unexpectedly in node 14, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken14 unexpectedly in node 14, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1076,7 +1074,7 @@ public fun close() {
                 return 21
             }
             else -> {
-                parsererror = "found token ${currentToken15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1099,7 +1097,7 @@ public fun close() {
                 return 25
             }
             else -> {
-                parsererror = "found token ${currentToken19} unexpectedly in node 19, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1116,7 +1114,7 @@ public fun close() {
                 return 23
             }
             else -> {
-                parsererror = "found token ${currentToken20} unexpectedly in node 20, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken20 unexpectedly in node 20, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1133,7 +1131,7 @@ public fun close() {
                 return 24
             }
             else -> {
-                parsererror = "found token ${currentToken21} unexpectedly in node 21, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken21 unexpectedly in node 21, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1152,7 +1150,7 @@ public fun close() {
                 return 27
             }
             else -> {
-                parsererror = "found token ${currentToken23} unexpectedly in node 23, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken23 unexpectedly in node 23, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1174,7 +1172,7 @@ public fun close() {
                 return 29
             }
             else -> {
-                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1216,7 +1214,7 @@ public fun close() {
                 return 43
             }
             else -> {
-                parsererror = "found token ${currentToken31} unexpectedly in node 31, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken31 unexpectedly in node 31, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1233,7 +1231,7 @@ public fun close() {
                 return 47
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 35, at position ${bufferDefinedPosition}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 35, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1258,7 +1256,7 @@ public fun close() {
                 return 49
             }
             else -> {
-                parsererror = "found token ${currentToken38} unexpectedly in node 38, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken38 unexpectedly in node 38, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1277,7 +1275,7 @@ public fun close() {
                 return 50
             }
             else -> {
-                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1296,7 +1294,7 @@ public fun close() {
                 return 51
             }
             else -> {
-                parsererror = "found token ${currentToken40} unexpectedly in node 40, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken40 unexpectedly in node 40, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1313,7 +1311,7 @@ public fun close() {
                 return 48
             }
             else -> {
-                parsererror = "found token ${currentToken43} unexpectedly in node 43, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken43 unexpectedly in node 43, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1330,7 +1328,7 @@ public fun close() {
                 return 52
             }
             else -> {
-                parsererror = "found token ${currentToken47} unexpectedly in node 47, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken47 unexpectedly in node 47, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1349,7 +1347,7 @@ public fun close() {
                 return 56
             }
             else -> {
-                parsererror = "found token ${currentToken48} unexpectedly in node 48, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken48 unexpectedly in node 48, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1383,7 +1381,7 @@ public fun close() {
                 return 58
             }
             else -> {
-                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1401,7 +1399,7 @@ public fun close() {
                 return 58
             }
             else -> {
-                parsererror = "found token ${currentToken55} unexpectedly in node 55, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken55 unexpectedly in node 55, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1419,7 +1417,7 @@ public fun close() {
                 return 35
             }
             else -> {
-                parsererror = "found token ${currentToken56} unexpectedly in node 56, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken56 unexpectedly in node 56, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1429,7 +1427,7 @@ public fun close() {
         userCode11()
         return 10
     }
-    public fun parserDefinedParse(): Unit {
+    public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1550,121 +1548,121 @@ public fun close() {
             TODO(parsererror!!)
         }
     }
-    private fun userCode0(): Unit {
+    private fun userCode0() {
         stack.add(allocASTxmldoc())
     }
-    private fun userCode1(): Unit {
+    private fun userCode1() {
         stack.add(allocASTVERSIONOptional())
     }
-    private fun userCode2(): Unit {
+    private fun userCode2() {
         stack.add(getLastTokenString())
     }
-    private fun userCode3(): Unit {
+    private fun userCode3() {
         val tmp15: Any = stack.removeLast()
         astAssign_ASTVERSIONOptional_0((stack.last() as ASTVERSIONOptional), tmp15)
     }
-    private fun userCode4(): Unit {
+    private fun userCode4() {
         val tmp16: Any = stack.removeLast()
         astAssign_ASTxmldoc_0((stack.last() as ASTxmldoc), tmp16)
     }
-    private fun userCode5(): Unit {
+    private fun userCode5() {
         val tmp17: Any = stack.removeLast()
         astAssign_ASTxmldoc_1((stack.last() as ASTxmldoc), tmp17)
     }
-    private fun userCode6(): Unit {
+    private fun userCode6() {
         stack.add(allocASTversion())
     }
-    private fun userCode7(): Unit {
+    private fun userCode7() {
         stack.add(allocASTelement())
     }
-    private fun userCode8(): Unit {
+    private fun userCode8() {
         stack.add(getLastTokenString())
     }
-    private fun userCode9(): Unit {
+    private fun userCode9() {
         val tmp22: Any = stack.removeLast()
         astAssign_ASTelement_0((stack.last() as ASTelement), tmp22)
     }
-    private fun userCode10(): Unit {
+    private fun userCode10() {
         stack.add(allocASTListOfattribute())
     }
-    private fun userCode11(): Unit {
+    private fun userCode11() {
         val tmp18: Any = stack.removeLast()
         astAssign_ASTListOfattribute_0((stack.last() as ASTListOfattribute), tmp18)
     }
-    private fun userCode12(): Unit {
+    private fun userCode12() {
         val tmp23: Any = stack.removeLast()
         astAssign_ASTelement_1((stack.last() as ASTelement), tmp23)
     }
-    private fun userCode13(): Unit {
+    private fun userCode13() {
         stack.add(allocASTClassOfInterfaceOfListOfelementOrtextAndTAG())
     }
-    private fun userCode14(): Unit {
+    private fun userCode14() {
         stack.add(allocASTListOfelement())
     }
-    private fun userCode15(): Unit {
+    private fun userCode15() {
         val tmp19: Any = stack.removeLast()
         astAssign_ASTListOfelement_0((stack.last() as ASTListOfelement), tmp19)
     }
-    private fun userCode16(): Unit {
+    private fun userCode16() {
         val tmp20: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp20)
     }
-    private fun userCode17(): Unit {
+    private fun userCode17() {
         stack.add(getLastTokenString())
     }
-    private fun userCode18(): Unit {
+    private fun userCode18() {
         val tmp21: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp21)
     }
-    private fun userCode19(): Unit {
+    private fun userCode19() {
         val tmp24: Any = stack.removeLast()
         astAssign_ASTelement_2((stack.last() as ASTelement), tmp24)
     }
-    private fun userCode20(): Unit {
+    private fun userCode20() {
         stack.add(allocASTattribute())
     }
-    private fun userCode21(): Unit {
+    private fun userCode21() {
         stack.add(getLastTokenString())
     }
-    private fun userCode22(): Unit {
+    private fun userCode22() {
         val tmp25: Any = stack.removeLast()
         astAssign_ASTattribute_0((stack.last() as ASTattribute), tmp25)
     }
-    private fun userCode23(): Unit {
+    private fun userCode23() {
         val tmp26: Any = stack.removeLast()
         astAssign_ASTattribute_1((stack.last() as ASTattribute), tmp26)
     }
-    private fun userCode24(): Unit {
+    private fun userCode24() {
         stack.add(allocASTvalue1())
     }
-    private fun userCode25(): Unit {
+    private fun userCode25() {
         stack.add(getLastTokenString())
     }
-    private fun userCode26(): Unit {
+    private fun userCode26() {
         val tmp27: Any = stack.removeLast()
         astAssign_ASTvalue1_0((stack.last() as ASTvalue1), tmp27)
     }
-    private fun userCode27(): Unit {
+    private fun userCode27() {
         stack.add(allocASTvalue2())
     }
-    private fun userCode28(): Unit {
+    private fun userCode28() {
         stack.add(getLastTokenString())
     }
-    private fun userCode29(): Unit {
+    private fun userCode29() {
         val tmp28: Any = stack.removeLast()
         astAssign_ASTvalue2_0((stack.last() as ASTvalue2), tmp28)
     }
-    private fun userCode30(): Unit {
+    private fun userCode30() {
         stack.add(allocASTtext())
     }
-    private fun userCode31(): Unit {
+    private fun userCode31() {
         stack.add(getLastTokenString())
     }
-    private fun userCode32(): Unit {
+    private fun userCode32() {
         val tmp29: Any = stack.removeLast()
         astAssign_ASTtext_0((stack.last() as ASTtext), tmp29)
     }
-    private fun userCode33(): Unit {
+    private fun userCode33() {
         stack.add(allocASTcloseimmediately())
     }
     private fun allocASTVERSIONOptional(): ASTVERSIONOptional {
@@ -1672,7 +1670,7 @@ public fun close() {
         tmp.id = 0
         return tmp
     }
-    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
+    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1681,11 +1679,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
+    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any): Unit {
+    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any) {
         node.VERSION = (value as String)
     }
     private fun allocASTxmldoc(): ASTxmldoc {
@@ -1693,7 +1691,7 @@ public fun close() {
         tmp.id = 1
         return tmp
     }
-    public fun printASTxmldoc(node: ASTxmldoc?): Unit {
+    public fun printASTxmldoc(node: ASTxmldoc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1705,16 +1703,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTxmldoc(node: ASTxmldoc?): Unit {
+    public fun freeASTxmldoc(node: ASTxmldoc?) {
         if ((node != null)) {
             freeASTVERSIONOptional(node.variable0)
             freeASTelement(node.variable1)
         }
     }
-    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any): Unit {
+    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any) {
         node.variable0 = (value as ASTVERSIONOptional)
     }
-    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any): Unit {
+    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any) {
         node.variable1 = (value as ASTelement)
     }
     private fun allocASTversion(): ASTversion {
@@ -1722,7 +1720,7 @@ public fun close() {
         tmp.id = 2
         return tmp
     }
-    public fun printASTversion(node: ASTversion?): Unit {
+    public fun printASTversion(node: ASTversion?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1730,11 +1728,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTversion(node: ASTversion?): Unit {
+    public fun freeASTversion(node: ASTversion?) {
         if ((node != null)) {
         }
     }
-    public fun printASTListOfattribute(node: ASTListOfattribute?): Unit {
+    public fun printASTListOfattribute(node: ASTListOfattribute?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1745,7 +1743,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfattribute(node: ASTListOfattribute?): Unit {
+    public fun freeASTListOfattribute(node: ASTListOfattribute?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTattribute(it)
@@ -1758,10 +1756,10 @@ public fun close() {
         tmp.id = 3
         return tmp
     }
-    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any): Unit {
+    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any) {
         node.value.add((value as ASTattribute))
     }
-    public fun printASTListOfelement(node: ASTListOfelement?): Unit {
+    public fun printASTListOfelement(node: ASTListOfelement?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1772,7 +1770,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfelement(node: ASTListOfelement?): Unit {
+    public fun freeASTListOfelement(node: ASTListOfelement?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTelement(it)
@@ -1785,10 +1783,10 @@ public fun close() {
         tmp.id = 4
         return tmp
     }
-    private fun astAssign_ASTListOfelement_0(node: ASTListOfelement, value: Any): Unit {
+    private fun astAssign_ASTListOfelement_0(node: ASTListOfelement, value: Any) {
         node.value.add((value as ASTelement))
     }
-    public fun printASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?): Unit {
+    public fun printASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1802,7 +1800,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?): Unit {
+    public fun freeASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
         if ((node != null)) {
             when (node.id) {
                 4 -> {
@@ -1819,7 +1817,7 @@ public fun close() {
         tmp.id = 6
         return tmp
     }
-    public fun printASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
+    public fun printASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1830,18 +1828,18 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
+    public fun freeASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
         if ((node != null)) {
             freeASTInterfaceOfListOfelementOrtext(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
         node.variable0 = (value as ASTInterfaceOfListOfelementOrtext)
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
         node.TAG = (value as String)
     }
-    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
+    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1855,7 +1853,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?): Unit {
+    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
         if ((node != null)) {
             when (node.id) {
                 7 -> {
@@ -1872,7 +1870,7 @@ public fun close() {
         tmp.id = 8
         return tmp
     }
-    public fun printASTelement(node: ASTelement?): Unit {
+    public fun printASTelement(node: ASTelement?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1885,22 +1883,22 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTelement(node: ASTelement?): Unit {
+    public fun freeASTelement(node: ASTelement?) {
         if ((node != null)) {
             freeASTListOfattribute(node.variable1)
             freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node.variable2)
         }
     }
-    private fun astAssign_ASTelement_0(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_0(node: ASTelement, value: Any) {
         node.TAG = (value as String)
     }
-    private fun astAssign_ASTelement_1(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_1(node: ASTelement, value: Any) {
         node.variable1 = (value as ASTListOfattribute)
     }
-    private fun astAssign_ASTelement_2(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_2(node: ASTelement, value: Any) {
         node.variable2 = (value as ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG)
     }
-    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
+    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1914,7 +1912,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
+    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
         if ((node != null)) {
             when (node.id) {
                 9 -> {
@@ -1931,7 +1929,7 @@ public fun close() {
         tmp.id = 11
         return tmp
     }
-    public fun printASTattribute(node: ASTattribute?): Unit {
+    public fun printASTattribute(node: ASTattribute?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1942,15 +1940,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTattribute(node: ASTattribute?): Unit {
+    public fun freeASTattribute(node: ASTattribute?) {
         if ((node != null)) {
             freeASTInterfaceOfvalue1Orvalue2(node.variable1)
         }
     }
-    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any): Unit {
+    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any) {
         node.KEY = (value as String)
     }
-    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any): Unit {
+    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any) {
         node.variable1 = (value as ASTInterfaceOfvalue1Orvalue2)
     }
     private fun allocASTvalue1(): ASTvalue1 {
@@ -1958,7 +1956,7 @@ public fun close() {
         tmp.id = 9
         return tmp
     }
-    public fun printASTvalue1(node: ASTvalue1?): Unit {
+    public fun printASTvalue1(node: ASTvalue1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1967,11 +1965,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTvalue1(node: ASTvalue1?): Unit {
+    public fun freeASTvalue1(node: ASTvalue1?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any): Unit {
+    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any) {
         node.VALUE1 = (value as String)
     }
     private fun allocASTvalue2(): ASTvalue2 {
@@ -1979,7 +1977,7 @@ public fun close() {
         tmp.id = 10
         return tmp
     }
-    public fun printASTvalue2(node: ASTvalue2?): Unit {
+    public fun printASTvalue2(node: ASTvalue2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -1988,11 +1986,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTvalue2(node: ASTvalue2?): Unit {
+    public fun freeASTvalue2(node: ASTvalue2?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any): Unit {
+    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any) {
         node.VALUE2 = (value as String)
     }
     private fun allocASTtext(): ASTtext {
@@ -2000,7 +1998,7 @@ public fun close() {
         tmp.id = 5
         return tmp
     }
-    public fun printASTtext(node: ASTtext?): Unit {
+    public fun printASTtext(node: ASTtext?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2009,11 +2007,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTtext(node: ASTtext?): Unit {
+    public fun freeASTtext(node: ASTtext?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTtext_0(node: ASTtext, value: Any): Unit {
+    private fun astAssign_ASTtext_0(node: ASTtext, value: Any) {
         node.TEXT = (value as String)
     }
     private fun allocASTcloseimmediately(): ASTcloseimmediately {
@@ -2021,7 +2019,7 @@ public fun close() {
         tmp.id = 7
         return tmp
     }
-    public fun printASTcloseimmediately(node: ASTcloseimmediately?): Unit {
+    public fun printASTcloseimmediately(node: ASTcloseimmediately?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2029,12 +2027,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTcloseimmediately(node: ASTcloseimmediately?): Unit {
+    public fun freeASTcloseimmediately(node: ASTcloseimmediately?) {
         if ((node != null)) {
         }
     }
     public fun getResult(): ASTxmldoc {
         return (stack.last() as ASTxmldoc)
     }
-internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
-
+    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
+}

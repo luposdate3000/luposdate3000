@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
@@ -29,6 +26,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public typealias BinaryToBinaryMap = (query: Query, offset: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int) -> Int/*offset*/
@@ -58,7 +56,7 @@ public object ConverterBinaryToBinary {
     }
 
     public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
-            val dataOut = ByteArrayWrapper()
+        val dataOut = ByteArrayWrapper()
         try {
             val mapping = mutableMapOf<String, Int>()
             var result = mutableMapOf<Int, String>()
@@ -139,9 +137,9 @@ public object ConverterBinaryToBinary {
                 i++
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToBinary.kt:141"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToBinary.kt:141"/*SOURCE_FILE_END*/)
         }
-            return dataOut
+        return dataOut
     }
 
     private fun recodeHelper(query: Query, off: Int, data: ByteArrayWrapper, dataOut: ByteArrayWrapper, mapping: MutableMap<String, Int>, offPtr: Int): Int {

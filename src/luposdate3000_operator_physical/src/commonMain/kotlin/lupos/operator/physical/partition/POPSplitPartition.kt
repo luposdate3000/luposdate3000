@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
 import lupos.operator.base.PartitionHelper2
@@ -33,6 +31,7 @@ import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -210,7 +209,7 @@ public class POPSplitPartition public constructor(
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:212"/*SOURCE_FILE_END*/ )
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:212"/*SOURCE_FILE_END*/)
                         error = e
                     }
                     child2?.close?.invoke()

@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
@@ -27,6 +25,7 @@ import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
@@ -144,29 +143,29 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
 /*Coverage Unreachable*/
     }
 
-internal fun internalOptimize(node: LOPJoin, allChilds2:List<IOPBase>, onChange: () -> Unit):IOPBase{
-var res: IOPBase = node
-            val originalProvided = node.getProvidedVariableNames()
-if (allChilds2.size > 2) {
-                    var result: IOPBase? = null
-                    if (result == null) {
-                        val allChilds3 = clusterizeChildren(allChilds2)
-                        val allChilds4 = mutableListOf<IOPBase>()
-                        for (child in allChilds3) {
-                            allChilds4.add(applyOptimisation(child, node))
-                        }
-                        result = applyOptimisation(allChilds4, node)
-                    }
-                    if (result != res) {
-                        onChange()
-                        if (!originalProvided.containsAll(result.getProvidedVariableNames())) {
-                            result = LOPProjection(query, originalProvided.map { AOPVariable(query, it) }.toMutableList(), result)
-                        }
-                        res = result
-                    }
+    internal fun internalOptimize(node: LOPJoin, allChilds2: List<IOPBase>, onChange: () -> Unit): IOPBase {
+        var res: IOPBase = node
+        val originalProvided = node.getProvidedVariableNames()
+        if (allChilds2.size > 2) {
+            var result: IOPBase? = null
+            if (result == null) {
+                val allChilds3 = clusterizeChildren(allChilds2)
+                val allChilds4 = mutableListOf<IOPBase>()
+                for (child in allChilds3) {
+                    allChilds4.add(applyOptimisation(child, node))
                 }
-return res
-}
+                result = applyOptimisation(allChilds4, node)
+            }
+            if (result != res) {
+                onChange()
+                if (!originalProvided.containsAll(result.getProvidedVariableNames())) {
+                    result = LOPProjection(query, originalProvided.map { AOPVariable(query, it) }.toMutableList(), result)
+                }
+                res = result
+            }
+        }
+        return res
+    }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
@@ -174,9 +173,9 @@ return res
             val originalProvided = node.getProvidedVariableNames()
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
-res=internalOptimize(node,allChilds2,onChange)
+                res = internalOptimize(node, allChilds2, onChange)
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:178"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:178"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

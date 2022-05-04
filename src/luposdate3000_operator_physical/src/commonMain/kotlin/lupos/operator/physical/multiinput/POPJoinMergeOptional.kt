@@ -18,13 +18,13 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.IPOPLimit
 import lupos.operator.physical.POPBase
-import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
+import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -49,7 +49,7 @@ public class POPJoinMergeOptional public constructor(
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 children[1].getPartitionCount(variable)
             } else {
-                throw VariableNotDefinedSyntaxException(classname,variable)
+                throw VariableNotDefinedSyntaxException(classname, variable)
             }
         }
     }
@@ -62,7 +62,7 @@ public class POPJoinMergeOptional public constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeOptional(query,Array(2) { children[it].evaluate(parent) }, projectedVariables)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMergeOptional(query, Array(2) { children[it].evaluate(parent) }, projectedVariables)
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)

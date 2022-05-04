@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.logical.multiinput
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.singleinput.LOPProjection
@@ -25,6 +23,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
@@ -53,7 +52,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
                 res.values[v] = a + b
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:55"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:55"/*SOURCE_FILE_END*/)
             throw BugException(classname, "calculateHistogram column missing")
         }
         return res

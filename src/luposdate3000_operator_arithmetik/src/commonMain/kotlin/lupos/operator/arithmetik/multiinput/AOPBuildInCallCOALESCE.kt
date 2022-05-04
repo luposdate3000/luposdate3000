@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.arithmetik.multiinput
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentTypeExt
@@ -24,6 +22,7 @@ import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -61,7 +60,7 @@ public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: Li
                     }
                 } catch (e: EvaluationException) {
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPBuildInCallCOALESCE.kt:63"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPBuildInCallCOALESCE.kt:63"/*SOURCE_FILE_END*/)
                 }
             }
             res

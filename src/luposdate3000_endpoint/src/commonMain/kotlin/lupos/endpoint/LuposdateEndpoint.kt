@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.buffer_manager.BufferManager
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
@@ -64,6 +61,8 @@ import lupos.shared.inline.Platform
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.TriplesIntermediateReader
+import lupos.shared.myPrintStackTrace
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.TripleStoreManagerImpl
@@ -81,7 +80,7 @@ public object LuposdateEndpoint {
     internal val initializerLock = MyLock()
 
     @JvmField
-    public val instances :MutableList<Luposdate3000Instance> = mutableListOf<Luposdate3000Instance>()
+    public val instances: MutableList<Luposdate3000Instance> = mutableListOf<Luposdate3000Instance>()
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
@@ -122,7 +121,7 @@ public object LuposdateEndpoint {
             parserObject.parserDefinedParse()
         } catch (e: Throwable) {
             println(data)
-                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:124"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:124"/*SOURCE_FILE_END*/)
         }
         var data2 = ByteArrayWrapper()
         cache.forEach { value, key ->
@@ -181,7 +180,7 @@ public object LuposdateEndpoint {
                         }
                     }
                 } catch (e: Exception) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:183"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:183"/*SOURCE_FILE_END*/)
                 }
             }
         }
@@ -230,7 +229,7 @@ public object LuposdateEndpoint {
             try {
                 instance.tripleStoreManager!!.createGraph(query, graphName)
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:232"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:232"/*SOURCE_FILE_END*/)
             }
             val store = instance.tripleStoreManager!!.getGraph(graphName)
             val (mapping, mappingLength) = instance.nodeGlobalDictionary!!.importFromDictionaryFile(fileName)
@@ -332,7 +331,7 @@ public object LuposdateEndpoint {
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:334"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:334"/*SOURCE_FILE_END*/)
         }
 /*Coverage Unreachable*/
     }
@@ -344,19 +343,21 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_sparql_to_operatorgraph_a")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, query: String): IOPBase {
-return evaluateSparqlToOperatorgraphA(instance,Query(instance),query)
-}
+        return evaluateSparqlToOperatorgraphA(instance, Query(instance), query)
+    }
+
     @JsName("evaluate_sparql_to_operatorgraph_a")
-    /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, q:Query,query: String): IOPBase {
-        return evaluateSparqlToOperatorgraphB(instance, q,query, false)
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphA(instance: Luposdate3000Instance, q: Query, query: String): IOPBase {
+        return evaluateSparqlToOperatorgraphB(instance, q, query, false)
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): IOPBase {
-return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperatorGraph)
-}
+        return evaluateSparqlToOperatorgraphB(instance, Query(instance), query, logOperatorGraph)
+    }
+
     @JsName("evaluate_sparql_to_operatorgraph_b")
-    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance,q:Query, query: String, logOperatorGraph: Boolean): IOPBase {
+    /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, q: Query, query: String, logOperatorGraph: Boolean): IOPBase {
         try {
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
@@ -392,7 +393,7 @@ return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperator
             return popNode
         } catch (e: Throwable) {
             println(query)
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:394"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:394"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -486,7 +487,7 @@ return evaluateSparqlToOperatorgraphB(instance,Query(instance),query,logOperator
                 timeoutInMs
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:488"/*SOURCE_FILE_END*/)
         }
     }
 

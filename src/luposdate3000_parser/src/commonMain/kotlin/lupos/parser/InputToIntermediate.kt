@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.parser
-import lupos.shared.myPrintStackTrace
-
 import lupos.parser.nquads.NQuadsParser
 import lupos.parser.turtle.TurtleParser
 import lupos.shared.DateHelperRelative
@@ -38,6 +36,7 @@ import lupos.shared.inline.fileformat.DictionaryIntermediateWriter
 import lupos.shared.inline.fileformat.TriplesIntermediate
 import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.inline.fileformat.TriplesIntermediateWriter
+import lupos.shared.myPrintStackTrace
 import kotlin.math.min
 
 public object InputToIntermediate {
@@ -55,7 +54,7 @@ public object InputToIntermediate {
             try {
                 throw Exception(s, e)
             } catch (e2: Throwable) {
-                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/InputToIntermediate.kt:57"/*SOURCE_FILE_END*/ )
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/InputToIntermediate.kt:57"/*SOURCE_FILE_END*/)
             }
         }
         return res

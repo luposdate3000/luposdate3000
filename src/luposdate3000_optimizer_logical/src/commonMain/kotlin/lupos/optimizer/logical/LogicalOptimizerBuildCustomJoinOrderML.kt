@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase

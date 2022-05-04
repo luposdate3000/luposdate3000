@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint_launcher
-import lupos.shared.myPrintStackTrace
-
 import lupos.dictionary.RemoteDictionaryClient
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
@@ -26,6 +24,7 @@ import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.Parallel
+import lupos.shared.myPrintStackTrace
 import lupos.shared.network.ASocket
 import lupos.shared.network.InetSocketAddress
 import lupos.shared.network.URLDecoder
@@ -143,7 +142,7 @@ public object HttpEndpointLauncher {
                                     closeSockets = actionHelper.action(params, connectionInMy, connectionOutMy)
                                 }
                             } catch (e: Throwable) {
-                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:145"/*SOURCE_FILE_END*/ )
+                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:145"/*SOURCE_FILE_END*/)
                                 connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
                                 connectionOutMy.println()
                                 connectionOutMy.println(e.stackTraceToString())
@@ -156,12 +155,12 @@ public object HttpEndpointLauncher {
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:158"/*SOURCE_FILE_END*/ )
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:158"/*SOURCE_FILE_END*/)
                     }
                 }
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:163"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint_launcher/src/commonMain/kotlin/lupos/endpoint_launcher/HttpEndpointLauncher.kt:163"/*SOURCE_FILE_END*/)
         }
     }
 }

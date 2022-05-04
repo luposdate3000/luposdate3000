@@ -18,11 +18,11 @@ package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.shared.BufferManagerPage
-import lupos.shared.NoMorePagesException
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyReadWriteLock
+import lupos.shared.NoMorePagesException
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
 import java.io.RandomAccessFile
@@ -215,7 +215,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                         }
                         openId2 = minIdx
                         if (openId2 == cacheSize) {
-throw NoMorePagesException()
+                            throw NoMorePagesException()
                         }
                         BufferManagerPage.setPageID(openPages[openId2], -1)
                     }

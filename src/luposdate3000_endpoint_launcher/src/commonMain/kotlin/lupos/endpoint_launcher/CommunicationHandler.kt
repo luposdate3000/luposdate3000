@@ -17,11 +17,11 @@
 package lupos.endpoint_launcher
 
 import lupos.network.wrapper.Socket
+import lupos.shared.ConnectionFailedException
 import lupos.shared.ICommunicationHandler
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.network.URLEncoder
-import lupos.shared.ConnectionFailedException
 public class CommunicationHandler : ICommunicationHandler {
     override fun sendData(targetHost: String, path: String, params: Map<String, String>, queryID: Int) {
         val content = StringBuilder()
@@ -62,7 +62,7 @@ public class CommunicationHandler : ICommunicationHandler {
         input.close()
         output.close()
         if (status != 200) {
-throw ConnectionFailedException(status)
+            throw ConnectionFailedException(status)
         }
     }
 

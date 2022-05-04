@@ -16,9 +16,6 @@
  */
 
 package lupos.simulator_db.luposdate3000
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -28,7 +25,6 @@ import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
-import lupos.shared.OperationCanNotBeLocalException
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.factory.BinaryMetadataHandler
@@ -56,10 +52,12 @@ import lupos.shared.EQueryDistributionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.ITripleStoreIndexDescription
+import lupos.shared.InvalidInputException
 import lupos.shared.Luposdate3000Config
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MemoryTable
 import lupos.shared.MyInputStreamFromByteArray
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
@@ -67,10 +65,11 @@ import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.InvalidInputException
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.myPrintStackTrace
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.POPTripleStoreIterator
 import lupos.triple_store_manager.TripleStoreIndexDescription
@@ -219,16 +218,16 @@ public class Application_Luposdate3000 public constructor(
 //            TODO("query before ontology ${queryString}")
 //        }
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
-            val q = Query(instance)
-val pck_attr=pck.attributes["machineLearningOptimizerOrder"] 
-if(pck_attr!=null){
-q.machineLearningOptimizerOrder=pck_attr as Int
-}
+        val q = Query(instance)
+        val pck_attr = pck.attributes["machineLearningOptimizerOrder"]
+        if (pck_attr != null) {
+            q.machineLearningOptimizerOrder = pck_attr as Int
+        }
         val op = if (enforcedIndex != null) {
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
             PhysicalOptimizer(q).optimizeCall(o)
         } else {
-            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance,q, queryString)
+            LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q, queryString)
         }
 // println(op)
 // try to evaluate local-->>
@@ -265,9 +264,9 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                     return
                 }
             }
-}catch(e:OperationCanNotBeLocalException){
+        } catch (e: OperationCanNotBeLocalException) {
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:269"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:269"/*SOURCE_FILE_END*/)
         }
 // try to evaluate local<<--
         // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
@@ -649,7 +648,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:651"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:651"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -675,7 +674,7 @@ q.machineLearningOptimizerOrder=pck_attr as Int
                 else -> return pck
             }
         } catch (e: Throwable) {
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:677"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:677"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

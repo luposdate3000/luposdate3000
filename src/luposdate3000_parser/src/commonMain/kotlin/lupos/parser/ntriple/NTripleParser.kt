@@ -1,14 +1,14 @@
 package lupos.parser.ntriple
 
 public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
-internal var currentS:String?=null
-internal var currentP:String?=null
-internal var currentO:String?=null
-public var consumeTriple:(String, String, String) -> Unit = {s,p,o->
-    println("consumeTriple($s, $p, $o)")
-}
+    internal var currentS: String? = null
+    internal var currentP: String? = null
+    internal var currentO: String? = null
+    public var consumeTriple: (String, String, String) -> Unit = { s, p, o ->
+        println("consumeTriple($s, $p, $o)")
+    }
 
-internal var parsererror: String? = null
+    internal var parsererror: String? = null
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
     public var bufferDefinedLastSize: Long = 0
@@ -55,12 +55,10 @@ internal var parsererror: String? = null
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-
     }
-public fun close() {
-    bufferDefinedInputStream.close()
-
-}
+    public fun close() {
+        bufferDefinedInputStream.close()
+    }
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -730,13 +728,13 @@ public fun close() {
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int): Unit {
+    private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
+    private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -944,7 +942,7 @@ public fun close() {
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -968,7 +966,7 @@ public fun close() {
                 return 3
             }
             else -> {
-                parsererror = "found token ${currentToken0} unexpectedly in node 0, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken0 unexpectedly in node 0, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -990,7 +988,7 @@ public fun close() {
                 return 5
             }
             else -> {
-                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1007,7 +1005,7 @@ public fun close() {
                 return 6
             }
             else -> {
-                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1030,7 +1028,7 @@ public fun close() {
                 return 3
             }
             else -> {
-                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken5 unexpectedly in node 5, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1057,7 +1055,7 @@ public fun close() {
                 return 11
             }
             else -> {
-                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1089,7 +1087,7 @@ public fun close() {
                 return 15
             }
             else -> {
-                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1128,7 +1126,7 @@ public fun close() {
                 return 22
             }
             else -> {
-                parsererror = "found token ${currentToken17} unexpectedly in node 17, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken17 unexpectedly in node 17, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1154,7 +1152,7 @@ public fun close() {
                 return 21
             }
             else -> {
-                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1172,7 +1170,7 @@ public fun close() {
                 return 30
             }
             else -> {
-                parsererror = "found token ${currentToken23} unexpectedly in node 23, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken23 unexpectedly in node 23, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1189,7 +1187,7 @@ public fun close() {
                 return 28
             }
             else -> {
-                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1207,7 +1205,7 @@ public fun close() {
                 return 21
             }
             else -> {
-                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1225,7 +1223,7 @@ public fun close() {
                 return 21
             }
             else -> {
-                parsererror = "found token ${currentToken28} unexpectedly in node 28, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken28 unexpectedly in node 28, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1240,7 +1238,7 @@ public fun close() {
                 return 32
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 30, at position ${bufferDefinedPosition}"
+                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 30, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1262,12 +1260,12 @@ public fun close() {
                 return 6
             }
             else -> {
-                parsererror = "found token ${currentToken32} unexpectedly in node 32, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken32 unexpectedly in node 32, at position $bufferDefinedPosition"
                 return -1
             }
         }
     }
-    public fun parserDefinedParse(): Unit {
+    public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1346,35 +1344,35 @@ public fun close() {
             TODO(parsererror!!)
         }
     }
-    private fun userCode0(): Unit {
-        consumeTriple(currentS!!,currentP!!,currentO!!)
+    private fun userCode0() {
+        consumeTriple(currentS!!, currentP!!, currentO!!)
     }
-    private fun userCode1(): Unit {
-        currentS=getLastTokenString()
+    private fun userCode1() {
+        currentS = getLastTokenString()
     }
-    private fun userCode2(): Unit {
-        currentS=getLastTokenString()
+    private fun userCode2() {
+        currentS = getLastTokenString()
     }
-    private fun userCode3(): Unit {
-        currentP=getLastTokenString()
+    private fun userCode3() {
+        currentP = getLastTokenString()
     }
-    private fun userCode4(): Unit {
-        currentO=getLastTokenString()
+    private fun userCode4() {
+        currentO = getLastTokenString()
     }
-    private fun userCode5(): Unit {
-        currentO=getLastTokenString()
+    private fun userCode5() {
+        currentO = getLastTokenString()
     }
-    private fun userCode6(): Unit {
-        currentO=getLastTokenString()
+    private fun userCode6() {
+        currentO = getLastTokenString()
     }
-    private fun userCode7(): Unit {
-        currentO+="^^"+getLastTokenString()
+    private fun userCode7() {
+        currentO += "^^" + getLastTokenString()
     }
-    private fun userCode8(): Unit {
-        currentO+=getLastTokenString()
+    private fun userCode8() {
+        currentO += getLastTokenString()
     }
-    private fun userCode9(): Unit {
-        currentO+="^^<http://www.w3.org/2001/XMLSchema#string>"
+    private fun userCode9() {
+        currentO += "^^<http://www.w3.org/2001/XMLSchema#string>"
     }
-internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
-
+    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
+}

@@ -17,7 +17,6 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.IPOPLimit
-import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -25,6 +24,7 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
+import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 
@@ -41,7 +41,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 children[1].getPartitionCount(variable)
             } else {
-                throw VariableNotDefinedSyntaxException(classname,variable)
+                throw VariableNotDefinedSyntaxException(classname, variable)
             }
         }
     }

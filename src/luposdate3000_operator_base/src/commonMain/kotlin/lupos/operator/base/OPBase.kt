@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.base
-import lupos.shared.myPrintStackTrace
-
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
@@ -26,16 +24,17 @@ import lupos.shared.ESortPriority
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
-import lupos.shared.UnreachableException
 import lupos.shared.Parallel
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.UUID_Counter
+import lupos.shared.UnreachableException
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.ILOPBase
@@ -477,7 +476,7 @@ public abstract class OPBase public constructor(
                     val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:479"/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:479"/*SOURCE_FILE_END*/)
                 }
             }
             if (!excludeChildren) {
@@ -489,7 +488,7 @@ public abstract class OPBase public constructor(
             if (!hadXMLWarning) {
                 hadXMLWarning = true
                 println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:490"/*SOURCE_FILE_END*/)
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:491"/*SOURCE_FILE_END*/ )
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:491"/*SOURCE_FILE_END*/)
             }
         }
         return res

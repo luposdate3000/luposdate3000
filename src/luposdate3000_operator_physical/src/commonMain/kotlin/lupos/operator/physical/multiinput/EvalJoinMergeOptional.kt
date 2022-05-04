@@ -21,8 +21,8 @@ import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.SanityCheck
 import lupos.shared.IQuery
+import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
@@ -89,7 +89,7 @@ public object EvalJoinMergeOptional {
     }
 
     public operator fun invoke(
-query:IQuery,
+        query: IQuery,
         child: Array<IteratorBundle>,
         projectedVariables: List<String>,
     ): IteratorBundle {
@@ -172,7 +172,7 @@ query:IQuery,
 
                     override /*suspend*/ fun next(): DictionaryValueType {
                         return ColumnIteratorChildIteratorExt.nextHelper(
-query,
+                            query,
                             this,
                             {
                                 for (i in 0 until columnsINJ[0].size) {

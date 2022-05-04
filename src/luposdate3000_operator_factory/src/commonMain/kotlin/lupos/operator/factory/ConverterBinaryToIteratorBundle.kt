@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -54,6 +51,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.EvalTripleStoreIterator
@@ -127,9 +125,9 @@ public object ConverterBinaryToIteratorBundle {
             }
             TODO("dataID $dataID not found")
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:129"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:129"/*SOURCE_FILE_END*/)
         }
-TODO("unreachable")
+        TODO("unreachable")
     }
 
     public fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int, operatorMap: Array<Any?>): IteratorBundle {
@@ -253,7 +251,7 @@ TODO("unreachable")
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMergeOptional.variables[$i]" })))
                 }
-                EvalJoinMergeOptional(query,arrayOf(child0, child1), projectedVariables)
+                EvalJoinMergeOptional(query, arrayOf(child0, child1), projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -266,7 +264,7 @@ TODO("unreachable")
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
                 }
-                EvalJoinMerge(query,child0, child1, projectedVariables)
+                EvalJoinMerge(query, child0, child1, projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -274,7 +272,7 @@ TODO("unreachable")
             { query, data, off, operatorMap ->
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }), operatorMap)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }), operatorMap)
-                EvalJoinMergeSingleColumn(query,child0, child1)
+                EvalJoinMergeSingleColumn(query, child0, child1)
             },
         )
         assignOperatorPhysicalDecode(
@@ -288,7 +286,7 @@ TODO("unreachable")
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                EvalJoinHashMap(query,child0, child1, optional, projectedVariables)
+                EvalJoinHashMap(query, child0, child1, optional, projectedVariables)
             },
         )
         assignOperatorPhysicalDecode(
@@ -297,7 +295,7 @@ TODO("unreachable")
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }), operatorMap)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }), operatorMap)
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
-                EvalJoinCartesianProduct(query,child0, child1, optional)
+                EvalJoinCartesianProduct(query, child0, child1, optional)
             },
         )
         assignOperatorPhysicalDecode(

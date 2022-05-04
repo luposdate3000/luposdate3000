@@ -15,12 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.BugException
 import lupos.shared.DictionaryValueType
-import lupos.shared.NoValidIndexFoundException
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -33,13 +30,15 @@ import lupos.shared.ITripleStoreIndexDescription
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
+import lupos.shared.NoValidIndexFoundException
 import lupos.shared.SanityCheck
+import lupos.shared.UnknownTripleStoreTypeException
+import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import kotlin.jvm.JvmField
-import lupos.shared.UnknownTripleStoreTypeException
 
 public class TripleStoreDescription(
     @JvmField internal val graph: String,
@@ -148,7 +147,7 @@ public class TripleStoreDescription(
                 return POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2]))
             }
         }
-throw NoValidIndexFoundException()
+        throw NoValidIndexFoundException()
     }
 
     override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
@@ -196,7 +195,7 @@ throw NoValidIndexFoundException()
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true
                                 println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:197"/*SOURCE_FILE_END*/)
-                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:198"/*SOURCE_FILE_END*/ )
+                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:198"/*SOURCE_FILE_END*/)
                             }
                             first += 100
                             second += 100

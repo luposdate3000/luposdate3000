@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.parser.ntriple.NTripleParser
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
@@ -26,6 +23,7 @@ import lupos.shared.MemoryTableParser
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyStringStream
+import lupos.shared.myPrintStackTraceAndThrowAgain
 
 public class MemoryTableFromNTriple : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable {
@@ -53,7 +51,7 @@ public class MemoryTableFromNTriple : MemoryTableParser {
             println(">>>>")
             println(data)
             println("<<<<")
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromNTriple.kt:55"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromNTriple.kt:55"/*SOURCE_FILE_END*/)
         }
         dataStream.close()
         return res

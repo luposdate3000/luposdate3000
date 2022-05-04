@@ -19,7 +19,6 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
-import lupos.shared.OperationCanNotBeLocalException
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.POPBase
@@ -28,6 +27,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
 import lupos.shared.GroupByDuplicateColumnException
 import lupos.shared.IQuery
+import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck

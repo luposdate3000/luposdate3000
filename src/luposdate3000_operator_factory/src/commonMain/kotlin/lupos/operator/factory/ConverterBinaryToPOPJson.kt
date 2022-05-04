@@ -15,9 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.factory
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -30,6 +27,7 @@ import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public typealias BinaryToPOPJsonMap = (query: Query, data: ByteArrayWrapper, offset: Int) -> String
@@ -99,9 +97,9 @@ public object ConverterBinaryToPOPJson {
             }
             return "{${result.map { (k, v) -> "\"$k\":$v" }.joinToString()}}"
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:101"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:101"/*SOURCE_FILE_END*/)
         }
-TODO("unreachable")
+        TODO("unreachable")
     }
 
     private fun decodeHelper(query: Query, data: ByteArrayWrapper, off: Int): String {

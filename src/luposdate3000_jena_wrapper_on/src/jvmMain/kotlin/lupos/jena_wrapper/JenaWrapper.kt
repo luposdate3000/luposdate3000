@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.jena_wrapper
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.JenaBugException
+import lupos.shared.myPrintStackTrace
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory
@@ -50,7 +49,7 @@ public actual object JenaWrapper {
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_jena_wrapper_on/src/jvmMain/kotlin/lupos/jena_wrapper/JenaWrapper.kt:52"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_jena_wrapper_on/src/jvmMain/kotlin/lupos/jena_wrapper/JenaWrapper.kt:52"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -105,7 +104,7 @@ public actual object JenaWrapper {
                 Optimize.optimize(op, qexec.context)
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_jena_wrapper_on/src/jvmMain/kotlin/lupos/jena_wrapper/JenaWrapper.kt:107"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_jena_wrapper_on/src/jvmMain/kotlin/lupos/jena_wrapper/JenaWrapper.kt:107"/*SOURCE_FILE_END*/)
         }
         return res
     }

@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-import lupos.shared.myPrintStackTrace
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -417,7 +415,7 @@ public object DictionaryHelperLarge {
                 }
             }
         } catch (e: Exception) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:419"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:419"/*SOURCE_FILE_END*/)
             DictionaryHelper.stringToByteArray(buffer, content)
         }
     }
