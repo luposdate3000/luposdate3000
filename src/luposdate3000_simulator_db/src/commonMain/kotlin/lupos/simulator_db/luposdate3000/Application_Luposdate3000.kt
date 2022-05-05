@@ -92,6 +92,7 @@ public class Application_Luposdate3000 public constructor(
     private val featureID_store: Int,
     private val featureID_query: Int,
     private val featureID_any: Int,
+private val tryLocalExecution:Boolean,
 ) : IApplicationStack_Actuator {
     public fun hasStoreCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
     public fun hasQueryCapability(): Boolean = dbDeviceAddressesQueryList.contains(ownAdress)
@@ -116,6 +117,7 @@ public class Application_Luposdate3000 public constructor(
         }
         router = parent
         instance.enableJoinOrderOnHistogram = false
+instance.tryLocalExecution=tryLocalExecution
         instance.LUPOS_PROCESS_URLS_STORE = dbDeviceAddressesStoreList.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_QUERY = dbDeviceAddressesQueryList.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_ALL = Luposdate3000Config.mergeProcessurls(instance.LUPOS_PROCESS_URLS_STORE, instance.LUPOS_PROCESS_URLS_QUERY)
@@ -214,10 +216,6 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-//        if (!hasOntology) {
-//            TODO("query before ontology ${queryString}")
-//        }
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Query $queryString")
         val q = Query(instance)
         val pck_attr = pck.attributes["machineLearningOptimizerOrder"]
         if (pck_attr != null) {
@@ -229,8 +227,7 @@ public class Application_Luposdate3000 public constructor(
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q, queryString)
         }
-// println(op)
-// try to evaluate local-->>
+if(instance.tryLocalExecution){
         try {
             var hasSort = false
             var limitOperators = mutableListOf<IPOPLimit>()
@@ -267,15 +264,12 @@ public class Application_Luposdate3000 public constructor(
         } catch (e: OperationCanNotBeLocalException) {
         } catch (e: Throwable) {
             e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:268"/*SOURCE_FILE_END*/)
-        }
-// try to evaluate local<<--
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Query ${q.getRoot()}")
+        }}
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
 
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true)
         val data = binaryPair.first
-        // println("JSON_OUT_RECEIVE ${pck.queryID} ${ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data)}")
         val handler = binaryPair.second
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
         for (i in handler.idToOffset.keys) {
@@ -294,7 +288,6 @@ public class Application_Luposdate3000 public constructor(
             hasOntology = true
         }
 
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Abstract ${pck.path}")
         val paths = mutableMapOf<String, PathMappingHelper>()
         RestEndpoint.initialize(instance, paths)
         WebRootEndpoint.initialize(paths)
@@ -305,7 +298,6 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
-            // println("Application_Luposdate3000.receive simulator-intermediate-result $ownAdress ${pck.params["key"]}")
             SanityCheck.check(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:309"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
@@ -341,7 +333,6 @@ public class Application_Luposdate3000 public constructor(
     }
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
-        // println("$ownAdress Application_Luposdate3000.receivePackage_Luposdate3000_Operatorgraph")
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
@@ -352,7 +343,6 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
-// println("pck.handler.idToHost.size ${pck.handler.idToHost.size}")
         for ((k, v) in pck.handler.idToHost) {
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
@@ -380,13 +370,10 @@ public class Application_Luposdate3000 public constructor(
                 myIdsOnTargetMap[target] = mm
             }
         }
-// println("myIdsOnTargetMap.size ${myIdsOnTargetMap.size}")
         for ((host, ids) in myIdsOnTargetMap) {
 // this is only a workaround ... this may yield errors, if the query is pushed further down
-// println("(host, ids) ($host, $ids)")
             for (id in ids) {
                 val keys = pck.handler.dependenciesForID[id]
-// println("keys $keys")
                 if (keys != null) {
                     for (key in keys.values) {
                         if (pck.destinations[key] == null) {
@@ -396,10 +383,8 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
         }
-// println("myIdsOnTargetMap.size ${myIdsOnTargetMap.size}")
         for ((targetHost, filter) in myIdsOnTargetMap) {
             if (targetHost == ownAdress) {
-// println("selected ownAdress $filter")
                 for (id in filter) {
                     var dependencies2 = pck.handler.dependenciesForID[id]
                     val dependencies = if (dependencies2 == null) {
@@ -407,7 +392,6 @@ public class Application_Luposdate3000 public constructor(
                     } else {
                         dependencies2.values.toSet()
                     }
-// println("adding work ${pck.queryID}")
                     val w = PendingWork(
                         pck.queryID,
                         pck.data,
@@ -422,7 +406,6 @@ public class Application_Luposdate3000 public constructor(
                     myPendingWork.add(w)
                 }
             } else {
-// println("sending it to $targetHost else")
                 val data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
                 val idToHost = mutableMapOf<Int, MutableSet<String>>()
                 for ((k, v) in pck.handler.idToHost) {
@@ -581,10 +564,8 @@ public class Application_Luposdate3000 public constructor(
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(k)
                         }
-// println("doWork?=$flag id=${w.queryID} require ${w.dependencies} have ${myPendingWorkData.keys} missing ${w.dependencies-myPendingWorkData.keys}")
                         if (flag) {
                             myPendingWork.remove(w)
-// println("doing work")
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
@@ -603,11 +584,8 @@ public class Application_Luposdate3000 public constructor(
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-                            // println("JSON_OUT_EVAL at host $ownAdress ${w.dataID} ${ConverterBinaryToPOPJson.decode(query,w.data)}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
-                            // println(iteratorBundle)
                             if (w.dataID == -1) {
-                                // println("$ownAdress root executing .. $iteratorBundle")
                                 if (w.expectedResult != null) {
                                     val buf = MyPrintWriter(false)
                                     val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
@@ -631,7 +609,6 @@ public class Application_Luposdate3000 public constructor(
                                         router!!.send(w.destinations[-1]!!, Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
                                     }
                                 }
-                                // println("done executing")
                             } else {
                                 for (nodes in iteratorBundle.nodes) {
                                     val iter = nodes.second.rows
@@ -641,8 +618,6 @@ public class Application_Luposdate3000 public constructor(
                                 }
                             }
                             break
-                        } else {
-                            // println("$ownAdress cannot work at ${w.dataID}, because ${w.dependencies.toSet() - myPendingWorkData.keys} is missing")
                         }
                     }
                 }

@@ -83,6 +83,7 @@ public class ApplicationFactory_Luposdate3000 : IApplication_Factory {
                     featureIDStore,
                     featureIDQuery,
                     featureIDAny,
+json.getOrDefault("tryLocalExecution",true)
                 )
             )
         }

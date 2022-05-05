@@ -42,7 +42,7 @@ val baseCmd = execute(listOf("./launcher.main.kts", "--run", "--mainClass=Launch
 val headerLine = mutableListOf<String>()
 val contentLines = mutableListOf<MutableList<String>>()
 val attributeLines = mutableListOf<MutableList<String>>()
-val specializedCmdHeaders = listOf("campus", "networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing")
+val specializedCmdHeaders = listOf("campus", "networkTopology", "databaseTopology", "query", "dataDistribution", "evaluation", "luposdate3000", "queryDistribution", "multicast", "routing","localExecution")
 headerLine.addAll(specializedCmdHeaders)
 var printCounter = 0
 
@@ -127,9 +127,10 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
         "topology/Ring128DB.json",
         "topology/Full128DB.json",
     )
-
-
-    loop@ for (campus in campusList) {
+val localExecutionList=listOf("luposdate3000_local_execution_enabled.json","luposdate3000_local_execution_disabled.json")
+for(localExecution in localExecutionList){
+val json_localExecution="$BASE_PATH/$localExecution"
+    for (campus in campusList) {
         val json_campus = "$BASE_PATH/$campus"
         for (networkTopology in networkTopologyList) {
             val json_networkTopology = "$BASE_PATH/$networkTopology"
@@ -163,7 +164,7 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                                         ) {
                                             continue
                                         }
-                                        val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing)
+                                        val specializedCmd = listOf(json_campus, json_networkTopology, json_database_topology, json_query, json_dataDistribution, json_evaluation, json_luposdate3000, json_queryDistribution, json_multicast, json_routing,json_localExecution)
                                         val cmd = baseCmd + specializedCmd
 //println(cmd.joinToString(" "))
 //continue
@@ -212,5 +213,6 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
                 }
             }
     }
+}
 }
 printStatus()
