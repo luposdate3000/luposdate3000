@@ -68,7 +68,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:81"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:70"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -85,7 +85,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:97"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:87"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -102,7 +102,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:113"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:104"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -119,7 +119,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:129"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:121"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -136,7 +136,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:145"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:138"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -153,7 +153,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:161"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:155"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -170,7 +170,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:177"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:172"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -187,7 +187,7 @@ public class PostqueryVALUESwith2objvars2rowswithUNDEF {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:193"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/PostqueryVALUESwith2objvars2rowswithUNDEF.kt:189"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }

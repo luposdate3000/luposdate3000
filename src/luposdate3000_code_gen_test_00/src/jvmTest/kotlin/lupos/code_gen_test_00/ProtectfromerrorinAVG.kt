@@ -67,7 +67,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:80"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:69"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -84,7 +84,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:96"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:86"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -101,7 +101,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:112"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:103"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -118,7 +118,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:128"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:120"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -135,7 +135,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:144"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:137"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -152,7 +152,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:160"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:154"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -169,7 +169,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:176"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:171"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -186,7 +186,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:192"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:188"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -203,7 +203,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:208"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:205"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -220,7 +220,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:224"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:222"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -237,7 +237,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:240"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:239"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -271,7 +271,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:272"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:273"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -288,7 +288,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:288"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:290"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -305,7 +305,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:304"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:307"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -322,7 +322,7 @@ public class ProtectfromerrorinAVG {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:320"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/ProtectfromerrorinAVG.kt:324"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }

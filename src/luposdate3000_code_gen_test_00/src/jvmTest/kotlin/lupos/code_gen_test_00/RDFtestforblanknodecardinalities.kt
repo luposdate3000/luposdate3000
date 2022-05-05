@@ -69,7 +69,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:77"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:71"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -86,7 +86,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:93"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:88"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -103,7 +103,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:109"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:105"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -120,7 +120,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:125"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:122"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -137,7 +137,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:141"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:139"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -154,7 +154,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:157"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:156"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -188,7 +188,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:189"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:190"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -205,7 +205,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:205"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:207"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -222,7 +222,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:221"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:224"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -239,7 +239,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:237"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:241"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -256,7 +256,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:253"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:258"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -273,7 +273,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:269"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:275"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -290,7 +290,7 @@ public class RDFtestforblanknodecardinalities {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:285"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFtestforblanknodecardinalities.kt:292"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }

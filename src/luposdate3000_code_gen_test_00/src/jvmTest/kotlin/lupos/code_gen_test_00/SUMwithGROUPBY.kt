@@ -70,7 +70,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:78"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:72"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -87,7 +87,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:94"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:89"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -104,7 +104,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:110"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:106"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -121,7 +121,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:126"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:123"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -138,7 +138,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:142"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:140"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -155,7 +155,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:158"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:157"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -189,7 +189,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:190"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:191"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -206,7 +206,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:206"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:208"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -223,7 +223,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:222"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:225"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -240,7 +240,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:238"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:242"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -257,7 +257,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:254"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:259"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -274,7 +274,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:270"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:276"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -291,7 +291,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:286"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:293"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -308,7 +308,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:302"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:310"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -325,7 +325,7 @@ public class SUMwithGROUPBY {
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:318"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/SUMwithGROUPBY.kt:327"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }

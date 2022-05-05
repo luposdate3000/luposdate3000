@@ -50,7 +50,7 @@ public class AOPLEQ public constructor(query: IQuery, childA: AOPBase, childB: A
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPLEQ.kt:53"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPLEQ.kt:52"/*SOURCE_FILE_END*/)
             }
             res
         }

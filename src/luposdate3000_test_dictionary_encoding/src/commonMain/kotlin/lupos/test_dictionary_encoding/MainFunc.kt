@@ -46,7 +46,7 @@ private object AssertionFunctions {
         try {
             a()
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_dictionary_encoding/src/commonMain/kotlin/lupos/test_dictionary_encoding/MainFunc.kt:50"/*SOURCE_FILE_END*/ ) this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test_dictionary_encoding/src/commonMain/kotlin/lupos/test_dictionary_encoding/MainFunc.kt:48"/*SOURCE_FILE_END*/ ) this is handled correctly
             flag = false
         }
         if (flag) {

@@ -53,7 +53,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:56"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:55"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -110,9 +110,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:113"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:114"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:115"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:112"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:113"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
+            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:114"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount2
@@ -183,7 +183,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
                                             try {
                                                 ringbuffer[ringbufferWriteHead[p] + variableIdx + ringbufferStart[p]] = variableMapping[variableIdx].next()
                                             } catch (e: Throwable) {
-                                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:186"/*SOURCE_FILE_END*/)
+                                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:185"/*SOURCE_FILE_END*/)
                                                 for (variableIdx2 in 0 until variables.size) {
                                                     variableMapping[variableIdx2].close()
                                                 }
@@ -229,7 +229,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:232"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:231"/*SOURCE_FILE_END*/)
                         error = e
                     }
                     writerFinished[p] = 1
@@ -238,16 +238,16 @@ public class POPMergePartitionOrderedByIntId public constructor(
             }
             val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
             SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:241"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ },
                 {
                     for (x in sortColumns.indices) {
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:245"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:244"/*SOURCE_FILE_END*/ },
                             { sortColumns[x] >= 0 },
                             { "${variables.map { it }} .. ${mySortPriority.map { it.variableName }}" }
                         )
                         SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:250"/*SOURCE_FILE_END*/ },
+                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:249"/*SOURCE_FILE_END*/ },
                             { mySortPriority[x].sortType == ESortTypeExt.FAST }
                         )
                     }

@@ -80,7 +80,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 return when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:84"/*SOURCE_FILE_END*/)
+                            rootPage = instance.bufferManager!!.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:82"/*SOURCE_FILE_END*/)
                         }
                         DictionaryFactory.createDictionary(dictType, false, instance.bufferManager!!, rootPage, initFromRootPage, instance)
                     }
@@ -233,7 +233,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 try {
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
-                    // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:237"/*SOURCE_FILE_END*/ ) this is handled correctly
+                    // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_test_dictionary/src/commonMain/kotlin/lupos/launch/test_dictionary/MainFunc.kt:235"/*SOURCE_FILE_END*/ ) this is handled correctly
                     flag = false
                 }
                 if (flag && (DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE)) {

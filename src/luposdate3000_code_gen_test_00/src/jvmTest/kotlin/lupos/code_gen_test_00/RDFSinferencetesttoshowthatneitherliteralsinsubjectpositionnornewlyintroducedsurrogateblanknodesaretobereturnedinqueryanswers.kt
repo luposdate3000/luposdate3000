@@ -69,7 +69,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:77"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:71"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -86,7 +86,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:93"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:88"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -103,7 +103,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:109"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:105"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -120,7 +120,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:125"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:122"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -137,7 +137,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:141"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:139"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -154,7 +154,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:157"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:156"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -188,7 +188,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:189"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:190"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -205,7 +205,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:205"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:207"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -222,7 +222,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:221"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:224"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -239,7 +239,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:237"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:241"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -256,7 +256,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:253"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:258"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -273,7 +273,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:269"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:275"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -290,7 +290,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:285"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:292"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -307,7 +307,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:301"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:309"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }
@@ -324,7 +324,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
             instance = LuposdateEndpoint.initializeB(instance)
             normalHelper(instance)
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:317"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_gen_test_00/src/jvmTest/kotlin/lupos/code_gen_test_00/RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewlyintroducedsurrogateblanknodesaretobereturnedinqueryanswers.kt:326"/*SOURCE_FILE_END*/) // otherwise this would be silently ignored
         } finally {
             LuposdateEndpoint.close(instance)
         }

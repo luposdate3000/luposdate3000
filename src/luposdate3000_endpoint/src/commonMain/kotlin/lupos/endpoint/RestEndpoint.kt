@@ -448,7 +448,7 @@ public object RestEndpoint {
                 LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:451"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:450"/*SOURCE_FILE_END*/)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             }
             true
@@ -666,7 +666,7 @@ public object RestEndpoint {
                         try {
                             c!!.close()
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:669"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:668"/*SOURCE_FILE_END*/)
                         }
                     }
                     for (c in queryContainer.inputStreams.values) {

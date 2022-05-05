@@ -51,7 +51,7 @@ public class MemoryTableFromNTriple : MemoryTableParser {
             println(">>>>")
             println(data)
             println("<<<<")
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromNTriple.kt:55"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromNTriple.kt:53"/*SOURCE_FILE_END*/)
         }
         dataStream.close()
         return res

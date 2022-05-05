@@ -43,7 +43,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
             children[0] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[0])
             children[1] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[1])
             p = getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:46"/*SOURCE_FILE_END*/ }, { provided.containsAll(p) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:45"/*SOURCE_FILE_END*/ }, { provided.containsAll(p) })
         }
         try {
             for (v in p) {
@@ -52,7 +52,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
                 res.values[v] = a + b
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:55"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:54"/*SOURCE_FILE_END*/)
             throw BugException(classname, "calculateHistogram column missing")
         }
         return res

@@ -100,11 +100,11 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
     val dataDistributionList = listOf(
         "dataDistribution/luposdate3000_by_id_S_all_collations.json",
         "dataDistribution/luposdate3000_by_key.json",
-        "dataDistribution/luposdate3000_by_id_1_all_collations.json",
-        "dataDistribution/luposdate3000_by_id_2_all_collations.json",
-        "dataDistribution/luposdate3000_by_id_O_all_collations.json",
-        "dataDistribution/luposdate3000_by_id_twice_all_collations.json",
-        "dataDistribution/luposdate3000_by_simple.json",
+//        "dataDistribution/luposdate3000_by_id_1_all_collations.json",
+//        "dataDistribution/luposdate3000_by_id_2_all_collations.json",
+//        "dataDistribution/luposdate3000_by_id_O_all_collations.json",
+//        "dataDistribution/luposdate3000_by_id_twice_all_collations.json",
+//        "dataDistribution/luposdate3000_by_simple.json",
     )
     val multicastList = listOf(
         "multicast/luposdate3000MulticastDisabled.json",

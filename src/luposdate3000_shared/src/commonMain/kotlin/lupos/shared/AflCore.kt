@@ -76,7 +76,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
                     dataoff = 0
                     executeTest({ data[dataoff++] }, { cnt - dataoff }, { dataoff = 0 })
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:80"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:78"/*SOURCE_FILE_END*/)
                     errors++
                     File("erroredTests").mkdirs()
                     println("errored $tests :: $dataoff $testCase")
@@ -89,7 +89,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
                 tests++
             }
         } catch (e: Throwable) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:93"/*SOURCE_FILE_END*/ ) this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/AflCore.kt:91"/*SOURCE_FILE_END*/ ) this is handled correctly
             // verification of single testcase
             val f = File(arg)
             val data = IntArray((f.length() / 4).toInt())
