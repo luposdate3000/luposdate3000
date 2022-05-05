@@ -112,6 +112,7 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
     )
     val queryDistributionList = listOf(
         "luposdate3000_distribution_routing.json",
+"luposdate3000_distribution_centralized.json",
     )
     val networkTopologyList = mutableListOf<String>(
         "topology/Uniform4DB.json",

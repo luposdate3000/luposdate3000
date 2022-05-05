@@ -92,7 +92,7 @@ public class Application_Luposdate3000 public constructor(
     private val featureID_store: Int,
     private val featureID_query: Int,
     private val featureID_any: Int,
-private val tryLocalExecution:Boolean,
+    private val tryLocalExecution: Boolean,
 ) : IApplicationStack_Actuator {
     public fun hasStoreCapability(): Boolean = dbDeviceAddressesStoreList.contains(ownAdress)
     public fun hasQueryCapability(): Boolean = dbDeviceAddressesQueryList.contains(ownAdress)
@@ -117,7 +117,7 @@ private val tryLocalExecution:Boolean,
         }
         router = parent
         instance.enableJoinOrderOnHistogram = false
-instance.tryLocalExecution=tryLocalExecution
+        instance.tryLocalExecution = tryLocalExecution
         instance.LUPOS_PROCESS_URLS_STORE = dbDeviceAddressesStoreList.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_QUERY = dbDeviceAddressesQueryList.map { it.toString() }.toTypedArray()
         instance.LUPOS_PROCESS_URLS_ALL = Luposdate3000Config.mergeProcessurls(instance.LUPOS_PROCESS_URLS_STORE, instance.LUPOS_PROCESS_URLS_QUERY)
@@ -227,44 +227,45 @@ instance.tryLocalExecution=tryLocalExecution
         } else {
             LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q, queryString)
         }
-if(instance.tryLocalExecution){
-        try {
-            var hasSort = false
-            var limitOperators = mutableListOf<IPOPLimit>()
-            val localOP = (op as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
-            if (limitOperators.size > 0 && !hasSort && localOP != null) {
-                val iteratorBundle = localOP.evaluateRootBundle()
-                val buf = MyPrintWriter(true)
-                val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
-                evaluatorInstance(iteratorBundle, buf)
-                if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
-                    if (expectedResult != null) {
-                        val buf = MyPrintWriter(false)
-                        val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-                        val buf_err = MyPrintWriter()
-                        if (!expectedResult.equalsVerbose(result, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
-                            throw Exception(buf_err.toString())
-                        }
-                        verifyAction()
-                        if (onFinish != null) {
-                            receive(onFinish)
+        if (instance.tryLocalExecution) {
+            try {
+                var hasSort = false
+                var limitOperators = mutableListOf<IPOPLimit>()
+                val localOP = (op as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+                if (limitOperators.size > 0 && !hasSort && localOP != null) {
+                    val iteratorBundle = localOP.evaluateRootBundle()
+                    val buf = MyPrintWriter(true)
+                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                    evaluatorInstance(iteratorBundle, buf)
+                    if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
+                        if (expectedResult != null) {
+                            val buf = MyPrintWriter(false)
+                            val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                            val buf_err = MyPrintWriter()
+                            if (!expectedResult.equalsVerbose(result, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
+                                throw Exception(buf_err.toString())
+                            }
+                            verifyAction()
+                            if (onFinish != null) {
+                                receive(onFinish)
+                            } else {
+                                router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
+                            }
                         } else {
-                            router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
+                            if (onFinish != null) {
+                                receive(onFinish)
+                            } else {
+                                router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
+                            }
                         }
-                    } else {
-                        if (onFinish != null) {
-                            receive(onFinish)
-                        } else {
-                            router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
-                        }
+                        return
                     }
-                    return
                 }
+            } catch (e: OperationCanNotBeLocalException) {
+            } catch (e: Throwable) {
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:268"/*SOURCE_FILE_END*/)
             }
-        } catch (e: OperationCanNotBeLocalException) {
-        } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:268"/*SOURCE_FILE_END*/)
-        }}
+        }
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
 
@@ -279,6 +280,23 @@ if(instance.tryLocalExecution){
         }
         if (handler.idToHost[-1] == null) {
             handler.idToHost[-1] = mutableSetOf(ownAdress.toString())
+        }
+        when (instance.queryDistributionMode) {
+            EQueryDistributionModeExt.Routing -> {}
+            EQueryDistributionModeExt.Centralized -> {
+                var keysToAssign = handler.idToHost.keys - handler.idToOffset.keys
+                while (keysToAssign.size> 0) {
+                    for (maybeAssign in keysToAssign) {
+                        for (child in handler.dependenciesForID[maybeAssign].keys) {
+                            val h = handler.idToHost[child]
+                            if (h != null) {
+                                handler.idToHost[maybeAssign] = h
+                            }
+                        }
+                    }
+                    keysToAssign = handler.idToHost.keys - handler.idToOffset.keys
+                }
+            }
         }
         receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
     }
@@ -336,13 +354,16 @@ if(instance.tryLocalExecution){
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
+// 1. calculate next hops for every subquery
         val nextHops = myGetNextHop(allHostAdresses, featureID_any)
         for (i in 0 until nextHops.size) {
-            if (nextHops[i] == -1) { // if the package-router does not know it - use the first database instance instead.
+            if (nextHops[i] == -1) {
+// 1.b. if the destination is unknown, use the root-database instead
                 nextHops[i] = rootAddressInt
             }
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
+// 2. recalculate target of execution for each operator
         for ((k, v) in pck.handler.idToHost) {
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
@@ -350,6 +371,7 @@ if(instance.tryLocalExecution){
             } else if (targets.contains(rootAddressInt)) {
                 rootAddressInt
             } else {
+// 2.a if targets differ, calculate the operator here
                 ownAdress
             }
             if (target == ownAdress) {
@@ -357,8 +379,7 @@ if(instance.tryLocalExecution){
                 if (dep != null) {
                     for (d in dep.values) {
                         pck.destinations[d] = ownAdress
-// ein paket ist erst dann ausführbar, wenn das datenziel auch schon feststeht
-// ein problem entsteht, wenn der query nicht auf dem root-node gestartet wird, und selber ergebnisse beitragen soll
+// 2.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
                     }
                 }
             }
@@ -370,19 +391,22 @@ if(instance.tryLocalExecution){
                 myIdsOnTargetMap[target] = mm
             }
         }
+// 3. fix destinations where each operator send its results
+        // this is only a workaround ... this may yield errors, if the query is pushed further down
         for ((host, ids) in myIdsOnTargetMap) {
-// this is only a workaround ... this may yield errors, if the query is pushed further down
             for (id in ids) {
                 val keys = pck.handler.dependenciesForID[id]
                 if (keys != null) {
                     for (key in keys.values) {
                         if (pck.destinations[key] == null) {
+// 3.b. if destination of result is unclear, try to fix it
                             pck.destinations[key] = host
                         }
                     }
                 }
             }
         }
+// 4. send packets further down the network - or store them locally, if this device is the destination
         for ((targetHost, filter) in myIdsOnTargetMap) {
             if (targetHost == ownAdress) {
                 for (id in filter) {

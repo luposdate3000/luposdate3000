@@ -616,7 +616,8 @@ public class bind03BINDfixeddataforOWLDL {
     public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
         simRun.parseConfig(
-            fileName, false,
+            fileName,
+            false,
             {
                 it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
                 it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
