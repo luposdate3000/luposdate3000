@@ -116,25 +116,25 @@ for (ontologyVersion in listOf(2)) { // 0=noSOSA, 1=SOSA with INSERT-WHERE, 2=SO
     )
     val networkTopologyList = mutableListOf<String>(
         "topology/Uniform4DB.json",
-        "topology/Random4DB.json",
-        "topology/Ring4DB.json",
-        "topology/Full4DB.json",
+//        "topology/Random4DB.json",
+//        "topology/Ring4DB.json",
+//        "topology/Full4DB.json",
         "topology/Uniform16DB.json",
-        "topology/Random16DB.json",
-        "topology/Ring16DB.json",
-        "topology/Full16DB.json",
+//        "topology/Random16DB.json",
+//        "topology/Ring16DB.json",
+//        "topology/Full16DB.json",
         "topology/Uniform128DB.json",
-        "topology/Random128DB.json",
-        "topology/Ring128DB.json",
-        "topology/Full128DB.json",
+//        "topology/Random128DB.json",
+//        "topology/Ring128DB.json",
+//        "topology/Full128DB.json",
     )
 val localExecutionList=listOf("luposdate3000_local_execution_enabled.json","luposdate3000_local_execution_disabled.json")
+        for (networkTopology in networkTopologyList) {
+            val json_networkTopology = "$BASE_PATH/$networkTopology"
 for(localExecution in localExecutionList){
 val json_localExecution="$BASE_PATH/$localExecution"
     for (campus in campusList) {
         val json_campus = "$BASE_PATH/$campus"
-        for (networkTopology in networkTopologyList) {
-            val json_networkTopology = "$BASE_PATH/$networkTopology"
                 val json_query = "$BASE_PATH/$query"
                 for (routing in routingList) {
                     val json_routing = "$BASE_PATH/$routing"
