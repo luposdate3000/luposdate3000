@@ -15,7 +15,20 @@ public class Visualizer : ILogger {
     override fun addDevice(address: Int, x: Double, y: Double) {}
     override fun initialize(simRun: SimulationRun) {}
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
-    override fun onReceivePackage(address: Int, pck: IPayload) {}
+
+    override fun onReceivePackage(address: Int, pck: IPayload) {
+        when (pck) {
+            is Package_Luposdate3000_Abstract -> {
+                when (pck.path) {
+                    "simulator-intermediate-result" -> {
+                        val dep = pck.params["key"]!!.toInt()
+                        val g_query = graphs.getOrPut(pck.queryID, { DotGraph() })
+                        g_query.edges.add(DotEdge("send$dep", "rec$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
+                    }
+                }
+            }
+        }
+    }
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
@@ -52,7 +65,7 @@ ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{coun
 internal class DotNode(internal val label: String,internal val id:String,internal val _do_not_use:Boolean) {
 internal companion object{
 operator fun invoke(label:String):DotNode{
-return DotNode(label,label.replace("#","").replace("(","").replace(")",""),false)
+return DotNode(label.replace("#[0-9]*".toRegex(),""),label.replace("[^a-zA-Z0-9]".toRegex(),""),false)
 }
 }
 

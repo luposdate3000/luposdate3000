@@ -1,3 +1,4 @@
+*.dot
 src/luposdate3000_coverage_merged
 afl.*.log
 benchmark-results/
