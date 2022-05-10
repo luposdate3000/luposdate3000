@@ -31,6 +31,7 @@ public class PhysicalOptimizerPartitionMaxSplit(query: Query) : OptimizerBase(qu
         var res = node
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
+/*
                 is POPSplitPartition -> {
                     when (val c = node.children[0]) {
                         is POPMergePartition -> {
@@ -60,6 +61,7 @@ public class PhysicalOptimizerPartitionMaxSplit(query: Query) : OptimizerBase(qu
                         }
                     }
                 }
+*/
             }
         }
         return res

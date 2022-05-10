@@ -68,6 +68,7 @@ public class EOptimizerIDHelper {
                     EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> false
                     EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> false
                     EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> false
+                    EOptimizerIDExt.PhysicalOptimizerPartitionMaxSplitID -> false
                     EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
                     EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
                     EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
@@ -119,6 +120,7 @@ public class EOptimizerIDHelper {
                     EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> true
                     EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> true
                     EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionMaxSplitID -> true
                     EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
                     EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
                     EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
@@ -131,7 +133,7 @@ public class EOptimizerIDHelper {
         } catch (e: Throwable) {
             optional = BooleanArray(0) { true }
             repeatOnChange = BooleanArray(0) { true }
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:133"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:135"/*SOURCE_FILE_END*/)
         }
     }
 }
