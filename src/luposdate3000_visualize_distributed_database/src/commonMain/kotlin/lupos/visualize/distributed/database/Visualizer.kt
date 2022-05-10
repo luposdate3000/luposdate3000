@@ -15,19 +15,7 @@ public class Visualizer : ILogger {
     override fun addDevice(address: Int, x: Double, y: Double) {}
     override fun initialize(simRun: SimulationRun) {}
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
-    override fun onReceivePackage(address: Int, pck: IPayload) {
-        when (pck) {
-            is Package_Luposdate3000_Abstract -> {
-                when (pck.path) {
-                    "simulator-intermediate-result" -> {
-                        val dep = pck.params["key"]!!.toInt()
-                        val g_query = graphs.getOrPut(pck.queryID, { DotGraph() })
-                        g_query.edges.add(DotEdge("s$dep", "r$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
-                    }
-                }
-            }
-        }
-    }
+    override fun onReceivePackage(address: Int, pck: IPayload) {}
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
@@ -55,16 +43,7 @@ public class Visualizer : ILogger {
                     "query_part_${data.dataID}"
                 }
                 val g_subgraph = g_query.subgraphs.getOrPut(dataId, { DotGraph() })
-                val centerNode = counter++
-                g_subgraph.nodes.add(DotNode("c$centerNode"))
-                for (dep in data.dependencies) {
-                    g_subgraph.nodes.add(DotNode("r$dep"))
-                    g_subgraph.edges.add(DotEdge("r$dep", "c$centerNode"))
-                }
-                for ((dest, _) in data.destinations) {
-                    g_subgraph.nodes.add(DotNode("s$dest"))
-                    g_subgraph.edges.add(DotEdge("c$centerNode", "s$dest"))
-                }
+ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{counter++})
             }
         }
     }
@@ -115,7 +94,13 @@ internal class DotGraph() {
         res.appendLine("}");
         return res.toString()
     }
-
+internal fun addNode(label:String):String{
+nodes.add(DotNode(label))
+return label
+}
+internal fun addEdge(label1:String,label2:String){
+edges.add(DotEdge(label1,label2))
+}
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
         for (node in nodes) {
