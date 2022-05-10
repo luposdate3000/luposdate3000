@@ -68,16 +68,23 @@ public class Visualizer : ILogger {
     }
 }
 
-internal class DotNode(internal val label: String, internal val id: String, internal val _do_not_use: Boolean) {
+internal class DotNode(internal val label: String, internal val id: String, internal val isMetaNode:Boolean,internal val _do_not_use: Boolean) {
     internal companion object {
         operator fun invoke(label: String): DotNode {
-            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), false)
+            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""),false, false)
+        }
+        operator fun invoke(label: String,isMetaNode:Boolean): DotNode {
+            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""),isMetaNode, false)
         }
     }
 
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-        res.appendLine("${indention}$id [label = \"$label\"];")
+if(isMetaNode){
+        res.appendLine("${indention}$id [label = \"$label\", fillcolor=gray, style=filled];")
+}else{
+        res.appendLine("${indention}$id [label = \"$label\", fillcolor=white, style=filled];")
+}
         return res.toString()
     }
 }
@@ -121,6 +128,11 @@ internal class DotGraph() {
     }
     internal fun addNode(label: String): String {
         val node = DotNode(label)
+        nodes.add(node)
+        return node.id
+    }
+    internal fun addNode(label: String,isInivisble:Boolean): String {
+        val node = DotNode(label,isInivisble)
         nodes.add(node)
         return node.id
     }

@@ -120,7 +120,7 @@ internal object ConverterBinaryToPOPDot {
             val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap, graph, nextID)
             val res = graph.addNode("SendSingle#${nextID()}")
             graph.addEdge(child, res)
-            graph.addNode("send$key")
+            graph.addNode("send$key",true)
             graph.addEdge(res, "send$key")
             res
         }
@@ -129,7 +129,7 @@ internal object ConverterBinaryToPOPDot {
             val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap, graph, nextID)
             val res = graph.addNode("SendSingleCount#${nextID()}")
             graph.addEdge(child, res)
-            graph.addNode("send$key")
+            graph.addNode("send$key",true)
             graph.addEdge(res, "send$key")
             res
         }
@@ -141,7 +141,7 @@ internal object ConverterBinaryToPOPDot {
             val res = graph.addNode("SendMulti#${nextID()}[$name]")
             graph.addEdge(child, res)
             for (k in keys) {
-                graph.addNode("send$k")
+                graph.addNode("send$k",true)
                 graph.addEdge(res, "send$k")
             }
             res
@@ -150,14 +150,14 @@ internal object ConverterBinaryToPOPDot {
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val res = graph.addNode("ReceiveSingle#${nextID()}")
             graph.addEdge("rec$key", res)
-            graph.addNode("rec$key")
+            graph.addNode("rec$key",true)
             res
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _, graph, nextID ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val res = graph.addNode("ReceiveSingleCount#${nextID()}")
             graph.addEdge("rec$key", res)
-            graph.addNode("rec$key")
+            graph.addNode("rec$key",true)
             res
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { _, data, off, _, graph, nextID ->
@@ -169,7 +169,7 @@ internal object ConverterBinaryToPOPDot {
             val res = graph.addNode("ReceiveMulti#${nextID()}")
             for (k in keys) {
                 graph.addEdge("rec$k", res)
-                graph.addNode("rec$k")
+                graph.addNode("rec$k",true)
             }
             res
         }
@@ -182,7 +182,7 @@ internal object ConverterBinaryToPOPDot {
             val res = graph.addNode("ReceiveMultiCount#${nextID()}")
             for (k in keys) {
                 graph.addEdge("rec$k", res)
-                graph.addNode("rec$k")
+                graph.addNode("rec$k",true)
             }
             res
         }
