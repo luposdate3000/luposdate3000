@@ -50,7 +50,11 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartitionRespectMaxPartitions(query), //
+if(inSimulator){
+            PhysicalOptimizerPartitionRespectMaxSplit(query) //
+}else{
+            PhysicalOptimizerPartitionRespectMaxPartitions(query) //
+},
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(

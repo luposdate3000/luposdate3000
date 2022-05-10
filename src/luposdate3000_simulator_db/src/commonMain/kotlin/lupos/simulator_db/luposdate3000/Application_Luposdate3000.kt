@@ -117,6 +117,7 @@ public class Application_Luposdate3000 public constructor(
             throw InvalidInputException()
         }
         router = parent
+instance.inSimulator=true
         instance.enableJoinOrderOnHistogram = false
         instance.tryLocalExecution = tryLocalExecution
         instance.LUPOS_PROCESS_URLS_STORE = dbDeviceAddressesStoreList.map { it.toString() }.toTypedArray()
@@ -134,7 +135,7 @@ public class Application_Luposdate3000 public constructor(
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
-        instance.maxThreads = instance.LUPOS_PROCESS_URLS_ALL.size
+        instance.maxThreads = instance.LUPOS_PROCESS_URLS_ALL.size*2
         instance = LuposdateEndpoint.initializeB(instance)
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
@@ -264,7 +265,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:266"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:267"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -325,7 +326,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:327"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:328"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -458,34 +459,6 @@ ownAdress,
                 )
                 router!!.send(targetHost, pck2)
             }
-        }
-    }
-
-    private fun mergeOperatorGraphLocally(root: XMLElement, parent2: XMLElement?, parentChildIndex: Int, parent: XMLElement, child: XMLElement, key: Int): Boolean {
-        if (parent.tag == "POPDistributedReceiveSingle") {
-            val tmp = parent.childs.filter { it.tag == "partitionDistributionKey" }
-            val tmp2 = child.childs.filter { it.tag == "partitionDistributionKey" }
-            if (tmp.size == 1 &&
-                tmp.first().attributes["key"]!!.toInt() == key &&
-                tmp2.size == 1 &&
-                tmp2.first().attributes["key"]!!.toInt() == key &&
-                parent2 != null
-            ) {
-                parent2.childs.removeAt(parentChildIndex)
-                parent2.childs.add(parentChildIndex, child["children"]!!.childs.first())
-                return true
-            } else {
-                return false
-            }
-        } else {
-            var i = 0
-            for (c in parent.childs) {
-                if (mergeOperatorGraphLocally(root, parent, i, c, child, key)) {
-                    return true
-                }
-                i++
-            }
-            return false
         }
     }
 
@@ -657,7 +630,7 @@ logger.costumData(w)
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:659"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:632"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -683,7 +656,7 @@ logger.costumData(w)
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:685"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:658"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

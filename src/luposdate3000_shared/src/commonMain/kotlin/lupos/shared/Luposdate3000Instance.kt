@@ -23,6 +23,8 @@ import kotlin.jvm.JvmField
 
 public class Luposdate3000Instance {
     @JvmField
+    public var inSimulator: Boolean = false
+    @JvmField
     public var initialized: Boolean = Luposdate3000Config.initialized
 
     @JvmField
