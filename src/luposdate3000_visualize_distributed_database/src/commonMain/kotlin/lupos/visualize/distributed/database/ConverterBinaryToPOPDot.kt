@@ -419,7 +419,7 @@ res
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                val res = graph.addNode("JoinMergeHashMap#${nextID()}");
+                val res = graph.addNode("JoinHashMap#${nextID()}");
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -431,7 +431,7 @@ res
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }), operatorMap, graph, nextID)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }), operatorMap, graph, nextID)
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
-                val res = graph.addNode("JoinMergeCartesianProduct#${nextID()}");
+                val res = graph.addNode("JoinCartesianProduct#${nextID()}");
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
