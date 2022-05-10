@@ -49,10 +49,16 @@ ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{coun
     }
 }
 
-internal data class DotNode(internal val name: String) {
+internal class DotNode(internal val label: String,internal val id:String,internal val _do_not_use:Boolean) {
+internal companion object{
+operator fun invoke(label:String):DotNode{
+return DotNode(label,label.replace("#","").replace("(","").replace(")",""),false)
+}
+}
+
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-        res.appendLine("${indention}$name;");
+        res.appendLine("${indention}$id [label = \"$label\"];");
         return res.toString()
     }
 }
@@ -95,8 +101,9 @@ internal class DotGraph() {
         return res.toString()
     }
 internal fun addNode(label:String):String{
-nodes.add(DotNode(label))
-return label
+val node=DotNode(label)
+nodes.add(node)
+return node.id
 }
 internal fun addEdge(label1:String,label2:String){
 edges.add(DotEdge(label1,label2))
