@@ -1,5 +1,5 @@
 package lupos.visualize.distributed.database
-
+import simora.applications.scenario.parking.Package_Query
 import  lupos.simulator_db.luposdate3000.PendingWork
 import simora.ILogger
 import simora.SimulationRun
@@ -9,6 +9,7 @@ import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public class Visualizer : ILogger {
+internal val relevantQueryIDs=mutableSetOf<Int>()
     internal val graphs = mutableMapOf<Int, DotGraph>()
     internal var counter = 0
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
@@ -34,10 +35,11 @@ public class Visualizer : ILogger {
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
     override fun onShutDown() {
         for ((k, v) in graphs) {
+if(relevantQueryIDs.contains(k)){
             File("graph$k.dot").withOutputStream { out ->
                 out.println(v.toDotString())
             }
-        }
+}        }
     }
 
     override fun onStartSimulation() {}
@@ -58,6 +60,9 @@ public class Visualizer : ILogger {
                 val g_subgraph = g_device.subgraphs.getOrPut(dataId, { DotGraph() })
 ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{counter++})
             }
+is Package_Query->{
+relevantQueryIDs.add(data.queryID)
+}
         }
     }
 }
