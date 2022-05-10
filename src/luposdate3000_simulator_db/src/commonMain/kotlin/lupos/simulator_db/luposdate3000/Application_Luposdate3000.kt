@@ -425,6 +425,7 @@ public class Application_Luposdate3000 public constructor(
                         dependencies2.values.toSet()
                     }
                     val w = PendingWork(
+ownAdress,
                         pck.queryID,
                         pck.data,
                         id,
@@ -598,6 +599,7 @@ public class Application_Luposdate3000 public constructor(
                         }
                         if (flag) {
                             myPendingWork.remove(w)
+logger.costumData(w)
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
@@ -655,7 +657,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:657"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:659"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -681,7 +683,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:683"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:685"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

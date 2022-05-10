@@ -21,20 +21,21 @@ import lupos.shared.MemoryTable
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import simora.applications.scenario.parking.IPackage_Database
 
-internal class PendingWork(
-    val queryID: Int,
-    val data: ByteArrayWrapper,
-    val dataID: Int,
-    val destinations: Map<Int, Int>,
-    val dependencies: Set<Int>,
-    val onFinish: IPackage_Database?,
-    val expectedResult: MemoryTable?,
-    val verifyAction: () -> Unit,
-    val query: IQuery,
+public class PendingWork(
+public val deviceAdress:Int,
+    public val queryID: Int,
+    public val data: ByteArrayWrapper,
+    public val dataID: Int,
+    public val destinations: Map<Int, Int>,
+    public val dependencies: Set<Int>,
+    public val onFinish: IPackage_Database?,
+    public val expectedResult: MemoryTable?,
+    public val verifyAction: () -> Unit,
+    public val query: IQuery,
 ) {
     internal companion object {
-        var pendingWorkCounter = 0
+public        var pendingWorkCounter :Int= 0
     }
 
-    val pendingWorkID = pendingWorkCounter++
+    public val pendingWorkID :Int= pendingWorkCounter++
 }

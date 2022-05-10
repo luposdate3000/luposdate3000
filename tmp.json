@@ -1,0 +1,13 @@
+{
+    "logging": {
+        "lupos.visualize.distributed.database.Visualizer": {
+            "enabled": true,
+        },
+        "simora.LoggerMeasure": {
+            "enabled": false,
+        },
+        "simora.LoggerStdout": {
+            "enabled": false,
+        },
+    },
+}
