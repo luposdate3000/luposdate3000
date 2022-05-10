@@ -20,6 +20,9 @@ import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.IDictionaryCache
 import kotlin.jvm.JvmField
+import kotlin.math.pow
+import kotlin.math.ceil
+import kotlin.math.log2
 
 public class Luposdate3000Instance {
     @JvmField
@@ -86,7 +89,7 @@ public class Luposdate3000Instance {
     public var initialThreads: Int = Luposdate3000Config.initialThreads
 
     @JvmField
-    public var maxThreads: Int = Luposdate3000Config.maxThreads
+    public var maxThreads: Int =  ((2.0).pow(ceil(log2(Luposdate3000Config.maxThreads.toDouble())))).toInt()
 
     @JvmField
     public var dictionaryCacheCapacity: Int = Luposdate3000Config.dictionaryCacheCapacity
