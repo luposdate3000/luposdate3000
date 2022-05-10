@@ -23,4 +23,8 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.js
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_enabled.json \
 tmp.json
 
-dot graph101.dot -Tpng -ograph101.png
+for f in *.dot
+do
+   echo dot $f -Tsvg -o${f%.dot}.svg
+   dot $f -Tsvg -o${f%.dot}.svg
+done
