@@ -49,13 +49,13 @@ public class Visualizer : ILogger {
         when (data) {
             is PendingWork -> {
                 val g_query = graphs.getOrPut(data.queryID, { DotGraph() })
-//                val g_device = g_query.subgraphs.getOrPut("device_${data.deviceAdress}", { DotGraph() })
+                val g_device = g_query.subgraphs.getOrPut("device_${data.deviceAdress}", { DotGraph() })
                 var dataId = if (data.dataID == -1) {
                     "query_root"
                 } else {
                     "query_part_${data.dataID}"
                 }
-                val g_subgraph = g_query.subgraphs.getOrPut(dataId, { DotGraph() })
+                val g_subgraph = g_device.subgraphs.getOrPut(dataId, { DotGraph() })
 ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{counter++})
             }
         }
