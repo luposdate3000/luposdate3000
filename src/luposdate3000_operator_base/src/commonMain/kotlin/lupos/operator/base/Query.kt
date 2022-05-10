@@ -155,7 +155,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:157"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:157"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) },{"$uuid $id .. $root"})
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

@@ -138,7 +138,7 @@ internal object ConverterBinaryToPOPDot {
             val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
-            val res = graph.addNode("SendMulti#${nextID()}")
+            val res = graph.addNode("SendMulti#${nextID()}[$name]")
             graph.addEdge(child, res)
             for (k in keys) {
                 graph.addNode("send$k")
@@ -206,7 +206,7 @@ internal object ConverterBinaryToPOPDot {
                 variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
                 o += 4
             }
-            val res = graph.addNode("ReceiveMultiOrdered#${nextID()}")
+            val res = graph.addNode("ReceiveMultiOrdered#${nextID()}$variablesOut")
             for (k in keys) {
                 graph.addEdge("rec$k", res)
                 graph.addNode("rec$k")
