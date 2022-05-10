@@ -1,15 +1,15 @@
 package lupos.visualize.distributed.database
-import simora.applications.scenario.parking.Package_Query
-import  lupos.simulator_db.luposdate3000.PendingWork
-import simora.ILogger
-import simora.SimulationRun
-import simora.IPayload
 import lupos.shared.inline.File
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
+import lupos.simulator_db.luposdate3000.PendingWork
+import simora.ILogger
+import simora.IPayload
+import simora.SimulationRun
+import simora.applications.scenario.parking.Package_Query
 
 public class Visualizer : ILogger {
-internal val relevantQueryIDs=mutableSetOf<Int>()
+    internal val relevantQueryIDs = mutableSetOf<Int>()
     internal val graphs = mutableMapOf<Int, DotGraph>()
     internal var counter = 0
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
@@ -35,11 +35,12 @@ internal val relevantQueryIDs=mutableSetOf<Int>()
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
     override fun onShutDown() {
         for ((k, v) in graphs) {
-if(relevantQueryIDs.contains(k)){
-            File("graph$k.dot").withOutputStream { out ->
-                out.println(v.toDotString())
+            if (relevantQueryIDs.contains(k)) {
+                File("graph$k.dot").withOutputStream { out ->
+                    out.println(v.toDotString())
+                }
             }
-}        }
+        }
     }
 
     override fun onStartSimulation() {}
@@ -58,25 +59,25 @@ if(relevantQueryIDs.contains(k)){
                     "query_part_${data.dataID}"
                 }
                 val g_subgraph = g_device.subgraphs.getOrPut(dataId, { DotGraph() })
-ConverterBinaryToPOPDot.decode(data.query,data.data,data.dataID,g_subgraph,{counter++})
+                ConverterBinaryToPOPDot.decode(data.query, data.data, data.dataID, g_subgraph, { counter++ })
             }
-is Package_Query->{
-relevantQueryIDs.add(data.queryID)
-}
+            is Package_Query -> {
+                relevantQueryIDs.add(data.queryID)
+            }
         }
     }
 }
 
-internal class DotNode(internal val label: String,internal val id:String,internal val _do_not_use:Boolean) {
-internal companion object{
-operator fun invoke(label:String):DotNode{
-return DotNode(label.replace("#[0-9]*".toRegex(),""),label.replace("[^a-zA-Z0-9]".toRegex(),""),false)
-}
-}
+internal class DotNode(internal val label: String, internal val id: String, internal val _do_not_use: Boolean) {
+    internal companion object {
+        operator fun invoke(label: String): DotNode {
+            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), false)
+        }
+    }
 
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-        res.appendLine("${indention}$id [label = \"$label\"];");
+        res.appendLine("${indention}$id [label = \"$label\"];")
         return res.toString()
     }
 }
@@ -92,9 +93,9 @@ internal data class DotEdge(internal val start: String, internal val end: String
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
         if (label.length > 0) {
-            res.appendLine("${indention}$start -> $end [label=\"$label\"];");
+            res.appendLine("${indention}$start -> $end [label=\"$label\"];")
         } else {
-            res.appendLine("${indention}$start -> $end;");
+            res.appendLine("${indention}$start -> $end;")
         }
         return res.toString()
     }
@@ -113,19 +114,19 @@ internal class DotGraph() {
         for (edge in getAllEdges()) {
             res.append(edge.toDotString("  "))
         }
-        res.appendLine("  overlap = scale;");
-        res.appendLine("  splines = true;");
-        res.appendLine("}");
+        res.appendLine("  overlap = scale;")
+        res.appendLine("  splines = true;")
+        res.appendLine("}")
         return res.toString()
     }
-internal fun addNode(label:String):String{
-val node=DotNode(label)
-nodes.add(node)
-return node.id
-}
-internal fun addEdge(label1:String,label2:String){
-edges.add(DotEdge(label1,label2))
-}
+    internal fun addNode(label: String): String {
+        val node = DotNode(label)
+        nodes.add(node)
+        return node.id
+    }
+    internal fun addEdge(label1: String, label2: String) {
+        edges.add(DotEdge(label1, label2))
+    }
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
         for (node in nodes) {
@@ -133,9 +134,9 @@ edges.add(DotEdge(label1,label2))
         }
         for ((label, g) in subgraphs) {
             res.appendLine("${indention}subgraph cluster$label {")
-            res.appendLine("  ${indention}label = \"$label\";");
-            res.append(g.toDotString("  ${indention}"))
-            res.appendLine("$indention}");
+            res.appendLine("  ${indention}label = \"$label\";")
+            res.append(g.toDotString("  $indention"))
+            res.appendLine("$indention}")
         }
         return res.toString()
     }

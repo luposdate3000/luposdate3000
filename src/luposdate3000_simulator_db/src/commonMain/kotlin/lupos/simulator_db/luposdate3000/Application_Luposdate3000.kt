@@ -61,7 +61,6 @@ import lupos.shared.MyInputStreamFromByteArray
 import lupos.shared.OperationCanNotBeLocalException
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
@@ -117,7 +116,7 @@ public class Application_Luposdate3000 public constructor(
             throw InvalidInputException()
         }
         router = parent
-instance.inSimulator=true
+        instance.inSimulator = true
         instance.enableJoinOrderOnHistogram = false
         instance.tryLocalExecution = tryLocalExecution
         instance.LUPOS_PROCESS_URLS_STORE = dbDeviceAddressesStoreList.map { it.toString() }.toTypedArray()
@@ -135,7 +134,7 @@ instance.inSimulator=true
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
-        instance.maxThreads = instance.LUPOS_PROCESS_URLS_ALL.size*2
+        instance.maxThreads = instance.LUPOS_PROCESS_URLS_ALL.size * 2
         instance = LuposdateEndpoint.initializeB(instance)
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
@@ -265,7 +264,7 @@ instance.inSimulator=true
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:267"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:266"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -287,7 +286,7 @@ instance.inSimulator=true
             EQueryDistributionModeExt.Routing -> {
             }
             EQueryDistributionModeExt.Centralized -> {
-                var keysToAssign =  handler.idToOffset.keys-handler.idToHost.keys
+                var keysToAssign = handler.idToOffset.keys - handler.idToHost.keys
                 var changed = true
                 while (keysToAssign.size > 0 && changed) {
                     changed = false
@@ -326,7 +325,7 @@ instance.inSimulator=true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:328"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:327"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -426,7 +425,7 @@ instance.inSimulator=true
                         dependencies2.values.toSet()
                     }
                     val w = PendingWork(
-ownAdress,
+                        ownAdress,
                         pck.queryID,
                         pck.data,
                         id,
@@ -572,7 +571,7 @@ ownAdress,
                         }
                         if (flag) {
                             myPendingWork.remove(w)
-logger.costumData(w)
+                            logger.costumData(w)
                             changed = true
                             val query: Query
                             if (ownAdress != rootAddressInt) {
@@ -630,7 +629,7 @@ logger.costumData(w)
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:632"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:631"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -656,7 +655,7 @@ logger.costumData(w)
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:658"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:657"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

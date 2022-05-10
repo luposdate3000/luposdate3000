@@ -819,7 +819,6 @@ internal object DictionaryHelper {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
             } else if (typeC == ETripleComponentTypeExt.INTEGER) {
-                val cv = byteArrayToFloat_I(c)
                 if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
 "http://www.w3.org/2001/XMLSchema#integer".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
@@ -828,7 +827,6 @@ internal object DictionaryHelper {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
 } else if (typeC == ETripleComponentTypeExt.DATE_TIME) {
-                val cv = byteArrayToFloat_I(c)
                 if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
 "http://www.w3.org/2001/XMLSchema#dateTime".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {

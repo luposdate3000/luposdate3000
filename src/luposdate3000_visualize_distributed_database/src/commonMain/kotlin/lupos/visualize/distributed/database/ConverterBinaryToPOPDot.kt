@@ -15,48 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.visualize.distributed.database
-import lupos.operator.factory.ConverterString
-
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.Query
-import lupos.shared.IQuery
+import lupos.operator.factory.ConverterString
 import lupos.operator.logical.noinput.LOPTriple
-import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
-import lupos.operator.physical.multiinput.EvalJoinHashMap
-import lupos.operator.physical.multiinput.EvalJoinMerge
-import lupos.operator.physical.multiinput.EvalJoinMergeOptional
-import lupos.operator.physical.multiinput.EvalJoinMergeSingleColumn
-import lupos.operator.physical.multiinput.EvalMinus
-import lupos.operator.physical.multiinput.EvalUnion
-import lupos.operator.physical.noinput.EvalGraphOperation
-import lupos.operator.physical.noinput.EvalModifyData
-import lupos.operator.physical.noinput.EvalNothing
-import lupos.operator.physical.noinput.EvalValues
-import lupos.operator.physical.singleinput.EvalBind
-import lupos.operator.physical.singleinput.EvalFilter
-import lupos.operator.physical.singleinput.EvalGroup
-import lupos.operator.physical.singleinput.EvalGroupCount0
-import lupos.operator.physical.singleinput.EvalGroupCount1
-import lupos.operator.physical.singleinput.EvalGroupSorted
-import lupos.operator.physical.singleinput.EvalGroupWithoutKeyColumn
-import lupos.operator.physical.singleinput.EvalMakeBooleanResult
-import lupos.operator.physical.singleinput.EvalModify
-import lupos.operator.physical.singleinput.EvalSort
-import lupos.operator.physical.singleinput.modifiers.EvalLimit
-import lupos.operator.physical.singleinput.modifiers.EvalOffset
-import lupos.operator.physical.singleinput.modifiers.EvalReduced
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EOperatorIDExt
+import lupos.shared.IQuery
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.IteratorBundleRoot
-import lupos.triple_store_manager.EvalTripleStoreIterator
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 internal typealias BinaryToPOPDotMap = (query: IQuery, data: ByteArrayWrapper, offset: Int, Array<Any?>, graph: DotGraph, nextID: () -> Int) -> String
@@ -124,7 +95,7 @@ internal object ConverterBinaryToPOPDot {
             }
             TODO("dataID $dataID not found")
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/ConverterBinaryToPOPDot.kt:126"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_visualize_distributed_database/src/commonMain/kotlin/lupos/visualize/distributed/database/ConverterBinaryToPOPDot.kt:97"/*SOURCE_FILE_END*/)
         }
         TODO("unreachable")
     }
@@ -139,87 +110,83 @@ internal object ConverterBinaryToPOPDot {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
         decoder as BinaryToPOPDotMap
-        return decoder(query, data, off, operatorMap,graph,nextID)
+        return decoder(query, data, off, operatorMap, graph, nextID)
     }
 
     init {
 
-
-
-
-
-assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap, graph, nextID ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
-            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap,graph,nextID)
-val res=graph.addNode("SendSingle#${nextID()}");
-graph.addEdge(child,res)
-graph.addNode("send$key")
-graph.addEdge(res,"send$key")
-res
+            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap, graph, nextID)
+            val res = graph.addNode("SendSingle#${nextID()}")
+            graph.addEdge(child, res)
+            graph.addNode("send$key")
+            graph.addEdge(res, "send$key")
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap, graph, nextID ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
-            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap,graph,nextID)
-val res=graph.addNode("SendSingleCount#${nextID()}");
-graph.addEdge(child,res)
-graph.addNode("send$key")
-graph.addEdge(res,"send$key")
-res
+            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap, graph, nextID)
+            val res = graph.addNode("SendSingleCount#${nextID()}")
+            graph.addEdge(child, res)
+            graph.addNode("send$key")
+            graph.addEdge(res, "send$key")
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap , graph, nextID->
-            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }), operatorMap,graph,nextID)
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap, graph, nextID ->
+            val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }), operatorMap, graph, nextID)
             val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
-val res=graph.addNode("SendMulti#${nextID()}");
-graph.addEdge(child,res)
-for(k in keys){
-graph.addNode("send$k")
-graph.addEdge(res,"send$k")
-}
-res
+            val res = graph.addNode("SendMulti#${nextID()}")
+            graph.addEdge(child, res)
+            for (k in keys) {
+                graph.addNode("send$k")
+                graph.addEdge(res, "send$k")
+            }
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _, graph, nextID ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
-val res=graph.addNode("ReceiveSingle#${nextID()}");
-graph.addEdge("rec$key",res)
-graph.addNode("rec$key")
-res
+            val res = graph.addNode("ReceiveSingle#${nextID()}")
+            graph.addEdge("rec$key", res)
+            graph.addNode("rec$key")
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _, graph, nextID ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
-val res=graph.addNode("ReceiveSingleCount#${nextID()}");
-graph.addEdge("rec$key",res)
-graph.addNode("rec$key")
-res
+            val res = graph.addNode("ReceiveSingleCount#${nextID()}")
+            graph.addEdge("rec$key", res)
+            graph.addNode("rec$key")
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { _, data, off, _ , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiID) { _, data, off, _, graph, nextID ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMulti.size" })
             for (i in 0 until len) {
                 keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
             }
-val res=graph.addNode("ReceiveMulti#${nextID()}");
-for(k in keys){
-graph.addEdge("rec$k",res)
-graph.addNode("rec$k")
-}
-res
+            val res = graph.addNode("ReceiveMulti#${nextID()}")
+            for (k in keys) {
+                graph.addEdge("rec$k", res)
+                graph.addNode("rec$k")
+            }
+            res
         }
-        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _ , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _, graph, nextID ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
             for (i in 0 until len) {
                 keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
             }
-val res=graph.addNode("ReceiveMultiCount#${nextID()}");
-for(k in keys){
-graph.addEdge("rec$k",res)
-graph.addNode("rec$k")
-}
-res
+            val res = graph.addNode("ReceiveMultiCount#${nextID()}")
+            for (k in keys) {
+                graph.addEdge("rec$k", res)
+                graph.addNode("rec$k")
+            }
+            res
         }
- assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { _, data, off, _ , graph, nextID->
+        assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiOrderedID) { _, data, off, _, graph, nextID ->
             var keys = mutableListOf<Int>()
             var orderedBy = mutableListOf<String>()
             var variablesOut = mutableListOf<String>()
@@ -239,28 +206,13 @@ res
                 variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })))
                 o += 4
             }
-val res=graph.addNode("ReceiveMultiOrdered#${nextID()}");
-for(k in keys){
-graph.addEdge("rec$k",res)
-graph.addNode("rec$k")
-}
-res
+            val res = graph.addNode("ReceiveMultiOrdered#${nextID()}")
+            for (k in keys) {
+                graph.addEdge("rec$k", res)
+                graph.addNode("rec$k")
+            }
+            res
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGraphOperationID,
@@ -271,7 +223,7 @@ res
                 val graph2type = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGraphOperation.graph2type" })
                 val graph2iri = ConverterString.decodeStringNull(data, ByteArrayWrapperExt.readInt4(data, off + 20, { "POPGraphOperation.graph2iri" }))
                 val action = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGraphOperation.action" })
-                graph.addNode("GraphOperation#${nextID()}($action)");
+                graph.addNode("GraphOperation#${nextID()}($action)")
             },
         )
         assignOperatorPhysicalDecode(
@@ -288,7 +240,7 @@ res
                     d.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPModifyData.data[$i].graph" })) to arr)
                     o += DictionaryValueHelper.getSize() * 3 + 4
                 }
-                graph.addNode("ModifyData#${nextID()}");
+                graph.addNode("ModifyData#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
@@ -299,13 +251,13 @@ res
                 for (i in 0 until len) {
                     list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPNothing.data[$i]" })))
                 }
-                graph.addNode("Nothing#${nextID()}");
+                graph.addNode("Nothing#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPValuesCountID,
             { query, data, off, operatorMap, graph, nextID ->
-                graph.addNode(                    "ValuesCount#${nextID()}");
+                graph.addNode("ValuesCount#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
@@ -324,13 +276,13 @@ res
                         o += DictionaryValueHelper.getSize()
                     }
                 }
-                graph.addNode("Values#${nextID()}");
+                graph.addNode("Values#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPEmptyRowID,
             { query, data, off, operatorMap, graph, nextID ->
-                graph.addNode("EmptyRow#${nextID()}");
+                graph.addNode("EmptyRow#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
@@ -343,7 +295,7 @@ res
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPUnion.variables[$i]" })))
                 }
-                val res = graph.addNode("Union#${nextID()}");
+                val res = graph.addNode("Union#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -359,7 +311,7 @@ res
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPMinus.variables[$i]" })))
                 }
-                val res = graph.addNode("Minus#${nextID()}");
+                val res = graph.addNode("Minus#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -375,7 +327,7 @@ res
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMergeOptional.variables[$i]" })))
                 }
-                val res = graph.addNode("JoinMergeOptional#${nextID()}");
+                val res = graph.addNode("JoinMergeOptional#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -391,7 +343,7 @@ res
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
                 }
-                val res = graph.addNode("JoinMerge#${nextID()}");
+                val res = graph.addNode("JoinMerge#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -402,7 +354,7 @@ res
             { query, data, off, operatorMap, graph, nextID ->
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }), operatorMap, graph, nextID)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }), operatorMap, graph, nextID)
-                val res = graph.addNode("JoinMergeSingleColumn#${nextID()}");
+                val res = graph.addNode("JoinMergeSingleColumn#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -419,7 +371,7 @@ res
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                val res = graph.addNode("JoinHashMap#${nextID()}");
+                val res = graph.addNode("JoinHashMap#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -431,7 +383,7 @@ res
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }), operatorMap, graph, nextID)
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }), operatorMap, graph, nextID)
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinCartesianProduct.optional" }) == 1
-                val res = graph.addNode("JoinCartesianProduct#${nextID()}");
+                val res = graph.addNode("JoinCartesianProduct#${nextID()}")
                 graph.addEdge(child0, res)
                 graph.addEdge(child1, res)
                 res
@@ -442,7 +394,7 @@ res
             { query, data, off, operatorMap, graph, nextID ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }), operatorMap, graph, nextID)
                 val limit = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPLimit.limit" })
-                val res = graph.addNode("Limit#${nextID()}($limit)");
+                val res = graph.addNode("Limit#${nextID()}($limit)")
                 graph.addEdge(child, res)
                 res
             },
@@ -471,7 +423,7 @@ res
                     pList.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.p[$i]" })))
                     o += 4
                 }
-                val res = graph.addNode("Sort#${nextID()}($sortOrder)");
+                val res = graph.addNode("Sort#${nextID()}($sortOrder)")
                 graph.addEdge(child, res)
                 res
             },
@@ -490,7 +442,7 @@ res
             EOperatorIDExt.POPMakeBooleanResultID,
             { query, data, off, operatorMap, graph, nextID ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" }), operatorMap, graph, nextID)
-                val res = graph.addNode("MakeBooleanResult#${nextID()}");
+                val res = graph.addNode("MakeBooleanResult#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -500,7 +452,7 @@ res
             { query, data, off, operatorMap, graph, nextID ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }), operatorMap, graph, nextID)
                 val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
-                val res = graph.addNode("Reduced#${nextID()}");
+                val res = graph.addNode("Reduced#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -559,7 +511,7 @@ res
                     o += 4
                     res
                 }
-                graph.addNode("TripleStore#${nextID()}");
+                graph.addNode("TripleStore#${nextID()}")
             },
         )
         assignOperatorPhysicalDecode(
@@ -572,7 +524,7 @@ res
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 20 + i * 4, { "POPBind.variables[$i]" })))
                 }
                 val column = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPBind.column" }))
-                val res = graph.addNode("Bind#${nextID()}");
+                val res = graph.addNode("Bind#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -586,7 +538,7 @@ res
                 for (i in 0 until len) {
                     variablesOut.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + i * 4, { "POPFilter.variables[$i]" })))
                 }
-                val res = graph.addNode("Filter#${nextID()}");
+                val res = graph.addNode("Filter#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -596,7 +548,7 @@ res
             { query, data, off, operatorMap, graph, nextID ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount0.child" }), operatorMap, graph, nextID)
                 val binding = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount0.column" }))
-                val res = graph.addNode("GroupCount0#${nextID()}");
+                val res = graph.addNode("GroupCount0#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -607,7 +559,7 @@ res
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount1.child" }), operatorMap, graph, nextID)
                 val binding = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPGroupCount1.column" }))
                 val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPGroupCount1.by" }))
-                val res = graph.addNode("GroupCount1#${nextID()}");
+                val res = graph.addNode("GroupCount1#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -635,7 +587,7 @@ res
                     o += 4
                     o += 4
                 }
-                val res = graph.addNode("GroupSorted#${nextID()}");
+                val res = graph.addNode("GroupSorted#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -657,7 +609,7 @@ res
                     o += 4
                     o += 4
                 }
-                val res = graph.addNode("Group#${nextID()}");
+                val res = graph.addNode("Group#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -679,7 +631,7 @@ res
                     o += 4
                     o += 4
                 }
-                val res = graph.addNode("GroupWithoutKeyColumn#${nextID()}");
+                val res = graph.addNode("GroupWithoutKeyColumn#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },
@@ -714,7 +666,7 @@ res
                     val k = LOPTriple(query, s, p, oo, graph, graphVar)
                     k to v
                 }
-                val res = graph.addNode("Modify#${nextID()}");
+                val res = graph.addNode("Modify#${nextID()}")
                 graph.addEdge(child, res)
                 res
             },

@@ -22,7 +22,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import simora.applications.scenario.parking.IPackage_Database
 
 public class PendingWork(
-public val deviceAdress:Int,
+    public val deviceAdress: Int,
     public val queryID: Int,
     public val data: ByteArrayWrapper,
     public val dataID: Int,
@@ -34,8 +34,8 @@ public val deviceAdress:Int,
     public val query: IQuery,
 ) {
     internal companion object {
-public        var pendingWorkCounter :Int= 0
+        public var pendingWorkCounter: Int = 0
     }
 
-    public val pendingWorkID :Int= pendingWorkCounter++
+    public val pendingWorkID: Int = pendingWorkCounter++
 }

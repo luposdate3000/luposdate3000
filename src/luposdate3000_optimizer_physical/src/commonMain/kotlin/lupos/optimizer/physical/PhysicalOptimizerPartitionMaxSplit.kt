@@ -16,51 +16,15 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.Query
-import lupos.operator.physical.multiinput.POPUnion
-import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPSplitPartition
-import lupos.operator.physical.partition.POPSplitPartitionFromStore
-import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
-import lupos.operator.physical.singleinput.POPBind
-import lupos.operator.physical.singleinput.POPFilter
-import lupos.operator.physical.singleinput.POPProjection
-import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
-import lupos.triple_store_manager.POPTripleStoreIterator
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.base.Query
-import lupos.operator.physical.partition.POPSplitPartition
-import lupos.operator.physical.partition.POPSplitPartitionFromStore
-import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
-import lupos.operator.physical.singleinput.POPFilter
-import lupos.operator.physical.singleinput.POPProjection
-import lupos.operator.physical.singleinput.modifiers.POPReduced
-import lupos.optimizer.logical.EOptimizerIDExt
-import lupos.optimizer.logical.OptimizerBase
-import lupos.shared.EPartitionModeExt
-import lupos.shared.operator.IOPBase
-import lupos.triple_store_manager.POPTripleStoreIterator
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.base.Query
-import lupos.operator.physical.partition.POPSplitPartition
-import lupos.operator.physical.partition.POPSplitPartitionFromStore
-import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
-import lupos.operator.physical.singleinput.POPFilter
-import lupos.operator.physical.singleinput.POPProjection
-import lupos.operator.physical.singleinput.modifiers.POPReduced
-import lupos.optimizer.logical.EOptimizerIDExt
-import lupos.optimizer.logical.OptimizerBase
-import lupos.shared.EPartitionModeExt
-import lupos.shared.operator.IOPBase
-import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionMaxSplit(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionMaxSplitID, "PhysicalOptimizerPartitionMaxSplit") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
