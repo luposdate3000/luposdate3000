@@ -378,7 +378,6 @@ public class Application_Luposdate3000 public constructor(
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
 
-
 // 2. split receive-multi operators to match the network layout
         val partIds = pck.handler.idToHost.keys.toMutableSet()
         for (id in partIds) {
@@ -390,7 +389,7 @@ public class Application_Luposdate3000 public constructor(
                     val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
                     val hosts = key2hop.values.toSet()
                     if (hosts.size > 1) {
-                        if (id != -1) {//only debugging
+                        if (id != -1&&hosts.size >2) {//only debugging
                             println()
                             println("id $id")
                             println("id2host $id2host")
