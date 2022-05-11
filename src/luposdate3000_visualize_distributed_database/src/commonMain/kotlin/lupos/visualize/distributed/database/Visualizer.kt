@@ -1,4 +1,5 @@
 package lupos.visualize.distributed.database
+
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
@@ -68,23 +69,26 @@ public class Visualizer : ILogger {
     }
 }
 
-internal class DotNode(internal val label: String, internal val id: String, internal val isMetaNode:Boolean,internal val _do_not_use: Boolean) {
+internal class DotNode(internal val label: String, internal val id: String, internal val color:Int, internal val _do_not_use: Boolean) {
     internal companion object {
         operator fun invoke(label: String): DotNode {
-            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""),false, false)
+            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), 0, false)
         }
-        operator fun invoke(label: String,isMetaNode:Boolean): DotNode {
-            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""),isMetaNode, false)
+
+        operator fun invoke(label: String, color:Int): DotNode {
+            return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), color, false)
         }
     }
 
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-if(isMetaNode){
-        res.appendLine("${indention}$id [label = \"$label\", fillcolor=gray, style=filled];")
-}else{
-        res.appendLine("${indention}$id [label = \"$label\", fillcolor=white, style=filled];")
+val color_string=        when (color) {
+1->"gray"
+2->"red"
+3->"green"
+else->"white"
 }
+            res.appendLine("${indention}$id [label = \"$label\", fillcolor=$color_string, style=filled];")
         return res.toString()
     }
 }
@@ -126,19 +130,23 @@ internal class DotGraph() {
         res.appendLine("}")
         return res.toString()
     }
+
     internal fun addNode(label: String): String {
         val node = DotNode(label)
         nodes.add(node)
         return node.id
     }
-    internal fun addNode(label: String,isInivisble:Boolean): String {
-        val node = DotNode(label,isInivisble)
+
+    internal fun addNode(label: String, color:Int): String {
+        val node = DotNode(label, color)
         nodes.add(node)
         return node.id
     }
+
     internal fun addEdge(label1: String, label2: String) {
         edges.add(DotEdge(label1, label2))
     }
+
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
         for (node in nodes) {
