@@ -380,27 +380,54 @@ public class Application_Luposdate3000 public constructor(
 
 // 2. split receive-multi operators to match the network layout
         val partIds = pck.handler.idToHost.keys.toMutableSet()
-        for (id in partIds) {
-            val id2host = pck.handler.idToHost[id]
-            if (id2host != null) {
-                val depsForId = pck.handler.dependenciesForID[id]
-                if (depsForId != null) {
-                    val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> it2.toInt() } }.toMap()
-                    val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
-                    val hosts = key2hop.values.toSet()
-                    if (hosts.size > 1) {
-                        if (id != -1&&hosts.size >2) {//only debugging
-                            println()
-                            println("id $id")
-                            println("id2host $id2host")
-                            println("key2host $key2host")
-                            println("key2hop $key2hop")
+        var changed = true
+        while (changed) {
+            changed = false
+            for (id in partIds) {
+                val id2host = pck.handler.idToHost[id]
+                if (id2host != null) {
+                    val depsForId = pck.handler.dependenciesForID[id]
+                    if (depsForId != null) {
+                        val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> it2.toInt() } }.toMap()
+                        val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
+                        val hosts = key2hop.values.toSet()
+                        if (hosts.size > 1) {
+                            if (id != -1 && hosts.size > 2 && pck.queryID == 10) {//only debugging, otherwise remove this condition
+                                val hop2key = key2hop.values.toSet().map { it -> it to key2hop.toList().filter { it2 -> it2.second == it }.map { it2 -> it2.first } }.toMap()
+                                println()
+                                println("id $id")
+                                println("id2host $id2host")
+                                println("key2host $key2host")
+                                println("key2hop $key2hop")
+                                println("hop2key $hop2key")
+                                for ((hop, keys) in hop2key) {
+                                    if (keys.size > 1) {
+                                        val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
+                                        for (key in keys) {
+                                            val off = pck.handler.keyLocationDest[key]!!
+                                            val ss = operatorOffToKeys.getOrPut(off, { mutableSetOf() })
+                                            ss.add(key)
+                                        }
+                                        for ((operatorOff, keys2) in operatorOffToKeys) {
+                                            if (keys2.size > 1) {
+                                                println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
+/*
+create a new multi-receiver for the 'keys2'
+create a new send-single which is going to send to 'operatorOff'
+sanitize the handler and dependencies
+xxx
+*/
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-
 
 // 3. recalculate target of execution for each operator
         for ((k, v) in pck.handler.idToHost) {
