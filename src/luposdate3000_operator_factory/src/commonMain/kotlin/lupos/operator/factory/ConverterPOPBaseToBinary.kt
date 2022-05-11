@@ -16,6 +16,7 @@
  */
 package lupos.operator.factory
 
+import lupos.shared.SanityCheck
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
@@ -152,9 +153,66 @@ public object ConverterPOPBaseToBinary {
                 handler.idToHost[childID] = mutableSetOf(rootAddress)
             }
         }
-if(enableOptimiationMergeConsecutiveSendReceiveSingle){
+        if (enableOptimiationMergeConsecutiveSendReceiveSingle) {
+            fun updateKeyInSender(oldKey: Int, newKey: Int) {
+                val off0 = handler.keyLocationSrc[oldKey]!!
+                handler.keyLocationSrc[newKey] = off0
+                val type0 = ByteArrayWrapperExt.readInt4(data, off0, { "operatorID" })
+                when (type0) {
+                    EOperatorIDExt.POPDistributedSendSingleID -> {
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:162"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off0 + 4, { "POPDistributedSendSingle.key" }) == oldKey })
+                        ByteArrayWrapperExt.writeInt4(data, off0 + 4, newKey, { "POPDistributedSendSingle.key" })
+                    }
+                    EOperatorIDExt.POPDistributedSendMultiID -> {
+                        val count = ByteArrayWrapperExt.readInt4(data, off0 + 8, { "POPDistributedSendMulti.count" })
+                        var flag = 0
+                        for (it in 0 until count) {
+                            val key = ByteArrayWrapperExt.readInt4(data, off0 + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" })
+                            if (key == oldKey) {
+                                ByteArrayWrapperExt.writeInt4(data, off0 + 16 + 4 * it, newKey, { "POPDistributedSendMulti.key[$it]" })
+                                flag++
+                            }
+                        }
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:175"/*SOURCE_FILE_END*/ }, { flag == 1 })
+                    }
+                    else -> {
+//crash, because it is already decided, that this must be replaced
+                        TODO("unknown type $type0")
+                    }
+                }
+            }
 
-}
+            val idToOffsetBackup = mutableMapOf<Int, Int>()
+            idToOffsetBackup.putAll(handler.idToOffset)
+            for ((id, off0) in idToOffsetBackup) {
+                val type0 = ByteArrayWrapperExt.readInt4(data, off0, { "operatorID" })
+                when (type0) {
+                    EOperatorIDExt.POPDistributedSendSingleID -> {
+                        val key0 = ByteArrayWrapperExt.readInt4(data, off0 + 4, { "POPDistributedSendSingle.key" })
+                        val off1 = ByteArrayWrapperExt.readInt4(data, off0 + 8, { "POPDistributedSendSingle.child" })
+                        val type1 = ByteArrayWrapperExt.readInt4(data, off1, { "operatorID" })
+                        when (type1) {
+                            EOperatorIDExt.POPDistributedReceiveSingleID -> {
+                                val key1 = ByteArrayWrapperExt.readInt4(data, off1 + 4, { "POPDistributedReceiveSingle.key" })
+                                updateKeyInSender(key1, key0)
+                                handler.dependenciesForID.remove(id)
+                                handler.idToOffset.remove(id)
+                                handler.idToHost.remove(id)
+                                handler.keyLocationSrc.remove(key1)
+                                handler.keyLocationDest.remove(key1)
+                                ByteArrayWrapperExt.writeInt4(data, off0, -1, { "operatorID" })//writing invalid operator id to make sure, that it is never read
+                            }
+                            else -> {
+//ok, no optimization right now
+                            }
+                        }
+                    }
+                    else -> {
+//ok, no optimization right now
+                    }
+                }
+            }
+        }
         if (enableOptimiationMergeIfSharedHost) {
             // mergen wenn beide gleichen (oder gar keinen) host haben
             queue = handler.idToOffset.keys.toMutableList()

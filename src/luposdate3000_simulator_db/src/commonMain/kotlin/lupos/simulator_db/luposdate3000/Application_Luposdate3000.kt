@@ -474,6 +474,9 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
         assignOP(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
+if(destinations[key]==null){
+println("trying to access destination with key $key, which does not exist")
+}
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
@@ -634,7 +637,7 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:636"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:639"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -660,7 +663,7 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:662"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:665"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
