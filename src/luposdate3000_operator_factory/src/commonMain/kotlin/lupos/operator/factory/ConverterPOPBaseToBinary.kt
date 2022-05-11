@@ -82,6 +82,7 @@ var res=idToOffset.size+idToHost.size
 while(idToOffset.keys.contains(res) || idToHost.keys.contains(res)){
 res++
 }
+println("getNextChildID $res")
 return res
 }
 public fun getNextKey():Int{
@@ -89,6 +90,7 @@ var res=keyLocationSrc.size+keyLocationDest.size
 while(keyLocationSrc.keys.contains(res)||keyLocationDest.keys.contains(res)){
 res++
 }
+println("getNextKey $res")
 return res
 }
 public fun keyLocationReceive(id: Int, off: Int) {
@@ -198,7 +200,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:200"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:202"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
@@ -211,7 +213,7 @@ public object ConverterPOPBaseToBinary {
                                                     flag++
                                                 }
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:213"/*SOURCE_FILE_END*/ }, { flag == 1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:215"/*SOURCE_FILE_END*/ }, { flag == 1 })
                                         }
                                         else -> {
 //crash, because it is already decided, that this must be replaced

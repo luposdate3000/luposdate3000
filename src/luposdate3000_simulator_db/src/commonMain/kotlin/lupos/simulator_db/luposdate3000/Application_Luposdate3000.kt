@@ -436,6 +436,7 @@ public class Application_Luposdate3000 public constructor(
                                                         ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
                                                         var i = 0
                                                         for (k in newKeys) {
+pck.handler.keyLocationDest[k]=operatorOff
                                                             ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
                                                             i++
                                                         }
@@ -482,6 +483,7 @@ public class Application_Luposdate3000 public constructor(
                                                         ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiOrdered.size" })
                                                         var i = 0
                                                         for (k in newKeys) {
+pck.handler.keyLocationDest[k]=operatorOff
                                                             ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 16 + 4 * i, k, { "POPDistributedReceiveMultiOrdered.key[$i]" })
                                                             i++
                                                         }
@@ -499,7 +501,9 @@ public class Application_Luposdate3000 public constructor(
                                                         TODO("unknown type $oldType")
                                                     }
                                                 }
+pck.handler.keyLocationSrc[newKey]= pck.handler.idToOffset[childID]!!
                                                 val deps = pck.handler.dependenciesForID[id]!!
+println("oldDeps $deps")
                                                 deps[childID] = newKey
                                                 val deps2 = mutableMapOf<Int, Int>()
                                                 pck.handler.dependenciesForID[childID] = deps2
@@ -511,10 +515,9 @@ public class Application_Luposdate3000 public constructor(
                                                 for (x in deps2.keys) {
                                                     deps.remove(x)
                                                 }
-
+println("newDeps $deps ... $deps2")
                                                 changed = true
                                                 continue@loop
-
                                             }
                                         }
                                     }
@@ -787,7 +790,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:789"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:792"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -813,7 +816,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:815"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:818"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
