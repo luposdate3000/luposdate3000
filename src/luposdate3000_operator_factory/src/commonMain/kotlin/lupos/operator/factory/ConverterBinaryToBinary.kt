@@ -497,6 +497,13 @@ public object ConverterBinaryToBinary {
             },
         )
         assignOperatorPhysicalDecode(
+            EOperatorIDExt.LOPNOOPID,
+            { query, off, data, dataOut, mapping, offPtr ->
+                val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "LOPNOOP.child" })
+                    recodeHelper(query, child, data, dataOut, mapping, offPtr)
+            },
+        )
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.POPSortID,
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" })
