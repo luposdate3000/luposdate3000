@@ -212,6 +212,8 @@ public object ConverterPOPBaseToBinary {
                 handler.idToHost[childID] = mutableSetOf(rootAddress)
             }
         }
+/*
+TODO optimize AFTER distribution, not before
         if (enableOptimiation) {
             // mergen wenn beide gleichen (oder gar keinen) host haben
             queue = handler.idToOffset.keys.toMutableList()
@@ -241,6 +243,7 @@ public object ConverterPOPBaseToBinary {
                 }
             }
         }
+*/
         return data
     }
 

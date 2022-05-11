@@ -375,7 +375,7 @@ public object RestEndpoint {
                 }
             }
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true)
+            val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true,false)
             val binary = binaryAndMeta.first
             val meta = binaryAndMeta.second
             val query = node.getQuery() as Query

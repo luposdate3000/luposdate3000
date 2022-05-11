@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.physical
-
+import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
@@ -32,6 +32,12 @@ public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(
         var res = node
         when (node) {
             !is APOPParallel -> {
+if(node is POPGroup){
+println("parent ${parent==null}")
+if(parent!=null){
+println("parentclass ${parent.getClassname()}")
+}
+}
                 if (node is POPBase && (
                     parent == null || (
                         parent !is APOPParallel &&
@@ -40,9 +46,15 @@ public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(
                         )
                     )
                 ) {
+if(node is POPGroup){
+println("this should change ...")
+}
                     val provided = node.getProvidedVariableNames()
                     if (provided.size > 0) {
                         val partitionID = query.getNextPartitionOperatorID()
+if(node is POPGroup){
+println("realy this is a change!!! $partitionID")
+}
                         res = POPSplitPartition(query, provided, null, 1, partitionID, node)
                         query.addPartitionOperator(res.uuid, partitionID)
                         res = POPMergePartition(query, provided, null, 1, partitionID, res)

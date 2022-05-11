@@ -28,10 +28,11 @@ import lupos.shared.operator.IOPBase
 public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID, "PhysicalOptimizerDebug") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
+if(!query.getInstance().inSimulator){
         when (node) {
             !is POPDebug -> {
                 SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerDebug.kt:33"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerDebug.kt:34"/*SOURCE_FILE_END*/ },
                     {
                         // this code is intended to be debugging only - even if it changes the resulting operator-graph
                         if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
@@ -42,6 +43,7 @@ public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimi
                 )
             }
         }
+}
         return res
     }
 }
