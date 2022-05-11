@@ -268,7 +268,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:269"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:270"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -331,7 +331,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:332"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:333"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -384,16 +384,19 @@ public class Application_Luposdate3000 public constructor(
         for (id in partIds) {
             val id2host = pck.handler.idToHost[id]
             if (id2host != null) {
-                val targets = id2host.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
-                if (targets.size > 1) {
-                    val depsForId = pck.handler.dependenciesForID[id]
-                    if (depsForId != null) {
-                        val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> nextHops[allHostAdresses.indexOf(it2.toInt())] } }
-                        println()
-                        println("id $id")
-                        println("id2host $id2host")
-                        println("targets $targets")
-                        println("key2host $key2host")
+                val depsForId = pck.handler.dependenciesForID[id]
+                if (depsForId != null) {
+                    val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> it2.toInt() } }.toMap()
+                    val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
+                    val hosts = key2hop.values.toSet()
+                    if (hosts.size > 1) {
+                        if (id != -1) {//only debugging
+                            println()
+                            println("id $id")
+                            println("id2host $id2host")
+                            println("key2host $key2host")
+                            println("key2hop $key2hop")
+                        }
                     }
                 }
             }
@@ -661,7 +664,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:670"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:666"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -687,7 +690,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:696"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:692"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
