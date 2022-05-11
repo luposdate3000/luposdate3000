@@ -21,6 +21,7 @@ import kotlin.math.log2
 import kotlin.math.ceil
 import kotlin.math.pow
 import lupos.dictionary.DictionaryCacheLayer
+import lupos.operator.factory.ConverterBinaryEncoder
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
@@ -268,7 +269,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:270"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:271"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -331,7 +332,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:333"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:334"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["key"]!!.toInt()] = pck.data
@@ -381,7 +382,7 @@ public class Application_Luposdate3000 public constructor(
 // 2. split receive-multi operators to match the network layout
         val partIds = pck.handler.idToHost.keys.toMutableSet()
         var changed = true
-        while (changed) {
+        loop@ while (changed) {
             changed = false
             for (id in partIds) {
                 val id2host = pck.handler.idToHost[id]
@@ -411,12 +412,52 @@ public class Application_Luposdate3000 public constructor(
                                         for ((operatorOff, keys2) in operatorOffToKeys) {
                                             if (keys2.size > 1) {
                                                 println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
-/*
-create a new multi-receiver for the 'keys2'
-create a new send-single which is going to send to 'operatorOff'
-sanitize the handler and dependencies
-xxx
-*/
+                                                val childID = pck.handler.getNextChildID()
+                                                val newKey = pck.handler.getNextKey()
+                                                val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
+                                                val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
+                                                when (oldType) {
+                                                    EOperatorIDExt.POPDistributedReceiveMultiID -> {
+                                                        pck.handler.idToOffset[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
+                                                            for (k2 in keys2) {
+                                                                pck.handler.keyLocationReceive(k2, offPtr)
+                                                            }
+                                                            ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(pck.data, mutableMapOf(), keys2.toList())
+                                                        })
+                                                        val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMulti.size" })
+                                                        val newKeys = mutableSetOf<Int>(newKey)
+                                                        for (i in 0 until len) {
+                                                            val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" })
+                                                            if (!keys2.contains(local_key)) {
+                                                                newKeys.add(local_key)
+                                                            }
+                                                        }
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
+                                                    var i = 0
+                                                    for (k in newKeys) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
+                                                        i++
+                                                    }
+                                                    }
+                                                    else -> {
+                                                        TODO("unknown type $oldType")
+                                                    }
+                                                }
+val deps=pck.handler.dependenciesForID[id]!!
+deps[childID]=newKey
+val deps2=mutableMapOf<Int,Int>()
+pck.handler.dependenciesForID[childID]=deps2
+for((k,v)in deps){
+if(keys2.contains(v)){
+deps2[k]=v
+}
+}
+for(x in deps2.keys){
+deps.remove(x)
+}
+
+                                                changed = true
+                                                continue@loop
 
                                             }
                                         }
@@ -690,7 +731,7 @@ xxx
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:666"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:733"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -716,7 +757,7 @@ xxx
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:692"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:759"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
