@@ -16,6 +16,7 @@
  */
 
 package lupos.simulator_db.luposdate3000
+
 import kotlin.math.log2
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -272,7 +273,7 @@ public class Application_Luposdate3000 public constructor(
         }
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
-        val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true,pck.queryID==10)
+        val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true, false)
         val data = binaryPair.first
         val handler = binaryPair.second
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
@@ -308,9 +309,9 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
         }
-if(pck.queryID==10){
-println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
-}
+        if (false) {
+            println(ConverterBinaryToPOPJson.decode(op.getQuery() as Query, data))
+        }
         receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
@@ -376,7 +377,30 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
             }
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
-// 2. recalculate target of execution for each operator
+
+
+// 2. split receive-multi operators to match the network layout
+        val partIds = pck.handler.idToHost.keys.toMutableSet()
+        for (id in partIds) {
+            val id2host = pck.handler.idToHost[id]
+            if (id2host != null) {
+                val targets = id2host.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
+                if (targets.size > 1) {
+                    val depsForId = pck.handler.dependenciesForID[id]
+                    if (depsForId != null) {
+                        val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> nextHops[allHostAdresses.indexOf(it2.toInt())] } }
+                        println()
+                        println("id $id")
+                        println("id2host $id2host")
+                        println("targets $targets")
+                        println("key2host $key2host")
+                    }
+                }
+            }
+        }
+
+
+// 3. recalculate target of execution for each operator
         for ((k, v) in pck.handler.idToHost) {
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
@@ -384,7 +408,7 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
             } else if (targets.contains(rootAddressInt)) {
                 rootAddressInt
             } else {
-// 2.a if targets differ, calculate the operator here
+// 3.a if targets differ, calculate the operator here
                 ownAdress
             }
             if (target == ownAdress) {
@@ -392,7 +416,7 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
                 if (dep != null) {
                     for (d in dep.values) {
                         pck.destinations[d] = ownAdress
-// 2.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
+// 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
                     }
                 }
             }
@@ -404,7 +428,7 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
                 myIdsOnTargetMap[target] = mm
             }
         }
-// 3. fix destinations where each operator send its results
+// 4. fix destinations where each operator send its results
         // this is only a workaround ... this may yield errors, if the query is pushed further down
         for ((host, ids) in myIdsOnTargetMap) {
             for (id in ids) {
@@ -412,14 +436,14 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
                 if (keys != null) {
                     for (key in keys.values) {
                         if (pck.destinations[key] == null) {
-// 3.b. if destination of result is unclear, try to fix it
+// 4.b. if destination of result is unclear, try to fix it
                             pck.destinations[key] = host
                         }
                     }
                 }
             }
         }
-// 4. send packets further down the network - or store them locally, if this device is the destination
+// 5. send packets further down the network - or store them locally, if this device is the destination
         for ((targetHost, filter) in myIdsOnTargetMap) {
             if (targetHost == ownAdress) {
                 for (id in filter) {
@@ -474,9 +498,9 @@ println(ConverterBinaryToPOPJson.decode(op.getQuery()as Query,data))
         assignOP(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
-if(destinations[key]==null){
-println("trying to access destination with key $key, which does not exist")
-}
+            if (destinations[key] == null) {
+                println("trying to access destination with key $key, which does not exist")
+            }
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
@@ -637,7 +661,7 @@ println("trying to access destination with key $key, which does not exist")
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:639"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:670"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -663,7 +687,7 @@ println("trying to access destination with key $key, which does not exist")
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:665"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:696"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
