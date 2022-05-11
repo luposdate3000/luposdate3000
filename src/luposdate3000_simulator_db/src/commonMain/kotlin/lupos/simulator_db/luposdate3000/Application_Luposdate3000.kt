@@ -418,6 +418,7 @@ public class Application_Luposdate3000 public constructor(
                                                 val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                                 when (oldType) {
                                                     EOperatorIDExt.POPDistributedReceiveMultiID -> {
+                                                        println("had EOperatorIDExt.POPDistributedReceiveMultiID")
                                                         pck.handler.idToOffset[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
                                                             for (k2 in keys2) {
                                                                 pck.handler.keyLocationReceive(k2, offPtr)
@@ -432,29 +433,84 @@ public class Application_Luposdate3000 public constructor(
                                                                 newKeys.add(local_key)
                                                             }
                                                         }
-                                                    ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
-                                                    var i = 0
-                                                    for (k in newKeys) {
-                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
-                                                        i++
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
+                                                        var i = 0
+                                                        for (k in newKeys) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
+                                                            i++
+                                                        }
                                                     }
+                                                    EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
+                                                        var orderedBy = mutableListOf<String>()
+                                                        var variablesOut = mutableListOf<String>()
+                                                        val keysLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
+                                                        val orderedByLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+                                                        val variablesOutLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+                                                        val cacheOrderedBy = IntArray(orderedByLen)
+                                                        val cachevariablesOut = IntArray(variablesOutLen)
+                                                        println("EOperatorIDExt.POPDistributedReceiveMultiOrderedID @ $oldOperatorOff ...$keysLen $orderedByLen $variablesOutLen")
+                                                        var o = oldOperatorOff + 16
+                                                        for (i in 0 until keysLen) {
+                                                            o += 4
+                                                        }
+                                                        for (i in 0 until orderedByLen) {
+                                                            val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
+                                                            cacheOrderedBy[i] = a
+                                                            orderedBy.add(ConverterString.decodeString(pck.data, a))
+                                                            o += 4
+                                                        }
+                                                        for (i in 0 until variablesOutLen) {
+                                                            val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
+                                                            cachevariablesOut[i] = a
+                                                            variablesOut.add(ConverterString.decodeString(pck.data, a))
+                                                            o += 4
+                                                        }
+                                                        pck.handler.idToOffset[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
+                                                            for (k2 in keys2) {
+                                                                pck.handler.keyLocationReceive(k2, offPtr)
+                                                            }
+                                                            ConverterBinaryEncoder.encodePOPDistributedReceiveMultiOrdered(pck.data, mutableMapOf(), keys2.toList(), orderedBy, variablesOut)
+                                                        })
+                                                        val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
+                                                        val newKeys = mutableSetOf<Int>(newKey)
+                                                        for (i in 0 until len) {
+                                                            val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 16 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                                                            if (!keys2.contains(local_key)) {
+                                                                newKeys.add(local_key)
+                                                            }
+                                                        }
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiOrdered.size" })
+                                                        var i = 0
+                                                        for (k in newKeys) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 16 + 4 * i, k, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                                                            i++
+                                                        }
+                                                        o = oldOperatorOff + 16 + 4 * newKeys.size
+                                                        for (i in 0 until orderedByLen) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, cacheOrderedBy[i], { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
+                                                            o += 4
+                                                        }
+                                                        for (i in 0 until variablesOutLen) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, cachevariablesOut[i], { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
+                                                            o += 4
+                                                        }
                                                     }
                                                     else -> {
                                                         TODO("unknown type $oldType")
                                                     }
                                                 }
-val deps=pck.handler.dependenciesForID[id]!!
-deps[childID]=newKey
-val deps2=mutableMapOf<Int,Int>()
-pck.handler.dependenciesForID[childID]=deps2
-for((k,v)in deps){
-if(keys2.contains(v)){
-deps2[k]=v
-}
-}
-for(x in deps2.keys){
-deps.remove(x)
-}
+                                                val deps = pck.handler.dependenciesForID[id]!!
+                                                deps[childID] = newKey
+                                                val deps2 = mutableMapOf<Int, Int>()
+                                                pck.handler.dependenciesForID[childID] = deps2
+                                                for ((k, v) in deps) {
+                                                    if (keys2.contains(v)) {
+                                                        deps2[k] = v
+                                                    }
+                                                }
+                                                for (x in deps2.keys) {
+                                                    deps.remove(x)
+                                                }
 
                                                 changed = true
                                                 continue@loop
@@ -731,7 +787,7 @@ deps.remove(x)
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:733"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:789"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -757,7 +813,7 @@ deps.remove(x)
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:759"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:815"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

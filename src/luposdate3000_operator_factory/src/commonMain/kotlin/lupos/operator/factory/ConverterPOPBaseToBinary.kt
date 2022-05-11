@@ -92,7 +92,7 @@ res++
 return res
 }
 public fun keyLocationReceive(id: Int, off: Int) {
-        if (keyLocationDest[id] != null) {
+        if (keyLocationDest[id] == null) {
             TODO("")
         }
         keyLocationDest[id] = off
