@@ -56,52 +56,6 @@ import lupos.shared.operator.noinput.IAOPConstant
 import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.POPTripleStoreIterator
 
-public class BinaryMetadataHandler(
-    public val idToOffset: MutableMap<Int, Int>,
-    public val idToHost: MutableMap<Int, MutableSet<String>>,
-    public val dependenciesForID: MutableMap<Int, MutableMap<Int, Int>>, // parentID -> (childID -> key)
-    public val keyLocationSrc: MutableMap<Int, Int>,
-    public val keyLocationDest: MutableMap<Int, Int>,
-) {
-    public fun getParentsForID(childID: Int): Set<Int> {
-        var res = mutableSetOf<Int>()
-        if (childID != -1) {
-            loop@ for ((parentID, vv) in dependenciesForID) {
-                for (v in vv.keys) {
-                    if (v == childID) {
-                        res.add(parentID)
-                    }
-                }
-            }
-        }
-        return res
-    }
-
-public fun getNextChildID():Int{
-var res=idToOffset.size+idToHost.size
-while(idToOffset.keys.contains(res) || idToHost.keys.contains(res)){
-res++
-}
-println("getNextChildID $res")
-return res
-}
-public fun getNextKey():Int{
-var res=keyLocationSrc.size+keyLocationDest.size
-while(keyLocationSrc.keys.contains(res)||keyLocationDest.keys.contains(res)){
-res++
-}
-println("getNextKey $res")
-return res
-}
-public fun keyLocationReceive(id: Int, off: Int) {
-        if (keyLocationDest[id] == null) {
-            TODO("")
-        }
-        keyLocationDest[id] = off
-    }
-
-}
-
 public typealias OPBaseToBinaryMap = (op: IOPBase, data: ByteArrayWrapper, mapping: MutableMap<String, Int>, distributed: Boolean, handler: ConverterPOPBaseToBinaryDistributionHandler, offPtr: Int) -> Int/*offset*/
 
 public object ConverterPOPBaseToBinary {
@@ -132,7 +86,7 @@ public object ConverterPOPBaseToBinary {
         operatorMap[operatorID] = operator
     }
 
-    public fun optimize(data: ByteArrayWrapper, handler: BinaryMetadataHandler, query: Query): ByteArrayWrapper {
+    public fun optimize(data: ByteArrayWrapper, query: Query): ByteArrayWrapper {
         // alle hosts zuweisen
         var queue: MutableList<Int>
         val fixedIDs = mutableMapOf<Int, Boolean>(-1 to false)
@@ -200,7 +154,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:202"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:156"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
@@ -213,7 +167,7 @@ public object ConverterPOPBaseToBinary {
                                                     flag++
                                                 }
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:215"/*SOURCE_FILE_END*/ }, { flag == 1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:169"/*SOURCE_FILE_END*/ }, { flag == 1 })
                                         }
                                         else -> {
 //crash, because it is already decided, that this must be replaced
