@@ -33,7 +33,7 @@ import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
-import lupos.operator.factory.BinaryMetadataHandler
+import lupos.operator.factory.HelperMetadata
 import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToBinary
@@ -275,45 +275,45 @@ public class Application_Luposdate3000 public constructor(
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true, false)
-        val data = binaryPair.first
-        val handler = binaryPair.second
+        val data = binaryPair
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
-        for (i in handler.idToOffset.keys) {
-            if (handler.idToHost[i] == null) {
-                handler.idToHost[i] = mutableSetOf(ownAdress.toString())
+val handler=HelperMetadata(data)
+        for (i in handler.id2off.keys) {
+            if (handler.id2host[i] == null) {
+                handler.id2host[i] = mutableSetOf(ownAdress.toString())
             }
         }
-        if (handler.idToHost[-1] == null) {
-            handler.idToHost[-1] = mutableSetOf(ownAdress.toString())
+        if (handler.id2host[-1] == null) {
+            handler.id2host[-1] = mutableSetOf(ownAdress.toString())
         }
         when (instance.queryDistributionMode) {
             EQueryDistributionModeExt.Routing -> {
             }
             EQueryDistributionModeExt.Centralized -> {
-                var keysToAssign = handler.idToOffset.keys - handler.idToHost.keys
+                var keysToAssign = handler.id2off.keys - handler.id2host.keys
                 var changed = true
                 while (keysToAssign.size > 0 && changed) {
                     changed = false
                     for (maybeAssign in keysToAssign) {
-                        val x = handler.dependenciesForID[maybeAssign]
+                        val x = handler.getDependenciesForID(maybeAssign)
                         if (x != null) {
                             for (child in x.keys) {
-                                val h = handler.idToHost[child]
+                                val h = handler.id2host[child]
                                 if (h != null) {
-                                    handler.idToHost[maybeAssign] = h
+                                    handler.id2host[maybeAssign] = h
                                     changed = true
                                 }
                             }
                         }
                     }
-                    keysToAssign = handler.idToHost.keys - handler.idToOffset.keys
+                    keysToAssign = handler.id2host.keys - handler.id2off.keys
                 }
             }
         }
         if (false) {
             println(ConverterBinaryToPOPJson.decode(op.getQuery() as Query, data))
         }
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, handler, destinations, onFinish, expectedResult, verifyAction, q))
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
     private fun receive(pck: Package_Luposdate3000_Abstract) {
@@ -367,7 +367,8 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
-        operatorGraphPartsToHostMapTmp.addAll(pck.handler.idToHost.values.map { it.map { it.toInt() } }.flatten())
+val handler=HelperMetadata(pck.data)
+        operatorGraphPartsToHostMapTmp.addAll(handler.id2host.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
 // 1. calculate next hops for every subquery
         val nextHops = myGetNextHop(allHostAdresses, featureID_any)
@@ -378,18 +379,18 @@ public class Application_Luposdate3000 public constructor(
             }
         }
         var myIdsOnTargetMap = mutableMapOf<Int, MutableSet<Int>>()
-
+/*
 // 2. split receive-multi operators to match the network layout
-        val partIds = pck.handler.idToHost.keys.toMutableSet()
+        val partIds = handler.id2host.keys.toMutableSet()
         var changed = true
         loop@ while (changed) {
             changed = false
             for (id in partIds) {
-                val id2host = pck.handler.idToHost[id]
+                val id2host = handler.id2host[id]
                 if (id2host != null) {
-                    val depsForId = pck.handler.dependenciesForID[id]
+                    val depsForId = handler.getDependenciesForID(id)
                     if (depsForId != null) {
-                        val key2host = depsForId.toList().map { it -> it.second to pck.handler.idToHost[it.first]?.map { it2 -> it2.toInt() } }.toMap()
+                        val key2host = depsForId.toList().map { it -> it.second to handler.id2host[it.first]?.map { it2 -> it2.toInt() } }.toMap()
                         val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
                         val hosts = key2hop.values.toSet()
                         if (hosts.size > 1) {
@@ -405,24 +406,21 @@ public class Application_Luposdate3000 public constructor(
                                     if (keys.size > 1) {
                                         val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
                                         for (key in keys) {
-                                            val off = pck.handler.keyLocationDest[key]!!
+                                            val off = handler.key_rec2off[key]!!
                                             val ss = operatorOffToKeys.getOrPut(off, { mutableSetOf() })
                                             ss.add(key)
                                         }
                                         for ((operatorOff, keys2) in operatorOffToKeys) {
                                             if (keys2.size > 1) {
                                                 println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
-                                                val childID = pck.handler.getNextChildID()
-                                                val newKey = pck.handler.getNextKey()
+                                                val childID = handler.getNextChildID()
+                                                val newKey = handler.getNextKey()
                                                 val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
                                                 val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                                 when (oldType) {
                                                     EOperatorIDExt.POPDistributedReceiveMultiID -> {
                                                         println("had EOperatorIDExt.POPDistributedReceiveMultiID")
-                                                        pck.handler.idToOffset[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
-                                                            for (k2 in keys2) {
-                                                                pck.handler.keyLocationReceive(k2, offPtr)
-                                                            }
+                                                        handler.id2off[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
                                                             ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(pck.data, mutableMapOf(), keys2.toList())
                                                         })
                                                         val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMulti.size" })
@@ -436,7 +434,7 @@ public class Application_Luposdate3000 public constructor(
                                                         ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
                                                         var i = 0
                                                         for (k in newKeys) {
-pck.handler.keyLocationDest[k]=operatorOff
+handler.key_rec2off[k]=operatorOff
                                                             ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
                                                             i++
                                                         }
@@ -466,10 +464,7 @@ pck.handler.keyLocationDest[k]=operatorOff
                                                             variablesOut.add(ConverterString.decodeString(pck.data, a))
                                                             o += 4
                                                         }
-                                                        pck.handler.idToOffset[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
-                                                            for (k2 in keys2) {
-                                                                pck.handler.keyLocationReceive(k2, offPtr)
-                                                            }
+                                                        handler.id2off[childID] = ConverterBinaryEncoder.encodePOPDistributedSendSingle(pck.data, mutableMapOf(), newKey, { offPtr ->
                                                             ConverterBinaryEncoder.encodePOPDistributedReceiveMultiOrdered(pck.data, mutableMapOf(), keys2.toList(), orderedBy, variablesOut)
                                                         })
                                                         val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
@@ -483,7 +478,7 @@ pck.handler.keyLocationDest[k]=operatorOff
                                                         ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiOrdered.size" })
                                                         var i = 0
                                                         for (k in newKeys) {
-pck.handler.keyLocationDest[k]=operatorOff
+handler.key_rec2off[k]=operatorOff
                                                             ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 16 + 4 * i, k, { "POPDistributedReceiveMultiOrdered.key[$i]" })
                                                             i++
                                                         }
@@ -501,12 +496,11 @@ pck.handler.keyLocationDest[k]=operatorOff
                                                         TODO("unknown type $oldType")
                                                     }
                                                 }
-pck.handler.keyLocationSrc[newKey]= pck.handler.idToOffset[childID]!!
-                                                val deps = pck.handler.dependenciesForID[id]!!
+                                                val deps = handler.dependenciesForID[id]!!
 println("oldDeps $deps")
                                                 deps[childID] = newKey
                                                 val deps2 = mutableMapOf<Int, Int>()
-                                                pck.handler.dependenciesForID[childID] = deps2
+                                                handler.dependenciesForID[childID] = deps2
                                                 for ((k, v) in deps) {
                                                     if (keys2.contains(v)) {
                                                         deps2[k] = v
@@ -528,9 +522,9 @@ println("newDeps $deps ... $deps2")
                 }
             }
         }
-
+*/
 // 3. recalculate target of execution for each operator
-        for ((k, v) in pck.handler.idToHost) {
+        for ((k, v) in handler.id2host) {
             val targets = v.map { nextHops[allHostAdresses.indexOf(it.toInt())] }.toSet()
             val target = if (targets.size == 1) {
                 targets.first()
@@ -541,7 +535,7 @@ println("newDeps $deps ... $deps2")
                 ownAdress
             }
             if (target == ownAdress) {
-                val dep = pck.handler.dependenciesForID[k]
+                val dep = handler.getDependenciesForID(k)
                 if (dep != null) {
                     for (d in dep.values) {
                         pck.destinations[d] = ownAdress
@@ -561,7 +555,7 @@ println("newDeps $deps ... $deps2")
         // this is only a workaround ... this may yield errors, if the query is pushed further down
         for ((host, ids) in myIdsOnTargetMap) {
             for (id in ids) {
-                val keys = pck.handler.dependenciesForID[id]
+                val keys = handler.getDependenciesForID(id)
                 if (keys != null) {
                     for (key in keys.values) {
                         if (pck.destinations[key] == null) {
@@ -576,7 +570,7 @@ println("newDeps $deps ... $deps2")
         for ((targetHost, filter) in myIdsOnTargetMap) {
             if (targetHost == ownAdress) {
                 for (id in filter) {
-                    var dependencies2 = pck.handler.dependenciesForID[id]
+                    var dependencies2 = handler.getDependenciesForID(id)
                     val dependencies = if (dependencies2 == null) {
                         setOf<Int>()
                     } else {
@@ -598,16 +592,15 @@ println("newDeps $deps ... $deps2")
                 }
             } else {
                 val data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
-                val idToHost = mutableMapOf<Int, MutableSet<String>>()
-                for ((k, v) in pck.handler.idToHost) {
+                val id2host = mutableMapOf<Int, MutableSet<String>>()
+                for ((k, v) in handler.id2host) {
                     if (filter.contains(k)) {
-                        idToHost[k] = v
+                        id2host[k] = v
                     }
                 }
                 val pck2 = Package_Luposdate3000_Operatorgraph(
                     pck.queryID,
                     data,
-                    BinaryMetadataHandler(mutableMapOf(), idToHost, pck.handler.dependenciesForID, mutableMapOf(), mutableMapOf()),
                     pck.destinations,
                     pck.onFinish,
                     pck.expectedResult,
@@ -790,7 +783,7 @@ println("newDeps $deps ... $deps2")
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:792"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:785"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -816,7 +809,7 @@ println("newDeps $deps ... $deps2")
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:818"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:811"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

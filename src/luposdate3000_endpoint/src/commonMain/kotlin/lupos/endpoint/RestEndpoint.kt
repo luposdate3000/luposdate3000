@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
+import lupos.operator.factory.HelperMetadata
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.RemoteDictionaryClient
@@ -376,30 +377,30 @@ public object RestEndpoint {
             }
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
             val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true,false)
-            val binary = binaryAndMeta.first
-            val meta = binaryAndMeta.second
+            val binary = binaryAndMeta
+val meta=HelperMetadata(binary)
             val query = node.getQuery() as Query
             val key = "${query.getTransactionID()}"
             try {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                 query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
-                for (k in meta.idToHost.keys) {
-                    val v = meta.idToHost[k]
+                for (k in meta.id2host.keys) {
+                    val v = meta.id2host[k]
                     val vv = if (v == null) {
                         query.getInstance().LUPOS_PROCESS_URLS_STORE[0]
                     } else {
                         v.first()
                     }
-                    meta.idToHost[k] = mutableSetOf(
+                    meta.id2host[k] = mutableSetOf(
                         vv
                     )
                 }
                 val handler = instance.communicationHandler!!
-                for ((id, hosts) in meta.idToHost) {
+                for ((id, hosts) in meta.id2host) {
                     val host = hosts.first()
                     val keys = mutableSetOf<Int>()
                     for (parentID in meta.getParentsForID(id)) {
-                        keys.add(meta.dependenciesForID[parentID]!![id]!!)
+                        keys.add(meta.getDependenciesForID(parentID)[id]!!)
                     }
                     val conn = handler.openConnection(
                         host,
@@ -411,10 +412,10 @@ public object RestEndpoint {
                     )
                     val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
                     val deps = mutableMapOf<Int, String>() // key->host
-                    val alldeps = meta.dependenciesForID[id]
+                    val alldeps = meta.getDependenciesForID(id)
                     if (alldeps != null) {
                         for ((childID, key2) in alldeps) {
-                            val h = meta.idToHost[childID]!!.first()
+                            val h = meta.id2host[childID]!!.first()
                             deps[key2] = h
                         }
                     }
@@ -437,10 +438,10 @@ public object RestEndpoint {
                     conn.first.close()
                 }
                 printHeaderSuccess(connectionOutMy)
-                val alldeps = meta.dependenciesForID[-1]
+                val alldeps = meta.getDependenciesForID(-1)
                 if (alldeps != null) {
                     for ((childID, key2) in alldeps) {
-                        val h = meta.idToHost[childID]!!.first()
+                        val h = meta.id2host[childID]!!.first()
                         query.keyToHostMap[key2] = h
                     }
                 }
@@ -448,7 +449,7 @@ public object RestEndpoint {
                 LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:450"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:451"/*SOURCE_FILE_END*/)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             }
             true
@@ -666,7 +667,7 @@ public object RestEndpoint {
                         try {
                             c!!.close()
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:668"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:669"/*SOURCE_FILE_END*/)
                         }
                     }
                     for (c in queryContainer.inputStreams.values) {

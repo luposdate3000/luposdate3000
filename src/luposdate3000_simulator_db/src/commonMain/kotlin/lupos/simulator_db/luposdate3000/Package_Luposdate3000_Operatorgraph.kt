@@ -16,7 +16,6 @@
  */
 package lupos.simulator_db.luposdate3000
 
-import lupos.operator.factory.BinaryMetadataHandler
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.UUID_Counter
@@ -27,7 +26,6 @@ import simora.applications.scenario.parking.IPackage_Database
 public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
     public val data: ByteArrayWrapper,
-    public val handler: BinaryMetadataHandler,
     public val destinations: MutableMap<Int, Int>,
     public val onFinish: IPackage_Database?,
     public val expectedResult: MemoryTable?,

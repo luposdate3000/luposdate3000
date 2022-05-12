@@ -32,10 +32,10 @@ public object BinaryToOPBase {
     }
 
     public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {
-        return convertToByteArrayAndMeta(op, distributed, splitEverything,false).first
+        return convertToByteArrayAndMeta(op, distributed, splitEverything,false)
     }
 
-    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean,debugPrint:Boolean): Pair<ByteArrayWrapper, BinaryMetadataHandler> {
+    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean,debugPrint:Boolean): ByteArrayWrapper {
         val query = op.getQuery() as Query
         val op2 = if (splitEverything) {
             PhysicalOptimizerSplitMergePartition(query).optimizeCall(op)
