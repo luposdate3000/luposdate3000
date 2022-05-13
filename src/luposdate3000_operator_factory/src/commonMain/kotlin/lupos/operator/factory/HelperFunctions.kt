@@ -59,7 +59,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 
 private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> Unit
 
-public class HelperMetadata(internal val data: ByteArrayWrapper,internal val queryID:Int) {
+public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
     public val key_send2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
@@ -445,13 +445,13 @@ public class HelperMetadata(internal val data: ByteArrayWrapper,internal val que
         for (i in 0 until len) {
             val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
             val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-val firstType=ByteArrayWrapperExt.readInt4(data, offset,{""})
-if(firstType>=0){
-            id2off[id] = offset
-            parentOff = o + 4
-            currentID = id
-            decodeHelper(data, offset)
-}
+            val firstType = ByteArrayWrapperExt.readInt4(data, offset, { "" })
+            if (firstType >= 0) {
+                id2off[id] = offset
+                parentOff = o + 4
+                currentID = id
+                decodeHelper(data, offset)
+            }
             o += 8
         }
         for (id in id2off.keys) {
@@ -469,21 +469,21 @@ if(firstType>=0){
             }
             id2parent[id] = res
         }
-var queue0=id2host.keys.toSet()
-var queue1=mutableSetOf<Int>()
-while(queue0.size>0){
-for(child in queue0){
-for(parent in id2parent.getOrPut(child,{mutableSetOf()})){
-id2host.getOrPut(parent,{mutableSetOf()}).addAll(id2host[child]!!)
-queue1.add(parent)
-}
-}
+        var queue0 = id2host.keys.toSet()
+        var queue1 = mutableSetOf<Int>()
+        while (queue0.size > 0) {
+            for (child in queue0) {
+                for (parent in id2parent.getOrPut(child, { mutableSetOf() })) {
+                    id2host.getOrPut(parent, { mutableSetOf() }).addAll(id2host[child]!!)
+                    queue1.add(parent)
+                }
+            }
 
-queue0=queue1
-queue1=mutableSetOf<Int>()
-}
-for((k,i) in key_send2id){
-println("key $k query $queryID : $i -> ${key_rec2id[k]} ... key : send -> rec")
-}
+            queue0 = queue1
+            queue1 = mutableSetOf<Int>()
+        }
+        for ((k, i) in key_send2id) {
+            println("key $k query $queryID : $i -> ${key_rec2id[k]} ... key : send -> rec")
+        }
     }
 }

@@ -105,7 +105,7 @@ public class Application_Luposdate3000 public constructor(
     private var enableSharedMemoryDictionaryCheat = config.getOrDefault("SharedMemoryDictionaryCheat", true)
     public var instance: Luposdate3000Instance = Luposdate3000Instance()
     private val myPendingWork = mutableListOf<PendingWork>()
-    private val myPendingWorkData = mutableMapOf<Pair<Int,Int>, ByteArrayWrapper>()
+    private val myPendingWorkData = mutableMapOf<Pair<Int, Int>, ByteArrayWrapper>()
     private var router: IApplicationStack_Middleware? = null
     private var nodeGlobalDictionaryBackup: IDictionary? = null
     private var rootAddress = ""
@@ -222,7 +222,7 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-println("query ${pck.queryID} started on $ownAdress $queryString")
+        println("query ${pck.queryID} started on $ownAdress $queryString")
         val q = Query(instance)
         val pck_attr = pck.attributes["machineLearningOptimizerOrder"]
         if (pck_attr != null) {
@@ -256,14 +256,14 @@ println("query ${pck.queryID} started on $ownAdress $queryString")
                             if (onFinish != null) {
                                 receive(onFinish)
                             } else {
-println("query ${pck.queryID} finished ${ownAdress}")
+                                println("query ${pck.queryID} finished ${ownAdress}")
                                 router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
                             }
                         } else {
                             if (onFinish != null) {
                                 receive(onFinish)
                             } else {
-println("query ${pck.queryID} finished ${ownAdress}")
+                                println("query ${pck.queryID} finished ${ownAdress}")
                                 router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
                             }
                         }
@@ -275,13 +275,13 @@ println("query ${pck.queryID} finished ${ownAdress}")
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:274"/*SOURCE_FILE_END*/)
             }
         }
-println("query ${pck.queryID} can not be executed locally, continueing")
+        println("query ${pck.queryID} can not be executed locally, continueing")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true, false)
         val data = binaryPair
         val destinations = mutableMapOf<Int, Int>(-1 to ownAdress)
-val handler=HelperMetadata(data,pck.queryID)
+        val handler = HelperMetadata(data, pck.queryID)
         for (i in handler.id2off.keys) {
             if (handler.id2host[i] == null) {
                 handler.id2host[i] = mutableSetOf(ownAdress.toString())
@@ -340,7 +340,7 @@ val handler=HelperMetadata(data,pck.queryID)
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
-println("key ${pck.params["key"]!!.toInt()} received on $ownAdress")
+            println("key ${pck.params["key"]!!.toInt()} received on $ownAdress")
             true
         }
         val target = paths[pck.path]
@@ -372,7 +372,7 @@ println("key ${pck.params["key"]!!.toInt()} received on $ownAdress")
 
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
-val handler=HelperMetadata(pck.data,pck.queryID)
+        val handler = HelperMetadata(pck.data, pck.queryID)
         operatorGraphPartsToHostMapTmp.addAll(handler.id2host.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
 // 1. calculate next hops for every subquery
@@ -545,11 +545,11 @@ println("newDeps $deps ... $deps2")
                     for (d in dep.values) {
                         pck.destinations[d] = ownAdress
 // 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
-println("key $d query ${pck.queryID} should be send to $ownAdress")
+                        println("key $d query ${pck.queryID} should be send to $ownAdress")
                     }
                 }
             }
-            target2id.getOrPut(target,{mutableSetOf()}).add(k)
+            target2id.getOrPut(target, { mutableSetOf() }).add(k)
         }
 // 4. fix destinations where each operator send its results
         // this is only a workaround ... this may yield errors, if the query is pushed further down
@@ -561,7 +561,7 @@ println("key $d query ${pck.queryID} should be send to $ownAdress")
                         if (pck.destinations[key] == null) {
 // 4.b. if destination of result is unclear, try to fix it
                             pck.destinations[key] = host
-println("key $key query ${pck.queryID} should be prepared to $host")
+                            println("key $key query ${pck.queryID} should be prepared to $host")
                         }
                     }
                 }
@@ -621,15 +621,15 @@ println("key $key query ${pck.queryID} should be prepared to $host")
         assignOP(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
-println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
-            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key","query" to "$queryID"), router!!)
+            println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
+            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap)
-println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
-            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key","query" to "$queryID"), router!!)
+            println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
+            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingleCount(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap ->
@@ -637,10 +637,10 @@ println("key $key query ${queryID} is going to be send to ${destinations[key]!!}
             val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
-for(key in keys){
-println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
-}
-            val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}","query" to "$queryID"), router!!) }
+            for (key in keys) {
+                println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
+            }
+            val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!) }
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
@@ -725,9 +725,9 @@ println("key $key query ${queryID} is going to be send to ${destinations[key]!!}
                         var flag = true
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
-if(!myPendingWorkData.keys.contains(w.queryID to k)){
-println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
-}
+                            if (!myPendingWorkData.keys.contains(w.queryID to k)) {
+                                println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
+                            }
                         }
                         if (flag) {
                             myPendingWork.remove(w)
@@ -763,7 +763,7 @@ println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
                                     if (w.onFinish != null) {
                                         receive(w.onFinish)
                                     } else {
-println("query ${w.queryID} finished ${w.destinations[-1]}")
+                                        println("query ${w.queryID} finished ${w.destinations[-1]}")
                                         router!!.send(w.destinations[-1]!!, Package_QueryResponse("success".encodeToByteArray(), w.queryID))
                                     }
                                 } else {
@@ -773,7 +773,7 @@ println("query ${w.queryID} finished ${w.destinations[-1]}")
                                     if (w.onFinish != null) {
                                         receive(w.onFinish)
                                     } else {
-println("query ${w.queryID} finished ${w.destinations[-1]}")
+                                        println("query ${w.queryID} finished ${w.destinations[-1]}")
                                         router!!.send(w.destinations[-1]!!, Package_QueryResponse(buf.toString().encodeToByteArray(), w.queryID))
                                     }
                                 }
