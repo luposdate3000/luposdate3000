@@ -539,16 +539,12 @@ println("newDeps $deps ... $deps2")
 // 3.a if targets differ, calculate the operator here
                 ownAdress
             }
-            if (target == ownAdress) {
                 val dep = handler.getDependenciesForID(k)
-                if (dep != null) {
                     for (d in dep.values) {
-                        pck.destinations[d] = ownAdress
+                        pck.destinations[d] = target
 // 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
-                        println("key $d query ${pck.queryID} should be send to $ownAdress")
+                        println("key $d query ${pck.queryID} should be send to $target")
                     }
-                }
-            }
             target2id.getOrPut(target, { mutableSetOf() }).add(k)
         }
 // 4. fix destinations where each operator send its results
@@ -704,6 +700,7 @@ println("newDeps $deps ... $deps2")
                 o += 4
             }
             val inputs = keys.map { key ->
+println("xxx $queryID $key $ownAdress $dataID")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
                 myPendingWorkData.remove(queryID to key)
                 input
@@ -791,7 +788,7 @@ println("newDeps $deps ... $deps2")
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:793"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:790"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -817,7 +814,7 @@ println("newDeps $deps ... $deps2")
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:819"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:816"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
