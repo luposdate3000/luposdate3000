@@ -59,7 +59,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 
 private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> Unit
 
-public class HelperMetadata(internal val data: ByteArrayWrapper) {
+public class HelperMetadata(internal val data: ByteArrayWrapper,internal val queryID:Int) {
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
     public val key_send2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
@@ -79,7 +79,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper) {
         }
         for ((key, i) in key_send2id) {
             if (keys.contains(key)) {
-                res[key] = i
+                res[i] = key
             }
         }
         return res
@@ -445,10 +445,13 @@ public class HelperMetadata(internal val data: ByteArrayWrapper) {
         for (i in 0 until len) {
             val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
             val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
+val firstType=ByteArrayWrapperExt.readInt4(data, offset,{""})
+if(firstType>=0){
             id2off[id] = offset
             parentOff = o + 4
             currentID = id
             decodeHelper(data, offset)
+}
             o += 8
         }
         for (id in id2off.keys) {
@@ -478,6 +481,9 @@ queue1.add(parent)
 
 queue0=queue1
 queue1=mutableSetOf<Int>()
+}
+for((k,i) in key_send2id){
+println("key $k query $queryID : $i -> ${key_rec2id[k]} ... key : send -> rec")
 }
     }
 }

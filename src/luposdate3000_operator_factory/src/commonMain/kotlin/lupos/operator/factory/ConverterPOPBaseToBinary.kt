@@ -89,7 +89,7 @@ public object ConverterPOPBaseToBinary {
     public fun optimize(data: ByteArrayWrapper, query: Query): ByteArrayWrapper {
         var changed = true
         loop@ while (changed) {
-            val handler = HelperMetadata(data)
+            val handler = HelperMetadata(data,query.transactionID.toInt())
             changed = false
             if (enableOptimiationMergeConsecutiveSendSingleReceiveSingle) {
                 for ((id, off0) in handler.id2off) {

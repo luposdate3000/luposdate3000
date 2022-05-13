@@ -378,9 +378,9 @@ public object RestEndpoint {
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
             val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true,false)
             val binary = binaryAndMeta
-val meta=HelperMetadata(binary)
             val query = node.getQuery() as Query
             val key = "${query.getTransactionID()}"
+val meta=HelperMetadata(binary,key.toInt())
             try {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                 query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
