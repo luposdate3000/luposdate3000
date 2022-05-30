@@ -55,12 +55,12 @@ public object ConverterBinaryToBinary {
         operatorMap[operatorID] = operator
     }
 
-    public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray): ByteArrayWrapper {
+    public fun decode(query: Query, data: ByteArrayWrapper, filter: IntArray?): ByteArrayWrapper {
         val dataOut = ByteArrayWrapper()
         try {
             val mapping = mutableMapOf<String, Int>()
             var result = mutableMapOf<Int, String>()
-            if (filter.contains(-1)) {
+            if (filter==null||filter.contains(-1)) {
                 when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
                     0x1 -> {
                         val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
@@ -117,7 +117,7 @@ public object ConverterBinaryToBinary {
             val childs = mutableMapOf<Int, Int>()
             for (i in 0 until len) {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
-                if (filter.contains(id) && id != -1) {
+                if (filter==null||(filter.contains(id) && id != -1)) {
                     val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
                     childs[id] = offset
                 }

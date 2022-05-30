@@ -69,13 +69,38 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public val id2parent: MutableMap<Int, MutableSet<Int>> = mutableMapOf<Int, MutableSet<Int>>()
     private var operatorMap: Array<BinaryToHelperMap?> = Array(0) { null }
 
+public fun addChildToBinary(newOff:Int,newID:Int){
+var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
+            val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
+            var o = off + 4
+            val childs = mutableMapOf<Int, Int>(newID to newOff)
+            for (i in 0 until len) {
+                val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
+                    val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
+                    childs[id] = offset
+                o += 8
+            }
+            val offOut = ByteArrayWrapperExt.getSize(data)
+            ByteArrayWrapperExt.writeInt4(data, 0, offOut, { "OPBase.handler" })
+            ByteArrayWrapperExt.setSize(data, offOut + 4 + 8 * childs.size, true)
+            ByteArrayWrapperExt.writeInt4(data, offOut, childs.size, { "OPBase.offsetMap.size" })
+            var oOut = offOut + 4
+            var i = 0
+            for ((k, v) in childs) {
+                ByteArrayWrapperExt.writeInt4(data, oOut, k, { "OPBase.offsetMap[$i].id" })
+                ByteArrayWrapperExt.writeInt4(data, oOut + 4, v, { "OPBase.offsetMap[$i].offset" })
+                oOut += 8
+                i++
+            }
+}
+
 public fun getNextChildID():Int{
 for(i in 0 until id2off.size+1){
 if(!id2off.contains(i+1000)){
 return i+1000
 }
 }
-TODO();
+TODO()
 }
 public fun getNextKey():Int{
 val keys=(key_send2id.keys+key_rec2id.keys).toSet()
@@ -84,7 +109,7 @@ if(!keys.contains(i+1000)){
 return i+1000
 }
 }
-TODO();
+TODO()
 }
 
     public fun getDependenciesForID(id: Int): Map<Int, Int> {
