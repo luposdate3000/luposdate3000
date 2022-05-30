@@ -87,6 +87,7 @@ public object ConverterPOPBaseToBinary {
     }
 
     public fun optimize(data: ByteArrayWrapper, query: Query): ByteArrayWrapper {
+println("src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt optimize called ${query.transactionID.toInt()}")
         var changed = true
         loop@ while (changed) {
             val handler = HelperMetadata(data, query.transactionID.toInt())
@@ -107,7 +108,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:109"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:110"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
@@ -120,7 +121,7 @@ public object ConverterPOPBaseToBinary {
                                                     flag++
                                                 }
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:122"/*SOURCE_FILE_END*/ }, { flag == 1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:123"/*SOURCE_FILE_END*/ }, { flag == 1 })
                                         }
                                         else -> {
 // crash, because it is already decided, that this must be replaced
@@ -129,6 +130,7 @@ public object ConverterPOPBaseToBinary {
                                     }
                                     ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })
                                     changed = true
+println("detected send-receive single")
                                     continue@loop
                                 }
                                 else -> {
