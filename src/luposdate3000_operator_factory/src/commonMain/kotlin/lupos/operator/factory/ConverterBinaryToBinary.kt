@@ -117,7 +117,7 @@ public object ConverterBinaryToBinary {
             val childs = mutableMapOf<Int, Int>()
             for (i in 0 until len) {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
-                if (filter == null || (filter.contains(id) && id != -1)) {
+                if ((filter == null || filter.contains(id)) && id != -1) {
                     val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
                     childs[id] = offset
                 }
