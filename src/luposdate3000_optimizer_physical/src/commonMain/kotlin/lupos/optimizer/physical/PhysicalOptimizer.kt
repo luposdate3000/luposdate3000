@@ -53,7 +53,7 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
 //            if (query.getInstance().inSimulator) {
 //                PhysicalOptimizerPartitionMaxSplit(query) //
 //            } else {
-                PhysicalOptimizerPartitionRespectMaxPartitions(query), //
+            PhysicalOptimizerPartitionRespectMaxPartitions(query), //
 //            },
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),

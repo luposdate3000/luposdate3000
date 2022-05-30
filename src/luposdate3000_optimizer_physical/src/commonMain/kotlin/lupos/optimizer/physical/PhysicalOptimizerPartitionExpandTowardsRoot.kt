@@ -19,7 +19,6 @@ package lupos.optimizer.physical
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.Query
 import lupos.operator.physical.multiinput.POPUnion
-import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
@@ -29,6 +28,7 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPFilter
+import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
@@ -46,32 +46,32 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                 is POPGroup -> {
                     when (val c = node.children[0]) {
                         is POPMergePartition -> {
-if(node.by.map{it.name}.contains(c.partitionVariable)){
-                            res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.addPartitionOperator(res.getUUID(), c.partitionID)
-                            query.partitionOperatorCount.clear()
-                            onChange()
-}
+                            if (node.by.map { it.name }.contains(c.partitionVariable)) {
+                                res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
+                                query.removePartitionOperator(c.getUUID(), c.partitionID)
+                                query.addPartitionOperator(res.getUUID(), c.partitionID)
+                                query.partitionOperatorCount.clear()
+                                onChange()
+                            }
                         }
                         is POPMergePartitionOrderedByIntId -> {
-if(node.by.map{it.name}.contains(c.partitionVariable)){
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.addPartitionOperator(res.getUUID(), c.partitionID)
-                            query.partitionOperatorCount.clear()
-                            res.setMySortPriority(c.mySortPriority, node.projectedVariables)
-                            onChange()
+                            if (node.by.map { it.name }.contains(c.partitionVariable)) {
+                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount2, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
+                                query.removePartitionOperator(c.getUUID(), c.partitionID)
+                                query.addPartitionOperator(res.getUUID(), c.partitionID)
+                                query.partitionOperatorCount.clear()
+                                res.setMySortPriority(c.mySortPriority, node.projectedVariables)
+                                onChange()
+                            }
                         }
-}
                         is POPMergePartitionCount -> {
-if(node.by.map{it.name}.contains(c.partitionVariable)){
-                            res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.addPartitionOperator(res.getUUID(), c.partitionID)
-                            query.partitionOperatorCount.clear()
-                            onChange()
-}
+                            if (node.by.map { it.name }.contains(c.partitionVariable)) {
+                                res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPGroup(query, node.projectedVariables, node.by, node.bindings, c.children[0]))
+                                query.removePartitionOperator(c.getUUID(), c.partitionID)
+                                query.addPartitionOperator(res.getUUID(), c.partitionID)
+                                query.partitionOperatorCount.clear()
+                                onChange()
+                            }
                         }
                     }
                 }

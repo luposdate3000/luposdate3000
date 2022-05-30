@@ -69,26 +69,26 @@ public class Visualizer : ILogger {
     }
 }
 
-internal class DotNode(internal val label: String, internal val id: String, internal val color:Int, internal val _do_not_use: Boolean) {
+internal class DotNode(internal val label: String, internal val id: String, internal val color: Int, internal val _do_not_use: Boolean) {
     internal companion object {
         operator fun invoke(label: String): DotNode {
             return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), 0, false)
         }
 
-        operator fun invoke(label: String, color:Int): DotNode {
+        operator fun invoke(label: String, color: Int): DotNode {
             return DotNode(label.replace("#[0-9]*".toRegex(), ""), label.replace("[^a-zA-Z0-9]".toRegex(), ""), color, false)
         }
     }
 
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-val color_string=        when (color) {
-1->"gray"
-2->"red"
-3->"green"
-else->"white"
-}
-            res.appendLine("${indention}$id [label = \"$label\", fillcolor=$color_string, style=filled];")
+        val color_string = when (color) {
+            1 -> "gray"
+            2 -> "red"
+            3 -> "green"
+            else -> "white"
+        }
+        res.appendLine("${indention}$id [label = \"$label\", fillcolor=$color_string, style=filled];")
         return res.toString()
     }
 }
@@ -137,7 +137,7 @@ internal class DotGraph() {
         return node.id
     }
 
-    internal fun addNode(label: String, color:Int): String {
+    internal fun addNode(label: String, color: Int): String {
         val node = DotNode(label, color)
         nodes.add(node)
         return node.id

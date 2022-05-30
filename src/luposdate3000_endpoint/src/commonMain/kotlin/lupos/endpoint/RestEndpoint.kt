@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.endpoint
-import lupos.operator.factory.HelperMetadata
 import lupos.dictionary.DictionaryCache
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.RemoteDictionaryClient
@@ -26,6 +25,7 @@ import lupos.operator.factory.BinaryToOPBase
 import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterString
+import lupos.operator.factory.HelperMetadata
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -376,11 +376,11 @@ public object RestEndpoint {
                 }
             }
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, params["query"]!!, false)
-            val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true,false)
+            val binaryAndMeta = BinaryToOPBase.convertToByteArrayAndMeta(node, true, true, false)
             val binary = binaryAndMeta
             val query = node.getQuery() as Query
             val key = "${query.getTransactionID()}"
-val meta=HelperMetadata(binary,key.toInt())
+            val meta = HelperMetadata(binary, key.toInt())
             try {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to "$key"), query.getTransactionID().toInt())
                 query.setDictionaryUrl("${instance.LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")

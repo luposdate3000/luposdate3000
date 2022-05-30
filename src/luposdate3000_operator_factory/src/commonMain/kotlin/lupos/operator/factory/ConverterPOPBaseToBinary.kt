@@ -16,7 +16,6 @@
  */
 package lupos.operator.factory
 
-import lupos.shared.SanityCheck
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
@@ -49,6 +48,7 @@ import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.Partition
+import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.operator.IOPBase
@@ -89,7 +89,7 @@ public object ConverterPOPBaseToBinary {
     public fun optimize(data: ByteArrayWrapper, query: Query): ByteArrayWrapper {
         var changed = true
         loop@ while (changed) {
-            val handler = HelperMetadata(data,query.transactionID.toInt())
+            val handler = HelperMetadata(data, query.transactionID.toInt())
             changed = false
             if (enableOptimiationMergeConsecutiveSendSingleReceiveSingle) {
                 for ((id, off0) in handler.id2off) {
@@ -102,7 +102,7 @@ public object ConverterPOPBaseToBinary {
                             when (type1) {
                                 EOperatorIDExt.POPDistributedReceiveSingleID -> {
                                     val key1 = ByteArrayWrapperExt.readInt4(data, off1 + 4, { "POPDistributedReceiveSingle.key" })
-//going to replace 'key1' with 'key0', and remove 'id'
+// going to replace 'key1' with 'key0', and remove 'id'
                                     val off2 = handler.key_send2off[key1]!!
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
@@ -123,21 +123,21 @@ public object ConverterPOPBaseToBinary {
                                             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:122"/*SOURCE_FILE_END*/ }, { flag == 1 })
                                         }
                                         else -> {
-//crash, because it is already decided, that this must be replaced
+// crash, because it is already decided, that this must be replaced
                                             TODO("unknown type $type2")
                                         }
                                     }
-ByteArrayWrapperExt.writeInt4(data,off0,-1,{"invalid opertor type"})
+                                    ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })
                                     changed = true
                                     continue@loop
                                 }
                                 else -> {
-//ok, no optimization right now
+// ok, no optimization right now
                                 }
                             }
                         }
                         else -> {
-//ok, no optimization right now
+// ok, no optimization right now
                         }
                     }
                 }
@@ -157,7 +157,7 @@ ByteArrayWrapperExt.writeInt4(data,off0,-1,{"invalid opertor type"})
                                     for (i in 0 until len) {
                                         keys1.add(ByteArrayWrapperExt.readInt4(data, off1 + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                                     }
-//going to insert 'keys1' into parent reveivemulti
+// going to insert 'keys1' into parent reveivemulti
                                     val off2 = ByteArrayWrapperExt.readInt4(data, handler.key_rec2off[key0]!!, { "" })
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
@@ -174,17 +174,17 @@ ByteArrayWrapperExt.writeInt4(data,off0,-1,{"invalid opertor type"})
                                         }
                                         else -> TODO("unknown type $type2")
                                     }
-ByteArrayWrapperExt.writeInt4(data,off0,-1,{"invalid opertor type"})
+                                    ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })
                                     changed = true
                                     continue@loop
                                 }
                                 else -> {
-//ok, no optimization right now
+// ok, no optimization right now
                                 }
                             }
                         }
                         else -> {
-//ok, no optimization right now
+// ok, no optimization right now
                         }
                     }
                 }
@@ -224,7 +224,7 @@ ByteArrayWrapperExt.writeInt4(data,off0,-1,{"invalid opertor type"})
             ByteArrayWrapperExt.writeInt1(data, 4, 0x0, { "OPBase.isOPBaseCompound" })
             ByteArrayWrapperExt.writeInt4(data, 5, off, { "OPBase.children[0]" })
         }
-//TODO("validate metadata here")
+// TODO("validate metadata here")
 //        val handler2 = BinaryMetadataHandler(handler.idToOffset, handler.idToHost, handler.dependenciesForID, handler.keyLocationSrc, handler.keyLocationDest)
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.writeInt4(data, 0, off, { "OPBase.handler" })

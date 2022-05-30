@@ -17,10 +17,6 @@
 package lupos.optimizer.physical
 
 import lupos.operator.base.Query
-import lupos.operator.physical.partition.POPMergePartition
-import lupos.operator.physical.partition.POPMergePartitionCount
-import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
-import lupos.operator.physical.partition.POPSplitPartition
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt

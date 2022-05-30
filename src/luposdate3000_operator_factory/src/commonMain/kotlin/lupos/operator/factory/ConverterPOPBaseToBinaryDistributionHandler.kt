@@ -16,44 +16,6 @@
  */
 package lupos.operator.factory
 
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.base.OPBase
-import lupos.operator.base.OPBaseCompound
-import lupos.operator.base.Query
-import lupos.operator.physical.multiinput.POPJoinCartesianProduct
-import lupos.operator.physical.multiinput.POPJoinHashMap
-import lupos.operator.physical.multiinput.POPJoinMerge
-import lupos.operator.physical.multiinput.POPJoinMergeOptional
-import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
-import lupos.operator.physical.multiinput.POPMinus
-import lupos.operator.physical.multiinput.POPUnion
-import lupos.operator.physical.noinput.POPGraphOperation
-import lupos.operator.physical.noinput.POPModifyData
-import lupos.operator.physical.noinput.POPNothing
-import lupos.operator.physical.noinput.POPValues
-import lupos.operator.physical.partition.POPMergePartition
-import lupos.operator.physical.partition.POPMergePartitionCount
-import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
-import lupos.operator.physical.partition.POPSplitPartition
-import lupos.operator.physical.singleinput.POPBind
-import lupos.operator.physical.singleinput.POPFilter
-import lupos.operator.physical.singleinput.POPGroup
-import lupos.operator.physical.singleinput.POPMakeBooleanResult
-import lupos.operator.physical.singleinput.POPModify
-import lupos.operator.physical.singleinput.POPSort
-import lupos.operator.physical.singleinput.modifiers.POPLimit
-import lupos.operator.physical.singleinput.modifiers.POPOffset
-import lupos.operator.physical.singleinput.modifiers.POPReduced
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EOperatorIDExt
-import lupos.shared.Partition
-import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.noinput.IAOPConstant
-import lupos.shared.operator.noinput.IAOPVariable
-import lupos.triple_store_manager.POPTripleStoreIterator
 public class ConverterPOPBaseToBinaryDistributionHandler {
     // entry points into binary
     internal val idToOffset = mutableMapOf<Int/*ID*/, Int/*the offset of the operator*/>()

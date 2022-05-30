@@ -60,7 +60,7 @@ public object ConverterBinaryToBinary {
         try {
             val mapping = mutableMapOf<String, Int>()
             var result = mutableMapOf<Int, String>()
-            if (filter==null||filter.contains(-1)) {
+            if (filter == null || filter.contains(-1)) {
                 when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
                     0x1 -> {
                         val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
@@ -117,7 +117,7 @@ public object ConverterBinaryToBinary {
             val childs = mutableMapOf<Int, Int>()
             for (i in 0 until len) {
                 val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
-                if (filter==null||(filter.contains(id) && id != -1)) {
+                if (filter == null || (filter.contains(id) && id != -1)) {
                     val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
                     childs[id] = offset
                 }
@@ -500,7 +500,7 @@ public object ConverterBinaryToBinary {
             EOperatorIDExt.LOPNOOPID,
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "LOPNOOP.child" })
-                    recodeHelper(query, child, data, dataOut, mapping, offPtr)
+                recodeHelper(query, child, data, dataOut, mapping, offPtr)
             },
         )
         assignOperatorPhysicalDecode(

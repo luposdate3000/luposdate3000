@@ -32,19 +32,19 @@ public object BinaryToOPBase {
     }
 
     public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {
-        return convertToByteArrayAndMeta(op, distributed, splitEverything,false)
+        return convertToByteArrayAndMeta(op, distributed, splitEverything, false)
     }
 
-    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean,debugPrint:Boolean): ByteArrayWrapper {
+    public fun convertToByteArrayAndMeta(op: IOPBase, distributed: Boolean, splitEverything: Boolean, debugPrint: Boolean): ByteArrayWrapper {
         val query = op.getQuery() as Query
         val op2 = if (splitEverything) {
             PhysicalOptimizerSplitMergePartition(query).optimizeCall(op)
         } else {
             op
         }
-if(debugPrint){
-println("debugging $op2")
-}
+        if (debugPrint) {
+            println("debugging $op2")
+        }
         val res = ConverterPOPBaseToBinary.encode(op2, distributed)
         // println(op)
         // println("JSON_OUT:${ConverterBinaryToPOPJson.decode(query,res.first)}")

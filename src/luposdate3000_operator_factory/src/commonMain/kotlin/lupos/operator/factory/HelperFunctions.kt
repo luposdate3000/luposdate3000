@@ -16,45 +16,9 @@
  */
 package lupos.operator.factory
 
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.SanityCheck
-import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.base.OPBase
-import lupos.operator.base.OPBaseCompound
-import lupos.operator.base.Query
-import lupos.operator.physical.multiinput.POPJoinCartesianProduct
-import lupos.operator.physical.multiinput.POPJoinHashMap
-import lupos.operator.physical.multiinput.POPJoinMerge
-import lupos.operator.physical.multiinput.POPJoinMergeOptional
-import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
-import lupos.operator.physical.multiinput.POPMinus
-import lupos.operator.physical.multiinput.POPUnion
-import lupos.operator.physical.noinput.POPGraphOperation
-import lupos.operator.physical.noinput.POPModifyData
-import lupos.operator.physical.noinput.POPNothing
-import lupos.operator.physical.noinput.POPValues
-import lupos.operator.physical.partition.POPMergePartition
-import lupos.operator.physical.partition.POPMergePartitionCount
-import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
-import lupos.operator.physical.partition.POPSplitPartition
-import lupos.operator.physical.singleinput.POPBind
-import lupos.operator.physical.singleinput.POPFilter
-import lupos.operator.physical.singleinput.POPGroup
-import lupos.operator.physical.singleinput.POPMakeBooleanResult
-import lupos.operator.physical.singleinput.POPModify
-import lupos.operator.physical.singleinput.POPSort
-import lupos.operator.physical.singleinput.modifiers.POPLimit
-import lupos.operator.physical.singleinput.modifiers.POPOffset
-import lupos.operator.physical.singleinput.modifiers.POPReduced
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
-import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.operator.IOPBase
-import lupos.shared.operator.noinput.IAOPConstant
-import lupos.shared.operator.noinput.IAOPVariable
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> Unit
@@ -69,48 +33,48 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public val id2parent: MutableMap<Int, MutableSet<Int>> = mutableMapOf<Int, MutableSet<Int>>()
     private var operatorMap: Array<BinaryToHelperMap?> = Array(0) { null }
 
-public fun addChildToBinary(newOff:Int,newID:Int){
-var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
-            val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
-            var o = off + 4
-            val childs = mutableMapOf<Int, Int>(newID to newOff)
-            for (i in 0 until len) {
-                val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
-                    val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-                    childs[id] = offset
-                o += 8
-            }
-            val offOut = ByteArrayWrapperExt.getSize(data)
-            ByteArrayWrapperExt.writeInt4(data, 0, offOut, { "OPBase.handler" })
-            ByteArrayWrapperExt.setSize(data, offOut + 4 + 8 * childs.size, true)
-            ByteArrayWrapperExt.writeInt4(data, offOut, childs.size, { "OPBase.offsetMap.size" })
-            var oOut = offOut + 4
-            var i = 0
-            for ((k, v) in childs) {
-                ByteArrayWrapperExt.writeInt4(data, oOut, k, { "OPBase.offsetMap[$i].id" })
-                ByteArrayWrapperExt.writeInt4(data, oOut + 4, v, { "OPBase.offsetMap[$i].offset" })
-                oOut += 8
-                i++
-            }
-}
+    public fun addChildToBinary(newOff: Int, newID: Int) {
+        var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
+        val len = ByteArrayWrapperExt.readInt4(data, off, { "OPBase.offsetMap.size" })
+        var o = off + 4
+        val childs = mutableMapOf<Int, Int>(newID to newOff)
+        for (i in 0 until len) {
+            val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
+            val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
+            childs[id] = offset
+            o += 8
+        }
+        val offOut = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.writeInt4(data, 0, offOut, { "OPBase.handler" })
+        ByteArrayWrapperExt.setSize(data, offOut + 4 + 8 * childs.size, true)
+        ByteArrayWrapperExt.writeInt4(data, offOut, childs.size, { "OPBase.offsetMap.size" })
+        var oOut = offOut + 4
+        var i = 0
+        for ((k, v) in childs) {
+            ByteArrayWrapperExt.writeInt4(data, oOut, k, { "OPBase.offsetMap[$i].id" })
+            ByteArrayWrapperExt.writeInt4(data, oOut + 4, v, { "OPBase.offsetMap[$i].offset" })
+            oOut += 8
+            i++
+        }
+    }
 
-public fun getNextChildID():Int{
-for(i in 0 until id2off.size+1){
-if(!id2off.contains(i+1000)){
-return i+1000
-}
-}
-TODO()
-}
-public fun getNextKey():Int{
-val keys=(key_send2id.keys+key_rec2id.keys).toSet()
-for(i in 0 until keys.size+1){
-if(!keys.contains(i+1000)){
-return i+1000
-}
-}
-TODO()
-}
+    public fun getNextChildID(): Int {
+        for (i in 0 until id2off.size + 1) {
+            if (!id2off.contains(i+1000)) {
+                return i + 1000
+            }
+        }
+        TODO()
+    }
+    public fun getNextKey(): Int {
+        val keys = (key_send2id.keys + key_rec2id.keys).toSet()
+        for (i in 0 until keys.size + 1) {
+            if (!keys.contains(i+1000)) {
+                return i + 1000
+            }
+        }
+        TODO()
+    }
 
     public fun getDependenciesForID(id: Int): Map<Int, Int> {
         val keys = mutableSetOf<Int>()
@@ -173,7 +137,7 @@ TODO()
             EOperatorIDExt.POPDistributedSendSingleID,
             { data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
-                parentOff = off+8
+                parentOff = off + 8
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }))
                 key_send2id[key] = currentID
                 key_send2off[key] = off
@@ -182,7 +146,7 @@ TODO()
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedSendMultiID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendMulti.child" }))
                 val count = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendMulti.count" })
                 val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
@@ -196,7 +160,7 @@ TODO()
             EOperatorIDExt.POPDistributedSendSingleCountID,
             { data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
-                parentOff = off+8
+                parentOff = off + 8
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }))
                 key_send2id[key] = currentID
                 key_send2off[key] = off
@@ -295,98 +259,98 @@ TODO()
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPUnionID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPUnion.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPUnion.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMinusID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMinus.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPMinus.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeOptionalID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeOptional.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeOptional.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMerge.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMergeSingleColumn.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMergeSingleColumn.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinHashMapID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinHashMap.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinHashMap.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinCartesianProductID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child0 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinCartesianProduct.child0" }))
-                parentOff = off+8
+                parentOff = off + 8
                 val child1 = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinCartesianProduct.child1" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
             { data, off ->
-                parentOff = off-4
+                parentOff = off - 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPSortID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPSort.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPOffsetID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPOffset.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPMakeBooleanResultID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPMakeBooleanResult.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPReducedID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
             },
         )
@@ -400,56 +364,56 @@ TODO()
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPBindID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPBind.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPFilterID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPFilter.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount0ID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount0.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupCount1ID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupCount1.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupSortedID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupSorted.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroup.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPGroupWithoutKeyColumnID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPGroupWithoutKeyColumn.child" }))
             },
         )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPModifyID,
             { data, off ->
-                parentOff = off+4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }))
             },
         )
@@ -523,9 +487,9 @@ TODO()
             queue0 = queue1
             queue1 = mutableSetOf<Int>()
         }
-for(id in id2off.keys){
- id2host.getOrPut(id, { mutableSetOf() })
-}
+        for (id in id2off.keys) {
+            id2host.getOrPut(id, { mutableSetOf() })
+        }
 //        for ((k, i) in key_send2id) {
 //            println("key $k query $queryID : $i -> ${key_rec2id[k]} ... key : send -> rec")
 //        }
