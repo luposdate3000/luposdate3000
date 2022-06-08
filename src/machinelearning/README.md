@@ -50,7 +50,7 @@ to files, which are real later from different run-directories.
 ```bash
 
 cd src/machinelearning
-
+tripleCount=4
 dataDirectory="$(pwd)/_tmpdata/"
 tripleFile="${dataDirectory}/complete.n3"
 queriesDirectory="${dataDirectory}/queries/"
@@ -90,7 +90,7 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 
 ```bash
 ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
-./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt 3 $queriesDirectory fast
+./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
 ```
 
 # 7. Measure the values, which are used later as the base for the machine learning

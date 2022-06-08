@@ -40,12 +40,15 @@ import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.concurrent.timer
+import lupos.shared.inline.Platform
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String) {
+    val tripleCount = Platform.getEnv("tripleCount","4")!!.toInt()
+    val tripleCountToJoinOrderCount = intArrayOf(0, 0, 1, 3, 15, 105)
     val instance = LuposdateEndpoint.initialize()
 //    Parallel.launch {
 //        HttpEndpointLauncher.start(instance)
@@ -84,8 +87,6 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
     // avoid unnecessary overhead during measurement
-    val tripleCount = 4
-    val tripleCountToJoinOrderCount = intArrayOf(0, 0, 1, 3, 15, 105)
     val joinOrders = List(tripleCountToJoinOrderCount[tripleCount]) { it }
     val columnNames = listOf(
         "queryFile",

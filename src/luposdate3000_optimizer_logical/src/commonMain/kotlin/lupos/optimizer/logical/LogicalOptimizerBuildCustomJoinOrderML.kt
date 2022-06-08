@@ -67,6 +67,9 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
     }
 
     private fun generateJoinOrder(n: Int): Map<List<Int>, Int> {
+if(n<2){
+return mapOf()
+}
         val orders = generateJoinOrderHelper(n - 1, n)
         val res = mutableMapOf<List<Int>, Int>()
         val res1 = mutableMapOf<List<Int>, Int>()
@@ -99,7 +102,7 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int, tripleCount: Int): IOPBase? {
         val order = mappingOfJoinOrders[tripleCount][joinOrder]
         val intermediates = mutableListOf<IOPBase>()
-
+println("order ${order.toList()}")
         for (i in 0 until order.size / 2) {
             val ai = i * 2
             val bi = ai + 1
