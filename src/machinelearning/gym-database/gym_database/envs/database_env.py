@@ -186,8 +186,7 @@ class DatabaseEnv(gym.Env):
                 data = self.conn.recv(1024)
                 reward = float(data.decode("UTF-8")) # Reward for episode
             else:
-                reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
-                                             self.training_data[self.query_counter], self.join_order,self.check_orderings)
+                reward = hf.calculate_reward(                                             self.training_data[self.query_counter], self.join_order)
             # Evaluate reward
             if reward < self.threshold: # If join order is not good enough
                 self.redo = True # Redo this join task

@@ -42,6 +42,8 @@ def generateJoinOrderHelperSort(res:list[int],input: list[int], index: int) -> l
 
 
 def generateJoinOrder(n: int):
+    if n < 2:
+        return {}
     orders = generateJoinOrderHelper(n - 1, n)
     res = {}
     res1 = {}

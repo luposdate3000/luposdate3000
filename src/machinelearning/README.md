@@ -50,11 +50,16 @@ to files, which are real later from different run-directories.
 ```bash
 
 cd src/machinelearning
-tripleCount=4
-dataDirectory="$(pwd)/_tmpdata/"
-tripleFile="${dataDirectory}/complete.n3"
-queriesDirectory="${dataDirectory}/queries/"
-trainingDirectory="${dataDirectory}/training/"
+# the number of triples per query
+export tripleCount=4
+# the resulting number of join orders
+export joinOrders=15
+# the ratio to split training and test data
+export ratio=7
+export dataDirectory="$(pwd)/_tmpdata/"
+export tripleFile="${dataDirectory}/complete.n3"
+export queriesDirectory="${dataDirectory}/queries/"
+export trainingDirectory="${dataDirectory}/training/"
 
 cd ../..
 
@@ -119,7 +124,7 @@ rm a b ${tripleFile}.benchNetwork.csv
 # 8. Extract the exact values, which are used for machine learning
 
 ```bash
-cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts > ${tripleFile}.bench
+cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts $joinOrders "joinResultsFor" > ${tripleFile}.bench
 ```
 
 # 9. Convert data into machinelearning readable data
@@ -133,26 +138,25 @@ cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts > 
 ratio must be a number between 1 and 9
 
 ```bash
-ratio=7
 ./src/machinelearning/10_data_split_script.py "${trainingDirectory}/train.me" $ratio
 ```
 
 # 11. Start the machine learning itself
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train7_3"
+./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train${ratio}_$((10-ratio))"
 ```
 
 # 12. Evaluate the model
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test7_3" "${trainingDirectory}/train.me.train7_3.10000.ppo_model"
+./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).10000.ppo_model"
 ```
 
 # 13. Print results
 
 ```bash
-./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train7_3.10000.ppo_model.evaluation"
+./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).10000.ppo_model.evaluation"
 cat ${tripleFile}.bench.csv | ./src/machinelearning/13_evaluation_luposdate_script.main.kts joinResultsFor 15 luposdateWouldChoose > luposResults.csv
 cat ${tripleFile}.bench.csv | ./src/machinelearning/13_evaluation_luposdate_script.main.kts timeFor 15 luposdateWouldChoose > luposTime.csv
 cat ${tripleFile}.bench.csv | ./src/machinelearning/13_evaluation_luposdate_script.main.kts joinResultsFor 15 random > randomResults.csv

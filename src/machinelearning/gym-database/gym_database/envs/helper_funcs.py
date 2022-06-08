@@ -1,5 +1,5 @@
 """Helper functions for the database Gym environment"""
-
+import os
 import math
 import numpy as np
 from typing import List, Tuple, Dict
@@ -290,88 +290,105 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
     # index has negative values, starting from -1, to avoid collisions with IDs
     index = -(len(join_order)+1)
 
-    # if right and left have been joined before
     if left in join_order_h and right in join_order_h:
-        # save the join of left and right in join_order as {index: [pointer to row of left, pointer to row of right]}
         join_order[index] = [join_order_h[left], join_order_h[right]]
-        # update pointer to row of left
-        join_order_h[left] = index
-        join_order_h[right] = index
-    # if left has been joined before, but not right
     elif left in join_order_h:
-        # save the join of left and right in join_order as {index: [pointer to row of left, right]}
         join_order[index] = [join_order_h[left], right]
-        # update pointer to row of left
-        join_order_h[left] = index
-        join_order_h[right] = index
-    # if right has been joined before, but not left
     elif right in join_order_h:
-        # save the join of left and right in join_order as {index: [left, pointer to row of right]}
         join_order[index] = [left, join_order_h[right]]
-        # update pointer to row of right
-        join_order_h[right] = index 
-        join_order_h[left] = index
-    # if left and right have not been involved in a join so far
     else:
-        # save the join of left and right in join_order as {index: [left, right]}
         join_order[index] = [left, right]
-        # save the pointer to that join as {left: index}
-        join_order_h[left] = index
-        join_order_h[right] = index
+    join_order_h[left] = index
+    join_order_h[right] = index
 
 
-def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order,check_orderings):
-    """Function that calculates the reward.
 
-    Parameters
-    ----------
-    max_exec_t
-        Maximum execution time of benched queries, used to normalize.
-    min_exec_t
-        Minimum execution time of benched queries, used to normalize.
-    benched_query
-        Reference query that has been benchmarked.
-    join_order
-        Join order of the ml optimizer.
 
-    Returns
-    -------
-    float
-        Reward.
-    """
-    # get number of join order
-    join_order_n = _join_order_to_number(join_order,check_orderings)
+
+
+def calculate_reward( benched_query, join_order):
+    choosen_id = joinOrderToID(join_order)
     execution_times = [float(query[2]) for query in benched_query]
-    # calculate reward on base of execution time relative to maximum and minimum
-    # execution times of all benched queries
-    reward = 100 - abs((np.log(execution_times[join_order_n]) - np.log(min(execution_times)))/(np.log(max(execution_times))-np.log(min(execution_times))))*100
+    time_choosen=execution_times[choosen_id]
+    time_min=min(execution_times)
+    time_max=max(execution_times)
+    reward = 100 - abs((np.log(time_choosen) - np.log(time_min))/(np.log(time_max)-np.log(time_min)))*100
     return reward
 
-
-def _join_order_to_number(join_order,check_orderings):
-    """Function that takes the join order and returns the ID of that join order.
-
-    Parameters
-    ----------
-    join_order
-        The calculated join order of a query.
-
-    Returns
-    -------
-    int
-        ID of the join order.
-    """
-
-    sorted_lists = []
-    for key in join_order.keys():
-        sorted_lists.append(sorted(join_order[key]))
-        sorted_lists.sort()
-    if(sorted_lists not in check_orderings):
-        check_orderings.append(sorted_lists)
-        print(len(check_orderings)-1)
-        return len(check_orderings)-1
+def generateJoinOrderHelper(depth: int, n: int) -> list[list[int]]:
+    res = []
+    if (depth == 1):
+        available = range(0, n)
+        for a in available:
+            for b in available:
+                if a < b:
+                    res.append([a, b])
     else:
-        index_position = check_orderings.index(sorted_lists)
-        print(index_position)
-        return index_position
+        child = generateJoinOrderHelper(depth - 1, n)
+        for c in child:
+            available = set(range(0, n)).union(
+                set(range(int( - len(c) / 2), 0))) - set(c)
+            for a in available:
+                for b in available:
+                    if (a < b):
+                        res.append(c + [a, b])
+    return res
 
+
+def generateJoinOrderHelperSort(res:list[int],input: list[int], index: int) -> list[int]:
+    av = input[index]
+    a = 0
+    if (av < 0):
+        res.extend(generateJoinOrderHelperSort(res.copy(),input, (-1 - av) * 2))
+        a = -len(res) / 2
+    else:
+        a = av
+    bv = input[index + 1]
+    b = 0
+    if (bv < 0):
+        res.extend(generateJoinOrderHelperSort(res.copy(),input, (-1 - bv) * 2))
+        b = -len(res) / 2
+    else:
+        b = bv
+    res.append(a)
+    res.append(b)
+    return res
+
+
+def generateJoinOrder(n: int):
+    if n < 2:
+        return {}
+    orders = generateJoinOrderHelper(n - 1, n)
+    res = {}
+    res1 = {}
+    for o in orders:
+        oCpy = o.copy()
+        intermediateCtr = int(len(o) / 2)
+        elements = []
+        for it in range(0, intermediateCtr + n):
+            elements.append({it - intermediateCtr})
+        for i in range(0, intermediateCtr):
+            ai = i * 2
+            bi = i * 2 + 1
+            a = o[ai]
+            b = o[bi]
+            ea = elements[a + intermediateCtr]
+            eb = elements[b + intermediateCtr]
+            elements[intermediateCtr - i - 1] = ea.union(eb)
+            if min(eb) < min(ea):
+                oCpy[ai] = b
+                oCpy[bi] = a
+        oSorted = generateJoinOrderHelperSort([],oCpy, len(oCpy) - 2)
+        res[tuple(o)] = res1.setdefault(tuple(oSorted), len(res1))
+    return res
+
+tripleCount=int(os.environ["tripleCount"])
+joinOrderCache=generateJoinOrder(tripleCount)
+
+def joinOrderToID(join_order):
+    joinOrder2=[]
+    for i in range(0,tripleCount-1):
+        tmp=list(tuple(join_order[-i-1]))
+        tmp.sort()
+        joinOrder2.extend(tmp)
+    return joinOrderCache[tuple(joinOrder2)]

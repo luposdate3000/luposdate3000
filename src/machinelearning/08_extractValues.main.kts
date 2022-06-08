@@ -1,9 +1,21 @@
 #!/usr/bin/env kotlin
 
-// -----------------------configure here ->
-val label = "joinResultsFor" // choose one of : setOf("timeFor", "joinResultsFor", "networkTrafficFor")
-val joinOrders = 15
-// -----------------------configure here <-
+val possibleFilters=setOf("timeFor", "joinResultsFor", "networkTrafficFor")
+
+fun printUsage(){
+println("usage ./08_extractValues.main.kts 15 $possibleFilters")
+System.exit(1)
+}
+if(args.size!=2){
+printUsage()
+}
+
+val label = args[1] // choose one of : setOf("timeFor", "joinResultsFor", "networkTrafficFor")
+val joinOrders = args[0].toInt()
+
+if(!possibleFilters.contains(label)){
+printUsage()
+}
 
 val header = mutableListOf<String>()
 do {

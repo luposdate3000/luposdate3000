@@ -1,15 +1,17 @@
+#!/usr/bin/env python
 import gym
 import gym_database
 import socket
 from datetime import date
 import sys
+import os
 import numpy as np
 from stable_baselines3 import DQN, PPO, DDPG, A2C
 from stable_baselines3.common.env_util import make_vec_env
 import math
 import time
 
-N_JOIN_ORDERS = 15
+N_JOIN_ORDERS = int(os.environ["joinOrders"])
 
 
 def train_model():
