@@ -97,13 +97,13 @@ class DatabaseEnv(gym.Env):
         self.join_order_h: Dict = None
         """Helper variable for join ordering."""
 
-        self.threshold = -10
+        self.threshold = 0
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
         """Redo episode until a specific reward is reached."""
 
-        self.reward_invalid_action = -11
+        self.reward_invalid_action = -1
         """Reward for invalid actions."""
 
         self.training_data: List[List[List[str]]] = None
@@ -136,6 +136,9 @@ class DatabaseEnv(gym.Env):
 
         self.executed_join_orders=[]
 
+        self.check_orderings =[]
+        # a list that can store the sorted join orders to prevent repetition
+
 
     def step(self, action: int):
         #print("Step")
@@ -145,7 +148,8 @@ class DatabaseEnv(gym.Env):
         left = self.action_list[action][0]
         right = self.action_list[action][1]
         
-
+        #print(self.action_list[action])
+        #print(self.query)
         #print(self.query)
         # return and redo if values index empty rows or invalid join attempts
         if left >= len(self.query) or right >= len(self.query) \
@@ -166,7 +170,7 @@ class DatabaseEnv(gym.Env):
         hf.perform_join(left, right, self.observation_matrix)
 
         hf.update_join_order(left, right, self.join_order, self.join_order_h)
-
+        #print(self.join_order)
         # 5. Check if episode is done (all triples joined)
         done = hf.check_if_done(self.observation_matrix)
 
@@ -183,7 +187,7 @@ class DatabaseEnv(gym.Env):
                 reward = float(data.decode("UTF-8")) # Reward for episode
             else:
                 reward = hf.calculate_reward(self.max_exec_time, self.min_exec_time,
-                                             self.training_data[self.query_counter], self.join_order)
+                                             self.training_data[self.query_counter], self.join_order,self.check_orderings)
             # Evaluate reward
             if reward < self.threshold: # If join order is not good enough
                 self.redo = True # Redo this join task

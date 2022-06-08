@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import gym
 import gym_database
 import socket
@@ -8,13 +7,14 @@ import numpy as np
 from stable_baselines3 import DQN, PPO, DDPG, A2C
 from stable_baselines3.common.env_util import make_vec_env
 import math
+import time
 
 N_JOIN_ORDERS = 15
 
 
 def train_model():
     benched_queries = read_query(benched_query_file)
-    
+    #print(benched_queries[0])
     # find min max execution times
     max_execution_time = max_ex_t(benched_queries)
     
@@ -46,16 +46,19 @@ def train_model():
     # env = model.get_env()
 
     env.set_training_data(benched_queries)
-    steps=10000
-    model.learn(total_timesteps=steps, log_interval=None)
+    start_time = time.time()
+    model.learn(total_timesteps=1, log_interval=None)
     # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
     #model.save("train.me.s.50k" + ".ppo_model")
-    model.save(benched_query_file+"."+str(steps) + ".ppo_model")
+    model.save("train.me.s.15_join_orders_1_" + "3:7_4_triples" + ".ppo_model")
+    end_time = time.time()
+    print(end_time - start_time)
 
 
 
 def optimize_query():
     benched_queries = read_query(query_file)
+    #print(benched_queries)
     # find min max execution times
     max_execution_time = max_ex_t(benched_queries)
     min_execution_time = min_ex_t(benched_queries)
@@ -75,6 +78,7 @@ def optimize_query():
     actions = []
     query_counter = 0
     env.set_training_data(benched_queries)
+    max_val = max_execution_val(benched_queries)
     for i in range(len(benched_queries)):
         done = False
         print("---------------Query: ----------- " + str(query_counter))
@@ -92,7 +96,7 @@ def optimize_query():
             print(f"Reward: {reward}")
             print(f"Done: {done}")
             print(info)
-            if reward < -10: done = True
+            if reward < 0: done = True
             print("---------------Query: ----------- " + str(query_counter))
             if done:
                 query_counter += 1
@@ -102,14 +106,26 @@ def optimize_query():
     for i in rewards:
         print(i)
 
-    with open(optimizer_model_file+".evaluation", "w") as evaluation:
+    with open("evaluation." + optimizer_model_file, "w") as evaluation:
         evaluation.write(str(max_execution_time) + "\n")
         evaluation.write(str(min_execution_time) + "\n")
         for i in range(len(benched_queries)):
             evaluation.write(str(rewards[i]) + " ")
             for j in range(N_JOIN_ORDERS):
-                evaluation.write(str(-(math.sqrt(abs(float(benched_queries[i][j][2]) - max_execution_time)) /
-                                       math.sqrt(max_execution_time - min_execution_time) * 10)))
+                #evaluation.write(str(-(math.sqrt(abs(float(benched_queries[i][j][2]) - max_execution_time)) /
+                #                       math.sqrt(max_execution_time - min_execution_time) * 10)))
+                #print(max_val[benched_queries[i][j][0]][0],max_val[benched_queries[i][j][0]][1])
+                #print(type(max_val[benched_queries[i][j][0]][0]))
+                #print(type(9999999999))
+                #print(np.log(max_val[benched_queries[i][j][0]][0]))
+                """
+                reward = 100 - abs(((np.log(benched_queries[i][j][2]) - 
+                np.log(max_val[benched_queries[i][j][0]][1])))/(
+                    np.log(max_val[benched_queries[i][j][0]][0])-
+                    np.log(max_val[benched_queries[i][j][0]][1])))*100
+                """
+                evaluation.write(str(100.0 - ((float(max_val[benched_queries[i][j][0]][0])-float(benched_queries[i][j][2]))/(float(max_val[benched_queries[i][j][0]][0])-float(max_val[benched_queries[i][j][0]][1])))*100))
+                #evaluation.write(str(reward))
                 if j != N_JOIN_ORDERS-1:
                     evaluation.write(" ")
                 else:
@@ -171,7 +187,19 @@ def max_id(benched_q):
             tmp.append(int(i[j][0].split(";")[3].split(",")[1]))
     return max(tmp)
 
+def max_execution_val(benched_queries):
+    max_val={}
+    for query in benched_queries:
+        for tmp in query:
+            if(tmp[0] not in max_val):
+                max_val[tmp[0]] = [int(tmp[2]),int(tmp[2])]
+            else:
+                if(max_val[tmp[0]][0]<int(tmp[2])):
+                    max_val[tmp[0]][0] = int(tmp[2])
+                if(max_val[tmp[0]][1]>int(tmp[2])):
+                    max_val[tmp[0]][1]=int(tmp[2])
 
+    return max_val
 if __name__ == '__main__':
 
     try:
@@ -202,6 +230,8 @@ if __name__ == '__main__':
     else:
         print("Param 1: \"train\" or \"opti\" (without \")")
         print("Param 2: train: full path for input file")
+
+
 
 
 

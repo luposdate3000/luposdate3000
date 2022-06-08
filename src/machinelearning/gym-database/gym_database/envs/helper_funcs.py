@@ -230,8 +230,11 @@ def _query_from_string(query_string: str) -> List[List[Tuple[int, int, int]]]:
     """
 
     # Build query list from string
+    #print(query_string)
     query = []
-    join_variables = query_string.split(";")[:-1]
+    #join_variables = query_string.split(";")[:-1]
+    join_variables = query_string.split(";")
+    #print(join_variables)
     for i in join_variables:
         query.append([tuple(map(int, i.split(",")))])
     # Add join candidates to each triple
@@ -248,6 +251,7 @@ def _query_from_string(query_string: str) -> List[List[Tuple[int, int, int]]]:
                     if k in j[0]:  # If triples have same join variables
                         i.append(j[0])  # Append join candidate to triple i
                         break
+    #print(query)
     return query
 
 
@@ -352,9 +356,10 @@ def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dic
         join_order_h[right] = index
         #print("else:",end="")
         #print(join_order_h,join_order)
+    #print(join_order)
 
 
-def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
+def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order,check_orderings):
     #print("calculate_reward")
     """Function that calculates the reward.
 
@@ -376,9 +381,9 @@ def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     """
     #print(join_order)
     # get number of join order
-    join_order_n = _join_order_to_number(join_order)
+    join_order_n = _join_order_to_number(join_order,check_orderings)
     ##print("Join order n value is:"+str(join_order_n))
-    ##print(benched_query)
+    #print(benched_query)
     # get execution time of this join order
     '''
     execution_times = [float(benched_query[0][2]), float(benched_query[1][2]),
@@ -388,20 +393,25 @@ def calculate_reward(max_exec_t, min_exec_t, benched_query, join_order):
     '''
     ##print(benched_query)
     ##print(join_order_n)
+    '''
     execution_times = [float(benched_query[0][2]), float(benched_query[1][2]),
                        float(benched_query[2][2]),float(benched_query[3][2]), float(benched_query[4][2]),
                        float(benched_query[5][2]),float(benched_query[6][2]), float(benched_query[7][2]),
                        float(benched_query[8][2]),float(benched_query[9][2]), float(benched_query[10][2]),
                        float(benched_query[11][2]),float(benched_query[12][2]),float(benched_query[13][2]),
                        float(benched_query[14][2])]
+    '''
+    execution_times = [float(query[2]) for query in benched_query]
     # calculate reward on base of execution time relative to maximum and minimum
     # execution times of all benched queries
-    reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
+    #reward = -(math.sqrt(abs(execution_times[join_order_n]-max_exec_t))/math.sqrt(max_exec_t-min_exec_t)*10)
+    #reward = 100 - abs((min(execution_times)-execution_times[join_order_n])/(max(execution_times)-min(execution_times)))*100
+    reward = 100 - abs((np.log(execution_times[join_order_n]) - np.log(min(execution_times)))/(np.log(max(execution_times))-np.log(min(execution_times))))*100
     ##print(reward)
     return reward
 
 
-def _join_order_to_number(join_order):
+def _join_order_to_number(join_order,check_orderings):
     #print("join_order_to_number")
     """Function that takes the join order and returns the ID of that join order.
 
@@ -424,9 +434,7 @@ def _join_order_to_number(join_order):
         return 1
     elif join_order[-1] == [1, 2]:
         return 2
-    '''
     # take a 4 value list
-    '''
     0 {-1: [0, 1], -2: [-1, 2], -3: [-2, 3]}
 
     1 {-1: [0, 1], -2: [-1, 3], -3: [-2, 2]}
@@ -456,7 +464,9 @@ def _join_order_to_number(join_order):
     13 {-1: [2, 3], -2: [0, -1], -3: [0, 1]}
 
     14 {-1: [2, 3], -2: [1, -1], -3: [0, 1]}
-    '''
+    
+
+    #print(join_order)
     if join_order[-1]==[0,1] and join_order[-2]==[-1,2] and join_order[-3]==[-2,3]:
         return 0
     elif join_order[-1]==[0,1] and join_order[-2]==[-1,3] and join_order[-3]==[-2,2]:
@@ -487,6 +497,23 @@ def _join_order_to_number(join_order):
         return 13
     elif join_order[-1]==[2,3] and join_order[-2]==[1,-1] and join_order[-3]==[0,-2]:
         return 14
+
+    '''
+    sorted_lists = []
+    for key in join_order.keys():
+        sorted_lists.append(sorted(join_order[key]))
+        sorted_lists.sort()
+    if(sorted_lists not in check_orderings):
+        check_orderings.append(sorted_lists)
+        print(len(check_orderings)-1)
+        return len(check_orderings)-1
+        #print(join_order,len(check_orderings)-1)
+    else:
+        index_position = check_orderings.index(sorted_lists)
+        print(index_position)
+        return index_position
+        #print(join_order,index_position)
+
 
     
     
