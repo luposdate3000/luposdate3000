@@ -38,6 +38,9 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public var machineLearningOptimizerOrder: Int = 0
 
     @JvmField
+    public var machineLearningOptimizerTripleCount: Int = 0
+
+    @JvmField
     public var machineLearningOptimizerOrderWouldBeChoosen: Boolean = false
 
     @JvmField
@@ -147,7 +150,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:149"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:152"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -155,7 +158,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:157"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) }, { "$uuid $id .. $root" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:160"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) }, { "$uuid $id .. $root" })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

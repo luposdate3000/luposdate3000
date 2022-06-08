@@ -84,8 +84,9 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
     // avoid unnecessary overhead during measurement
-
-    val joinOrders = List(15) { it }
+    val tripleCount = 4
+    val tripleCountToJoinOrderCount = intArrayOf(0, 0, 1, 3, 15, 105)
+    val joinOrders = List(tripleCountToJoinOrderCount[tripleCount]) { it }
     val columnNames = listOf(
         "queryFile",
         "luposdateWouldChoose",
@@ -160,6 +161,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                         val q = Query(instance)
                         q.useMachineLearningOptimizer = true
                         q.machineLearningOptimizerOrder = joinOrder
+                        q.machineLearningOptimizerTripleCount = tripleCount
                         q.machineLearningOptimizerOrderWouldBeChoosen = false
                         q.machineLearningCounter = 0
                         val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)

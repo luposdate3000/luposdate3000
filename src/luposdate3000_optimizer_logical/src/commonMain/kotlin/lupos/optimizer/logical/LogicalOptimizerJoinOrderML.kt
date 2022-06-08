@@ -28,6 +28,7 @@ import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private val joinOrder: Int = query.machineLearningOptimizerOrder
+    private val tripleCount: Int = query.machineLearningOptimizerTripleCount
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
@@ -55,10 +56,10 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
         return res
     }
 
-    /*suspend*/ private fun buildJoinOrder(nodes: List<IOPBase>, root: LOPJoin, joinOrder: Int): IOPBase {
+    /*suspend*/ private fun buildJoinOrder(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
         when {
             nodes.size > 2 -> {
-                var result = LogicalOptimizerBuildCustomJoinOrderML(nodes, root, joinOrder)
+                var result = LogicalOptimizerBuildCustomJoinOrderML(nodes, root, joinOrder, tripleCount)
                 if (result != null) {
                     return result
                 }
@@ -71,7 +72,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
             }
             else -> {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:73"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:74"/*SOURCE_FILE_END*/ },
                     { nodes.size == 1 }
                 )
                 return nodes[0]
@@ -97,7 +98,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
-                    var result = buildJoinOrder(allChilds2, node, joinOrder)
+                    var result = buildJoinOrder(allChilds2, node)
                     if (result != res) {
                         onChange()
                         if (!originalProvided.containsAll(result.getProvidedVariableNames())) {
@@ -112,7 +113,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
                     query.machineLearningOptimizerOrderWouldBeChoosen = true
                 }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:114"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:115"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

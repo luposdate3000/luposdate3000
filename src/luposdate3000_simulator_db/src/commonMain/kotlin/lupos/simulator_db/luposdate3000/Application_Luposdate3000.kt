@@ -224,9 +224,13 @@ public class Application_Luposdate3000 public constructor(
         val queryString = pck.query.decodeToString()
         // println("query ${pck.queryID} started on $ownAdress $queryString")
         val q = Query(instance)
-        val pck_attr = pck.attributes["machineLearningOptimizerOrder"]
-        if (pck_attr != null) {
-            q.machineLearningOptimizerOrder = pck_attr as Int
+        val machineLearningOptimizerOrder = pck.attributes["machineLearningOptimizerOrder"]
+        if (machineLearningOptimizerOrder != null) {
+            q.machineLearningOptimizerOrder = machineLearningOptimizerOrder as Int
+        }
+        val machineLearningOptimizerTripleCount = pck.attributes["machineLearningOptimizerTripleCount"]
+        if (machineLearningOptimizerTripleCount != null) {
+            q.machineLearningOptimizerTripleCount = machineLearningOptimizerTripleCount as Int
         }
         val op = if (enforcedIndex != null) {
             val o = OPBaseCompound(q, arrayOf(POPTripleStoreIterator(q, listOf("s", "p", "o"), enforcedIndex as TripleStoreIndexDescription, arrayOf(AOPVariable(q, "s"), AOPVariable(q, "p"), AOPVariable(q, "o")))), listOf(listOf("s", "p", "o")))
@@ -272,7 +276,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:274"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:278"/*SOURCE_FILE_END*/)
             }
         }
         // println("query ${pck.queryID} can not be executed locally, continueing")
@@ -336,7 +340,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:338"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:342"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -567,9 +571,9 @@ public class Application_Luposdate3000 public constructor(
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
 // xxx
-val oldhandler=handler
+        val oldhandler = handler
         for ((targetHost, filter) in target2id) {
-                    var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
+            var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
             if (targetHost == ownAdress) {
                 for (id in filter) {
 // data=ConverterPOPBaseToBinary.optimize(data,pck.query)
@@ -788,7 +792,7 @@ val oldhandler=handler
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:790"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:794"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -814,7 +818,7 @@ val oldhandler=handler
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:816"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:820"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

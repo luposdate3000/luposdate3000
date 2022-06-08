@@ -16,222 +16,107 @@
  */
 package lupos.optimizer.logical
 import lupos.operator.logical.multiinput.LOPJoin
-import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerBuildCustomJoinOrderML {
-    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int): IOPBase? {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:24"/*SOURCE_FILE_END*/ },
-            {
-                allChilds.isNotEmpty()
+    private fun generateJoinOrderHelper(depth: Int, n: Int): List<List<Int>> {
+        var res = mutableListOf<List<Int>>()
+        if (depth == 1) {
+            val available = List(n) { it }
+            for (a in available) {
+                for (b in available) {
+                    if (a < b) {
+                        res.add(listOf(a, b))
+                    }
+                }
             }
-        )
-//        try {
-        val nodes = mutableListOf<IOPBase>()
-        nodes.addAll(allChilds)
-
-        // 18 Join Orders Possible
-	/*
-	        val b = nodes.removeAt(1)
-                val a = nodes.removeAt(0)
-                val c = LOPJoin(root.query, a, b, false)
-                val d = nodes.removeAt(0)
-                val e = LOPJoin(root.query, c, d, false)
-                val f = nodes.removeAt(0)
-                val g = LOPJoin(root.query, e, f, false)
-                nodes.add(g)
-                return nodes[0]
-	*/
-        when (joinOrder) {
-            // pattern: (01 2 3)
-            0 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, b, false)
-                val join2 = LOPJoin(root.query, join1, c, false)
-                val join3 = LOPJoin(root.query, join2, d, false)
-                return join3
+        } else {
+            val child = generateJoinOrderHelper(depth - 1, n)
+            for (c in child) {
+                val available = (List(n) { it } + List(c.size / 2) { -1 - it }).toSet() - c.toSet()
+                for (a in available) {
+                    for (b in available) {
+                        if (a < b) {
+                            res.add(c + listOf(a, b))
+                        }
+                    }
+                }
             }
-
-            // pattern: (01 3 2)
-            1 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, b, false)
-                val join2 = LOPJoin(root.query, join1, d, false)
-                val join3 = LOPJoin(root.query, join2, c, false)
-                return join3
-            }
-            // pattern: (01 23)
-            2 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, b, false)
-                val join2 = LOPJoin(root.query, c, d, false)
-                val join3 = LOPJoin(root.query, join1, join2, false)
-                return join3
-            }
-            // pattern: (02 1 3)
-            3 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, c, false)
-                val join2 = LOPJoin(root.query, join1, b, false)
-                val join3 = LOPJoin(root.query, join2, d, false)
-                return join3
-            }
-            // pattern: (02 3 1)
-            4 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, c, false)
-                val join2 = LOPJoin(root.query, join1, d, false)
-                val join3 = LOPJoin(root.query, join2, b, false)
-                return join3
-            }
-            // pattern: (02 13)
-            5 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, c, false)
-                val join2 = LOPJoin(root.query, b, d, false)
-                val join3 = LOPJoin(root.query, join1, join2, false)
-                return join3
-            }
-            // pattern: (03 1 2)
-            6 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, d, false)
-                val join2 = LOPJoin(root.query, join1, b, false)
-                val join3 = LOPJoin(root.query, join2, c, false)
-                return join3
-            }
-            // pattern: (03 2 1)
-            7 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, d, false)
-                val join2 = LOPJoin(root.query, join1, c, false)
-                val join3 = LOPJoin(root.query, join2, b, false)
-                return join3
-            }
-            // pattern: (03 21)
-            8 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, a, d, false)
-                val join2 = LOPJoin(root.query, b, c, false)
-                val join3 = LOPJoin(root.query, join1, join2, false)
-                return join3
-            }
-            // pattern: (12 3 0)
-            9 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, b, c, false)
-                val join2 = LOPJoin(root.query, join1, d, false)
-                val join3 = LOPJoin(root.query, join2, a, false)
-                return join3
-            }
-            // pattern: (12 0 3)
-            10 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, b, c, false)
-                val join2 = LOPJoin(root.query, join1, a, false)
-                val join3 = LOPJoin(root.query, join2, d, false)
-                return join3
-            }
-            // pattern: (13 2 0)
-            11 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, b, d, false)
-                val join2 = LOPJoin(root.query, join1, c, false)
-                val join3 = LOPJoin(root.query, join2, a, false)
-                return join3
-            }
-            // pattern: (13 0 2)
-            12 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, b, d, false)
-                val join2 = LOPJoin(root.query, join1, a, false)
-                val join3 = LOPJoin(root.query, join2, c, false)
-                return join3
-            }
-            // pattern: (23 0 1)
-            13 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, c, d, false)
-                val join2 = LOPJoin(root.query, join1, a, false)
-                val join3 = LOPJoin(root.query, join2, b, false)
-                return join3
-            }
-            // pattern: (23 1 0)
-            14 -> {
-                val a = nodes[0]
-                val b = nodes[1]
-                val c = nodes[2]
-                val d = nodes[3]
-                val join1 = LOPJoin(root.query, c, d, false)
-                val join2 = LOPJoin(root.query, join1, b, false)
-                val join3 = LOPJoin(root.query, join2, a, false)
-                return join3
-            }
-            else -> return null
         }
+        return res
+    }
 
-//            loop2@ while (nodes.size > 1) {
-//                for (i in 0 until nodes.size) {
-//                    for (j in i + 1 until nodes.size) {
-//
-//
-//                    }
-//                }
-//                var bestA: Int = 0
-//                var bestB: Int = 1
-//                val b = nodes.removeAt(bestB) // first remove at the end of list
-//                val a = nodes.removeAt(bestA) // afterwards in front of b otherwise, the index would be wrong
-//                val c = LOPJoin(root.query, a, b, false)
-//                nodes.add(c)
-//            }
-//            return nodes[0]
-//        } catch (e: HistogramNotImplementedException) {
-//            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerBuildCustomJoinOrderML.kt:231"/*SOURCE_FILE_END*/ )
-//            return null
-//        }
-/*Coverage Unreachable*/
+    private fun generateJoinOrderHelperSort(res: MutableList<Int>, input: List<Int>, index: Int): List<Int> {
+        val av = input[index]
+        val a = if (av < 0) {
+            generateJoinOrderHelperSort(res, input, (-1 - av) * 2)
+            -res.size / 2
+        } else {
+            av
+        }
+        val bv = input[index + 1]
+        val b = if (bv < 0) {
+            generateJoinOrderHelperSort(res, input, (-1 - bv) * 2)
+            -res.size / 2
+        } else {
+            bv
+        }
+        res.add(a)
+        res.add(b)
+        return res
+    }
+
+    private fun generateJoinOrder(n: Int): Map<List<Int>, Int> {
+        val orders = generateJoinOrderHelper(n - 1, n)
+        val res = mutableMapOf<List<Int>, Int>()
+        val res1 = mutableMapOf<List<Int>, Int>()
+        for (o in orders) {
+            val oCpy = MutableList(o.size) { o[it] }
+            val intermediateCtr = o.size / 2
+            val elements = Array<Set<Int>>(intermediateCtr + n) { setOf(it - intermediateCtr) }
+            for (i in 0 until intermediateCtr) {
+                val ai = i * 2
+                val bi = i * 2 + 1
+                val a = o[ai]
+                val b = o[bi]
+                val ea = elements[a + intermediateCtr]
+                val eb = elements[b + intermediateCtr]
+                elements[intermediateCtr - i - 1] = (ea + eb).toSet()
+                if (eb.minOrNull()!! < ea.minOrNull()!!) {
+                    oCpy[ai] = b
+                    oCpy[bi] = a
+                }
+            }
+            val oSorted = generateJoinOrderHelperSort(mutableListOf(), oCpy, oCpy.size - 2)
+            res[o] = res1.getOrPut(oSorted, { res1.size })
+        }
+        return res
+    }
+    private val mappingOfJoinOrders = Array<Array<IntArray>>(5) {
+        val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
+        Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() }
+    }
+    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int, tripleCount: Int): IOPBase? {
+        val order = mappingOfJoinOrders[tripleCount][joinOrder]
+        val intermediates = mutableListOf<IOPBase>()
+
+        for (i in 0 until order.size / 2) {
+            val ai = i * 2
+            val bi = ai + 1
+            val a = order[ai]
+            val b = order[bi]
+            val ao = if (a <0) {
+                intermediates[-a - 1]
+            } else {
+                allChilds[a]
+            }
+            val bo = if (b <0) {
+                intermediates[-b - 1]
+            } else {
+                allChilds[b]
+            }
+            intermediates.add(LOPJoin(root.query, ao, bo, false))
+        }
+        return intermediates.last()
     }
 }

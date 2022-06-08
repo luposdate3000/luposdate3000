@@ -75,7 +75,7 @@ fun generateJoinOrder(n: Int): Map<List<Int>, Int> {
 }
 
 
-for (triples in 3 until 5) {
+for (triples in 3 until 6) {
     println("triples $triples\n")
     for ((k, i) in generateJoinOrder(triples)) {
         println(i.toString().padStart(3, ' ') + " : " + k)

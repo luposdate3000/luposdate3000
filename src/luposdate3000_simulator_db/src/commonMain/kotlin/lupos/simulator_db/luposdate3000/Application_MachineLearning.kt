@@ -26,6 +26,7 @@ import simora.applications.scenario.parking.Package_QueryResponse
 public class Application_MachineLearning(
     internal val queriesFileName: String,
     internal val joinOrders: Int,
+    internal val tripleCount: Int,
     internal val receiver: Int,
 ) : IApplicationStack_Actuator, ITimer {
 
@@ -67,7 +68,7 @@ public class Application_MachineLearning(
             queryIndex++
         }
         if (queryIndex <queries.size) {
-            val p = Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(), mapOf("machineLearningOptimizerOrder" to joinOrder))
+            val p = Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(), mapOf("machineLearningOptimizerOrder" to joinOrder, "machineLearningOptimizerTripleCount" to tripleCount))
             awaitingQueries.add(p.queryID)
             parent.send(receiver, p)
             parent.flush()

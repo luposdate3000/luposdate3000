@@ -87,7 +87,7 @@ public object ConverterPOPBaseToBinary {
     }
 
     public fun optimize(data: ByteArrayWrapper, query: Query): ByteArrayWrapper {
-println("src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt optimize called ${query.transactionID.toInt()}")
+        println("src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt optimize called ${query.transactionID.toInt()}")
         var changed = true
         loop@ while (changed) {
             val handler = HelperMetadata(data, query.transactionID.toInt())
