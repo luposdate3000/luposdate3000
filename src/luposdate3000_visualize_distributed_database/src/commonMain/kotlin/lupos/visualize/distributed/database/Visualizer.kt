@@ -161,18 +161,3 @@ internal class DotGraph() {
         return res.toString()
     }
 }
-/*
-
-digraph G {
-  subgraph cluster_0 {
-    label = "cluster 0";
-    n_0;
-  }
-  subgraph cluster_1 {
-    label = "cluster 1";
-    n_1;
-  }
-  n_0 -> n_1 ;
-}
-
-*/

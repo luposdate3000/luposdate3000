@@ -130,7 +130,6 @@ println("src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator
                                     }
                                     ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })
                                     changed = true
-println("detected send-receive single")
                                     continue@loop
                                 }
                                 else -> {
