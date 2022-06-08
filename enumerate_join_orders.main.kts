@@ -27,18 +27,17 @@ fun generateJoinOrderHelper(depth: Int, n: Int): List<List<Int>> {
     return res
 }
 
-fun generateJoinOrderHelperSort(input: List<Int>, index: Int): List<Int> {
-    val res = mutableListOf<Int>()
+fun generateJoinOrderHelperSort(res:MutableList<Int>,input: List<Int>, index: Int): List<Int> {
     val av = input[index]
     val a = if (av < 0) {
-        res.addAll(generateJoinOrderHelperSort(input, (-1 - av) * 2))
+        generateJoinOrderHelperSort(res,input, (-1 - av) * 2)
         -res.size / 2
     } else {
         av
     }
     val bv = input[index + 1]
     val b = if (bv < 0) {
-        res.addAll(generateJoinOrderHelperSort(input, (-1 - bv) * 2))
+        generateJoinOrderHelperSort(res,input, (-1 - bv) * 2)
         -res.size / 2
     } else {
         bv
@@ -69,7 +68,7 @@ fun generateJoinOrder(n: Int): Map<List<Int>, Int> {
                 oCpy[bi] = a
             }
         }
-        val oSorted = generateJoinOrderHelperSort(oCpy, oCpy.size - 2)
+        val oSorted = generateJoinOrderHelperSort(mutableListOf(),oCpy, oCpy.size - 2)
         res[o] = res1.getOrPut(oSorted, { res1.size })
     }
     return res
