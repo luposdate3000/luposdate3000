@@ -263,48 +263,13 @@ def join_order_to_string(join_order: Dict) -> str:
     return out
 
 
-def update_join_order(left: int, right: int, join_order: Dict, join_order_h: Dict):
-    """Method to update the current join order.
-
-    Parameters
-    ---------
-    left: int
-        Row in observation matrix to join.
-    right: int
-        Row in observation matrix to join.
-    join_order: Dict
-        The join order is saved as a graph and encoded in a Dict. It gets updated by this method.
-        For every join that happened there is one entry of its join partners at join_order[i],
-        where i is the i'th join. i is negative to avoid collisions.
-    join_order_h: Dict
-        This is a Dict for assistant values to build join_order. It attributes every row number to
-        its content as a pointer (index) to that join.
-    """
-
-    # invariant joining, join into lower numbered row, important for this to work
-    temp_one = min(left, right)
-    temp_two = max(left, right)
-    left = temp_one
-    right = temp_two
-
-    # index has negative values, starting from -1, to avoid collisions with IDs
-    index = -(len(join_order)+1)
-
-    if left in join_order_h and right in join_order_h:
-        join_order[index] = [join_order_h[left], join_order_h[right]]
-    elif left in join_order_h:
-        join_order[index] = [join_order_h[left], right]
-    elif right in join_order_h:
-        join_order[index] = [left, join_order_h[right]]
-    else:
-        join_order[index] = [left, right]
+def update_join_order(left, right, join_order, join_order_h):
+    index = -len(join_order)/2-1
+    tmp = [join_order_h[left],join_order_h[right]]
+    tmp.sort()
+    join_order.extend(tmp)
     join_order_h[left] = index
     join_order_h[right] = index
-
-
-
-
-
 
 def calculate_reward( benched_query, join_order):
     choosen_id = joinOrderToID(join_order)
@@ -315,7 +280,7 @@ def calculate_reward( benched_query, join_order):
     reward = 100 - abs((np.log(time_choosen) - np.log(time_min))/(np.log(time_max)-np.log(time_min)))*100
     return reward
 
-def generateJoinOrderHelper(depth: int, n: int) -> list[list[int]]:
+def generateJoinOrderHelper(depth, n):
     res = []
     if (depth == 1):
         available = range(0, n)
@@ -334,8 +299,7 @@ def generateJoinOrderHelper(depth: int, n: int) -> list[list[int]]:
                         res.append(c + [a, b])
     return res
 
-
-def generateJoinOrderHelperSort(res:list[int],input: list[int], index: int) -> list[int]:
+def generateJoinOrderHelperSort(res,input, index):
     av = input[index]
     a = 0
     if (av < 0):
@@ -354,8 +318,7 @@ def generateJoinOrderHelperSort(res:list[int],input: list[int], index: int) -> l
     res.append(b)
     return res
 
-
-def generateJoinOrder(n: int):
+def generateJoinOrder(n):
     if n < 2:
         return {}
     orders = generateJoinOrderHelper(n - 1, n)
@@ -385,10 +348,5 @@ def generateJoinOrder(n: int):
 tripleCount=int(os.environ["tripleCount"])
 joinOrderCache=generateJoinOrder(tripleCount)
 
-def joinOrderToID(join_order):
-    joinOrder2=[]
-    for i in range(0,tripleCount-1):
-        tmp=list(tuple(join_order[-i-1]))
-        tmp.sort()
-        joinOrder2.extend(tmp)
-    return joinOrderCache[tuple(joinOrder2)]
+def joinOrderToID(joinOrder):
+    return joinOrderCache[tuple(joinOrder)]
