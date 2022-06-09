@@ -9,4 +9,3 @@ gym_database.egg-info/top_level.txt
 gym_database/envs/__init__.py
 gym_database/envs/database_env.py
 gym_database/envs/helper_funcs.py
-gym_database/envs/test_helper_funcs.py

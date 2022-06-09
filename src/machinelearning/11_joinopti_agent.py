@@ -36,22 +36,10 @@ def train_model():
     #model = PPO("MlpPolicy", env, verbose=2)
     #model = DQN("MlpPolicy", env, verbose=2)
     #model = A2C("MlpPolicy", env, verbose=0)
-    #print(model)
-    # for i in range(len(benched_queries)):
-    # for i in range(21):
-    #     env.set_training_data([benched_queries[i]])
-    #     model.learn(total_timesteps=50000, log_interval=1)
-    # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
-    # env = model.get_env()
-    # del model
-    # model = PPO.load("ppo_gym_database")
-    # env = model.get_env()
 
     env.set_training_data(benched_queries)
     start_time = time.time()
     model.learn(total_timesteps=1, log_interval=None)
-    # model.save(benched_query_file + "." + str(date.today()) + ".ppo_model")
-    #model.save("train.me.s.50k" + ".ppo_model")
     model.save("train.me.s.15_join_orders_1_" + "3:7_4_triples" + ".ppo_model")
     end_time = time.time()
     print(end_time - start_time)
@@ -77,7 +65,6 @@ def optimize_query():
     #model = A2C.load(optimizer_model_file)
 
     rewards = []
-    actions = []
     query_counter = 0
     env.set_training_data(benched_queries)
     max_val = max_execution_val(benched_queries)
@@ -88,11 +75,9 @@ def optimize_query():
         print("Observation: ")
         print(obs)
         while not done:
-            actions.append([])
             action, _states = model.predict(obs, deterministic=True)
             print(f"Action: {action}")
             obs, reward, done, info = env.step(action)
-            actions[query_counter].append(action)
             print("Observation: ")
             print(obs)
             print(f"Reward: {reward}")
@@ -114,20 +99,7 @@ def optimize_query():
         for i in range(len(benched_queries)):
             evaluation.write(str(rewards[i]) + " ")
             for j in range(N_JOIN_ORDERS):
-                #evaluation.write(str(-(math.sqrt(abs(float(benched_queries[i][j][2]) - max_execution_time)) /
-                #                       math.sqrt(max_execution_time - min_execution_time) * 10)))
-                #print(max_val[benched_queries[i][j][0]][0],max_val[benched_queries[i][j][0]][1])
-                #print(type(max_val[benched_queries[i][j][0]][0]))
-                #print(type(9999999999))
-                #print(np.log(max_val[benched_queries[i][j][0]][0]))
-                """
-                reward = 100 - abs(((np.log(benched_queries[i][j][2]) - 
-                np.log(max_val[benched_queries[i][j][0]][1])))/(
-                    np.log(max_val[benched_queries[i][j][0]][0])-
-                    np.log(max_val[benched_queries[i][j][0]][1])))*100
-                """
                 evaluation.write(str(100.0 - ((float(max_val[benched_queries[i][j][0]][0])-float(benched_queries[i][j][2]))/(float(max_val[benched_queries[i][j][0]][0])-float(max_val[benched_queries[i][j][0]][1])))*100))
-                #evaluation.write(str(reward))
                 if j != N_JOIN_ORDERS-1:
                     evaluation.write(" ")
                 else:
@@ -242,65 +214,3 @@ if __name__ == '__main__':
 
 
 
-
-
-
-# create socket server
-
-# host = '127.0.0.1'
-# port = 60000
-#
-# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-#     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-#     s.bind((host, port))
-#     s.listen()
-#     conn, addr = s.accept()
-#     with conn:
-#         print('Connected by', addr)
-#         while True:
-#             data = conn.recv(1024)
-#             print(repr(data))
-#             if not data:
-#                 break
-#             if data.decode("UTF-8") == "optimize":
-#                 conn.sendall(b'start')
-#             elif data.decode("UTF-8") == "learn":
-#                 env = gym.make('gym_database:Database-v0')
-#                 env.set_connection(conn)
-#                 model = PPO("MlpPolicy", env, verbose=2)
-#                 model.learn(total_timesteps=30000, log_interval=1)
-#                 conn.sendall(b'done_learning')
-
-# #env.observation_space
-# #n_actions = env.action_space.shape[-1]
-# #action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
-
-# #model.save("ppo_gym_database")
-# #env = model.get_env()
-# #del model
-# #model = PPO.load("ppo_gym_database")
-# #env = model.get_env()
-#
-#
-# obs = env.reset()
-# while True:
-#     # env.env_method("DatabaseEnv.tell_a_story()")
-#     #env.env.env_method('tell_a_story')
-#     #env.env_method()
-#
-#     #env.set_connection(conn)
-#     print("Observation: ")
-#     print(obs)
-#     action, _states = model.predict(obs, deterministic=True)
-#     print(f"Action: {action}")
-#     obs, reward, done, info = env.step(action)
-#     print(f"Action taken: {info}")
-#     print("Observation: ")
-#     print(obs)
-#     # env.render()
-#     # print(obs)
-#     print(f"Reward: {reward}")
-#     print(f"Done: {done}")
-#     # print(info)
-#     if done:
-#         obs = env.reset()

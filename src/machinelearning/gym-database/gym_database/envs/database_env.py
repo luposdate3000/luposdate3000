@@ -214,20 +214,10 @@ class DatabaseEnv(gym.Env):
                 self.query = hf.load_query(query_string)
                 ####### CREATE MATRIX
 
-        ####### CREATE MATRIX: FILL MATRIX WITH TRIPLES
-        # Create initial observation matrix, in this state no joins have happened
         self.observation_matrix = hf.fill_matrix(self.query,np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
-        #self.observation_matrix = hf.fill_matrix(self.query,np.zeros((self.size_matrix, self.size_matrix, 4), np.int32))
-        ####### CREATE MATRIX
-
-        # Initialize dictionary to save the join order
         self.join_order = []
         self.join_order_h = dict(zip(range(tripleCount),range(tripleCount)))
-
-        # Create list of possible actions
         self.action_list = hf.create_action_list(self.size_matrix)
-
-        # Return initial observation
         return self.observation_matrix
 
     def set_connection(self, conn):

@@ -5,7 +5,7 @@ import numpy as np
 from typing import List, Tuple, Dict
 import pickle
 
-def create_action_list(matrix_size: int) -> List[Tuple[int, int]]:
+def create_action_list(matrix_size):
     """Function that creates a list of possible actions.
 
     An action is a join of two rows. The number of  ways to join a row is restricted.
@@ -30,7 +30,7 @@ def create_action_list(matrix_size: int) -> List[Tuple[int, int]]:
             action_list.append((i, j))
     return action_list
 
-def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matrix: np.ndarray) -> np.ndarray:
+def fill_matrix(sorted_query, observation_matrix) :
     """Function to initially fill the observation matrix with triples and its join candidates.
 
     Takes triples from query and sets the diagonal values of the corresponding entry in the
@@ -52,16 +52,16 @@ def fill_matrix(sorted_query: List[List[Tuple[int, int, int]]], observation_matr
         initial observation matrix with triples and join candidates
     """
 
-    index_dict = _create_matrix_index_triple_dict(sorted_query)
+    for x in range (len(sorted_query)):
+        for y in range (len(sorted_query)):
+            if x !=y :
+               observation_matrix[x][y]=[-1,-1,-1]
     for index, triples in enumerate(sorted_query): # triples is a list with the triple and its join candidates
-        observation_matrix[index, index] = triples[0]
-        observation_matrix[index, index, 0] -= 1 # fix join variable offset
-        observation_matrix[index, index, 2] -= 1
-        for join_candidate in triples[1:]:  # fill matrix with join candidates
-            observation_matrix[index_dict[join_candidate], index] = -1 # possible joins marked with -1
+        observation_matrix[index, index] = triples
+    print("fill_matrix",observation_matrix)
     return observation_matrix
 
-def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
+def perform_join(index_a, index_b, observation_matrix):
     """ Joins triple a and triple b.
 
     To join a and b, the corresponding entries of a and b are merged.
@@ -103,7 +103,7 @@ def perform_join(index_a: int, index_b: int, observation_matrix: np.ndarray):
                 None    # dont overwrite triples
         observation_matrix[index_b, i] = 0  # set entries in b row to 0
 
-def is_empty(index: int, observation_matrix: np.ndarray) -> bool:
+def is_empty(index, observation_matrix):
     """Function to check if a row in the observation matrix is empty
 
     Parameters
@@ -124,26 +124,6 @@ def is_empty(index: int, observation_matrix: np.ndarray) -> bool:
     else:
         return True
 
-
-def _create_matrix_index_triple_dict(sorted_query: List[List[Tuple[int, int, int]]]) -> Dict:
-    """Function that maps every triple to an index in the observation matrix and vice versa.
-
-    Parameters
-    ----------
-    sorted_query: List[List[Tuple[int, int, int]]]
-        The sorted query where the occuring triple are in.
-
-    Returns
-    -------
-    Dict
-        The Dict containing a mapping between an index in the observation matrix and a triple
-        and vice versa.
-    """
-    new_dict = {}
-    for index, list_of_triples in enumerate(sorted_query):
-        new_dict[index] = list_of_triples[0]
-        new_dict[list_of_triples[0]] = index
-    return new_dict
 
 
 def check_if_done(observation_matrix: np.ndarray) -> bool:
@@ -189,56 +169,20 @@ def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
         The query is a list of Triples that represent the triples and its join candidates.
     """
 
-    query = _query_from_string(query_string)
-    _order_query_by_predicate(query)
-    return query
-
-
-def _query_from_string(query_string: str) -> List[List[Tuple[int, int, int]]]:
-    """Function that turns a string representation of a query into a query object.
-
-    Parameters
-    ----------
-    query_string: str
-        Serialized string representation of a query object.
-
-    Returns
-    -------
-    List[List[Tuple[int, int, int]]
-        query object
-    """
-
     query = []
-    join_variables = query_string.split(";")
-    for i in join_variables:
-        query.append([tuple(map(int, i.split(",")))])
-    # Add join candidates to each triple
-    for i in query:
-        join_variables = []
-        # Find all join variables of current triple i
-        for j in i[0]:
-            if j < 0:
-                join_variables.append(j)
-        # For all join variables in current triple find other triples with same join variable
-        for j in query:
-            if i != j: # If its not the same triple
-                for k in join_variables:
-                    if k in j[0]:  # If triples have same join variables
-                        i.append(j[0])  # Append join candidate to triple i
-                        break
+    for i in query_string.split(";"):
+        tmp=[]
+        for x in map(int, i.split(",")):
+            if(x<0):
+                tmp.append(x-1)
+            else:
+                tmp.append(x)
+        query.append(tuple(tmp))
+    query.sort(key=lambda x: x[1])
+    print("load_query",query_string,query)
     return query
 
 
-def _order_query_by_predicate(unsorted_query: List[List[Tuple[int, int, int]]]):
-    """Method that orders a query by its predicate (2nd ID) in ascending order.
-
-    Parameters
-    ----------
-    unsorted_query: List[List[Tuple[int, int, int]]]
-        An unsorted query, a list of Triples and its join candidates.
-    """
-    
-    unsorted_query.sort(key=lambda x: x[0][1])
 
 
 def join_order_to_string(join_order: Dict) -> str:
