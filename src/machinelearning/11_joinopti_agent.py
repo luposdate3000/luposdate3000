@@ -10,6 +10,7 @@ from stable_baselines3 import DQN, PPO, DDPG, A2C
 from stable_baselines3.common.env_util import make_vec_env
 import math
 import time
+import gym_database.envs.helper_funcs as hf
 
 N_JOIN_ORDERS = int(os.environ["joinOrders"])
 
@@ -28,58 +29,42 @@ def train_model():
     model.learn(total_timesteps=1, log_interval=None)
     model.save(optimizer_model_file)
     end_time = time.time()
-    print("done after",end_time - start_time, "seconds")
+    print("done after", end_time - start_time, "seconds")
 
 
 def optimize_query():
     benched_queries = read_query(query_file)
-    max_execution_time = max_ex_t(benched_queries)
-    min_execution_time = min_ex_t(benched_queries)
     env = gym.make('gym_database:Database-v0')
+    env.should_train=False
     env.set_training_data(benched_queries)
     model = PPO.load(optimizer_model_file)
     #model = DQN.load(optimizer_model_file)
     #model = A2C.load(optimizer_model_file)
 
-    rewards = []
-    query_counter = 0
-    max_val = max_execution_val(benched_queries)
-    for i in range(len(benched_queries)):
+    rankings = [0] * (N_JOIN_ORDERS + 1)
+    for query_counter in range(len(benched_queries)):
         done = False
+        failed = False
         print("---------------Query: ----------- " + str(query_counter))
+        env.query = benched_queries[query_counter][0]
         obs = env.reset()
-        print("Observation: ")
-        print(obs)
         while not done:
             action, _states = model.predict(obs, deterministic=True)
-            print(f"Action: {action}")
             obs, reward, done, info = env.step(action)
-            print("Observation: ")
-            print(obs)
-            print(f"Reward: {reward}")
-            print(f"Done: {done}")
-            print(info)
-            if reward < 0: done = True
-            print("---------------Query: ----------- " + str(query_counter))
-            if done:
-                query_counter += 1
-                print("finish")
-                rewards.append(reward)
-
-    for i in rewards:
-        print(i)
-
-    with open("evaluation." + optimizer_model_file, "w") as evaluation:
-        evaluation.write(str(max_execution_time) + "\n")
-        evaluation.write(str(min_execution_time) + "\n")
-        for i in range(len(benched_queries)):
-            evaluation.write(str(rewards[i]) + " ")
-            for j in range(N_JOIN_ORDERS):
-                evaluation.write(str(100.0 - ((float(max_val[benched_queries[i][j][0]][0]) - float(benched_queries[i][j][2])) / (float(max_val[benched_queries[i][j][0]][0]) - float(max_val[benched_queries[i][j][0]][1]))) * 100))
-                if j != N_JOIN_ORDERS - 1:
-                    evaluation.write(" ")
-                else:
-                    evaluation.write("\n")
+            if reward < 0:
+                done = True
+                failed = True
+        if failed:
+            rankings[N_JOIN_ORDERS] += 1
+        else:
+            values = benched_queries[query_counter][1]
+            choosen_value = values[hf.joinOrderToID(env.join_order)]
+            ranking = 0
+            for v in values:
+                if v < choosen_value:
+                    ranking += 1
+            rankings[ranking] += 1
+    print("rankings", rankings)
 
 
 def analyse():
@@ -89,24 +74,21 @@ def analyse():
 def read_query(q_file):
     benched_queries = []
     with open(q_file, "r") as p_file:
-        q = []
+        results = []
         for line in p_file:
             tmp = line.split(" ")
-            tmp[-1] = tmp[-1][:-1]  # cut off "\n"
-            values = tmp[0].split(",")
-            q2 = []
-            q3 = []
-            for v in values:
-                if len(q3) == 3:
-                    q2.append(tuple(q3))
-                    q3 = []
-                q3.append(int(v))
-            q2.append(tuple(q3))
-            tmp[0] = q2
-            q.append(tmp)
-            if len(q) == N_JOIN_ORDERS:
-                benched_queries.append(q)
-                q = []
+            results.append(float(tmp[2]))
+            if len(results) == N_JOIN_ORDERS:
+                values = tmp[0].split(",")
+                q2 = []
+                q3 = []
+                for v in values:
+                    q3.append(int(v))
+                    if len(q3) == 3:
+                        q2.append(tuple(q3))
+                        q3 = []
+                benched_queries.append([q2, results])
+                results = []
     return benched_queries
 
 
@@ -125,15 +107,6 @@ def min_ex_t(benched_q):
         for j in range(0, 3):
             tmp.append(float(i[j][2]))
     return min(tmp)
-
-
-def max_id(benched_q):
-    tmp = []
-    for i in benched_q:
-        for j in range(len(i)):
-            #tmp.append(int(i[j][0].split(";")[2].split(",")[1]))
-            tmp.append(int(i[j][0].split(";")[3].split(",")[1]))
-    return max(tmp)
 
 
 def max_execution_val(benched_queries):

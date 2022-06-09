@@ -111,7 +111,7 @@ def remember_join_order(left, right, join_order, join_order_h):
 
 def calculate_reward(benched_query, join_order):
     choosen_id = joinOrderToID(join_order)
-    execution_times = [float(query[2]) for query in benched_query]
+    execution_times = benched_query[1]
     time_choosen = execution_times[choosen_id]
     time_min = min(execution_times)
     time_max = max(execution_times)

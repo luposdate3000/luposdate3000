@@ -69,6 +69,8 @@ class DatabaseEnv(gym.Env):
     def __init__(self):
         self.conn = None
 
+        self.query=None
+
         self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)  # define the shape of the observation_matrix, and the valid values in it
         self.action_list = hf.calculate_possible_actions(tripleCountMax)  # always keep the same actions, because openAI gym does not allow to change action_space
         self.action_space = spaces.Discrete(len(self.action_list))  # define valid numbers, which could be returned by the machine learning model
@@ -85,6 +87,7 @@ class DatabaseEnv(gym.Env):
 
         self.query_counter = -1
         self.training_data = None
+        self.should_train=True
         """The input training data.
         Format: List of all queries[List of all join orders of that query[List of data content]]
         Data content format: ["query", "join order", "execution time"]
@@ -123,19 +126,19 @@ class DatabaseEnv(gym.Env):
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
-        if not self.redo:
+        if self.should_train and not self.redo:
             if self.networking:
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
-                query = hf.load_query(query_string)
+                self.query = hf.load_query(query_string)
             else:
                 if self.query_counter < len(self.training_data) - 1:
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
-                query = self.training_data[self.query_counter][0][0]
-        self.observation_matrix = hf.reset_observation(query, np.zeros((tripleCountMax, tripleCountMax, 3), np.int32))
+                self.query = self.training_data[self.query_counter][0]
+        self.observation_matrix = hf.reset_observation(self.query, np.zeros((tripleCountMax, tripleCountMax, 3), np.int32))
         self.join_order = []
         self.join_order_h = dict(zip(range(tripleCountMax), range(tripleCountMax)))
         return self.observation_matrix
