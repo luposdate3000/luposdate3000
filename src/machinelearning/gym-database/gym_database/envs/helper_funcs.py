@@ -115,6 +115,8 @@ def calculate_reward(benched_query, join_order):
     time_choosen = execution_times[choosen_id]
     time_min = min(execution_times)
     time_max = max(execution_times)
+    if time_min==time_max:
+        return 0
     reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
     return reward
 
