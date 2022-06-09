@@ -26,9 +26,9 @@ def train_model():
 
     start_time = time.time()
     model.learn(total_timesteps=1, log_interval=None)
-    model.save("train.me.s.15_join_orders_1_" + "3:7_4_triples" + ".ppo_model")
+    model.save(optimizer_model_file)
     end_time = time.time()
-    print(end_time - start_time, "seconds")
+    print("done after",end_time - start_time, "seconds")
 
 
 def optimize_query():
@@ -163,6 +163,7 @@ if __name__ == '__main__':
     if train_or_opti == "train":
         try:
             query_file = sys.argv[2]
+            optimizer_model_file = sys.argv[3]
         except:
             print("Param 2: train: full path to benched query input file")
             sys.exit()

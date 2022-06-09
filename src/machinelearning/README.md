@@ -146,7 +146,7 @@ ratio must be a number between 1 and 9
 # 11. Start the machine learning itself
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train${ratio}_$((10-ratio))"
+./src/machinelearning/11_joinopti_agent.py train "${trainingDirectory}/train.me.train${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).10000.ppo_model"
 ```
 
 # 12. Evaluate the model
