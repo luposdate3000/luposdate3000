@@ -470,9 +470,9 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
     while (input.hasNext()) {
         i = i + floor(log(Random.nextDouble(), kotlin.math.E) / log(1 - W, kotlin.math.E)).toInt() + 1
         j++
-if(i<output.size*100){
-break//my shortcut to prevent extreme calculations for nearly no change
-}
+        if (i < output.size * 100) {
+            break//my shortcut to prevent extreme calculations for nearly no change
+        }
         while (j < i && input.hasNext()) {
             input.next()
             j++
@@ -564,15 +564,13 @@ val folder = outputfolder
 folder.mkdirs()
 var idx = 0
 val luposdate3000_query_params = StringBuilder()
-val python_ml_params = StringBuilder()
 val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
 ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
 for (query in knownJoins) {
-if(query.patterns.size!=numberOfJoinPatterns){
-continue
-}
+    if (query.patterns.size != numberOfJoinPatterns) {
+        continue
+    }
     luposdate3000_query_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.sparql;")
-    python_ml_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.mlq;")
     java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
         if (fastQueryMode) {
             out.println("SELECT (COUNT(*) as ?c) WHERE {")
@@ -595,31 +593,10 @@ continue
             }
         }
     }
-    java.io.File(folder, "q${idx.toString().padStart(4, '0')}.mlq").printWriter().use { out ->
-        for (p in query.patterns) {
-            fun mlqMapping(s: String): Int {
-                var c = query.extractVariableID(s)
-                if (c < 0) {
-                    return dictionary.indexOf(s)
-                } else {
-                    return -c - 1
-                }
-            }
-            out.print(mlqMapping(p.first))
-            out.print(",")
-            out.print(mlqMapping(p.second))
-            out.print(",")
-            out.print(mlqMapping(p.third))
-            out.print(";")
-        }
-    }
     idx++
 }
 java.io.File(outputfolder, "luposdate3000_query_params").printWriter().use { out ->
     out.print(luposdate3000_query_params.toString().dropLast(1))
-}
-java.io.File(outputfolder, "python_ml_params").printWriter().use { out ->
-    out.print(python_ml_params.toString().dropLast(1))
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     for (i in 1 until dictionary.size) {
