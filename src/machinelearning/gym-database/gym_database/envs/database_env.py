@@ -104,7 +104,7 @@ class DatabaseEnv(gym.Env):
         self.networking = None
         """Connection to Client: True or Local: False"""
 
-        self.query_counter = 0
+        self.query_counter = -1
         """Keeps track of current query."""
 
 
@@ -133,10 +133,6 @@ class DatabaseEnv(gym.Env):
                 self.redo = True
             else: 
                 self.redo = False # Continue with next join episode with new triples
-                if self.query_counter < len(self.training_data)-1:
-                    self.query_counter += 1
-                else:
-                    self.query_counter = 0
         else:
             reward = self.reward_valid_action
         return self.observation_matrix, reward, done, {}
@@ -149,6 +145,10 @@ class DatabaseEnv(gym.Env):
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
             else:
+                if self.query_counter < len(self.training_data)-1:
+                    self.query_counter += 1
+                else:
+                    self.query_counter = 0
                 query_string = self.training_data[self.query_counter][0][0]
                 self.query = hf.load_query(query_string)
 
