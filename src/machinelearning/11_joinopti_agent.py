@@ -28,7 +28,7 @@ def train_model():
     model.learn(total_timesteps=1, log_interval=None)
     model.save("train.me.s.15_join_orders_1_" + "3:7_4_triples" + ".ppo_model")
     end_time = time.time()
-    print(end_time - start_time,"seconds")
+    print(end_time - start_time, "seconds")
 
 
 def optimize_query():
@@ -89,26 +89,24 @@ def analyse():
 def read_query(q_file):
     benched_queries = []
     with open(q_file, "r") as p_file:
-        counter = 0  # all join orders of one query
-        counter2 = 0  # index for one query
+        q = []
         for line in p_file:
-            if counter == 0:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]  # cut off "\n"
-                # create new list for the query and all its join orders
-                benched_queries.append([tmp])
-            else:
-                tmp = line.split(" ")
-                tmp[-1] = tmp[-1][:-1]  # cut off "\n"
-                # add join order of query #counter2 to list
-                benched_queries[counter2].append(tmp)
-
-            if counter == N_JOIN_ORDERS - 1:
-                counter = 0
-                print("xxx",benched_queries[counter2])
-                counter2 += 1
-            else:
-                counter += 1
+            tmp = line.split(" ")
+            tmp[-1] = tmp[-1][:-1]  # cut off "\n"
+            values = tmp[0].split(",")
+            q2 = []
+            q3 = []
+            for v in values:
+                if len(q3) == 3:
+                    q2.append(tuple(q3))
+                    q3 = []
+                q3.append(int(v))
+            q2.append(tuple(q3))
+            tmp[0] = q2
+            q.append(tmp)
+            if len(q) == N_JOIN_ORDERS:
+                benched_queries.append(q)
+                q = []
     return benched_queries
 
 

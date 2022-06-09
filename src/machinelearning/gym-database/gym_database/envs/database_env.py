@@ -69,9 +69,9 @@ class DatabaseEnv(gym.Env):
     def __init__(self):
         self.conn = None
 
-        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32) # define the shape of the observation_matrix, and the valid values in it
-        self.action_list = hf.calculate_possible_actions(tripleCountMax) # always keep the same actions, because openAI gym does not allow to change action_space
-        self.action_space = spaces.Discrete(len(self.action_list)) # define valid numbers, which could be returned by the machine learning model
+        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)  # define the shape of the observation_matrix, and the valid values in it
+        self.action_list = hf.calculate_possible_actions(tripleCountMax)  # always keep the same actions, because openAI gym does not allow to change action_space
+        self.action_space = spaces.Discrete(len(self.action_list))  # define valid numbers, which could be returned by the machine learning model
 
         self.observation_matrix = None
 
@@ -96,7 +96,6 @@ class DatabaseEnv(gym.Env):
         """
 
         self.networking = None
-
 
     def step(self, action):
         """The step function takes an action from the agent and executes it.
@@ -129,13 +128,13 @@ class DatabaseEnv(gym.Env):
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
+                query = hf.load_query(query_string)
             else:
                 if self.query_counter < len(self.training_data) - 1:
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
-                query_string = self.training_data[self.query_counter][0][0]
-            query = hf.load_query(query_string)
+                query = self.training_data[self.query_counter][0][0]
         self.observation_matrix = hf.reset_observation(query, np.zeros((tripleCountMax, tripleCountMax, 3), np.int32))
         self.join_order = []
         self.join_order_h = dict(zip(range(tripleCountMax), range(tripleCountMax)))

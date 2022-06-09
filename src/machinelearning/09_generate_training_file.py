@@ -13,52 +13,49 @@ Output: training file
 """
 
 import sys
-
-
-def generate_train_file():
-    """
-    Read every line from benchmark file, the first string is the path to the query file.
-    Use the path to the query file to find the corresponding .mlq files and read them.
-    Take their content (the SPARQL query transformed into numbers) and write the training file.
-    A line in the training file looks like this:
-    QUERY JOIN_ORDER EXECUTION_TIME(in executions/sec)
-    -1,1,-2;-1,2,-3;-1,3,-4 0 14034.0072
-    """
-
-    with open(input_file, "r") as benchmark_file:
-        with open(output_directory + "train.me", "w") as train_file:
-            # Read every line from benchmark file
-            for line in benchmark_file:
-                # Take path to query file and replace the .sparql ending with .mlq.
-                tmp = line.split(" ")
-                ml_query_file_string = tmp[0].split("/")
-                tmp2 = ml_query_file_string[-1].split(".")[0]
-                tmp3 = tmp2 + ".mlq"
-                ml_query_file_string = ml_query_file_string[:-1]
-                ml_query_file_string.append(tmp3)
-                ml_query_file_string = "/".join(ml_query_file_string)
-                # Use the path to the .mlq file to open it and read out the content.
-                with open(ml_query_file_string, "r") as ml_query_file:
-                    for line2 in ml_query_file:
-                        ml_query = line2[:-1]
-                tmp[0] = ml_query
-                # Merge the content of the .mlq file with the benchmark results and write to file.
-                tmp3 = " ".join(tmp)
-                train_file.write(tmp3)
-
-
-def print_error():
-    print("Usage: ")
-    print("Param 1: path to benchmark file (.bench)")
-    print("Param 2: output directory for training file")
-
+import re
 
 if __name__ == '__main__':
+    dictionary = {}
+    dictionaryInverse = {}
     try:
-        input_file = sys.argv[1]
-        output_directory = sys.argv[2]
+        input_benchmark_file_name = sys.argv[1]
+        output_training_file_name = sys.argv[2] + "train.me"
+        output_dictionary_file_name = sys.argv[2] + "train.dict"
     except:
-        print_error()
+        print("Usage: ")
+        print("Param 1: path to benchmark file (.bench)")
+        print("Param 2: output directory for training file")
         sys.exit()
 
-    generate_train_file()
+    with open(input_benchmark_file_name, "r") as input_benchmark_file:
+        with open(output_training_file_name, "w") as output_training_file:
+            for line in input_benchmark_file:
+                tmp = line.split(" ")
+                with open(tmp[0], "r") as query_file:
+                    data = query_file.read()
+                data = re.sub('\\s+', ' ', data)
+                data = data[data.find('{') + 1:data.find('}')]
+                data2 = data.split(" ")
+                query = []
+                triple = []
+                variables = {}
+                for word in data2:
+                    if len(word) > 0:
+                        if word == ".":
+                            query.extend(triple)
+                            triple = []
+                        elif word[0] == "?":
+                            id = variables.get(word, -2 - len(variables))
+                            variables[word] = id
+                            triple.append(str(id))
+                        else:
+                            id = dictionary.get(word, len(dictionary))
+                            dictionary[word] = id
+                            dictionaryInverse[id] = word
+                            triple.append(str(id))
+                tmp[0] = ','.join(query)
+                output_training_file.write(" ".join(tmp))
+    with open(output_dictionary_file_name, "w") as output_dictionary_file:
+        for i in range(len(dictionary)):
+            output_dictionary_file.write(dictionaryInverse[i] + "\n")

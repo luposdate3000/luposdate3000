@@ -16,7 +16,9 @@ def is_done(observation_matrix):
     for i in range(s):
         if observation_matrix[i][0][0] == 0:
             c = c + 1
-    return s - c == 1 #  finished when there is exactly one non zero row in the matrix
+    res = s - c == 1  #  finished when there is exactly one non zero row in the matrix
+    return res
+
 
 def calculate_possible_actions(matrix_size):
     action_list = []
@@ -30,9 +32,9 @@ def reset_observation(sorted_query, observation_matrix):
     for x in range(len(sorted_query)):
         for y in range(len(sorted_query)):
             if x != y:
-                observation_matrix[x][y] = [-1, -1, -1] # set the top left square to all -1 depending on the current number of triples. Assume, everything else is all zero
+                observation_matrix[x][y] = [-1, -1, -1]  # set the top left square to all -1 depending on the current number of triples. Assume, everything else is all zero
     for index, triples in enumerate(sorted_query):
-        observation_matrix[index, index] = triples # fill in the triples at the diagonal of the matrix
+        observation_matrix[index, index] = triples  # fill in the triples at the diagonal of the matrix
     return observation_matrix
 
 
@@ -40,13 +42,13 @@ def update_observation(left, right, observation_matrix):
     for i, v in enumerate(observation_matrix[right, :]):
         if v[0] != 0:
             if (observation_matrix[left, i, 0] == -1 and observation_matrix[left, i, 1] == -1 and observation_matrix[left, i, 2] == -1):
-                observation_matrix[left, i] = v # copy the right row into the left row
+                observation_matrix[left, i] = v  # copy the right row into the left row
             else:
                 None
-        observation_matrix[right, i] = 0 # set right row to zero, because it is now part of left row
+        observation_matrix[right, i] = 0  # set right row to zero, because it is now part of left row
 
 
-def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
+def load_query(query_string):
     """Function that loads a new query.
 
     Function gets a serialized query in form of a string. It builds a query object and
@@ -73,7 +75,6 @@ def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
                 tmp.append(x)
         query.append(tuple(tmp))
     query.sort(key=lambda x: x[1])
-    print("load_query", query_string, query)
     return query
 
 
@@ -100,11 +101,11 @@ def join_order_to_string(join_order: Dict) -> str:
 
 
 def remember_join_order(left, right, join_order, join_order_h):
-    index = -len(join_order) / 2 - 1
+    index = int(-len(join_order) / 2 - 1)
     tmp = [join_order_h[left], join_order_h[right]]
     tmp.sort()
-    join_order.extend(tmp) # join_order is a list which contains left and right alternating. The join order must be executed from lowest to highest index
-    join_order_h[left] = index # the join_order_h is used to map the row number to possible intermediate results easy and fast
+    join_order.extend(tmp)  # join_order is a list which contains left and right alternating. The join order must be executed from lowest to highest index
+    join_order_h[left] = index  # the join_order_h is used to map the row number to possible intermediate results easy and fast
     join_order_h[right] = index
 
 
