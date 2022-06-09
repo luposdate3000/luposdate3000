@@ -69,7 +69,7 @@ class DatabaseEnv(gym.Env):
     def __init__(self):
         self.conn = None
 
-        self.query=None
+        self.query = None
 
         self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)  # define the shape of the observation_matrix, and the valid values in it
         self.action_list = hf.calculate_possible_actions(tripleCountMax)  # always keep the same actions, because openAI gym does not allow to change action_space
@@ -81,13 +81,14 @@ class DatabaseEnv(gym.Env):
         self.join_order_h = None
 
         self.redo = False
-        self.reward_valid_action = 0
+        self.autofix_invalid_actions = True
         self.reward_invalid_action = -1
+        self.reward_valid_action = 0
         self.reward_treshold_for_redo = 0
 
         self.query_counter = -1
         self.training_data = None
-        self.should_train=True
+        self.should_train = True
         """The input training data.
         Format: List of all queries[List of all join orders of that query[List of data content]]
         Data content format: ["query", "join order", "execution time"]
@@ -105,9 +106,15 @@ class DatabaseEnv(gym.Env):
         It calculates the next state and returns the observation of the new state."""
         left = self.action_list[action][0]
         right = self.action_list[action][1]
-        if not hf.is_valid_action(left, right, self.observation_matrix):
-            self.redo = True
-            return self.observation_matrix, self.reward_invalid_action, False, {}
+        if self.autofix_invalid_actions:
+            while not hf.is_valid_action(left, right, self.observation_matrix):
+                action = (action + 1) % len(self.action_list)
+                left = self.action_list[action][0]
+                right = self.action_list[action][1]
+        else:
+            if not hf.is_valid_action(left, right, self.observation_matrix):
+                self.redo = True
+                return self.observation_matrix, self.reward_invalid_action, False, {}
         hf.update_observation(left, right, self.observation_matrix)
         hf.remember_join_order(left, right, self.join_order, self.join_order_h)
         done = hf.is_done(self.observation_matrix)
