@@ -13,7 +13,7 @@ import time
 import gym_database.envs.helper_funcs as hf
 
 N_JOIN_ORDERS = int(os.environ["joinOrders"])
-
+training_steps=1
 
 def train_model():
     benched_queries = read_query(query_file)
@@ -26,7 +26,7 @@ def train_model():
     #model = A2C("MlpPolicy", env, verbose=0)
 
     start_time = time.time()
-    model.learn(total_timesteps=1, log_interval=None)
+    model.learn(total_timesteps=training_steps, log_interval=None)
     model.save(optimizer_model_file)
     end_time = time.time()
     print("done after", end_time - start_time, "seconds")
@@ -42,7 +42,8 @@ def optimize_query():
     #model = A2C.load(optimizer_model_file)
 
     rankings = [0] * (N_JOIN_ORDERS + 1)
-    for query_counter in range(len(benched_queries)):
+    with open(optimizer_model_file+".evaluation", "w") as evaluation:
+      for query_counter in range(len(benched_queries)):
         done = False
         failed = False
         print("---------------Query: ----------- " + str(query_counter))
@@ -55,21 +56,19 @@ def optimize_query():
                 done = True
                 failed = True
         if failed:
-            rankings[N_JOIN_ORDERS] += 1
+            ranking=N_JOIN_ORDERS
+            choosen_id=-1
         else:
             values = benched_queries[query_counter][1]
-            choosen_value = values[hf.joinOrderToID(env.join_order)]
+            choosen_id=hf.joinOrderToID(env.join_order)
+            choosen_value = values[choosen_id]
             ranking = 0
             for v in values:
                 if v < choosen_value:
                     ranking += 1
-            rankings[ranking] += 1
+        rankings[ranking] += 1
+        evaluation.write(str(query_counter)+" "+str(choosen_id)+"\n")
     print("rankings", rankings)
-
-
-def analyse():
-    return None
-
 
 def read_query(q_file):
     benched_queries = []
@@ -91,39 +90,6 @@ def read_query(q_file):
                 results = []
     return benched_queries
 
-
-def max_ex_t(benched_q):
-    tmp = []
-    for i in benched_q:
-        for j in range(0, 3):
-            tmp.append(float(i[j][2]))
-    #print(max(tmp))
-    return max(tmp)
-
-
-def min_ex_t(benched_q):
-    tmp = []
-    for i in benched_q:
-        for j in range(0, 3):
-            tmp.append(float(i[j][2]))
-    return min(tmp)
-
-
-def max_execution_val(benched_queries):
-    max_val = {}
-    for query in benched_queries:
-        for tmp in query:
-            if (tmp[0] not in max_val):
-                max_val[tmp[0]] = [int(tmp[2]), int(tmp[2])]
-            else:
-                if (max_val[tmp[0]][0] < int(tmp[2])):
-                    max_val[tmp[0]][0] = int(tmp[2])
-                if (max_val[tmp[0]][1] > int(tmp[2])):
-                    max_val[tmp[0]][1] = int(tmp[2])
-
-    return max_val
-
-
 if __name__ == '__main__':
 
     try:
@@ -137,8 +103,11 @@ if __name__ == '__main__':
         try:
             query_file = sys.argv[2]
             optimizer_model_file = sys.argv[3]
+            training_steps=int(sys.argv[4])
         except:
             print("Param 2: train: full path to benched query input file")
+            print("Param 3: opti: full path to file of trained optimizer (e.g. ../../model.ppo)")
+            print("Param 4: training steps e.g. 10000")
             sys.exit()
         train_model()
 
