@@ -15,7 +15,7 @@ N_JOIN_ORDERS = int(os.environ["joinOrders"])
 
 
 def train_model():
-    benched_queries = read_query(benched_query_file)
+    benched_queries = read_query(query_file)
     env = gym.make('gym_database:Database-v0')
     env.set_training_data(benched_queries)
     # setup model
@@ -92,7 +92,6 @@ def read_query(q_file):
         counter = 0  # all join orders of one query
         counter2 = 0  # index for one query
         for line in p_file:
-            # if new query
             if counter == 0:
                 tmp = line.split(" ")
                 tmp[-1] = tmp[-1][:-1]  # cut off "\n"
@@ -106,6 +105,7 @@ def read_query(q_file):
 
             if counter == N_JOIN_ORDERS - 1:
                 counter = 0
+                print("xxx",benched_queries[counter2])
                 counter2 += 1
             else:
                 counter += 1
@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
     if train_or_opti == "train":
         try:
-            benched_query_file = sys.argv[2]
+            query_file = sys.argv[2]
         except:
             print("Param 2: train: full path to benched query input file")
             sys.exit()
