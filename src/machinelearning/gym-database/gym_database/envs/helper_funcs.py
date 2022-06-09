@@ -16,28 +16,9 @@ def is_done(observation_matrix):
     for i in range(s):
         if observation_matrix[i][0][0] == 0:
             c = c + 1
-    return s - c == 1
-
+    return s - c == 1 #  finished when there is exactly one non zero row in the matrix
 
 def calculate_possible_actions(matrix_size):
-    """Function that creates a list of possible actions.
-
-    An action is a join of two rows. The number of  ways to join a row is restricted.
-    The row with the higher index is joined into the lower row. This reduces the action space.
-    The size of the action space is the Gauss sum of the size of the matrix in one dimension.
-
-    Parameters
-    ----------
-    matrix_size: int
-        The size of the observation matrix in the first or second dimension. As it is a square
-        matrix the first and second dimensions are the same.
-
-    Returns
-    -------
-    List[Tuple[int, int]]
-        List of possible actions.
-        (0,1),(0,2),...,(0,matrix_size),(1,2),(1,3),...,(2,3),(2,4)...,(matrix_size-2,n_triples-1)
-    """
     action_list = []
     for i in range(matrix_size):
         for j in range(i + 1, matrix_size):
@@ -46,67 +27,23 @@ def calculate_possible_actions(matrix_size):
 
 
 def reset_observation(sorted_query, observation_matrix):
-    """Function to initially fill the observation matrix with triples and its join candidates.
-
-    Takes triples from query and sets the diagonal values of the corresponding entry in the
-    observation matrix to the values of the corresponding triple. The possible join candidates
-    are marked with a [-1, -1, -1]. Join variables are negative integers.
-
-
-    Parameters
-    ----------
-    sorted_query : List[List[Tuple[int, int, int]]
-        list of lists of triples and join candidates in query:
-        [triple_a, triple_b, ...]. triple_a = [triple, join_candidate0, join_candidate1, ...]
-    observation_matrix : np.ndarray
-        empty observation matrix with all entries set to zero
-
-    Returns
-    -------
-    np.ndarray
-        initial observation matrix with triples and join candidates
-    """
-
     for x in range(len(sorted_query)):
         for y in range(len(sorted_query)):
             if x != y:
-                observation_matrix[x][y] = [-1, -1, -1]
+                observation_matrix[x][y] = [-1, -1, -1] # set the top left square to all -1 depending on the current number of triples. Assume, everything else is all zero
     for index, triples in enumerate(sorted_query):
-        observation_matrix[index, index] = triples
+        observation_matrix[index, index] = triples # fill in the triples at the diagonal of the matrix
     return observation_matrix
 
 
-def update_observation(index_a, index_b, observation_matrix):
-    """ Joins triple a and triple b.
-
-    To join a and b, the corresponding entries of a and b are merged.
-    A filled cell with positive integers represents the corresponding
-    triple and a -1 for its join candidates.
-    Therefore the triple b is placed in the row of a at the column of b.
-    And all the join candidates and other triples are copied to row a.
-    And the triples and the join candidates in the row of b are deleted.
-
-    Parameters
-    ----------
-    index_a : int
-        index of triple_a in obervation_matrix
-    index_b : int
-        index of triple_b in observation_matrix
-    observation_matrix : np.ndarray
-        observation_matrix
-
-    Returns
-    -------
-    None
-    """
-
-    for i, v in enumerate(observation_matrix[index_b, :]):
+def update_observation(left, right, observation_matrix):
+    for i, v in enumerate(observation_matrix[right, :]):
         if v[0] != 0:
-            if (observation_matrix[index_a, i, 0] == -1 and observation_matrix[index_a, i, 1] == -1 and observation_matrix[index_a, i, 2] == -1):
-                observation_matrix[index_a, i] = v
+            if (observation_matrix[left, i, 0] == -1 and observation_matrix[left, i, 1] == -1 and observation_matrix[left, i, 2] == -1):
+                observation_matrix[left, i] = v # copy the right row into the left row
             else:
                 None
-        observation_matrix[index_b, i] = 0
+        observation_matrix[right, i] = 0 # set right row to zero, because it is now part of left row
 
 
 def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
@@ -166,8 +103,8 @@ def remember_join_order(left, right, join_order, join_order_h):
     index = -len(join_order) / 2 - 1
     tmp = [join_order_h[left], join_order_h[right]]
     tmp.sort()
-    join_order.extend(tmp)
-    join_order_h[left] = index
+    join_order.extend(tmp) # join_order is a list which contains left and right alternating. The join order must be executed from lowest to highest index
+    join_order_h[left] = index # the join_order_h is used to map the row number to possible intermediate results easy and fast
     join_order_h[right] = index
 
 

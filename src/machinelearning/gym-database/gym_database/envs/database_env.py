@@ -68,28 +68,22 @@ class DatabaseEnv(gym.Env):
 
     def __init__(self):
         self.conn = None
-        """Socket to establish connection to client database."""
-        self.size_matrix = tripleCountMax
 
-        self.observation_space = spaces.Box(-self.size_matrix * 3 - 2, np.inf, shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
-        self.action_list = hf.calculate_possible_actions(self.size_matrix)
-        self.action_space = spaces.Discrete(len(self.action_list))
+        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32) # define the shape of the observation_matrix, and the valid values in it
+        self.action_list = hf.calculate_possible_actions(tripleCountMax) # always keep the same actions, because openAI gym does not allow to change action_space
+        self.action_space = spaces.Discrete(len(self.action_list)) # define valid numbers, which could be returned by the machine learning model
 
         self.observation_matrix = None
-
-        self.query = None
-        """Query."""
 
         self.join_order = []
         self.join_order_h = None
 
-        self.reward_treshold_for_redo = 0
-        """reward_treshold_for_redo for the reward. Under this value, the episode has to be redone."""
-
         self.redo = False
         self.reward_valid_action = 0
         self.reward_invalid_action = -1
+        self.reward_treshold_for_redo = 0
 
+        self.query_counter = -1
         self.training_data = None
         """The input training data.
         Format: List of all queries[List of all join orders of that query[List of data content]]
@@ -102,13 +96,9 @@ class DatabaseEnv(gym.Env):
         """
 
         self.networking = None
-        """Connection to Client: True or Local: False"""
 
-        self.query_counter = -1
-        """Keeps track of current query."""
 
     def step(self, action):
-        print("action", action, action < 0 or action >= len(self.action_list), self.action_list, self.action_space)
         """The step function takes an action from the agent and executes it.
         It calculates the next state and returns the observation of the new state."""
         left = self.action_list[action][0]
@@ -128,14 +118,13 @@ class DatabaseEnv(gym.Env):
                 reward = float(data.decode("UTF-8"))
             else:
                 reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
-            self.redo = reward < self.reward_treshold_for_redo:
+            self.redo = reward < self.reward_treshold_for_redo
         else:
             reward = self.reward_valid_action
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
         if not self.redo:
-            # load next query
             if self.networking:
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
@@ -146,19 +135,16 @@ class DatabaseEnv(gym.Env):
                 else:
                     self.query_counter = 0
                 query_string = self.training_data[self.query_counter][0][0]
-                self.query = hf.load_query(query_string)
-
-        self.observation_matrix = hf.reset_observation(self.query, np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+            query = hf.load_query(query_string)
+        self.observation_matrix = hf.reset_observation(query, np.zeros((tripleCountMax, tripleCountMax, 3), np.int32))
         self.join_order = []
-        self.join_order_h = dict(zip(range(self.size_matrix), range(self.size_matrix)))
+        self.join_order_h = dict(zip(range(tripleCountMax), range(tripleCountMax)))
         return self.observation_matrix
 
     def set_connection(self, conn):
-        """Set a socket object with an active connection to the client."""
         self.conn = conn
         self.networking = True
 
     def set_training_data(self, training_data):
-        """Set training data."""
         self.training_data = training_data
         self.networking = False
