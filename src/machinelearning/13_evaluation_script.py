@@ -13,7 +13,7 @@ with open(eval_file, "r") as evaluation:
         rewards.append([])
         for j in line.split(" "):
             rewards[i].append(float(j))
-    
+
 #print(rewards)
 # vergleich, ob max
 ranking = {}
@@ -22,15 +22,12 @@ for i in range(N_JOIN_ORDERS):
 
 ranking["Invalid"] = 0
 for i in rewards:
-    order = sorted(i[1:],reverse=True)
+    order = sorted(i[1:], reverse=True)
     try:
         rank = order.index(i[0])
-        ranking[rank]+=1
+        ranking[rank] += 1
     except:
-        ranking["Invalid"]+=1
-
-
-
+        ranking["Invalid"] += 1
 
 print(ranking)
 '''
@@ -55,8 +52,6 @@ for i in rewards:
 
 average_reward = average_reward/len(rewards)
 '''
-
-
 '''
 #print("is_max:"+str(is_max))
 print("num_max:"+str(num_maxs))

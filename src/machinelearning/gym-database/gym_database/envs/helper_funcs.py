@@ -5,16 +5,19 @@ import numpy as np
 from typing import List, Tuple, Dict
 import pickle
 
-def is_valid_action(left,right,observation_matrix):
-    return observation_matrix[left][right][0]!=0 and observation_matrix[right][left][0]!=0
+
+def is_valid_action(left, right, observation_matrix):
+    return observation_matrix[left][right][0] != 0 and observation_matrix[right][left][0] != 0
+
 
 def is_done(observation_matrix):
-    s=len(observation_matrix)
-    c=0
+    s = len(observation_matrix)
+    c = 0
     for i in range(s):
-        if observation_matrix[i][0][0]==0:
-            c=c+1
-    return s-c==1
+        if observation_matrix[i][0][0] == 0:
+            c = c + 1
+    return s - c == 1
+
 
 def calculate_possible_actions(matrix_size):
     """Function that creates a list of possible actions.
@@ -37,11 +40,12 @@ def calculate_possible_actions(matrix_size):
     """
     action_list = []
     for i in range(matrix_size):
-        for j in range(i+1,matrix_size):
-                action_list.append((i, j))
+        for j in range(i + 1, matrix_size):
+            action_list.append((i, j))
     return action_list
 
-def reset_observation(sorted_query, observation_matrix) :
+
+def reset_observation(sorted_query, observation_matrix):
     """Function to initially fill the observation matrix with triples and its join candidates.
 
     Takes triples from query and sets the diagonal values of the corresponding entry in the
@@ -63,13 +67,14 @@ def reset_observation(sorted_query, observation_matrix) :
         initial observation matrix with triples and join candidates
     """
 
-    for x in range (len(sorted_query)):
-        for y in range (len(sorted_query)):
-            if x !=y :
-               observation_matrix[x][y]=[-1,-1,-1]
+    for x in range(len(sorted_query)):
+        for y in range(len(sorted_query)):
+            if x != y:
+                observation_matrix[x][y] = [-1, -1, -1]
     for index, triples in enumerate(sorted_query):
         observation_matrix[index, index] = triples
     return observation_matrix
+
 
 def update_observation(index_a, index_b, observation_matrix):
     """ Joins triple a and triple b.
@@ -97,13 +102,11 @@ def update_observation(index_a, index_b, observation_matrix):
 
     for i, v in enumerate(observation_matrix[index_b, :]):
         if v[0] != 0:
-            if (observation_matrix[index_a, i, 0] == -1 and                     observation_matrix[index_a, i, 1] == -1 and                     observation_matrix[index_a, i, 2] == -1) :
-                observation_matrix[index_a, i] = v  
+            if (observation_matrix[index_a, i, 0] == -1 and observation_matrix[index_a, i, 1] == -1 and observation_matrix[index_a, i, 2] == -1):
+                observation_matrix[index_a, i] = v
             else:
                 None
-        observation_matrix[index_b, i] = 0 
-
-
+        observation_matrix[index_b, i] = 0
 
 
 def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
@@ -125,18 +128,16 @@ def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
 
     query = []
     for i in query_string.split(";"):
-        tmp=[]
+        tmp = []
         for x in map(int, i.split(",")):
-            if(x<0):
-                tmp.append(x-1)
+            if (x < 0):
+                tmp.append(x - 1)
             else:
                 tmp.append(x)
         query.append(tuple(tmp))
     query.sort(key=lambda x: x[1])
-    print("load_query",query_string,query)
+    print("load_query", query_string, query)
     return query
-
-
 
 
 def join_order_to_string(join_order: Dict) -> str:
@@ -157,26 +158,28 @@ def join_order_to_string(join_order: Dict) -> str:
     out = ""
     for i in temp:
         out = out + str(i[0]) + ":" + str(i[1][0]) + "," + str(i[1][1]) + ";"
-    out = out[:-1] # remove last ";" for easy split operation
+    out = out[:-1]  # remove last ";" for easy split operation
     return out
 
 
 def remember_join_order(left, right, join_order, join_order_h):
-    index = -len(join_order)/2-1
-    tmp = [join_order_h[left],join_order_h[right]]
+    index = -len(join_order) / 2 - 1
+    tmp = [join_order_h[left], join_order_h[right]]
     tmp.sort()
     join_order.extend(tmp)
     join_order_h[left] = index
     join_order_h[right] = index
 
-def calculate_reward( benched_query, join_order):
+
+def calculate_reward(benched_query, join_order):
     choosen_id = joinOrderToID(join_order)
     execution_times = [float(query[2]) for query in benched_query]
-    time_choosen=execution_times[choosen_id]
-    time_min=min(execution_times)
-    time_max=max(execution_times)
-    reward = 100 - abs((np.log(time_choosen) - np.log(time_min))/(np.log(time_max)-np.log(time_min)))*100
+    time_choosen = execution_times[choosen_id]
+    time_min = min(execution_times)
+    time_max = max(execution_times)
+    reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
     return reward
+
 
 def generateJoinOrderHelper(depth, n):
     res = []
@@ -189,32 +192,33 @@ def generateJoinOrderHelper(depth, n):
     else:
         child = generateJoinOrderHelper(depth - 1, n)
         for c in child:
-            available = set(range(0, n)).union(
-                set(range(int( - len(c) / 2), 0))) - set(c)
+            available = set(range(0, n)).union(set(range(int(-len(c) / 2), 0))) - set(c)
             for a in available:
                 for b in available:
                     if (a < b):
                         res.append(c + [a, b])
     return res
 
-def generateJoinOrderHelperSort(res,input, index):
+
+def generateJoinOrderHelperSort(res, input, index):
     av = input[index]
     a = 0
     if (av < 0):
-        res.extend(generateJoinOrderHelperSort(res.copy(),input, (-1 - av) * 2))
+        res.extend(generateJoinOrderHelperSort(res.copy(), input, (-1 - av) * 2))
         a = -len(res) / 2
     else:
         a = av
     bv = input[index + 1]
     b = 0
     if (bv < 0):
-        res.extend(generateJoinOrderHelperSort(res.copy(),input, (-1 - bv) * 2))
+        res.extend(generateJoinOrderHelperSort(res.copy(), input, (-1 - bv) * 2))
         b = -len(res) / 2
     else:
         b = bv
     res.append(a)
     res.append(b)
     return res
+
 
 def generateJoinOrder(n):
     if n < 2:
@@ -239,12 +243,14 @@ def generateJoinOrder(n):
             if min(eb) < min(ea):
                 oCpy[ai] = b
                 oCpy[bi] = a
-        oSorted = generateJoinOrderHelperSort([],oCpy, len(oCpy) - 2)
+        oSorted = generateJoinOrderHelperSort([], oCpy, len(oCpy) - 2)
         res[tuple(o)] = res1.setdefault(tuple(oSorted), len(res1))
     return res
 
-tripleCount=int(os.environ["tripleCount"])
-joinOrderCache=generateJoinOrder(tripleCount)
+
+tripleCount = int(os.environ["tripleCount"])
+joinOrderCache = generateJoinOrder(tripleCount)
+
 
 def joinOrderToID(joinOrder):
     return joinOrderCache[tuple(joinOrder)]

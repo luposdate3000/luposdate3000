@@ -62,4 +62,3 @@ if __name__ == '__main__':
         sys.exit()
 
     generate_train_file()
-

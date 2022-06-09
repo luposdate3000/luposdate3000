@@ -16,53 +16,33 @@ N_JOIN_ORDERS = int(os.environ["joinOrders"])
 
 def train_model():
     benched_queries = read_query(benched_query_file)
-    #print(benched_queries[0])
-    # find min max execution times
-    max_execution_time = max_ex_t(benched_queries)
-    
-    min_execution_time = min_ex_t(benched_queries)
-    
-    # find max id of predicate
-    
-    # setup environment
     env = gym.make('gym_database:Database-v0')
-    #env = make_vec_env('gym_database:Database-v0')
-    env.max_exec_time=max_execution_time
-    env.min_exec_time=min_execution_time
+    env.set_training_data(benched_queries)
     # setup model
     model = PPO("MlpPolicy", env, verbose=2)
     #model = PPO("MlpPolicy", env, verbose=2)
     #model = DQN("MlpPolicy", env, verbose=2)
     #model = A2C("MlpPolicy", env, verbose=0)
 
-    env.set_training_data(benched_queries)
     start_time = time.time()
     model.learn(total_timesteps=1, log_interval=None)
     model.save("train.me.s.15_join_orders_1_" + "3:7_4_triples" + ".ppo_model")
     end_time = time.time()
-    print(end_time - start_time)
-
+    print(end_time - start_time,"seconds")
 
 
 def optimize_query():
     benched_queries = read_query(query_file)
-    #print(benched_queries)
-    # find min max execution times
     max_execution_time = max_ex_t(benched_queries)
     min_execution_time = min_ex_t(benched_queries)
-    # find max id of predicate
-    # setup environment
     env = gym.make('gym_database:Database-v0')
-    env.max_exec_time=max_execution_time
-    env.min_exec_time=min_execution_time
-    # setup model
+    env.set_training_data(benched_queries)
     model = PPO.load(optimizer_model_file)
     #model = DQN.load(optimizer_model_file)
     #model = A2C.load(optimizer_model_file)
 
     rewards = []
     query_counter = 0
-    env.set_training_data(benched_queries)
     max_val = max_execution_val(benched_queries)
     for i in range(len(benched_queries)):
         done = False
@@ -95,8 +75,8 @@ def optimize_query():
         for i in range(len(benched_queries)):
             evaluation.write(str(rewards[i]) + " ")
             for j in range(N_JOIN_ORDERS):
-                evaluation.write(str(100.0 - ((float(max_val[benched_queries[i][j][0]][0])-float(benched_queries[i][j][2]))/(float(max_val[benched_queries[i][j][0]][0])-float(max_val[benched_queries[i][j][0]][1])))*100))
-                if j != N_JOIN_ORDERS-1:
+                evaluation.write(str(100.0 - ((float(max_val[benched_queries[i][j][0]][0]) - float(benched_queries[i][j][2])) / (float(max_val[benched_queries[i][j][0]][0]) - float(max_val[benched_queries[i][j][0]][1]))) * 100))
+                if j != N_JOIN_ORDERS - 1:
                     evaluation.write(" ")
                 else:
                     evaluation.write("\n")
@@ -124,7 +104,7 @@ def read_query(q_file):
                 # add join order of query #counter2 to list
                 benched_queries[counter2].append(tmp)
 
-            if counter == N_JOIN_ORDERS-1:
+            if counter == N_JOIN_ORDERS - 1:
                 counter = 0
                 counter2 += 1
             else:
@@ -157,19 +137,22 @@ def max_id(benched_q):
             tmp.append(int(i[j][0].split(";")[3].split(",")[1]))
     return max(tmp)
 
+
 def max_execution_val(benched_queries):
-    max_val={}
+    max_val = {}
     for query in benched_queries:
         for tmp in query:
-            if(tmp[0] not in max_val):
-                max_val[tmp[0]] = [int(tmp[2]),int(tmp[2])]
+            if (tmp[0] not in max_val):
+                max_val[tmp[0]] = [int(tmp[2]), int(tmp[2])]
             else:
-                if(max_val[tmp[0]][0]<int(tmp[2])):
+                if (max_val[tmp[0]][0] < int(tmp[2])):
                     max_val[tmp[0]][0] = int(tmp[2])
-                if(max_val[tmp[0]][1]>int(tmp[2])):
-                    max_val[tmp[0]][1]=int(tmp[2])
+                if (max_val[tmp[0]][1] > int(tmp[2])):
+                    max_val[tmp[0]][1] = int(tmp[2])
 
     return max_val
+
+
 if __name__ == '__main__':
 
     try:
@@ -200,13 +183,3 @@ if __name__ == '__main__':
     else:
         print("Param 1: \"train\" or \"opti\" (without \")")
         print("Param 2: train: full path for input file")
-
-
-
-
-
-
-
-
-
-

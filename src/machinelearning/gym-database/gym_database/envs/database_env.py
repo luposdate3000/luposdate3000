@@ -11,7 +11,10 @@ import gym_database.envs.helper_funcs as hf
 from timeit import default_timer
 import pickle
 import os
-tripleCountMax=int(os.environ["tripleCountMax"])
+
+tripleCountMax = int(os.environ["tripleCountMax"])
+
+
 class DatabaseEnv(gym.Env):
     """
     Description:
@@ -66,12 +69,11 @@ class DatabaseEnv(gym.Env):
     def __init__(self):
         self.conn = None
         """Socket to establish connection to client database."""
-        self.size_matrix: int = tripleCountMax
+        self.size_matrix = tripleCountMax
 
-        self.observation_space = spaces.Box(-self.size_matrix*3-2, np.inf,shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
+        self.observation_space = spaces.Box(-self.size_matrix * 3 - 2, np.inf, shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
         self.action_list = hf.calculate_possible_actions(self.size_matrix)
-        self.action_space= spaces.Discrete(len(self.action_list))
-
+        self.action_space = spaces.Discrete(len(self.action_list))
 
         self.observation_matrix = None
 
@@ -79,18 +81,16 @@ class DatabaseEnv(gym.Env):
         """Query."""
 
         self.join_order = []
-        self.join_order_h: Dict = None
+        self.join_order_h = None
 
-        self.threshold = 0
-        """Threshold for the reward. Under this value, the episode has to be redone."""
+        self.reward_treshold_for_redo = 0
+        """reward_treshold_for_redo for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
-        self.reward_valid_action=0
+        self.reward_valid_action = 0
         self.reward_invalid_action = -1
-        self.max_exec_time: float = None
-        self.min_exec_time: float = None
 
-        self.training_data: List[List[List[str]]] = None
+        self.training_data = None
         """The input training data.
         Format: List of all queries[List of all join orders of that query[List of data content]]
         Data content format: ["query", "join order", "execution time"]
@@ -107,16 +107,15 @@ class DatabaseEnv(gym.Env):
         self.query_counter = -1
         """Keeps track of current query."""
 
-
     def step(self, action):
-        print("action",action,action < 0 or action >= len(self.action_list),self.action_list,self.action_space)
+        print("action", action, action < 0 or action >= len(self.action_list), self.action_list, self.action_space)
         """The step function takes an action from the agent and executes it.
         It calculates the next state and returns the observation of the new state."""
         left = self.action_list[action][0]
         right = self.action_list[action][1]
-        if not hf.is_valid_action(left,right,self.observation_matrix):
+        if not hf.is_valid_action(left, right, self.observation_matrix):
             self.redo = True
-            return self.observation_matrix, self.reward_invalid_action, False, {}        
+            return self.observation_matrix, self.reward_invalid_action, False, {}
         hf.update_observation(left, right, self.observation_matrix)
         hf.remember_join_order(left, right, self.join_order, self.join_order_h)
         done = hf.is_done(self.observation_matrix)
@@ -126,35 +125,32 @@ class DatabaseEnv(gym.Env):
                 self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
                 # Receive reward for episode
                 data = self.conn.recv(1024)
-                reward = float(data.decode("UTF-8")) 
+                reward = float(data.decode("UTF-8"))
             else:
-                reward = hf.calculate_reward(                                             self.training_data[self.query_counter], self.join_order)
-            if reward < self.threshold:
-                self.redo = True
-            else: 
-                self.redo = False # Continue with next join episode with new triples
+                reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
+            self.redo = reward < self.reward_treshold_for_redo:
         else:
             reward = self.reward_valid_action
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
-        if not self.redo: 
-           # load next query
+        if not self.redo:
+            # load next query
             if self.networking:
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
             else:
-                if self.query_counter < len(self.training_data)-1:
+                if self.query_counter < len(self.training_data) - 1:
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
                 query_string = self.training_data[self.query_counter][0][0]
                 self.query = hf.load_query(query_string)
 
-        self.observation_matrix = hf.reset_observation(self.query,np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+        self.observation_matrix = hf.reset_observation(self.query, np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
         self.join_order = []
-        self.join_order_h = dict(zip(range(self.size_matrix),range(self.size_matrix)))
+        self.join_order_h = dict(zip(range(self.size_matrix), range(self.size_matrix)))
         return self.observation_matrix
 
     def set_connection(self, conn):
@@ -166,4 +162,3 @@ class DatabaseEnv(gym.Env):
         """Set training data."""
         self.training_data = training_data
         self.networking = False
-
