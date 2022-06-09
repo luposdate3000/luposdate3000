@@ -5,7 +5,18 @@ import numpy as np
 from typing import List, Tuple, Dict
 import pickle
 
-def create_action_list(matrix_size):
+def is_valid_action(left,right,observation_matrix):
+    return observation_matrix[left][right][0]!=0 and observation_matrix[right][left][0]!=0
+
+def is_done(observation_matrix):
+    s=len(observation_matrix)
+    c=0
+    for i in range(s):
+        if observation_matrix[i][0][0]==0:
+            c=c+1
+    return s-c==1
+
+def calculate_possible_actions(matrix_size):
     """Function that creates a list of possible actions.
 
     An action is a join of two rows. The number of  ways to join a row is restricted.
@@ -27,10 +38,10 @@ def create_action_list(matrix_size):
     action_list = []
     for i in range(matrix_size):
         for j in range(i+1,matrix_size):
-            action_list.append((i, j))
+                action_list.append((i, j))
     return action_list
 
-def fill_matrix(sorted_query, observation_matrix) :
+def reset_observation(sorted_query, observation_matrix) :
     """Function to initially fill the observation matrix with triples and its join candidates.
 
     Takes triples from query and sets the diagonal values of the corresponding entry in the
@@ -56,12 +67,11 @@ def fill_matrix(sorted_query, observation_matrix) :
         for y in range (len(sorted_query)):
             if x !=y :
                observation_matrix[x][y]=[-1,-1,-1]
-    for index, triples in enumerate(sorted_query): # triples is a list with the triple and its join candidates
+    for index, triples in enumerate(sorted_query):
         observation_matrix[index, index] = triples
-    print("fill_matrix",observation_matrix)
     return observation_matrix
 
-def perform_join(index_a, index_b, observation_matrix):
+def update_observation(index_a, index_b, observation_matrix):
     """ Joins triple a and triple b.
 
     To join a and b, the corresponding entries of a and b are merged.
@@ -85,71 +95,15 @@ def perform_join(index_a, index_b, observation_matrix):
     None
     """
 
-    # invariant joining, join into lower numbered row
-    temp_one = min(index_a, index_b)
-    temp_two = max(index_a, index_b)
-    index_a = temp_one
-    index_b = temp_two
     for i, v in enumerate(observation_matrix[index_b, :]):
         if v[0] != 0:
-            if observation_matrix[index_a, i, 0] == -1 and \
-                    observation_matrix[index_a, i, 1] == -1 and \
-                    observation_matrix[index_a, i, 2] == -1 or \
-                    observation_matrix[index_a, i, 0] == 0 and \
-                    observation_matrix[index_a, i, 1] == 0 and \
-                    observation_matrix[index_a, i, 2] == 0:
-                observation_matrix[index_a, i] = v  # overwrite value with the value from b row
+            if (observation_matrix[index_a, i, 0] == -1 and                     observation_matrix[index_a, i, 1] == -1 and                     observation_matrix[index_a, i, 2] == -1) :
+                observation_matrix[index_a, i] = v  
             else:
-                None    # dont overwrite triples
-        observation_matrix[index_b, i] = 0  # set entries in b row to 0
-
-def is_empty(index, observation_matrix):
-    """Function to check if a row in the observation matrix is empty
-
-    Parameters
-    ----------
-    index: int
-        Index of row in observation matrix to check if it is empty.
-    observation_matrix: np.ndarray
-        observation matrix
-
-    Returns
-    -------
-    bool
-        If the row at index in observation matrix is empty.
-    """
-    for triple in observation_matrix[index, :]:
-        if triple[0] != 0:
-            return False
-    else:
-        return True
+                None
+        observation_matrix[index_b, i] = 0 
 
 
-
-def check_if_done(observation_matrix: np.ndarray) -> bool:
-    """Function to check if the episode is finished.
-
-    Takes the observation matrix and checks if all triples that can be joined
-    are in one row. This means that all triples have been joined and the episode is finished.
-
-    Parameters
-    ----------
-    observation_matrix : np.ndarray
-        observation matrix
-
-    Returns
-    -------
-    bool
-        if the episode is finished
-    """
-
-    # search if there are joins possible, if yes -> episode is not done, if not -> episode is done
-    for row in observation_matrix:
-        for triple in row:
-            if triple[0] == -1 and triple[1] == -1 and triple[2] == -1: # if there are possible joins left
-                return False
-    else:
-        return True
 
 
 def load_query(query_string: str) -> List[List[Tuple[int, int, int]]]:
@@ -207,7 +161,7 @@ def join_order_to_string(join_order: Dict) -> str:
     return out
 
 
-def update_join_order(left, right, join_order, join_order_h):
+def remember_join_order(left, right, join_order, join_order_h):
     index = -len(join_order)/2-1
     tmp = [join_order_h[left],join_order_h[right]]
     tmp.sort()

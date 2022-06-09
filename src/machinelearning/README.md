@@ -52,6 +52,8 @@ to files, which are real later from different run-directories.
 cd src/machinelearning
 # the number of triples per query
 export tripleCount=4
+# the maximum number of triples, which should be possible with the trained model
+export tripleCountMax=5
 # the resulting number of join orders
 export joinOrders=15
 # the ratio to split training and test data

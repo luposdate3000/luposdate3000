@@ -23,14 +23,12 @@ def train_model():
     min_execution_time = min_ex_t(benched_queries)
     
     # find max id of predicate
-    max_dict_id = max_id(benched_queries)
     
     # setup environment
     env = gym.make('gym_database:Database-v0')
     #env = make_vec_env('gym_database:Database-v0')
-    env.set_observation_space(max_dict_id)
-    env.set_max_exec_t(max_execution_time)
-    env.set_min_exec_t(min_execution_time)
+    env.max_exec_time=max_execution_time
+    env.min_exec_time=min_execution_time
     # setup model
     model = PPO("MlpPolicy", env, verbose=2)
     #model = PPO("MlpPolicy", env, verbose=2)
@@ -53,12 +51,10 @@ def optimize_query():
     max_execution_time = max_ex_t(benched_queries)
     min_execution_time = min_ex_t(benched_queries)
     # find max id of predicate
-    max_dict_id = max_id(benched_queries)
     # setup environment
     env = gym.make('gym_database:Database-v0')
-    env.set_observation_space(max_dict_id)
-    env.set_max_exec_t(max_execution_time)
-    env.set_min_exec_t(min_execution_time)
+    env.max_exec_time=max_execution_time
+    env.min_exec_time=min_execution_time
     # setup model
     model = PPO.load(optimizer_model_file)
     #model = DQN.load(optimizer_model_file)

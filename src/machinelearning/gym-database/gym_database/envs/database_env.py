@@ -11,7 +11,7 @@ import gym_database.envs.helper_funcs as hf
 from timeit import default_timer
 import pickle
 import os
-tripleCount=int(os.environ["tripleCount"])
+tripleCountMax=int(os.environ["tripleCountMax"])
 class DatabaseEnv(gym.Env):
     """
     Description:
@@ -63,47 +63,32 @@ class DatabaseEnv(gym.Env):
         Episode ends when a query is fully planned, meaning no join candidate is left.
     """
 
-    # TODO: reward_range
     def __init__(self):
         self.conn = None
         """Socket to establish connection to client database."""
+        self.size_matrix: int = tripleCountMax
 
-        #self.size_matrix: int = 3#need to change this based on triples
-        self.size_matrix: int = 4
-        """Size of observation space matrix."""
+        self.observation_space = spaces.Box(-self.size_matrix*3-2, np.inf,shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
+        self.action_list = hf.calculate_possible_actions(self.size_matrix)
+        self.action_space= spaces.Discrete(len(self.action_list))
 
-        self.observation_space = None
-        """Observation space is a matrix, where each column and row represent a triple.
-        Triples are represented by their subject/predicate/object id.
-        Minus ones represent possible join, minus values are join variables"""
 
-        self.action_space_size = int(self.size_matrix*(self.size_matrix+1)/2)-self.size_matrix
-        """Action space size is all possible joins each step"""
+        self.observation_matrix = None
 
-        self.action_space = spaces.Discrete(self.action_space_size)
-        """Action space describes all possible actions."""
-
-        self.action_list: List[Tuple[int, int]] = None
-        """Maps action to specific rows to join."""
-
-        self.observation_matrix: np.ndarray = None
-        """Describes the state/observation as a matrix."""
-
-        self.query: List[List[Tuple[int, int, int]]] = None
+        self.query = None
         """Query."""
 
-        self.join_order: List = []
-        """Join order."""
+        self.join_order = []
         self.join_order_h: Dict = None
 
         self.threshold = 0
         """Threshold for the reward. Under this value, the episode has to be redone."""
 
         self.redo = False
-        """Redo episode until a specific reward is reached."""
-
+        self.reward_valid_action=0
         self.reward_invalid_action = -1
-        """Reward for invalid actions."""
+        self.max_exec_time: float = None
+        self.min_exec_time: float = None
 
         self.training_data: List[List[List[str]]] = None
         """The input training data.
@@ -122,102 +107,54 @@ class DatabaseEnv(gym.Env):
         self.query_counter = 0
         """Keeps track of current query."""
 
-        self.max_exec_time: float = None
-        """Maximum execution time of benched queries - used for reward."""
 
-        self.min_exec_time: float = None
-        """Minimum execution time of benched queries - used for reward."""
-
-        self.check_print :int =0
-        # A counter variable that will limit the console output
-
-        self.executed_action_list = []
-
-        self.executed_join_orders=[]
-
-        self.check_orderings =[]
-        # a list that can store the sorted join orders to prevent repetition
-
-
-    def step(self, action: int):
+    def step(self, action):
+        print("action",action,action < 0 or action >= len(self.action_list),self.action_list,self.action_space)
         """The step function takes an action from the agent and executes it.
-       It calculates the next state and returns the observation of the new state."""
-        # 1. choose action from action_space
+        It calculates the next state and returns the observation of the new state."""
         left = self.action_list[action][0]
         right = self.action_list[action][1]
-        
-        # return and redo if values index empty rows or invalid join attempts
-        if left >= len(self.query) or right >= len(self.query) \
-                or hf.is_empty(left, self.observation_matrix) \
-                or hf.is_empty(right, self.observation_matrix):
+        if not hf.is_valid_action(left,right,self.observation_matrix):
             self.redo = True
-            return self.observation_matrix, self.reward_invalid_action, False, {}
-
-        # invariant joining, join into lower numbered row, only one possible way
-        # to join row 0 and row 1: join 1 into 0
-        temp_one = min(left, right)
-        temp_two = max(left, right)
-        left = temp_one
-        right = temp_two
-
-        # 2. Execute action & 3. update observation_space & 4. remember join order
-
-        hf.perform_join(left, right, self.observation_matrix)
-
-        hf.update_join_order(left, right, self.join_order, self.join_order_h)
-        self.action_list = hf.create_action_list(self.size_matrix)
-        # 5. Check if episode is done (all triples joined)
-        done = hf.check_if_done(self.observation_matrix)
-
-        # 6. Calculate reward
-        # if networking: send join order over socket to database and calculate reward there
+            return self.observation_matrix, self.reward_invalid_action, False, {}        
+        hf.update_observation(left, right, self.observation_matrix)
+        hf.remember_join_order(left, right, self.join_order, self.join_order_h)
+        done = hf.is_done(self.observation_matrix)
         if done:
-
             if self.networking:
                 # Encode join order in utf-8 and send to client
                 self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
                 # Receive reward for episode
                 data = self.conn.recv(1024)
-                reward = float(data.decode("UTF-8")) # Reward for episode
+                reward = float(data.decode("UTF-8")) 
             else:
                 reward = hf.calculate_reward(                                             self.training_data[self.query_counter], self.join_order)
-            # Evaluate reward
-            if reward < self.threshold: # If join order is not good enough
-                self.redo = True # Redo this join task
-            else: # If join order is good enough
+            if reward < self.threshold:
+                self.redo = True
+            else: 
                 self.redo = False # Continue with next join episode with new triples
                 if self.query_counter < len(self.training_data)-1:
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
         else:
-            # Reward for valid action
-            reward = 0
-
-        # 7. Return observation space, reward, if episode is done, {}
+            reward = self.reward_valid_action
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
-        global tripleCount
-        """Resets environment and returns a first observation."""
-        if not self.redo: # If episode has not to be redone
+        if not self.redo: 
+           # load next query
             if self.networking:
-                # Notify client to start transmitting a new query
                 self.conn.sendall(b'start')
                 data = self.conn.recv(1024)
                 query_string = data.decode("UTF-8")
             else:
-                # Load new query
                 query_string = self.training_data[self.query_counter][0][0]
-
-                ####### CREATE MATRIX: TRANSFORM QUERY INTO LIST OF TRIPLES
                 self.query = hf.load_query(query_string)
-                ####### CREATE MATRIX
 
-        self.observation_matrix = hf.fill_matrix(self.query,np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
+        self.observation_matrix = hf.reset_observation(self.query,np.zeros((self.size_matrix, self.size_matrix, 3), np.int32))
         self.join_order = []
-        self.join_order_h = dict(zip(range(tripleCount),range(tripleCount)))
-        self.action_list = hf.create_action_list(self.size_matrix)
+        self.join_order_h = dict(zip(range(self.size_matrix),range(self.size_matrix)))
         return self.observation_matrix
 
     def set_connection(self, conn):
@@ -230,14 +167,3 @@ class DatabaseEnv(gym.Env):
         self.training_data = training_data
         self.networking = False
 
-    def set_observation_space(self, n_dictionary_ids, size_matrix=4):#need to change this
-        """Set and adjust observation space."""
-        self.size_matrix = size_matrix
-        self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,shape=(self.size_matrix, self.size_matrix, 3), dtype=np.int32)
-        #self.observation_space = spaces.Box(-self.size_matrix*2, n_dictionary_ids,shape=(self.size_matrix, self.size_matrix, 4), dtype=np.int32) #Not sure
-
-    def set_max_exec_t(self, max_exec_time: float):
-        self.max_exec_time = max_exec_time
-
-    def set_min_exec_t(self, min_exec_time: float):
-        self.min_exec_time = min_exec_time
