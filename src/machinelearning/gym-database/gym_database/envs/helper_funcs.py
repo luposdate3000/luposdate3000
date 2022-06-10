@@ -6,18 +6,6 @@ from typing import List, Tuple, Dict
 import pickle
 
 
-def calculate_reward(benched_query, join_order):
-    choosen_id = joinOrderToID(join_order)
-    execution_times = benched_query[1]
-    time_choosen = execution_times[choosen_id]
-    time_min = min(execution_times)
-    time_max = max(execution_times)
-    if time_min == time_max:
-        return 0
-    reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
-    return reward
-
-
 def generateJoinOrderHelper(depth, n):
     res = []
     if (depth == 1):
@@ -91,3 +79,5 @@ joinOrderCache = generateJoinOrder(tripleCount)
 
 def joinOrderToID(joinOrder):
     return joinOrderCache[tuple(joinOrder)]
+def joinOrderCount():
+    return len(joinOrderCache)

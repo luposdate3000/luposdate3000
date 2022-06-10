@@ -12,17 +12,12 @@ import math
 import time
 import gym_database.envs.helper_funcs as hf
 
-N_JOIN_ORDERS = int(os.environ["joinOrders"])
 training_steps = 1
-
 
 def train_model():
     benched_queries = read_query(query_file)
-    print("a")
     env = gym.make('gym_database:Database-v0')
-    print("b")
     env.set_training_data(benched_queries)
-    print("c")
     # setup model
     model = PPO("MlpPolicy", env, verbose=2)
     #model = PPO("MlpPolicy", env, verbose=2)
@@ -43,7 +38,7 @@ def optimize_query():
     #model = DQN.load(optimizer_model_file)
     #model = A2C.load(optimizer_model_file)
 
-    rankings = [0] * (N_JOIN_ORDERS + 1)
+    rankings = [0] * (hf.joinOrderCount() + 1)
     with open(optimizer_model_file + ".evaluation", "w") as evaluation:
         for query_counter in range(len(benched_queries)):
             done = False
@@ -57,7 +52,7 @@ def optimize_query():
                     done = True
                     failed = True
             if failed:
-                ranking = N_JOIN_ORDERS
+                ranking = hf.joinOrderCount()
                 choosen_id = -1
             else:
                 values = benched_queries[query_counter][1]
@@ -79,7 +74,7 @@ def read_query(q_file):
         for line in p_file:
             tmp = line.split(" ")
             results.append(float(tmp[2]))
-            if len(results) == N_JOIN_ORDERS:
+            if len(results) == hf.joinOrderCount():
                 values = tmp[0].split(",")
                 q2 = []
                 q3 = []

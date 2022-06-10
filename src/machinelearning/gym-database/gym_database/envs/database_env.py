@@ -1,4 +1,4 @@
-a"""
+"""
 Gym environment for Join Optimization with Deep RL
 """
 from typing import Tuple, List, Dict
@@ -161,7 +161,6 @@ class DatabaseEnv(gym.Env):
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
-                print("xxx", self.query_counter, len(self.training_data))
                 self.query = self.training_data[self.query_counter][0]
         # reset the matrix
         for x in range(len(self.query)):

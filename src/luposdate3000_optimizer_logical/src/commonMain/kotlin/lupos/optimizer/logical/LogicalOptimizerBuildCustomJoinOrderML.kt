@@ -95,7 +95,7 @@ return mapOf()
         }
         return res
     }
-    private val mappingOfJoinOrders = Array<Array<IntArray>>(5) {
+    private val mappingOfJoinOrders = Array<Array<IntArray>>(6) {
         val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
         Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() }
     }

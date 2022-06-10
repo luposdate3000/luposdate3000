@@ -54,8 +54,6 @@ cd src/machinelearning
 export tripleCount=4
 # the maximum number of triples, which should be possible with the trained model
 export tripleCountMax=5
-# the resulting number of join orders
-export joinOrders=15
 export trainingSteps=100000
 # the ratio to split training and test data
 export ratio=7
