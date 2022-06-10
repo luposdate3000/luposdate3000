@@ -1,20 +1,19 @@
 #!/usr/bin/env kotlin
 
-val possibleFilters=setOf("timeFor", "joinResultsFor", "networkTrafficFor")
+val possibleFilters = setOf("timeFor", "joinResultsFor", "networkTrafficFor")
 
-fun printUsage(){
-println("usage ./08_extractValues.main.kts 15 $possibleFilters")
-System.exit(1)
+fun printUsage() {
+    println("usage ./08_extractValues.main.kts $possibleFilters")
+    System.exit(1)
 }
-if(args.size!=2){
-printUsage()
+if (args.size != 1) {
+    printUsage()
 }
 
-val label = args[1] // choose one of : setOf("timeFor", "joinResultsFor", "networkTrafficFor")
-val joinOrders = args[0].toInt()
+val label = args[0]
 
-if(!possibleFilters.contains(label)){
-printUsage()
+if (!possibleFilters.contains(label)) {
+    printUsage()
 }
 
 val header = mutableListOf<String>()
@@ -29,9 +28,13 @@ do {
         header.addAll(columns)
     } else {
         val filename = columns[header.indexOf("queryFile")]
-        for (joinOrder in 0 until joinOrders) {
-            val time = columns[header.indexOf("$label($joinOrder)")]
+        var joinOrder = 0
+        var index = header.indexOf("$label($joinOrder)")
+        while (index != -1) {
+            val time = columns[index]
             println("$filename $joinOrder $time")
+            joinOrder++
+            index = header.indexOf("$label($joinOrder)")
         }
     }
 } while (true)

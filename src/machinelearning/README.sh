@@ -38,7 +38,7 @@ do
                 cp "$tripleFile.bench.csv" "${files[$filekey]}_$tripleCount.bench.csv"
             fi
         fi
-        cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts $joinOrders "joinResultsFor" > ${tripleFile}.bench
+        cat ${tripleFile}.bench.csv | ./src/machinelearning/08_extractValues.main.kts "joinResultsFor" > ${tripleFile}.bench
         echo ./src/machinelearning/09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
         time ./src/machinelearning/09_generate_training_file.py "${tripleFile}.bench" "${trainingDirectory}/"
         echo ./src/machinelearning/10_data_split_script.py "${trainingDirectory}/train.me" $ratio
