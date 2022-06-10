@@ -97,6 +97,7 @@ class DatabaseEnv(gym.Env):
         self.autofix_invalid_actions = True
         self.reward_invalid_action = -1
         self.reward_valid_action = 0
+        self.reward_max = 100
         self.reward_treshold_for_redo = 0
 
         # for training, this contains all the measurements, needed for learning
@@ -143,8 +144,10 @@ class DatabaseEnv(gym.Env):
                 time_max = max(execution_times)
                 if time_min == time_max:
                     reward = 0
+                elif time_min==time_choosen:
+                    reward=self.reward_max
                 else:
-                    reward = min(100, -np.log((time_choosen - time_min) / (time_max - time_min)))
+                    reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
                     #reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
             else:
                 reward = 0

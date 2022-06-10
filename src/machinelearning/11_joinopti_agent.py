@@ -66,7 +66,7 @@ def optimize_query():
             rankings[ranking] += 1
             evaluation.write(str(query_counter) + " " + str(choosen_id) + "\n")
     with open(evaluationDistributionFile, "w") as evaluation:
-        evaluation.print(",".join(rankings))
+        evaluation.write(",".join([str(x) for x in rankings]))
 
 
 def read_query(q_file):
@@ -107,7 +107,6 @@ if __name__ == '__main__':
         train_model()
 
     elif train_or_opti == "opti":
-        optimize_query()
         try:
             evaluationFile = sys.argv[4]
             evaluationDistributionFile = sys.argv[5]
@@ -115,6 +114,7 @@ if __name__ == '__main__':
             print("Param 4: file to store detailed evaluation")
             print("Param 5: file to store distribution of results")
             sys.exit()
+        optimize_query()
 
     else:
         print("Param 1: \"train\" or \"opti\"")

@@ -47,7 +47,8 @@ do
         fi
         echo ./src/machinelearning/09_generate_training_file.py $benchmarkCSV $benchmarkTrainAll $benchmarkTrainDictionary $optimizeFor
         time ./src/machinelearning/09_generate_training_file.py $benchmarkCSV $benchmarkTrainAll $benchmarkTrainDictionary $optimizeFor
-        awk '{if(rand()<$ratio) {print > $benchmarkTrainTrain} else {print > $benchmarkTrainTest}}' $benchmarkTrainAll
+        echo awk "{if(rand()<$ratio) {print > \"$benchmarkTrainTrain\"} else {print > \"$benchmarkTrainTest\"}}" $benchmarkTrainAll
+        awk "{if(rand()<$ratio) {print > \"$benchmarkTrainTrain\"} else {print > \"$benchmarkTrainTest\"}}" $benchmarkTrainAll
         for trainingSteps in "${trainingStepList[@]}"
         do
             trainingSteps=$trainingSteps

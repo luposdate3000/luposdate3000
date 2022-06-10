@@ -77,4 +77,4 @@ joinOrderCache = [generateJoinOrder(x) for x in range(6)]
 
 
 def joinOrderToID(joinOrder):
-    return joinOrderCache[len(joinOrder)/2+1][tuple(joinOrder)]
+    return joinOrderCache[int(len(joinOrder)/2+1)][tuple(joinOrder)]
