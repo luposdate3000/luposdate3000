@@ -1,4 +1,4 @@
-"""
+a"""
 Gym environment for Join Optimization with Deep RL
 """
 from typing import Tuple, List, Dict
@@ -67,93 +67,119 @@ class DatabaseEnv(gym.Env):
     """
 
     def __init__(self):
-        self.conn = None
 
+        # define the shape of the observation_matrix, and the valid values in it
+        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)
+        # initialize filled with zeros. the '3' refers to the 3 triple components
+        self.observation_matrix = np.zeros((tripleCountMax, tripleCountMax, 3), np.int32)
+
+        # list all possible actions
+        self.action_list = []
+        for i in range(tripleCountMax):
+            for j in range(i + 1, tripleCountMax):
+                self.action_list.append((i, j))
+
+        # tell the model, which actions are allowed
+        self.action_space = spaces.Discrete(len(self.action_list))
+
+        # the join order defined as list of lest and right operand
+        self.join_order = []
+        # mapping of the matrix row to the operand
+        self.join_order_h = None
+        # when done, this contains the decoded join order
+        self.choosen_join_order = -1
+        # the query to process
         self.query = None
 
-        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)  # define the shape of the observation_matrix, and the valid values in it
-        self.action_list = hf.calculate_possible_actions(tripleCountMax)  # always keep the same actions, because openAI gym does not allow to change action_space
-        self.action_space = spaces.Discrete(len(self.action_list))  # define valid numbers, which could be returned by the machine learning model
-
-        self.observation_matrix = None
-
-        self.join_order = []
-        self.join_order_h = None
-
+        # bad results should be trained again
         self.redo = False
+        # this modifies the choosen action to the nearest valid one, such that there are no invalid actions anymore
         self.autofix_invalid_actions = True
         self.reward_invalid_action = -1
         self.reward_valid_action = 0
         self.reward_treshold_for_redo = 0
 
-        self.query_counter = -1
+        # for training, this contains all the measurements, needed for learning
         self.training_data = None
-        self.should_train = True
-        """The input training data.
-        Format: List of all queries[List of all join orders of that query[List of data content]]
-        Data content format: ["query", "join order", "execution time"]
-        Query format: "triple0;triple1;triple2;"
-        Triple format: "subjectID,predicateID,objectID"
-        example: "1,1,-2;-1,2,-3;-1,3,-4;"
-        Join order: int from 0 to 2
-        Execution time: float: execution times/second -> the higher the better
-        """
-
-        self.networking = None
+        # for training, index in 'self.training_data'
+        self.query_counter = -1
 
     def step(self, action):
-        """The step function takes an action from the agent and executes it.
-        It calculates the next state and returns the observation of the new state."""
+        # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
         if self.autofix_invalid_actions:
-            while not hf.is_valid_action(left, right, self.observation_matrix):
+            while not self.is_valid_action(left, right, self.observation_matrix):
                 action = (action + 1) % len(self.action_list)
                 left = self.action_list[action][0]
                 right = self.action_list[action][1]
         else:
-            if not hf.is_valid_action(left, right, self.observation_matrix):
+            if not self.is_valid_action(left, right, self.observation_matrix):
                 self.redo = True
                 return self.observation_matrix, self.reward_invalid_action, False, {}
-        hf.update_observation(left, right, self.observation_matrix)
-        hf.remember_join_order(left, right, self.join_order, self.join_order_h)
-        done = hf.is_done(self.observation_matrix)
+        # update observation
+        for i, v in enumerate(self.observation_matrix[right, :]):
+            if v[0] != 0:
+                if (self.observation_matrix[left, i, 0] == -1 and self.observation_matrix[left, i, 1] == -1 and self.observation_matrix[left, i, 2] == -1):
+                    self.observation_matrix[left, i] = v  # copy the right row into the left row
+                else:
+                    None
+            self.observation_matrix[right, i] = 0  # set right row to zero, because it is now part of left row
+        # remember join order
+        index = int(-len(self.join_order) / 2 - 1)
+        tmp = [self.join_order_h[left], self.join_order_h[right]]
+        tmp.sort()
+        self.join_order.extend(tmp)
+        self.join_order_h[left] = index
+        self.join_order_h[right] = index
+        # calculate reward
+        done = len(self.join_order) == (len(self.query) - 1) * 2
         if done:
-            if self.networking:
-                # Encode join order in utf-8 and send to client
-                self.conn.sendall(hf.join_order_to_string(self.join_order).encode("UTF-8"))
-                # Receive reward for episode
-                data = self.conn.recv(1024)
-                reward = float(data.decode("UTF-8"))
+            self.choosen_join_order = hf.joinOrderToID(self.join_order)
+            if self.training_data is not None:
+                execution_times = self.training_data[self.query_counter][1]
+                time_choosen = execution_times[self.choosen_join_order]
+                time_min = min(execution_times)
+                time_max = max(execution_times)
+                if time_min == time_max:
+                    reward = 0
+                else:
+                    reward = min(100, -np.log((time_choosen - time_min) / (time_max - time_min)))
+                    #reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
             else:
-                reward = hf.calculate_reward(self.training_data[self.query_counter], self.join_order)
+                reward = 0
             self.redo = reward < self.reward_treshold_for_redo
         else:
             reward = self.reward_valid_action
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
-        if self.should_train and not self.redo:
-            if self.networking:
-                self.conn.sendall(b'start')
-                data = self.conn.recv(1024)
-                query_string = data.decode("UTF-8")
-                self.query = hf.load_query(query_string)
-            else:
+        # fetch next query
+        if not self.redo:
+            if self.training_data is not None:
                 if self.query_counter < len(self.training_data) - 1:
                     self.query_counter += 1
                 else:
                     self.query_counter = 0
+                print("xxx", self.query_counter, len(self.training_data))
                 self.query = self.training_data[self.query_counter][0]
-        self.observation_matrix = hf.reset_observation(self.query, np.zeros((tripleCountMax, tripleCountMax, 3), np.int32))
+        # reset the matrix
+        for x in range(len(self.query)):
+            for y in range(len(self.query)):
+                if x != y:
+                    self.observation_matrix[x][y] = [-1, -1, -1]
+                else:
+                    self.observation_matrix[x][y] = self.query[x]
+        # reset the join order
         self.join_order = []
         self.join_order_h = dict(zip(range(tripleCountMax), range(tripleCountMax)))
         return self.observation_matrix
 
-    def set_connection(self, conn):
-        self.conn = conn
-        self.networking = True
+    def is_valid_action(self, left, right, observation_matrix):
+        return observation_matrix[left][right][0] != 0 and observation_matrix[right][left][0] != 0
 
-    def set_training_data(self, training_data):
+    def set_training_data(self, training_data):  # we require a setter, because from the outside we can not modify the variables
         self.training_data = training_data
-        self.networking = False
+
+    def set_query(self, query):
+        self.query = query

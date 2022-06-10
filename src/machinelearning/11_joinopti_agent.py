@@ -18,8 +18,11 @@ training_steps = 1
 
 def train_model():
     benched_queries = read_query(query_file)
+    print("a")
     env = gym.make('gym_database:Database-v0')
+    print("b")
     env.set_training_data(benched_queries)
+    print("c")
     # setup model
     model = PPO("MlpPolicy", env, verbose=2)
     #model = PPO("MlpPolicy", env, verbose=2)
@@ -36,8 +39,6 @@ def train_model():
 def optimize_query():
     benched_queries = read_query(query_file)
     env = gym.make('gym_database:Database-v0')
-    env.should_train = False
-    env.set_training_data(benched_queries)
     model = PPO.load(optimizer_model_file)
     #model = DQN.load(optimizer_model_file)
     #model = A2C.load(optimizer_model_file)
@@ -47,8 +48,7 @@ def optimize_query():
         for query_counter in range(len(benched_queries)):
             done = False
             failed = False
-            print("---------------Query: ----------- " + str(query_counter))
-            env.query = benched_queries[query_counter][0]
+            env.set_query(benched_queries[query_counter][0])
             obs = env.reset()
             while not done:
                 action, _states = model.predict(obs, deterministic=True)

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trainingStepList=(1000 10000 100000)
+trainingStepList=(1000 10000 100000 1000000)
 files=( [1024]="/mnt/luposdate-testdata/sp2b/1024/complete.n3" [16384]="/mnt/luposdate-testdata/sp2b/16384/complete.n3" [131072]="/mnt/luposdate-testdata/sp2b/131072/complete.n3")
 join_orders_map=( [2]=1 [3]=3 [4]=15 [5]=105)
 tripleCountArray=(3 4 5)
@@ -55,6 +55,5 @@ do
     echo ./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.ppo_model"
     ./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.ppo_model" > "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.result"
 done
-exit
 done
 done
