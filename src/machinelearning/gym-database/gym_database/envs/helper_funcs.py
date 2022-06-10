@@ -73,11 +73,8 @@ def generateJoinOrder(n):
     return res
 
 
-tripleCount = int(os.environ["tripleCount"])
-joinOrderCache = generateJoinOrder(tripleCount)
+joinOrderCache = [generateJoinOrder(x) for x in range(6)]
 
 
 def joinOrderToID(joinOrder):
-    return joinOrderCache[tuple(joinOrder)]
-def joinOrderCount():
-    return len(joinOrderCache)
+    return joinOrderCache[len(joinOrder)/2+1][tuple(joinOrder)]
