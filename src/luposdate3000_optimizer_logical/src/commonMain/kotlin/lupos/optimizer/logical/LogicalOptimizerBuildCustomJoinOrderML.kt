@@ -95,11 +95,16 @@ return mapOf()
         }
         return res
     }
-    private val mappingOfJoinOrders = Array<Array<IntArray>>(6) {
+    private val mappingOfJoinOrders = MutableList<Array<IntArray>>(6) {
         val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
         Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() }
     }
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int, tripleCount: Int): IOPBase? {
+while(mappingOfJoinOrders.size<=tripleCount){
+val it=mappingOfJoinOrders.size
+val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
+mappingOfJoinOrders.add(Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() })
+}
         val order = mappingOfJoinOrders[tripleCount][joinOrder]
         val intermediates = mutableListOf<IOPBase>()
 println("order ${order.toList()}")

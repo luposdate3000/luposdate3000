@@ -1,29 +1,20 @@
 #!/usr/bin/env python
-import gym
-import gym_database
-import socket
-from datetime import date
-import sys
+
 import os
-import numpy as np
-from stable_baselines3 import DQN, PPO, DDPG, A2C
-from stable_baselines3.common.env_util import make_vec_env
-import math
+import sys
+import gym
 import time
-import gym_database.envs.helper_funcs as hf
+import helper_funcs as hf
+from database_env import DatabaseEnv
+from stable_baselines3 import PPO
 
 training_steps = 1
-
-
-def train_model():
-    benched_queries = read_query(query_file)
-    env = gym.make('gym_database:Database-v0')
+tripleCountMax = int(os.environ["tripleCountMax"])
+def program_mode_train_model():
+    benched_queries = load_benchmark_file(query_file)
+    env = DatabaseEnv()
     env.set_training_data(benched_queries)
-    # setup model
     model = PPO("MlpPolicy", env, verbose=2)
-    #model = PPO("MlpPolicy", env, verbose=2)
-    #model = DQN("MlpPolicy", env, verbose=2)
-    #model = A2C("MlpPolicy", env, verbose=0)
 
     start_time = time.time()
     model.learn(total_timesteps=training_steps, log_interval=None)
@@ -32,19 +23,18 @@ def train_model():
     print("done after", end_time - start_time, "seconds")
 
 
-def optimize_query():
-    benched_queries = read_query(query_file)
-    env = gym.make('gym_database:Database-v0')
+def program_mode_optimize_query():
+    benched_queries = load_benchmark_file(query_file)
+    env = DatabaseEnv()
     model = PPO.load(optimizer_model_file)
-    #model = DQN.load(optimizer_model_file)
-    #model = A2C.load(optimizer_model_file)
 
-    rankings = [0] * (10000)
+    rankings = [[0] * (hf.joinOrderCountForTripleCount(x)+1) for x in range(tripleCountMax+1)]
     with open(evaluationFile, "w") as evaluation:
         for query_counter in range(len(benched_queries)):
             done = False
             failed = False
-            env.set_query(benched_queries[query_counter][0])
+            query=benched_queries[query_counter][0]
+            env.set_query(query)
             obs = env.reset()
             while not done:
                 action, _states = model.predict(obs, deterministic=True)
@@ -53,7 +43,7 @@ def optimize_query():
                     done = True
                     failed = True
             if failed:
-                ranking = len(rankings)-1
+                ranking = len(rankings[len(query)])-1
                 choosen_id = -1
             else:
                 values = benched_queries[query_counter][1]
@@ -63,13 +53,14 @@ def optimize_query():
                 for v in values:
                     if v < choosen_value:
                         ranking += 1
-            rankings[ranking] += 1
+            rankings[len(query)][ranking] += 1
             evaluation.write(str(query_counter) + " " + str(choosen_id) + "\n")
     with open(evaluationDistributionFile, "w") as evaluation:
-        evaluation.write(",".join([str(x) for x in rankings]))
+        for ranking in rankings:
+         evaluation.write(",".join([str(x) for x in ranking])+"\n")
 
 
-def read_query(q_file):
+def load_benchmark_file(q_file):
     benched_queries = []
     with open(q_file, "r") as p_file:
         for line in p_file:
@@ -104,7 +95,7 @@ if __name__ == '__main__':
         except:
             print("Param 4: training steps e.g. 10000")
             sys.exit()
-        train_model()
+        program_mode_train_model()
 
     elif train_or_opti == "opti":
         try:
@@ -114,7 +105,7 @@ if __name__ == '__main__':
             print("Param 4: file to store detailed evaluation")
             print("Param 5: file to store distribution of results")
             sys.exit()
-        optimize_query()
+        program_mode_optimize_query()
 
     else:
         print("Param 1: \"train\" or \"opti\"")

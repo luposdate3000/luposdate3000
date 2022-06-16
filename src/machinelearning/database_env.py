@@ -1,72 +1,15 @@
-"""
-Gym environment for Join Optimization with Deep RL
-"""
-from typing import Tuple, List, Dict
-import math
-import gym
-from gym import spaces, logger
-from gym.utils import seeding
-import numpy as np
-import gym_database.envs.helper_funcs as hf
-from timeit import default_timer
-import pickle
 import os
+import gym
+import numpy as np
+import helper_funcs as hf
+from gym import spaces
 
 tripleCountMax = int(os.environ["tripleCountMax"])
 
 
 class DatabaseEnv(gym.Env):
-    """
-    Description:
-        This environment represents the joins in a SPARQL query.
-        Every row in the observation matrix represents a triple.
-        A triple has a value range from 1 to n_dictionary_ids.
-        A possible join is marked with an entry of a triple of negative ones.
-        If a join is executed, the triple and the possible joins of
-        the corresponding join partner is copied into the row of the triple
-        with the lower row number.
-
-    Observation:
-        triple = t
-        possible join = j = [-1,-1,-1]
-        no entry = 0 = [0,0,0]
-        j/0 = j or 0
-
-        Type: Box(, , dtype=int)
-        Num	t0              t1          t2          t3          t4
-        t0	[t0s,t0p,t0o]   j/0         j/0         j/0         j/0
-        t1	    j/0     [t0s,t0p,t0o]   j/0         j/0         j/0
-        t2	    j/0          j/0    [t0s,t0p,t0o]   j/0         j/0
-        t3	    j/0          j/0        j/0    [t0s,t0p,t0o]    j/0
-        t4      j/0          j/0        j/0         j/0    [t0s,t0p,t0o]
-
-        n_dictionary_ids: number of dictionary ids
-
-    Actions:
-        Type: Discrete(n_triples*(n_triples+1)/2)-n_triples)
-        Num	Action
-        0	[0 1] - join triple0 and triple1 -
-        1	[0 2]
-        2	[0 3]
-        3	[0 4]
-        4	[1 2]
-        5	[1 3]
-        ...
-
-    Reward:
-        Reward is the negative execution time of the planned query, normalized to a range of -10 to 0.
-        Reward for an invalid action is -10.
-        Reward is only given at the end of the planning process.
-
-    Starting State:
-        The starting state consists of a Matrix where every row represents a triple
-        and its join candidates in the query.
-
-    Episode Termination:
-        Episode ends when a query is fully planned, meaning no join candidate is left.
-    """
-
     def __init__(self):
+        super(DatabaseEnv, self).__init__()
 
         # define the shape of the observation_matrix, and the valid values in it
         self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)

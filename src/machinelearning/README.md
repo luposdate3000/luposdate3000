@@ -18,28 +18,7 @@ More details in [compile](documentation/README-usage-compile.md).
 # 3. Install python dependencies
 
 ```bash
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh
-rm Miniconda3-latest-Linux-x86_64.sh
-```
-
-restart shell
-
-```bash
-conda create -n pythonEnvironment
-conda activate pythonEnvironment
-conda install pip
-pip install stable-baselines3
-```
-
-repeat the following each time you change the environment
-
-```bash
-conda activate pythonEnvironment
-cd src/machinelearning/gym-database
-pip install -e .
-cd ../../..
+pip install stable-baselines3[extra]
 ```
 
 # 4. Define some variables to make sure the following commands always find the correct file/folder

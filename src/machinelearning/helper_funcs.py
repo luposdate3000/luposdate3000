@@ -1,11 +1,5 @@
-"""Helper functions for the database Gym environment"""
 import os
-import math
-import numpy as np
-from typing import List, Tuple, Dict
-import pickle
-
-
+tripleCountMax = int(os.environ["tripleCountMax"])
 def generateJoinOrderHelper(depth, n):
     res = []
     if (depth == 1):
@@ -73,8 +67,10 @@ def generateJoinOrder(n):
     return res
 
 
-joinOrderCache = [generateJoinOrder(x) for x in range(6)]
+joinOrderCache = [generateJoinOrder(x) for x in range(tripleCountMax+1)]
 
 
 def joinOrderToID(joinOrder):
     return joinOrderCache[int(len(joinOrder)/2+1)][tuple(joinOrder)]
+def joinOrderCountForTripleCount(triples):
+    return len(joinOrderCache[triples])
