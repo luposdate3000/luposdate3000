@@ -1,0 +1,4 @@
+package=Luposdate3000_Main
+disableJS=true
+dependencyJvm=org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt
+dependencyJvm=net.sf.py4j:py4j:0.10.9.5

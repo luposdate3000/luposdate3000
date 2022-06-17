@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
+
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.shared.operator.IOPBase
 
@@ -67,9 +68,9 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
     }
 
     private fun generateJoinOrder(n: Int): Map<List<Int>, Int> {
-if(n<2){
-return mapOf()
-}
+        if (n < 2) {
+            return mapOf()
+        }
         val orders = generateJoinOrderHelper(n - 1, n)
         val res = mutableMapOf<List<Int>, Int>()
         val res1 = mutableMapOf<List<Int>, Int>()
@@ -93,32 +94,40 @@ return mapOf()
             val oSorted = generateJoinOrderHelperSort(mutableListOf(), oCpy, oCpy.size - 2)
             res[o] = res1.getOrPut(oSorted, { res1.size })
         }
+        println("successfully generated join order map for $n triples")
         return res
     }
+
     private val mappingOfJoinOrders = MutableList<Array<IntArray>>(6) {
-        val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
-        Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() }
+        val tmp: Map<Int, List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
+        Array<IntArray>(tmp.size) { it3 -> tmp[it3]!!.toIntArray() }
     }
+
+    public fun joinOrderCountForTripleCount(tripleCount:Int) :Int{
+        while (mappingOfJoinOrders.size <= tripleCount) {
+            val it = mappingOfJoinOrders.size
+            val tmp: Map<Int, List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
+            mappingOfJoinOrders.add(Array<IntArray>(tmp.size) { it3 -> tmp[it3]!!.toIntArray() })
+        }
+        return mappingOfJoinOrders[tripleCount].size
+    }
+
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: Int, tripleCount: Int): IOPBase? {
-while(mappingOfJoinOrders.size<=tripleCount){
-val it=mappingOfJoinOrders.size
-val tmp :Map<Int,List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()
-mappingOfJoinOrders.add(Array<IntArray>(tmp.size) {it3-> tmp[it3]!!.toIntArray() })
-}
+        joinOrderCountForTripleCount(tripleCount)
         val order = mappingOfJoinOrders[tripleCount][joinOrder]
         val intermediates = mutableListOf<IOPBase>()
-println("order ${order.toList()}")
+        println("order ${order.toList()}")
         for (i in 0 until order.size / 2) {
             val ai = i * 2
             val bi = ai + 1
             val a = order[ai]
             val b = order[bi]
-            val ao = if (a <0) {
+            val ao = if (a < 0) {
                 intermediates[-a - 1]
             } else {
                 allChilds[a]
             }
-            val bo = if (b <0) {
+            val bo = if (b < 0) {
                 intermediates[-b - 1]
             } else {
                 allChilds[b]
