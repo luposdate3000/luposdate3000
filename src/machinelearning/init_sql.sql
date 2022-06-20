@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS mapping_query (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(2048) NOT NULL,
     triplepatterns int NOT NULL,
+    rng float,
     PRIMARY KEY(id),
     UNIQUE(name)
 );
@@ -52,3 +53,5 @@ CREATE TABLE IF NOT EXISTS optimizer_choice (
     CONSTRAINT join_id_const2 FOREIGN KEY (join_id) REFERENCES mapping_join (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 INSERT INTO mapping_dataset (name) VALUES ("/mnt/luposdate-testdata/sp2b/1024/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16384/complete.n3"), ("/mnt/luposdate-testdata/sp2b/131072/complete.n3"), ("/mnt/luposdate-testdata/sp2b/1048576/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16777216/complete.n3");
+
+UPDATE mapping_query SET rng=RAND() WHERE rng IS NULL;
