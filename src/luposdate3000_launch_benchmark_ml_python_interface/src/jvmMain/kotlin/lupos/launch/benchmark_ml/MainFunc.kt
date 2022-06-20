@@ -105,9 +105,6 @@ public class PythonBridgeApplication {
 internal fun mainFunc(datasourceFiles: String, minimumTime: String) {
     val tripleCount = Platform.getEnv("tripleCount", "4")!!.toInt()
     val instance = LuposdateEndpoint.initialize()
-//    Parallel.launch {
-//        HttpEndpointLauncher.start(instance)
-//    }
     var noTimeMeasurement = minimumTime.toDouble() <= 0
     val minimumTime2 = if (noTimeMeasurement) {
         if (minimumTime.toDouble() < 0.1 && minimumTime.toDouble() > -0.1) {

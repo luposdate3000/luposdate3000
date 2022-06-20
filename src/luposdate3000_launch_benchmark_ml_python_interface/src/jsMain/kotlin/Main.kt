@@ -32,18 +32,6 @@ public fun main(args: Array<String>) {
         throw Exception("the option '--datasourceFiles' is missing on the arguments list")
     }
     flag = false
-    var queryFiles: String = ""
-    for (a in args) {
-        if (a.startsWith("--queryFiles=")) {
-            queryFiles = a.substring(13)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--queryFiles' is missing on the arguments list")
-    }
-    flag = false
     var minimumTime: String = ""
     for (a in args) {
         if (a.startsWith("--minimumTime=")) {
@@ -55,5 +43,5 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--minimumTime' is missing on the arguments list")
     }
-    mainFunc(datasourceFiles, queryFiles, minimumTime)
+    mainFunc(datasourceFiles, minimumTime)
 }

@@ -68,8 +68,4 @@ def generateJoinOrder(n: int):
         res[tuple(o)] = res1.setdefault(tuple(oSorted), len(res1))
     return res
 
-
-for triples in range(3, 5):
-    print("triples $triples\n")
-    for (k, i) in generateJoinOrder(triples).items():
-        print(i , " : " , k)
+joinOrdersMap=[generateJoinOrder(triples) for triples in range(0,6)]
