@@ -17,6 +17,7 @@
 package lupos.optimizer.logical
 
 import lupos.operator.base.Query
+import lupos.shared.EOptimizerExt
 
 public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID, "LogicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
@@ -93,9 +94,10 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
         ),
         arrayOf(
             when (query.optimizer) {
-                EOptimizer.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
-                EOptimizer.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
-                EOptimizer.Default -> LogicalOptimizerJoinOrder(query)
+                EOptimizerExt.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
+                EOptimizerExt.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
+                EOptimizerExt.Default -> LogicalOptimizerJoinOrder(query)
+else->TODO()
             }
         ),
         arrayOf(

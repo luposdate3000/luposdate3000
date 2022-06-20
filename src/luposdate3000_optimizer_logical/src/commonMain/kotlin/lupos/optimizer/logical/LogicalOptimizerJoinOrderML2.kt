@@ -27,7 +27,7 @@ import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
-    private val joinOrder: Int = query.machineLearningOptimizerOrder2
+    private val joinOrder: List<Int> = query.machineLearningOptimizerOrder2
     private val tripleCount: Int = query.machineLearningOptimizerTripleCount
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
@@ -72,7 +72,7 @@ public class LogicalOptimizerJoinOrderML2(query: Query) : OptimizerBase(query, E
             }
             else -> {
                 SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:74"/*SOURCE_FILE_END*/ },
+                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML2.kt:74"/*SOURCE_FILE_END*/ },
                     { nodes.size == 1 }
                 )
                 return nodes[0]
@@ -113,7 +113,7 @@ public class LogicalOptimizerJoinOrderML2(query: Query) : OptimizerBase(query, E
                     query.machineLearningOptimizerOrderWouldBeChoosen = true
                 }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:115"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML2.kt:115"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

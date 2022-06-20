@@ -18,6 +18,7 @@ package lupos.launch.benchmark_ml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import lupos.shared.EOptimizerExt
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
@@ -159,7 +160,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                         println("going to benchmark $queryFile for joinOrder $joinOrder")
                         // Optimize query and convert to operatorgraph
                         val q = Query(instance)
-                        q.optimizer = EOptimizer.MachineLearningSmall
+                        q.optimizer = EOptimizerExt.MachineLearningSmall
                         q.machineLearningOptimizerOrder = joinOrder
                         q.machineLearningOptimizerTripleCount = tripleCount
                         q.machineLearningOptimizerOrderWouldBeChoosen = false
