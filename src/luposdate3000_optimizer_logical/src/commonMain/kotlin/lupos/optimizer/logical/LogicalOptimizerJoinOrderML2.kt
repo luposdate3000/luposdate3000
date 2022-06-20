@@ -27,7 +27,7 @@ import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrderML2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
-    private val joinOrder: Int = query.machineLearningOptimizerOrder2""
+    private val joinOrder: Int = query.machineLearningOptimizerOrder2
     private val tripleCount: Int = query.machineLearningOptimizerTripleCount
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()

@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml
-import lupos.optimizer.logical.LogicalOptimizerBuildCustomJoinOrderML
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -33,21 +32,22 @@ import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
+import lupos.optimizer.logical.LogicalOptimizerBuildCustomJoinOrderML
 import lupos.shared.DateHelperRelative
 import lupos.shared.TooManyIntermediateResultsException
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.Platform
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.concurrent.timer
-import lupos.shared.inline.Platform
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String) {
-    val tripleCount = Platform.getEnv("tripleCount","4")!!.toInt()
+    val tripleCount = Platform.getEnv("tripleCount", "4")!!.toInt()
     val instance = LuposdateEndpoint.initialize()
 //    Parallel.launch {
 //        HttpEndpointLauncher.start(instance)
@@ -159,7 +159,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                         println("going to benchmark $queryFile for joinOrder $joinOrder")
                         // Optimize query and convert to operatorgraph
                         val q = Query(instance)
-q.optimizer = EOptimizer.MachineLearningSmall
+                        q.optimizer = EOptimizer.MachineLearningSmall
                         q.machineLearningOptimizerOrder = joinOrder
                         q.machineLearningOptimizerTripleCount = tripleCount
                         q.machineLearningOptimizerOrderWouldBeChoosen = false

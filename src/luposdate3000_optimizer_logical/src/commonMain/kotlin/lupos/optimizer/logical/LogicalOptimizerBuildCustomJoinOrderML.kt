@@ -103,7 +103,7 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
         Array<IntArray>(tmp.size) { it3 -> tmp[it3]!!.toIntArray() }
     }
 
-    public fun joinOrderCountForTripleCount(tripleCount:Int) :Int{
+    public fun joinOrderCountForTripleCount(tripleCount: Int): Int {
         while (mappingOfJoinOrders.size <= tripleCount) {
             val it = mappingOfJoinOrders.size
             val tmp: Map<Int, List<Int>> = generateJoinOrder(it).toList().map { it2 -> it2.second to it2.first }.toMap()

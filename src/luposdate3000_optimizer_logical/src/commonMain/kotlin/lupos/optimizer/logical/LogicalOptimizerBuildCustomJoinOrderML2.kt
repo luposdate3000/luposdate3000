@@ -21,7 +21,6 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerBuildCustomJoinOrderML2 {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin, joinOrder: List<Int>, tripleCount: Int): IOPBase? {
-        
         val intermediates = mutableListOf<IOPBase>()
         println("joinOrder ${joinOrder.toList()}")
         for (i in 0 until joinOrder.size / 2) {

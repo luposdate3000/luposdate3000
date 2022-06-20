@@ -92,11 +92,11 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
             LogicalOptimizerExists(query) //
         ),
         arrayOf(
-when(query.optimizer){
-EOptimizer.MachineLearningLarge->LogicalOptimizerJoinOrderML2(query)
-EOptimizer.MachineLearningSmall->LogicalOptimizerJoinOrderML(query)
-EOptimizer.Default->LogicalOptimizerJoinOrder(query)
-}
+            when (query.optimizer) {
+                EOptimizer.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
+                EOptimizer.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
+                EOptimizer.Default -> LogicalOptimizerJoinOrder(query)
+            }
         ),
         arrayOf(
 // put the filters between the joins

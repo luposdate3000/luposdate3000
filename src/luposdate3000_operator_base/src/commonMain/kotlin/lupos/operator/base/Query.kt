@@ -17,6 +17,7 @@
 package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
+import lupos.shared.EOptimizer
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyLock
@@ -26,7 +27,6 @@ import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
-import lupos.optimizer.logical.EOptimizer
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long, @JvmField public val instance: Luposdate3000Instance) : IQuery {
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)

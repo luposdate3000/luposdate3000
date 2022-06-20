@@ -16,15 +16,9 @@
  */
 package lupos.launch.benchmark_ml_python_interface
 
-import lupos.optimizer.logical.LogicalOptimizerBuildCustomJoinOrderML
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -34,15 +28,12 @@ import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
-import lupos.shared.DateHelperRelative
-import lupos.shared.TooManyIntermediateResultsException
-import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.Platform
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
-import kotlin.concurrent.timer
-import lupos.shared.inline.Platform
 import py4j.GatewayServer
+import kotlin.concurrent.timer
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
 }
@@ -88,28 +79,26 @@ internal fun addCounters(node: IOPBase): IOPBase {
     }
 }
 
-public class PythonBridgeApplication{
-public fun getIntermediateResultsFor(query: String, joinOrder: List<Int>) :Long{
-    val q = Query(instance)
-    q.optimizer = EOptimizer.MachineLearningLarge
-    q.machineLearningOptimizerOrder2 = joinOrder
-    q.machineLearningCounter = 0
-    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
-    val writer = MyPrintWriter(false)
-    val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
-        q._shouldAbortNow = true
-        hadEnforcedAbort = true
-        println("enforcing abort ...")
+public class PythonBridgeApplication {
+    public fun getIntermediateResultsFor(query: String, joinOrder: List<Int>): Long {
+        val q = Query(instance)
+        q.optimizer = EOptimizer.MachineLearningLarge
+        q.machineLearningOptimizerOrder2 = joinOrder
+        q.machineLearningCounter = 0
+        val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
+        val writer = MyPrintWriter(false)
+        val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
+            q._shouldAbortNow = true
+            hadEnforcedAbort = true
+            println("enforcing abort ...")
+        }
+        LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
+        timeoutTimer.cancel()
+        if (hadEnforcedAbort) {
+            return -1
+        }
+        return q.machineLearningCounter
     }
-    LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
-    timeoutTimer.cancel()
-if(hadEnforcedAbort){
-return -1
-}
-    return q.machineLearningCounter
-}
-
-
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
@@ -132,10 +121,7 @@ internal fun mainFunc(datasourceFiles: String, minimumTime: String) {
     val timeout = minimumTime2 * 10.0
     LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
 
-
 // https://www.py4j.org/index.html
 
- GatewayServer(PythonBridgeApplication()).start()
-
+    GatewayServer(PythonBridgeApplication()).start()
 }
-
