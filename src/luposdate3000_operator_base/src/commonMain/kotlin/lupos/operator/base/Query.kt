@@ -26,16 +26,20 @@ import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
+import lupos.optimizer.logical.EOptimizer
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long, @JvmField public val instance: Luposdate3000Instance) : IQuery {
     public constructor(dictionary: IDictionary, instance: Luposdate3000Instance) : this(dictionary, UUID_Counter.getNextUUID(), instance)
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
     @JvmField
-    public var useMachineLearningOptimizer: Boolean = false
+    public var optimizer: EOptimizer = EOptimizerI.Default
 
     @JvmField
     public var machineLearningOptimizerOrder: Int = 0
+
+    @JvmField
+    public var machineLearningOptimizerOrder2: List<Int> = listOf()
 
     @JvmField
     public var machineLearningOptimizerTripleCount: Int = 0

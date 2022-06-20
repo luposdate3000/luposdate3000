@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.benchmark_ml
+package lupos.launch.benchmark_ml_python_interface
 import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType

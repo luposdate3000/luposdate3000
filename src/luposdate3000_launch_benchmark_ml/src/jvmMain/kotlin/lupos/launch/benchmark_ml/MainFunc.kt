@@ -159,7 +159,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
                         println("going to benchmark $queryFile for joinOrder $joinOrder")
                         // Optimize query and convert to operatorgraph
                         val q = Query(instance)
-                        q.useMachineLearningOptimizer = true
+q.optimizer = EOptimizer.MachineLearningSmall
                         q.machineLearningOptimizerOrder = joinOrder
                         q.machineLearningOptimizerTripleCount = tripleCount
                         q.machineLearningOptimizerOrderWouldBeChoosen = false

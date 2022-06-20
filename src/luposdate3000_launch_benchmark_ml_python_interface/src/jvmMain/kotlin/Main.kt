@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.launch.benchmark_ml.mainFunc
+import lupos.launch.benchmark_ml_python_interface.mainFunc
 
 public fun main(args: Array<String>) {
     var flag = false
