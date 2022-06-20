@@ -494,7 +494,10 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
 
 fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String?, depth: Int): Sequence<MyJoin> = sequence {
     var flag = lastPredicate == null
-    for ((predicate, objects) in clazz.variables) {
+    val predicates:Array<String> = clazz.variables.keys.toList().toTypedArray()
+    predicates.shuffle()
+    for (predicate in predicates) {
+        val objects=clazz.variables[predicate]!!
         if (flag) {
             when (predicate) {
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>" -> {
@@ -508,7 +511,9 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
                         j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(-1)))
                         yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                     } else {
-                        for (objClazz in objects.referencedSubjectClasses) {
+                        val objClazzs=objects.referencedSubjectClasses.toList().toTypedArray()
+ objClazzs.shuffle()
+                        for (objClazz in objClazzs) {
                             val j = jj.myClone()
                             j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(objClazz)))
                             yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
@@ -521,7 +526,9 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
                         j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(-1)))
                         yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                     } else {
-                        for (objClazz in objects.referencedSubjectClasses) {
+val objClazzs=objects.referencedSubjectClasses.toList().toTypedArray()
+ objClazzs.shuffle()
+                        for (objClazz in objClazzs) {
                             val j = jj.myClone()
                             j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(objClazz)))
                             yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
@@ -562,7 +569,9 @@ fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = seque
 
 
 fun joinSequenceIterator() = sequence {
-    for (clazz in getAllClazzes()) {
+    val allClass=getAllClazzes().toList().toTypedArray()
+allClass.shuffle()
+    for (clazz in allClass) {
         val j = MyJoin()
         yieldAll(addToJoin(j, j.nextVariableName(clazz.id), clazz, null, 0))
     }
@@ -572,8 +581,14 @@ val folder = outputfolder
 folder.mkdirs()
 var idx = 0
 val luposdate3000_query_params = StringBuilder()
-val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
-ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
+val knownJoins3 = mutableListOf<MyJoin>()
+for(i in 0 until 50){
+println("subset($i / 50)")
+val knownJoins2 = Array<MyJoin>(limitQueries/50) { MyJoin() }
+ReservoirSample(joinSequenceIterator().iterator(), knownJoins2)
+knownJoins3.addAll(knownJoins2)
+}
+val knownJoins=knownJoins3.toTypedArray()
 
 
 java.io.File(folder, "queries").printWriter().use { out ->

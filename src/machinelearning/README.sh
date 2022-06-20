@@ -8,10 +8,9 @@ trainingStepList=(1000 10000 100000 1000000)
 # [1048576]="/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
 
 files=( \
- [1024]="/mnt/luposdate-testdata/sp2b/1024/complete.n3" \
  [16777216]="/mnt/luposdate-testdata/sp2b/16777216/complete.n3" \
 )
-tripleCountArray=(3 4 8 16 32 64 128)
+tripleCountArray=(8 16 32 64)
 export tripleCountMax=128
 export ratio=0.7
 export optimizeFor="joinResultsFor"
@@ -39,13 +38,14 @@ do
         mkdir -p $dataDirectory
         mkdir -p $queriesDirectory
         mkdir -p $trainingDirectory
-        echo $benchmarkCSVCache $benchmarkTrainCache $benchmarkTrainCacheDict
+        echo $benchmarkCSVCache $benchmarkTrainCache $benchmarkTrainCacheDict $tripleCount
             cp "${files[$filekey]}" $tripleFile
-echo ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile}
-            ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
+#echo ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile}
+#            ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
+cp /src/luposdate3000/src/machinelearning/_tmpdata1677721616//complete.n3.nt /src/luposdate3000/src/machinelearning/_tmpdata16777216${tripleCount}//complete.n3.nt
 echo ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
             ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
-exit 1
+continue
             time ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
             retval=$?
             if [ $retVal -ne 0 ]
