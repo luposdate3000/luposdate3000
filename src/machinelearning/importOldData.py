@@ -86,6 +86,19 @@ def nameToIdInDB(db, value):
         exit(1)
     return row[0]
 
+def nameToIdInDBQuery(db, value,tp):
+    l = value.strip()
+    mycursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+    row = mycursor.fetchone()
+    if row == None:
+        mycursor.execute("INSERT INTO " + db + " (name,triplepatterns) VALUES(%s,%s)", (l, tp))
+        mydb.commit()
+        mycursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+        row = mycursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
+
 
 def convertDictIDs(id):
     i = int(id)
@@ -119,8 +132,9 @@ for tripleCount in [3, 4, 5]:
             with open(q_file + ".joinResultsFor") as p_bench:
                 for line in p_bench:
                     tmp = line.split(" ")
+                    queryTmp=[convertDictIDs(x) for x in tmp[0].split(",")]
                     query = ",".join([convertDictIDs(x) for x in tmp[0].split(",")])
-                    queryID = nameToIdInDB("mapping_query", query)
+                    queryID = nameToIdInDBQuery("mapping_query", query,int(len(queryTmp)/3))
                     idx = 0
                     for result in [int(x) for x in tmp[1].split(",")]:
                         joinID = joinOrdersMap4[idx]
