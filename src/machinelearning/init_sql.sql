@@ -1,3 +1,4 @@
+#/usr/bin/env mysql
 use machinelearningbenchmarks;
 CREATE TABLE IF NOT EXISTS mapping_dataset (
     id int NOT NULL AUTO_INCREMENT,
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS benchmark_values (
     dataset_id int NOT NULL,
     query_id int NOT NULL,
     join_id int NOT NULL,
-    value bigint NOT NULL,
+    value bigint,
     PRIMARY KEY (dataset_id,query_id,join_id),
     CONSTRAINT dataset_id_const FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT query_id_const FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT,

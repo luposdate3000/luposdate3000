@@ -451,9 +451,17 @@ class MyJoin {
 }
 
 
-fun addToDictionary(s: String) {
-    if (!s.startsWith("?") && !dictionary.contains(s)) {
-        dictionary.add(s)
+fun addToDictionary(s: String, variableMap: MutableList<String>): Int {
+    if (!s.startsWith("?")) {
+        if (!dictionary.contains(s)) {
+            dictionary.add(s)
+        }
+        return dictionary.indexOf(s)
+    } else {
+        if (!variableMap.contains(s)) {
+            variableMap.add(s)
+        }
+        return -1 - variableMap.indexOf(s)
     }
 }
 
@@ -566,37 +574,26 @@ var idx = 0
 val luposdate3000_query_params = StringBuilder()
 val knownJoins = Array<MyJoin>(limitQueries) { MyJoin() }
 ReservoirSample(joinSequenceIterator().iterator(), knownJoins)
-for (query in knownJoins) {
-    if (query.patterns.size != numberOfJoinPatterns) {
-        continue
-    }
-    luposdate3000_query_params.append(outputfolderName + "/q${idx.toString().padStart(4, '0')}.sparql;")
-    java.io.File(folder, "q${idx.toString().padStart(4, '0')}.sparql").printWriter().use { out ->
-        if (fastQueryMode) {
-            out.println("SELECT (COUNT(*) as ?c) WHERE {")
-        } else {
-            out.println("SELECT ${List(query.variableClasses.size) { query.variableFor(it) }.joinToString(" ")} WHERE {")
+
+
+java.io.File(folder, "queries").printWriter().use { out ->
+    for (query in knownJoins) {
+        if (query.patterns.size != numberOfJoinPatterns) {
+            continue
         }
+        var q = StringBuilder()
+        val variableMap = mutableListOf<String>()
         for (p in query.patterns) {
-            addToDictionary(p.first)
-            addToDictionary(p.second)
-            addToDictionary(p.third)
-            out.println("  ${p.first} ${p.second} ${p.third} . ")
+            q.append(addToDictionary(p.first, variableMap))
+            q.append(",")
+            q.append(addToDictionary(p.second, variableMap))
+            q.append(",")
+            q.append(addToDictionary(p.third, variableMap))
+            q.append(",")
         }
-        out.println("}")
-        for (i in 0 until query.variableClasses.size) {
-            var k = query.variableClasses[i]
-            if (k < 0) {
-                out.println("# ${query.variableFor(i)} -> ANY")
-            } else {
-                out.println("# ${query.variableFor(i)} -> ${getClazz(k).key}")
-            }
-        }
+        out.println(q.toString().dropLast(1))
     }
     idx++
-}
-java.io.File(outputfolder, "luposdate3000_query_params").printWriter().use { out ->
-    out.print(luposdate3000_query_params.toString().dropLast(1))
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     for (i in 1 until dictionary.size) {

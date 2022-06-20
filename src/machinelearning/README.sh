@@ -3,12 +3,12 @@
 trainingStepList=(1000 10000 100000 1000000)
 
 # these files are too small
-# [1024]="/mnt/luposdate-testdata/sp2b/1024/complete.n3"
 # [16384]="/mnt/luposdate-testdata/sp2b/16384/complete.n3"
 # [131072]="/mnt/luposdate-testdata/sp2b/131072/complete.n3"
 # [1048576]="/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
 
 files=( \
+ [1024]="/mnt/luposdate-testdata/sp2b/1024/complete.n3" \
  [16777216]="/mnt/luposdate-testdata/sp2b/16777216/complete.n3" \
 )
 tripleCountArray=(3 4 8 16 32 64 128)
@@ -40,21 +40,12 @@ do
         mkdir -p $queriesDirectory
         mkdir -p $trainingDirectory
         echo $benchmarkCSVCache $benchmarkTrainCache $benchmarkTrainCacheDict
-	test -f $benchmarkCSVCache
-	x1=$?
-	test -f $benchmarkTrainCache
-	x2=$?
-	test -f $benchmarkTrainCacheDict
-	x3=$?
-        if [ $(($x1 + $x2 + $x3)) == 0 ]
-        then
-            cp $benchmarkCSVCache $benchmarkCSV
-            cp $benchmarkTrainCache $benchmarkTrainAll
-            cp $benchmarkTrainCacheDict $benchmarkTrainDictionary
-        else
             cp "${files[$filekey]}" $tripleFile
+echo ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile}
             ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
+echo ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
             ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
+exit 1
             time ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml --runArgument_Luposdate3000_Launch_Benchmark_Ml:datasourceFiles=$tripleFile --runArgument_Luposdate3000_Launch_Benchmark_Ml:queryFiles=$queriesDirectory/luposdate3000_query_params --runArgument_Luposdate3000_Launch_Benchmark_Ml:minimumTime=1
             retval=$?
             if [ $retVal -ne 0 ]
@@ -72,7 +63,6 @@ do
             done
             cp $benchmarkTrainDictionary $benchmarkTrainCacheDict
             benchmarkTrainCache="${files[$filekey]}.$tripleCount.train.me.$optimizeFor"
-        fi
 
 	# generate only data right now
 
