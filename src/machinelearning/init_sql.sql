@@ -1,4 +1,3 @@
-#/usr/bin/env mysql
 use machinelearningbenchmarks;
 CREATE TABLE IF NOT EXISTS mapping_dataset (
     id int NOT NULL AUTO_INCREMENT,
@@ -8,7 +7,8 @@ CREATE TABLE IF NOT EXISTS mapping_dataset (
 );
 CREATE TABLE IF NOT EXISTS mapping_query (
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(1024) NOT NULL,
+    name varchar(2048) NOT NULL,
+    triplepatterns int NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(name)
 );
