@@ -10,6 +10,8 @@ from stable_baselines3 import PPO
 
 training_steps = 1
 tripleCountMax = int(os.environ["tripleCountMax"])
+
+
 def program_mode_train_model():
     benched_queries = load_benchmark_file(query_file)
     env = DatabaseEnv()
@@ -28,12 +30,12 @@ def program_mode_optimize_query():
     env = DatabaseEnv()
     model = PPO.load(optimizer_model_file)
 
-    rankings = [[0] * (hf.joinOrderCountForTripleCount(x)+1) for x in range(tripleCountMax+1)]
+    rankings = [[0] * (hf.joinOrderCountForTripleCount(x) + 1) for x in range(tripleCountMax + 1)]
     with open(evaluationFile, "w") as evaluation:
         for query_counter in range(len(benched_queries)):
             done = False
             failed = False
-            query=benched_queries[query_counter][0]
+            query = benched_queries[query_counter][0]
             env.set_query(query)
             obs = env.reset()
             while not done:
@@ -43,7 +45,7 @@ def program_mode_optimize_query():
                     done = True
                     failed = True
             if failed:
-                ranking = len(rankings[len(query)])-1
+                ranking = len(rankings[len(query)]) - 1
                 choosen_id = -1
             else:
                 values = benched_queries[query_counter][1]
@@ -57,7 +59,7 @@ def program_mode_optimize_query():
             evaluation.write(str(query_counter) + " " + str(choosen_id) + "\n")
     with open(evaluationDistributionFile, "w") as evaluation:
         for ranking in rankings:
-         evaluation.write(",".join([str(x) for x in ranking])+"\n")
+            evaluation.write(",".join([str(x) for x in ranking]) + "\n")
 
 
 def load_benchmark_file(q_file):

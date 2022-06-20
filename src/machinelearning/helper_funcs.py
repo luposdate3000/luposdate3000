@@ -1,5 +1,8 @@
 import os
+
 tripleCountMax = int(os.environ["tripleCountMax"])
+
+
 def generateJoinOrderHelper(depth, n):
     res = []
     if (depth == 1):
@@ -67,10 +70,12 @@ def generateJoinOrder(n):
     return res
 
 
-joinOrderCache = [generateJoinOrder(x) for x in range(tripleCountMax+1)]
+joinOrderCache = [generateJoinOrder(x) for x in range(tripleCountMax + 1)]
 
 
 def joinOrderToID(joinOrder):
-    return joinOrderCache[int(len(joinOrder)/2+1)][tuple(joinOrder)]
+    return joinOrderCache[int(len(joinOrder) / 2 + 1)][tuple(joinOrder)]
+
+
 def joinOrderCountForTripleCount(triples):
     return len(joinOrderCache[triples])

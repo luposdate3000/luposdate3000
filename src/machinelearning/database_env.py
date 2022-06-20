@@ -9,6 +9,7 @@ tripleCountMax = int(os.environ["tripleCountMax"])
 
 
 class DatabaseEnv(gym.Env):
+
     def __init__(self):
         super(DatabaseEnv, self).__init__()
 
@@ -88,8 +89,8 @@ class DatabaseEnv(gym.Env):
                 time_max = max(execution_times)
                 if time_min == time_max:
                     reward = 0
-                elif time_min==time_choosen:
-                    reward=self.reward_max
+                elif time_min == time_choosen:
+                    reward = self.reward_max
                 else:
                     reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
                     #reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100

@@ -34,14 +34,17 @@ dictMapping = []
 
 with open(folderToImport + "/dictionary", "r") as p_dict:
     for line in p_dict:
-        tmp=line.split(" ")
-        i=int(tmp[0])
-        while len( dictMapping)<=i:
-         dictMapping.append(-1)
-        dictMapping[i]=nameToIdInDB("mapping_dictionary", tmp[1])
+        tmp = line.split(" ")
+        i = int(tmp[0])
+        while len(dictMapping) <= i:
+            dictMapping.append(-1)
+        dictMapping[i] = nameToIdInDB("mapping_dictionary", tmp[1])
 
 with open(folderToImport + "/queries") as p_queries:
     for line in p_queries:
-        query = ",".join([convertDictIDs(x) for x in line.split(",")])
-        queryID = nameToIdInDB("mapping_query", query)
+        ll = [convertDictIDs(x) for x in line.split(",")]
+        while len(ll) >= 4:
+            queryID = nameToIdInDB("mapping_query", ",".join(ll))
+            idx = int(len(ll) / 4) * 2
+            ll = ll[:idx]
 mydb.commit()
