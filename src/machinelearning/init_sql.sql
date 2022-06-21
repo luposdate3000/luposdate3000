@@ -1,3 +1,10 @@
+
+
+create database machinelearningbenchmarks;
+create user machinelearningbenchmarks identified by "machinelearningbenchmarks";
+grant all privileges on machinelearningbenchmarks.* TO 'machinelearningbenchmarks'@'%' identified by 'machinelearningbenchmarks';
+flush privileges;
+
 use machinelearningbenchmarks;
 CREATE TABLE IF NOT EXISTS mapping_dataset (
     id int NOT NULL AUTO_INCREMENT,
