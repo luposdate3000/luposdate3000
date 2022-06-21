@@ -51,7 +51,14 @@ class DatabaseEnv(gym.Env):
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:
-            self.training_data.append([[int(x) for x in row[0].split(",")], row[1]])
+            xx = []
+            tmp = []
+            for x in [int(x) for x in row[0].split(",")]:
+                tmp.append(x)
+                if len(tmp) == 3:
+                    xx.append(tmp)
+                    tmp = []
+            self.training_data.append([xx, row[1]])
 
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
 
@@ -83,27 +90,27 @@ class DatabaseEnv(gym.Env):
         self.join_order_h[left] = index
         self.join_order_h[right] = index
         # calculate reward
+        print(self.query, "len", len(self.query), len(self.join_order))
         done = len(self.join_order) == (len(self.query) - 1) * 2
         if done:
-            joinOrderString = ",".join([str(x) for x in self.joinOrderSort(self.join_order)])
+            joinOrder = self.joinOrderSort(self.join_order)
+            joinOrderString = ",".join([str(x) for x in joinOrder])
             joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
             self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, joinOrderID))
             row = self.cursor.fetchone()
             if row == None:
-                querySparql = "SELECT count(*) WHERE {"
-                idx = 0
-                for x in self.query:
-                    if x < 0:
-                        querySparql += " ?v" + str(-x) + " "
-                    else:
-                        self.cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x,))
-                        rowx = self.cursor.fetchone()
-                        querySparql += " " + rowx[0] + " "
-                    idx += 1
-                    if idx == 3:
-                        idx = 0
-                        querySparql += "."
+                querySparql = "SELECT (count(*) as ?x) WHERE {"
+                for xs in self.query:
+                    for x in xs:
+                        if x < 0:
+                            querySparql += " ?v" + str(-x) + " "
+                        else:
+                            self.cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                            rowx = self.cursor.fetchone()
+                            querySparql += " " + rowx[0] + " "
+                    querySparql += "."
                 querySparql += "}"
+                print(querySparql)
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
                 self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, joinOrderID, value))
                 self.db.commit()
@@ -132,9 +139,10 @@ class DatabaseEnv(gym.Env):
             else:
                 self.query_counter = 0
                 random.shuffle(self.training_data)
-            print("len(self.training_data)",len(self.training_data))
+            print("len(self.training_data)", len(self.training_data))
             self.query = self.training_data[self.query_counter][0]
             self.queryID = self.training_data[self.query_counter][1]
+        print(self.query)
         # reset the matrix
         for x in range(self.tripleCountMax):
             for y in range(self.tripleCountMax):
@@ -157,29 +165,30 @@ class DatabaseEnv(gym.Env):
         self.query = query
         self.queryID = -1
 
-    def joinOrderSort(self,input):
+    def joinOrderSort(self, input):
+        print("sort input", input)
         return self.joinOrderSortHelper([], input.copy(), len(input) - 2)
 
-    def joinOrderSortHelper(self,res, input, index):
+    def joinOrderSortHelper(self, res, input, index):
         av = input[index]
         a = 0
         if (av < 0):
             res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - av) * 2))
-            a = -len(res) / 2
+            a = int(-len(res) / 2)
         else:
             a = av
         bv = input[index + 1]
         b = 0
         if (bv < 0):
             res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - bv) * 2))
-            b = -len(res) / 2
+            b = int(-len(res) / 2)
         else:
             b = bv
         res.append(a)
         res.append(b)
         return res
 
-    def getOrAddDB(self,db, value):
+    def getOrAddDB(self, db, value):
         l = value.strip()
         self.cursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
         row = self.cursor.fetchone()
