@@ -11,8 +11,9 @@ start = time.time()
 
 class DatabaseEnv(gym.Env):
 
-    def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio):
+    def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
+        self.optimizerName=optimizerName
         self.tripleCountMax = tripleCountMax
         # define the shape of the observation_matrix, and the valid values in it
         self.observation_space = spaces.Box(-self.tripleCountMax * 3 - 2, np.inf, shape=(self.tripleCountMax, self.tripleCountMax, 3), dtype=np.int32)
@@ -47,14 +48,20 @@ class DatabaseEnv(gym.Env):
 
         self.gateway = JavaGateway()
         self.luposdate = self.gateway.entry_point
+        self.had_loop=False
 
         self.db = db
         self.cursor = db.cursor()
         self.ratio = ratio
-        if ratio >= 0:
-            self.myCurserExec("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
+        if optimizerName is not None:
+         self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
         else:
-            self.myCurserExec("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng >= %s", (learnOnMin, learnOnMax, -ratio))
+         self.optimizerID=None
+        self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
+        if ratio >= 0:
+            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s", (learnOnMin, learnOnMax, ratio))
+        else:
+            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng >= %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)", (learnOnMin, learnOnMax, -ratio,self.datasetID,self.optimizerID))
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:
@@ -66,25 +73,24 @@ class DatabaseEnv(gym.Env):
                     xx.append(tmp)
                     tmp = []
             self.training_data.append([xx, row[1]])
+        print("found",len(self.training_data),"queries")
         random.shuffle(self.training_data)
 
-        self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
         self.step_counter = 0
 
-    def submit_choice(self, failed, optimizerID):
-        if not failed:
-            self.myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, optimizerID))
-            self.myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, optimizerID, self.joinOrderID))
-            self.db.commit()
+    def submit_choice(self, failed):
+        self.myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, self.optimizerID))
+        self.myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.optimizerID, self.joinOrderID))
+        self.db.commit()
 
     def has_more_evaluation(self):
-        return self.query_counter < len(self.training_data) - 1
+        return self.query_counter < len(self.training_data) - 1 and not self.had_loop
 
     def get_step_counter(self):
         return self.step_counter
 
     def myCurserExec(self, sql, data):
-        print("myCurserExec",sql,data)
+ #       print("myCurserExec",sql,data)
         return self.cursor.execute(sql, data)
 
     def step(self, action):
@@ -168,6 +174,7 @@ class DatabaseEnv(gym.Env):
         if self.has_more_evaluation():
             self.query_counter += 1
         else:
+            self.had_loop=True
             self.query_counter = 0
             random.shuffle(self.training_data)
         self.query = self.training_data[self.query_counter][0]
@@ -228,10 +235,9 @@ class DatabaseEnv(gym.Env):
         if row == None:
             exit(1)
         return row[0]
-    def entryEval(self,model,model_file):
-     print("start eval for",model_file)
-     submitName = os.path.basename(model_file)
-     optimizerID = self.getOrAddDB("mapping_optimizer", submitName)
+    def entryEval(self,model):
+     print("start eval for",self.optimizerName)
+     self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
      while self.has_more_evaluation():
       done = False
       failed = False
@@ -242,4 +248,4 @@ class DatabaseEnv(gym.Env):
         if reward < 0:
             done = True
             failed = True
-      self.submit_choice(failed, optimizerID)
+      self.submit_choice(failed)

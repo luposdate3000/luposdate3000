@@ -90,45 +90,49 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
     }
 
     public fun getJoinOrderFor(query: String): String? {
-try{
-        println("getJoinOrderFor $query")
-        val q = Query(instance)
-        q.optimizer = EOptimizerExt.MachineLearningLargePredict
-        val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
-        return q.machineLearningOptimizerOrder2.joinToString(",")
-}  catch(e:Throwable){
-e.printStackTrace()
-return null
-}      
+        try {
+            println("getJoinOrderFor $query")
+            val q = Query(instance)
+            q.optimizer = EOptimizerExt.MachineLearningLargePredict
+            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
+            return q.machineLearningOptimizerOrder2.joinToString(",")
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     public fun getIntermediateResultsFor(query: String, joinOrder2: String): Long? {
-try{
-        val joinOrder=joinOrder2.split(",").map { it.toInt() }
-        println("getIntermediateResultsFor $joinOrder2 $query")
-        val q = Query(instance)
-        q.optimizer = EOptimizerExt.MachineLearningLarge
-        q.machineLearningOptimizerOrder2 = joinOrder
-        q.machineLearningCounter = 0
-        var hadEnforcedAbort = false
-        val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
-        val writer = MyPrintWriter(false)
-        var timeoutTimer:Timer?=null
-timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
-            q._shouldAbortNow = true
-            hadEnforcedAbort = true
-            println("enforcing abort ...")
-        timeoutTimer!!.cancel()
-        }
-        LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
-        if (hadEnforcedAbort|| q.machineLearningAbort) {
+        try {
+            val joinOrder = joinOrder2.split(",").map { it.toInt() }
+            println("getIntermediateResultsFor $joinOrder2 $query")
+            val q = Query(instance)
+            q.optimizer = EOptimizerExt.MachineLearningLarge
+            q.machineLearningOptimizerOrder2 = joinOrder
+            q.machineLearningCounter = 0
+            var hadEnforcedAbort = false
+            val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
+            val writer = MyPrintWriter(false)
+            var timeoutTimer: Timer? = null
+            timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
+                q._shouldAbortNow = true
+                hadEnforcedAbort = true
+                timeoutTimer!!.cancel()
+                println("enforcing abort ...")
+            }
+            LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
+            timeoutTimer?.cancel()
+            if (hadEnforcedAbort || q.machineLearningAbort) {
+                println("return null")
+                return null
+            }
+                println("return "+q.machineLearningCounter)
+            return q.machineLearningCounter
+        } catch (e: Throwable) {
+            e.printStackTrace()
+                println("return null")
             return null
         }
-        return q.machineLearningCounter
-}catch(e:Throwable){
-e.printStackTrace()
-return null
-}
     }
 
 }

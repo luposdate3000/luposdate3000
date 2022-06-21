@@ -27,8 +27,10 @@ import kotlin.jvm.JvmField
 public object EvalCounter {
     public operator fun invoke(query: Query, child: IteratorBundle, instance: Luposdate3000Instance): IteratorBundle {
 val the_limit=200000
+val the_global_limit=20000000
         if (child.hasCountMode()) {
             query.machineLearningCounter++
+            query.machineLearningCounterGlobal++
             return child
         }
         val variables = child.columns.keys
@@ -49,7 +51,8 @@ val the_limit=200000
                         return if (label != 0) {
                             query.machineLearningCounter++
                             local_ctr++
-                            if (local_ctr > the_limit) {
+query.machineLearningCounterGlobal++
+                            if (local_ctr > the_limit||query.machineLearningCounterGlobal>the_global_limit) {
 query.machineLearningAbort=true
                                 DictionaryValueHelper.nullValue
                             } else {
@@ -83,8 +86,9 @@ query.machineLearningAbort=true
                     var label = 1
                     override /*suspend*/ fun next(): DictionaryValueType {
                         return if (label != 0) {
+query.machineLearningCounterGlobal++
                             local_ctr++
-                            if (local_ctr > the_limit) {
+                            if (local_ctr > the_limit||query.machineLearningCounterGlobal>the_global_limit) {
 query.machineLearningAbort=true
                                 DictionaryValueHelper.nullValue
                             } else {

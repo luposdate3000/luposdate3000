@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS optimizer_choice (
     dataset_id int NOT NULL,
     query_id int NOT NULL,
     optimizer_id int NOT NULL,
-    join_id int NOT NULL,
+    join_id int,
     PRIMARY KEY (dataset_id,query_id,optimizer_id),
     CONSTRAINT dataset_id_const2 FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT query_id_const2 FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT,

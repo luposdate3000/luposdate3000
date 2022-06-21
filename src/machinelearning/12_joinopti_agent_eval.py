@@ -26,6 +26,6 @@ except:
     print("param5 model_file")
     sys.exit()
 
-env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio)
+env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio,model_file)
 model = PPO.load(model_file)
-env.entryEval(model,model_file)
+env.entryEval(model)
