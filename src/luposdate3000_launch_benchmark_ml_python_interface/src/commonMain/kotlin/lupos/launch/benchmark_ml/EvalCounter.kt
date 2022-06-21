@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml_python_interface
+
 import lupos.operator.base.Query
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -25,6 +26,7 @@ import kotlin.jvm.JvmField
 
 public object EvalCounter {
     public operator fun invoke(query: Query, child: IteratorBundle, instance: Luposdate3000Instance): IteratorBundle {
+val the_limit=200000
         if (child.hasCountMode()) {
             query.machineLearningCounter++
             return child
@@ -36,6 +38,7 @@ public object EvalCounter {
             val tmp = if (first) {
                 first = false
                 object : ColumnIterator() {
+                    var local_ctr = 0;
 
                     @JvmField
                     val iterator = child.columns[variable]!!
@@ -45,8 +48,13 @@ public object EvalCounter {
                     override /*suspend*/ fun next(): DictionaryValueType {
                         return if (label != 0) {
                             query.machineLearningCounter++
-                            val res = iterator.next()
-                            res
+                            local_ctr++
+                            if (local_ctr > the_limit) {
+query.machineLearningAbort=true
+                                DictionaryValueHelper.nullValue
+                            } else {
+                                iterator.next()
+                            }
                         } else {
                             DictionaryValueHelper.nullValue
                         }
@@ -65,7 +73,40 @@ public object EvalCounter {
                     }
                 }
             } else {
-                child.columns[variable]!!
+                object : ColumnIterator() {
+                    var local_ctr = 0;
+
+                    @JvmField
+                    val iterator = child.columns[variable]!!
+
+                    @JvmField
+                    var label = 1
+                    override /*suspend*/ fun next(): DictionaryValueType {
+                        return if (label != 0) {
+                            local_ctr++
+                            if (local_ctr > the_limit) {
+query.machineLearningAbort=true
+                                DictionaryValueHelper.nullValue
+                            } else {
+                                iterator.next()
+                            }
+                        } else {
+                            DictionaryValueHelper.nullValue
+                        }
+                    }
+
+                    @Suppress("NOTHING_TO_INLINE")
+                    /*suspend*/ inline fun _close() {
+                        if (label != 0) {
+                            label = 0
+                            iterator.close()
+                        }
+                    }
+
+                    override /*suspend*/ fun close() {
+                        _close()
+                    }
+                }
             }
             outMap[variable] = tmp
         }

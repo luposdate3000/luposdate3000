@@ -1,9 +1,12 @@
 import random
 import os
 import gym
+import time
 import numpy as np
 from gym import spaces
 from py4j.java_gateway import JavaGateway
+
+start = time.time()
 
 
 class DatabaseEnv(gym.Env):
@@ -49,9 +52,9 @@ class DatabaseEnv(gym.Env):
         self.cursor = db.cursor()
         self.ratio = ratio
         if ratio >= 0:
-            self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
+            self.myCurserExec("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
         else:
-            self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng >= %s", (learnOnMin, learnOnMax, -ratio))
+            self.myCurserExec("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng >= %s", (learnOnMin, learnOnMax, -ratio))
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:
@@ -63,15 +66,15 @@ class DatabaseEnv(gym.Env):
                     xx.append(tmp)
                     tmp = []
             self.training_data.append([xx, row[1]])
+        random.shuffle(self.training_data)
 
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
         self.step_counter = 0
 
-    def submit_choice(self, failed, name):
+    def submit_choice(self, failed, optimizerID):
         if not failed:
-            optimizerID = self.getOrAddDB("mapping_optimizer", name)
-            self.cursor.execute("DELETE FROM optimizer_choice WHERE dataset_id = %d AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, optimizerID))
-            self.cursor.execute("INSERT INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, optimizerID, self.joinOrderID))
+            self.myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, optimizerID))
+            self.myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, optimizerID, self.joinOrderID))
             self.db.commit()
 
     def has_more_evaluation(self):
@@ -80,8 +83,14 @@ class DatabaseEnv(gym.Env):
     def get_step_counter(self):
         return self.step_counter
 
+    def myCurserExec(self, sql, data):
+        print("myCurserExec",sql,data)
+        return self.cursor.execute(sql, data)
+
     def step(self, action):
         self.step_counter += 1
+        if self.step_counter % 100 == 0:
+            print("step", str(self.step_counter), "took", str(time.time() - start), "seconds", flush=True)
         # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
@@ -114,7 +123,7 @@ class DatabaseEnv(gym.Env):
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
             self.joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
-            self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
+            self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
             if row == None:
                 # if this join order was not executed before, execute it
@@ -124,18 +133,20 @@ class DatabaseEnv(gym.Env):
                         if x < 0:
                             querySparql += " ?v" + str(-x) + " "
                         else:
-                            self.cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                            self.myCurserExec("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
                             rowx = self.cursor.fetchone()
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
+                print("calling lupos", flush=True)
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-                self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
+                print("response from lupos", flush=True)
+                self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
-                self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
+                self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
                 row = self.cursor.fetchone()
             time_choosen = row[0]
-            self.cursor.execute("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
+            self.myCurserExec("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
             row = self.cursor.fetchone()
             time_min = row[0]
             time_max = row[1]
@@ -143,6 +154,8 @@ class DatabaseEnv(gym.Env):
                 reward = 0
             elif time_min == time_choosen:
                 reward = self.reward_max
+            elif time_choosen  is None:
+                reward=self.reward_invalid_action
             else:
                 reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
         else:
@@ -153,10 +166,10 @@ class DatabaseEnv(gym.Env):
         # fetch next query
         self.joinOrderID = None
         if self.has_more_evaluation():
-                self.query_counter += 1
+            self.query_counter += 1
         else:
-                self.query_counter = 0
-                random.shuffle(self.training_data)
+            self.query_counter = 0
+            random.shuffle(self.training_data)
         self.query = self.training_data[self.query_counter][0]
         self.queryID = self.training_data[self.query_counter][1]
         # reset the matrix
@@ -188,14 +201,14 @@ class DatabaseEnv(gym.Env):
         av = input[index]
         a = 0
         if (av < 0):
-            res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - av) * 2))
+            self.joinOrderSortHelper(res, input, (-1 - av) * 2)
             a = int(-len(res) / 2)
         else:
             a = av
         bv = input[index + 1]
         b = 0
         if (bv < 0):
-            res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - bv) * 2))
+            self.joinOrderSortHelper(res, input, (-1 - bv) * 2)
             b = int(-len(res) / 2)
         else:
             b = bv
@@ -205,13 +218,28 @@ class DatabaseEnv(gym.Env):
 
     def getOrAddDB(self, db, value):
         l = value.strip()
-        self.cursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+        self.myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
         row = self.cursor.fetchone()
         if row == None:
-            self.cursor.execute("INSERT INTO " + db + " (name) VALUES(%s)", (l, ))
+            self.myCurserExec("INSERT IGNORE INTO " + db + " (name) VALUES(%s)", (l, ))
             self.db.commit()
-            self.cursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+            self.myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
             row = self.cursor.fetchone()
         if row == None:
             exit(1)
         return row[0]
+    def entryEval(self,model,model_file):
+     print("start eval for",model_file)
+     submitName = os.path.basename(model_file)
+     optimizerID = self.getOrAddDB("mapping_optimizer", submitName)
+     while self.has_more_evaluation():
+      done = False
+      failed = False
+      obs = self.reset()
+      while not done:
+        action, _states = model.predict(obs, deterministic=True)
+        obs, reward, done, info = self.step(action)
+        if reward < 0:
+            done = True
+            failed = True
+      self.submit_choice(failed, optimizerID)

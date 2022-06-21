@@ -28,15 +28,4 @@ except:
 
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio)
 model = PPO.load(model_file)
-submitName = os.path.basename(model_file)
-while env.has_more_evaluation():
-    done = False
-    failed = False
-    obs = env.reset()
-    while not done:
-        action, _states = model.predict(obs, deterministic=True)
-        obs, reward, done, info = env.step(action)
-        if reward < 0:
-            done = True
-            failed = True
-    env.submit_choice(failed, submitName)
+env.entryEval(model,model_file)

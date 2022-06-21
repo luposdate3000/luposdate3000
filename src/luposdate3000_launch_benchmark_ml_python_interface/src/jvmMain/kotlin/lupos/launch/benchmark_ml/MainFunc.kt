@@ -37,6 +37,7 @@ import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import py4j.GatewayServer
 import kotlin.concurrent.timer
+import java.util.Timer
 
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
@@ -88,14 +89,23 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
         println("ready for python to connect")
     }
 
-    public fun getIntermediateResultsFor(query: String, joinOrder: String): Long {
-        return getIntermediateResultsFor(query, joinOrder.split(",").map { it.toInt() })
+    public fun getJoinOrderFor(query: String): String? {
+try{
+        println("getJoinOrderFor $query")
+        val q = Query(instance)
+        q.optimizer = EOptimizerExt.MachineLearningLargePredict
+        val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
+        return q.machineLearningOptimizerOrder2.joinToString(",")
+}  catch(e:Throwable){
+e.printStackTrace()
+return null
+}      
     }
 
-    private fun getIntermediateResultsFor(query: String, joinOrder: List<Int>): Long {
-        println("the query")
-        println(query)
-        println("the joinOrder $joinOrder")
+    public fun getIntermediateResultsFor(query: String, joinOrder2: String): Long? {
+try{
+        val joinOrder=joinOrder2.split(",").map { it.toInt() }
+        println("getIntermediateResultsFor $joinOrder2 $query")
         val q = Query(instance)
         q.optimizer = EOptimizerExt.MachineLearningLarge
         q.machineLearningOptimizerOrder2 = joinOrder
@@ -103,18 +113,24 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
         var hadEnforcedAbort = false
         val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
         val writer = MyPrintWriter(false)
-        val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
+        var timeoutTimer:Timer?=null
+timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
             q._shouldAbortNow = true
             hadEnforcedAbort = true
             println("enforcing abort ...")
+        timeoutTimer!!.cancel()
         }
         LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, addCounters(node), writer)
-        timeoutTimer.cancel()
-        if (hadEnforcedAbort) {
-            return -1
+        if (hadEnforcedAbort|| q.machineLearningAbort) {
+            return null
         }
         return q.machineLearningCounter
+}catch(e:Throwable){
+e.printStackTrace()
+return null
+}
     }
+
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

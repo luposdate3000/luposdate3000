@@ -107,13 +107,8 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
                         res = result
                     }
                 }
-                val realOptimizer = LogicalOptimizerJoinOrder(query)
-                val realResult = realOptimizer.internalOptimize(node, allChilds2) {}
-                if (equalResults(res, realResult)) {
-                    query.machineLearningOptimizerOrderWouldBeChoosen = true
-                }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:115"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:110"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

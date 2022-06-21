@@ -30,14 +30,21 @@ env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, ratio)
 model = PPO("MlpPolicy", env, verbose=2)
 
 seconds = 0
-start = time.time()
-training_steps = 1000
-while seconds < 600:
-    steps_to_do = training_steps - env.get_step_counter()
+timelimit=3600
+training_steps = 128
+steps_done = 0
+estimatedTime = 0
+while True:
+#while estimatedTime < timelimit:
+    start = time.time()
+    steps_to_do = training_steps -steps_done
     if steps_to_do > 0:
         model.learn(total_timesteps=steps_to_do, log_interval=None)
-        seconds = time.time() - start
-        filename = model_folder + "/model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_" + str(training_steps) + ".model"
+        steps_done= env.get_step_counter()
+        seconds += time.time() - start
+        filename = model_folder + "/model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_" + str(steps_done) + ".model"
         model.save(filename)
-        print("learn target " + str(training_steps) + " steps (actually did " + str(env.get_step_counter()) + " steps) in " + str(seconds) + " seconds, save as \"" + filename + "\"")
-    training_steps *= 10
+        print("learned " + str(env.get_step_counter()) + " steps in " + str(seconds) + " seconds , save as \"" + filename + "\"", flush=True)
+    training_steps *= 2
+    estimatedTime=training_steps*(seconds/steps_done)
+    print("predict " + str(training_steps) + " steps in "+str(estimatedTime)+" seconds", flush=True)

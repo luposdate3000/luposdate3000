@@ -21,8 +21,9 @@ import kotlin.jvm.JvmField
 public object EOptimizerExt {
     public const val Default: EOptimizer = 0 // 0x00000000
     public const val MachineLearningLarge: EOptimizer = 1 // 0x00000001
-    public const val MachineLearningSmall: EOptimizer = 2 // 0x00000002
-    public const val values_size: Int = 3
+    public const val MachineLearningLargePredict: EOptimizer = 2 // 0x00000002
+    public const val MachineLearningSmall: EOptimizer = 3 // 0x00000003
+    public const val values_size: Int = 4
     public const val values_mask: Int = 3 // 0x00000003
     public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
 
@@ -30,6 +31,7 @@ public object EOptimizerExt {
     public val names: Array<String> = arrayOf(
         "Default",
         "MachineLearningLarge",
+        "MachineLearningLargePredict",
         "MachineLearningSmall",
     )
 }

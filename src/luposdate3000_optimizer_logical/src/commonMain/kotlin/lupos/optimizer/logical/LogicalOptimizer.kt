@@ -96,7 +96,11 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
             when (query.optimizer) {
                 EOptimizerExt.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
                 EOptimizerExt.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
-                EOptimizerExt.Default -> LogicalOptimizerJoinOrder(query)
+                EOptimizerExt.Default -> LogicalOptimizerJoinOrder(query,false)
+EOptimizerExt.MachineLearningLargePredict->{
+//do the same as default, but capture, what is done
+LogicalOptimizerJoinOrder(query,true)
+}
 else->TODO()
             }
         ),

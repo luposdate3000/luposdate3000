@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS mapping_query (
 );
 CREATE TABLE IF NOT EXISTS mapping_join (
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(1024) NOT NULL,
+    name varchar(2048) NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(name)
 );
