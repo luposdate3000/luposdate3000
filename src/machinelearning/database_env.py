@@ -62,6 +62,10 @@ class DatabaseEnv(gym.Env):
 
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
         self.step_counter=0
+    def submit_choice(self,failed,name):
+      xxx
+    def has_mode_evaluation(self):
+     return self.query_counter < len(self.training_data) - 1
     def get_step_counter(self):
      return self.step_counter
     def step(self, action):
@@ -93,7 +97,6 @@ class DatabaseEnv(gym.Env):
         self.join_order_h[left] = index
         self.join_order_h[right] = index
         # calculate reward
-        print(self.query, "len", len(self.query), len(self.join_order))
         done = len(self.join_order) == (len(self.query) - 1) * 2
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
@@ -113,7 +116,6 @@ class DatabaseEnv(gym.Env):
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
-                print(querySparql)
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
                 self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, joinOrderID, value))
                 self.db.commit()
@@ -137,15 +139,13 @@ class DatabaseEnv(gym.Env):
     def reset(self):
         # fetch next query
         if self.training_data is not None:
-            if self.query_counter < len(self.training_data) - 1:
+            if self.has_more_evaluation():
                 self.query_counter += 1
             else:
                 self.query_counter = 0
                 random.shuffle(self.training_data)
-            print("len(self.training_data)", len(self.training_data))
             self.query = self.training_data[self.query_counter][0]
             self.queryID = self.training_data[self.query_counter][1]
-        print(self.query)
         # reset the matrix
         for x in range(self.tripleCountMax):
             for y in range(self.tripleCountMax):
@@ -169,7 +169,6 @@ class DatabaseEnv(gym.Env):
         self.queryID = -1
 
     def joinOrderSort(self, input):
-        print("sort input", input)
         return self.joinOrderSortHelper([], input.copy(), len(input) - 2)
 
     def joinOrderSortHelper(self, res, input, index):
