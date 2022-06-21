@@ -2,26 +2,24 @@ import random
 import os
 import gym
 import numpy as np
-import helper_funcs as hf
 from gym import spaces
-
-tripleCountMax = int(os.environ["tripleCountMax"])
+from py4j.java_gateway import JavaGateway
 
 
 class DatabaseEnv(gym.Env):
 
-    def __init__(self):
+    def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio):
         super(DatabaseEnv, self).__init__()
-
+        self.tripleCountMax = tripleCountMax
         # define the shape of the observation_matrix, and the valid values in it
-        self.observation_space = spaces.Box(-tripleCountMax * 3 - 2, np.inf, shape=(tripleCountMax, tripleCountMax, 3), dtype=np.int32)
+        self.observation_space = spaces.Box(-self.tripleCountMax * 3 - 2, np.inf, shape=(self.tripleCountMax, self.tripleCountMax, 3), dtype=np.int32)
         # initialize filled with zeros. the '3' refers to the 3 triple components
-        self.observation_matrix = np.zeros((tripleCountMax, tripleCountMax, 3), np.int32)
+        self.observation_matrix = np.zeros((self.tripleCountMax, self.tripleCountMax, 3), np.int32)
 
         # list all possible actions
         self.action_list = []
-        for i in range(tripleCountMax):
-            for j in range(i + 1, tripleCountMax):
+        for i in range(self.tripleCountMax):
+            for j in range(i + 1, self.tripleCountMax):
                 self.action_list.append((i, j))
 
         # tell the model, which actions are allowed
@@ -31,24 +29,31 @@ class DatabaseEnv(gym.Env):
         self.join_order = []
         # mapping of the matrix row to the operand
         self.join_order_h = None
-        # when done, this contains the decoded join order
-        self.choosen_join_order = -1
         # the query to process
         self.query = None
-
+        self.queryID = None
         # bad results should be trained again
-        self.redo = False
         # this modifies the choosen action to the nearest valid one, such that there are no invalid actions anymore
         self.autofix_invalid_actions = True
         self.reward_invalid_action = -1
-        self.reward_valid_action = 0
         self.reward_max = 100
-        self.reward_treshold_for_redo = 0
 
-        # for training, this contains all the measurements, needed for learning
-        self.training_data = None
         # for training, index in 'self.training_data'
         self.query_counter = -1
+
+        self.gateway = JavaGateway()
+        self.luposdate = self.gateway.entry_point
+
+        self.db = db
+        self.cursor = db.cursor()
+
+        self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
+        rows = self.cursor.fetchall()
+        self.training_data = []
+        for row in rows:
+            self.training_data.append([[int(x) for x in row[0].split(",")], row[1]])
+
+        self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
 
     def step(self, action):
         # fetch left and right operand
@@ -61,7 +66,6 @@ class DatabaseEnv(gym.Env):
                 right = self.action_list[action][1]
         else:
             if not self.is_valid_action(left, right, self.observation_matrix):
-                self.redo = True
                 return self.observation_matrix, self.reward_invalid_action, False, {}
         # update observation
         for i, v in enumerate(self.observation_matrix[right, :]):
@@ -81,53 +85,109 @@ class DatabaseEnv(gym.Env):
         # calculate reward
         done = len(self.join_order) == (len(self.query) - 1) * 2
         if done:
-            self.choosen_join_order = hf.joinOrderToID(self.join_order)
-            if self.training_data is not None:
-                execution_times = self.training_data[self.query_counter][1]
-                time_choosen = execution_times[self.choosen_join_order]
-                time_min = min(execution_times)
-                time_max = max(execution_times)
-                if time_min == time_max:
-                    reward = 0
-                elif time_min == time_choosen:
-                    reward = self.reward_max
-                else:
-                    reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
-                    #reward = 100 - abs((np.log(time_choosen) - np.log(time_min)) / (np.log(time_max) - np.log(time_min))) * 100
-            else:
+            joinOrderString = ",".join([str(x) for x in self.joinOrderSort(self.join_order)])
+            joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
+            self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, joinOrderID))
+            row = self.cursor.fetchone()
+            if row == None:
+                querySparql = "SELECT count(*) WHERE {"
+                idx = 0
+                for x in self.query:
+                    if x < 0:
+                        querySparql += " ?v" + str(-x) + " "
+                    else:
+                        self.cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x,))
+                        rowx = self.cursor.fetchone()
+                        querySparql += " " + rowx[0] + " "
+                    idx += 1
+                    if idx == 3:
+                        idx = 0
+                        querySparql += "."
+                querySparql += "}"
+                value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, joinOrderID, value))
+                self.db.commit()
+                self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, joinOrderID))
+                row = self.cursor.fetchone()
+            time_choosen = row[0]
+            self.cursor.execute("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
+            row = self.cursor.fetchone()
+            time_min = row[0]
+            time_max = row[1]
+            if time_min == time_max:
                 reward = 0
-            self.redo = reward < self.reward_treshold_for_redo
+            elif time_min == time_choosen:
+                reward = self.reward_max
+            else:
+                reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
         else:
-            reward = self.reward_valid_action
+            reward = 0
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
         # fetch next query
-        if not self.redo:
-            if self.training_data is not None:
-                if self.query_counter < len(self.training_data) - 1:
-                    self.query_counter += 1
-                else:
-                    self.query_counter = 0
-                    random.shuffle(self.training_data)
-                self.query = self.training_data[self.query_counter][0]
+        if self.training_data is not None:
+            if self.query_counter < len(self.training_data) - 1:
+                self.query_counter += 1
+            else:
+                self.query_counter = 0
+                random.shuffle(self.training_data)
+            print("len(self.training_data)",len(self.training_data))
+            self.query = self.training_data[self.query_counter][0]
+            self.queryID = self.training_data[self.query_counter][1]
         # reset the matrix
-        for x in range(len(self.query)):
-            for y in range(len(self.query)):
-                if x != y:
-                    self.observation_matrix[x][y] = [-1, -1, -1]
+        for x in range(self.tripleCountMax):
+            for y in range(self.tripleCountMax):
+                if x < len(self.query) and y < len(self.query):
+                    if x != y:
+                        self.observation_matrix[x][y] = [-1, -1, -1]
+                    else:
+                        self.observation_matrix[x][y] = self.query[x]
                 else:
-                    self.observation_matrix[x][y] = self.query[x]
+                    self.observation_matrix[x][y] = [0, 0, 0]
         # reset the join order
         self.join_order = []
-        self.join_order_h = dict(zip(range(tripleCountMax), range(tripleCountMax)))
+        self.join_order_h = dict(zip(range(self.tripleCountMax), range(self.tripleCountMax)))
         return self.observation_matrix
 
     def is_valid_action(self, left, right, observation_matrix):
         return observation_matrix[left][right][0] != 0 and observation_matrix[right][left][0] != 0
 
-    def set_training_data(self, training_data):  # we require a setter, because from the outside we can not modify the variables
-        self.training_data = training_data
-
     def set_query(self, query):
         self.query = query
+        self.queryID = -1
+
+    def joinOrderSort(self,input):
+        return self.joinOrderSortHelper([], input.copy(), len(input) - 2)
+
+    def joinOrderSortHelper(self,res, input, index):
+        av = input[index]
+        a = 0
+        if (av < 0):
+            res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - av) * 2))
+            a = -len(res) / 2
+        else:
+            a = av
+        bv = input[index + 1]
+        b = 0
+        if (bv < 0):
+            res.extend(self.joinOrderSortHelper(res.copy(), input, (-1 - bv) * 2))
+            b = -len(res) / 2
+        else:
+            b = bv
+        res.append(a)
+        res.append(b)
+        return res
+
+    def getOrAddDB(self,db, value):
+        l = value.strip()
+        self.cursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+        row = self.cursor.fetchone()
+        if row == None:
+            self.cursor.execute("INSERT INTO " + db + " (name) VALUES(%s)", (l, ))
+            self.db.commit()
+            self.cursor.execute("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+            row = self.cursor.fetchone()
+        if row == None:
+            exit(1)
+        return row[0]

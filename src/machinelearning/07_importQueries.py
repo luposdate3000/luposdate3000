@@ -7,7 +7,7 @@ mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks
 mycursor = mydb.cursor()
 
 
-def nameToIdInDBDict( value):
+def nameToIdInDBDict(value):
     l = value.strip()
     mycursor.execute("SELECT id FROM mapping_dictionary WHERE name=%s", (l, ))
     row = mycursor.fetchone()
@@ -19,7 +19,9 @@ def nameToIdInDBDict( value):
     if row == None:
         exit(1)
     return row[0]
-def nameToIdInDBQuery( value,tp):
+
+
+def nameToIdInDBQuery(value, tp):
     l = value.strip()
     mycursor.execute("SELECT id FROM mapping_query WHERE name=%s", (l, ))
     row = mycursor.fetchone()
@@ -50,13 +52,13 @@ with open(folderToImport + "/dictionary", "r") as p_dict:
         i = int(tmp[0])
         while len(dictMapping) <= i:
             dictMapping.append(-1)
-        dictMapping[i] = nameToIdInDBDict( tmp[1])
+        dictMapping[i] = nameToIdInDBDict(tmp[1])
 
 with open(folderToImport + "/queries") as p_queries:
     for line in p_queries:
         ll = [convertDictIDs(x) for x in line.split(",")]
         while len(ll) >= 4:
-            queryID = nameToIdInDBQuery( ",".join(ll),int(len(ll)/3))
+            queryID = nameToIdInDBQuery(",".join(ll), int(len(ll) / 3))
             idx = int(len(ll) / 6) * 3
             ll = ll[:idx]
             mydb.commit()

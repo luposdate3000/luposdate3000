@@ -19,6 +19,8 @@ More details in [compile](documentation/README-usage-compile.md).
 
 ```bash
 pip install stable-baselines3[extra]
+pip install py4j
+pip install mysql-connector-python
 ```
 
 # 4. Define some variables to make sure the following commands always find the correct file/folder
