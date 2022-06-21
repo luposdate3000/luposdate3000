@@ -32,6 +32,7 @@ class DatabaseEnv(gym.Env):
         # the query to process
         self.query = None
         self.queryID = None
+        self.joinOrderID = None
         # bad results should be trained again
         # this modifies the choosen action to the nearest valid one, such that there are no invalid actions anymore
         self.autofix_invalid_actions = True
@@ -46,8 +47,11 @@ class DatabaseEnv(gym.Env):
 
         self.db = db
         self.cursor = db.cursor()
-
-        self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
+        self.ratio = ratio
+        if ratio >= 0:
+            self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng < %s", (learnOnMin, learnOnMax, ratio))
+        else:
+            self.cursor.execute("SELECT name, id FROM mapping_query WHERE triplepatterns >= %s AND triplepatterns <= %s AND rng >= %s", (learnOnMin, learnOnMax, -ratio))
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:
@@ -61,15 +65,23 @@ class DatabaseEnv(gym.Env):
             self.training_data.append([xx, row[1]])
 
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
-        self.step_counter=0
-    def submit_choice(self,failed,name):
-      xxx
-    def has_mode_evaluation(self):
-     return self.query_counter < len(self.training_data) - 1
+        self.step_counter = 0
+
+    def submit_choice(self, failed, name):
+        if not failed:
+            optimizerID = self.getOrAddDB("mapping_optimizer", name)
+            self.cursor.execute("DELETE FROM optimizer_choice WHERE dataset_id = %d AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, optimizerID))
+            self.cursor.execute("INSERT INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, optimizerID, self.joinOrderID))
+            self.db.commit()
+
+    def has_more_evaluation(self):
+        return self.query_counter < len(self.training_data) - 1
+
     def get_step_counter(self):
-     return self.step_counter
+        return self.step_counter
+
     def step(self, action):
-        self.step_counter+=1
+        self.step_counter += 1
         # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
@@ -101,10 +113,11 @@ class DatabaseEnv(gym.Env):
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
-            joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
-            self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, joinOrderID))
+            self.joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
+            self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
             if row == None:
+                # if this join order was not executed before, execute it
                 querySparql = "SELECT (count(*) as ?x) WHERE {"
                 for xs in self.query:
                     for x in xs:
@@ -117,9 +130,9 @@ class DatabaseEnv(gym.Env):
                     querySparql += "."
                 querySparql += "}"
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-                self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, joinOrderID, value))
+                self.cursor.execute("INSERT INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
-                self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, joinOrderID))
+                self.cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
                 row = self.cursor.fetchone()
             time_choosen = row[0]
             self.cursor.execute("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
@@ -138,14 +151,14 @@ class DatabaseEnv(gym.Env):
 
     def reset(self):
         # fetch next query
-        if self.training_data is not None:
-            if self.has_more_evaluation():
+        self.joinOrderID = None
+        if self.has_more_evaluation():
                 self.query_counter += 1
-            else:
+        else:
                 self.query_counter = 0
                 random.shuffle(self.training_data)
-            self.query = self.training_data[self.query_counter][0]
-            self.queryID = self.training_data[self.query_counter][1]
+        self.query = self.training_data[self.query_counter][0]
+        self.queryID = self.training_data[self.query_counter][1]
         # reset the matrix
         for x in range(self.tripleCountMax):
             for y in range(self.tripleCountMax):

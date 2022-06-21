@@ -114,28 +114,30 @@ def convertJoinOrder(i):
 
 
 #
-def joinOrderSort( input):
-        print("sort input", input)
-        return joinOrderSortHelper([], input.copy(), len(input) - 2)
+def joinOrderSort(input):
+    print("sort input", input)
+    return joinOrderSortHelper([], input.copy(), len(input) - 2)
 
-def joinOrderSortHelper( res, input, index):
-        av = input[index]
-        a = 0
-        if (av < 0):
-            res.extend(joinOrderSortHelper(res.copy(), input, (-1 - av) * 2))
-            a = int(-len(res) / 2)
-        else:
-            a = av
-        bv = input[index + 1]
-        b = 0
-        if (bv < 0):
-            res.extend(joinOrderSortHelper(res.copy(), input, (-1 - bv) * 2))
-            b = int(-len(res) / 2)
-        else:
-            b = bv
-        res.append(a)
-        res.append(b)
-        return res
+
+def joinOrderSortHelper(res, input, index):
+    av = input[index]
+    a = 0
+    if (av < 0):
+        res.extend(joinOrderSortHelper(res.copy(), input, (-1 - av) * 2))
+        a = int(-len(res) / 2)
+    else:
+        a = av
+    bv = input[index + 1]
+    b = 0
+    if (bv < 0):
+        res.extend(joinOrderSortHelper(res.copy(), input, (-1 - bv) * 2))
+        b = int(-len(res) / 2)
+    else:
+        b = bv
+    res.append(a)
+    res.append(b)
+    return res
+
 
 for tripleCount in [3, 4, 5]:
     joinOrdersMap1 = generateJoinOrder(tripleCount)

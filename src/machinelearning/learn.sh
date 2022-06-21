@@ -1,8 +1,11 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
 modelDirectory="$(pwd)/models/"
 dataFile="/mnt/luposdate-testdata/sp2b/16777216/complete.n3"
-max_triples=${max_triples}
+dataFile="/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
+max_triples=128
 ratio=0.7
 
 mkdir -p ${modelDirectory}
