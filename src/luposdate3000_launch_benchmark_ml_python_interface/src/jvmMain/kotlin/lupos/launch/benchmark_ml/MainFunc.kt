@@ -15,13 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_ml_python_interface
-
+import lupos.shared.Luposdate3000Instance
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.shared.EOptimizer
+import lupos.shared.EOptimizerExt
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
@@ -79,12 +81,22 @@ internal fun addCounters(node: IOPBase): IOPBase {
     }
 }
 
-public class PythonBridgeApplication {
-    public fun getIntermediateResultsFor(query: String, joinOrder: List<Int>): Long {
+public class PythonBridgeApplication (private val instance:Luposdate3000Instance,private val timeout:Double){
+init{
+println("ready for python to connect")
+}
+    public fun getIntermediateResultsFor(query: String, joinOrder: String): Long {
+return getIntermediateResultsFor(query,joinOrder.split(",").map{it.toInt()})
+}
+    private fun getIntermediateResultsFor(query: String, joinOrder: List<Int>): Long {
+println("the query")
+println(query)
+println("the joinOrder $joinOrder")
         val q = Query(instance)
-        q.optimizer = EOptimizer.MachineLearningLarge
+        q.optimizer = EOptimizerExt.MachineLearningLarge
         q.machineLearningOptimizerOrder2 = joinOrder
         q.machineLearningCounter = 0
+var hadEnforcedAbort=false
         val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(instance, q, query, false)
         val writer = MyPrintWriter(false)
         val timeoutTimer = timer(daemon = true, initialDelay = (timeout * 1000).toLong(), period = 1000) {
@@ -120,5 +132,5 @@ internal fun mainFunc(datasourceFiles: String, minimumTime: String) {
 
 // https://www.py4j.org/index.html
 
-    GatewayServer(PythonBridgeApplication()).start()
+    GatewayServer(PythonBridgeApplication(instance,timeout)).start()
 }
