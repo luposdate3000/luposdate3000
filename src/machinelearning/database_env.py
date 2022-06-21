@@ -61,8 +61,11 @@ class DatabaseEnv(gym.Env):
             self.training_data.append([xx, row[1]])
 
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
-
+        self.step_counter=0
+    def get_step_counter(self):
+     return self.step_counter
     def step(self, action):
+        self.step_counter+=1
         # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
