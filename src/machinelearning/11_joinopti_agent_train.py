@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-
+import os
 import sys
 import gym
 import time
 import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
-
-mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 
 try:
     learnOnMin = int(sys.argv[1])
@@ -26,25 +24,28 @@ except:
     print("param5 model_folder")
     sys.exit()
 
+mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, ratio)
-model = PPO("MlpPolicy", env, verbose=2)
+fileprefix = "model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_"
 
-seconds = 0
-timelimit=3600
-training_steps = 128
-steps_done = 0
-estimatedTime = 0
+training_steps = 0
+for file in os.listdir(model_folder):
+    if file.startswith(fileprefix):
+        x = int(file[len(fileprefix):][:-len(".model")])
+        if training_steps < x:
+            training_steps = x
+
+if training_steps == 0:
+    model = PPO("MlpPolicy", env, verbose=2)
+else:
+    model = PPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model")
+training_steps += 2048
+
 while True:
-#while estimatedTime < timelimit:
     start = time.time()
-    steps_to_do = training_steps -steps_done
-    if steps_to_do > 0:
-        model.learn(total_timesteps=steps_to_do, log_interval=None)
-        steps_done= env.get_step_counter()
-        seconds += time.time() - start
-        filename = model_folder + "/model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_" + str(steps_done) + ".model"
-        model.save(filename)
-        print("learned " + str(env.get_step_counter()) + " steps in " + str(seconds) + " seconds , save as \"" + filename + "\"", flush=True)
-    training_steps *= 2
-    estimatedTime=training_steps*(seconds/steps_done)
-    print("predict " + str(training_steps) + " steps in "+str(estimatedTime)+" seconds", flush=True)
+    model.learn(total_timesteps=2048, log_interval=None)
+    seconds += time.time() - start
+    filename = model_folder + "/" + fileprefix + str(training_steps) + ".model"
+    model.save(filename)
+    print("learned " + str(env.get_step_counter()) + " steps in " + str(seconds) + " seconds , save as \"" + filename + "\"", flush=True)
+    training_steps += 2048

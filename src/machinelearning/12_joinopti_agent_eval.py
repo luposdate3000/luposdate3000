@@ -7,8 +7,6 @@ import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
 
-mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
-
 try:
     learnOnMin = int(sys.argv[1])
     learnOnMax = int(sys.argv[2])
@@ -26,6 +24,7 @@ except:
     print("param5 model_file")
     sys.exit()
 
-env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio,model_file)
+mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
+env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio, model_file)
 model = PPO.load(model_file)
 env.entryEval(model)
