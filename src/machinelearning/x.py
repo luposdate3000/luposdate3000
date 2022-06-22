@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import csv
 import gym
 import time
 import mysql.connector
@@ -22,26 +23,30 @@ where
  and minmax.query_id=oc.query_id
  and bv.value is not null
  and minmax.mymin!=minmax.mymax
+ and mq.rng>0.7
  and mq.triplepatterns=%s
-order by score
-limit 10;"""
+ and oc.optimizer_id=%s
+order by score"""
 
-mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
+db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
 
 cursor.execute("select distinct triplepatterns from mapping_query")
-rows = self.cursor.fetchall()
+rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
+cursor.execute("select name,id from mapping_optimizer")
+optimizers = cursor.fetchall()
 
 for triplePattern in triplePatterns:
-    cursor.execute(sqlquery, (triplePattern, ))
-    rows = self.cursor.fetchall()
+ for optimizer in optimizers:
     datapoints = []
     last = None
     idx = 0
     datapoints.append([0, 0])
+    cursor.execute(sqlquery, (triplePattern,int(optimizer[1]) ))
+    rows = cursor.fetchall()
     for row in rows:
-        score = row[0]
+        score = float(row[0])
         idx += 1
         if last is None:
             last = score
@@ -49,4 +54,7 @@ for triplePattern in triplePatterns:
             datapoints.append([idx, last])
             last = score
     datapoints.append([idx, last])
-    print("triplePattern",triplePattern,"data",datapoints)
+    print(datapoints)
+    with open("measurements_"+optimizer[0]+"_"+str(triplePattern)+".csv", "w", newline="") as f:
+     writer = csv.writer(f)
+     writer.writerows(datapoints)

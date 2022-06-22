@@ -36,7 +36,7 @@ for file in os.listdir(model_folder):
         if training_steps < x:
             training_steps = x
 
-if training_steps == 0 or True:
+if training_steps == 0:
     model = PPO("MlpPolicy", env,verbose=2,device="auto")
 else:
     print("loading",model_folder + "/" + fileprefix + str(training_steps) + ".model", flush=True)
