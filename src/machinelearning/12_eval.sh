@@ -14,5 +14,10 @@ find models -name "*model" \
  -e "_16384.model" \
  -e "_32768.model" \
  -e "_65536.model" \
- | xargs -P 6 -n 1 -t -I {} ./12_joinopti_agent_eval.py 2 $upper 128 0.7 "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" {}
+ -e "_131072.model" \
+ -e "_262144.model" \
+ -e "_524288.model" \
+ -e "_1048576.model" \
+ -e "_2097152.model" \
+ | xargs -P 6 -n 1 -t -I {} ./12_joinopti_agent_eval.py 6 $upper 128 0.7 "/mnt/luposdate-testdata/sp2b/1048576/complete.n3" {}
 done

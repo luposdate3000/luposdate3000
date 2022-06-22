@@ -53,8 +53,9 @@ for triplePattern in triplePatterns:
         elif last < score:
             datapoints.append([idx, last])
             last = score
-    datapoints.append([idx, last])
-    print(datapoints)
-    with open("measurements_"+optimizer[0]+"_"+str(triplePattern)+".csv", "w", newline="") as f:
-     writer = csv.writer(f)
-     writer.writerows(datapoints)
+    if last is not None:
+     datapoints.append([idx, last])
+     print(datapoints)
+     with open("measurements_"+optimizer[0]+"_"+str(triplePattern)+".csv", "w", newline="") as f:
+      writer = csv.writer(f)
+      writer.writerows(datapoints)
