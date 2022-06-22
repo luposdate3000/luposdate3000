@@ -16,14 +16,14 @@ def myCurserExec(sql, data):
     return cursor.execute(sql, data)
 
 
-def getOrAddDB(db, value):
+def getOrAddDB(database, value):
     l = value.strip()
-    myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+    myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
     row = cursor.fetchone()
     if row == None:
-        myCurserExec("INSERT IGNORE INTO " + db + " (name) VALUES(%s)", (l, ))
+        myCurserExec("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
         db.commit()
-        myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
+        myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
         row = cursor.fetchone()
     if row == None:
         exit(1)
@@ -32,7 +32,7 @@ def getOrAddDB(db, value):
 
 learnOnMin = 0
 learnOnMax = 4
-dataset = ""
+dataset = "/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000")
 
@@ -50,7 +50,9 @@ for row in rows:
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
 
+ctr=0
 for queryrow in training_data:
+    print("query",ctr,"/",len(training_data))
     query = queryrow[0]
     queryID = queryrow[1]
     querySparql = "SELECT (count(*) as ?x) WHERE {"
@@ -70,9 +72,12 @@ for queryrow in training_data:
     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
     row = cursor.fetchone()
     if row == None:
+        print("calling lupos", flush=True)
         value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+        print("response from lupos", flush=True)
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
     myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
     db.commit()
+    ctr+=1
