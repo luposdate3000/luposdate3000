@@ -1,3 +1,4 @@
+*.out
 models
 _tmpdata*
 __pycache__

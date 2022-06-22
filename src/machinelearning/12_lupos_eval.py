@@ -4,9 +4,12 @@ import sys
 import gym
 import time
 import mysql.connector
+from py4j.java_gateway import JavaGateway
 
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
+gateway = JavaGateway()
+luposdate = gateway.entry_point
 
 
 def myCurserExec(sql, data):
@@ -46,3 +49,30 @@ for row in rows:
             tmp = []
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
+
+for queryrow in training_data:
+    query = queryrow[0]
+    queryID = queryrow[1]
+    querySparql = "SELECT (count(*) as ?x) WHERE {"
+    for xs in query:
+        for x in xs:
+            if x < 0:
+                querySparql += " ?v" + str(-x) + " "
+            else:
+                myCurserExec("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                rowx = cursor.fetchone()
+                querySparql += " " + rowx[0] + " "
+        querySparql += "."
+    querySparql += "}"
+    joinOrderString = luposdate.getJoinOrderFor(querySparql)
+    joinOrderID = getOrAddDB("mapping_join", joinOrderString)
+
+    myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
+    row = cursor.fetchone()
+    if row == None:
+        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+        myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
+        db.commit()
+    myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
+    myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
+    db.commit()
