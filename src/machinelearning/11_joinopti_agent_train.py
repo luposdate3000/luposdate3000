@@ -31,6 +31,7 @@ fileprefix = "model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_
 training_steps = 0
 for file in os.listdir(model_folder):
     if file.startswith(fileprefix):
+      if file.endswith(".model"):
         x = int(file[len(fileprefix):][:-len(".model")])
         if training_steps < x:
             training_steps = x
