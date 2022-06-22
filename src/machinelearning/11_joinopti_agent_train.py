@@ -36,12 +36,14 @@ for file in os.listdir(model_folder):
         if training_steps < x:
             training_steps = x
 
-if training_steps == 0:
-    model = PPO("MlpPolicy", env, verbose=2)
+if training_steps == 0 or True:
+    model = PPO("MlpPolicy", env,verbose=2,device="auto")
 else:
-    model = PPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model")
+    print("loading",model_folder + "/" + fileprefix + str(training_steps) + ".model", flush=True)
+    model = PPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model",env)
 training_steps += 2048
 
+seconds=0
 while True:
     start = time.time()
     model.learn(total_timesteps=2048, log_interval=None)

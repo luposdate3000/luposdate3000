@@ -238,9 +238,10 @@ class DatabaseEnv(gym.Env):
         return row[0]
 
     def entryEval(self, model):
-        print("start eval for", self.optimizerName)
+        print("start eval for", self.optimizerName, flush=True)
         self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
         while self.has_more_evaluation():
+            print("evaluating",self.query_counter,"/",len(self.training_data), flush=True)
             done = False
             failed = False
             obs = self.reset()
