@@ -75,6 +75,8 @@ class DatabaseEnv(gym.Env):
                     tmp = []
             self.training_data.append([xx, row[1]])
         print("found", len(self.training_data), "queries")
+        if len(self.training_data) == 0:
+            exit(0)
         random.shuffle(self.training_data)
 
         self.step_counter = 0
@@ -239,7 +241,7 @@ class DatabaseEnv(gym.Env):
         print("start eval for", self.optimizerName, flush=True)
         self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
         while self.has_more_evaluation():
-            print("evaluating",self.query_counter,"/",len(self.training_data), flush=True)
+            print("evaluating", self.query_counter, "/", len(self.training_data), flush=True)
             done = False
             failed = False
             obs = self.reset()

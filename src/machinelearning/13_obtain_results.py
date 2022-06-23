@@ -38,24 +38,23 @@ cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
 
 for triplePattern in triplePatterns:
- for optimizer in optimizers:
-    datapoints = []
-    last = None
-    idx = 0
-    datapoints.append([0, 0])
-    cursor.execute(sqlquery, (triplePattern,int(optimizer[1]) ))
-    rows = cursor.fetchall()
-    for row in rows:
-        score = float(row[0])
-        idx += 1
-        if last is None:
-            last = score
-        elif last < score:
-            datapoints.append([idx, last])
-            last = score
-    if last is not None:
-     datapoints.append([idx, last])
-     print(datapoints)
-     with open("measurements_"+optimizer[0]+"_"+str(triplePattern)+".csv", "w", newline="") as f:
-      writer = csv.writer(f)
-      writer.writerows(datapoints)
+    for optimizer in optimizers:
+        datapoints = []
+        last = None
+        idx = 0
+        datapoints.append([0, 0])
+        cursor.execute(sqlquery, (triplePattern, int(optimizer[1])))
+        rows = cursor.fetchall()
+        for row in rows:
+            score = float(row[0])
+            if last is None:
+                last = score
+            elif last < score:
+                datapoints.append([idx / len(rows), last])
+                last = score
+            idx += 1
+        if last is not None:
+            datapoints.append([idx / len(rows), last])
+            with open("measurements_" + optimizer[0] + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(datapoints)

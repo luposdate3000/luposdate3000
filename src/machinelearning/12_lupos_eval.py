@@ -50,9 +50,9 @@ for row in rows:
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
 
-ctr=0
+ctr = 0
 for queryrow in training_data:
-    print("query",ctr,"/",len(training_data))
+    print("query", ctr, "/", len(training_data))
     query = queryrow[0]
     queryID = queryrow[1]
     querySparql = "SELECT (count(*) as ?x) WHERE {"
@@ -80,4 +80,4 @@ for queryrow in training_data:
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
     myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
     db.commit()
-    ctr+=1
+    ctr += 1

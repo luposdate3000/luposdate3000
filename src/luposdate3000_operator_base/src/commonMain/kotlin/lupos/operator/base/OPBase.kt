@@ -226,7 +226,15 @@ public abstract class OPBase public constructor(
     }
 
     override fun selectSortPriority(priority: List<SortHelper>) {
-println("selecting sort priority for $uuid as $priority, having $mySortPriority")
+if(priority.size<=mySortPriority.size){
+var flag=true
+for(i in 0 until priority.size){
+flag=flag&&priority[i]==mySortPriority[i]
+}
+if(flag){
+return
+}
+}
         val tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size
@@ -248,6 +256,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
             }
             addToPrefixFreeList(t, tmp)
         }
+
         if (sortPriority == ESortPriorityExt.SORT) {
             mySortPriority.clear()
             mySortPriority.addAll(priority)
@@ -280,7 +289,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:282"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:291"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 
@@ -323,7 +332,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:325"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
+                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:334"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
                     }
                 }
             }
@@ -396,7 +405,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:398"/*SOURCE_FILE_END*/ }, { i < children.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:407"/*SOURCE_FILE_END*/ }, { i < children.size })
         children[i] = child
     }
 
@@ -413,7 +422,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:415"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:424"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -477,7 +486,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
                     val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:479"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:488"/*SOURCE_FILE_END*/)
                 }
             }
             if (!excludeChildren) {
@@ -488,8 +497,8 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
         } catch (e: Throwable) {
             if (!hadXMLWarning) {
                 hadXMLWarning = true
-                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:490"/*SOURCE_FILE_END*/)
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:491"/*SOURCE_FILE_END*/)
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:499"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:500"/*SOURCE_FILE_END*/)
             }
         }
         return res
@@ -540,7 +549,7 @@ println("selecting sort priority for $uuid as $priority, having $mySortPriority"
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:542"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:551"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }
