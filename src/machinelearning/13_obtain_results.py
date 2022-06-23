@@ -71,9 +71,9 @@ for triplePattern in triplePatterns:
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
                 training_steps = tmp[-1]
-                trained_on = "_".join(tmp[1:-1])
+                trained_on = "_".join(tmp[1:-3])
                 print("key", triplePattern, training_steps, trained_on, total_score)
-                scoreMap.setdefault(triplePattern, {}).setdefault(training_steps, {})[trained_on] = total_score
+                scoreMap.setdefault(triplePattern, {}).setdefault(int(training_steps), {})[trained_on] = total_score
                 trainedOnMap.append(trained_on)
             else:
                 print("key", triplePattern, "luposdate", total_score)
@@ -84,14 +84,19 @@ for triplePattern in triplePatterns:
 for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
     rows = []
-    rows.append(["x"].extend(list(dict.fromkeys(trainedOnMap))))
-    for steps, tmp2 in tmp1.items():
-        row = [-1] * len(rows[0])
-        row[0] = steps
+    header=["x"]
+    header.extend([x.replace("_", "-") for x in list(dict.fromkeys(trainedOnMap))])
+    print("header",header)
+    rows.append(header)
+    for steps in sorted(tmp1):
+        tmp2=tmp1[steps]
+        row = [None] * len(header)
+        row[0] = str(steps)
         for trainedOn, score in tmp2.items():
-            row[rows[0].index(trainedOn)] = score
+            row[header.index(trainedOn.replace("_", "-"))] = score
         rows.append(row)
-    with open("figure_" + evaluatedOn + ".csv", "w", newline="") as f:
+        print("row",row)
+    with open("figure_" +str( evaluatedOn )+ ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 '''
