@@ -9,8 +9,10 @@ import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
 
-score_cap=2
 
+score_mode=0
+score_cap=10 # score_mode=0
+score_fraction=0.8 # score_mode=1
 
 
 sqlquery = """SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score from
@@ -56,8 +58,12 @@ for triplePattern in triplePatterns:
         total_score = 0
         for row in rows:
             score = float(row[0])
-            if score < score_cap:
-                total_score = idx / len(rows)
+            if score_mode==0:
+             if score < score_cap:
+                 total_score = idx / len(rows)
+            elif score_mode==1:
+             if idx==int(len(rows)*score_fraction):
+              total_score=score
             if last is None:
                 last = score
             elif last < score:
@@ -106,7 +112,7 @@ for evaluatedOn, tmp1 in scoreMap.items():
      f.write("set term svg enhanced mouse size 600,400\n")
      f.write("set output \"figure_"+str(evaluatedOn)+".svg\"\n")
      f.write("set datafile separator comma\n")
-     f.write("set yrange [0:1];\n")
+     f.write("set yrange [0:*];\n")
      f.write("set logscale x 2\n")
      f.write("set format x \"2^{%L}\"\n")
      f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with lines title columnhead\n")
