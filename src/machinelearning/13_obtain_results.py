@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import stat
 import sys
 import csv
 import gym
@@ -7,6 +8,10 @@ import time
 import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
+
+score_cap=2
+
+
 
 sqlquery = """SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score from
  (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
@@ -36,15 +41,9 @@ rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
 cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
-'''
-training steps
-trained on
-evaluated on
-
-totalscore
-'''
 scoreMap = {}
 trainedOnMap = []
+luposdateScores={}
 
 for triplePattern in triplePatterns:
     for optimizer in optimizers:
@@ -57,7 +56,7 @@ for triplePattern in triplePatterns:
         total_score = 0
         for row in rows:
             score = float(row[0])
-            if score < 10:
+            if score < score_cap:
                 total_score = idx / len(rows)
             if last is None:
                 last = score
@@ -77,6 +76,7 @@ for triplePattern in triplePatterns:
                 trainedOnMap.append(trained_on)
             else:
                 print("key", triplePattern, "luposdate", total_score)
+                luposdateScores[triplePattern]=total_score
             with open("measurements_" + name + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerows(datapoints)
@@ -84,7 +84,7 @@ for triplePattern in triplePatterns:
 for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
     rows = []
-    header=["x"]
+    header=["x","luposdate"]
     header.extend([x.replace("_", "-") for x in list(dict.fromkeys(trainedOnMap))])
     print("header",header)
     rows.append(header)
@@ -94,29 +94,20 @@ for evaluatedOn, tmp1 in scoreMap.items():
         row[0] = str(steps)
         for trainedOn, score in tmp2.items():
             row[header.index(trainedOn.replace("_", "-"))] = score
+        row[1]=luposdateScores[evaluatedOn]
         rows.append(row)
         print("row",row)
     with open("figure_" +str( evaluatedOn )+ ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
-'''
-36x
-- fixiere trained-on
-- fixiere evaluated-on
-vergleiche training steps
-
-
-
-3x
-- fixiere evaluated-on = 32,64,128
-- fixiere training-staps = best-of
-vergleiche trained-on
-
-----
-
-y-achse score
-x-achse steps
-graphen trained-on
-figuren evaluated-on
-
-'''
+    gnuplotFileName="figure_" +str( evaluatedOn )+ ".gnuplot"
+    with open(gnuplotFileName, 'w') as f:
+     f.write("#!/usr/bin/env gnuplot\n")
+     f.write("set term svg enhanced mouse size 600,400\n")
+     f.write("set output \"figure_"+str(evaluatedOn)+".svg\"\n")
+     f.write("set datafile separator comma\n")
+     f.write("set yrange [0:1];\n")
+     f.write("set logscale x 2\n")
+     f.write("set format x \"2^{%L}\"\n")
+     f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with lines title columnhead\n")
+     os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
