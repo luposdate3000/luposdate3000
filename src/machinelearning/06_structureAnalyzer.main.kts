@@ -9,7 +9,7 @@ import kotlin.math.exp
 
 // configuration -->>
 val limitQueries = 5000
-val subsetCount = 5000
+val subsetCount = limitQueries
 // configuration <<--
 
 var ttypeBnode = 1
@@ -498,7 +498,13 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
 
 fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String?, depth: Int): Sequence<MyJoin> = sequence {
     var flag = lastPredicate == null
-    val predicates: Array<String> = clazz.variables.keys.toList().toTypedArray()
+    val predicatesList = clazz.variables.keys.toMutableList()
+for (pp in jj.patterns){
+if(pp.first==subjectName){
+predicatesList.remove(pp.second)
+}
+}
+    val predicates: Array<String> = predicatesList.toTypedArray()
     predicates.shuffle()
     for (predicate in predicates) {
         val objects = clazz.variables[predicate]!!
@@ -602,7 +608,9 @@ java.io.File(folder, "queries").printWriter().use { out ->
         }
         var q = StringBuilder()
         val variableMap = mutableListOf<String>()
+val uniqueSubjects=mutableSetOf<String>()
         for (p in query.patterns) {
+uniqueSubjects.add(p.first)
             q.append(addToDictionary(p.first, variableMap))
             q.append(",")
             q.append(addToDictionary(p.second, variableMap))
@@ -610,6 +618,7 @@ java.io.File(folder, "queries").printWriter().use { out ->
             q.append(addToDictionary(p.third, variableMap))
             q.append(",")
         }
+println("uniqueSubjects "+uniqueSubjects.size)
         out.println(q.toString().dropLast(1))
     }
     idx++

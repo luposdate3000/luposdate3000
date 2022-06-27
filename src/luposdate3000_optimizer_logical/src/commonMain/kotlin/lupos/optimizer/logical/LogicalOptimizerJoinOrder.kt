@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
+
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
@@ -28,7 +29,7 @@ import lupos.shared.SortHelper
 import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
-public class LogicalOptimizerJoinOrder(query: Query,internal val capture:Boolean) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
+public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boolean) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
@@ -166,40 +167,42 @@ public class LogicalOptimizerJoinOrder(query: Query,internal val capture:Boolean
         }
         return res
     }
-private fun calculateJoinOrderTree(originalChilds:Array<IOPBase>,head:IOPBase,res:MutableList<Int>):Int{
-if(head is LOPJoin){
-val ll=head.children[0]
-val rr=head.children[1]
-val l=calculateJoinOrderTree(originalChilds,ll,res)
-val r=calculateJoinOrderTree(originalChilds,rr,res)
-res.add(l)
-res.add(r)
-return -1-(res.size-2)/2
-}else{
-val ret= originalChilds.indexOf(head)
-if(ret<0){
-TODO("child not found")
-}
-return ret
-}
-}
+
+    private fun calculateJoinOrderTree(originalChilds: Array<IOPBase>, head: IOPBase, res: MutableList<Int>): Int {
+        if (head is LOPJoin) {
+            val ll = head.children[0]
+            val rr = head.children[1]
+            val l = calculateJoinOrderTree(originalChilds, ll, res)
+            val r = calculateJoinOrderTree(originalChilds, rr, res)
+            res.add(l)
+            res.add(r)
+            return -1 - (res.size - 2) / 2
+        } else {
+            val ret = originalChilds.indexOf(head)
+            if (ret < 0) {
+                TODO("child not found")
+            }
+            return ret
+        }
+    }
+
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val originalProvided = node.getProvidedVariableNames()
             try {
-if(capture){
-                val allChilds2 = findAllJoinsInChildren(node)
-val backup=allChilds2.toTypedArray()
-                res = internalOptimize(node, allChilds2, onChange)
-val jo=mutableListOf<Int>()
-calculateJoinOrderTree(backup,res,jo)
-	query.machineLearningOptimizerOrder2=jo
-}else{
-                val allChilds2 = findAllJoinsInChildren(node)
-                res = internalOptimize(node, allChilds2, onChange)
-}
-                
+                if (capture) {
+                    val allChilds2 = findAllJoinsInChildren(node)
+                    val backup = allChilds2.toTypedArray()
+                    res = internalOptimize(node, allChilds2, onChange)
+                    val jo = mutableListOf<Int>()
+                    calculateJoinOrderTree(backup, res, jo)
+                    query.machineLearningOptimizerOrder2 = jo
+                } else {
+                    val allChilds2 = findAllJoinsInChildren(node)
+                    res = internalOptimize(node, allChilds2, onChange)
+                }
+
             } catch (e: EmptyResultException) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:203"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
