@@ -44,6 +44,7 @@ triplePatterns = [x[0] for x in rows]
 cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
 scoreMap = {}
+scoreMap2 = {}
 trainedOnMap = []
 luposdateScores={}
 
@@ -79,13 +80,49 @@ for triplePattern in triplePatterns:
                 trained_on = "_".join(tmp[1:-3])
                 print("key", triplePattern, training_steps, trained_on, total_score)
                 scoreMap.setdefault(triplePattern, {}).setdefault(int(training_steps), {})[trained_on] = total_score
+                if int(training_steps)==65536:
+                 scoreMap2.setdefault(triplePattern, {})[trained_on] = total_score
                 trainedOnMap.append(trained_on)
             else:
                 print("key", triplePattern, "luposdate", total_score)
                 luposdateScores[triplePattern]=total_score
+                scoreMap2.setdefault(triplePattern, {})["luposdate"] = total_score
             with open("measurements_" + name + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerows(datapoints)
+
+
+rows = []
+header=["x","luposdate"]
+header.extend([x.replace("_", "-") for x in list(dict.fromkeys(trainedOnMap))])
+print("header",header)
+rows.append(header)
+
+for evaluatedOn in sorted(scoreMap2):
+        tmp1=scoreMap2[evaluatedOn]
+        row = [None] * len(header)
+        row[0] = str(evaluatedOn)
+        for trainedOn, score in tmp1.items():
+            row[header.index(trainedOn.replace("_", "-"))] = score
+        row[1]=luposdateScores[evaluatedOn]
+        rows.append(row)
+        print("row",row)
+with open("figure2x16.csv", "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
+gnuplotFileName="figure2x16.gnuplot"
+with open(gnuplotFileName, 'w') as f:
+     f.write("#!/usr/bin/env gnuplot\n")
+     f.write("set term tikz size 8.5cm,6cm\n")
+     f.write("set output \"figure2x16.tex\"\n")
+     f.write("set datafile separator comma\n")
+     f.write("set yrange [0:*];\n")
+     f.write("set logscale x 2\n")
+     f.write("set key center bottom vertical maxrows 7\n")
+     f.write("plot for [col=2:"+str(len(header))+"] \"figure2x16.csv\" using 1:col with linespoints title columnhead\n")
+     os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
+
+
 
 for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
@@ -117,5 +154,6 @@ for evaluatedOn, tmp1 in scoreMap.items():
      f.write("set xlabel \"training steps\"\n")
      f.write("set format x \"\$2^{%L}\$\"\n")
      f.write("set key center bottom vertical maxrows 7\n")
-     f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with lines title columnhead\n")
+     f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with linespoints title columnhead\n")
      os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
+
