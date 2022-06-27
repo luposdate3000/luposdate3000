@@ -60,5 +60,9 @@ with open(folderToImport + "/queries") as p_queries:
         while len(ll) >= 4:
             queryID = nameToIdInDBQuery(",".join(ll), int(len(ll) / 3))
             idx = int(len(ll) / 6) * 3
-            ll = ll[:idx]
+#            ll = ll[:idx]
+            ll=[]
             mydb.commit()
+
+mycursor.execute("update mapping_query set rng=RAND() where rng is NULL;")
+mydb.commit()

@@ -5,7 +5,7 @@
 #done
 
 
-for upper in 4 8 16 32 64 128
+for upper in 128
 do
 find models -name "*model" \
  | grep \

@@ -1,7 +1,7 @@
 
 
-create database machinelearningbenchmarks;
-create user machinelearningbenchmarks identified by "machinelearningbenchmarks";
+create database IF NOT EXISTS machinelearningbenchmarks;
+create user IF NOT EXISTS machinelearningbenchmarks identified by "machinelearningbenchmarks";
 grant all privileges on machinelearningbenchmarks.* TO 'machinelearningbenchmarks'@'%' identified by 'machinelearningbenchmarks';
 flush privileges;
 
@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS optimizer_choice (
     CONSTRAINT optimizer_id_const2 FOREIGN KEY (optimizer_id) REFERENCES mapping_optimizer (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT join_id_const2 FOREIGN KEY (join_id) REFERENCES mapping_join (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+alter table optimizer_choice add foreign key (dataset_id,query_id,join_id) references benchmark_values (dataset_id,query_id,join_id);
 INSERT INTO mapping_dataset (name) VALUES ("/mnt/luposdate-testdata/sp2b/1024/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16384/complete.n3"), ("/mnt/luposdate-testdata/sp2b/131072/complete.n3"), ("/mnt/luposdate-testdata/sp2b/1048576/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16777216/complete.n3");
 
 UPDATE mapping_query SET rng=RAND() WHERE rng IS NULL;

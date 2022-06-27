@@ -109,11 +109,13 @@ for evaluatedOn, tmp1 in scoreMap.items():
     gnuplotFileName="figure_" +str( evaluatedOn )+ ".gnuplot"
     with open(gnuplotFileName, 'w') as f:
      f.write("#!/usr/bin/env gnuplot\n")
-     f.write("set term svg enhanced mouse size 600,400\n")
-     f.write("set output \"figure_"+str(evaluatedOn)+".svg\"\n")
+     f.write("set term tikz size 8.5cm,6cm\n")
+     f.write("set output \"figure_"+str(evaluatedOn)+".tex\"\n")
      f.write("set datafile separator comma\n")
      f.write("set yrange [0:*];\n")
      f.write("set logscale x 2\n")
-     f.write("set format x \"2^{%L}\"\n")
+     f.write("set xlabel \"training steps\"\n")
+     f.write("set format x \"\$2^{%L}\$\"\n")
+     f.write("set key center bottom vertical maxrows 7\n")
      f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with lines title columnhead\n")
      os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)

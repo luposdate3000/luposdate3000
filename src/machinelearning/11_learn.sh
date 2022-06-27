@@ -2,19 +2,34 @@
 set -e
 set -o pipefail
 
-modelDirectory="$(pwd)/models/"
-dataFile="/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
-max_triples=128
-ratio=0.7
+mkdir -p /src/luposdate3000/src/machinelearning/models/
 
-mkdir -p ${modelDirectory}
-for triples in 4 8 16 32
-do
-./11_joinopti_agent_train.py ${triples} ${triples} ${max_triples} ${ratio} ${dataFile} ${modelDirectory} &> ${triples}_${triples}.out &
-done
-for triples in 4 8 16
-do
-./11_joinopti_agent_train.py 4 ${triples} ${max_triples} ${ratio} ${dataFile} ${modelDirectory} &> 4_${triples}.out &
-done
 
+
+./11_joinopti_agent_train.py 4 32 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 4 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 64 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 8 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 8 8 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 64 64 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+# above is only due to mixed up starting points
 wait
+./11_joinopti_agent_train.py 4 128 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 16 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 32 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 4 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 64 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 4 8 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+wait
+./11_joinopti_agent_train.py 8 8 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 16 16 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 16 64 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 32 32 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 64 64 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+./11_joinopti_agent_train.py 128 128 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ &
+wait
+
+
+
+
+
