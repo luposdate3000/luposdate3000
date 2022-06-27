@@ -98,6 +98,10 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
             return q.machineLearningOptimizerOrder2.joinToString(",")
         } catch (e: Throwable) {
             e.printStackTrace()
+val msg=e.message
+if(msg!=null&&msg.contains("Maximum lock count exceeded")){
+System.exit(1)
+}
             return null
         }
     }
@@ -130,6 +134,10 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
             return q.machineLearningCounter
         } catch (e: Throwable) {
             e.printStackTrace()
+val msg=e.message
+if(msg!=null&&msg.contains("Maximum lock count exceeded")){
+System.exit(1)
+}
                 println("return null")
             return null
         }
