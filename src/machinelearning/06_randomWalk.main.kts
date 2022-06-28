@@ -6,22 +6,18 @@ import kotlin.random.Random
 
 val targetSize = 8
 
-
 val dictionarySet = mutableSetOf<String>()
-
-
+val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
+val resultDictionary = mutableMapOf<String, Int>()
 var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
+
 parser!!.consumeTriple = { s, p, _ ->
     dictionarySet.add(s)
     dictionarySet.add(p)
 }
-
 parser!!.parserDefinedParse()
 parser!!.close();
-
 val dictionary = dictionarySet.toTypedArray()
-val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
-
 parser = Parser(java.io.File(args[0]).inputStream())
 parser!!.consumeTriple = { s, p, o ->
     val si = dictionary.indexOf(s)
@@ -29,24 +25,36 @@ parser!!.consumeTriple = { s, p, o ->
     val oi = dictionary.indexOf(o)
     data.getOrPut(si, { mutableMapOf<Int, MutableSet<Int>>() }).getOrPut(pi, { mutableSetOf<Int>() }).add(oi)
 }
-
 parser!!.parserDefinedParse()
 parser!!.close();
+val possibleStartPoints = data.keys.toMutableSet()
 parser = null
 
-fun decode(data: Array<String>, index: Int): String {
+fun decode( index: Int): String {
     if (index < 0) {
         return "_:${-index}"
     } else {
-        return data[index]
+        return dictionary[index]
     }
 }
 
+fun mapVariable(value: Int, off: Int): Int = if (value < 0) value + off else resultDictionary.getOrPut(decode(value), { resultDictionary.size })
+fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
+    if (value < 0) {
+        var res = dict[value]
+        if (res == null) {
+            val rr = -dict.size-1
+            dict[value] = rr
+            return rr
+        } else {
+            return res
+        }
+    } else {
+        return value
+    }
+}
 
-val possibleStartPoints = data.keys.toMutableSet()
-
-
-fun getRandomQuery(resultDictionary: MutableMap<String, Int>): String {
+fun getRandomQuery(): String {
     var hasWork = true
     val query = mutableSetOf<Triple<Int, Int, Int>>()
     var variableCtr = -1
@@ -54,14 +62,12 @@ fun getRandomQuery(resultDictionary: MutableMap<String, Int>): String {
         hasWork = false
         query.clear()
         variableCtr = -1
-
         var firstSubject = Random.nextInt(0, dictionary.size)
         while (!possibleStartPoints.contains(firstSubject)) {
             firstSubject = Random.nextInt(0, dictionary.size)
         }
         val solution = mutableMapOf<Int, Int>()//variableId->dictionaryID
         solution[variableCtr--] = firstSubject
-
         while (query.size < targetSize) {
             var possibleChoices = mutableSetOf<Pair<Int, Int>>()
             for ((varname, subject) in solution) {
@@ -92,8 +98,39 @@ fun getRandomQuery(resultDictionary: MutableMap<String, Int>): String {
         }
     }
     val res = mutableListOf<Int>()
-    val ql = query.toList().sortedWith(compareBy({ it.first }, { it.second }))
-    for (q in ql) {
+
+    val query2 = mutableSetOf<Triple<Int, Int, Int>>()
+    val scores = mutableMapOf<Int, Int>()
+    for (q in query) {
+        val t = Triple(mapVariable(q.first, variableCtr * 3), mapVariable(q.second, variableCtr * 3), mapVariable(q.third, variableCtr * 3))
+        query2.add(t)
+        var score = scores[t.first]
+        if (score == null) {
+            score = 0
+        }
+        score += t.second
+        scores[t.first] = score
+    }
+    val scoresInverse = scores.toList().sortedBy { -it.second }
+    val mapping = mutableMapOf<Int, Int>()
+    val query3 = mutableListOf<Triple<Int, Int, Int>>()
+    for (ss in scoresInverse) {
+        dictMap(ss.first, mapping)
+    }
+    for (ss in scoresInverse) {
+        val tmp = mutableListOf<Triple<Int, Int, Int>>()
+        for (q in query2) {
+            if (q.first == ss.first) {
+                tmp.add(q)
+            }
+        }
+        query2.removeAll(tmp)
+        val tmp2 = tmp.sortedWith(compareBy({ it.second }))
+        for (tt in tmp2) {
+            query3.add(Triple(dictMap(tt.first, mapping), dictMap(tt.second, mapping), dictMap(tt.third, mapping)))
+        }
+    }
+    for (q in query3) {
         res.add(q.first)
         val predicate = dictionary[q.second]
         if (predicate.startsWith("_:")) {
@@ -102,13 +139,12 @@ fun getRandomQuery(resultDictionary: MutableMap<String, Int>): String {
             res.add(resultDictionary.getOrPut(predicate, { resultDictionary.size }))
         }
         res.add(q.third)
-        println(decode(dictionary, q.first) + " " + decode(dictionary, q.second) + " " + decode(dictionary, q.third))
+//        println(decode( q.first) + " " + decode( q.second) + " " + decode( q.third))
     }
     return res.joinToString()
 }
 
 
-val resultDictionary = mutableMapOf<String, Int>()
 for (i in 0 until 20) {
-    println(getRandomQuery(resultDictionary))
+    println(getRandomQuery())
 }
