@@ -4,7 +4,7 @@
 import parser.Parser
 import kotlin.random.Random
 
-val queryCount = 5
+val queryCount = 5000
 
 val dictionarySet = mutableSetOf<String>("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")
 val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
@@ -88,12 +88,15 @@ fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
     }
 }
 
-fun getRandomQuery(): String {
+fun getRandomQuery(): String? {
     var hasWork = true
     val query = mutableSetOf<Triple<Int, Int, Int>>()
     var variableCtr = -1
     while (hasWork) {
         hasWork = false
+if(possibleStartPoints.size==0){
+return null
+}
         query.clear()
         variableCtr = -1
         var firstSubject = Random.nextInt(0, dictionary.size)
@@ -195,7 +198,12 @@ fun getRandomQuery(): String {
 
 java.io.File(outputfolder, "queries").printWriter().use { out ->
     for (i in 0 until queryCount) {
-        out.println(getRandomQuery().replace("\\s".toRegex(), ""))
+println("working on query #$i")
+var q=getRandomQuery()
+if(q==null){
+break
+}
+        out.println(q.replace("\\s".toRegex(), ""))
     }
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
