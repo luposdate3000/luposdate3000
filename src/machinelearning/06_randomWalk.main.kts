@@ -4,11 +4,13 @@
 import parser.Parser
 import kotlin.random.Random
 
-val queryCount = 5000
+val queryCount = 5
 
-val dictionarySet = mutableSetOf<String>()
+val dictionarySet = mutableSetOf<String>("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")
 val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
-val resultDictionary = mutableMapOf<String, Int>()
+
+val resultDictionary = mutableListOf<String>()
+
 
 var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
 val numberOfJoinPatterns = args[1].toInt()
@@ -20,10 +22,12 @@ var begin = System.nanoTime()
 var triple = 0L
 parser!!.consumeTriple = { s, p, _ ->
     dictionarySet.add(s)
+if(!p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")){
     dictionarySet.add(p)
+}
     triple++
     if (triple % 1000L == 0L) {
-        println("loaded $triple triples(1) in ${(( System.nanoTime()-begin) / 1000000L).toDouble()/1000.0} s")
+        println("loaded $triple triples(1) in ${((System.nanoTime() - begin) / 1000000L).toDouble() / 1000.0} s")
     }
 }
 println("loaded data step 1")
@@ -36,12 +40,12 @@ dictionary.sort()
 parser = Parser(java.io.File(args[0]).inputStream())
 parser!!.consumeTriple = { s, p, o ->
     val si = dictionary.binarySearch(s)
-    val pi = dictionary.binarySearch(p)
+    val pi = if(p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) dictionary.binarySearch("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") else dictionary.binarySearch(p)
     val oi = dictionary.binarySearch(o)
     data.getOrPut(si, { mutableMapOf<Int, MutableSet<Int>>() }).getOrPut(pi, { mutableSetOf<Int>() }).add(oi)
     triple++
     if (triple % 1000L == 0L) {
-        println("loaded $triple triples(2) in ${(( System.nanoTime()-begin) / 1000000L).toDouble()/1000.0} s")
+        println("loaded $triple triples(2) in ${((System.nanoTime() - begin) / 1000000L).toDouble() / 1000.0} s")
     }
 }
 parser!!.parserDefinedParse()
@@ -59,7 +63,16 @@ fun decode(index: Int): String {
     }
 }
 
-fun mapVariable(value: Int, off: Int): Int = if (value < 0) value + off else resultDictionary.getOrPut(decode(value), { resultDictionary.size })
+fun resultIndex(value: String): Int {
+    var res = resultDictionary.indexOf(value)
+    if (res < 0) {
+        res = resultDictionary.size
+        resultDictionary.add(value)
+    }
+    return res
+}
+
+fun mapVariable(value: Int, off: Int): Int = if (value < 0) value + off else resultIndex(decode(value))
 fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
     if (value < 0) {
         var res = dict[value]
@@ -68,7 +81,7 @@ fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
             dict[value] = rr
             return rr
         } else {
-            return res
+            return res!!
         }
     } else {
         return value
@@ -138,6 +151,7 @@ fun getRandomQuery(): String {
     for (ss in scoresInverse) {
         dictMap(ss.first, mapping)
     }
+    val distinctJoinVariables = (-1 - mapping.size)
     for (ss in scoresInverse) {
         val tmp = mutableListOf<Triple<Int, Int, Int>>()
         for (q in query2) {
@@ -151,16 +165,26 @@ fun getRandomQuery(): String {
             query3.add(Triple(dictMap(tt.first, mapping), dictMap(tt.second, mapping), dictMap(tt.third, mapping)))
         }
     }
+
+    println()
     for (q in query3) {
         res.add(q.first)
-        val predicate = dictionary[q.second]
+        val predicate = resultDictionary[q.second]
+        var used_predicate = ""
         if (predicate.startsWith("_:")) {
+            used_predicate = "_:" + (-variableCtr--)
+            res.add(variableCtr--)
+        } else if (predicate.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) {
+            used_predicate = "_:" + (-variableCtr--)
             res.add(variableCtr--)
         } else {
-            res.add(resultDictionary.getOrPut(predicate, { resultDictionary.size }))
+            res.add(resultIndex(predicate))
+            used_predicate = predicate
         }
         res.add(q.third)
-//        println(decode( q.first) + " " + decode( q.second) + " " + decode( q.third))
+//        if (q.third >= distinctJoinVariables) {
+//            println("_:" + (-q.first) + " " + used_predicate + " _:" + (-q.third))
+//        }
     }
     return res.joinToString()
 }
@@ -175,7 +199,7 @@ java.io.File(outputfolder, "queries").printWriter().use { out ->
     }
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
-    for ((value, i) in resultDictionary) {
-        out.println("$i $value")
+    for (i in 0 until resultDictionary.size) {
+        out.println("$i ${resultDictionary[i]}")
     }
 }
