@@ -44,7 +44,7 @@ else:
 training_steps += 2048
 
 seconds = 0
-while True:
+while training_steps <= 262144:
     start = time.time()
     model.learn(total_timesteps=2048, log_interval=None)
     seconds += time.time() - start

@@ -24,6 +24,10 @@ import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {
+    internal companion object {
+        var isEnabled = true
+    }
+
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
@@ -35,33 +39,94 @@ internal actual class MyThreadReadWriteLock {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun downgradeToReadLock() {
-        lock.readLock().lock()
-        lock.writeLock().unlock()
+        if (isEnabled) {
+            try {
+                lock.readLock().lock()
+                lock.writeLock().unlock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readLock() {
-        lock.readLock().lock()
+        if (isEnabled) {
+            try {
+                lock.readLock().lock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readUnlock() {
-        lock.readLock().unlock()
+        if (isEnabled) {
+            try {
+                lock.readLock().unlock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeLock() {
-        lock.writeLock().lock()
+        if (isEnabled) {
+            try {
+                lock.writeLock().lock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun tryWriteLock(): Boolean {
-        return lock.writeLock().tryLock()
+        if (isEnabled) {
+            try {
+                return lock.writeLock().tryLock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
+return true
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeUnlock() {
-        lock.writeLock().unlock()
+        if (isEnabled) {
+            try {
+                lock.writeLock().unlock()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                val msg = e.message
+                if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                    isEnabled = false
+                }
+            }
+        }
     }
 
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
