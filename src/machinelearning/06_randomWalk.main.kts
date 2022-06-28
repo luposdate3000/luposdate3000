@@ -4,33 +4,54 @@
 import parser.Parser
 import kotlin.random.Random
 
-val targetSize = 8
+val queryCount = 5000
 
 val dictionarySet = mutableSetOf<String>()
 val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
 val resultDictionary = mutableMapOf<String, Int>()
-var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
 
+var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
+val numberOfJoinPatterns = args[1].toInt()
+val outputfolderName = args[2]
+val outputfolder = java.io.File(outputfolderName)
+outputfolder.mkdirs()
+var begin = System.nanoTime()
+
+var triple = 0L
 parser!!.consumeTriple = { s, p, _ ->
     dictionarySet.add(s)
     dictionarySet.add(p)
+    triple++
+    if (triple % 1000L == 0L) {
+        println("loaded $triple triples(1) in ${(( System.nanoTime()-begin) / 1000000L).toDouble()/1000.0} s")
+    }
 }
+println("loaded data step 1")
 parser!!.parserDefinedParse()
 parser!!.close();
+triple = 0L
+begin = System.nanoTime()
 val dictionary = dictionarySet.toTypedArray()
+dictionary.sort()
 parser = Parser(java.io.File(args[0]).inputStream())
 parser!!.consumeTriple = { s, p, o ->
-    val si = dictionary.indexOf(s)
-    val pi = dictionary.indexOf(p)
-    val oi = dictionary.indexOf(o)
+    val si = dictionary.binarySearch(s)
+    val pi = dictionary.binarySearch(p)
+    val oi = dictionary.binarySearch(o)
     data.getOrPut(si, { mutableMapOf<Int, MutableSet<Int>>() }).getOrPut(pi, { mutableSetOf<Int>() }).add(oi)
+    triple++
+    if (triple % 1000L == 0L) {
+        println("loaded $triple triples(2) in ${(( System.nanoTime()-begin) / 1000000L).toDouble()/1000.0} s")
+    }
 }
 parser!!.parserDefinedParse()
 parser!!.close();
 val possibleStartPoints = data.keys.toMutableSet()
 parser = null
 
-fun decode( index: Int): String {
+println("loaded data step 2")
+
+fun decode(index: Int): String {
     if (index < 0) {
         return "_:${-index}"
     } else {
@@ -43,7 +64,7 @@ fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
     if (value < 0) {
         var res = dict[value]
         if (res == null) {
-            val rr = -dict.size-1
+            val rr = -dict.size - 1
             dict[value] = rr
             return rr
         } else {
@@ -68,7 +89,7 @@ fun getRandomQuery(): String {
         }
         val solution = mutableMapOf<Int, Int>()//variableId->dictionaryID
         solution[variableCtr--] = firstSubject
-        while (query.size < targetSize) {
+        while (query.size < numberOfJoinPatterns) {
             var possibleChoices = mutableSetOf<Pair<Int, Int>>()
             for ((varname, subject) in solution) {
                 if (subject >= 0) {
@@ -145,6 +166,16 @@ fun getRandomQuery(): String {
 }
 
 
-for (i in 0 until 20) {
-    println(getRandomQuery())
+
+
+
+java.io.File(outputfolder, "queries").printWriter().use { out ->
+    for (i in 0 until queryCount) {
+        out.println(getRandomQuery().replace("\\s".toRegex(), ""))
+    }
+}
+java.io.File(outputfolder, "dictionary").printWriter().use { out ->
+    for ((value, i) in resultDictionary) {
+        out.println("$i $value")
+    }
 }
