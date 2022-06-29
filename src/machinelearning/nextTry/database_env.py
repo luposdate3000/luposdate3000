@@ -12,7 +12,7 @@ start = time.time()
 
 class DatabaseEnv(gym.Env):
 
-    def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
+    def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, datasethistogram, optimizerName=None):
         super(DatabaseEnv, self).__init__()
         self.optimizerName = optimizerName
         self.tripleCountMax = tripleCountMax
@@ -59,6 +59,7 @@ class DatabaseEnv(gym.Env):
         else:
             self.optimizerID = None
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
+        histogram.init_histogram(datasethistogram)
         if ratio >= 0:
             self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s", (learnOnMin, learnOnMax, ratio))
         else:
@@ -148,7 +149,9 @@ class DatabaseEnv(gym.Env):
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
-                value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+#xxx                value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                print(query,joinOrderString)
+                value=histogram.estimate_intermediates(query,joinOrderString)
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))

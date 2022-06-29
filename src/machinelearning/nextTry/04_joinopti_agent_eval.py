@@ -14,6 +14,7 @@ try:
     ratio = float(sys.argv[4])
     dataset = sys.argv[5]
     model_file = sys.argv[6]
+    datasethistogram= sys.argv[7]
 except:
     print("usage:")
     print("param0 learnOnMin")
@@ -25,6 +26,6 @@ except:
     sys.exit()
 
 mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
-env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio, model_file)
+env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio, datasethistogram,model_file)
 model = PPO.load(model_file)
 env.entryEval(model)
