@@ -11,6 +11,10 @@ cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
 
+def flatten(xss):
+        return [x for xs in xss for x in xs]
+
+
 
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
@@ -72,9 +76,10 @@ for queryrow in training_data:
     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
     row = cursor.fetchone()
     if row == None:
-        print("calling lupos", flush=True)
-        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-        print("response from lupos", flush=True)
+#        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+        value=histogram.estimate_intermediates(flatten(query),[int(x) for x in joinOrderString.split(",")])
+        if value>2**60-1:
+                  value=2**60-1
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
