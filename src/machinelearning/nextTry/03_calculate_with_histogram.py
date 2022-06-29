@@ -20,7 +20,7 @@ def init_histogram(filename):
       count=row[idx]
       histogramtotal+=count/2
       if count>0:
-       histograms.append((left,right,count))
+       histograms.append((left,right,(count/(right-left)))) # density / width
      histogramdata[(row[0],row[1])]=histograms
 
 def histogram_for_triple_pattern(triple):
@@ -36,8 +36,40 @@ def map_join_inputs_to_histograms(join):
    inputs.append(histogram_for_triple_pattern(join[idx],join[idx+1],join[idx+2]))
  return inputs
 
+def single_column_join(histogramA,histogramB):
+ result=[]
+ idxA=0
+ idxB=0
+ left=0
+ work=True
+ while work:
+  while idxA<len(histogramA) and histogramA[idxA][1]<histogramB[idxB][0]:
+   idxA+=1
+  if idxA>=len(histogramA):
+   work=False
+   break
+  while idxB<len(histogramB) and histogramB[idxB][1]<histogramA[idxA][0]:
+   idxB+=1
+  if idxB>=len(histogramB):
+   work=False
+   break
+  left=max(histogramA[idxA][0],histogramB[idxB][0],left)
+  right=max(left+1,min(histogramA[idxA][1],histogramB[idxB][1]))
+  result.append(left,right,histogramA[idx][2]*histogramB[idxB][2])
+ return result
+
 def perform_join(histogramsA,histogramsB):
- return histogramsA ## TODO
+ joinkey=0
+ for key in histogramsA:
+    if key in histogramsB:
+     joinkey=key
+     break
+ result={}
+ for k,v in histogramsA.items():
+  result[k]=single_column_join(v,histogramsB[key])
+ for k,v in histogramsB.items():
+  result[k]=single_column_join(v,histogramsA[key])
+ return result
 
 
 def estimate_intermediates(join,joinorder):
