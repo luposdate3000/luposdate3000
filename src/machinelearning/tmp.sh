@@ -1,7 +1,7 @@
 #!/bin/bash
 nohup ./12_joinopti_agent_eval.py &>lupos.out &
 rm -rf tasks
-mkdir tasks
+mkdir tasks models
 i=0
 for x in 4_4 4_128 4_16 4_32 4_64 4_8 8_8 16_16 16_64 32_32 64_64 128_128
 do
