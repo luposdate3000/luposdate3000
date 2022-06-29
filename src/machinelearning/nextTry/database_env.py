@@ -4,6 +4,7 @@ import gym
 import time
 import numpy as np
 from gym import spaces
+import calculate_with_histogram as histogram
 from py4j.java_gateway import JavaGateway
 
 start = time.time()
