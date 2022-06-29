@@ -5,6 +5,7 @@ import gym
 import time
 import csv
 
+maxbuckets = 10
 histogramdata = {}  #(key,col) -> [(left,right,count)]
 histogramtotal = 0
 
@@ -37,10 +38,8 @@ def map_join_inputs_to_histograms(join):
     for i in range(int(len(join) / 3)):
         idx = i * 3
         if join[idx + 1] < 0:
-            print("a")
             inputs.append({join[idx]: histogramtotal, join[idx + 1]: histogramtotal, join[idx + 2]: histogramtotal})
         else:
-            print("b")
             inputs.append(histogram_for_triple_pattern((join[idx], join[idx + 1], join[idx + 2])))
     return inputs
 
@@ -62,7 +61,7 @@ def single_column_join(histogramA, histogramB):
         left = max(histogramA[idxA][0], histogramB[idxB][0], left)
         right = max(left + 1, min(histogramA[idxA][1], histogramB[idxB][1]))
         result.append((left, right, histogramA[idxA][2] * histogramB[idxB][2]))
-        left = right + 1
+        left = right
     return result
 
 
@@ -80,16 +79,16 @@ def perform_join(histogramsA, histogramsB):
             joinkey = key
             break
     result = {}
-    result[key] = single_column_join(histogramsA[key], histogramsB[key])
+    result[key] = minify_histogram(single_column_join(histogramsA[key], histogramsB[key]))
     va = myaverage(histogramsA[key])
     vb = myaverage(histogramsB[key])
     vn = myaverage(result[key])
     for k, v in histogramsA.items():
         if k != key:
-            result[k] = [tuple([x[0], x[1], x[2] / va * vn]) for x in v]
+            result[k] = minify_histogram([tuple([x[0], x[1], x[2] / va * vn]) for x in v])
     for k, v in histogramsB.items():
         if k != key:
-            result[k] = [tuple([x[0], x[1], x[2] / vb * vn]) for x in v]
+            result[k] = minify_histogram([tuple([x[0], x[1], x[2] / vb * vn]) for x in v])
     return result
 
 
@@ -109,15 +108,53 @@ def estimate_intermediates(join, joinorder):
         else:
             b = inputs[joinorder[idx + 1]]
         intermediates.append(perform_join(a, b))
-    res = 0
-    for v in intermediates[-1].values():
-        r = 0
-        for h in v:
-            r += h[2]
-        res = max(res, r)
+
+    result = 0
+    for i in range(len(intermediates)):
+        res = []
+        for v in intermediates[-1].values():
+            r = 0
+            for h in v:
+                r += h[2] * (h[1] - h[0])
+            res.append(r)
+        print("res", res)
+        result += max(res)
     print("inputs", inputs)
     print("intermediates", intermediates)
-    return res
+    return result
+
+
+def minify_histogram(histogram):
+    if len(histogram) <= maxbuckets:
+        return histogram
+    hist = []
+    for i in range(len(histogram)):
+        if len(hist) > 0 and hist[-1][1] < histogram[i][0]:
+            hist.append((hist[-1][1], histogram[i][0], 0))
+        hist.append(histogram[i])
+    while len(hist) > maxbuckets:
+        factor = abs(hist[0][2] - hist[1][2])
+        for i in range(len(hist) - 1):
+            factor = min(factor, abs(hist[i][2] - hist[i + 1][2]))
+        hist2 = []
+        i = 1
+        left = hist[0][0]
+        right = hist[0][1]
+        value = hist[0][2]
+        values = [value]
+        while i < len(hist):
+            if abs(hist[i][2] - value) > factor:
+                hist2.append((left, right, sum(values) / len(values)))
+                left = hist[i][0]
+                value = hist[i][2]
+                values = [value]
+            else:
+                values.append(hist[i][2])
+            right = hist[i][1]
+            i += 1
+        hist2.append((left, right, sum(values) / len(values)))
+        hist = hist2
+    return hist
 
 
 init_histogram(sys.argv[1] + ".histograms")
