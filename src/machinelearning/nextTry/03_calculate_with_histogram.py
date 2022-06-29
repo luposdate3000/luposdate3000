@@ -117,10 +117,7 @@ def estimate_intermediates(join, joinorder):
             for h in v:
                 r += h[2] * (h[1] - h[0])
             res.append(r)
-        print("res", res)
         result += max(res)
-    print("inputs", inputs)
-    print("intermediates", intermediates)
     return result
 
 
@@ -157,6 +154,6 @@ def minify_histogram(histogram):
     return hist
 
 
-init_histogram(sys.argv[1] + ".histograms")
+#init_histogram(sys.argv[1] + ".histograms")
 
-estimate_intermediates([-1, 1, -2, -1, 2, -3], [0, 1])
+#estimate_intermediates([-1, 1, -2, -1, 2, -3], [0, 1])
