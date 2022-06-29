@@ -68,28 +68,36 @@ def single_column_join(histogramA, histogramB):
 def myaverage(histogram):
     res = 0
     for h in histogram:
-        res += h[2]
+        res += h[2]*(h[1]-h[0])
     return res / len(histogram)
 
 
 def perform_join(histogramsA, histogramsB):
-    joinkey = 0
-    for key in histogramsA:
+   joinkey = None
+   for key in histogramsA:
         if key in histogramsB:
             joinkey = key
             break
-    result = {}
-    result[key] = minify_histogram(single_column_join(histogramsA[key], histogramsB[key]))
-    va = myaverage(histogramsA[key])
-    vb = myaverage(histogramsB[key])
-    vn = myaverage(result[key])
+   result = {}
+   if joinkey is None:
+    va = myaverage(list(histogramsA.values())[0])
+    vb = myaverage(list(histogramsB.values())[0])
     for k, v in histogramsA.items():
-        if k != key:
-            result[k] = minify_histogram([tuple([x[0], x[1], x[2] / va * vn]) for x in v])
+           result[k] = minify_histogram([tuple([x[0], x[1], x[2] *vb]) for x in v])
     for k, v in histogramsB.items():
-        if k != key:
-            result[k] = minify_histogram([tuple([x[0], x[1], x[2] / vb * vn]) for x in v])
-    return result
+           result[k] = minify_histogram([tuple([x[0], x[1], x[2] *va ]) for x in v])
+   else:
+    result[joinkey] = minify_histogram(single_column_join(histogramsA[joinkey], histogramsB[joinkey]))
+    va = myaverage(histogramsA[joinkey])
+    vb = myaverage(histogramsB[joinkey])
+    vn = myaverage(result[joinkey])
+    for k, v in histogramsA.items():
+       if k != joinkey:
+           result[k] = minify_histogram([tuple([x[0], x[1], x[2] / va * vn]) for x in v])
+    for k, v in histogramsB.items():
+       if k != joinkey:
+           result[k] = minify_histogram([tuple([x[0], x[1], x[2] / vb * vn]) for x in v])
+   return result
 
 
 def estimate_intermediates(join, joinorder):
@@ -112,12 +120,15 @@ def estimate_intermediates(join, joinorder):
     result = 0
     for i in range(len(intermediates)):
         res = []
-        for v in intermediates[-1].values():
+        for v in intermediates[i].values():
             r = 0
             for h in v:
                 r += h[2] * (h[1] - h[0])
+                print("r",r,h)
             res.append(r)
+        print("e",result,res)
         result += max(res)
+    print("estimate",result)
     return result
 
 
@@ -154,6 +165,5 @@ def minify_histogram(histogram):
     return hist
 
 
-#init_histogram(sys.argv[1] + ".histograms")
-
-#estimate_intermediates([-1, 1, -2, -1, 2, -3], [0, 1])
+init_histogram(sys.argv[1] + ".histograms")
+estimate_intermediates([-1, 1, -63, -1, 5, -64, -1, 6, -7, -1, 22, -10, -1, 33, -2, -2, 1, -65, -2, 5, -66, -2, 6, -14, -2, 22, -22, -2, 33, -3, -3, 1, -67, -3, 5, -68, -3, 6, -16, -3, 22, -15, -4, 5, -69, -4, 10, -26, -4, 11, -29, -5, 5, -70, -5, 10, -30, -5, 11, -44, -6, 5, -71, -6, 10, -41, -6, 11, -49, -7, 5, -72, -7, 10, -8, -8, 5, -73, -8, 10, -9, -9, 5, -74, -9, 10, -12, -10, 5, -75, -10, 10, -11, -11, 5, -76, -11, 10, -13, -12, 5, -77, -12, 10, -21, -13, 5, -78, -13, 10, -6, -14, 1, -79, -14, 5, -80, -14, 10, -20, -15, 5, -81, -15, 10, -17, -16, 5, -82, -16, 10, -18, -17, 5, -83, -17, 10, -19, -18, 5, -84, -18, 10, -23, -19, 5, -85, -19, 10, -4, -20, 5, -86, -20, 10, -28, -21, 5, -87, -21, 10, -25, -22, 5, -88, -22, 10, -24, -23, 5, -89, -23, 10, -32, -24, 5, -90, -24, 10, -27, -25, 5, -91, -25, 10, -35, -26, 5, -92, -26, 10, -38, -27, 5, -93, -27, 10, -5, -28, 5, -94, -28, 10, -36, -29, 5, -95, -29, 10, -33, -30, 5, -96, -30, 10, -31, -31, 5, -97, -31, 10, -55, -32, 5, -98, -32, 10, -34, -33, 5, -99, -33, 10, -37, -34, 5, -100, -34, 10, -40, -35, 5, -101, -35, 10, -56, -36, 5, -102, -36, 10, -39, -37, 5, -103, -37, 10, -45, -38, 5, -104, -38, 10, -57, -39, 5, -105, -39, 10, -42, -40, 5, -106, -40, 10, -47, -41, 5, -107, -41, 10, -43, -42, 5, -108, -42, 10, -52, -43, 5, -109, -43, 10, -58, -44, 5, -110, -44, 10, -46, -45, 5, -111, -45, 10, -48, -46, 5, -112, -46, 10, -54, -47, 5, -113, -47, 10, -60, -48, 5, -114, -48, 10, -61, -49, 5, -115, -49, 10, -50, -50, 5, -116, -50, 10, -51, -51, 5, -117, -51, 10, -62, -52, 5, -118, -52, 10, -53, -53, 5, -119, -53, 10, -59, -54, 5, -120, -54, 10, -121, -55, 5, -122, -56, 5, -123, -57, 5, -124, -58, 5, -125, -59, 5, -126, -60, 5, -127, -61, 5, -128, -62, 5, -129], [45, 71, -1, 66, -2, 104, -3, 46, 47, 120, -4, -5, 72, 73, -7, 70, -8, 50, 49, 100, -9, -10, -6, -11, 40, 124, -13, 41, 28, 29, 76, 88, -16, 39, -17, 30, -15, -18, 59, 75, -20, 60, 31, 119, -22, 68, -21, -23, -24, 105, -19, -25, 32, 34, -27, 33, -26, -28, 5, 118, 108, 110, -30, -31, -32, 113, 6, 83, -33, -34, 15, 121, -36, 0, -37, 97, 95, 96, 1, 63, -40, 61, -39, -41, -38, -42, 2, 86, -43, -44, 3, 80, -45, -46, -47, 4, -35, -48, 7, 54, -49, -50, 8, 48, -51, -52, 79, 107, -54, 77, 82, 87, -55, -56, 81, 85, -58, 10, -57, -59, -60, 9, -53, -61, 11, 14, -62, -63, -64, 12, 67, 69, 103, 123, -67, 55, -68, 84, -66, -69, -70, 13, -65, -71, 64, 91, 65, 125, -73, -74, 17, 112, -75, -76, 16, 122, -77, -78, 18, 115, -79, -80, -72, -81, 90, 106, 89, 109, -83, -84, -85, 98, -86, 99, 19, 101, -88, 78, 20, 57, -89, -90, -87, -91, -92, 127, -93, 126, 22, 117, -95, 21, -94, -96, 38, 111, 23, 62, -98, -99, 24, 116, -100, -101, -97, -102, -82, -103, 26, 74, -105, 25, 27, 56, -107, 53, -106, -108, -104, -109, -29, -110, 35, 36, -112, 37, 94, 102, -114, 92, -113, -115, -111, -116, -14, -117, -118, 42, 44, 93, -120, 58, -121, 43, -119, -122, -12, -123, 51, 114, -125, 52, -124, -126])
