@@ -150,8 +150,10 @@ class DatabaseEnv(gym.Env):
                     querySparql += "."
                 querySparql += "}"
 #                value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-                print(self.flatten(self.query),joinOrder)
+                #print(self.flatten(self.query),joinOrder)
                 value=histogram.estimate_intermediates(self.flatten(self.query),joinOrder)
+                if value>2**60-1:
+                  value=2**60-1
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
