@@ -3,6 +3,7 @@ import os
 import sys
 import gym
 import time
+import calculate_with_histogram as histogram
 import mysql.connector
 from py4j.java_gateway import JavaGateway
 
@@ -10,6 +11,7 @@ db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks",
 cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
+histogram.init_histogram(sys.argv[1])
 
 def flatten(xss):
         return [x for xs in xss for x in xs]

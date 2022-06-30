@@ -7,7 +7,7 @@ import gym
 import time
 import csv
 
-maxbuckets = 10
+maxbuckets = 100
 histogramdata = {}  #(key,col) -> [(left,right,count)]
 histogramtotal = 0
 
@@ -69,6 +69,8 @@ def single_column_join(histogramA, histogramB):
 
 
 def myaverage(histogram):
+    if len(histogram)==0:
+     return 0
     res = 0
     for h in histogram:
         res += h[2]*(h[1]-h[0])
