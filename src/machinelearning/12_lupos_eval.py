@@ -32,7 +32,7 @@ def getOrAddDB(database, value):
 
 learnOnMin = 0
 learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.nt"
+dataset = "/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000")
 

@@ -26,8 +26,8 @@ import kotlin.jvm.JvmField
 
 public object EvalCounter {
     public operator fun invoke(query: Query, child: IteratorBundle, instance: Luposdate3000Instance): IteratorBundle {
-val the_limit=200000
-val the_global_limit=20000000
+val the_limit=2000000
+val the_global_limit=200000000
         if (child.hasCountMode()) {
             query.machineLearningCounter++
             query.machineLearningCounterGlobal++

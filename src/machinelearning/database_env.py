@@ -103,13 +103,21 @@ class DatabaseEnv(gym.Env):
         # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
+        currentActionSpace=self.getCurrentActionSpace()
         if self.autofix_invalid_actions:
-            while not self.is_valid_action(left, right, self.observation_matrix):
-                action = (action + 1) % len(self.action_list)
-                left = self.action_list[action][0]
-                right = self.action_list[action][1]
+            l=currentActionSpace[0][0]
+            r=currentActionSpace[0][1]
+            d=(left-l)*(left-l)+(right-r)*(right-r)
+            for (ll,rr) in currentActionSpace:
+             dd=(left-ll)*(left-ll)+(right-rr)*(right-rr)
+             if dd<d:
+              d=dd
+              l=ll
+              r=rr
+            left=l
+            right=r
         else:
-            if not self.is_valid_action(left, right, self.observation_matrix):
+            if not (left,right) in currentActionSpace:
                 return self.observation_matrix, self.reward_invalid_action, False, {}
         # update observation
         for i, v in enumerate(self.observation_matrix[right, :]):
@@ -131,6 +139,7 @@ class DatabaseEnv(gym.Env):
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
+            print(joinOrder,"-->>",joinOrderString)
             self.joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
             self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
@@ -195,8 +204,8 @@ class DatabaseEnv(gym.Env):
         self.join_order_h = dict(zip(range(self.tripleCountMax), range(self.tripleCountMax)))
         return self.observation_matrix
 
-    def is_valid_action(self, left, right, observation_matrix):
-        return observation_matrix[left][right][0] != 0 and observation_matrix[right][left][0] != 0
+    def is_valid_action(self, left, right):
+        return self.observation_matrix[left][right][0] != 0 and self.observation_matrix[right][left][0] != 0
 
     def set_query(self, query):
         self.query = query
@@ -252,3 +261,25 @@ class DatabaseEnv(gym.Env):
                     done = True
                     failed = True
             self.submit_choice(failed)
+    def getCurrentActionSpace(self):
+        result= []
+        for i in range(self.tripleCountMax):
+            for j in range(i + 1, self.tripleCountMax):
+             if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
+              variablesI=[]
+              variablesJ=[]
+              for k in range(self.tripleCountMax):
+               for l in range(3):
+                variablesI.append(self.observation_matrix[i][k][l])
+                variablesJ.append(self.observation_matrix[j][k][l])
+              variablesI2=set(filter(lambda c: c < 0, set(variablesI)))
+              variablesJ2=set(filter(lambda c: c < 0, set(variablesJ)))
+              if variablesI2 & variablesJ2:
+               result.append((i,j))
+        if len(result)==0:
+           for i in range(self.tripleCountMax):
+            for j in range(i + 1, self.tripleCountMax):
+             if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
+              result.append((i,j))
+        return result
+
