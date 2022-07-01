@@ -5,7 +5,9 @@ import gym
 import time
 import mysql.connector
 from database_env import DatabaseEnv
-from stable_baselines3 import PPO
+from database_env import mask_fn
+from sb3_contrib import MaskablePPO
+from sb3_contrib.common.wrappers import ActionMasker
 
 try:
     learnOnMin = int(sys.argv[1])
@@ -26,6 +28,7 @@ except:
 
 mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, ratio)
+env = ActionMasker(env, mask_fn)
 fileprefix = "model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_"
 
 training_steps = 0
@@ -37,10 +40,10 @@ for file in os.listdir(model_folder):
                 training_steps = x
 
 if training_steps == 0:
-    model = PPO("MlpPolicy", env, verbose=2, device="auto")
+    model = MaskablePPO("MlpPolicy", env, verbose=2, device="auto")
 else:
     print("loading", model_folder + "/" + fileprefix + str(training_steps) + ".model", flush=True)
-    model = PPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model", env)
+    model = MaskablePPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model", env)
 training_steps += 2048
 
 seconds = 0

@@ -19,6 +19,7 @@ More details in [compile](documentation/README-usage-compile.md).
 
 ```bash
 pip install stable-baselines3[extra]
+pip install sb3-contrib
 pip install py4j
 pip install mysql-connector-python
 ```

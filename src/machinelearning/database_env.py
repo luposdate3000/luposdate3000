@@ -5,8 +5,12 @@ import time
 import numpy as np
 from gym import spaces
 from py4j.java_gateway import JavaGateway
+from sb3_contrib.common.maskable.utils import get_action_masks
 
 start = time.time()
+
+def mask_fn(env: gym.Env) -> np.ndarray:
+    return env.valid_action_mask()
 
 
 class DatabaseEnv(gym.Env):
@@ -139,7 +143,7 @@ class DatabaseEnv(gym.Env):
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
-            print(joinOrder,"-->>",joinOrderString)
+            #print(joinOrder,"-->>",joinOrderString)
             self.joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
             self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
@@ -255,7 +259,8 @@ class DatabaseEnv(gym.Env):
             failed = False
             obs = self.reset()
             while not done:
-                action, _states = model.predict(obs, deterministic=True)
+                action_masks = get_action_masks(env)
+                action, _states = model.predict(obs, action_masks=action_masks, deterministic=True)
                 obs, reward, done, info = self.step(action)
                 if reward < 0:
                     done = True
@@ -283,3 +288,12 @@ class DatabaseEnv(gym.Env):
               result.append((i,j))
         return result
 
+    def valid_action_mask(self):
+     valid=self.getCurrentActionSpace()
+     res=[]
+     for a in range(len(self.action_list)):
+      if self.action_list[a] in valid:
+       res.append(1)
+      else:
+       res.append(0)
+     return res
