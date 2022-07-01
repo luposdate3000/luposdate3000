@@ -4,7 +4,8 @@
 import parser.Parser
 import kotlin.random.Random
 
-val queryCount = 5000
+val queryCount = 500
+val tripleCounts=listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
 
 val dictionarySet = mutableSetOf<String>("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")
 val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
@@ -13,8 +14,7 @@ val resultDictionary = mutableListOf<String>()
 
 
 var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
-val numberOfJoinPatterns = args[1].toInt()
-val outputfolderName = args[2]
+val outputfolderName = args[1]
 val outputfolder = java.io.File(outputfolderName)
 outputfolder.mkdirs()
 var begin = System.nanoTime()
@@ -22,9 +22,9 @@ var begin = System.nanoTime()
 var triple = 0L
 parser!!.consumeTriple = { s, p, _ ->
     dictionarySet.add(s)
-if(!p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")){
-    dictionarySet.add(p)
-}
+    if (!p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) {
+        dictionarySet.add(p)
+    }
     triple++
     if (triple % 1000L == 0L) {
         println("loaded $triple triples(1) in ${((System.nanoTime() - begin) / 1000000L).toDouble() / 1000.0} s")
@@ -40,7 +40,7 @@ dictionary.sort()
 parser = Parser(java.io.File(args[0]).inputStream())
 parser!!.consumeTriple = { s, p, o ->
     val si = dictionary.binarySearch(s)
-    val pi = if(p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) dictionary.binarySearch("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") else dictionary.binarySearch(p)
+    val pi = if (p.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) dictionary.binarySearch("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_") else dictionary.binarySearch(p)
     val oi = dictionary.binarySearch(o)
     data.getOrPut(si, { mutableMapOf<Int, MutableSet<Int>>() }).getOrPut(pi, { mutableSetOf<Int>() }).add(oi)
     triple++
@@ -50,7 +50,6 @@ parser!!.consumeTriple = { s, p, o ->
 }
 parser!!.parserDefinedParse()
 parser!!.close();
-val possibleStartPoints = data.keys.toMutableSet()
 parser = null
 
 println("loaded data step 2")
@@ -88,15 +87,15 @@ fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
     }
 }
 
-fun getRandomQuery(): String? {
+fun getRandomQuery(possibleStartPoints: MutableSet<Int>, numberOfJoinPatterns: Int): String? {
     var hasWork = true
     val query = mutableSetOf<Triple<Int, Int, Int>>()
     var variableCtr = -1
     while (hasWork) {
         hasWork = false
-if(possibleStartPoints.size==0){
-return null
-}
+        if (possibleStartPoints.size == 0) {
+            return null
+        }
         query.clear()
         variableCtr = -1
         var firstSubject = Random.nextInt(0, dictionary.size)
@@ -154,7 +153,6 @@ return null
     for (ss in scoresInverse) {
         dictMap(ss.first, mapping)
     }
-    val distinctJoinVariables = (-1 - mapping.size)
     for (ss in scoresInverse) {
         val tmp = mutableListOf<Triple<Int, Int, Int>>()
         for (q in query2) {
@@ -173,21 +171,14 @@ return null
     for (q in query3) {
         res.add(q.first)
         val predicate = resultDictionary[q.second]
-        var used_predicate = ""
         if (predicate.startsWith("_:")) {
-            used_predicate = "_:" + (-variableCtr--)
             res.add(variableCtr--)
         } else if (predicate.startsWith("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) {
-            used_predicate = "_:" + (-variableCtr--)
             res.add(variableCtr--)
         } else {
             res.add(resultIndex(predicate))
-            used_predicate = predicate
         }
         res.add(q.third)
-//        if (q.third >= distinctJoinVariables) {
-//            println("_:" + (-q.first) + " " + used_predicate + " _:" + (-q.third))
-//        }
     }
     return res.joinToString()
 }
@@ -197,13 +188,16 @@ return null
 
 
 java.io.File(outputfolder, "queries").printWriter().use { out ->
-    for (i in 0 until queryCount) {
-println("working on query #$i")
-var q=getRandomQuery()
-if(q==null){
-break
-}
-        out.println(q.replace("\\s".toRegex(), ""))
+    for (numberOfJoinPatterns in tripleCounts) {
+        var possibleStartPoints = data.keys.toMutableSet()
+        for (i in 0 until queryCount) {
+            println("working on query #$i for #$numberOfJoinPatterns triple-patterns")
+            var q = getRandomQuery(possibleStartPoints, numberOfJoinPatterns)
+            if (q == null) {
+                break
+            }
+            out.println(q.replace("\\s".toRegex(), ""))
+        }
     }
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
