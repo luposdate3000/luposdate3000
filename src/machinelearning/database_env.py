@@ -41,6 +41,7 @@ class DatabaseEnv(gym.Env):
         self.join_order_h = None
         # the query to process
         self.query = None
+        self.querySize = None
         self.queryID = None
         self.joinOrderID = None
         # bad results should be trained again
@@ -151,18 +152,18 @@ class DatabaseEnv(gym.Env):
         self.join_order_h[left] = index
         self.join_order_h[right] = index
         # calculate reward
-        done = len(self.join_order) == (len(self.query) - 1) * 2
+        done = len(self.join_order) == (self.querySize - 1) * 2
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
             #print(joinOrder,"-->>",joinOrderString)
             l = joinOrderString.strip()
-            self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, len(self.query)))
+            self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
             row = self.cursor.fetchone()
             if row == None:
-             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s)", (l, len(self.query)))
+             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s)", (l, self.querySize))
              self.db.commit()
-             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, len(self.query)))
+             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
              row = self.cursor.fetchone()
             if row == None:
              exit(1)
@@ -217,11 +218,12 @@ class DatabaseEnv(gym.Env):
             self.query_counter = 0
             random.shuffle(self.training_data)
         self.query = self.training_data[self.query_counter][0]
+        self.querySize=len(self.query)
         self.queryID = self.training_data[self.query_counter][1]
         # reset the matrix
         for x in range(self.tripleCountMax):
             for y in range(self.tripleCountMax):
-                if x < len(self.query) and y < len(self.query):
+                if x < self.querySize and y < self.querySize:
                     if x != y:
                         self.observation_matrix[x][y] = [-1, -1, -1]
                     else:
@@ -238,6 +240,7 @@ class DatabaseEnv(gym.Env):
 
     def set_query(self, query):
         self.query = query
+        self.querySize=len(self.query)
         self.queryID = -1
 
     def joinOrderSort(self, input):
@@ -293,12 +296,12 @@ class DatabaseEnv(gym.Env):
             self.submit_choice(failed)
     def getCurrentActionSpace(self):
         result= []
-        for i in range(self.tripleCountMax):
-            for j in range(i + 1, self.tripleCountMax):
+        for i in range(self.querySize):
+            for j in range(i + 1, self.querySize):
              if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
               variablesI=[]
               variablesJ=[]
-              for k in range(self.tripleCountMax):
+              for k in range(self.querySize):
                for l in range(3):
                 variablesI.append(self.observation_matrix[i][k][l])
                 variablesJ.append(self.observation_matrix[j][k][l])
@@ -307,8 +310,8 @@ class DatabaseEnv(gym.Env):
               if variablesI2 & variablesJ2:
                result.append((i,j))
         if len(result)==0:
-           for i in range(self.tripleCountMax):
-            for j in range(i + 1, self.tripleCountMax):
+           for i in range(self.querySize):
+            for j in range(i + 1, self.querySize):
              if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
               result.append((i,j))
         return result
