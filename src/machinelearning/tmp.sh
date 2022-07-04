@@ -11,7 +11,7 @@ echo ./11_joinopti_agent_train.py ${arr[0]} ${arr[1]} 128 0.7 /mnt/luposdate-tes
 chmod +x tasks/$ii.sh
 i=$((i+1))
 done
-for upper in 16 32 64 128
+for upper in 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 do
 for x in 3_3 4_4 5_5 6_6 7_7 8_8 9_9 10_10 11_11 12_12 13_13 14_14 15_15 16_16 17_17 18_18 19_19 20_20
 do

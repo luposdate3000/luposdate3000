@@ -76,7 +76,7 @@ fun dictMap(value: Int, dict: MutableMap<Int, Int>): Int {
     if (value < 0) {
         var res = dict[value]
         if (res == null) {
-            val rr = -dict.size - 1
+            val rr = -dict.size - 2
             dict[value] = rr
             return rr
         } else {
@@ -97,7 +97,7 @@ fun getRandomQuery(possibleStartPoints: MutableSet<Int>, numberOfJoinPatterns: I
             return null
         }
         query.clear()
-        variableCtr = -1
+        variableCtr = -2
         var firstSubject = Random.nextInt(0, dictionary.size)
         while (!possibleStartPoints.contains(firstSubject)) {
             firstSubject = Random.nextInt(0, dictionary.size)

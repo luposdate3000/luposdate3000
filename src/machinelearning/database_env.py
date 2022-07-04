@@ -5,7 +5,6 @@ import time
 import numpy as np
 from gym import spaces
 from py4j.java_gateway import JavaGateway
-from sb3_contrib.common.maskable.utils import get_action_masks
 
 start = time.time()
 
@@ -17,6 +16,9 @@ class DatabaseEnv(gym.Env):
 
     def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
+        self.timesql={}
+        self.timelupos=0
+        self.timestep=0
         self.optimizerName = optimizerName
         self.tripleCountMax = tripleCountMax
         # define the shape of the observation_matrix, and the valid values in it
@@ -82,7 +84,6 @@ class DatabaseEnv(gym.Env):
         if len(self.training_data) == 0:
             exit(0)
         random.shuffle(self.training_data)
-
         self.step_counter = 0
 
     def submit_choice(self, failed):
@@ -98,12 +99,22 @@ class DatabaseEnv(gym.Env):
 
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
-        return self.cursor.execute(sql, data)
-
+        s=time.time()
+        res= self.cursor.execute(sql, data)
+        t=0
+        if sql in self.timesql:
+         t=self.timesql[sql]
+        self.timesql[sql]=(time.time()-s)+t
+        return res
     def step(self, action):
+        timestep=time.time()
         self.step_counter += 1
         if self.step_counter % 100 == 0:
-            print("step", str(self.step_counter), "took", str(time.time() - start), "seconds", flush=True)
+            print("step", str(self.step_counter), "took", str(time.time() - start), "seconds","sql=",self.timesql,"lupos=",self.timelupos,"step-func=",self.timestep, flush=True)
+            self.timesql={}
+            self.timelupos=0
+            self.timestep=0
+
         # fetch left and right operand
         left = self.action_list[action][0]
         right = self.action_list[action][1]
@@ -122,6 +133,7 @@ class DatabaseEnv(gym.Env):
             right=r
         else:
             if not (left,right) in currentActionSpace:
+                self.timestep+=(time.time()-timestep)
                 return self.observation_matrix, self.reward_invalid_action, False, {}
         # update observation
         for i, v in enumerate(self.observation_matrix[right, :]):
@@ -160,7 +172,9 @@ class DatabaseEnv(gym.Env):
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
+                s=time.time()
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                self.timelupos+=(time.time()-s)
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
@@ -180,6 +194,7 @@ class DatabaseEnv(gym.Env):
                 reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
         else:
             reward = 0
+        self.timestep+=(time.time()-timestep)
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
@@ -259,7 +274,7 @@ class DatabaseEnv(gym.Env):
             failed = False
             obs = self.reset()
             while not done:
-                action_masks = get_action_masks(env)
+                action_masks = self.valid_action_mask()
                 action, _states = model.predict(obs, action_masks=action_masks, deterministic=True)
                 obs, reward, done, info = self.step(action)
                 if reward < 0:
@@ -277,8 +292,8 @@ class DatabaseEnv(gym.Env):
                for l in range(3):
                 variablesI.append(self.observation_matrix[i][k][l])
                 variablesJ.append(self.observation_matrix[j][k][l])
-              variablesI2=set(filter(lambda c: c < 0, set(variablesI)))
-              variablesJ2=set(filter(lambda c: c < 0, set(variablesJ)))
+              variablesI2=set(filter(lambda c: c < -1, set(variablesI)))
+              variablesJ2=set(filter(lambda c: c < -1, set(variablesJ)))
               if variablesI2 & variablesJ2:
                result.append((i,j))
         if len(result)==0:

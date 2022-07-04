@@ -11,7 +11,7 @@ from stable_baselines3 import PPO
 
 
 score_mode=0
-score_cap=10 # score_mode=0
+score_cap=2 # score_mode=0
 score_fraction=0.8 # score_mode=1
 
 
@@ -113,11 +113,12 @@ with open("figure2x16.csv", "w", newline="") as f:
 gnuplotFileName="figure2x16.gnuplot"
 with open(gnuplotFileName, 'w') as f:
      f.write("#!/usr/bin/env gnuplot\n")
-     f.write("set term tikz size 8.5cm,6cm\n")
-     f.write("set output \"figure2x16.tex\"\n")
+#     f.write("set term tikz size 8.5cm,6cm\n")
+#     f.write("set output \"figure2x16.tex\"\n")
+     f.write("set term svg size 850,600\n")
+     f.write("set output \"figure2x16.svg\"\n")
      f.write("set datafile separator comma\n")
      f.write("set yrange [0:*];\n")
-     f.write("set logscale x 2\n")
      f.write("set key center bottom vertical maxrows 7\n")
      f.write("plot for [col=2:"+str(len(header))+"] \"figure2x16.csv\" using 1:col with linespoints title columnhead\n")
      os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
@@ -146,8 +147,10 @@ for evaluatedOn, tmp1 in scoreMap.items():
     gnuplotFileName="figure_" +str( evaluatedOn )+ ".gnuplot"
     with open(gnuplotFileName, 'w') as f:
      f.write("#!/usr/bin/env gnuplot\n")
-     f.write("set term tikz size 8.5cm,6cm\n")
-     f.write("set output \"figure_"+str(evaluatedOn)+".tex\"\n")
+#     f.write("set term tikz size 8.5cm,6cm\n")
+#     f.write("set output \"figure_"+str(evaluatedOn)+".tex\"\n")
+     f.write("set term svg size 850,600\n")
+     f.write("set output \"figure_"+str(evaluatedOn)+".svg\"\n")
      f.write("set datafile separator comma\n")
      f.write("set yrange [0:*];\n")
      f.write("set logscale x 2\n")
