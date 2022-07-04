@@ -11,14 +11,15 @@ start = time.time()
 def mask_fn(env: gym.Env) -> np.ndarray:
     return env.valid_action_mask()
 
+def sumNatural(n):
+  return (n*(n+1))/2
 
 class DatabaseEnv(gym.Env):
+    def leftRightToIndex(self,left,right):
+      return int(sumNatural(self.tripleCountMax-1)-sumNatural(self.tripleCountMax-1-left)+right-left-1)
 
     def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
-        self.timesql={}
-        self.timelupos=0
-        self.timestep=0
         self.optimizerName = optimizerName
         self.tripleCountMax = tripleCountMax
         # define the shape of the observation_matrix, and the valid values in it
@@ -31,7 +32,6 @@ class DatabaseEnv(gym.Env):
         for i in range(self.tripleCountMax):
             for j in range(i + 1, self.tripleCountMax):
                 self.action_list.append((i, j))
-
         # tell the model, which actions are allowed
         self.action_space = spaces.Discrete(len(self.action_list))
 
@@ -47,8 +47,8 @@ class DatabaseEnv(gym.Env):
         # bad results should be trained again
         # this modifies the choosen action to the nearest valid one, such that there are no invalid actions anymore
         self.autofix_invalid_actions = True
-        self.reward_invalid_action = -1
-        self.reward_max = 100
+        self.reward_invalid_action = -10
+        self.reward_max = 10
 
         # for training, index in 'self.training_data'
         self.query_counter = -1
@@ -100,25 +100,9 @@ class DatabaseEnv(gym.Env):
 
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
-        s=time.time()
         res= self.cursor.execute(sql, data)
-        t=0
-        if sql in self.timesql:
-         t=self.timesql[sql]
-        self.timesql[sql]=(time.time()-s)+t
         return res
-    def step(self, action):
-        timestep=time.time()
-        self.step_counter += 1
-        if self.step_counter % 100 == 0:
-            print("step", str(self.step_counter), "took", str(time.time() - start), "seconds","sql=",self.timesql,"lupos=",self.timelupos,"step-func=",self.timestep, flush=True)
-            self.timesql={}
-            self.timelupos=0
-            self.timestep=0
-
-        # fetch left and right operand
-        left = self.action_list[action][0]
-        right = self.action_list[action][1]
+    def performAction(self,left,right):
         currentActionSpace=self.getCurrentActionSpace()
         if self.autofix_invalid_actions:
             l=currentActionSpace[0][0]
@@ -134,8 +118,7 @@ class DatabaseEnv(gym.Env):
             right=r
         else:
             if not (left,right) in currentActionSpace:
-                self.timestep+=(time.time()-timestep)
-                return self.observation_matrix, self.reward_invalid_action, False, {}
+                return False
         # update observation
         for i, v in enumerate(self.observation_matrix[right, :]):
             if v[0] != 0:
@@ -151,7 +134,19 @@ class DatabaseEnv(gym.Env):
         self.join_order.extend(tmp)
         self.join_order_h[left] = index
         self.join_order_h[right] = index
-        # calculate reward
+        return True
+    def step(self, action):
+        self.step_counter += 1
+        if self.step_counter % 100 == 0:
+            print("step", str(self.step_counter), "took", str(time.time() - start), "seconds", flush=True)
+        # fetch left and right operand
+        if not self.performAction(self.action_list[action][0],self.action_list[action][1]):
+         return self.observation_matrix, self.reward_invalid_action, False, {}
+        if len(self.join_order)+1 == (self.querySize - 1) * 2:
+         # only 1 join to go ... do it immediately without bothering the model, because there is exactly one action possible
+         action=getCurrentActionSpace()[0]
+         if not self.performAction(action[0],action[1]):
+          return self.observation_matrix, self.reward_invalid_action, False, {}
         done = len(self.join_order) == (self.querySize - 1) * 2
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
@@ -183,9 +178,7 @@ class DatabaseEnv(gym.Env):
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
-                s=time.time()
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-                self.timelupos+=(time.time()-s)
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
@@ -205,7 +198,7 @@ class DatabaseEnv(gym.Env):
                 reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
         else:
             reward = 0
-        self.timestep+=(time.time()-timestep)
+        #print("step",str(self.step_counter),self.observation_matrix, reward, done)
         return self.observation_matrix, reward, done, {}
 
     def reset(self):
@@ -233,6 +226,7 @@ class DatabaseEnv(gym.Env):
         # reset the join order
         self.join_order = []
         self.join_order_h = dict(zip(range(self.tripleCountMax), range(self.tripleCountMax)))
+        #print("reset",str(self.step_counter),self.observation_matrix)
         return self.observation_matrix
 
     def is_valid_action(self, left, right):
@@ -314,14 +308,13 @@ class DatabaseEnv(gym.Env):
             for j in range(i + 1, self.querySize):
              if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
               result.append((i,j))
+        #print("getCurrentActionSpace",str(self.step_counter),self.observation_matrix,result)
         return result
 
     def valid_action_mask(self):
      valid=self.getCurrentActionSpace()
-     res=[]
-     for a in range(len(self.action_list)):
-      if self.action_list[a] in valid:
-       res.append(1)
-      else:
-       res.append(0)
+     res=[0]*len(self.action_list)
+     for a in valid:
+      res[self.leftRightToIndex(a[0],a[1])]=1
+     #print("valid_action_mask",str(self.step_counter),res)
      return res
