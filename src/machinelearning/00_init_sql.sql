@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS mapping_query (
 CREATE TABLE IF NOT EXISTS mapping_join (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(2048) NOT NULL,
+    triplecount int;
     PRIMARY KEY(id),
     UNIQUE(name)
 );
@@ -63,3 +64,5 @@ alter table optimizer_choice add foreign key (dataset_id,query_id,join_id) refer
 INSERT INTO mapping_dataset (name) VALUES ("/mnt/luposdate-testdata/sp2b/1024/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16384/complete.n3"), ("/mnt/luposdate-testdata/sp2b/131072/complete.n3"), ("/mnt/luposdate-testdata/sp2b/1048576/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16777216/complete.n3");
 
 UPDATE mapping_query SET rng=RAND() WHERE rng IS NULL;
+update mapping_join set triplecount= ((length(name)-length(replace(name,",",""))+1)/2+1);
+create index mapping_join_triple_count on mapping_join(triplecount);

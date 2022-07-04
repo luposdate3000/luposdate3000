@@ -156,7 +156,17 @@ class DatabaseEnv(gym.Env):
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
             #print(joinOrder,"-->>",joinOrderString)
-            self.joinOrderID = self.getOrAddDB("mapping_join", joinOrderString)
+            l = joinOrderString.strip()
+            self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, len(self.query)))
+            row = self.cursor.fetchone()
+            if row == None:
+             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s)", (l, len(self.query)))
+             self.db.commit()
+             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, len(self.query)))
+             row = self.cursor.fetchone()
+            if row == None:
+             exit(1)
+            self.joinOrderID =row[0]
             self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
             if row == None:
