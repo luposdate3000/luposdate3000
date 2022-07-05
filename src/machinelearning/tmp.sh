@@ -16,7 +16,7 @@ do
 for x in 3_3 4_4 5_5 6_6 7_7 8_8 9_9 10_10 11_11 12_12 13_13 14_14 15_15 16_16 17_17 18_18 19_19 20_20
 do
 arr=(${x//_/ })
-for y in 2048 4096 8192 16384 32768 65536 131072 262144
+for y in 2048 4096 8192 16384 32768 65536 131072 262144 99999999999
 do
 ii=$(printf "%03d" $i)
 echo ./12_joinopti_agent_eval.py 1 $upper 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 models/model_${arr[0]}_${arr[1]}_128_0.7_${y}.model > tasks/$ii.sh

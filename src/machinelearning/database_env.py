@@ -156,7 +156,7 @@ class DatabaseEnv(gym.Env):
             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
             row = self.cursor.fetchone()
             if row == None:
-             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s)", (l, self.querySize))
+             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
              self.db.commit()
              self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
              row = self.cursor.fetchone()

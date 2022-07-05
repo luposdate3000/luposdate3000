@@ -47,7 +47,7 @@ else:
 training_steps += 2048
 
 seconds = 0
-while training_steps <= 262144:
+while training_steps <= 1048576:
     start = time.time()
     model.learn(total_timesteps=2048, log_interval=None)
     seconds += time.time() - start
@@ -55,3 +55,5 @@ while training_steps <= 262144:
     model.save(filename)
     print("learned " + str(env.get_step_counter()) + " steps in " + str(seconds) + " seconds , save as \"" + filename + "\"", flush=True)
     training_steps += 2048
+
+# need to modify /usr/local/lib/python3.9/dist-packages/sb3_contrib/common/maskable/distributions.py ... to disable 'validate_args'
