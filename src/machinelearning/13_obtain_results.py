@@ -154,6 +154,8 @@ for trainingsteps, mmap in scoreMap2.items():
         f.write("unset table\n")
         f.write("reset\n")
         f.write("unset key\n")
+        if not gnuplot_use_tikz:
+          f.write("set title \"training steps "+trainingsteps+"\"\n")
         f.write("set cbrange [0:1]\n")
         f.write("set palette rgbformulae 33,13,10\n")
         f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")
@@ -211,7 +213,6 @@ for evaluatedOn, tmp1 in scoreMap.items():
          f.write("set term svg size 850,600\n")
          f.write("set output \"figureevaluatedimage" + str(evaluatedOn) + ".svg\"\n")
         f.write("set datafile separator comma\n")
-
         f.write("YTICS=\"`cut -d, -f1 < figureevaluated" + str(evaluatedOn) + ".csv`\"\n")
         f.write("XTICS=\"`head -1 figureevaluated" + str(evaluatedOn) + ".csv | sed 's/,/ /g'`\"\n")
         f.write("set isosample 250, 250\n")
@@ -226,6 +227,8 @@ for evaluatedOn, tmp1 in scoreMap.items():
         f.write("unset table\n")
         f.write("reset\n")
         f.write("unset key\n")
+        if not gnuplot_use_tikz:
+          f.write("set title \"evaluated on "+str(evaluatedOn)+"\"\n")
         f.write("set cbrange [0:1]\n")
         f.write("set palette rgbformulae 33,13,10\n")
         f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")
