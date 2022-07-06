@@ -129,15 +129,15 @@ for trainingsteps, mmap in scoreMap2.items():
         f.write("plot for [col=2:" + str(len(header)) + "] \"figuresteps" + trainingsteps + ".csv\" using 1:col with linespoints title columnhead\n")
         os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
 #   http://www.phyast.pitt.edu/~zov1/gnuplot/html/contour.html
-    gnuplotFileName2 = "figureimage" + trainingsteps + ".gnuplot"
+    gnuplotFileName2 = "figurestepimage" + trainingsteps + ".gnuplot"
     with open(gnuplotFileName2, 'w') as f:
         f.write("#!/usr/bin/env gnuplot\n")
         if gnuplot_use_tikz:
          f.write("set term tikz size 8.5cm,6cm\n")
-         f.write("set output \"figureimage"+trainingsteps+".tex\"\n")
+         f.write("set output \"figurestepimage"+trainingsteps+".tex\"\n")
         else:
          f.write("set term svg size 850,600\n")
-         f.write("set output \"figureimage" + trainingsteps + ".svg\"\n")
+         f.write("set output \"figurestepimage" + trainingsteps + ".svg\"\n")
         f.write("set datafile separator comma\n")
 
         f.write("YTICS=\"`cut -d, -f1 < figuresteps" + trainingsteps + ".csv`\"\n")
@@ -154,6 +154,7 @@ for trainingsteps, mmap in scoreMap2.items():
         f.write("unset table\n")
         f.write("reset\n")
         f.write("unset key\n")
+        f.write("set cbrange [0:1]\n")
         f.write("set palette rgbformulae 33,13,10\n")
         f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")
         f.write("set for [i=1:words(YTICS)] ytics ( word(YTICS,i+1) i-1 )\n")
@@ -200,3 +201,37 @@ for evaluatedOn, tmp1 in scoreMap.items():
         f.write("set key center bottom vertical maxrows 7\n")
         f.write("plot for [col=2:" + str(len(header)) + "] \"figureevaluated" + str(evaluatedOn) + ".csv\" using 1:col with linespoints title columnhead\n")
         os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
+    gnuplotFileName2 = "figureevaluatedimage" + str(evaluatedOn) + ".gnuplot"
+    with open(gnuplotFileName2, 'w') as f:
+        f.write("#!/usr/bin/env gnuplot\n")
+        if gnuplot_use_tikz:
+         f.write("set term tikz size 8.5cm,6cm\n")
+         f.write("set output \"figureevaluatedimage"+str(evaluatedOn)+".tex\"\n")
+        else:
+         f.write("set term svg size 850,600\n")
+         f.write("set output \"figureevaluatedimage" + str(evaluatedOn) + ".svg\"\n")
+        f.write("set datafile separator comma\n")
+
+        f.write("YTICS=\"`cut -d, -f1 < figureevaluated" + str(evaluatedOn) + ".csv`\"\n")
+        f.write("XTICS=\"`head -1 figureevaluated" + str(evaluatedOn) + ".csv | sed 's/,/ /g'`\"\n")
+        f.write("set isosample 250, 250\n")
+        f.write("set table 'test.dat'\n")
+        f.write("splot \"figureevaluated" + str(evaluatedOn) + ".csv\" matrix rowheaders columnheaders notitle\n")
+        f.write("unset table\n")
+        f.write("set contour base\n")
+        f.write("set cntrparam levels discrete 0,0.7,1\n")
+        f.write("unset surface\n")
+        f.write("set table 'cont.dat'\n")
+        f.write("splot \"figureevaluated" + str(evaluatedOn) + ".csv\" matrix rowheaders columnheaders notitle\n")
+        f.write("unset table\n")
+        f.write("reset\n")
+        f.write("unset key\n")
+        f.write("set cbrange [0:1]\n")
+        f.write("set palette rgbformulae 33,13,10\n")
+        f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")
+        f.write("set for [i=1:words(YTICS)] ytics ( word(YTICS,i+1) i-1 )\n")
+        f.write("set xlabel \"trained on\"\n")
+        f.write("set ylabel \"training steps\"\n")
+        f.write("set cblabel \"percentage of good queries\"\n")
+        f.write("p 'test.dat' with image, 'cont.dat' w l lt -1 lw 1.5\n")
+        os.chmod(gnuplotFileName2, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
