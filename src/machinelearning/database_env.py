@@ -8,15 +8,19 @@ from py4j.java_gateway import JavaGateway
 
 start = time.time()
 
+
 def mask_fn(env: gym.Env) -> np.ndarray:
     return env.valid_action_mask()
 
+
 def sumNatural(n):
-  return (n*(n+1))/2
+    return (n * (n + 1)) / 2
+
 
 class DatabaseEnv(gym.Env):
-    def leftRightToIndex(self,left,right):
-      return int(sumNatural(self.tripleCountMax-1)-sumNatural(self.tripleCountMax-1-left)+right-left-1)
+
+    def leftRightToIndex(self, left, right):
+        return int(sumNatural(self.tripleCountMax - 1) - sumNatural(self.tripleCountMax - 1 - left) + right - left - 1)
 
     def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
@@ -100,24 +104,25 @@ class DatabaseEnv(gym.Env):
 
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
-        res= self.cursor.execute(sql, data)
+        res = self.cursor.execute(sql, data)
         return res
-    def performAction(self,left,right):
-        currentActionSpace=self.getCurrentActionSpace()
+
+    def performAction(self, left, right):
+        currentActionSpace = self.getCurrentActionSpace()
         if self.autofix_invalid_actions:
-            l=currentActionSpace[0][0]
-            r=currentActionSpace[0][1]
-            d=(left-l)*(left-l)+(right-r)*(right-r)
-            for (ll,rr) in currentActionSpace:
-             dd=(left-ll)*(left-ll)+(right-rr)*(right-rr)
-             if dd<d:
-              d=dd
-              l=ll
-              r=rr
-            left=l
-            right=r
+            l = currentActionSpace[0][0]
+            r = currentActionSpace[0][1]
+            d = (left - l) * (left - l) + (right - r) * (right - r)
+            for (ll, rr) in currentActionSpace:
+                dd = (left - ll) * (left - ll) + (right - rr) * (right - rr)
+                if dd < d:
+                    d = dd
+                    l = ll
+                    r = rr
+            left = l
+            right = r
         else:
-            if not (left,right) in currentActionSpace:
+            if not (left, right) in currentActionSpace:
                 return False
         # update observation
         for i, v in enumerate(self.observation_matrix[right, :]):
@@ -135,18 +140,19 @@ class DatabaseEnv(gym.Env):
         self.join_order_h[left] = index
         self.join_order_h[right] = index
         return True
+
     def step(self, action):
         self.step_counter += 1
         if self.step_counter % 100 == 0:
             print("step", str(self.step_counter), "took", str(time.time() - start), "seconds", flush=True)
         # fetch left and right operand
-        if not self.performAction(self.action_list[action][0],self.action_list[action][1]):
-         return self.observation_matrix, self.reward_invalid_action, False, {}
-        if len(self.join_order)+1 == (self.querySize - 1) * 2:
-         # only 1 join to go ... do it immediately without bothering the model, because there is exactly one action possible
-         action=getCurrentActionSpace()[0]
-         if not self.performAction(action[0],action[1]):
-          return self.observation_matrix, self.reward_invalid_action, False, {}
+        if not self.performAction(self.action_list[action][0], self.action_list[action][1]):
+            return self.observation_matrix, self.reward_invalid_action, False, {}
+        if len(self.join_order) + 1 == (self.querySize - 1) * 2:
+            # only 1 join to go ... do it immediately without bothering the model, because there is exactly one action possible
+            action = getCurrentActionSpace()[0]
+            if not self.performAction(action[0], action[1]):
+                return self.observation_matrix, self.reward_invalid_action, False, {}
         done = len(self.join_order) == (self.querySize - 1) * 2
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
@@ -156,13 +162,13 @@ class DatabaseEnv(gym.Env):
             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
             row = self.cursor.fetchone()
             if row == None:
-             self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
-             self.db.commit()
-             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
-             row = self.cursor.fetchone()
+                self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
+                self.db.commit()
+                self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
+                row = self.cursor.fetchone()
             if row == None:
-             exit(1)
-            self.joinOrderID =row[0]
+                exit(1)
+            self.joinOrderID = row[0]
             self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
             row = self.cursor.fetchone()
             if row == None:
@@ -211,7 +217,7 @@ class DatabaseEnv(gym.Env):
             self.query_counter = 0
             random.shuffle(self.training_data)
         self.query = self.training_data[self.query_counter][0]
-        self.querySize=len(self.query)
+        self.querySize = len(self.query)
         self.queryID = self.training_data[self.query_counter][1]
         # reset the matrix
         for x in range(self.tripleCountMax):
@@ -234,7 +240,7 @@ class DatabaseEnv(gym.Env):
 
     def set_query(self, query):
         self.query = query
-        self.querySize=len(self.query)
+        self.querySize = len(self.query)
         self.queryID = -1
 
     def joinOrderSort(self, input):
@@ -288,33 +294,34 @@ class DatabaseEnv(gym.Env):
                     done = True
                     failed = True
             self.submit_choice(failed)
+
     def getCurrentActionSpace(self):
-        result= []
+        result = []
         for i in range(self.querySize):
             for j in range(i + 1, self.querySize):
-             if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
-              variablesI=[]
-              variablesJ=[]
-              for k in range(self.querySize):
-               for l in range(3):
-                variablesI.append(self.observation_matrix[i][k][l])
-                variablesJ.append(self.observation_matrix[j][k][l])
-              variablesI2=set(filter(lambda c: c < -1, set(variablesI)))
-              variablesJ2=set(filter(lambda c: c < -1, set(variablesJ)))
-              if variablesI2 & variablesJ2:
-               result.append((i,j))
-        if len(result)==0:
-           for i in range(self.querySize):
-            for j in range(i + 1, self.querySize):
-             if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
-              result.append((i,j))
+                if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
+                    variablesI = []
+                    variablesJ = []
+                    for k in range(self.querySize):
+                        for l in range(3):
+                            variablesI.append(self.observation_matrix[i][k][l])
+                            variablesJ.append(self.observation_matrix[j][k][l])
+                    variablesI2 = set(filter(lambda c: c < -1, set(variablesI)))
+                    variablesJ2 = set(filter(lambda c: c < -1, set(variablesJ)))
+                    if variablesI2 & variablesJ2:
+                        result.append((i, j))
+        if len(result) == 0:
+            for i in range(self.querySize):
+                for j in range(i + 1, self.querySize):
+                    if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
+                        result.append((i, j))
         #print("getCurrentActionSpace",str(self.step_counter),self.observation_matrix,result)
         return result
 
     def valid_action_mask(self):
-     valid=self.getCurrentActionSpace()
-     res=[0]*len(self.action_list)
-     for a in valid:
-      res[self.leftRightToIndex(a[0],a[1])]=1
-     #print("valid_action_mask",str(self.step_counter),res)
-     return res
+        valid = self.getCurrentActionSpace()
+        res = [0] * len(self.action_list)
+        for a in valid:
+            res[self.leftRightToIndex(a[0], a[1])] = 1
+        #print("valid_action_mask",str(self.step_counter),res)
+        return res

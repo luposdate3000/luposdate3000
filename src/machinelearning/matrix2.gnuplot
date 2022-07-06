@@ -9,8 +9,8 @@ YTICS="`cut -d, -f1 < figuresteps131072.csv`"
 XTICS="`head -1 figuresteps131072.csv | sed 's/,/ /g'`"
 
 
-set xrange [-2:20]
-set yrange [-2:20]
+#set xrange [-2:20]
+#set yrange [-2:20]
 set isosample 150, 150
 set table 'test.dat'
 splot "figuresteps131072.csv" matrix rowheaders columnheaders notitle
@@ -22,8 +22,8 @@ set table 'cont.dat'
 splot "figuresteps131072.csv" matrix rowheaders columnheaders notitle
 unset table
 reset
-set xrange [-2:20]
-set yrange [-2:20]
+#set xrange [-2:20]
+#set yrange [-2:20]
 unset key
 set palette rgbformulae 33,13,10
 l '<./cont.sh cont.dat 0 15 0'

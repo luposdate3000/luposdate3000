@@ -9,11 +9,9 @@ import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
 
-
-score_mode=0
-score_cap=2 # score_mode=0
-score_fraction=0.8 # score_mode=1
-
+score_mode = 0
+score_cap = 2  # score_mode=0
+score_fraction = 0.8  # score_mode=1
 
 sqlquery = """SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score from
  (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
@@ -45,8 +43,9 @@ cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
 scoreMap = {}
 scoreMap2 = {}
+scoreMap3 = {}
 trainedOnMap = []
-luposdateScores={}
+luposdateScores = {}
 
 for triplePattern in triplePatterns:
     for optimizer in optimizers:
@@ -59,12 +58,12 @@ for triplePattern in triplePatterns:
         total_score = 0
         for row in rows:
             score = float(row[0])
-            if score_mode==0:
-             if score < score_cap:
-                 total_score = idx / len(rows)
-            elif score_mode==1:
-             if idx==int(len(rows)*score_fraction):
-              total_score=score
+            if score_mode == 0:
+                if score < score_cap:
+                    total_score = idx / len(rows)
+            elif score_mode == 1:
+                if idx == int(len(rows) * score_fraction):
+                    total_score = score
             if last is None:
                 last = score
             elif last < score:
@@ -77,86 +76,87 @@ for triplePattern in triplePatterns:
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
                 training_steps = tmp[-1]
-                trained_on = "_".join(tmp[1:-3])
+                trained_on = "_".join([x.rjust(2, '0') for x in tmp[1:-3]])
                 print("key", triplePattern, training_steps, trained_on, total_score)
                 scoreMap.setdefault(triplePattern, {}).setdefault(int(training_steps), {})[trained_on] = total_score
-                if int(training_steps)==65536:
-                 scoreMap2.setdefault(triplePattern, {})[trained_on] = total_score
+                scoreMap2.setdefault(training_steps, {}).setdefault(triplePattern, {})[trained_on] = total_score
                 trainedOnMap.append(trained_on)
             else:
                 print("key", triplePattern, "luposdate", total_score)
-                luposdateScores[triplePattern]=total_score
-                scoreMap2.setdefault(triplePattern, {})["luposdate"] = total_score
-            with open("measurements_" + name + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerows(datapoints)
+                luposdateScores[triplePattern] = total_score
+                scoreMap3.setdefault(triplePattern, {})["luposdate"] = total_score
+#            with open("measurements_" + name + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
+#                writer = csv.writer(f)
+#                writer.writerows(datapoints)
 
-
-rows = []
-header=["x","luposdate"]
-header.extend([x.replace("_", "-") for x in list(dict.fromkeys(trainedOnMap))])
-print("header",header)
-rows.append(header)
-
-for evaluatedOn in sorted(scoreMap2):
-        tmp1=scoreMap2[evaluatedOn]
+for trainingsteps, mmap in scoreMap2.items():
+    rows = []
+    header = ["x", "luposdate"]
+    header.extend([x.replace("_", "-") for x in sorted(list(dict.fromkeys(trainedOnMap)))])
+    print("header", header)
+    rows.append(header)
+    for evaluatedOn in sorted(mmap):
+        tmp1 = mmap[evaluatedOn]
         row = [None] * len(header)
         row[0] = str(evaluatedOn)
-        for trainedOn, score in tmp1.items():
+        for trainedOn in sorted(tmp1):
+            score=tmp1[trainedOn]
             row[header.index(trainedOn.replace("_", "-"))] = score
-        row[1]=luposdateScores[evaluatedOn]
+        try:
+            row[header.index("luposdate")] = scoreMap3[evaluatedOn]
+        except:
+            None
+        row[1] = luposdateScores[evaluatedOn]
         rows.append(row)
-        print("row",row)
-with open("figure2x16.csv", "w", newline="") as f:
+        print("row", row)
+    with open("figuresteps" + trainingsteps + ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
-gnuplotFileName="figure2x16.gnuplot"
-with open(gnuplotFileName, 'w') as f:
-     f.write("#!/usr/bin/env gnuplot\n")
-#     f.write("set term tikz size 8.5cm,6cm\n")
-#     f.write("set output \"figure2x16.tex\"\n")
-     f.write("set term svg size 850,600\n")
-     f.write("set output \"figure2x16.svg\"\n")
-     f.write("set datafile separator comma\n")
-     f.write("set yrange [0:*];\n")
-     f.write("set key center bottom vertical maxrows 7\n")
-     f.write("plot for [col=2:"+str(len(header))+"] \"figure2x16.csv\" using 1:col with linespoints title columnhead\n")
-     os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
-
-
+    gnuplotFileName = "figuresteps" + trainingsteps + ".gnuplot"
+    with open(gnuplotFileName, 'w') as f:
+        f.write("#!/usr/bin/env gnuplot\n")
+        f.write("set term tikz size 8.5cm,6cm\n")
+        f.write("set output \"figuresteps"+trainingsteps+".tex\"\n")
+        #f.write("set term svg size 850,600\n")
+        #f.write("set output \"figuresteps" + trainingsteps + ".svg\"\n")
+        f.write("set datafile separator comma\n")
+        f.write("set yrange [0:*];\n")
+        f.write("set key center bottom vertical maxrows 7\n")
+        f.write("plot for [col=2:" + str(len(header)) + "] \"figuresteps" + trainingsteps + ".csv\" using 1:col with linespoints title columnhead\n")
+        os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
 
 for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
     rows = []
-    header=["x","luposdate"]
-    header.extend([x.replace("_", "-") for x in list(dict.fromkeys(trainedOnMap))])
-    print("header",header)
+    header = ["x", "luposdate"]
+    header.extend([x.replace("_", "-") for x in sorted(list(dict.fromkeys(trainedOnMap)))])
+    print("header", header)
     rows.append(header)
     for steps in sorted(tmp1):
-        tmp2=tmp1[steps]
+        tmp2 = tmp1[steps]
         row = [None] * len(header)
         row[0] = str(steps)
-        for trainedOn, score in tmp2.items():
+        for trainedOn in sorted(tmp2):
+            score=tmp2[trainedOn]
             row[header.index(trainedOn.replace("_", "-"))] = score
-        row[1]=luposdateScores[evaluatedOn]
+        row[1] = luposdateScores[evaluatedOn]
         rows.append(row)
-        print("row",row)
-    with open("figure_" +str( evaluatedOn )+ ".csv", "w", newline="") as f:
+        print("row", row)
+    with open("figureevaluated" + str(evaluatedOn) + ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
-    gnuplotFileName="figure_" +str( evaluatedOn )+ ".gnuplot"
+    gnuplotFileName = "figureevaluated" + str(evaluatedOn) + ".gnuplot"
     with open(gnuplotFileName, 'w') as f:
-     f.write("#!/usr/bin/env gnuplot\n")
-#     f.write("set term tikz size 8.5cm,6cm\n")
-#     f.write("set output \"figure_"+str(evaluatedOn)+".tex\"\n")
-     f.write("set term svg size 850,600\n")
-     f.write("set output \"figure_"+str(evaluatedOn)+".svg\"\n")
-     f.write("set datafile separator comma\n")
-     f.write("set yrange [0:*];\n")
-     f.write("set logscale x 2\n")
-     f.write("set xlabel \"training steps\"\n")
-     f.write("set format x \"\$2^{%L}\$\"\n")
-     f.write("set key center bottom vertical maxrows 7\n")
-     f.write("plot for [col=2:"+str(len(header))+"] \"figure_"+str(evaluatedOn)+".csv\" using 1:col with linespoints title columnhead\n")
-     os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
-
+        f.write("#!/usr/bin/env gnuplot\n")
+        f.write("set term tikz size 8.5cm,6cm\n")
+        f.write("set output \"figureevaluated"+str(evaluatedOn)+".tex\"\n")
+        #f.write("set term svg size 850,600\n")
+        #f.write("set output \"figureevaluated" + str(evaluatedOn) + ".svg\"\n")
+        f.write("set datafile separator comma\n")
+        f.write("set yrange [0:*];\n")
+        f.write("set logscale x 2\n")
+        f.write("set xlabel \"training steps\"\n")
+        f.write("set format x \"\$2^{%L}\$\"\n")
+        f.write("set key center bottom vertical maxrows 7\n")
+        f.write("plot for [col=2:" + str(len(header)) + "] \"figureevaluated" + str(evaluatedOn) + ".csv\" using 1:col with linespoints title columnhead\n")
+        os.chmod(gnuplotFileName, os.stat(gnuplotFileName).st_mode | stat.S_IEXEC)
