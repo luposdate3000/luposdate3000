@@ -49,29 +49,39 @@ for i in range(1, len(data) - 1):
                                     if not found:
                                         for e in [(i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1)]:
                                             if k == e:
-                                               if e in poligons[d]:
-                                                d2 = []
-                                                for l in poligons[d]:
-                                                    if l == e:
-                                                        d2.append(l)
-                                                        found = True
-                                                    elif found:
-                                                        c2.append(l)
-                                                    else:
-                                                        d2.append(l)
-                                                c2.extend(d2)
-                                                poligons[d] = []
+                                                if e in poligons[d]:
+                                                    d2 = []
+                                                    for l in poligons[d]:
+                                                        if l == e:
+                                                            d2.append(l)
+                                                            found = True
+                                                        elif found:
+                                                            c2.append(l)
+                                                        else:
+                                                            d2.append(l)
+                                                    c2.extend(d2)
+                                                    poligons[d] = []
                                 if found:
                                     mapping[d] = c
                                 poligons[c] = c2
 
-#poligons = [x for x in poligons if len(x) > 0]
+poligons = [x for x in poligons if len(x) > 0]
+for i in range(len(poligons)):
+    pp2 = poligons[i]
+    pp = []
+    while len(pp2) != len(pp):
+        pp = pp2
+        pp2 = []
+        for p in pp:
+            if len(pp2) < 2:
+                pp2.append(p)
+            elif pp2[-2] == p:
+                pp2.pop()
+            else:
+                pp2.append(p)
+    poligons[i] = pp
 
-idx = 0
 for p in poligons:
     print()
-    print("poligon ", idx)
     for pp in p:
         print(pp)
-
-    idx += 1
