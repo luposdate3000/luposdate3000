@@ -8,10 +8,13 @@ import kotlin.math.pow
 
 
 val histograms = arrayOf(
-    4 to mapOf("x1" to 2),
-    8 to mapOf("x1" to 3, "x2" to 4),
-    8 to mapOf("x2" to 4),
-    2 to mapOf("x2" to 3),
+    812 to mapOf("x1" to 200), //0
+    821 to mapOf("x1" to 300, "x2" to 423),//1
+    823 to mapOf("x2" to 423),//2
+    853 to mapOf("x3" to 850),//3
+    834 to mapOf("x2" to 300),//4
+    945 to mapOf("x2" to 930),//5
+    834 to mapOf("x1" to 30),//6
 )
 
 
@@ -44,8 +47,10 @@ fun initialize() {
                     val count2 = histograms[jj].first.toDouble()
                     val distinct1 = histograms[ii].second[inputVariable]!!.toDouble()
                     val distinct2 = histograms[jj].second[inputVariable]!!.toDouble()
-                    val factor = (count1 / distinct1) * (count2 / distinct2) * (min(distinct1, distinct2) / max(distinct1, distinct2))
-                    globalFactorList.add(mapIntToBitmask[i] + mapIntToBitmask[j] to factor)
+                    val factorOld = (count1 / distinct1) * (count2 / distinct2) * (min(distinct1, distinct2) / max(distinct1, distinct2))
+val factor=1-((max(distinct1, distinct2)-min(distinct1, distinct2))/max(distinct1, distinct2))
+                    globalFactorList.add(mapIntToBitmask[ii] + mapIntToBitmask[jj] to factor)
+println("globalFactorList ${inputVariable} ${mapIntToBitmask[ii].toString(2).padStart(8,'0')} ${mapIntToBitmask[jj].toString(2).padStart(8,'0')} = $factor")
                 }
             }
         }
@@ -53,12 +58,19 @@ fun initialize() {
 }
 
 
+fun joinOrderToString(S:Int):String{
+if(arrLeft[S]==0){
+return "${log2(S.toDouble()).toInt()}"
+}else{
+return "(${joinOrderToString(arrLeft[S])},${joinOrderToString(arrRight[S])})"
+}
+}
+
 var starttime=System.nanoTime()
 initialize()
 println("initialization done                                    in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
 
 var ctr=0
-
 fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
     var S1 = S and (-S)
     do {
@@ -84,4 +96,15 @@ println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0
 ctr++
 }
 
+
+
+
+
 enumerateThem(SS, globalFactorList)
+
+for(i in 0 until SS+1){
+println("${i.toString(2).padStart(8,'0')} => ${arrCost[i]}")
+}
+
+
+println(joinOrderToString(SS))
