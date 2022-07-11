@@ -13,8 +13,21 @@ val histograms = arrayOf(
     821 to mapOf("x1" to 300, "x2" to 423),//2
     823 to mapOf("x1" to 423),//3
     834 to mapOf("x1" to 300),//4
-    834 to mapOf("x3" to 30),//6
     945 to mapOf("x1" to 930),//5
+    834 to mapOf("x3" to 30),//6
+    834 to mapOf("x3" to 30),//7
+    834 to mapOf("x3" to 30),//8
+    834 to mapOf("x3" to 30),//9
+    834 to mapOf("x3" to 30),//10
+    834 to mapOf("x3" to 30),//11
+    834 to mapOf("x3" to 30),//12
+    834 to mapOf("x3" to 30),//13
+    834 to mapOf("x3" to 30),//14
+    834 to mapOf("x3" to 30),//15
+    834 to mapOf("x3" to 30),//16
+    834 to mapOf("x3" to 30),//17
+    834 to mapOf("x3" to 30),//18
+    834 to mapOf("x3" to 30),//19
 )
 
 
@@ -98,18 +111,12 @@ fun enumerateThem(S: Int) {
                 i = i / 2
                 ii++
             }
-            if (S == 0b01110001) {
-                println("reducing ${min1 >= 0 && min2 >= 0} ${S1.toString(2).padStart(8, '0')} ${S2.toString(2).padStart(8, '0')} due to ${variables[v]} .. ${min(min1, min2)}*(${arrCostLast[S1] / min1}*${arrCostLast[S2] / min2})")
-            }
             if (min1 >= 0 && min2 >= 0) {
                 val cost2 = min(min1, min2) * ((arrCostLast[S1] / min1) * (arrCostLast[S2] / min2))
                 cost = min(cost, cost2)
             }
         }
         val costSum = cost + arrCostSum[S1] + arrCostSum[S2]
-        if (S == 0b01110001) {
-            println("choice ${S1.toString(2).padStart(8, '0')} ${S2.toString(2).padStart(8, '0')} => $costSum")
-        }
         if (arrCostSum[S] < 0 || costSum < arrCostSum[S]) {
             arrCostLast[S] = cost
             arrCostSum[S] = costSum
@@ -118,7 +125,9 @@ fun enumerateThem(S: Int) {
         }
         S1 = S and (S1 - S)
     } while (S1 != S)
-//println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+if(ctr%10000==0){
+println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+}
     ctr++
 }
 
@@ -127,9 +136,9 @@ fun enumerateThem(S: Int) {
 
 
 enumerateThem(SS)
-
+println("real ctr = $ctr")
 for (i in 0 until SS + 1) {
-    println("${i.toString(2).padStart(8, '0')} => ${arrCostSum[i]} -- ${arrCostLast[i]} .. ${joinOrderToString(i)}")
+//    println("${i.toString(2).padStart(8, '0')} => ${arrCostSum[i]} -- ${arrCostLast[i]} .. ${joinOrderToString(i)}")
 }
 
 
