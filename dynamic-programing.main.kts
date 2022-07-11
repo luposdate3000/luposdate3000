@@ -52,11 +52,17 @@ fun initialize() {
     }
 }
 
+
+var starttime=System.nanoTime()
+initialize()
+println("initialization done                                    in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+
+var ctr=0
+
 fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
     var S1 = S and (-S)
     do {
         var S2 = S - S1
-        println("working with S1 = ${S1.toString(2)}, S2 = ${S2.toString(2)}")
         if (arrCost[S1] < 0.0) {
             enumerateThem(S1, factorList.filter { it.first == it.first and S1 })
         }
@@ -64,7 +70,7 @@ fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
             enumerateThem(S2, factorList.filter { it.first == it.first and S2 })
         }
         var cost = arrCost[S1] * arrCost[S2]
-        for (factor in factorList.filter { it.first != it.first and S1 }) {
+        for (factor in factorList.filter { (it.first != (it.first and S1) ) && (0!=(it.first and S1))}) {
             cost *= factor.second
         }
         if (arrCost[S] < 0 || cost < arrCost[S]) {
@@ -74,7 +80,8 @@ fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
         }
         S1 = S and (S1 - S)
     } while (S1 != S)
+println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+ctr++
 }
 
-initialize()
 enumerateThem(SS, globalFactorList)
