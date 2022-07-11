@@ -78,7 +78,12 @@ for triplePattern in triplePatterns:
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
                 training_steps = tmp[-1]
-                trained_on = "_".join([x.rjust(2, '0') for x in tmp[1:-3]])
+                trained_on=tmp[1:-3]
+                if trained_on[0]==trained_on[1]:
+                 trained_on=[trained_on[0]]
+                 trained_on = "b"+"_".join([x.rjust(2, '0') for x in trained_on])
+                else:
+                 trained_on="c"+"_".join([x.rjust(2, '0') for x in trained_on])
                 print("key", triplePattern, training_steps, trained_on, total_score)
                 scoreMap.setdefault(triplePattern, {}).setdefault(int(training_steps), {})[trained_on] = total_score
                 scoreMap2.setdefault(training_steps, {}).setdefault(triplePattern, {})[trained_on] = total_score
@@ -94,7 +99,7 @@ for triplePattern in triplePatterns:
 for trainingsteps, mmap in scoreMap2.items():
     rows = []
     header = ["x", "luposdate"]
-    header.extend([x.replace("_", "-") for x in sorted(list(dict.fromkeys(trainedOnMap)))])
+    header.extend([x.replace("_", "-")[1:] for x in sorted(list(dict.fromkeys(trainedOnMap)))])
     print("header", header)
     rows.append(header)
     for evaluatedOn in sorted(mmap):
@@ -103,7 +108,7 @@ for trainingsteps, mmap in scoreMap2.items():
         row[0] = str(evaluatedOn)
         for trainedOn in sorted(tmp1):
             score=tmp1[trainedOn]
-            row[header.index(trainedOn.replace("_", "-"))] = score
+            row[header.index(trainedOn.replace("_", "-")[1:])] = score
         try:
             row[header.index("luposdate")] = scoreMap3[evaluatedOn]
         except:
@@ -170,7 +175,7 @@ for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
     rows = []
     header = ["x", "luposdate"]
-    header.extend([x.replace("_", "-") for x in sorted(list(dict.fromkeys(trainedOnMap)))])
+    header.extend([x.replace("_", "-")[1:] for x in sorted(list(dict.fromkeys(trainedOnMap)))])
     print("header", header)
     rows.append(header)
     for steps in sorted(tmp1):
@@ -179,7 +184,7 @@ for evaluatedOn, tmp1 in scoreMap.items():
         row[0] = str(steps)
         for trainedOn in sorted(tmp2):
             score=tmp2[trainedOn]
-            row[header.index(trainedOn.replace("_", "-"))] = score
+            row[header.index(trainedOn.replace("_", "-")[1:])] = score
         row[1] = luposdateScores[evaluatedOn]
         rows.append(row)
         print("row", row)
