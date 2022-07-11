@@ -22,7 +22,7 @@ var SS: Int = 2.0.pow(histograms.size).toInt() - 1
 val arrCost = DoubleArray(SS + 1) { -1.0 }
 val arrLeft = IntArray(SS + 1)
 val arrRight = IntArray(SS + 1)
-val globalFactorList = mutableListOf<Pair<Int,Double>>()
+val globalFactorList = mutableListOf<Pair<Int, Double>>()
 
 fun initialize() {
     val mapVarnameToInput = mutableMapOf<String, MutableSet<Int>>()
@@ -48,9 +48,9 @@ fun initialize() {
                     val distinct1 = histograms[ii].second[inputVariable]!!.toDouble()
                     val distinct2 = histograms[jj].second[inputVariable]!!.toDouble()
                     val factorOld = (count1 / distinct1) * (count2 / distinct2) * (min(distinct1, distinct2) / max(distinct1, distinct2))
-val factor=1-((max(distinct1, distinct2)-min(distinct1, distinct2))/max(distinct1, distinct2))
+                    val factor = 1 - ((max(distinct1, distinct2) - min(distinct1, distinct2)) / max(distinct1, distinct2))
                     globalFactorList.add(mapIntToBitmask[ii] + mapIntToBitmask[jj] to factor)
-println("globalFactorList ${inputVariable} ${mapIntToBitmask[ii].toString(2).padStart(8,'0')} ${mapIntToBitmask[jj].toString(2).padStart(8,'0')} = $factor")
+                    println("globalFactorList ${inputVariable} ${mapIntToBitmask[ii].toString(2).padStart(8, '0')} ${mapIntToBitmask[jj].toString(2).padStart(8, '0')} = $factor")
                 }
             }
         }
@@ -58,20 +58,20 @@ println("globalFactorList ${inputVariable} ${mapIntToBitmask[ii].toString(2).pad
 }
 
 
-fun joinOrderToString(S:Int):String{
-if(arrLeft[S]==0){
-return "${log2(S.toDouble()).toInt()}"
-}else{
-return "(${joinOrderToString(arrLeft[S])},${joinOrderToString(arrRight[S])})"
-}
+fun joinOrderToString(S: Int): String {
+    if (arrLeft[S] == 0) {
+        return "${log2(S.toDouble()).toInt()}"
+    } else {
+        return "(${joinOrderToString(arrLeft[S])},${joinOrderToString(arrRight[S])})"
+    }
 }
 
-var starttime=System.nanoTime()
+var starttime = System.nanoTime()
 initialize()
-println("initialization done                                    in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+println("initialization done                                    in ${(System.nanoTime() - starttime).toDouble() / 1_000_000_000.0}s")
 
-var ctr=0
-fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
+var ctr = 0
+fun enumerateThem(S: Int, factorList: List<Pair<Int, Double>>) {
     var S1 = S and (-S)
     do {
         var S2 = S - S1
@@ -82,7 +82,7 @@ fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
             enumerateThem(S2, factorList.filter { it.first == it.first and S2 })
         }
         var cost = arrCost[S1] * arrCost[S2]
-        for (factor in factorList.filter { (it.first != (it.first and S1) ) && (0!=(it.first and S1))}) {
+        for (factor in factorList.filter { (it.first != (it.first and S1)) && (0 != (it.first and S1)) }) {
             cost *= factor.second
         }
         if (arrCost[S] < 0 || cost < arrCost[S]) {
@@ -92,8 +92,8 @@ fun enumerateThem(S: Int, factorList: List<Pair<Int,Double>>) {
         }
         S1 = S and (S1 - S)
     } while (S1 != S)
-println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
-ctr++
+//println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
+    ctr++
 }
 
 
@@ -102,8 +102,8 @@ ctr++
 
 enumerateThem(SS, globalFactorList)
 
-for(i in 0 until SS+1){
-println("${i.toString(2).padStart(8,'0')} => ${arrCost[i]}")
+for (i in 0 until SS + 1) {
+//println("${i.toString(2).padStart(8,'0')} => ${arrCost[i]}")
 }
 
 
