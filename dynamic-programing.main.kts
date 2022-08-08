@@ -24,10 +24,10 @@ val histograms = arrayOf(
     834 to mapOf("x3" to 30),//13
     834 to mapOf("x3" to 30),//14
     834 to mapOf("x3" to 30),//15
-    834 to mapOf("x3" to 30),//16
-    834 to mapOf("x3" to 30),//17
-    834 to mapOf("x3" to 30),//18
-    834 to mapOf("x3" to 30),//19
+//    834 to mapOf("x3" to 30),//16
+//    834 to mapOf("x3" to 30),//17
+//    834 to mapOf("x3" to 30),//18
+//    834 to mapOf("x3" to 30),//19
 )
 
 
@@ -124,7 +124,8 @@ fun enumerateThem(S: Int) {
             arrRight[S] = S2
         }
         S1 = S and (S1 - S)
-    } while (S1 != S)
+//    } while (S1 != S)
+    } while (S1 < S2)
 if(ctr%10000==0){
 println("step ${ctr.toString().padStart(6,'0')} of ${SS.toString().padStart(6,'0')} (${S.toString(2).padStart(30,'0')}) in ${(System.nanoTime()-starttime).toDouble()/1_000_000_000.0}s")
 }
