@@ -23,6 +23,9 @@ dependencieshome=/opt
 {
     # class: not distributed, Maven, NoEndpoint
     # luposdate3000 provides a wrapper for jena
+    cd $dependencieshome
+    wget https://archive.apache.org/dist/jena/binaries/jena-fuseki1-1.6.0-distribution.tar.gz
+    tar -xzf jena-fuseki1-1.6.0-distribution.tar.gz 
 }
 #Apache Marmotta ->
 {

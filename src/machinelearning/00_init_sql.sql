@@ -2,7 +2,7 @@
 
 create database IF NOT EXISTS machinelearningbenchmarks;
 create user IF NOT EXISTS machinelearningbenchmarks identified by "machinelearningbenchmarks";
-grant all privileges on machinelearningbenchmarks.* TO 'machinelearningbenchmarks'@'%' identified by 'machinelearningbenchmarks';
+grant all privileges on machinelearningbenchmarks.* TO "machinelearningbenchmarks"@"%" identified by "machinelearningbenchmarks";
 flush privileges;
 
 use machinelearningbenchmarks;
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS mapping_query (
 CREATE TABLE IF NOT EXISTS mapping_join (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(2048) NOT NULL,
-    triplecount int;
+    triplecount int,
     PRIMARY KEY(id),
     UNIQUE(name)
 );
