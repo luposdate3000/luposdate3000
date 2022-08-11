@@ -9,13 +9,14 @@ import mysql.connector
 from database_env import DatabaseEnv
 from stable_baselines3 import PPO
 
-gnuplot_use_tikz=False
+gnuplot_use_tikz = False
 
 score_mode = 0
 score_cap = 2  # score_mode=0
 score_fraction = 0.8  # score_mode=1
 
-sqlquery = """SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score from
+cachequeryclean = "DROP TABLE cache"
+cachequery = """CREATE TABLE cache SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
  (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
  mapping_join mj,
  optimizer_choice oc,
@@ -31,9 +32,9 @@ where
  and bv.value is not null
  and minmax.mymin!=minmax.mymax
  and mq.rng>0.7
- and mq.triplepatterns=%s
- and oc.optimizer_id=%s
-order by score"""
+ and mq.triplepatterns=%s"""
+
+sqlquery = """SELECT score FROM cache where optimizer_id=%s order by score"""
 
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
@@ -45,17 +46,18 @@ cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
 scoreMap = {}
 scoreMap2 = {}
-scoreMap3 = {}
 trainedOnMap = []
-luposdateScores = {}
+deterministicMap = {}
 
 for triplePattern in triplePatterns:
+    cursor.execute(cachequeryclean)
+    cursor.execute(cachequery, (triplePattern, ))
     for optimizer in optimizers:
         datapoints = []
         last = None
         idx = 0
         datapoints.append([0, 0])
-        cursor.execute(sqlquery, (triplePattern, int(optimizer[1])))
+        cursor.execute(sqlquery, (int(optimizer[1]), ))
         rows = cursor.fetchall()
         total_score = 0
         for row in rows:
@@ -78,27 +80,24 @@ for triplePattern in triplePatterns:
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
                 training_steps = tmp[-1]
-                trained_on=tmp[1:-3]
-                if trained_on[0]==trained_on[1]:
-                 trained_on=[trained_on[0]]
-                 trained_on = "b"+"_".join([x.rjust(2, '0') for x in trained_on])
+                trained_on = tmp[1:-3]
+                if trained_on[0] == trained_on[1]:
+                    trained_on = [trained_on[0]]
+                    trained_on = "b" + "_".join([x.rjust(2, '0') for x in trained_on])
                 else:
-                 trained_on="c"+"_".join([x.rjust(2, '0') for x in trained_on])
+                    trained_on = "c" + "_".join([x.rjust(2, '0') for x in trained_on])
                 print("key", triplePattern, training_steps, trained_on, total_score)
                 scoreMap.setdefault(triplePattern, {}).setdefault(int(training_steps), {})[trained_on] = total_score
                 scoreMap2.setdefault(training_steps, {}).setdefault(triplePattern, {})[trained_on] = total_score
                 trainedOnMap.append(trained_on)
             else:
-                print("key", triplePattern, "luposdate", total_score)
-                luposdateScores[triplePattern] = total_score
-                scoreMap3.setdefault(triplePattern, {})["luposdate"] = total_score
-#            with open("measurements_" + name + "_" + str(triplePattern) + ".csv", "w", newline="") as f:
-#                writer = csv.writer(f)
-#                writer.writerows(datapoints)
+                print("key", triplePattern, name, total_score)
+                deterministicMap.setdefault(name, {})[triplePattern] = total_score
 
 for trainingsteps, mmap in scoreMap2.items():
     rows = []
-    header = ["x", "luposdate"]
+    header = ["x"]
+    header.extend(deterministicMap.keys())
     header.extend([x.replace("_", "-")[1:] for x in sorted(list(dict.fromkeys(trainedOnMap)))])
     print("header", header)
     rows.append(header)
@@ -107,13 +106,13 @@ for trainingsteps, mmap in scoreMap2.items():
         row = [None] * len(header)
         row[0] = str(evaluatedOn)
         for trainedOn in sorted(tmp1):
-            score=tmp1[trainedOn]
+            score = tmp1[trainedOn]
             row[header.index(trainedOn.replace("_", "-")[1:])] = score
-        try:
-            row[header.index("luposdate")] = scoreMap3[evaluatedOn]
-        except:
-            None
-        row[1] = luposdateScores[evaluatedOn]
+        for key in deterministicMap.keys():
+            try:
+                row[header.index(key)] = deterministicMap[key][evaluatedOn]
+            except:
+                None
         rows.append(row)
         print("row", row)
     with open("figuresteps" + trainingsteps + ".csv", "w", newline="") as f:
@@ -123,11 +122,11 @@ for trainingsteps, mmap in scoreMap2.items():
     with open(gnuplotFileName, 'w') as f:
         f.write("#!/usr/bin/env gnuplot\n")
         if gnuplot_use_tikz:
-         f.write("set term tikz size 8.5cm,6cm\n")
-         f.write("set output \"figuresteps"+trainingsteps+".tex\"\n")
+            f.write("set term tikz size 8.5cm,6cm\n")
+            f.write("set output \"figuresteps" + trainingsteps + ".tex\"\n")
         else:
-         f.write("set term svg size 850,600\n")
-         f.write("set output \"figuresteps" + trainingsteps + ".svg\"\n")
+            f.write("set term svg size 850,600\n")
+            f.write("set output \"figuresteps" + trainingsteps + ".svg\"\n")
         f.write("set datafile separator comma\n")
         f.write("set yrange [0:*];\n")
         f.write("set key center bottom vertical maxrows 7\n")
@@ -138,11 +137,11 @@ for trainingsteps, mmap in scoreMap2.items():
     with open(gnuplotFileName2, 'w') as f:
         f.write("#!/usr/bin/env gnuplot\n")
         if gnuplot_use_tikz:
-         f.write("set term tikz size 8.5cm,6cm\n")
-         f.write("set output \"figurestepimage"+trainingsteps+".tex\"\n")
+            f.write("set term tikz size 8.5cm,6cm\n")
+            f.write("set output \"figurestepimage" + trainingsteps + ".tex\"\n")
         else:
-         f.write("set term svg size 850,600\n")
-         f.write("set output \"figurestepimage" + trainingsteps + ".svg\"\n")
+            f.write("set term svg size 850,600\n")
+            f.write("set output \"figurestepimage" + trainingsteps + ".svg\"\n")
         f.write("set datafile separator comma\n")
 
         f.write("YTICS=\"`cut -d, -f1 < figuresteps" + trainingsteps + ".csv`\"\n")
@@ -160,7 +159,7 @@ for trainingsteps, mmap in scoreMap2.items():
         f.write("reset\n")
         f.write("unset key\n")
         if not gnuplot_use_tikz:
-          f.write("set title \"training steps "+trainingsteps+"\"\n")
+            f.write("set title \"training steps " + trainingsteps + "\"\n")
         f.write("set cbrange [0:1]\n")
         f.write("set palette rgbformulae 33,13,10\n")
         f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")
@@ -174,7 +173,8 @@ for trainingsteps, mmap in scoreMap2.items():
 for evaluatedOn, tmp1 in scoreMap.items():
     print("figurename", evaluatedOn)
     rows = []
-    header = ["x", "luposdate"]
+    header = ["x"]
+    header.extend(deterministicMap.keys())
     header.extend([x.replace("_", "-")[1:] for x in sorted(list(dict.fromkeys(trainedOnMap)))])
     print("header", header)
     rows.append(header)
@@ -183,9 +183,13 @@ for evaluatedOn, tmp1 in scoreMap.items():
         row = [None] * len(header)
         row[0] = str(steps)
         for trainedOn in sorted(tmp2):
-            score=tmp2[trainedOn]
+            score = tmp2[trainedOn]
             row[header.index(trainedOn.replace("_", "-")[1:])] = score
-        row[1] = luposdateScores[evaluatedOn]
+        for key in deterministicMap.keys():
+            try:
+                row[header.index(key)] = deterministicMap[key][evaluatedOn]
+            except:
+                None
         rows.append(row)
         print("row", row)
     with open("figureevaluated" + str(evaluatedOn) + ".csv", "w", newline="") as f:
@@ -195,11 +199,11 @@ for evaluatedOn, tmp1 in scoreMap.items():
     with open(gnuplotFileName, 'w') as f:
         f.write("#!/usr/bin/env gnuplot\n")
         if gnuplot_use_tikz:
-         f.write("set term tikz size 8.5cm,6cm\n")
-         f.write("set output \"figureevaluated"+str(evaluatedOn)+".tex\"\n")
+            f.write("set term tikz size 8.5cm,6cm\n")
+            f.write("set output \"figureevaluated" + str(evaluatedOn) + ".tex\"\n")
         else:
-         f.write("set term svg size 850,600\n")
-         f.write("set output \"figureevaluated" + str(evaluatedOn) + ".svg\"\n")
+            f.write("set term svg size 850,600\n")
+            f.write("set output \"figureevaluated" + str(evaluatedOn) + ".svg\"\n")
         f.write("set datafile separator comma\n")
         f.write("set yrange [0:*];\n")
         f.write("set logscale x 2\n")
@@ -212,11 +216,11 @@ for evaluatedOn, tmp1 in scoreMap.items():
     with open(gnuplotFileName2, 'w') as f:
         f.write("#!/usr/bin/env gnuplot\n")
         if gnuplot_use_tikz:
-         f.write("set term tikz size 8.5cm,6cm\n")
-         f.write("set output \"figureevaluatedimage"+str(evaluatedOn)+".tex\"\n")
+            f.write("set term tikz size 8.5cm,6cm\n")
+            f.write("set output \"figureevaluatedimage" + str(evaluatedOn) + ".tex\"\n")
         else:
-         f.write("set term svg size 850,600\n")
-         f.write("set output \"figureevaluatedimage" + str(evaluatedOn) + ".svg\"\n")
+            f.write("set term svg size 850,600\n")
+            f.write("set output \"figureevaluatedimage" + str(evaluatedOn) + ".svg\"\n")
         f.write("set datafile separator comma\n")
         f.write("YTICS=\"`cut -d, -f1 < figureevaluated" + str(evaluatedOn) + ".csv`\"\n")
         f.write("XTICS=\"`head -1 figureevaluated" + str(evaluatedOn) + ".csv | sed 's/,/ /g'`\"\n")
@@ -233,7 +237,7 @@ for evaluatedOn, tmp1 in scoreMap.items():
         f.write("reset\n")
         f.write("unset key\n")
         if not gnuplot_use_tikz:
-          f.write("set title \"evaluated on "+str(evaluatedOn)+"\"\n")
+            f.write("set title \"evaluated on " + str(evaluatedOn) + "\"\n")
         f.write("set cbrange [0:1]\n")
         f.write("set palette rgbformulae 33,13,10\n")
         f.write("set for [i=1:words(XTICS)] xtics ( word(XTICS,i+1) i-1 ) rotate by 45 right\n")

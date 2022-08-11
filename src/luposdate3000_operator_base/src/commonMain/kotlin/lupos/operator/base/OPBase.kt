@@ -226,15 +226,15 @@ public abstract class OPBase public constructor(
     }
 
     override fun selectSortPriority(priority: List<SortHelper>) {
-if(priority.size<=mySortPriority.size){
-var flag=true
-for(i in 0 until priority.size){
-flag=flag&&priority[i]==mySortPriority[i]
-}
-if(flag){
-return
-}
-}
+        if (priority.size <= mySortPriority.size) {
+            var flag = true
+            for (i in 0 until priority.size) {
+                flag = flag && priority[i] == mySortPriority[i]
+            }
+            if (flag) {
+                return
+            }
+        }
         val tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size

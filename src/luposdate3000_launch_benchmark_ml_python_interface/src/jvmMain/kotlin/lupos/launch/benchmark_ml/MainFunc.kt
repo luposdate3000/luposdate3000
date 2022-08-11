@@ -16,28 +16,26 @@
  */
 package lupos.launch.benchmark_ml_python_interface
 
-import lupos.shared.Luposdate3000Instance
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
-import lupos.shared.EOptimizer
-import lupos.shared.EOptimizerExt
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
+import lupos.shared.EOptimizerExt
+import lupos.shared.Luposdate3000Instance
 import lupos.shared.inline.MyPrintWriter
-import lupos.shared.inline.Platform
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 import py4j.GatewayServer
-import kotlin.concurrent.timer
 import java.util.Timer
+import kotlin.concurrent.timer
 
 private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = coroutineScope {
     map { async { f(it) } }.awaitAll()
@@ -98,10 +96,10 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
             return q.machineLearningOptimizerOrder2.joinToString(",")
         } catch (e: Throwable) {
             e.printStackTrace()
-val msg=e.message
-if(msg!=null&&msg.contains("Maximum lock count exceeded")){
-System.exit(1)
-}
+            val msg = e.message
+            if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                System.exit(1)
+            }
             return null
         }
     }
@@ -130,24 +128,25 @@ System.exit(1)
                 println("return null")
                 return null
             }
-                println("return "+q.machineLearningCounter)
+            println("return " + q.machineLearningCounter)
             return q.machineLearningCounter
         } catch (e: Throwable) {
             e.printStackTrace()
-val msg=e.message
-if(msg!=null&&msg.contains("Maximum lock count exceeded")){
-System.exit(1)
-}
-                println("return null")
+            val msg = e.message
+            if (msg != null && msg.contains("Maximum lock count exceeded")) {
+                System.exit(1)
+            }
+            println("return null")
             return null
         }
     }
-
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, minimumTime: String) {
     val instance = LuposdateEndpoint.initialize()
+instance.enableJoinOrderOnDynamicProgramming=true
+instance.enableJoinOrderOnDynamicProgrammingNoCluster=true
     var noTimeMeasurement = minimumTime.toDouble() <= 0
     val minimumTime2 = if (noTimeMeasurement) {
         if (minimumTime.toDouble() < 0.1 && minimumTime.toDouble() > -0.1) {

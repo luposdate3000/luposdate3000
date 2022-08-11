@@ -26,8 +26,8 @@ import kotlin.jvm.JvmField
 
 public object EvalCounter {
     public operator fun invoke(query: Query, child: IteratorBundle, instance: Luposdate3000Instance): IteratorBundle {
-val the_limit=2000000
-val the_global_limit=200000000
+        val the_limit = 2000000
+        val the_global_limit = 200000000
         if (child.hasCountMode()) {
             query.machineLearningCounter++
             query.machineLearningCounterGlobal++
@@ -40,7 +40,7 @@ val the_global_limit=200000000
             val tmp = if (first) {
                 first = false
                 object : ColumnIterator() {
-                    var local_ctr = 0;
+                    var local_ctr = 0
 
                     @JvmField
                     val iterator = child.columns[variable]!!
@@ -51,9 +51,9 @@ val the_global_limit=200000000
                         return if (label != 0) {
                             query.machineLearningCounter++
                             local_ctr++
-query.machineLearningCounterGlobal++
-                            if (local_ctr > the_limit||query.machineLearningCounterGlobal>the_global_limit) {
-query.machineLearningAbort=true
+                            query.machineLearningCounterGlobal++
+                            if (local_ctr > the_limit || query.machineLearningCounterGlobal> the_global_limit) {
+                                query.machineLearningAbort = true
                                 DictionaryValueHelper.nullValue
                             } else {
                                 iterator.next()
@@ -77,7 +77,7 @@ query.machineLearningAbort=true
                 }
             } else {
                 object : ColumnIterator() {
-                    var local_ctr = 0;
+                    var local_ctr = 0
 
                     @JvmField
                     val iterator = child.columns[variable]!!
@@ -86,10 +86,10 @@ query.machineLearningAbort=true
                     var label = 1
                     override /*suspend*/ fun next(): DictionaryValueType {
                         return if (label != 0) {
-query.machineLearningCounterGlobal++
+                            query.machineLearningCounterGlobal++
                             local_ctr++
-                            if (local_ctr > the_limit||query.machineLearningCounterGlobal>the_global_limit) {
-query.machineLearningAbort=true
+                            if (local_ctr > the_limit || query.machineLearningCounterGlobal> the_global_limit) {
+                                query.machineLearningAbort = true
                                 DictionaryValueHelper.nullValue
                             } else {
                                 iterator.next()

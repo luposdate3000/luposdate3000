@@ -36,8 +36,9 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     @JvmField
     public var optimizer: EOptimizer = EOptimizerExt.Default
 
-@JvmField
-    public var machineLearningAbort:Boolean=false
+    @JvmField
+    public var machineLearningAbort: Boolean = false
+
     @JvmField
     public var machineLearningOptimizerOrder: Int = 0
 
@@ -52,6 +53,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
 
     @JvmField
     public var machineLearningCounter: Long = 0L
+
     @JvmField
     public var machineLearningCounterGlobal: Long = 0L
 
@@ -159,7 +161,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:161"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:163"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
             tmp.add(uuid)
         }
     }
@@ -167,7 +169,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:169"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) }, { "$uuid $id .. $root" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:171"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) }, { "$uuid $id .. $root" })
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

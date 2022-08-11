@@ -18,7 +18,6 @@ package lupos.launch.benchmark_ml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import lupos.shared.EOptimizerExt
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
@@ -35,6 +34,7 @@ import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.LogicalOptimizerBuildCustomJoinOrderML
 import lupos.shared.DateHelperRelative
+import lupos.shared.EOptimizerExt
 import lupos.shared.TooManyIntermediateResultsException
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter

@@ -121,10 +121,18 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                 if (result != null) {
                     return result
                 }
+try{
+                if (query.getInstance().enableJoinOrderOnDynamicProgramming) {
+                    result = LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming(nodes, root)
+                    return result
+                }
+}catch(e:Throwable){}
+try{
                 if (query.getInstance().enableJoinOrderOnHistogram) {
                     result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
                     return result
                 }
+}catch(e:Throwable){}
                 result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
                 if (result != null) {
                     return result
@@ -137,7 +145,7 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:139"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:147"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }
@@ -150,12 +158,17 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
         if (allChilds2.size > 2) {
             var result: IOPBase? = null
             if (result == null) {
+if(query.getInstance().enableJoinOrderOnDynamicProgrammingNoCluster){
+result = applyOptimisation(allChilds2, node)
+println("optimized for no cluster")
+}else{
                 val allChilds3 = clusterizeChildren(allChilds2)
                 val allChilds4 = mutableListOf<IOPBase>()
                 for (child in allChilds3) {
                     allChilds4.add(applyOptimisation(child, node))
                 }
                 result = applyOptimisation(allChilds4, node)
+}
             }
             if (result != res) {
                 onChange()
@@ -202,9 +215,8 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                     val allChilds2 = findAllJoinsInChildren(node)
                     res = internalOptimize(node, allChilds2, onChange)
                 }
-
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:206"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:218"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }
