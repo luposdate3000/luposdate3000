@@ -54,7 +54,7 @@ print("found", len(training_data), "queries")
 
 ctr = 0
 for queryrow in training_data:
-    print("query", ctr, "/", len(training_data))
+    print("query", ctr, "/", len(training_data), flush=True)
     query = queryrow[0]
     queryID = queryrow[1]
     querySparql=""
@@ -110,9 +110,9 @@ for queryrow in training_data:
        elif tripleOrder == "PredicateSubjectObject":
         lst=[stack[-1][1],stack[-1][0],stack[-1][2]]
        elif tripleOrder == "PredicateObjectSubject":
-        lst=[stack[-1][1],stack[-1][2],stack[-1][0]]
-       elif tripleOrder == "ObjectSubjectPredicate":
         lst=[stack[-1][2],stack[-1][0],stack[-1][1]]
+       elif tripleOrder == "ObjectSubjectPredicate":
+        lst=[stack[-1][1],stack[-1][2],stack[-1][0]]
        elif tripleOrder == "ObjectPredicateSubject":
         lst=[stack[-1][2],stack[-1][1],stack[-1][0]]
        stack[-1]=len(triples)
@@ -166,7 +166,6 @@ for queryrow in training_data:
       return triples3[lst]
     mytraverse(stack)
     joinOrderString=",".join([str(x) for x in result])
-    print(joinOrderString)
 
     joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 

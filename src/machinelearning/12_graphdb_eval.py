@@ -54,7 +54,7 @@ print("found", len(training_data), "queries")
 
 ctr = 0
 for queryrow in training_data:
-    print("query", ctr, "/", len(training_data))
+    print("query", ctr, "/", len(training_data), flush=True)
     query = queryrow[0]
     queryID = queryrow[1]
     querySparql = "SELECT (count(*) as ?x) FROM <http://www.ontotext.com/explain> WHERE {"
