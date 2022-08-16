@@ -173,7 +173,7 @@ for queryrow in training_data:
     row = cursor.fetchone()
     if row == None:
         print("calling lupos", flush=True)
-        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+        value = luposdate.getIntermediateResultsFor(querySparql[len("explain "):], joinOrderString)
         print("response from lupos", flush=True)
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
