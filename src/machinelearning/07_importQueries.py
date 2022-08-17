@@ -7,6 +7,20 @@ mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks
 mycursor = mydb.cursor()
 
 
+def getOrAddDB(database, value):
+    l = value.strip()
+    mycursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+    row = mycursor.fetchone()
+    if row == None:
+        mycursor.execute("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
+        mydb.commit()
+        mycursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+        row = mycursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
+
+
 def nameToIdInDBDict(value):
     l = value.strip()
     mycursor.execute("SELECT id FROM mapping_dictionary WHERE name=%s", (l, ))
@@ -21,14 +35,18 @@ def nameToIdInDBDict(value):
     return row[0]
 
 
+dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+datasetID = getOrAddDB("mapping_dataset", dataset)
+
+
 def nameToIdInDBQuery(value, tp):
     l = value.strip()
-    mycursor.execute("SELECT id FROM mapping_query WHERE name=%s", (l, ))
+    mycursor.execute("SELECT id FROM mapping_query WHERE name=%s and dataset_ID=%s", (l, datasetID))
     row = mycursor.fetchone()
     if row == None:
-        mycursor.execute("INSERT INTO mapping_query (name,triplepatterns) VALUES(%s,%s)", (l, tp))
+        mycursor.execute("INSERT INTO mapping_query (name,triplepatterns,dataset_ID) VALUES(%s,%s,%s)", (l, tp, datasetID))
         mydb.commit()
-        mycursor.execute("SELECT id FROM mapping_query WHERE name=%s", (l, ))
+        mycursor.execute("SELECT id FROM mapping_query WHERE name=%s and dataset_ID=%s", (l, datasetID))
         row = mycursor.fetchone()
     if row == None:
         exit(1)

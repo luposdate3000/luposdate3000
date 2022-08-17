@@ -70,10 +70,10 @@ class DatabaseEnv(gym.Env):
             self.optimizerID = None
         self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
         if ratio >= 0:
-            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s", (learnOnMin, learnOnMax, ratio))
+            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s and mq.dataset_id = %s", (learnOnMin, learnOnMax, ratio, self.datasetID))
         else:
-            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng >= %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
-                              (learnOnMin, learnOnMax, -ratio, self.datasetID, self.optimizerID))
+            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng >= %s and mq.dataset_id = %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
+                              (learnOnMin, learnOnMax, -ratio, self.datasetID, self.datasetID, self.optimizerID))
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:

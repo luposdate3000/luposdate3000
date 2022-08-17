@@ -7,7 +7,7 @@ for x in 3_3 4_4 5_5 6_6 7_7 8_8 9_9 10_10 11_11 12_12 13_13 14_14 15_15 16_16 1
 do
 arr=(${x//_/ })
 ii=$(printf "%04d" $i)
-echo ./11_joinopti_agent_train.py ${arr[0]} ${arr[1]} 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 /src/luposdate3000/src/machinelearning/models/ > tasks/$ii.sh
+echo ./11_joinopti_agent_train.py ${arr[0]} ${arr[1]} 128 0.7 /mnt/luposdate-testdata/wordnet/wordnet.nt /src/luposdate3000/src/machinelearning/models/ > tasks/$ii.sh
 chmod +x tasks/$ii.sh
 i=$((i+1))
 done
@@ -19,7 +19,7 @@ arr=(${x//_/ })
 for y in 2048 4096 8192 16384 32768 65536 131072 262144 393216 524288 655360 786432 917504 1048576 1179648 1310720 1441792 1572864
 do
 ii=$(printf "%04d" $i)
-echo ./12_joinopti_agent_eval.py 1 $upper 128 0.7 /mnt/luposdate-testdata/sp2b/1048576/complete.n3 models/model_${arr[0]}_${arr[1]}_128_0.7_${y}.model > tasks/$ii.sh
+echo ./12_joinopti_agent_eval.py 1 $upper 128 0.7 /mnt/luposdate-testdata/wordnet/wordnet.nt models/model_${arr[0]}_${arr[1]}_128_0.7_${y}.model > tasks/$ii.sh
 chmod +x tasks/$ii.sh
 i=$((i+1))
 done

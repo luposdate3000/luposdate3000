@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS mapping_query (
     name varchar(2048) NOT NULL,
     triplepatterns int NOT NULL,
     rng float,
+    dataset_id int NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(name)
 );

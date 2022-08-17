@@ -12,6 +12,7 @@ cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
 
+
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
 
@@ -32,11 +33,10 @@ def getOrAddDB(database, value):
 
 learnOnMin = 0
 learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
-#dataset = "/mnt/luposdate-testdata/sp2b/1024/complete.n3"
+dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
-cursor.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value is NULL and mj.id=bv.join_id")
+cursor.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value is NULL and mj.id=bv.join_id and bv.dataset=%s and mq.dataset_id=%s", (datasetID, datasetID))
 rows = cursor.fetchall()
 training_data = []
 for row in rows:
@@ -47,7 +47,7 @@ for row in rows:
         if len(tmp) == 3:
             xx.append(tmp)
             tmp = []
-    training_data.append([xx, row[1],row[2],row[3]])
+    training_data.append([xx, row[1], row[2], row[3]])
 print("found", len(training_data), "queries")
 
 ctr = 0
@@ -71,7 +71,7 @@ for queryrow in training_data:
 
     print("calling lupos", flush=True)
     value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-    print("response from lupos was ",value, flush=True)
-    myCurserExec("UPDATE benchmark_values set value=%s where dataset_id=%s and query_id=%s and join_id=%s", (value,datasetID, queryID, joinOrderID))
+    print("response from lupos was ", value, flush=True)
+    myCurserExec("UPDATE benchmark_values set value=%s where dataset_id=%s and query_id=%s and join_id=%s", (value, datasetID, queryID, joinOrderID))
     db.commit()
     ctr += 1

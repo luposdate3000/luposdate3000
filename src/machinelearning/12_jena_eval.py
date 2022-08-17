@@ -12,6 +12,7 @@ cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
 
+
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
 
@@ -32,12 +33,12 @@ def getOrAddDB(database, value):
 
 learnOnMin = 0
 learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
-#dataset = "/mnt/luposdate-testdata/sp2b/1024/complete.n3"
+dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "jena")
 
-myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)", (learnOnMin, learnOnMax, datasetID, optimizerID))
+myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s and mq.dataset_id = %s)",
+             (learnOnMin, learnOnMax, datasetID, optimizerID, datasetID))
 rows = cursor.fetchall()
 training_data = []
 for row in rows:
@@ -68,35 +69,35 @@ for queryrow in training_data:
         querySparql += "."
     querySparql += "}"
     with open("query_jena.rq", "w") as text_file:
-     text_file.write(querySparql)
+        text_file.write(querySparql)
     result = subprocess.run(['/mnt2/apache-jena-4.5.0/bin/arq', '--explain', '--data', dataset, '--query', 'query_jena.rq', '--strict'], stderr=subprocess.PIPE)
     resultstring = result.stderr.decode('utf-8').splitlines()
-    linesIn=[]
-    linesOut=[]
-    currentOut=[]
+    linesIn = []
+    linesOut = []
+    currentOut = []
     for x in resultstring:
-     if "INFO" in x:
-      if "BGP" in x:
-       currentOut=linesIn
-      elif "Reorder/generic" in x:
-       currentOut=linesOut
-      else:
-       currentOut=[]
-     else:
-      currentOut.append(x)
-    linesIdx=[]
+        if "INFO" in x:
+            if "BGP" in x:
+                currentOut = linesIn
+            elif "Reorder/generic" in x:
+                currentOut = linesOut
+            else:
+                currentOut = []
+        else:
+            currentOut.append(x)
+    linesIdx = []
     for x in linesOut:
-     linesIdx.append(linesIn.index(x))
-    joinOrderString=""+str(linesIdx[0])+","+str(linesIdx[1])
-    idx=-1
+        linesIdx.append(linesIn.index(x))
+    joinOrderString = "" + str(linesIdx[0]) + "," + str(linesIdx[1])
+    idx = -1
     for x in linesIdx[2:]:
-     joinOrderString+=","+str(x)+","+str(idx)
-     idx=idx-1
+        joinOrderString += "," + str(x) + "," + str(idx)
+        idx = idx - 1
 #    print(querySparql)
 #    print(resultstring)
 #    print(linesIdx)
 #    print(joinOrderString)
-    #    joinOrderString = luposdate.getJoinOrderFor(querySparql)
+#    joinOrderString = luposdate.getJoinOrderFor(querySparql)
     joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))

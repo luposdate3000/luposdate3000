@@ -115,15 +115,15 @@ for trainingsteps, mmap in scoreMap2.items():
                 None
         rows.append(row)
         print("row", row)
-    header2=[]
+    header2 = []
     for h in header:
-     if h== "luposdate3000_dynamic_programming":
-      header2.append("luposdate3000(dp)")
-     elif h== "luposdate3000":
-      header2.append("luposdate3000(g)")
-     else:
-      header2.append(h)
-    rows[0]=header2
+        if h == "luposdate3000_dynamic_programming":
+            header2.append("luposdate3000(dp)")
+        elif h == "luposdate3000":
+            header2.append("luposdate3000(g)")
+        else:
+            header2.append(h)
+    rows[0] = header2
     with open("figuresteps" + trainingsteps + ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
@@ -201,15 +201,15 @@ for evaluatedOn, tmp1 in scoreMap.items():
                 None
         rows.append(row)
         print("row", row)
-    header2=[]
+    header2 = []
     for h in header:
-     if h== "luposdate3000_dynamic_programming":
-      header2.append("luposdate3000(dp)")
-     elif h== "luposdate3000":
-      header2.append("luposdate3000(g)")
-     else:
-      header2.append(h)
-    rows[0]=header2
+        if h == "luposdate3000_dynamic_programming":
+            header2.append("luposdate3000(dp)")
+        elif h == "luposdate3000":
+            header2.append("luposdate3000(g)")
+        else:
+            header2.append(h)
+    rows[0] = header2
     with open("figureevaluated" + str(evaluatedOn) + ".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
