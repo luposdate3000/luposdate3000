@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S python3 -OO -u
 import os
 import sys
 import gym
@@ -34,7 +34,9 @@ learnOnMin = 0
 learnOnMax = 18
 dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
-optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming_no_cluster")
+#optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming")
+#optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming_no_cluster")
+optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000")
 
 myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s and NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
              (learnOnMin, learnOnMax, datasetID, datasetID, optimizerID))

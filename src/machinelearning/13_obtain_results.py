@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S python3 -OO -u
 import os
 import stat
 import sys
@@ -32,12 +32,30 @@ where
  and bv.value is not null
  and minmax.mymin!=minmax.mymax
  and mq.rng>0.7
- and mq.triplepatterns=%s"""
+ and mq.triplepatterns=%s
+ and bv.dataset_id=%s
+"""
 
 sqlquery = """SELECT score FROM cache where optimizer_id=%s order by score"""
 
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
+
+def getOrAddDB(database, value):
+    l = value.strip()
+    cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+    row = cursor.fetchone()
+    if row == None:
+        cursor.execute("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
+        db.commit()
+        cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+        row = cursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
+
+dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+datasetID = getOrAddDB("mapping_dataset", dataset)
 
 cursor.execute("select distinct triplepatterns from mapping_query")
 rows = cursor.fetchall()
@@ -51,7 +69,7 @@ deterministicMap = {}
 
 for triplePattern in triplePatterns:
     cursor.execute(cachequeryclean)
-    cursor.execute(cachequery, (triplePattern, ))
+    cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
         datapoints = []
         last = None

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S python3 -OO -u
 import mysql.connector
 import requests
 import sys
