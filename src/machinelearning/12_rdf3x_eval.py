@@ -85,102 +85,104 @@ for queryrow in training_data:
     querySparql = "explain SELECT " + " ".join(variables) + " WHERE {" + querySparql + "}"
     with open("query_rdf3x.rq", "w") as text_file:
         text_file.write(querySparql)
-    result = subprocess.run(['/mnt2/rdf3x/bin/rdf3xquery', '/mnt2/rdf3x/bin/mydatabase', 'query_rdf3x.rq'], stdout=subprocess.PIPE)
-    print(result)  #static analysis determined that the query result will be empty
-    resultstring = result.stdout.decode('utf-8').splitlines()
-    stack = [[]]
-    inTriple = False
-    tripleOrder = ""
-    triples = []
-    variablesNew = []
-    variablesNext = False
-    variablemappings = {}
-    for x in resultstring:
-        y = x.strip()
-        if variablesNext:
-            variablesNew = y[1:-1].split(" ")
-            for i in range(0, len(variablesNew)):
-                variablemappings[variablesNew[i]] = variables[i]
-            variablesNext = False
-        if y == ">":
+    result = subprocess.run(['/mnt2/rdf3x/bin/rdf3xquery', '/mnt2/rdf3x/bin/mydatabase', 'query_rdf3x.rq'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    resulterrunicode = result.stderr.decode('utf-8')
+    resultunicode = result.stdout.decode('utf-8')
+    if not ("static analysis determined that the query result will be empty" in resulterrunicode):
+        resultstring = resultunicode.splitlines()
+        stack = [[]]
+        inTriple = False
+        tripleOrder = ""
+        triples = []
+        variablesNew = []
+        variablesNext = False
+        variablemappings = {}
+        for x in resultstring:
+            y = x.strip()
+            if variablesNext:
+                variablesNew = y[1:-1].split(" ")
+                for i in range(0, len(variablesNew)):
+                    variablemappings[variablesNew[i]] = variables[i]
+                variablesNext = False
+            if y == ">":
+                if inTriple:
+                    lst = []
+                    if tripleOrder == "SubjectPredicateObject":
+                        lst = [stack[-1][0], stack[-1][1], stack[-1][2]]
+                    elif tripleOrder == "SubjectObjectPredicate":
+                        lst = [stack[-1][0], stack[-1][2], stack[-1][1]]
+                    elif tripleOrder == "PredicateSubjectObject":
+                        lst = [stack[-1][1], stack[-1][0], stack[-1][2]]
+                    elif tripleOrder == "PredicateObjectSubject":
+                        lst = [stack[-1][2], stack[-1][0], stack[-1][1]]
+                    elif tripleOrder == "ObjectSubjectPredicate":
+                        lst = [stack[-1][1], stack[-1][2], stack[-1][0]]
+                    elif tripleOrder == "ObjectPredicateSubject":
+                        lst = [stack[-1][2], stack[-1][1], stack[-1][0]]
+                    stack[-1] = len(triples)
+                    triples.append(lst)
+                inTriple = False
+            if y.startswith("<ResultsPrinter"):
+                variablesNext = True
             if inTriple:
-                lst = []
-                if tripleOrder == "SubjectPredicateObject":
-                    lst = [stack[-1][0], stack[-1][1], stack[-1][2]]
-                elif tripleOrder == "SubjectObjectPredicate":
-                    lst = [stack[-1][0], stack[-1][2], stack[-1][1]]
-                elif tripleOrder == "PredicateSubjectObject":
-                    lst = [stack[-1][1], stack[-1][0], stack[-1][2]]
-                elif tripleOrder == "PredicateObjectSubject":
-                    lst = [stack[-1][2], stack[-1][0], stack[-1][1]]
-                elif tripleOrder == "ObjectSubjectPredicate":
-                    lst = [stack[-1][1], stack[-1][2], stack[-1][0]]
-                elif tripleOrder == "ObjectPredicateSubject":
-                    lst = [stack[-1][2], stack[-1][1], stack[-1][0]]
-                stack[-1] = len(triples)
-                triples.append(lst)
-            inTriple = False
-        if y.startswith("<ResultsPrinter"):
-            variablesNext = True
-        if inTriple:
-            stack[-1].append(y)
-        elif y == "SubjectPredicateObject" or y == "SubjectObjectPredicate" or y == "PredicateSubjectObject" or y == "PredicateObjectSubject" or y == "ObjectSubjectPredicate" or y == "ObjectPredicateSubject":
-            tripleOrder = y
-            inTriple = True
-        elif y == ">":
-            stack[-2].append(stack[-1])
-            stack.pop()
-        elif y.startswith("<"):
-            stack.append([])
-        elif "=" in y:
-            a = y.split("=")
-            res = a[0]
-            while res in variablemappings:
-                res = variablemappings[res]
-            variablemappings[a[1]] = res
-    triples2 = []
-    for t in triples:
-        tt = []
-        for x in t:
-            if x.startswith("?"):
-                tt.append(variablemappings[x])
+                stack[-1].append(y)
+            elif y == "SubjectPredicateObject" or y == "SubjectObjectPredicate" or y == "PredicateSubjectObject" or y == "PredicateObjectSubject" or y == "ObjectSubjectPredicate" or y == "ObjectPredicateSubject":
+                tripleOrder = y
+                inTriple = True
+            elif y == ">":
+                stack[-2].append(stack[-1])
+                stack.pop()
+            elif y.startswith("<"):
+                stack.append([])
+            elif "=" in y:
+                a = y.split("=")
+                res = a[0]
+                while res in variablemappings:
+                    res = variablemappings[res]
+                variablemappings[a[1]] = res
+        triples2 = []
+        for t in triples:
+            tt = []
+            for x in t:
+                if x.startswith("?"):
+                    tt.append(variablemappings[x])
+                else:
+                    tt.append(x)
+            triples2.append(tt)
+
+        triples3 = []
+        for t in triples2:
+            triples3.append(linesIn.index(" ".join(t)))
+
+        result = []
+
+        def mytraverse(lst):
+            if type(lst) is list:
+                if len(lst) == 1:
+                    return mytraverse(lst[0])
+                else:
+                    a = mytraverse(lst[0])
+                    b = mytraverse(lst[1])
+                    result.append(a)
+                    result.append(b)
+                    return int(-len(result) / 2)
             else:
-                tt.append(x)
-        triples2.append(tt)
+                return triples3[lst]
 
-    triples3 = []
-    for t in triples2:
-        triples3.append(linesIn.index(" ".join(t)))
+        mytraverse(stack)
+        joinOrderString = ",".join([str(x) for x in result])
 
-    result = []
+        joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
-    def mytraverse(lst):
-        if type(lst) is list:
-            if len(lst) == 1:
-                return mytraverse(lst[0])
-            else:
-                a = mytraverse(lst[0])
-                b = mytraverse(lst[1])
-                result.append(a)
-                result.append(b)
-                return int(-len(result) / 2)
-        else:
-            return triples3[lst]
-
-    mytraverse(stack)
-    joinOrderString = ",".join([str(x) for x in result])
-
-    joinOrderID = getOrAddDB("mapping_join", joinOrderString)
-
-    myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
-    row = cursor.fetchone()
-    if row == None:
-        print("calling lupos", flush=True)
-        value = luposdate.getIntermediateResultsFor(querySparql[len("explain "):], joinOrderString)
-        print("response from lupos", flush=True)
-        myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
+        myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
+        row = cursor.fetchone()
+        if row == None:
+            print("calling lupos", flush=True)
+            value = luposdate.getIntermediateResultsFor(querySparql[len("explain "):], joinOrderString)
+            print("response from lupos", flush=True)
+            myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
+            db.commit()
+        myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
+        myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
         db.commit()
-    myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
-    myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
-    db.commit()
     ctr += 1
