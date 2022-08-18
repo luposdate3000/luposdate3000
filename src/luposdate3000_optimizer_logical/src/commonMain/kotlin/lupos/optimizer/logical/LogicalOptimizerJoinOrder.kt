@@ -121,18 +121,18 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                 if (result != null) {
                     return result
                 }
-try{
-                if (query.getInstance().enableJoinOrderOnDynamicProgramming) {
-                    result = LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming(nodes, root)
-                    return result
-                }
-}catch(e:Throwable){}
-try{
-                if (query.getInstance().enableJoinOrderOnHistogram) {
-                    result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-                    return result
-                }
-}catch(e:Throwable){}
+                try {
+                    if (query.getInstance().enableJoinOrderOnDynamicProgramming) {
+                        result = LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming(nodes, root)
+                        return result
+                    }
+                } catch (e: Throwable) {}
+                try {
+                    if (query.getInstance().enableJoinOrderOnHistogram) {
+                        result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
+                        return result
+                    }
+                } catch (e: Throwable) {}
                 result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
                 if (result != null) {
                     return result
@@ -158,17 +158,17 @@ try{
         if (allChilds2.size > 2) {
             var result: IOPBase? = null
             if (result == null) {
-if(query.getInstance().enableJoinOrderOnDynamicProgrammingNoCluster){
-result = applyOptimisation(allChilds2, node)
-println("optimized for no cluster")
-}else{
-                val allChilds3 = clusterizeChildren(allChilds2)
-                val allChilds4 = mutableListOf<IOPBase>()
-                for (child in allChilds3) {
-                    allChilds4.add(applyOptimisation(child, node))
+                if (query.getInstance().enableJoinOrderOnDynamicProgrammingNoCluster) {
+                    result = applyOptimisation(allChilds2, node)
+                    println("optimized for no cluster")
+                } else {
+                    val allChilds3 = clusterizeChildren(allChilds2)
+                    val allChilds4 = mutableListOf<IOPBase>()
+                    for (child in allChilds3) {
+                        allChilds4.add(applyOptimisation(child, node))
+                    }
+                    result = applyOptimisation(allChilds4, node)
                 }
-                result = applyOptimisation(allChilds4, node)
-}
             }
             if (result != res) {
                 onChange()

@@ -15,23 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
+import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 import kotlin.math.log2
 import kotlin.math.min
 import kotlin.math.pow
-import lupos.operator.base.Query
 // https://db.in.tum.de/teaching/ws1415/queryopt/chapter3.pdf page 160
 
 public object LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming.kt:28"/*SOURCE_FILE_END*/ }, { allChilds.isNotEmpty() })
 
-if(allChilds.size>18){
-(root.query as Query).machineLearningAbort=true
-throw Exception("unable to use dynmic programming")
-}
+        if (allChilds.size> 18) {
+            (root.query as Query).machineLearningAbort = true
+            throw Exception("unable to use dynmic programming")
+        }
 
         val histograms = mutableListOf<Pair<Int, MutableMap<String, Int>>>()
         for (c in allChilds) {

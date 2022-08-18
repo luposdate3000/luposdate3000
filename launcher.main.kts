@@ -627,7 +627,7 @@ ParamClass(
     ),
     ParamClass(
         "--compilerVersion",
-        "1.7.255-SNAPSHOT",
+        "1.8.255-SNAPSHOT",
         listOf(
             "1.4.0",
             "1.5.0",
@@ -639,6 +639,7 @@ ParamClass(
             "1.6.20-M1",
             "1.6.255-SNAPSHOT",
             "1.7.255-SNAPSHOT",
+            "1.8.255-SNAPSHOT",
 // for new versions look at https://oss.sonatype.org/content/repositories/snapshots/org/jetbrains/kotlin/multiplatform/org.jetbrains.kotlin.multiplatform.gradle.plugin/
         ),
         false,

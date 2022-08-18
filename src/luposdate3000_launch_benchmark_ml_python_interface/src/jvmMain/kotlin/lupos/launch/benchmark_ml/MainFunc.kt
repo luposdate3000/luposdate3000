@@ -144,9 +144,20 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, minimumTime: String) {
+    val isDynamicCluster = false
+    val isDynamic = false
+    val isGreedy = true
     val instance = LuposdateEndpoint.initialize()
-instance.enableJoinOrderOnDynamicProgramming=true
-instance.enableJoinOrderOnDynamicProgrammingNoCluster=true
+    if (isDynamicCluster) {
+        instance.enableJoinOrderOnDynamicProgramming = true
+        instance.enableJoinOrderOnDynamicProgrammingNoCluster = true
+    } else if (isDynamic) {
+        instance.enableJoinOrderOnDynamicProgramming = true
+        instance.enableJoinOrderOnDynamicProgrammingNoCluster = false
+    } else if (isGreedy) {
+        instance.enableJoinOrderOnDynamicProgramming = false
+        instance.enableJoinOrderOnDynamicProgrammingNoCluster = false
+    }
     var noTimeMeasurement = minimumTime.toDouble() <= 0
     val minimumTime2 = if (noTimeMeasurement) {
         if (minimumTime.toDouble() < 0.1 && minimumTime.toDouble() > -0.1) {

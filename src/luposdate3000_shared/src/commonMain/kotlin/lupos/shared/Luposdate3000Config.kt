@@ -113,8 +113,10 @@ public object Luposdate3000Config {
 
     @JvmField
     public var enableJoinOrderOnHistogram: Boolean = true
+
     @JvmField
     public var enableJoinOrderOnDynamicProgramming: Boolean = false
+
     @JvmField
     public var enableJoinOrderOnDynamicProgrammingNoCluster: Boolean = false
 

@@ -96,8 +96,10 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var enableJoinOrderOnHistogram: Boolean = Luposdate3000Config.enableJoinOrderOnHistogram
+
     @JvmField
     public var enableJoinOrderOnDynamicProgramming: Boolean = Luposdate3000Config.enableJoinOrderOnDynamicProgramming
+
     @JvmField
     public var enableJoinOrderOnDynamicProgrammingNoCluster: Boolean = Luposdate3000Config.enableJoinOrderOnDynamicProgrammingNoCluster
 
