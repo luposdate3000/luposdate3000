@@ -112,6 +112,13 @@ for triplePattern in triplePatterns:
                 print("key", triplePattern, name, total_score)
                 deterministicMap.setdefault(name, {})[triplePattern] = total_score
 
+for k,v in scoreMap2.items():
+ for i in range(3,21):
+  v.setdefault(i, {})
+
+
+
+
 for trainingsteps, mmap in scoreMap2.items():
     rows = []
     header = ["x"]
