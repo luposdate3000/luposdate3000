@@ -1,4 +1,5 @@
 #!/usr/bin/env -S python3 -OO -u
+import random
 import os
 import sys
 import gym
@@ -36,7 +37,8 @@ learnOnMax = 300
 dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
-cursor.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value is NULL and mj.id=bv.join_id and bv.dataset=%s and mq.dataset_id=%s", (datasetID, datasetID))
+#cursor.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value is NULL and mj.id=bv.join_id and bv.dataset_id=%s and mq.dataset_id=%s", (datasetID, datasetID))
+cursor.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value =999999999 and mj.id=bv.join_id and bv.dataset_id=%s and mq.dataset_id=%s", (datasetID, datasetID))
 rows = cursor.fetchall()
 training_data = []
 for row in rows:
@@ -49,6 +51,7 @@ for row in rows:
             tmp = []
     training_data.append([xx, row[1], row[2], row[3]])
 print("found", len(training_data), "queries")
+random.shuffle(training_data)
 
 ctr = 0
 for queryrow in training_data:

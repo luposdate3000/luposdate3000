@@ -1,4 +1,5 @@
 #!/usr/bin/env -S python3 -OO -u
+import random
 import re
 import os
 import sys
@@ -52,6 +53,7 @@ for row in rows:
             tmp = []
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
+random.shuffle(training_data)
 
 ctr = 0
 for queryrow in training_data:

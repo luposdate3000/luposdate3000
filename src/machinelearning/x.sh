@@ -1,1 +1,1 @@
-find tasks2/ -type f | sort | xargs -P 6 -n 1 bash -c
+find tasks/ -type f | sort | xargs -P 7 -n 1 bash -c

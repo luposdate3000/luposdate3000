@@ -1,4 +1,5 @@
 #!/usr/bin/env -S python3 -OO -u
+import random
 import os
 import sys
 import gym
@@ -51,6 +52,7 @@ for row in rows:
             tmp = []
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
+random.shuffle(training_data)
 
 ctr = 0
 for queryrow in training_data:
@@ -93,11 +95,6 @@ for queryrow in training_data:
     for x in linesIdx[2:]:
         joinOrderString += "," + str(x) + "," + str(idx)
         idx = idx - 1
-#    print(querySparql)
-#    print(resultstring)
-#    print(linesIdx)
-#    print(joinOrderString)
-#    joinOrderString = luposdate.getJoinOrderFor(querySparql)
     joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
@@ -106,6 +103,7 @@ for queryrow in training_data:
         print("calling lupos", flush=True)
         value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
         print("response from lupos", flush=True)
+#        value=999999999
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))

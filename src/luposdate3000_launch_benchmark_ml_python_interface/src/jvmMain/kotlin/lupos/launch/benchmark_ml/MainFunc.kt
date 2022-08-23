@@ -140,6 +140,37 @@ public class PythonBridgeApplication(private val instance: Luposdate3000Instance
             return null
         }
     }
+    private var hadSpecialisation = false
+    public fun setDynamicProgramming(): Boolean {
+        if (!hadSpecialisation) {
+            instance.enableJoinOrderOnDynamicProgramming = true
+            instance.enableJoinOrderOnDynamicProgrammingNoCluster = false
+            hadSpecialisation = true
+            return true
+        } else {
+            return false
+        }
+    }
+    public fun setDynamicProgrammingNoCluster(): Boolean {
+        if (!hadSpecialisation) {
+            instance.enableJoinOrderOnDynamicProgramming = true
+            instance.enableJoinOrderOnDynamicProgrammingNoCluster = true
+            hadSpecialisation = true
+            return true
+        } else {
+            return false
+        }
+    }
+    public fun setGreedy(): Boolean {
+        if (!hadSpecialisation) {
+            instance.enableJoinOrderOnDynamicProgramming = false
+            instance.enableJoinOrderOnDynamicProgrammingNoCluster = false
+            hadSpecialisation = true
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

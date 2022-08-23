@@ -1,4 +1,5 @@
 #!/usr/bin/env -S python3 -OO -u
+import random
 import os
 import sys
 import gym
@@ -10,7 +11,7 @@ db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks",
 cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
-
+luposdate.setDynamicProgrammingNoCluster()
 
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
@@ -52,6 +53,7 @@ for row in rows:
             tmp = []
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
+random.shuffle(training_data)
 
 ctr = 0
 for queryrow in training_data:
@@ -78,6 +80,7 @@ for queryrow in training_data:
         print("calling lupos", flush=True)
         value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
         print("response from lupos", flush=True)
+#        value=999999999
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))

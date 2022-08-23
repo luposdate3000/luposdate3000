@@ -24,6 +24,7 @@ class DatabaseEnv(gym.Env):
 
     def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
+        self.calculate_real_value=True
         self.optimizerName = optimizerName
         self.tripleCountMax = tripleCountMax
         # define the shape of the observation_matrix, and the valid values in it
@@ -184,7 +185,10 @@ class DatabaseEnv(gym.Env):
                             querySparql += " " + rowx[0] + " "
                     querySparql += "."
                 querySparql += "}"
+#                if self.calculate_real_value:
                 value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+#                else:
+#                 value=999999999
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                 self.db.commit()
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
@@ -280,6 +284,7 @@ class DatabaseEnv(gym.Env):
 
     def entryEval(self, model):
         print("start eval for", self.optimizerName, flush=True)
+        self.calculate_real_value=False
         self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
         while self.has_more_evaluation():
             print("evaluating", self.query_counter, "/", len(self.training_data), flush=True)
