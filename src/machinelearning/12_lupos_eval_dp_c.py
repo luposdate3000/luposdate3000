@@ -11,8 +11,6 @@ db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks",
 cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
-if not luposdate.setDynamicProgramming():
- exit(1)
 
 learnOnMin = 0
 learnOnMax = 18
@@ -35,6 +33,10 @@ for row in rows:
     training_data.append([xx, row[1]])
 print("found", len(training_data), "queries")
 random.shuffle(training_data)
+if len(training_data)==0:
+ exit(0)
+if not luposdate.setDynamicProgramming():
+ exit(1)
 
 ctr = 0
 for queryrow in training_data:
