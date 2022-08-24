@@ -66,15 +66,15 @@ class DatabaseEnv(gym.Env):
         self.cursor = db.cursor()
         self.ratio = ratio
         if optimizerName is not None:
-            self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
+            self.optimizerID = os.path.basename(self.optimizerName)
         else:
             self.optimizerID = None
-        self.datasetID = self.getOrAddDB("mapping_dataset", dataset)
+        self.datasetID = dataset
         if ratio >= 0:
-            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s and mq.dataset_id = %s", (learnOnMin, learnOnMax, ratio, self.datasetID))
+            self.myCurserExec("SELECT mq.name,mq.name FROM mapping_query2 mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng < %s", (learnOnMin, learnOnMax, ratio))
         else:
-            self.myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng >= %s and mq.dataset_id = %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
-                              (learnOnMin, learnOnMax, -ratio, self.datasetID, self.datasetID, self.optimizerID))
+            self.myCurserExec("SELECT mq.name,mq.name FROM mapping_query2 mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.rng >= %s AND NOT EXISTS(SELECT 1 FROM optimizer_choice2 oc WHERE oc.query_name=mq.name AND oc.dataset_name = %s AND oc.optimizer_name = %s)",
+                              (learnOnMin, learnOnMax, -ratio, self.datasetID, self.optimizerID))
         rows = self.cursor.fetchall()
         self.training_data = []
         for row in rows:
@@ -93,8 +93,8 @@ class DatabaseEnv(gym.Env):
         self.step_counter = 0
 
     def submit_choice(self, failed):
-        self.myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (self.datasetID, self.queryID, self.optimizerID))
-        self.myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.optimizerID, self.joinOrderID))
+        self.myCurserExec("DELETE FROM optimizer_choice2 WHERE dataset_name = %s AND query_name = %s AND optimizer_name = %s", (self.datasetID, self.queryID, self.optimizerID))
+        self.myCurserExec("INSERT IGNORE INTO optimizer_choice2 (dataset_name, query_name, optimizer_name, join_name) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.optimizerID, self.joinOrderID))
         self.db.commit()
 
     def has_more_evaluation(self):
@@ -160,18 +160,9 @@ class DatabaseEnv(gym.Env):
             joinOrderString = ",".join([str(x) for x in joinOrder])
                 #print(joinOrder,"-->>",joinOrderString)
             l = joinOrderString.strip()
-            self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
-            row = self.cursor.fetchone()
-            if row == None:
-                    self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
-                    self.db.commit()
-                    self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
-                    row = self.cursor.fetchone()
-            if row == None:
-                    exit(1)
-            self.joinOrderID = row[0]
+            self.joinOrderID = l
             if self.calculate_real_value:
-                self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
+                self.myCurserExec("SELECT value FROM benchmark_values2 WHERE dataset_name = %s AND query_name = %s AND join_name = %s", (self.datasetID, self.queryID, self.joinOrderID))
                 row = self.cursor.fetchone()
                 if row == None:
                     # if this join order was not executed before, execute it
@@ -187,12 +178,11 @@ class DatabaseEnv(gym.Env):
                         querySparql += "."
                     querySparql += "}"
                     value = self.luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-                    self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
+                    self.myCurserExec("INSERT IGNORE INTO benchmark_values2 (dataset_name, query_name, join_name, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, value))
                     self.db.commit()
-                    self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
-                    row = self.cursor.fetchone()
+                    row=[value,]
                 time_choosen = row[0]
-                self.myCurserExec("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
+                self.myCurserExec("SELECT MIN(value), MAX(value) FROM benchmark_values2 WHERE dataset_name = %s AND query_name = %s", (self.datasetID, self.queryID))
                 row = self.cursor.fetchone()
                 time_min = row[0]
                 time_max = row[1]
@@ -205,7 +195,7 @@ class DatabaseEnv(gym.Env):
                 else:
                     reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
             else:
-                self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, 999999999))
+                self.myCurserExec("INSERT IGNORE INTO benchmark_values2 (dataset_name, query_name, join_name, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, 999999999))
                 self.db.commit()
                 reward = 1  # never used during evaluation
         else:
@@ -271,23 +261,10 @@ class DatabaseEnv(gym.Env):
         res.append(b)
         return res
 
-    def getOrAddDB(self, db, value):
-        l = value.strip()
-        self.myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
-        row = self.cursor.fetchone()
-        if row == None:
-            self.myCurserExec("INSERT IGNORE INTO " + db + " (name) VALUES(%s)", (l, ))
-            self.db.commit()
-            self.myCurserExec("SELECT id FROM " + db + " WHERE name=%s", (l, ))
-            row = self.cursor.fetchone()
-        if row == None:
-            exit(1)
-        return row[0]
-
     def entryEval(self, model):
         print("start eval for", self.optimizerName, flush=True)
         self.calculate_real_value = False
-        self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
+        self.optimizerID = os.path.basename(self.optimizerName)
         while self.has_more_evaluation():
             print("evaluating", self.query_counter, "/", len(self.training_data), flush=True)
             done = False
