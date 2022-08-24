@@ -14,13 +14,31 @@ gateway = JavaGateway()
 luposdate = gateway.entry_point
 
 
+def myCurserExec(sql, data):
+    return cursor.execute(sql, data)
+
+
+def getOrAddDB(database, value):
+    l = value.strip()
+    myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+    row = cursor.fetchone()
+    if row == None:
+        myCurserExec("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
+        db.commit()
+        myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+        row = cursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
+
+
 learnOnMin = 0
 learnOnMax = 300
 dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
-datasetID = dataset
-optimizerID = "jena"
+datasetID = getOrAddDB("mapping_dataset", dataset)
+optimizerID = getOrAddDB("mapping_optimizer", "jena")
 
-cursor.execute("SELECT mq.name, mq.name FROM mapping_query2 mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s and dataset_name=%s and mq.rng >= 0.7 AND NOT EXISTS(SELECT 1 FROM optimizer_choice2 oc WHERE oc.query_name=mq.name AND oc.dataset_name = %s AND oc.optimizer_name = %s and mq.dataset_name = %s)",
+myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s and dataset_id=%s and mq.rng >= 0.7 AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s and mq.dataset_id = %s)",
              (learnOnMin, learnOnMax, datasetID, datasetID,optimizerID, datasetID))
 rows = cursor.fetchall()
 training_data = []
@@ -47,7 +65,7 @@ for queryrow in training_data:
             if x < 0:
                 querySparql += " ?v" + str(-x) + " "
             else:
-                cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                myCurserExec("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
                 rowx = cursor.fetchone()
                 querySparql += " " + rowx[0] + " "
         querySparql += "."
@@ -77,17 +95,18 @@ for queryrow in training_data:
     for x in linesIdx[2:]:
         joinOrderString += "," + str(x) + "," + str(idx)
         idx = idx - 1
-    joinOrderID = joinOrderString
+    joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
-    cursor.execute("SELECT value FROM benchmark_values2 WHERE dataset_name = %s AND query_name = %s AND join_name = %s", (datasetID, queryID, joinOrderID))
+    myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
     row = cursor.fetchone()
     if row == None:
         print("calling lupos", flush=True)
         value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
         print("response from lupos", flush=True)
-        cursor.execute("INSERT IGNORE INTO benchmark_values2 (dataset_name, query_name, join_name, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
+#        value=999999999
+        myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
-    cursor.execute("DELETE FROM optimizer_choice2 WHERE dataset_name = %s AND query_name = %s AND optimizer_name = %s", (datasetID, queryID, optimizerID))
-    cursor.execute("INSERT IGNORE INTO optimizer_choice2 (dataset_name, query_name, optimizer_name, join_name) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
+    myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
+    myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
     db.commit()
     ctr += 1

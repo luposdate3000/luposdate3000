@@ -16,36 +16,51 @@ score_cap = 2  # score_mode=0
 score_fraction = 0.8  # score_mode=1
 
 cachequeryclean = "DROP TABLE cache"
-cachequery = """CREATE TABLE cache SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score, oc.optimizer_name as optimizer_name from
- (select min(value) as mymin , max(value) as mymax,query_name from benchmark_values2 group by query_name) as minmax,
- optimizer_choice2 oc,
- benchmark_values2 bv,
- mapping_query2 mq
+cachequery = """CREATE TABLE cache SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
+ (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
+ mapping_join mj,
+ optimizer_choice oc,
+ benchmark_values bv,
+ mapping_query mq
 where
- and bv.dataset_name=oc.dataset_name
- and bv.query_name=oc.query_name
- and bv.join_name=oc.join_name
- and mq.name=oc.query_name
- and minmax.query_name=oc.query_name
+ mj.id=oc.join_id
+ and bv.dataset_id=oc.dataset_id
+ and bv.query_id=oc.query_id
+ and bv.join_id=oc.join_id
+ and mq.id=oc.query_id
+ and minmax.query_id=oc.query_id
  and bv.value is not null
  and minmax.mymin!=minmax.mymax
  and mq.rng>0.7
  and mq.triplepatterns=%s
- and bv.dataset_name=%s
+ and bv.dataset_id=%s
 """
 
-sqlquery = """SELECT score FROM cache where optimizer_name=%s order by score"""
+sqlquery = """SELECT score FROM cache where optimizer_id=%s order by score"""
 
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
 
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
-datasetID = dataset
+def getOrAddDB(database, value):
+    l = value.strip()
+    cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+    row = cursor.fetchone()
+    if row == None:
+        cursor.execute("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
+        db.commit()
+        cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+        row = cursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
 
-cursor.execute("select distinct triplepatterns from mapping_query2")
+dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+datasetID = getOrAddDB("mapping_dataset", dataset)
+
+cursor.execute("select distinct triplepatterns from mapping_query")
 rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
-cursor.execute("select destict optimizer_name,optimizer_name from optimizer_choice2")
+cursor.execute("select name,id from mapping_optimizer")
 optimizers = cursor.fetchall()
 scoreMap = {}
 scoreMap2 = {}
