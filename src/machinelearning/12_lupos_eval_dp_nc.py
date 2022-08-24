@@ -11,7 +11,8 @@ db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks",
 cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
-luposdate.setDynamicProgrammingNoCluster()
+if not luposdate.setDynamicProgrammingNoCluster():
+ exit(1)
 
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
@@ -35,9 +36,7 @@ learnOnMin = 0
 learnOnMax = 18
 dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
-#optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming")
-#optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming_no_cluster")
-optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000")
+optimizerID = getOrAddDB("mapping_optimizer", "luposdate3000_dynamic_programming_no_cluster")
 
 myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s and NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
              (learnOnMin, learnOnMax, datasetID, datasetID, optimizerID))
