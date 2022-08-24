@@ -1,7 +1,7 @@
+import time
 import random
 import os
 import gym
-import time
 import numpy as np
 from gym import spaces
 from py4j.java_gateway import JavaGateway
@@ -103,9 +103,23 @@ class DatabaseEnv(gym.Env):
     def get_step_counter(self):
         return self.step_counter
 
+    sqlbench={}
+    sqlbenchctr=0
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
+        starttime = time.perf_counter()
         res = self.cursor.execute(sql, data)
+        duration=time.perf_counter()-starttime
+        time2=self.sqlbench.setdefault(sql,(0,0.0))
+        self.sqlbench[sql]=(time2[0]+1,time2[1]+duration)
+        self.sqlbenchctr=self.sqlbenchctr+1
+        if self.sqlbenchctr>=20:
+         self.sqlbenchctr=0
+         ll=[]
+         for k,v in self.sqlbench.items():
+          ll.append([v[0],v[1],k])
+         for l in sorted(ll):
+          print(l)
         return res
 
     def performAction(self, left, right):
