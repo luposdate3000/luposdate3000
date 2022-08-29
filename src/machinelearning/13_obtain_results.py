@@ -15,7 +15,7 @@ score_mode = 0
 score_cap = 2  # score_mode=0
 score_fraction = 0.8  # score_mode=1
 
-cachequeryclean = "DROP TABLE cache"
+cachequeryclean = "DROP TABLE if exists cache"
 cachequery = """CREATE TABLE cache SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
  (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
  mapping_join mj,
