@@ -71,6 +71,9 @@ for triplePattern in triplePatterns:
     cursor.execute(cachequeryclean)
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
+        name = optimizer[0]
+        if name.endswith(".model2") or name.endswith(".model3") or name=="luposdate3000_dynamic_programming_no_cluster": # ignore alternative models
+         continue
         datapoints = []
         last = None
         idx = 0
@@ -94,14 +97,20 @@ for triplePattern in triplePatterns:
             idx += 1
         if last is not None:
             datapoints.append([idx / len(rows), last])
-            name = optimizer[0]
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
+                if name.endswith(".model2") or name.endswith(".model3"):
+                 tmp = name[:-len(".modelx")].split("_")
                 training_steps = tmp[-1]
                 trained_on = tmp[1:-3]
                 if trained_on[0] == trained_on[1]:
                     trained_on = [trained_on[0]]
+                    a=trained_on
                     trained_on = "b" + "_".join([x.rjust(2, '0') for x in trained_on])
+                    if name.endswith(".model2"):
+                     trained_on="d" + "_".join([x.rjust(2, '0') for x in trained_on])+",2"
+                    if name.endswith(".model3"):
+                     trained_on="e" + "_".join([x.rjust(2, '0') for x in trained_on])+",3"
                 else:
                     trained_on = "c" + "_".join([x.rjust(2, '0') for x in trained_on])
                 print("key", triplePattern, training_steps, trained_on, total_score)
