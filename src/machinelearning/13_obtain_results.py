@@ -72,7 +72,7 @@ for triplePattern in triplePatterns:
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
         name = optimizer[0]
-        if name.endswith(".model2") or name.endswith(".model3") or name=="luposdate3000_dynamic_programming_no_cluster": # ignore alternative models
+        if name.endswith(".model2") or name.endswith(".model3") or name=="luposdate3000_dynamic_programming": # ignore alternative models
          continue
         datapoints = []
         last = None
@@ -151,7 +151,7 @@ for trainingsteps, mmap in scoreMap2.items():
         print("row", row)
     header2 = []
     for h in header:
-        if h == "luposdate3000_dynamic_programming":
+        if h == "luposdate3000_dynamic_programming_no_cluster":
             header2.append("luposdate3000(dp)")
         elif h == "luposdate3000":
             header2.append("luposdate3000(g)")
@@ -237,7 +237,7 @@ for evaluatedOn, tmp1 in scoreMap.items():
         print("row", row)
     header2 = []
     for h in header:
-        if h == "luposdate3000_dynamic_programming":
+        if h == "luposdate3000_dynamic_programming_no_cluster":
             header2.append("luposdate3000(dp)")
         elif h == "luposdate3000":
             header2.append("luposdate3000(g)")

@@ -277,7 +277,7 @@ class DatabaseEnv(gym.Env):
                 if reward < 0:
                     done = True
                     failed = True
-        print("time per triple join order in seconds/jointree,",learnOnMin,",",(time.time() - start)/len(self.training_data),self.step_counter,len(self.training_data), flush=True)
+        print("time per triple join order in seconds/jointree,",learnOnMin,",",(time.time() - start)/len(self.training_data), flush=True)
 
     def getCurrentActionSpace(self):
         result = []
@@ -316,6 +316,7 @@ mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio, model_file)
 env = ActionMasker(env, mask_fn)
 model = MaskablePPO.load(model_file)
+#model = MaskablePPO.load(model_file,device="cpu")
 start = time.time()
 env.entryEval(model)
 
