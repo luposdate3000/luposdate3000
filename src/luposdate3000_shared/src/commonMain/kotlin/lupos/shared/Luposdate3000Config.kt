@@ -109,7 +109,7 @@ public object Luposdate3000Config {
     }
 
     @JvmField
-    public var dictionaryCacheCapacity: Int = 200 // set to 0 for disable
+    public var dictionaryCacheCapacity: Int = 2000 // set to 0 for disable
 
     @JvmField
     public var enableJoinOrderOnHistogram: Boolean = true

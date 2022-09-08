@@ -149,7 +149,7 @@ println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:147"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:151"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }
@@ -220,7 +220,7 @@ println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
                     res = internalOptimize(node, allChilds2, onChange)
                 }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:218"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:222"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }
