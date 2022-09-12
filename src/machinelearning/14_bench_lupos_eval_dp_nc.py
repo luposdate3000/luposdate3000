@@ -73,7 +73,7 @@ for queryrow in training_data:
     queries.append(querySparql)
 ctr = 0
 oldfactor = 1
-targetseconds = 5
+targetseconds = 60
 start = time.time()
 while time.time() - start < 1:
     for querySparql in queries:
@@ -83,7 +83,7 @@ while time.time() - start < 1:
 endtime = time.time() - start
 while endtime < targetseconds:
     factor = max(math.ceil(max( oldfactor*targetseconds*1.2 / (time.time() - start), 1)), oldfactor + 1)
-#    print("factor", factor, targetseconds / (time.time() - start), max(targetseconds / (time.time() - start), 1),endtime)
+    #print("factor", factor, targetseconds / (time.time() - start), max(targetseconds / (time.time() - start), 1),endtime)
     queries2 = []
     for i in range(0, factor):
         queries2.extend(queries)
@@ -95,4 +95,5 @@ while endtime < targetseconds:
         ctr += 1
     endtime = time.time() - start
     oldfactor = factor
+    print("totaltime",oldfactor,endtime,ctr)
 print("time per triple join order in seconds/jointree,", learnOnMin, ",", endtime / ctr, flush=True)

@@ -53,8 +53,8 @@ print("found", len(training_data), "queries")
 random.shuffle(training_data)
 if len(training_data) == 0:
     exit(0)
-#if not luposdate.setDynamicProgramming():
-# exit(1)
+if not luposdate.setDynamicProgramming():
+ exit(1)
 queries = []
 for queryrow in training_data:
     query = queryrow[0]
@@ -73,7 +73,7 @@ for queryrow in training_data:
     queries.append(querySparql)
 ctr = 0
 oldfactor = 1
-targetseconds = 5
+targetseconds = 60
 start = time.time()
 while time.time() - start < 1:
     for querySparql in queries:
