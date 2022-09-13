@@ -14,7 +14,7 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_
 src/luposdate3000_simulator_db/src/jvmMain/resources/multicast/luposdate3000MulticastEnabled.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_enabled.json \
-tmp.json
+operator-distribution-test.json
 
 for f in *.dot
 do
