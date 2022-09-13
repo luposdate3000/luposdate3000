@@ -16,14 +16,14 @@
  */
 package lupos.shared.inline
 
-import kotlin.io.path.createTempDirectory as kotlinCreateTempDirectory
+import java.nio.file.Files.createTempDirectory as kotlinCreateTempDirectory
 
 internal actual object FileExt {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun createTempDirectory(): String {
-        val tmp = kotlinCreateTempDirectory()
+        val tmp = kotlinCreateTempDirectory("luposdate3000")
         File("$tmp").deleteRecursively()
-        File("${tmp}luposdate/").mkdirs()
-        return "${tmp}luposdate/"
+        File("$tmp").mkdirs()
+        return "$tmp/"
     }
 }
