@@ -1,3 +1,4 @@
+graph*svg
 hs_err_pid*.log
 *.dot
 src/luposdate3000_coverage_merged
