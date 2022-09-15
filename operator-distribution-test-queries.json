@@ -4,8 +4,8 @@
             "applications": {
                 "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
                     {
-                        "label": "Q9",
-                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?x parking:spotInArea 1 .\n ?x parking:spotInArea 2 .\n ?x parking:spotInArea 3 .\n ?x parking:spotInArea 4 .\n ?x parking:spotInArea 5 .\n ?x parking:spotInArea 6 .\n ?x parking:spotInArea 7 .\n ?x parking:spotInArea 8 .\n ?x parking:spotInArea 9 .\n ?x parking:spotInArea 10 .\n ?x parking:spotInArea 11 .\n ?x parking:spotInArea 12 .\n ?x parking:spotInArea 13 .\n ?x parking:spotInArea 14 .\n ?x parking:spotInArea 15 .\n ?x parking:spotInArea 16 .\n ?x parking:spotInArea 17 .\n ?x parking:spotInArea 18 .\n ?x parking:spotInArea 19 .\n}",
+                        "label": "Q0",
+                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?x parking:spotInArea1 1 .\n ?x parking:spotInArea2 1 .\n ?x parking:spotInArea3 1 .\n ?x parking:spotInArea4 1 .\n ?x parking:spotInArea5 1 .\n ?x parking:spotInArea6 1 .\n}",
                     },
                 ],
             },

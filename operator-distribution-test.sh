@@ -8,19 +8,18 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/topology/Ring16DB.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributedWithQueryHops.json \
 operator-distribution-test-queries.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json \
-src/luposdate3000_simulator_db/src/jvmMain/resources/evaluation.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_routing.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/multicast/luposdate3000MulticastEnabled.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json \
-src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_enabled.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_disabled.json \
 operator-distribution-test.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S_all_collations.json
 
 for f in *.dot
 do
-   echo dot $f -Tsvg -o${f%.dot}.svg
-   dot $f -Tsvg -o${f%.dot}.svg
+   echo dot $f -Tsvg -O${f%.dot}.svg
+   dot $f -Tsvg -o${f%.dot}.svg -O${f%.dot}-g2.svg
 done
 

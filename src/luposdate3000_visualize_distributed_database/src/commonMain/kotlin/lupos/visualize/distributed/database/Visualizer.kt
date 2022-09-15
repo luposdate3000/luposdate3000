@@ -13,7 +13,10 @@ public class Visualizer : ILogger {
     internal val relevantQueryIDs = mutableSetOf<Int>()
     internal val graphs = mutableMapOf<Int, DotGraph>()
     internal var counter = 0
-    override fun addConnectionTable(src: Int, dest: Int, hop: Int) {}
+    internal val connections = mutableSetOf<Pair<Int, Int>>()
+internal val connectionsReceivers=mutableSetOf<Int>()
+    override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
+    }
     override fun addDevice(address: Int, x: Double, y: Double) {}
     override fun initialize(simRun: SimulationRun) {}
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
@@ -32,13 +35,31 @@ public class Visualizer : ILogger {
         }
     }
 
-    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {}
-    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {}
+    override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
+if(src<hop){
+        connections.add(src to hop)
+}else if(hop<src){
+        connections.add( hop to src)
+}
+}
+    override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
+connectionsReceivers.add(dest)
+}
     override fun onShutDown() {
         for ((k, v) in graphs) {
             if (relevantQueryIDs.contains(k)) {
                 File("graph$k.dot").withOutputStream { out ->
                     out.println(v.toDotString())
+
+                    out.println("graph G2 {")
+                    for ((a, b) in connections) {
+//if(connectionsReceivers.contains(a) && connectionsReceivers.contains(b)){
+                        out.println("  node" + a + " -- node" + b + ";")
+//}
+                    }
+                    out.println("  overlap = scale;")
+                    out.println("  splines = true;")
+                    out.println("}")
                 }
             }
         }
@@ -119,7 +140,7 @@ internal class DotGraph() {
     internal fun getAllEdges(): List<DotEdge> = edges + subgraphs.values.map { it.getAllEdges() }.flatten()
     internal fun toDotString(): String {
         val res = StringBuilder()
-        res.appendLine("digraph G {")
+        res.appendLine("digraph G1 {")
         res.appendLine("  newrank = true;")
         res.append(toDotString("  "))
         for (edge in getAllEdges()) {

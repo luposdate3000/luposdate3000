@@ -34,12 +34,12 @@ public object LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming {
         }
 
         val histograms = mutableListOf<Pair<Int, MutableMap<String, Int>>>()
-var ctrrrr=0
+        var ctrrrr = 0
         for (c in allChilds) {
             val hist = c.getHistogram()
             histograms.add(hist.count to hist.values)
-println("finished histogram $ctrrrr")
-ctrrrr++
+            println("finished histogram $ctrrrr")
+            ctrrrr++
         }
 
         var SS: Int = 2.0.pow(histograms.size).toInt() - 1

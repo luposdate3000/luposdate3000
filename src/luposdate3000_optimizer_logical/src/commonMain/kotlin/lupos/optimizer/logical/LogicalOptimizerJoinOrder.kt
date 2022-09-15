@@ -119,26 +119,26 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
             nodes.size > 2 -> {
                 var result = LogicalOptimizerJoinOrderStore(nodes, root)
                 if (result != null) {
-println("optimized using LogicalOptimizerJoinOrderStore")
+                    println("optimized using LogicalOptimizerJoinOrderStore")
                     return result
                 }
                 try {
                     if (query.getInstance().enableJoinOrderOnDynamicProgramming) {
                         result = LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming(nodes, root)
-println("optimized using LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming")
+                        println("optimized using LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming")
                         return result
                     }
                 } catch (e: Throwable) {}
                 try {
                     if (query.getInstance().enableJoinOrderOnHistogram) {
                         result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-println("optimized using LogicalOptimizerJoinOrderCostBasedOnHistogram")
+                        println("optimized using LogicalOptimizerJoinOrderCostBasedOnHistogram")
                         return result
                     }
                 } catch (e: Throwable) {}
                 result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
                 if (result != null) {
-println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
+                    println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
                     return result
                 }
                 SanityCheck.checkUnreachable()
@@ -164,7 +164,7 @@ println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
             if (result == null) {
                 if (query.getInstance().enableJoinOrderOnDynamicProgrammingNoCluster) {
                     result = applyOptimisation(allChilds2, node)
-                    println("optimized for no cluster"+allChilds2.size)
+                    println("optimized for no cluster" + allChilds2.size)
                 } else {
                     val allChilds3 = clusterizeChildren(allChilds2)
                     val allChilds4 = mutableListOf<IOPBase>()
