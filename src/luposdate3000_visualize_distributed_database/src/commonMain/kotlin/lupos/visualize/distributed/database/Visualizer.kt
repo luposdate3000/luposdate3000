@@ -28,7 +28,17 @@ internal val connectionsReceivers=mutableSetOf<Int>()
                     "simulator-intermediate-result" -> {
                         val dep = pck.params["key"]!!.toInt()
                         val g_query = graphs.getOrPut(pck.queryID, { DotGraph() })
-                        g_query.edges.add(DotEdge("send$dep", "rec$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
+val path=mutableListOf<Int>()
+path.addAll(pck.getAllHops())
+path.add(address)
+println(path)
+for(i in 0 until path.size-1){
+                        g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i+1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
+}
+for(i in 0 until path.size){
+val g_device = g_query.subgraphs.getOrPut("device_${path[i]}", { DotGraph() })
+g_device.addNode("msg${path[i]}at$dep", 1)
+}
                     }
                 }
             }
@@ -81,7 +91,7 @@ connectionsReceivers.add(dest)
                     "query_part_${data.dataID}"
                 }
                 val g_subgraph = g_device.subgraphs.getOrPut(dataId, { DotGraph() })
-                ConverterBinaryToPOPDot.decode(data.query, data.data, data.dataID, g_subgraph, { counter++ })
+                ConverterBinaryToPOPDot(data.deviceAdress).decode(data.query, data.data, data.dataID, g_subgraph, { counter++ })
             }
             is Package_Query -> {
                 relevantQueryIDs.add(data.queryID)

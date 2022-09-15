@@ -29,6 +29,9 @@ public class Package_Luposdate3000_TestingCompareGraphPackage(
     public val idx: ITripleStoreIndexDescription?,
 ) : IPackage_DatabaseTesting {
 
+private val hops=mutableListOf<Int>()
+    override fun addHop(address:Int){hops.add(address)}
+    override fun getAllHops():List<Int> =hops
     private var needsPrepare = false
     private var graph: String? = null
     private var instance: Luposdate3000Instance? = null
