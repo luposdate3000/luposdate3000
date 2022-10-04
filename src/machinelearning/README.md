@@ -18,10 +18,7 @@ More details in [compile](documentation/README-usage-compile.md).
 # 3. Install python dependencies
 
 ```bash
-pip install stable-baselines3[extra]
-pip install sb3-contrib
-pip install py4j
-pip install mysql-connector-python
+pip install stable-baselines3[extra] sb3-contrib py4j mysql-connector-python
 ```
 
 # 4. define some constants
