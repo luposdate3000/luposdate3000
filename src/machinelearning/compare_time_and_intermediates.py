@@ -14,7 +14,7 @@ for percentage in [1.05,1.1,1.2,1.4,2,4,8]: # difference between single value an
         if low == 2:
             low = 0
         if len(result) <= i:
-            result.append([high])
+            result.append([low-1]) # gnuplots needs this
 
         cursor.execute(
             "select SUM(ctr) as sum_dist_from_avg_1000 from( select count(*) as ctr from benchmark_values bv2 join (select bv1.dataset_id,bv1.query_id,AVG(bv1.value/bv1.valuetime) AS a,COUNT(*) as c from benchmark_values bv1 where bv1.value is not null and bv1.valuetime is not null and bv1.valuetime>=%s and bv1.valuetime<=%s group by bv1.dataset_id,bv1.query_id) as bv3 on bv3.dataset_id=bv2.dataset_id and bv3.query_id = bv2.query_id where (((bv2.value/bv2.valuetime)/a>%s) OR (a/(bv2.value/bv2.valuetime))>%s) and c >1 group by bv3.dataset_id,bv3.query_id )as bv4;",
@@ -31,6 +31,8 @@ for percentage in [1.05,1.1,1.2,1.4,2,4,8]: # difference between single value an
             data = 1-value_actual / value_max
         result[i].append(data)
         print(percentage, low, high, data)
+result.append([x for x in result[-1]])
+result[-1][0]=result[-2][0]*2
 with open("compare_time_and_intermediates.csv", "w+") as my_csv:
     csvWriter = csv.writer(my_csv, delimiter=',')
     csvWriter.writerows(result)
