@@ -1,8 +1,8 @@
 #!/usr/bin/env gnuplot
-#set term tikz size 8.5cm,6cm
-#set output "compare_time_and_intermediates.tex"
-set term svg size 850,600
-set output "compare_time_and_intermediates.svg"
+set term tikz size 8.5cm,6cm
+set output "compare_time_and_intermediates.tex"
+#set term svg size 850,600
+#set output "compare_time_and_intermediates.svg"
 set logscale x 2
 set datafile separator comma
 set key bottom right title "prediction error"
