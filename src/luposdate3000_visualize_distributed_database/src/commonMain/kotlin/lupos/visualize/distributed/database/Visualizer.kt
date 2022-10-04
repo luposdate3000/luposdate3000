@@ -31,7 +31,6 @@ internal val connectionsReceivers=mutableSetOf<Int>()
 val path=mutableListOf<Int>()
 path.addAll(pck.getAllHops())
 path.add(address)
-println(path)
 for(i in 0 until path.size-1){
                         g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i+1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
 }
