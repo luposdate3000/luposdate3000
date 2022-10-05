@@ -27,9 +27,9 @@ public class Package_DatabaseDummy_Result(
     public val queryID: Int,
     public val operatorID: Int, // damit der empfänger weiß, was für ein ergebnis dies ist ... kann ggf in "result" integriert werden
 ) : IPackage_Database {
-private val hops=mutableListOf<Int>()
-    override fun addHop(address:Int){hops.add(address)}
-    override fun getAllHops():List<Int> =hops
+    private val hops = mutableListOf<Int>()
+    override fun addHop(address: Int) { hops.add(address) }
+    override fun getAllHops(): List<Int> = hops
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {

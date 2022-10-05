@@ -32,9 +32,9 @@ public class Package_Luposdate3000_Operatorgraph(
     public val verifyAction: () -> Unit,
     public val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
 ) : IPackage_Database {
-private val hops=mutableListOf<Int>()
-    override fun addHop(address:Int){hops.add(address)}
-    override fun getAllHops():List<Int> =hops
+    private val hops = mutableListOf<Int>()
+    override fun addHop(address: Int) { hops.add(address) }
+    override fun getAllHops(): List<Int> = hops
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
 

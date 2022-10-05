@@ -732,6 +732,17 @@ public object ConverterPOPBaseToBinary {
             },
         )
         assignOperatorPhysicalEncode(
+            EOperatorIDExt.LOPJoinTopologyID,
+            { op, data, mapping, distributed, handler, _ ->
+                op as LOPJoinTopology
+                ConverterBinaryEncoder.encodePOPJoinTopology(
+                    data,
+                    mapping,
+                    op.children.map { { parentOffOff -> convertToByteArrayHelper(it, data, mapping, distributed, handler, parentOffOff) } }
+                )
+            },
+        )
+        assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,
             { op, data, mapping, distributed, handler, _ ->
                 op as POPJoinMergeSingleColumn

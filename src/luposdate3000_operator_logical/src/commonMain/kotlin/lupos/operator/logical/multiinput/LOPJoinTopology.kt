@@ -16,7 +16,6 @@
  */
 package lupos.operator.logical.multiinput
 
-import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -25,11 +24,10 @@ import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
-import kotlin.jvm.JvmField
 
-public class LOPJoinTopology public constructor(query: IQuery, childs: Array<IOPBase>) : LOPBase(query, EOperatorIDExt.LOPJoinID, "LOPJoin", childs, ESortPriorityExt.JOIN) {
+public class LOPJoinTopology public constructor(query: IQuery, childs: Array<IOPBase>) : LOPBase(query, EOperatorIDExt.LOPJoinTopologyID, "LOPJoinTopology", childs, ESortPriorityExt.JOIN) {
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = TODO("not implemented")
     override fun equals(other: Any?): Boolean = TODO("not implemented")
-    override fun cloneOP(): IOPBase = LOPJoinTopology(query, children.map{it.cloneOP()}.toTypedArray())
+    override fun cloneOP(): IOPBase = LOPJoinTopology(query, children.map { it.cloneOP() }.toTypedArray())
     override /*suspend*/ fun calculateHistogram(): HistogramResult = TODO("not implemented")
 }

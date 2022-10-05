@@ -27,9 +27,9 @@ public class Package_DatabaseDummy_ChoosenOperator(
     public val operators: IntArray, // zeigt an welche "operatorGraphParts" teile berechnet werden - dadurch ist schnell klar, welcher node was berechnet
     public val queryID: Int,
 ) : IPackage_Database {
-private val hops=mutableListOf<Int>()
-    override fun addHop(address:Int){hops.add(address)}
-    override fun getAllHops():List<Int> =hops
+    private val hops = mutableListOf<Int>()
+    override fun addHop(address: Int) { hops.add(address) }
+    override fun getAllHops(): List<Int> = hops
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {

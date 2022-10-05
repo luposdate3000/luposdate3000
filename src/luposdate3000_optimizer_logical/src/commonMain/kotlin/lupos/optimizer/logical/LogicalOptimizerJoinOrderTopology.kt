@@ -16,17 +16,13 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.noinput.POPNothing
-import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
-import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
 import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
@@ -58,16 +54,13 @@ public class LogicalOptimizerJoinOrderTopology(query: Query) : OptimizerBase(que
         return res
     }
 
-
-
-
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val originalProvided = node.getProvidedVariableNames()
             try {
-                    val allChilds2 = findAllJoinsInChildren(node)
-res=LOPJoinTopology(node.query,allChilds2.toTypedArray())
+                val allChilds2 = findAllJoinsInChildren(node)
+                res = LOPJoinTopology(node.query, allChilds2.toTypedArray())
             } catch (e: EmptyResultException) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopology.kt:71"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)

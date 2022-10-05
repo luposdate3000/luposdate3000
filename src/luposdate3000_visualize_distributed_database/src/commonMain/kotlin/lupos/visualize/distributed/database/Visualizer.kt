@@ -14,7 +14,7 @@ public class Visualizer : ILogger {
     internal val graphs = mutableMapOf<Int, DotGraph>()
     internal var counter = 0
     internal val connections = mutableSetOf<Pair<Int, Int>>()
-internal val connectionsReceivers=mutableSetOf<Int>()
+    internal val connectionsReceivers = mutableSetOf<Int>()
     override fun addConnectionTable(src: Int, dest: Int, hop: Int) {
     }
     override fun addDevice(address: Int, x: Double, y: Double) {}
@@ -28,16 +28,16 @@ internal val connectionsReceivers=mutableSetOf<Int>()
                     "simulator-intermediate-result" -> {
                         val dep = pck.params["key"]!!.toInt()
                         val g_query = graphs.getOrPut(pck.queryID, { DotGraph() })
-val path=mutableListOf<Int>()
-path.addAll(pck.getAllHops())
-path.add(address)
-for(i in 0 until path.size-1){
-                        g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i+1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
-}
-for(i in 0 until path.size){
-val g_device = g_query.subgraphs.getOrPut("device_${path[i]}", { DotGraph() })
-g_device.addNode("msg${path[i]}at$dep", 1)
-}
+                        val path = mutableListOf<Int>()
+                        path.addAll(pck.getAllHops())
+                        path.add(address)
+                        for (i in 0 until path.size - 1) {
+                            g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i + 1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)}"))
+                        }
+                        for (i in 0 until path.size) {
+                            val g_device = g_query.subgraphs.getOrPut("device_${path[i]}", { DotGraph() })
+                            g_device.addNode("msg${path[i]}at$dep", 1)
+                        }
                     }
                 }
             }
@@ -45,15 +45,15 @@ g_device.addNode("msg${path[i]}at$dep", 1)
     }
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
-if(src<hop){
-        connections.add(src to hop)
-}else if(hop<src){
-        connections.add( hop to src)
-}
-}
+        if (src <hop) {
+            connections.add(src to hop)
+        } else if (hop <src) {
+            connections.add(hop to src)
+        }
+    }
     override fun onSendPackage(src: Int, dest: Int, pck: IPayload) {
-connectionsReceivers.add(dest)
-}
+        connectionsReceivers.add(dest)
+    }
     override fun onShutDown() {
         for ((k, v) in graphs) {
             if (relevantQueryIDs.contains(k)) {
@@ -62,9 +62,9 @@ connectionsReceivers.add(dest)
 
                     out.println("graph G2 {")
                     for ((a, b) in connections) {
-//if(connectionsReceivers.contains(a) && connectionsReceivers.contains(b)){
+// if(connectionsReceivers.contains(a) && connectionsReceivers.contains(b)){
                         out.println("  node" + a + " -- node" + b + ";")
-//}
+// }
                     }
                     out.println("  overlap = scale;")
                     out.println("  splines = true;")

@@ -140,6 +140,7 @@ public object Luposdate3000Config {
     public var mergeLocalOperatorgraphs: Boolean = true
 
     @JvmField public var tryLocalExecution: Boolean = true
-@JvmField
-    public var joinOrderByTopology:Boolean=false
+
+    @JvmField
+    public var joinOrderByTopology: Boolean = true
 }

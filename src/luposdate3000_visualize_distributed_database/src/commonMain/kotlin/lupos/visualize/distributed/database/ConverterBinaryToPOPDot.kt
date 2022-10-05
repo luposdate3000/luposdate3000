@@ -32,7 +32,7 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 
 internal typealias BinaryToPOPDotMap = (query: IQuery, data: ByteArrayWrapper, offset: Int, Array<Any?>, graph: DotGraph, nextID: () -> Int) -> String
 
-internal class ConverterBinaryToPOPDot(internal val deviceAddress:Int) {
+internal class ConverterBinaryToPOPDot(internal val deviceAddress: Int) {
     public var defaultOperatorMap: Array<Any?> = Array(0) { null }
     public fun assignOperatorPhysicalDecode(operatorIDs: IntArray, operator: BinaryToPOPDotMap) {
         for (operatorID in operatorIDs) {

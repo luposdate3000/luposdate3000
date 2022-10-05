@@ -102,8 +102,9 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var enableJoinOrderOnDynamicProgrammingNoCluster: Boolean = Luposdate3000Config.enableJoinOrderOnDynamicProgrammingNoCluster
-@JvmField
-    public var joinOrderByTopology:Boolean=Luposdate3000Config.joinOrderByTopology
+
+    @JvmField
+    public var joinOrderByTopology: Boolean = Luposdate3000Config.joinOrderByTopology
 
     @JvmField
     public var useDictionaryInlineEncoding: Boolean = Luposdate3000Config.useDictionaryInlineEncoding

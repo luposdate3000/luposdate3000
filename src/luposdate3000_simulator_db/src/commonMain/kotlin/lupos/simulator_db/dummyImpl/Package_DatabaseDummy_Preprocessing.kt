@@ -26,9 +26,9 @@ public class Package_DatabaseDummy_Preprocessing(
     public val senderAddress: Int, // dies MUSS ein DB-node sein ... von wo kommt das paket
     public val queryID: Int, // die ist immer gleich für alles was zu einem "Package_Application_DatabaseDummy_Query" gehört
 ) : IPackage_Database {
-private val hops=mutableListOf<Int>()
-    override fun addHop(address:Int){hops.add(address)}
-    override fun getAllHops():List<Int> =hops
+    private val hops = mutableListOf<Int>()
+    override fun addHop(address: Int) { hops.add(address) }
+    override fun getAllHops(): List<Int> = hops
     public val pckID: Long = UUID_Counter.getNextUUID()
     override fun getPackageID(): Long = pckID
     override fun getSizeInBytes(): Int {
