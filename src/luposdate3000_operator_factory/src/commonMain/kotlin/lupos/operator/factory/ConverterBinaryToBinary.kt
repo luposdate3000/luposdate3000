@@ -208,6 +208,17 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(dataOut, mapping, keys)
             },
         )
+assignOperatorPhysicalDecode(
+            EOperatorIDExt.LOPJoinTopologyID,
+            { query, off, data, dataOut, mapping, offPtr ->
+                var keys = mutableListOf<Int>()
+                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "LOPJoinTopology.size" })
+                for (i in 0 until len) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "LOPJoinTopology.key[$i]" }))
+                }
+                ConverterBinaryEncoder.encodeLOPJoinTopology(dataOut, mapping, keys)
+            },
+        )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPDistributedReceiveSingleID,
             { query, off, data, dataOut, mapping, offPtr ->

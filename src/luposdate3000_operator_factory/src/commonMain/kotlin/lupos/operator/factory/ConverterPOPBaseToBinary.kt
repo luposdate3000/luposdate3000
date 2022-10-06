@@ -732,36 +732,36 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.LOPJoinTopologyID,
             { op, data, mapping, distributed, handler, offPtr ->
                 op as LOPJoinTopology
-val currentID=handler.currentID
-        var keys = IntArray(op.children.size){handler.getNextKey() }
-val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.children.size, true)
-        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, op.children.size, { "POPJoinTolology.child.size" })
+                val currentID = handler.currentID
+                var keys = IntArray(op.children.size) { handler.getNextKey() }
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.children.size, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, op.children.size, { "POPJoinTolology.size" })
 
-        for (i in 0 until op.children.size) {
-            var childID = handler.getNextChildID()
-            handler.idToOffset[childID] = -1
-            handler.currentID = childID
-            var deps = handler.dependenciesForID[currentID]
-            if (deps == null) {
-                handler.dependenciesForID[currentID] = mutableMapOf(childID to keys[i])
-            } else {
-                deps[childID] = keys[i]
-            }
-            var o = off + 8 + 4 * op.children.size+12*i
-            val child = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler, o + 8)
-            handler.keyLocationReceive(keys[i], offPtr)
-            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPJoinTolology.key[$i]" })
-            handler.keyLocationSend(keys[i], o)
-            handler.idToOffset[childID] = o
-            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
-            ByteArrayWrapperExt.writeInt4(data, o + 4, keys[i], { "POPDistributedSendSingle.key" })
-            ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle.child" })
-        }
-        handler.currentID = currentID
-off
-},
+                for (i in 0 until op.children.size) {
+                    var childID = handler.getNextChildID()
+                    handler.idToOffset[childID] = -1
+                    handler.currentID = childID
+                    var deps = handler.dependenciesForID[currentID]
+                    if (deps == null) {
+                        handler.dependenciesForID[currentID] = mutableMapOf(childID to keys[i])
+                    } else {
+                        deps[childID] = keys[i]
+                    }
+                    var o = off + 8 + 4 * op.children.size + 12 * i
+                    val child = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler, o + 8)
+                    handler.keyLocationReceive(keys[i], offPtr)
+                    ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPJoinTolology.key[$i]" })
+                    handler.keyLocationSend(keys[i], o)
+                    handler.idToOffset[childID] = o
+                    ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, o + 4, keys[i], { "POPDistributedSendSingle.key" })
+                    ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle.child" })
+                }
+                handler.currentID = currentID
+                off
+            },
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,

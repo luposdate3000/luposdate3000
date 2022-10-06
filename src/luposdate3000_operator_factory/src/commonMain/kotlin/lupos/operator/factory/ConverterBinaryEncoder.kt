@@ -97,6 +97,16 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
+public fun encodeLOPJoinTopology(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+        val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "LOPJoinTopology.size" })
+        for (i in 0 until keys.size) {
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "LOPJoinTopology.key[$i]" })
+        }
+        return off
+    }
 
     public fun encodePOPDistributedSendSingleCount(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, key: Int, childf: (Int) -> Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
