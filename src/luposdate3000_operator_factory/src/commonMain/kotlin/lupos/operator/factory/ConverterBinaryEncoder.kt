@@ -99,14 +99,7 @@ public object ConverterBinaryEncoder {
     }
     public fun encodeLOPJoinTopology(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>, projectedVariables: List<String>, projectedVariablesChilds: List<List<String>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        val finalEndOff = off //
-        +4 // id
-        +4 // keys.size
-        +4 // projectedVariables.size
-        +4 * projectedVariables.size // projectedVariables content
-        +4 * keys.size // child[i].key
-        +4 * keys.size // child[i].projectedVariables.size
-        +4 * projectedVariablesChilds.map { it.size }.sum() //
+        val finalEndOff = off + 4 + 4 + 4 + 4 * projectedVariables.size + 4 * keys.size + 4 * keys.size + 4 * projectedVariablesChilds.map { it.size }.sum()
         ByteArrayWrapperExt.setSize(data, finalEndOff, true)
         var o = off
         ByteArrayWrapperExt.writeInt4(data, o, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })

@@ -672,7 +672,7 @@ public class Application_Luposdate3000 public constructor(
         }
         assignOP(EOperatorIDExt.LOPJoinTopologyID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
-            var o = 4
+            var o = off + 4
             val childCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
             o += 4
             val projectedVariablesCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
@@ -717,6 +717,7 @@ public class Application_Luposdate3000 public constructor(
                     }
                 }
                 inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList()))
+                childProjectedVariables.add(finalSet.toMutableList())
             }
 
             inputIterators[0]
@@ -843,7 +844,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:845"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:846"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -869,7 +870,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:871"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:872"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

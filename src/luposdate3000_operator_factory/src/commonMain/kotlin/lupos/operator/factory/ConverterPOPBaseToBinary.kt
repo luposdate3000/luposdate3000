@@ -739,15 +739,7 @@ public object ConverterPOPBaseToBinary {
                 val projectedVariables = op.getProvidedVariableNames()
                 val projectedVariablesChild = op.children.map { it.getProvidedVariableNames() }
 
-                val finalEndOff = off //
-                +4 // id
-                +4 // op.children.size
-                +4 // projectedVariables.size
-                +4 * projectedVariables.size // projectedVariables content
-                +4 * op.children.size // child[i].key
-                +4 * op.children.size // child[i].projectedVariables.size
-                +4 * projectedVariablesChild.map { it.size }.sum() //
-                +12 * op.children.size //
+                val finalEndOff = off + 4 + 4 + 4 + 4 * projectedVariables.size + 4 * op.children.size + 4 * op.children.size + 4 * projectedVariablesChild.map { it.size }.sum() + 12 * op.children.size
                 val offsetForSenders = finalEndOff - 12 * op.children.size
                 ByteArrayWrapperExt.setSize(data, finalEndOff, true)
                 var o = off

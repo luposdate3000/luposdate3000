@@ -220,7 +220,7 @@ public object ConverterBinaryToBinary {
                 val projectedVariables = mutableListOf<String>()
                 for (i in 0 until len3) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
-                    o++
+                    o += 4
                 }
                 val projectedVariablesChilds = MutableList(len) { mutableListOf<String>() }
                 for (i in 0 until len) {
