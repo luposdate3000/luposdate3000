@@ -166,13 +166,22 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                 key_send2off[key] = off
             },
         )
-assignOperatorPhysicalDecode(
-EOperatorIDExt.LOPJoinTopologyID,
+        assignOperatorPhysicalDecode(
+            EOperatorIDExt.LOPJoinTopologyID,
             { data, off ->
                 var keys = mutableListOf<Int>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinTolology.size" })
-                for (i in 0 until len) {
-                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPJoinTolology.key[$i]" }))
+                var o = off + 4
+                val childCount = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinTolology.size" })
+                o += 4
+                val projectedVariablesCount = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinTolology.size" })
+                o += 4
+                o += 4 * projectedVariablesCount
+                for (i in 0 until childCount) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "POPJoinTolology.key[$i]" }))
+                    o += 4
+                    val projectedVariablesCount2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinTolology.size" })
+                    o += 4
+                    o += 4 * projectedVariablesCount2
                 }
                 for (key in keys) {
                     key_rec2id[key] = currentID

@@ -735,10 +735,32 @@ public object ConverterPOPBaseToBinary {
                 val currentID = handler.currentID
                 var keys = IntArray(op.children.size) { handler.getNextKey() }
                 val off = ByteArrayWrapperExt.getSize(data)
-                ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.children.size, true)
-                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
-                ByteArrayWrapperExt.writeInt4(data, off + 4, op.children.size, { "POPJoinTolology.size" })
 
+                val projectedVariables = op.getProvidedVariableNames()
+                val projectedVariablesChild = op.children.map { it.getProvidedVariableNames() }
+
+                val finalEndOff = off //
+                +4 // id
+                +4 // op.children.size
+                +4 // projectedVariables.size
+                +4 * projectedVariables.size // projectedVariables content
+                +4 * op.children.size // child[i].key
+                +4 * op.children.size // child[i].projectedVariables.size
+                +4 * projectedVariablesChild.map { it.size }.sum() //
+                +12 * op.children.size //
+                val offsetForSenders = finalEndOff - 12 * op.children.size
+                ByteArrayWrapperExt.setSize(data, finalEndOff, true)
+                var o = off
+                ByteArrayWrapperExt.writeInt4(data, o, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
+                o += 4
+                ByteArrayWrapperExt.writeInt4(data, o, op.children.size, { "LOPJoinTolology.size" })
+                o += 4
+                ByteArrayWrapperExt.writeInt4(data, o, projectedVariables.size, { "LOPJoinTolology.projectedVariables.size" })
+                o += 4
+                for (i in 0 until projectedVariables.size) {
+                    ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(projectedVariables[i], data, mapping), { "LOPJoinTolology.projectedVariables[$i]" })
+                    o += 4
+                }
                 for (i in 0 until op.children.size) {
                     var childID = handler.getNextChildID()
                     handler.idToOffset[childID] = -1
@@ -749,17 +771,27 @@ public object ConverterPOPBaseToBinary {
                     } else {
                         deps[childID] = keys[i]
                     }
-                    var o = off + 8 + 4 * op.children.size + 12 * i
-                    val child = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler, o + 8)
+                    var o2 = offsetForSenders + 12 * i
+                    val child = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler, o2 + 8)
                     handler.keyLocationReceive(keys[i], offPtr)
-                    ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPJoinTolology.key[$i]" })
-                    handler.keyLocationSend(keys[i], o)
-                    handler.idToOffset[childID] = o
-                    ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
-                    ByteArrayWrapperExt.writeInt4(data, o + 4, keys[i], { "POPDistributedSendSingle.key" })
-                    ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle.child" })
+                    ByteArrayWrapperExt.writeInt4(data, o, keys[i], { "POPJoinTolology.key[$i]" })
+                    o += 4
+                    ByteArrayWrapperExt.writeInt4(data, o, projectedVariablesChild[i].size, { "POPJoinTolology.projectedVariables[$i].size" })
+                    o += 4
+                    for (j in 0 until projectedVariablesChild[i].size) {
+                        ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(projectedVariablesChild[i][j], data, mapping), { "LOPJoinTolology.projectedVariables[$i][$j]" })
+                        o += 4
+                    }
+                    handler.keyLocationSend(keys[i], o2)
+                    handler.idToOffset[childID] = o2
+                    ByteArrayWrapperExt.writeInt4(data, o2 + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
+                    ByteArrayWrapperExt.writeInt4(data, o2 + 4, keys[i], { "POPDistributedSendSingle.key" })
+                    ByteArrayWrapperExt.writeInt4(data, o2 + 8, child, { "POPDistributedSendSingle.child" })
                 }
                 handler.currentID = currentID
+                if (o != offsetForSenders) {
+                    TODO("offset error somewhere")
+                }
                 off
             },
         )

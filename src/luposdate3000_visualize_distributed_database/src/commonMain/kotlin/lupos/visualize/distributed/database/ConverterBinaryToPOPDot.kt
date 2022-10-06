@@ -166,6 +166,27 @@ internal class ConverterBinaryToPOPDot(internal val deviceAddress: Int) {
             }
             res
         }
+        assignOperatorPhysicalDecode(EOperatorIDExt.LOPJoinTopologyID) { _, data, off, _, graph, nextID ->
+            var keys = mutableListOf<Int>()
+            var o = off + 4
+            val childsCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+            o += 4
+            val projectedCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+            o += 4
+            o += 4 * projectedCount
+            for (i in 0 until childsCount) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.key[$i]" }))
+                o += 4
+                val len = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                o += 4 * len
+            }
+            val res = graph.addNode("JoinByTopology#${nextID()}", 3)
+            for (k in keys) {
+                graph.addEdge("msg${deviceAddress}at$k", res)
+            }
+            res
+        }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _, graph, nextID ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })

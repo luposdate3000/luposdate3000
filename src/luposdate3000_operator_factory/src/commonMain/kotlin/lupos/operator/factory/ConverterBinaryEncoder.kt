@@ -97,13 +97,40 @@ public object ConverterBinaryEncoder {
         }
         return off
     }
-public fun encodeLOPJoinTopology(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>): Int {
+    public fun encodeLOPJoinTopology(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, keys: List<Int>, projectedVariables: List<String>, projectedVariablesChilds: List<List<String>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * keys.size, true)
-        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, keys.size, { "LOPJoinTopology.size" })
+        val finalEndOff = off //
+        +4 // id
+        +4 // keys.size
+        +4 // projectedVariables.size
+        +4 * projectedVariables.size // projectedVariables content
+        +4 * keys.size // child[i].key
+        +4 * keys.size // child[i].projectedVariables.size
+        +4 * projectedVariablesChilds.map { it.size }.sum() //
+        ByteArrayWrapperExt.setSize(data, finalEndOff, true)
+        var o = off
+        ByteArrayWrapperExt.writeInt4(data, o, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
+        o += 4
+        ByteArrayWrapperExt.writeInt4(data, o, keys.size, { "LOPJoinTopology.size" })
+        o += 4
+        ByteArrayWrapperExt.writeInt4(data, o, projectedVariables.size, { "LOPJoinTopology.size" })
+        o += 4
+        for (x in projectedVariables) {
+            ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(x, data, mapping), { "LOPJoinTolology.projectedVariables[]" })
+            o += 4
+        }
         for (i in 0 until keys.size) {
-            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "LOPJoinTopology.key[$i]" })
+            ByteArrayWrapperExt.writeInt4(data, o, keys[i], { "LOPJoinTopology.key[$i]" })
+            o += 4
+            ByteArrayWrapperExt.writeInt4(data, o, projectedVariablesChilds[i].size, { "LOPJoinTopology.size" })
+            o += 4
+            for (x in projectedVariablesChilds[i]) {
+                ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(x, data, mapping), { "LOPJoinTolology.projectedVariables[$i]" })
+                o += 4
+            }
+        }
+        if (o != finalEndOff) {
+            TODO("offset error somewhere")
         }
         return off
     }

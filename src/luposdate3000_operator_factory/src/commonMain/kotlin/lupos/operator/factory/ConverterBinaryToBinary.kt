@@ -208,15 +208,32 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(dataOut, mapping, keys)
             },
         )
-assignOperatorPhysicalDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.LOPJoinTopologyID,
             { query, off, data, dataOut, mapping, offPtr ->
                 var keys = mutableListOf<Int>()
-                val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "LOPJoinTopology.size" })
-                for (i in 0 until len) {
-                    keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "LOPJoinTopology.key[$i]" }))
+                var o = off + 4
+                val len = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                val len3 = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                val projectedVariables = mutableListOf<String>()
+                for (i in 0 until len3) {
+                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                    o++
                 }
-                ConverterBinaryEncoder.encodeLOPJoinTopology(dataOut, mapping, keys)
+                val projectedVariablesChilds = MutableList(len) { mutableListOf<String>() }
+                for (i in 0 until len) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.key[$i]" }))
+                    o += 4
+                    val len4 = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                    o += 4
+                    for (j in 0 until len4) {
+                        projectedVariablesChilds[i].add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                        o += 4
+                    }
+                }
+                ConverterBinaryEncoder.encodeLOPJoinTopology(dataOut, mapping, keys, projectedVariables, projectedVariablesChilds)
             },
         )
         assignOperatorPhysicalDecode(

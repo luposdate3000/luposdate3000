@@ -16,7 +16,6 @@
  */
 
 package lupos.simulator_db.luposdate3000
-
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -36,6 +35,7 @@ import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
+import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -670,6 +670,57 @@ public class Application_Luposdate3000 public constructor(
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMulti(inputs, outputs)
         }
+        assignOP(EOperatorIDExt.LOPJoinTopologyID) { query, data, off, _ ->
+            var keys = mutableListOf<Int>()
+            var o = 4
+            val childCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+            o += 4
+            val projectedVariablesCount = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+            o += 4
+            val projectedVariables = mutableListOf<String>()
+            for (i in 0 until projectedVariablesCount) {
+                projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "projectedVariable.name" })))
+                o += 4
+            }
+            val childProjectedVariables = MutableList(childCount) { mutableListOf<String>() }
+            for (i in 0 until childCount) {
+                keys.add(ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.key[$i]" }))
+                o += 4
+                val len = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                for (j in 0 until len) {
+                    childProjectedVariables[i].add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "projectedVariable.name" })))
+                    o += 4
+                }
+            }
+            val inputs = keys.map { key ->
+                val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
+                myPendingWorkData.remove(queryID to key)
+                input
+            }.toTypedArray()
+
+            val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null) }.toMutableList()
+            while (inputIterators.size> 1) {
+                val child0 = inputIterators.removeFirst()
+                val child1 = inputIterators.removeFirst()
+                val projected0 = childProjectedVariables.removeFirst()
+                val projected1 = childProjectedVariables.removeFirst()
+                val maxSet = (projected0 + projected1).toSet()
+                val minSet = (projectedVariables).toMutableSet()
+                for (x in childProjectedVariables) {
+                    minSet.addAll(x)
+                }
+                val finalSet = mutableSetOf<String>()
+                for (x in maxSet) {
+                    if (x in minSet) {
+                        finalSet.add(x)
+                    }
+                }
+                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList()))
+            }
+
+            inputIterators[0]
+        }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiCountID) { _, data, off, _ ->
             var keys = mutableListOf<Int>()
             val len = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveMultiCount.size" })
@@ -792,7 +843,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:794"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:845"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -818,7 +869,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:820"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:871"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
