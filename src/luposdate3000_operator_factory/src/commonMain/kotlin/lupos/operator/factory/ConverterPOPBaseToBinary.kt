@@ -21,6 +21,7 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.physical.multiinput.POPJoinCartesianProduct
 import lupos.operator.physical.multiinput.POPJoinHashMap
 import lupos.operator.physical.multiinput.POPJoinMerge
@@ -108,7 +109,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:110"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:111"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
@@ -121,7 +122,7 @@ public object ConverterPOPBaseToBinary {
                                                     flag++
                                                 }
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:123"/*SOURCE_FILE_END*/ }, { flag == 1 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:124"/*SOURCE_FILE_END*/ }, { flag == 1 })
                                         }
                                         else -> {
 // crash, because it is already decided, that this must be replaced
@@ -349,7 +350,6 @@ public object ConverterPOPBaseToBinary {
         for ((k, v) in handler.currentPartition) {
             currentPartitionCopy[k] = v
         }
-        val childIDs = mutableListOf<Int>()
         if (partitionVariable != null) {
             handler.partitionVariables[partitionID] = partitionVariable
         }
@@ -381,11 +381,10 @@ public object ConverterPOPBaseToBinary {
             }
             var o = off + 8 + 4 * partitionCount + 12 * partition
             val child = convertToByteArrayHelper(child, data, mapping, distributed, handler, o + 8)
-            childIDs.add(childID)
             handler.keyLocationReceive(keys[partition], offPtr)
             ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * partition, keys[partition], { "POPDistributedReceiveMulti$labelAppendixReceive.key[$partition]" })
             handler.keyLocationSend(keys[partition], o)
-            handler.idToOffset[childIDs[partition]] = o
+            handler.idToOffset[childID] = o
             ByteArrayWrapperExt.writeInt4(data, o + 0, sendID, { "operatorID" })
             ByteArrayWrapperExt.writeInt4(data, o + 4, keys[partition], { "POPDistributedSendSingle$labelAppendixSend.key" })
             ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle$labelAppendixSend.child" })
@@ -414,7 +413,6 @@ public object ConverterPOPBaseToBinary {
         for ((k, v) in handler.currentPartition) {
             currentPartitionCopy[k] = v
         }
-        val childIDs = mutableListOf<Int>()
         if (partitionVariable != null) {
             handler.partitionVariables[partitionID] = partitionVariable
         }
@@ -458,11 +456,10 @@ public object ConverterPOPBaseToBinary {
             }
             var o = baseOff + 12 * partition
             val child = convertToByteArrayHelper(child, data, mapping, distributed, handler, o + 8)
-            childIDs.add(childID)
             handler.keyLocationReceive(keys[partition], offPtr)
             ByteArrayWrapperExt.writeInt4(data, off + 16 + 4 * partition, keys[partition], { "POPDistributedReceiveMultiOrdered.key[$partition]" })
             handler.keyLocationSend(keys[partition], o)
-            handler.idToOffset[childIDs[partition]] = o
+            handler.idToOffset[childID] = o
             ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
             ByteArrayWrapperExt.writeInt4(data, o + 4, keys[partition], { "POPDistributedSendSingle.key" })
             ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle.child" })
@@ -733,14 +730,38 @@ public object ConverterPOPBaseToBinary {
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.LOPJoinTopologyID,
-            { op, data, mapping, distributed, handler, _ ->
+            { op, data, mapping, distributed, handler, offPtr ->
                 op as LOPJoinTopology
-                ConverterBinaryEncoder.encodePOPJoinTopology(
-                    data,
-                    mapping,
-                    op.children.map { { parentOffOff -> convertToByteArrayHelper(it, data, mapping, distributed, handler, parentOffOff) } }
-                )
-            },
+val currentID=handler.currentID
+        var keys = IntArray(op.children.size){handler.getNextKey() }
+val off = ByteArrayWrapperExt.getSize(data)
+        ByteArrayWrapperExt.setSize(data, off + 8 + 16 * op.children.size, true)
+        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.LOPJoinTopologyID, { "operatorID" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, op.children.size, { "POPJoinTolology.child.size" })
+
+        for (i in 0 until op.children.size) {
+            var childID = handler.getNextChildID()
+            handler.idToOffset[childID] = -1
+            handler.currentID = childID
+            var deps = handler.dependenciesForID[currentID]
+            if (deps == null) {
+                handler.dependenciesForID[currentID] = mutableMapOf(childID to keys[i])
+            } else {
+                deps[childID] = keys[i]
+            }
+            var o = off + 8 + 4 * op.children.size+12*i
+            val child = convertToByteArrayHelper(op.children[i], data, mapping, distributed, handler, o + 8)
+            handler.keyLocationReceive(keys[i], offPtr)
+            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, keys[i], { "POPJoinTolology.key[$i]" })
+            handler.keyLocationSend(keys[i], o)
+            handler.idToOffset[childID] = o
+            ByteArrayWrapperExt.writeInt4(data, o + 0, EOperatorIDExt.POPDistributedSendSingleID, { "operatorID" })
+            ByteArrayWrapperExt.writeInt4(data, o + 4, keys[i], { "POPDistributedSendSingle.key" })
+            ByteArrayWrapperExt.writeInt4(data, o + 8, child, { "POPDistributedSendSingle.child" })
+        }
+        handler.currentID = currentID
+off
+},
         )
         assignOperatorPhysicalEncode(
             EOperatorIDExt.POPJoinMergeSingleColumnID,

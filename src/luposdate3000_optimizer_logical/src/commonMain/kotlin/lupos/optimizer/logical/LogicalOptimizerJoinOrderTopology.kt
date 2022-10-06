@@ -62,7 +62,7 @@ public class LogicalOptimizerJoinOrderTopology(query: Query) : OptimizerBase(que
                 val allChilds2 = findAllJoinsInChildren(node)
                 res = LOPJoinTopology(node.query, allChilds2.toTypedArray())
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopology.kt:71"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopology.kt:64"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

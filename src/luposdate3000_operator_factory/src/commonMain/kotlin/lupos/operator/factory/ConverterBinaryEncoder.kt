@@ -241,17 +241,6 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPJoinTopology(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childs: List<(Int) -> Int>) {
-        val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 8 + 4 * childs.size, true)
-        ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPJoinMergeSingleColumnID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, childs.size, { "POPJoinMergeSingleColumn.child.size" })
-        for (i in 0 until childs.size) {
-            ByteArrayWrapperExt.writeInt4(data, off + 8 + 4 * i, childs[i](off + 8 + 4 * i), { "POPJoinMergeSingleColumn.child[$i]" })
-        }
-        return off
-    }
-
     public fun encodePOPJoinMergeSingleColumn(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12, true)
