@@ -300,6 +300,34 @@ public object ConverterBinaryToPOPJson {
                 "{\"type\":\"POPMinus\",\"childs\":[$child0, $child1]}"
             },
         )
+assignOperatorPhysicalDecode(
+            EOperatorIDExt.LOPJoinTopologyID,
+            { query,  data, off ->
+                var keys = mutableListOf<Int>()
+                var o = off + 4
+                val len = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                val len3 = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                o += 4
+                val projectedVariables = mutableListOf<String>()
+                for (i in 0 until len3) {
+                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                    o += 4
+                }
+                val projectedVariablesChilds = MutableList(len) { mutableListOf<String>() }
+                for (i in 0 until len) {
+                    keys.add(ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.key[$i]" }))
+                    o += 4
+                    val len4 = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
+                    o += 4
+                    for (j in 0 until len4) {
+                        projectedVariablesChilds[i].add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })))
+                        o += 4
+                    }
+                }
+                "{\"type\":\"LOPJoinTopology\",\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
+            },
+        )
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPJoinMergeOptionalID,
             { query, data, off ->

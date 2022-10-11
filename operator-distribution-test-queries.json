@@ -5,7 +5,7 @@
                 "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
                     {
                         "label": "Q0",
-                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?x parking:spotInArea1 1 .\n ?x parking:spotInArea2 1 .\n ?x parking:spotInArea3 1 .\n ?x parking:spotInArea4 1 .\n ?x parking:spotInArea5 1 .\n ?x parking:spotInArea6 1 .\n}",
+                        "query": "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?x parking:spotInArea0 1 .\n ?x parking:spotInArea1 1 .\n ?x parking:spotInArea2 1 .\n ?x parking:spotInArea3 1 .\n ?x parking:spotInArea4 1 .\n ?x parking:spotInArea5 1 .\n ?x parking:spotInArea6 1 .\n ?x parking:spotInArea7 1 .\n ?x parking:spotInArea8 1 .\n ?x parking:spotInArea9 1 .\n ?x parking:spotInArea10 1 .\n ?x parking:spotInArea11 1 .\n ?x parking:spotInArea12 1 .\n ?x parking:spotInArea13 1 .\n ?x parking:spotInArea14 1 .\n ?x parking:spotInArea15 1 .\n}",
                     },
                 ],
             },

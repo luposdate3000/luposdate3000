@@ -400,7 +400,7 @@ public object RestEndpoint {
                     val host = hosts.first()
                     val keys = mutableSetOf<Int>()
                     for (parentID in meta.getParentsForID(id)) {
-                        keys.add(meta.getDependenciesForID(parentID)[id]!!)
+                        keys.add(meta.getDependenciesForID1(parentID)[id]!!)
                     }
                     val conn = handler.openConnection(
                         host,
@@ -412,7 +412,7 @@ public object RestEndpoint {
                     )
                     val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
                     val deps = mutableMapOf<Int, String>() // key->host
-                    val alldeps = meta.getDependenciesForID(id)
+                    val alldeps = meta.getDependenciesForID1(id)
                     if (alldeps != null) {
                         for ((childID, key2) in alldeps) {
                             val h = meta.id2host[childID]!!.first()
@@ -438,7 +438,7 @@ public object RestEndpoint {
                     conn.first.close()
                 }
                 printHeaderSuccess(connectionOutMy)
-                val alldeps = meta.getDependenciesForID(-1)
+                val alldeps = meta.getDependenciesForID1(-1)
                 if (alldeps != null) {
                     for ((childID, key2) in alldeps) {
                         val h = meta.id2host[childID]!!.first()

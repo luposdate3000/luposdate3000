@@ -186,7 +186,7 @@ public class Application_Luposdate3000 public constructor(
             TODO("there is pending work on close")
         }
         if (myPendingWorkData.size > 0) {
-            TODO("there is pending data for work on close")
+            TODO("there is pending data for work on close ${myPendingWorkData.keys}")
         }
         LuposdateEndpoint.close(instance)
     }
@@ -222,7 +222,10 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-        // println("query ${pck.queryID} started on $ownAdress $queryString")
+println("receive queryID ${pck.queryID}")
+        if (pck.queryID == 372) {
+            println("query ${pck.queryID} started on $ownAdress $queryString")
+        }
         val q = Query(instance)
         val machineLearningOptimizerOrder = pck.attributes["machineLearningOptimizerOrder"]
         if (machineLearningOptimizerOrder != null) {
@@ -276,7 +279,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:278"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:281"/*SOURCE_FILE_END*/)
             }
         }
         // println("query ${pck.queryID} can not be executed locally, continueing")
@@ -303,7 +306,7 @@ public class Application_Luposdate3000 public constructor(
                 while (keysToAssign.size > 0 && changed) {
                     changed = false
                     for (maybeAssign in keysToAssign) {
-                        val x = handler.getDependenciesForID(maybeAssign)
+                        val x = handler.getDependenciesForID1(maybeAssign)
                         if (x != null) {
                             for (child in x.keys) {
                                 val h = handler.id2host[child]
@@ -318,7 +321,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
         }
-        if (false) {
+        if (pck.queryID==372) {
             println(ConverterBinaryToPOPJson.decode(op.getQuery() as Query, data))
         }
         receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q))
@@ -340,7 +343,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:342"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:345"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -391,26 +394,32 @@ public class Application_Luposdate3000 public constructor(
 
 // 2. split receive-multi operators to match the network layout
         val partIds = handler.id2host.keys.toMutableSet()
-        var changed = pck.queryID == 10 // debugging purposes
+//        var changed = pck.queryID == 10 // debugging purposes
+        var changed = true
         loop@ while (changed) {
             changed = false
             for (id in partIds) {
+                //println("checking partID $id")
                 val id2host = handler.id2host[id]
                 if (id2host != null) {
-                    val depsForId = handler.getDependenciesForID(id)
+                    //println("it is mapped to an host")
+                    val depsForId = handler.getDependenciesForID1(id)
                     if (depsForId != null) {
+                        //println("it has dependencies $depsForId")
                         val key2host = depsForId.toList().map { it -> it.second to handler.id2host[it.first]?.map { it2 -> it2.toInt() } }.toMap()
                         val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
                         val hosts = key2hop.values.toSet()
                         if (hosts.size > 1) {
-                            if (id != -1 && hosts.size > 2 && pck.queryID == 10) { // only debugging, otherwise remove this condition
+                            //println("those dependencies are on multiple hosts")
+                            if (true) {
+                                // if (id != -1 && hosts.size > 2 && pck.queryID == 10) { // only debugging, otherwise remove this condition
                                 val hop2key = key2hop.values.toSet().map { it -> it to key2hop.toList().filter { it2 -> it2.second == it }.map { it2 -> it2.first } }.toMap()
-                                println()
-                                println("id $id")
-                                println("id2host $id2host")
-                                println("key2host $key2host")
-                                println("key2hop $key2hop")
-                                println("hop2key $hop2key")
+                                //println()
+                                //println("id $id")
+                                //println("id2host $id2host")
+                                //println("key2host $key2host")
+                                //println("key2hop $key2hop")
+                                //println("hop2key $hop2key")
                                 for ((hop, keys) in hop2key) {
                                     if (keys.size > 1) {
                                         val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
@@ -421,17 +430,17 @@ public class Application_Luposdate3000 public constructor(
                                         }
                                         for ((operatorOff, keys2) in operatorOffToKeys) {
                                             if (keys2.size > 1) {
-                                                println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
+                                                //println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
                                                 val childID = handler.getNextChildID()
                                                 var childOff = -1
-                                                println("creating child $childID")
+                                                //println("creating child $childID")
                                                 val newKey = handler.getNextKey()
-                                                println("creating key $newKey")
+                                                //println("creating key $newKey")
                                                 val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
                                                 val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                                 when (oldType) {
                                                     EOperatorIDExt.POPDistributedReceiveMultiID -> {
-                                                        println("had EOperatorIDExt.POPDistributedReceiveMultiID")
+                                                        //println("had EOperatorIDExt.POPDistributedReceiveMultiID")
                                                         childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
                                                             pck.data,
                                                             mutableMapOf(),
@@ -455,6 +464,108 @@ public class Application_Luposdate3000 public constructor(
                                                             i++
                                                         }
                                                     }
+                                                    EOperatorIDExt.LOPJoinTopologyID -> {
+                                                        //println("found it")
+
+                                                        var oldParentKeys = mutableListOf<Int>()
+                                                        var o = oldOperatorOff + 4
+                                                        val childCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        val projectedVariablesCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        val oldParentProjectedVariables = mutableListOf<String>()
+                                                        for (i in 0 until projectedVariablesCount) {
+                                                            oldParentProjectedVariables.add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
+                                                            o += 4
+                                                        }
+                                                        val oldParentChildProjectedVariables = MutableList(childCount) { mutableListOf<String>() }
+                                                        for (i in 0 until childCount) {
+                                                            oldParentKeys.add(ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.key[$i]" }))
+                                                            o += 4
+                                                            val len = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                            o += 4
+                                                            for (j in 0 until len) {
+                                                                oldParentChildProjectedVariables[i].add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
+                                                                o += 4
+                                                            }
+                                                        }
+
+                                                        //println("the old parent operator contained ... $oldParentKeys $oldParentProjectedVariables $oldParentChildProjectedVariables")
+
+                                                        val theNewParentKeys = mutableListOf<Int>()
+                                                        val theNewParentProjectedVariables = oldParentProjectedVariables.toMutableList()
+                                                        val theNewParentChildProjectedVariables = mutableListOf<MutableList<String>>()
+                                                        val theNewChildKeys = mutableListOf<Int>()
+                                                        val theNewChildProjectedVariablesMin = mutableListOf<String>()
+                                                        val theNewChildProjectedVariablesMax = mutableListOf<String>()
+                                                        val theNewChildChildProjectedVariables = mutableListOf<MutableList<String>>()
+                                                        theNewChildProjectedVariablesMax.addAll(theNewParentProjectedVariables)
+
+                                                        for (i in 0 until oldParentKeys.size) {
+                                                            val k = oldParentKeys[i]
+                                                            val p = oldParentChildProjectedVariables[i]
+                                                            if (keys2.contains(k)) {
+                                                                theNewChildKeys.add(k)
+                                                                theNewChildChildProjectedVariables.add(p)
+                                                                theNewChildProjectedVariablesMin.addAll(p)
+                                                            } else {
+                                                                theNewParentKeys.add(k)
+                                                                theNewParentChildProjectedVariables.add(p)
+                                                                theNewChildProjectedVariablesMax.addAll(p)
+                                                            }
+                                                        }
+                                                        val theNewChildProjectedVariables = theNewChildProjectedVariablesMin.intersect(theNewChildProjectedVariablesMax).toMutableList()
+                                                        theNewParentKeys.add(newKey)
+                                                        theNewParentChildProjectedVariables.add(theNewChildProjectedVariables)
+
+                                                        //println("the new parent operator should contain $theNewParentKeys $theNewParentProjectedVariables $theNewParentChildProjectedVariables")
+                                                        //println("the new child operator shoud contain $theNewChildKeys $theNewChildProjectedVariables $theNewChildChildProjectedVariables")
+
+                                                        //println("creating the new child")
+                                                        val mapping = mutableMapOf<String, Int>()
+
+                                                        childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
+                                                            pck.data,
+                                                            mapping,
+                                                            newKey,
+                                                            { offPtr ->
+                                                                ConverterBinaryEncoder.encodeLOPJoinTopology(
+                                                                    pck.data,
+                                                                    mapping,
+                                                                    theNewChildKeys,
+                                                                    theNewChildProjectedVariables,
+                                                                    theNewChildChildProjectedVariables
+                                                                )
+                                                            }
+                                                        )
+
+                                                        //println("update the parent NOW !!")
+
+                                                        val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
+                                                        o = oldOperatorOff
+                                                        o += 4
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys.size, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentProjectedVariables.size, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        for (x in theNewParentProjectedVariables) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[]" })
+                                                            o += 4
+                                                        }
+                                                        for (i in 0 until theNewParentKeys.size) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys[i], { "LOPJoinTopology.key[$i]" })
+                                                            o += 4
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentChildProjectedVariables[i].size, { "LOPJoinTopology.size" })
+                                                            o += 4
+                                                            for (x in theNewParentChildProjectedVariables[i]) {
+                                                                ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[$i]" })
+                                                                o += 4
+                                                            }
+                                                        }
+                                                        if (o != finalEndOff) {
+                                                            TODO("offset error somewhere")
+                                                        }
+                                                    }
                                                     EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
                                                         var orderedBy = mutableListOf<String>()
                                                         var variablesOut = mutableListOf<String>()
@@ -463,7 +574,7 @@ public class Application_Luposdate3000 public constructor(
                                                         val variablesOutLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
                                                         val cacheOrderedBy = IntArray(orderedByLen)
                                                         val cachevariablesOut = IntArray(variablesOutLen)
-                                                        println("EOperatorIDExt.POPDistributedReceiveMultiOrderedID @ $oldOperatorOff ...$keysLen $orderedByLen $variablesOutLen")
+                                                        //println("EOperatorIDExt.POPDistributedReceiveMultiOrderedID @ $oldOperatorOff ...$keysLen $orderedByLen $variablesOutLen")
                                                         var o = oldOperatorOff + 16
                                                         for (i in 0 until keysLen) {
                                                             o += 4
@@ -518,9 +629,9 @@ public class Application_Luposdate3000 public constructor(
                                                 }
                                                 handler.addChildToBinary(childOff, childID)
                                                 handler = HelperMetadata(pck.data, pck.queryID)
-                                                println("new childIDs ${handler.id2off.keys}")
-                                                println("new keys ${(handler.key_send2id.keys + handler.key_rec2id.keys).toSet()}")
-                                                println("hadupdate")
+                                                //println("new childIDs ${handler.id2off.keys}")
+                                                //println("new keys ${(handler.key_send2id.keys + handler.key_rec2id.keys).toSet()}")
+                                                //println("hadupdate")
                                                 changed = true
                                                 continue@loop
                                             }
@@ -545,8 +656,8 @@ public class Application_Luposdate3000 public constructor(
 // 3.a if targets differ, calculate the operator here
                 ownAdress
             }
-            val dep = handler.getDependenciesForID(k)
-            for (d in dep.values) {
+            val dep = handler.getDependenciesForID2(k)
+            for (d in dep) {
                 pck.destinations[d] = target
 // 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
                 // println("key $d query ${pck.queryID} should be send to $target")
@@ -557,9 +668,9 @@ public class Application_Luposdate3000 public constructor(
         // this is only a workaround ... this may yield errors, if the query is pushed further down
         for ((host, ids) in target2id) {
             for (id in ids) {
-                val keys = handler.getDependenciesForID(id)
+                val keys = handler.getDependenciesForID2(id)
                 if (keys != null) {
-                    for (key in keys.values) {
+                    for (key in keys) {
                         if (pck.destinations[key] == null) {
 // 4.b. if destination of result is unclear, try to fix it
                             pck.destinations[key] = host
@@ -570,7 +681,6 @@ public class Application_Luposdate3000 public constructor(
             }
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
-// xxx
         val oldhandler = handler
         for ((targetHost, filter) in target2id) {
             var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
@@ -579,12 +689,14 @@ public class Application_Luposdate3000 public constructor(
 // data=ConverterPOPBaseToBinary.optimize(data,pck.query)
                     handler = HelperMetadata(data, pck.queryID)
 
-                    var dependencies2 = oldhandler.getDependenciesForID(id)
+                    var dependencies2 = oldhandler.getDependenciesForID2(id)
                     val dependencies = if (dependencies2 == null) {
                         setOf<Int>()
                     } else {
-                        dependencies2.values.toSet()
+                        dependencies2.toSet()
                     }
+//println("the calculated dependencies for $id are ${oldhandler.getDependenciesForID2(id)} or afterwards ${handler.getDependenciesForID2(id)}")
+println("calculated the dependenies for queryID ${pck.queryID} dependencies ${dependencies}")
                     val w = PendingWork(
                         ownAdress,
                         pck.queryID,
@@ -693,6 +805,7 @@ public class Application_Luposdate3000 public constructor(
                     o += 4
                 }
             }
+//println("all the keys I want are $queryID $keys, but these are available: ${myPendingWorkData.keys}")
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
                 myPendingWorkData.remove(queryID to key)
@@ -775,14 +888,19 @@ public class Application_Luposdate3000 public constructor(
                 while (changed) {
                     changed = false
                     for (w in myPendingWork) {
+println("doWork checking queryID ${w.queryID}")
                         var flag = true
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
+if(!flag){
+println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys}")
+}
                             if (!myPendingWorkData.keys.contains(w.queryID to k)) {
                                 // println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
                             }
                         }
                         if (flag) {
+println("doWork execute queryID ${w.queryID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -803,6 +921,7 @@ public class Application_Luposdate3000 public constructor(
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
+//println("calculated, that following dependencies are needed: ${w.queryID} ${w.dependencies} for queryID: ${w.queryID} ${w.dataID}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {
@@ -844,7 +963,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:846"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:965"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -870,7 +989,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:872"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:991"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
