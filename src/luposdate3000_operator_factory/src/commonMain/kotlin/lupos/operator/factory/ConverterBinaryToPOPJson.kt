@@ -107,11 +107,15 @@ public object ConverterBinaryToPOPJson {
         if (type >= operatorMap.size) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
+if(type==-1){
+return "-1"
+}else{
         val decoder = operatorMap[type]
         if (decoder == null) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
         return decoder(query, data, off)
+}
     }
 
     init {

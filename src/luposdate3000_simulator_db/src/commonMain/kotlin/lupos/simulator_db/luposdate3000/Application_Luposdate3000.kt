@@ -321,9 +321,6 @@ println("receive queryID ${pck.queryID}")
                 }
             }
         }
-        if (pck.queryID==372) {
-            println(ConverterBinaryToPOPJson.decode(op.getQuery() as Query, data))
-        }
         receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q))
     }
 
@@ -343,7 +340,7 @@ println("receive queryID ${pck.queryID}")
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:345"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:342"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -380,6 +377,10 @@ println("receive queryID ${pck.queryID}")
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         var handler = HelperMetadata(pck.data, pck.queryID)
+if (pck.queryID==372) {
+            println("jsonoperator on ownAdress $ownAdress "+ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data))
+        }
+println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
         operatorGraphPartsToHostMapTmp.addAll(handler.id2host.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
 // 1. calculate next hops for every subquery
@@ -658,7 +659,8 @@ println("receive queryID ${pck.queryID}")
             }
             val dep = handler.getDependenciesForID2(k)
             for (d in dep) {
-                pck.destinations[d] = target
+//                pck.destinations[d] = target
+println("queryID ${pck.queryID} pck.destinations[$d] = $target # 1")
 // 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
                 // println("key $d query ${pck.queryID} should be send to $target")
             }
@@ -673,18 +675,33 @@ println("receive queryID ${pck.queryID}")
                     for (key in keys) {
                         if (pck.destinations[key] == null) {
 // 4.b. if destination of result is unclear, try to fix it
-                            pck.destinations[key] = host
+//                            pck.destinations[key] = host
+println("queryID ${pck.queryID} pck.destinations[$key] = $host # 2")
                             // println("key $key query ${pck.queryID} should be prepared to $host")
-                        }
+                        }else if(pck.destinations[key] != host){
+//println("conflicting host for queryID ${pck.queryID} ${pck.destinations[key]} != ${host}")
+}
                     }
                 }
             }
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         val oldhandler = handler
-        for ((targetHost, filter) in target2id) {
+val filter=target2id[ownAdress]
+if(filter!=null){
             var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
-            if (targetHost == ownAdress) {
+                for (id in filter) {
+var dependencies2 = oldhandler.getDependenciesForID2(id)
+                    val dependencies = if (dependencies2 == null) {
+                        setOf<Int>()
+                    } else {
+                        dependencies2.toSet()
+                    }
+for(dep in dependencies){
+println("queryID ${pck.queryID} pck.destinations[$dep] = $ownAdress # 3")
+pck.destinations[dep]=ownAdress
+}
+}
                 for (id in filter) {
 // data=ConverterPOPBaseToBinary.optimize(data,pck.query)
                     handler = HelperMetadata(data, pck.queryID)
@@ -696,7 +713,7 @@ println("receive queryID ${pck.queryID}")
                         dependencies2.toSet()
                     }
 //println("the calculated dependencies for $id are ${oldhandler.getDependenciesForID2(id)} or afterwards ${handler.getDependenciesForID2(id)}")
-println("calculated the dependenies for queryID ${pck.queryID} dependencies ${dependencies}")
+println("calculated the dependenies for queryID ${pck.queryID} dependencies ${dependencies} pck.destinations ${pck.destinations}")
                     val w = PendingWork(
                         ownAdress,
                         pck.queryID,
@@ -711,7 +728,10 @@ println("calculated the dependenies for queryID ${pck.queryID} dependencies ${de
                     )
                     myPendingWork.add(w)
                 }
-            } else {
+}
+        for ((targetHost, filter) in target2id) {
+            if (targetHost != ownAdress) {
+            var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
                 val pck2 = Package_Luposdate3000_Operatorgraph(
                     pck.queryID,
                     data,
@@ -736,6 +756,7 @@ println("calculated the dependenies for queryID ${pck.queryID} dependencies ${de
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             // println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
+println("sendSingle queryID ${queryID} key $key destination ${destinations[key]!!}")
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
@@ -893,14 +914,14 @@ println("doWork checking queryID ${w.queryID}")
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
 if(!flag){
-println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys}")
+println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys.filter{it.first==372}}")
 }
                             if (!myPendingWorkData.keys.contains(w.queryID to k)) {
                                 // println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
                             }
                         }
                         if (flag) {
-println("doWork execute queryID ${w.queryID}")
+println("doWork execute queryID ${w.queryID} ownAdress $ownAdress dataID ${w.dataID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -963,7 +984,7 @@ println("doWork execute queryID ${w.queryID}")
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:965"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:967"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -989,7 +1010,7 @@ println("doWork execute queryID ${w.queryID}")
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:991"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:993"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
