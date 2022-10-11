@@ -222,7 +222,7 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-println("receive queryID ${pck.queryID}")
+        println("receive queryID ${pck.queryID}")
         if (pck.queryID == 372) {
             println("query ${pck.queryID} started on $ownAdress $queryString")
         }
@@ -377,10 +377,10 @@ println("receive queryID ${pck.queryID}")
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         var handler = HelperMetadata(pck.data, pck.queryID)
-if (pck.queryID==372) {
-            println("jsonoperator on ownAdress $ownAdress "+ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data))
+        if (pck.queryID == 372) {
+            println("jsonoperator on ownAdress $ownAdress " + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data))
         }
-println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
+        println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
         operatorGraphPartsToHostMapTmp.addAll(handler.id2host.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
 // 1. calculate next hops for every subquery
@@ -400,27 +400,27 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
         loop@ while (changed) {
             changed = false
             for (id in partIds) {
-                //println("checking partID $id")
+                // println("checking partID $id")
                 val id2host = handler.id2host[id]
                 if (id2host != null) {
-                    //println("it is mapped to an host")
+                    // println("it is mapped to an host")
                     val depsForId = handler.getDependenciesForID1(id)
                     if (depsForId != null) {
-                        //println("it has dependencies $depsForId")
+                        // println("it has dependencies $depsForId")
                         val key2host = depsForId.toList().map { it -> it.second to handler.id2host[it.first]?.map { it2 -> it2.toInt() } }.toMap()
                         val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
                         val hosts = key2hop.values.toSet()
                         if (hosts.size > 1) {
-                            //println("those dependencies are on multiple hosts")
+                            // println("those dependencies are on multiple hosts")
                             if (true) {
                                 // if (id != -1 && hosts.size > 2 && pck.queryID == 10) { // only debugging, otherwise remove this condition
                                 val hop2key = key2hop.values.toSet().map { it -> it to key2hop.toList().filter { it2 -> it2.second == it }.map { it2 -> it2.first } }.toMap()
-                                //println()
-                                //println("id $id")
-                                //println("id2host $id2host")
-                                //println("key2host $key2host")
-                                //println("key2hop $key2hop")
-                                //println("hop2key $hop2key")
+                                // println()
+                                // println("id $id")
+                                // println("id2host $id2host")
+                                // println("key2host $key2host")
+                                // println("key2hop $key2hop")
+                                // println("hop2key $hop2key")
                                 for ((hop, keys) in hop2key) {
                                     if (keys.size > 1) {
                                         val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
@@ -431,17 +431,17 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                         }
                                         for ((operatorOff, keys2) in operatorOffToKeys) {
                                             if (keys2.size > 1) {
-                                                //println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
+                                                // println("found the keys $keys2 in the operator, where the location is stored at $operatorOff ... going to extract those keys now")
                                                 val childID = handler.getNextChildID()
                                                 var childOff = -1
-                                                //println("creating child $childID")
+                                                // println("creating child $childID")
                                                 val newKey = handler.getNextKey()
-                                                //println("creating key $newKey")
+                                                // println("creating key $newKey")
                                                 val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
                                                 val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                                 when (oldType) {
                                                     EOperatorIDExt.POPDistributedReceiveMultiID -> {
-                                                        //println("had EOperatorIDExt.POPDistributedReceiveMultiID")
+                                                        // println("had EOperatorIDExt.POPDistributedReceiveMultiID")
                                                         childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
                                                             pck.data,
                                                             mutableMapOf(),
@@ -466,7 +466,7 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                         }
                                                     }
                                                     EOperatorIDExt.LOPJoinTopologyID -> {
-                                                        //println("found it")
+                                                        // println("found it")
 
                                                         var oldParentKeys = mutableListOf<Int>()
                                                         var o = oldOperatorOff + 4
@@ -491,7 +491,7 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                             }
                                                         }
 
-                                                        //println("the old parent operator contained ... $oldParentKeys $oldParentProjectedVariables $oldParentChildProjectedVariables")
+                                                        // println("the old parent operator contained ... $oldParentKeys $oldParentProjectedVariables $oldParentChildProjectedVariables")
 
                                                         val theNewParentKeys = mutableListOf<Int>()
                                                         val theNewParentProjectedVariables = oldParentProjectedVariables.toMutableList()
@@ -519,10 +519,10 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                         theNewParentKeys.add(newKey)
                                                         theNewParentChildProjectedVariables.add(theNewChildProjectedVariables)
 
-                                                        //println("the new parent operator should contain $theNewParentKeys $theNewParentProjectedVariables $theNewParentChildProjectedVariables")
-                                                        //println("the new child operator shoud contain $theNewChildKeys $theNewChildProjectedVariables $theNewChildChildProjectedVariables")
+                                                        // println("the new parent operator should contain $theNewParentKeys $theNewParentProjectedVariables $theNewParentChildProjectedVariables")
+                                                        // println("the new child operator shoud contain $theNewChildKeys $theNewChildProjectedVariables $theNewChildChildProjectedVariables")
 
-                                                        //println("creating the new child")
+                                                        // println("creating the new child")
                                                         val mapping = mutableMapOf<String, Int>()
 
                                                         childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
@@ -540,7 +540,7 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                             }
                                                         )
 
-                                                        //println("update the parent NOW !!")
+                                                        // println("update the parent NOW !!")
 
                                                         val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
                                                         o = oldOperatorOff
@@ -575,7 +575,7 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                         val variablesOutLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
                                                         val cacheOrderedBy = IntArray(orderedByLen)
                                                         val cachevariablesOut = IntArray(variablesOutLen)
-                                                        //println("EOperatorIDExt.POPDistributedReceiveMultiOrderedID @ $oldOperatorOff ...$keysLen $orderedByLen $variablesOutLen")
+                                                        // println("EOperatorIDExt.POPDistributedReceiveMultiOrderedID @ $oldOperatorOff ...$keysLen $orderedByLen $variablesOutLen")
                                                         var o = oldOperatorOff + 16
                                                         for (i in 0 until keysLen) {
                                                             o += 4
@@ -630,9 +630,9 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
                                                 }
                                                 handler.addChildToBinary(childOff, childID)
                                                 handler = HelperMetadata(pck.data, pck.queryID)
-                                                //println("new childIDs ${handler.id2off.keys}")
-                                                //println("new keys ${(handler.key_send2id.keys + handler.key_rec2id.keys).toSet()}")
-                                                //println("hadupdate")
+                                                // println("new childIDs ${handler.id2off.keys}")
+                                                // println("new keys ${(handler.key_send2id.keys + handler.key_rec2id.keys).toSet()}")
+                                                // println("hadupdate")
                                                 changed = true
                                                 continue@loop
                                             }
@@ -660,7 +660,7 @@ println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
             val dep = handler.getDependenciesForID2(k)
             for (d in dep) {
 //                pck.destinations[d] = target
-println("queryID ${pck.queryID} pck.destinations[$d] = $target # 1")
+                println("queryID ${pck.queryID} pck.destinations[$d] = $target # 1")
 // 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
                 // println("key $d query ${pck.queryID} should be send to $target")
             }
@@ -676,62 +676,62 @@ println("queryID ${pck.queryID} pck.destinations[$d] = $target # 1")
                         if (pck.destinations[key] == null) {
 // 4.b. if destination of result is unclear, try to fix it
 //                            pck.destinations[key] = host
-println("queryID ${pck.queryID} pck.destinations[$key] = $host # 2")
+                            println("queryID ${pck.queryID} pck.destinations[$key] = $host # 2")
                             // println("key $key query ${pck.queryID} should be prepared to $host")
-                        }else if(pck.destinations[key] != host){
-//println("conflicting host for queryID ${pck.queryID} ${pck.destinations[key]} != ${host}")
-}
+                        } else if (pck.destinations[key] != host) {
+// println("conflicting host for queryID ${pck.queryID} ${pck.destinations[key]} != ${host}")
+                        }
                     }
                 }
             }
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         val oldhandler = handler
-val filter=target2id[ownAdress]
-if(filter!=null){
+        val filter = target2id[ownAdress]
+        if (filter != null) {
             var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
-                for (id in filter) {
-var dependencies2 = oldhandler.getDependenciesForID2(id)
-                    val dependencies = if (dependencies2 == null) {
-                        setOf<Int>()
-                    } else {
-                        dependencies2.toSet()
-                    }
-for(dep in dependencies){
-println("queryID ${pck.queryID} pck.destinations[$dep] = $ownAdress # 3")
-pck.destinations[dep]=ownAdress
-}
-}
-                for (id in filter) {
-// data=ConverterPOPBaseToBinary.optimize(data,pck.query)
-                    handler = HelperMetadata(data, pck.queryID)
-
-                    var dependencies2 = oldhandler.getDependenciesForID2(id)
-                    val dependencies = if (dependencies2 == null) {
-                        setOf<Int>()
-                    } else {
-                        dependencies2.toSet()
-                    }
-//println("the calculated dependencies for $id are ${oldhandler.getDependenciesForID2(id)} or afterwards ${handler.getDependenciesForID2(id)}")
-println("calculated the dependenies for queryID ${pck.queryID} dependencies ${dependencies} pck.destinations ${pck.destinations}")
-                    val w = PendingWork(
-                        ownAdress,
-                        pck.queryID,
-                        data,
-                        id,
-                        pck.destinations,
-                        dependencies,
-                        pck.onFinish,
-                        pck.expectedResult,
-                        pck.verifyAction,
-                        pck.query,
-                    )
-                    myPendingWork.add(w)
+            for (id in filter) {
+                var dependencies2 = oldhandler.getDependenciesForID2(id)
+                val dependencies = if (dependencies2 == null) {
+                    setOf<Int>()
+                } else {
+                    dependencies2.toSet()
                 }
-}
+                for (dep in dependencies) {
+                    println("queryID ${pck.queryID} pck.destinations[$dep] = $ownAdress # 3")
+                    pck.destinations[dep] = ownAdress
+                }
+            }
+            for (id in filter) {
+// data=ConverterPOPBaseToBinary.optimize(data,pck.query)
+                handler = HelperMetadata(data, pck.queryID)
+
+                var dependencies2 = oldhandler.getDependenciesForID2(id)
+                val dependencies = if (dependencies2 == null) {
+                    setOf<Int>()
+                } else {
+                    dependencies2.toSet()
+                }
+// println("the calculated dependencies for $id are ${oldhandler.getDependenciesForID2(id)} or afterwards ${handler.getDependenciesForID2(id)}")
+                println("calculated the dependenies for queryID ${pck.queryID} dependencies $dependencies pck.destinations ${pck.destinations}")
+                val w = PendingWork(
+                    ownAdress,
+                    pck.queryID,
+                    data,
+                    id,
+                    pck.destinations,
+                    dependencies,
+                    pck.onFinish,
+                    pck.expectedResult,
+                    pck.verifyAction,
+                    pck.query,
+                )
+                myPendingWork.add(w)
+            }
+        }
         for ((targetHost, filter) in target2id) {
             if (targetHost != ownAdress) {
-            var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
+                var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
                 val pck2 = Package_Luposdate3000_Operatorgraph(
                     pck.queryID,
                     data,
@@ -756,7 +756,7 @@ println("calculated the dependenies for queryID ${pck.queryID} dependencies ${de
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             // println("key $key query ${queryID} is going to be send to ${destinations[key]!!}")
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
-println("sendSingle queryID ${queryID} key $key destination ${destinations[key]!!}")
+            println("sendSingle queryID $queryID key $key destination ${destinations[key]!!}")
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
@@ -826,7 +826,7 @@ println("sendSingle queryID ${queryID} key $key destination ${destinations[key]!
                     o += 4
                 }
             }
-//println("all the keys I want are $queryID $keys, but these are available: ${myPendingWorkData.keys}")
+// println("all the keys I want are $queryID $keys, but these are available: ${myPendingWorkData.keys}")
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
                 myPendingWorkData.remove(queryID to key)
@@ -909,19 +909,19 @@ println("sendSingle queryID ${queryID} key $key destination ${destinations[key]!
                 while (changed) {
                     changed = false
                     for (w in myPendingWork) {
-println("doWork checking queryID ${w.queryID}")
+                        println("doWork checking queryID ${w.queryID}")
                         var flag = true
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
-if(!flag){
-println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys.filter{it.first==372}}")
-}
+                            if (!flag) {
+                                println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys.filter{it.first == 372}}")
+                            }
                             if (!myPendingWorkData.keys.contains(w.queryID to k)) {
                                 // println("key $k query ${w.queryID} is beeing waited on at device $ownAdress")
                             }
                         }
                         if (flag) {
-println("doWork execute queryID ${w.queryID} ownAdress $ownAdress dataID ${w.dataID}")
+                            println("doWork execute queryID ${w.queryID} ownAdress $ownAdress dataID ${w.dataID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -942,7 +942,7 @@ println("doWork execute queryID ${w.queryID} ownAdress $ownAdress dataID ${w.dat
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-//println("calculated, that following dependencies are needed: ${w.queryID} ${w.dependencies} for queryID: ${w.queryID} ${w.dataID}")
+// println("calculated, that following dependencies are needed: ${w.queryID} ${w.dependencies} for queryID: ${w.queryID} ${w.dataID}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {

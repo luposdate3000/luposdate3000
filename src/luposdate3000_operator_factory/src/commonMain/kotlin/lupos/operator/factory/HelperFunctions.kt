@@ -24,9 +24,9 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> Unit
 
 public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
-internal companion object{
-internal var globalCtr=1000
-}
+    internal companion object {
+        internal var globalCtr = 1000
+    }
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
     public val key_send2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
@@ -70,7 +70,7 @@ internal var globalCtr=1000
         TODO()
     }
     public fun getNextKey(): Int {
-return globalCtr++
+        return globalCtr++
         val keys = (key_send2id.keys + key_rec2id.keys).toSet()
         for (i in 0 until keys.size + 1) {
             if (!keys.contains(i+1000)) {
@@ -95,7 +95,7 @@ return globalCtr++
         }
         return res
     }
-public fun getDependenciesForID2(id: Int): Set<Int> {
+    public fun getDependenciesForID2(id: Int): Set<Int> {
         val keys = mutableSetOf<Int>()
         for ((key, i) in key_rec2id) {
             if (i == id) {

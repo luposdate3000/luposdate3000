@@ -107,15 +107,15 @@ public object ConverterBinaryToPOPJson {
         if (type >= operatorMap.size) {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
-if(type==-1){
-return "-1"
-}else{
-        val decoder = operatorMap[type]
-        if (decoder == null) {
-            TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
+        if (type == -1) {
+            return "-1"
+        } else {
+            val decoder = operatorMap[type]
+            if (decoder == null) {
+                TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
+            }
+            return decoder(query, data, off)
         }
-        return decoder(query, data, off)
-}
     }
 
     init {
@@ -304,9 +304,9 @@ return "-1"
                 "{\"type\":\"POPMinus\",\"childs\":[$child0, $child1]}"
             },
         )
-assignOperatorPhysicalDecode(
+        assignOperatorPhysicalDecode(
             EOperatorIDExt.LOPJoinTopologyID,
-            { query,  data, off ->
+            { query, data, off ->
                 var keys = mutableListOf<Int>()
                 var o = off + 4
                 val len = ByteArrayWrapperExt.readInt4(data, o, { "LOPJoinTopology.size" })
