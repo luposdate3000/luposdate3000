@@ -104,6 +104,15 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
         }
         return keys
     }
+    public fun getDestinationsForID2(id: Int): Set<Int> {
+        val keys = mutableSetOf<Int>()
+        for ((key, i) in key_send2id) {
+            if (i == id) {
+                keys.add(key)
+            }
+        }
+        return keys
+    }
 
     public fun getParentsForID(id: Int): Set<Int> {
         return id2parent.getOrPut(id, { mutableSetOf() })
