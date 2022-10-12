@@ -32,7 +32,6 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryEncoder
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
-import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
 import lupos.operator.physical.multiinput.EvalJoinHashMap
@@ -222,10 +221,6 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-        println("receive queryID ${pck.queryID}")
-        if (pck.queryID == 372) {
-            println("query ${pck.queryID} started on $ownAdress $queryString")
-        }
         val q = Query(instance)
         val machineLearningOptimizerOrder = pck.attributes["machineLearningOptimizerOrder"]
         if (machineLearningOptimizerOrder != null) {
@@ -253,24 +248,22 @@ public class Application_Luposdate3000 public constructor(
                     evaluatorInstance(iteratorBundle, buf)
                     if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
                         if (expectedResult != null) {
-                            val buf = MyPrintWriter(false)
-                            val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
-                            val buf_err = MyPrintWriter()
-                            if (!expectedResult.equalsVerbose(result, true, true, false, buf_err)) { // TODO check the ordering of columns as well ...
-                                throw Exception(buf_err.toString())
+                            val buf2 = MyPrintWriter(false)
+                            val result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf2, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+                            val buf2_err = MyPrintWriter()
+                            if (!expectedResult.equalsVerbose(result, true, true, false, buf2_err)) { // TODO check the ordering of columns as well ...
+                                throw Exception(buf2_err.toString())
                             }
                             verifyAction()
                             if (onFinish != null) {
                                 receive(onFinish)
                             } else {
-                                // println("query ${pck.queryID} finished ${ownAdress}")
                                 router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
                             }
                         } else {
                             if (onFinish != null) {
                                 receive(onFinish)
                             } else {
-                                // println("query ${pck.queryID} finished ${ownAdress}")
                                 router!!.send(ownAdress, Package_QueryResponse(buf.toString().encodeToByteArray(), pck.queryID))
                             }
                         }
@@ -279,10 +272,9 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:281"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:275"/*SOURCE_FILE_END*/)
             }
         }
-        // println("query ${pck.queryID} can not be executed locally, continueing")
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
         val binaryPair = BinaryToOPBase.convertToByteArrayAndMeta(op, instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process, true, false)
@@ -307,13 +299,11 @@ public class Application_Luposdate3000 public constructor(
                     changed = false
                     for (maybeAssign in keysToAssign) {
                         val x = handler.getDependenciesForID1(maybeAssign)
-                        if (x != null) {
-                            for (child in x.keys) {
-                                val h = handler.id2host[child]
-                                if (h != null) {
-                                    handler.id2host[maybeAssign] = h
-                                    changed = true
-                                }
+                        for (child in x.keys) {
+                            val h = handler.id2host[child]
+                            if (h != null) {
+                                handler.id2host[maybeAssign] = h
+                                changed = true
                             }
                         }
                     }
@@ -340,11 +330,10 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:342"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:334"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
-            // println("key ${pck.params["key"]!!.toInt()} received on $ownAdress")
             true
         }
         val target = paths[pck.path]
@@ -377,10 +366,6 @@ public class Application_Luposdate3000 public constructor(
     private fun receive(pck: Package_Luposdate3000_Operatorgraph) {
         val operatorGraphPartsToHostMapTmp = mutableSetOf<Int>(rootAddressInt, ownAdress)
         var handler = HelperMetadata(pck.data, pck.queryID)
-        if (pck.queryID == 372) {
-            println("jsonoperator on ownAdress $ownAdress " + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data))
-        }
-        println("received part of queryID ${pck.queryID} ownAdress $ownAdress")
         operatorGraphPartsToHostMapTmp.addAll(handler.id2host.values.map { it.map { it.toInt() } }.flatten())
         val allHostAdresses = operatorGraphPartsToHostMapTmp.map { it.toInt() }.toSet().toIntArray()
 // 1. calculate next hops for every subquery
@@ -402,210 +387,208 @@ public class Application_Luposdate3000 public constructor(
                 val id2host = handler.id2host[id]
                 if (id2host != null) {
                     val depsForId = handler.getDependenciesForID1(id)
-                    if (depsForId != null) {
-                        val key2host = depsForId.toList().map { it -> it.second to handler.id2host[it.first]?.map { it2 -> it2.toInt() } }.toMap()
-                        val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
-                        val hosts = key2hop.values.toSet()
-                        if (hosts.size > 1) {
-                            if (true) {
-                                val hop2key = key2hop.values.toSet().map { it -> it to key2hop.toList().filter { it2 -> it2.second == it }.map { it2 -> it2.first } }.toMap()
-                                for ((hop, keys) in hop2key) {
-                                    if (keys.size > 1) {
-                                        val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
-                                        for (key in keys) {
-                                            val off = handler.key_rec2off[key]!!
-                                            val ss = operatorOffToKeys.getOrPut(off, { mutableSetOf() })
-                                            ss.add(key)
-                                        }
-                                        for ((operatorOff, keys2) in operatorOffToKeys) {
-                                            if (keys2.size > 1) {
-                                                val childID = handler.getNextChildID()
-                                                var childOff = -1
-                                                val newKey = handler.getNextKey()
-                                                val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
-                                                val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
-                                                when (oldType) {
-                                                    EOperatorIDExt.POPDistributedReceiveMultiID -> {
-                                                        childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
-                                                            pck.data,
-                                                            mutableMapOf(),
-                                                            newKey,
-                                                            { offPtr ->
-                                                                ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(pck.data, mutableMapOf(), keys2.toList())
-                                                            }
-                                                        )
-                                                        val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMulti.size" })
-                                                        val newKeys = mutableSetOf<Int>(newKey)
-                                                        for (i in 0 until len) {
-                                                            val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" })
-                                                            if (!keys2.contains(local_key)) {
-                                                                newKeys.add(local_key)
-                                                            }
+                    val key2host = depsForId.toList().map { it -> it.second to handler.id2host[it.first]?.map { it2 -> it2.toInt() } }.toMap()
+                    val key2hop = key2host.toList().map { it.first to it.second?.map { it2 -> nextHops[allHostAdresses.indexOf(it2)] } }.toMap()
+                    val hosts = key2hop.values.toSet()
+                    if (hosts.size > 1) {
+                        if (true) {
+                            val hop2key = key2hop.values.toSet().map { it -> it to key2hop.toList().filter { it2 -> it2.second == it }.map { it2 -> it2.first } }.toMap()
+                            for (keys in hop2key.values) {
+                                if (keys.size > 1) {
+                                    val operatorOffToKeys = mutableMapOf<Int, MutableSet<Int>>()
+                                    for (key in keys) {
+                                        val off = handler.key_rec2off[key]!!
+                                        val ss = operatorOffToKeys.getOrPut(off, { mutableSetOf() })
+                                        ss.add(key)
+                                    }
+                                    for ((operatorOff, keys2) in operatorOffToKeys) {
+                                        if (keys2.size > 1) {
+                                            val childID = handler.getNextChildID()
+                                            var childOff = -1
+                                            val newKey = handler.getNextKey()
+                                            val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
+                                            val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
+                                            when (oldType) {
+                                                EOperatorIDExt.POPDistributedReceiveMultiID -> {
+                                                    childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
+                                                        pck.data,
+                                                        mutableMapOf(),
+                                                        newKey,
+                                                        { _ ->
+                                                            ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(pck.data, mutableMapOf(), keys2.toList())
                                                         }
-                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
-                                                        var i = 0
-                                                        for (k in newKeys) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
-                                                            i++
+                                                    )
+                                                    val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMulti.size" })
+                                                    val newKeys = mutableSetOf<Int>(newKey)
+                                                    for (i in 0 until len) {
+                                                        val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" })
+                                                        if (!keys2.contains(local_key)) {
+                                                            newKeys.add(local_key)
                                                         }
                                                     }
-                                                    EOperatorIDExt.LOPJoinTopologyID -> {
-                                                        var oldParentKeys = mutableListOf<Int>()
-                                                        var o = oldOperatorOff + 4
-                                                        val childCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
-                                                        o += 4
-                                                        val projectedVariablesCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
-                                                        o += 4
-                                                        val oldParentProjectedVariables = mutableListOf<String>()
-                                                        for (i in 0 until projectedVariablesCount) {
-                                                            oldParentProjectedVariables.add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
-                                                            o += 4
-                                                        }
-                                                        val oldParentChildProjectedVariables = MutableList(childCount) { mutableListOf<String>() }
-                                                        for (i in 0 until childCount) {
-                                                            oldParentKeys.add(ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.key[$i]" }))
-                                                            o += 4
-                                                            val len = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
-                                                            o += 4
-                                                            for (j in 0 until len) {
-                                                                oldParentChildProjectedVariables[i].add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
-                                                                o += 4
-                                                            }
-                                                        }
-
-                                                        val theNewParentKeys = mutableListOf<Int>()
-                                                        val theNewParentProjectedVariables = oldParentProjectedVariables.toMutableList()
-                                                        val theNewParentChildProjectedVariables = mutableListOf<MutableList<String>>()
-                                                        val theNewChildKeys = mutableListOf<Int>()
-                                                        val theNewChildProjectedVariablesMin = mutableListOf<String>()
-                                                        val theNewChildProjectedVariablesMax = mutableListOf<String>()
-                                                        val theNewChildChildProjectedVariables = mutableListOf<MutableList<String>>()
-                                                        theNewChildProjectedVariablesMax.addAll(theNewParentProjectedVariables)
-
-                                                        for (i in 0 until oldParentKeys.size) {
-                                                            val k = oldParentKeys[i]
-                                                            val p = oldParentChildProjectedVariables[i]
-                                                            if (keys2.contains(k)) {
-                                                                theNewChildKeys.add(k)
-                                                                theNewChildChildProjectedVariables.add(p)
-                                                                theNewChildProjectedVariablesMin.addAll(p)
-                                                            } else {
-                                                                theNewParentKeys.add(k)
-                                                                theNewParentChildProjectedVariables.add(p)
-                                                                theNewChildProjectedVariablesMax.addAll(p)
-                                                            }
-                                                        }
-                                                        val theNewChildProjectedVariables = theNewChildProjectedVariablesMin.intersect(theNewChildProjectedVariablesMax).toMutableList()
-                                                        theNewParentKeys.add(newKey)
-                                                        theNewParentChildProjectedVariables.add(theNewChildProjectedVariables)
-
-                                                        val mapping = mutableMapOf<String, Int>()
-
-                                                        childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
-                                                            pck.data,
-                                                            mapping,
-                                                            newKey,
-                                                            { offPtr ->
-                                                                ConverterBinaryEncoder.encodeLOPJoinTopology(
-                                                                    pck.data,
-                                                                    mapping,
-                                                                    theNewChildKeys,
-                                                                    theNewChildProjectedVariables,
-                                                                    theNewChildChildProjectedVariables
-                                                                )
-                                                            }
-                                                        )
-
-                                                        val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
-                                                        o = oldOperatorOff
-                                                        o += 4
-                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys.size, { "LOPJoinTopology.size" })
-                                                        o += 4
-                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentProjectedVariables.size, { "LOPJoinTopology.size" })
-                                                        o += 4
-                                                        for (x in theNewParentProjectedVariables) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[]" })
-                                                            o += 4
-                                                        }
-                                                        for (i in 0 until theNewParentKeys.size) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys[i], { "LOPJoinTopology.key[$i]" })
-                                                            o += 4
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentChildProjectedVariables[i].size, { "LOPJoinTopology.size" })
-                                                            o += 4
-                                                            for (x in theNewParentChildProjectedVariables[i]) {
-                                                                ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[$i]" })
-                                                                o += 4
-                                                            }
-                                                        }
-                                                        if (o != finalEndOff) {
-                                                            TODO("offset error somewhere")
-                                                        }
-                                                    }
-                                                    EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
-                                                        var orderedBy = mutableListOf<String>()
-                                                        var variablesOut = mutableListOf<String>()
-                                                        val keysLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
-                                                        val orderedByLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
-                                                        val variablesOutLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
-                                                        val cacheOrderedBy = IntArray(orderedByLen)
-                                                        val cachevariablesOut = IntArray(variablesOutLen)
-                                                        var o = oldOperatorOff + 16
-                                                        for (i in 0 until keysLen) {
-                                                            o += 4
-                                                        }
-                                                        for (i in 0 until orderedByLen) {
-                                                            val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
-                                                            cacheOrderedBy[i] = a
-                                                            orderedBy.add(ConverterString.decodeString(pck.data, a))
-                                                            o += 4
-                                                        }
-                                                        for (i in 0 until variablesOutLen) {
-                                                            val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
-                                                            cachevariablesOut[i] = a
-                                                            variablesOut.add(ConverterString.decodeString(pck.data, a))
-                                                            o += 4
-                                                        }
-                                                        childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
-                                                            pck.data,
-                                                            mutableMapOf(),
-                                                            newKey,
-                                                            { offPtr ->
-                                                                ConverterBinaryEncoder.encodePOPDistributedReceiveMultiOrdered(pck.data, mutableMapOf(), keys2.toList(), orderedBy, variablesOut)
-                                                            }
-                                                        )
-                                                        val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
-                                                        val newKeys = mutableSetOf<Int>(newKey)
-                                                        for (i in 0 until len) {
-                                                            val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 16 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
-                                                            if (!keys2.contains(local_key)) {
-                                                                newKeys.add(local_key)
-                                                            }
-                                                        }
-                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiOrdered.size" })
-                                                        var i = 0
-                                                        for (k in newKeys) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 16 + 4 * i, k, { "POPDistributedReceiveMultiOrdered.key[$i]" })
-                                                            i++
-                                                        }
-                                                        o = oldOperatorOff + 16 + 4 * newKeys.size
-                                                        for (i in 0 until orderedByLen) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, cacheOrderedBy[i], { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
-                                                            o += 4
-                                                        }
-                                                        for (i in 0 until variablesOutLen) {
-                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, cachevariablesOut[i], { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
-                                                            o += 4
-                                                        }
-                                                    }
-                                                    else -> {
-                                                        TODO("unknown type $oldType")
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMulti.size" })
+                                                    var i = 0
+                                                    for (k in newKeys) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMulti.key[$i]" })
+                                                        i++
                                                     }
                                                 }
-                                                handler.addChildToBinary(childOff, childID)
-                                                handler = HelperMetadata(pck.data, pck.queryID)
-                                                changed = true
-                                                continue@loop
+                                                EOperatorIDExt.LOPJoinTopologyID -> {
+                                                    var oldParentKeys = mutableListOf<Int>()
+                                                    var o = oldOperatorOff + 4
+                                                    val childCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                    o += 4
+                                                    val projectedVariablesCount = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                    o += 4
+                                                    val oldParentProjectedVariables = mutableListOf<String>()
+                                                    for (i in 0 until projectedVariablesCount) {
+                                                        oldParentProjectedVariables.add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
+                                                        o += 4
+                                                    }
+                                                    val oldParentChildProjectedVariables = MutableList(childCount) { mutableListOf<String>() }
+                                                    for (i in 0 until childCount) {
+                                                        oldParentKeys.add(ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.key[$i]" }))
+                                                        o += 4
+                                                        val len = ByteArrayWrapperExt.readInt4(pck.data, o, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        for (j in 0 until len) {
+                                                            oldParentChildProjectedVariables[i].add(ConverterString.decodeString(pck.data, ByteArrayWrapperExt.readInt4(pck.data, o, { "projectedVariable.name" })))
+                                                            o += 4
+                                                        }
+                                                    }
+
+                                                    val theNewParentKeys = mutableListOf<Int>()
+                                                    val theNewParentProjectedVariables = oldParentProjectedVariables.toMutableList()
+                                                    val theNewParentChildProjectedVariables = mutableListOf<MutableList<String>>()
+                                                    val theNewChildKeys = mutableListOf<Int>()
+                                                    val theNewChildProjectedVariablesMin = mutableListOf<String>()
+                                                    val theNewChildProjectedVariablesMax = mutableListOf<String>()
+                                                    val theNewChildChildProjectedVariables = mutableListOf<MutableList<String>>()
+                                                    theNewChildProjectedVariablesMax.addAll(theNewParentProjectedVariables)
+
+                                                    for (i in 0 until oldParentKeys.size) {
+                                                        val k = oldParentKeys[i]
+                                                        val p = oldParentChildProjectedVariables[i]
+                                                        if (keys2.contains(k)) {
+                                                            theNewChildKeys.add(k)
+                                                            theNewChildChildProjectedVariables.add(p)
+                                                            theNewChildProjectedVariablesMin.addAll(p)
+                                                        } else {
+                                                            theNewParentKeys.add(k)
+                                                            theNewParentChildProjectedVariables.add(p)
+                                                            theNewChildProjectedVariablesMax.addAll(p)
+                                                        }
+                                                    }
+                                                    val theNewChildProjectedVariables = theNewChildProjectedVariablesMin.intersect(theNewChildProjectedVariablesMax).toMutableList()
+                                                    theNewParentKeys.add(newKey)
+                                                    theNewParentChildProjectedVariables.add(theNewChildProjectedVariables)
+
+                                                    val mapping = mutableMapOf<String, Int>()
+
+                                                    childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
+                                                        pck.data,
+                                                        mapping,
+                                                        newKey,
+                                                        { _ ->
+                                                            ConverterBinaryEncoder.encodeLOPJoinTopology(
+                                                                pck.data,
+                                                                mapping,
+                                                                theNewChildKeys,
+                                                                theNewChildProjectedVariables,
+                                                                theNewChildChildProjectedVariables
+                                                            )
+                                                        }
+                                                    )
+
+                                                    val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
+                                                    o = oldOperatorOff
+                                                    o += 4
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys.size, { "LOPJoinTopology.size" })
+                                                    o += 4
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentProjectedVariables.size, { "LOPJoinTopology.size" })
+                                                    o += 4
+                                                    for (x in theNewParentProjectedVariables) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[]" })
+                                                        o += 4
+                                                    }
+                                                    for (i in 0 until theNewParentKeys.size) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentKeys[i], { "LOPJoinTopology.key[$i]" })
+                                                        o += 4
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, theNewParentChildProjectedVariables[i].size, { "LOPJoinTopology.size" })
+                                                        o += 4
+                                                        for (x in theNewParentChildProjectedVariables[i]) {
+                                                            ByteArrayWrapperExt.writeInt4(pck.data, o, ConverterString.encodeString(x, pck.data, mapping), { "LOPJoinTolology.projectedVariables[$i]" })
+                                                            o += 4
+                                                        }
+                                                    }
+                                                    if (o != finalEndOff) {
+                                                        TODO("offset error somewhere")
+                                                    }
+                                                }
+                                                EOperatorIDExt.POPDistributedReceiveMultiOrderedID -> {
+                                                    var orderedBy = mutableListOf<String>()
+                                                    var variablesOut = mutableListOf<String>()
+                                                    val keysLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.keys.size" })
+                                                    val orderedByLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8, { "POPDistributedReceiveMultiOrdered.orderedBy.size" })
+                                                    val variablesOutLen = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 12, { "POPDistributedReceiveMultiOrdered.variablesOut.size" })
+                                                    val cacheOrderedBy = IntArray(orderedByLen)
+                                                    val cachevariablesOut = IntArray(variablesOutLen)
+                                                    var o = oldOperatorOff + 16
+                                                    for (i in 0 until keysLen) {
+                                                        o += 4
+                                                    }
+                                                    for (i in 0 until orderedByLen) {
+                                                        val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.orderedBy[$i]" })
+                                                        cacheOrderedBy[i] = a
+                                                        orderedBy.add(ConverterString.decodeString(pck.data, a))
+                                                        o += 4
+                                                    }
+                                                    for (i in 0 until variablesOutLen) {
+                                                        val a = ByteArrayWrapperExt.readInt4(pck.data, o, { "POPDistributedReceiveMultiOrdered.variablesOut[$i]" })
+                                                        cachevariablesOut[i] = a
+                                                        variablesOut.add(ConverterString.decodeString(pck.data, a))
+                                                        o += 4
+                                                    }
+                                                    childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
+                                                        pck.data,
+                                                        mutableMapOf(),
+                                                        newKey,
+                                                        { _ ->
+                                                            ConverterBinaryEncoder.encodePOPDistributedReceiveMultiOrdered(pck.data, mutableMapOf(), keys2.toList(), orderedBy, variablesOut)
+                                                        }
+                                                    )
+                                                    val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
+                                                    val newKeys = mutableSetOf<Int>(newKey)
+                                                    for (i in 0 until len) {
+                                                        val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 16 + 4 * i, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                                                        if (!keys2.contains(local_key)) {
+                                                            newKeys.add(local_key)
+                                                        }
+                                                    }
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiOrdered.size" })
+                                                    var i = 0
+                                                    for (k in newKeys) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 16 + 4 * i, k, { "POPDistributedReceiveMultiOrdered.key[$i]" })
+                                                        i++
+                                                    }
+                                                    o = oldOperatorOff + 16 + 4 * newKeys.size
+                                                    for (ii in 0 until orderedByLen) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, cacheOrderedBy[ii], { "POPDistributedReceiveMultiOrdered.orderedBy[$ii]" })
+                                                        o += 4
+                                                    }
+                                                    for (ii in 0 until variablesOutLen) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, o, cachevariablesOut[ii], { "POPDistributedReceiveMultiOrdered.variablesOut[$ii]" })
+                                                        o += 4
+                                                    }
+                                                }
+                                                else -> {
+                                                    TODO("unknown type $oldType")
+                                                }
                                             }
+                                            handler.addChildToBinary(childOff, childID)
+                                            handler = HelperMetadata(pck.data, pck.queryID)
+                                            changed = true
+                                            continue@loop
                                         }
                                     }
                                 }
@@ -627,47 +610,20 @@ public class Application_Luposdate3000 public constructor(
 // 3.a if targets differ, calculate the operator here
                 ownAdress
             }
-            val dep = handler.getDependenciesForID2(k)
-            for (d in dep) {
-                // println("queryID ${pck.queryID} pck.destinations[$d] = $target # 1")
-// 3.b. tell the operators, wich are in the pipline before this operator, that they should send their results here
-            }
             target2id.getOrPut(target, { mutableSetOf() }).add(k)
-        }
-// 4. fix destinations where each operator send its results
-        // this is only a workaround ... this may yield errors, if the query is pushed further down
-        for ((host, ids) in target2id) {
-            for (id in ids) {
-                val keys = handler.getDependenciesForID2(id)
-                if (keys != null) {
-                    for (key in keys) {
-                        if (pck.destinations[key] == null) {
-// 4.b. if destination of result is unclear, try to fix it
-                            // println("queryID ${pck.queryID} pck.destinations[$key] = $host # 2")
-                        }
-                    }
-                }
-            }
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         changed = true
         loop6@while (changed) {
             changed = false
-            val filter = target2id[ownAdress]
-            if (filter != null) {
-                var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
-                for (id in filter) {
-                    var dependencies2 = handler.getDependenciesForID2(id)
-                    val dependencies = if (dependencies2 == null) {
-                        setOf<Int>()
-                    } else {
-                        dependencies2.toSet()
-                    }
+            val filter2 = target2id[ownAdress]
+            if (filter2 != null) {
+                for (id in filter2) {
+                    var dependencies = handler.getDependenciesForID2(id)
                     for (dep in dependencies) {
-                        println("queryID ${pck.queryID} pck.destinations[$dep] = $ownAdress # 3")
                         pck.destinations[dep] = ownAdress
                     }
-                } 
+                }
             }
             for ((targetHost, filter) in target2id) {
                 for (id in filter) {
@@ -695,35 +651,19 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
         }
-        println("pck.destinations ${pck.destinations}")
-        for ((targetHost, filter) in target2id) {
-            for (id in filter) {
-                val destinations = handler.getDestinationsForID2(id).toSet()
-                var dependencies = handler.getDependenciesForID2(id).toSet()
-                println("targetHost $targetHost id $id destinations $destinations dependencies $dependencies")
-            }
-        }
         val oldhandler = handler
         val filter = target2id[ownAdress]
         if (filter != null) {
             var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
             for (id in filter) {
-                var dependencies2 = oldhandler.getDependenciesForID2(id)
-                val dependencies = if (dependencies2 == null) {
-                    setOf<Int>()
-                } else {
-                    dependencies2.toSet()
-                }
+                var dependencies = oldhandler.getDependenciesForID2(id)
                 for (dep in dependencies) {
-                    println("queryID ${pck.queryID} pck.destinations[$dep] = $ownAdress # 3")
                     pck.destinations[dep] = ownAdress
                 }
             }
             for (id in filter) {
                 handler = HelperMetadata(data, pck.queryID)
-                val destinations = handler.getDestinationsForID2(id).toSet()
                 var dependencies = handler.getDependenciesForID2(id).toSet()
-                println("calculated the dependenies for queryID ${pck.queryID} dependencies $dependencies destinations $destinations pck.destinations ${pck.destinations}")
                 val w = PendingWork(
                     ownAdress,
                     pck.queryID,
@@ -739,9 +679,9 @@ public class Application_Luposdate3000 public constructor(
                 myPendingWork.add(w)
             }
         }
-        for ((targetHost, filter) in target2id) {
+        for ((targetHost, filter2) in target2id) {
             if (targetHost != ownAdress) {
-                var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter.toIntArray())
+                var data = ConverterBinaryToBinary.decode(pck.query as Query, pck.data, filter2.toIntArray())
                 val pck2 = Package_Luposdate3000_Operatorgraph(
                     pck.queryID,
                     data,
@@ -765,7 +705,6 @@ public class Application_Luposdate3000 public constructor(
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
-            println("sendSingle queryID $queryID key $key destination ${destinations[key]!!}")
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
@@ -915,16 +854,11 @@ public class Application_Luposdate3000 public constructor(
                 while (changed) {
                     changed = false
                     for (w in myPendingWork) {
-                        println("doWork checking queryID ${w.queryID}")
                         var flag = true
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
-                            if (!flag) {
-                                println("queryID ${w.queryID} waiting for $k, which is not in ${myPendingWorkData.keys.filter{it.first == 372}}")
-                            }
                         }
                         if (flag) {
-                            println("doWork execute queryID ${w.queryID} ownAdress $ownAdress dataID ${w.dataID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -984,7 +918,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:986"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:923"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1010,7 +944,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1012"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:949"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

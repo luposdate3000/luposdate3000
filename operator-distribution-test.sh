@@ -13,9 +13,10 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_routing.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/multicast/luposdate3000MulticastEnabled.json \
-src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_ASP.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_disabled.json \
 operator-distribution-test.json
+#src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S_all_collations.json
 
