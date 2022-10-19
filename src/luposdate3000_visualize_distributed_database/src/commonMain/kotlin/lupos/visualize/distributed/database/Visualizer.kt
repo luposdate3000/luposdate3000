@@ -58,17 +58,25 @@ public class Visualizer : ILogger {
         for ((k, v) in graphs) {
             if (relevantQueryIDs.contains(k)) {
                 File("graph$k.dot").withOutputStream { out ->
+if(false){
+                    val devicesUsed = v.subgraphs.keys.map { it.split("_")[1].toInt() }
+                    for ((a, b) in connections) {
+                        if (devicesUsed.contains(a) && devicesUsed.contains(b)) {
+                            v.addEdge("clusterdevice_$a", "clusterdevice_$b")
+                        }
+                    }
+}
                     out.println(v.toDotString())
 
+if(false){
                     out.println("graph G2 {")
                     for ((a, b) in connections) {
-// if(connectionsReceivers.contains(a) && connectionsReceivers.contains(b)){
                         out.println("  node" + a + " -- node" + b + ";")
-// }
                     }
                     out.println("  overlap = scale;")
                     out.println("  splines = true;")
                     out.println("}")
+}
                 }
             }
         }
@@ -123,7 +131,7 @@ internal class DotNode(internal val label: String, internal val id: String, inte
     }
 }
 
-internal data class DotEdge(internal val start: String, internal val end: String) {
+internal data class DotEdge(internal val start: String, internal val end: String, internal val directed: Boolean = true) {
     internal var label: String = ""
 
     internal fun setLabel(label: String): DotEdge {
@@ -133,10 +141,18 @@ internal data class DotEdge(internal val start: String, internal val end: String
 
     internal fun toDotString(indention: String): String {
         val res = StringBuilder()
-        if (label.length > 0) {
-            res.appendLine("${indention}$start -> $end [label=\"$label\"];")
+        if (directed) {
+            if (label.length > 0) {
+                res.appendLine("${indention}$start -> $end [dir=none, label=\"$label\"];")
+            } else {
+                res.appendLine("${indention}$start -> $end [dir=none];")
+            }
         } else {
-            res.appendLine("${indention}$start -> $end;")
+            if (label.length > 0) {
+                res.appendLine("${indention}$start -> $end [label=\"$label\"];")
+            } else {
+                res.appendLine("${indention}$start -> $end;")
+            }
         }
         return res.toString()
     }
@@ -151,12 +167,15 @@ internal class DotGraph() {
         val res = StringBuilder()
         res.appendLine("digraph G1 {")
         res.appendLine("  newrank = true;")
+        res.appendLine("  maxiter = 300000;")
+        res.appendLine("  compound = true;")
+        res.appendLine("  overlap = scale;")
+        res.appendLine("  ratio = compress; ")
+        res.appendLine("  splines = true;")
         res.append(toDotString("  "))
         for (edge in getAllEdges()) {
             res.append(edge.toDotString("  "))
         }
-        res.appendLine("  overlap = scale;")
-        res.appendLine("  splines = true;")
         res.appendLine("}")
         return res.toString()
     }
@@ -173,8 +192,8 @@ internal class DotGraph() {
         return node.id
     }
 
-    internal fun addEdge(label1: String, label2: String) {
-        edges.add(DotEdge(label1, label2))
+    internal fun addEdge(label1: String, label2: String, directed: Boolean = true) {
+        edges.add(DotEdge(label1, label2, directed))
     }
 
     internal fun toDotString(indention: String): String {

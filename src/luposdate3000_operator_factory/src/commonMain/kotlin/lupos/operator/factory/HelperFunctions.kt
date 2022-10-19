@@ -26,6 +26,7 @@ private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> U
 public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
     internal companion object {
         internal var globalCtr = 1000
+        internal var globalCtr2 = 1000
     }
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
@@ -62,6 +63,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     }
 
     public fun getNextChildID(): Int {
+return globalCtr2++
         for (i in 0 until id2off.size + 1) {
             if (!id2off.contains(i+1000)) {
                 return i + 1000
