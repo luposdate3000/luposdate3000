@@ -16,6 +16,8 @@
  */
 package lupos.launch.benchmark.fig5
 import lupos.endpoint.LuposdateEndpoint
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.shared.EPredefinedPartitionSchemesExt
@@ -72,14 +74,17 @@ val store = (instance.tripleStoreManager!!).getGraph("")
         val p = Partition()
         p.limit["j"] = partitions
 
+val buf=ByteArrayWrapper()
+DictionaryHelper.stringToByteArray(buf, "<a>")
+
         val paramsiop = arrayOf<IOPBase>(
             AOPVariable(query, "j"),
-            AOPConstant(query, DictionaryValueHelper.fromString("a")),
+            AOPConstant(query, query.getDictionary().createValue(buf)),
             AOPVariable(query, "a")
         )
         val paramsiaop = arrayOf<IAOPBase>(
             AOPVariable(query, "j"),
-            AOPConstant(query, DictionaryValueHelper.fromString("a")),
+            AOPConstant(query, query.getDictionary().createValue(buf)),
             AOPVariable(query, "a")
         )
         val targetIdx = LOPTriple.getIndex(paramsiop, listOf("j", "a"))
@@ -89,14 +94,19 @@ val store = (instance.tripleStoreManager!!).getGraph("")
         }
         for (j in 0 until joincount) {
             val cc = 'b' + j
+
+
+val buf=ByteArrayWrapper()
+DictionaryHelper.stringToByteArray(buf, "<$cc>")
+
 val paramsiop = arrayOf<IOPBase>(
             AOPVariable(query, "j"),
-            AOPConstant(query, DictionaryValueHelper.fromString("$cc")),
+            AOPConstant(query, query.getDictionary().createValue(buf)),
             AOPVariable(query, "$cc")
         )
         val paramsiaop = arrayOf<IAOPBase>(
             AOPVariable(query, "j"),
-            AOPConstant(query, DictionaryValueHelper.fromString("$cc")),
+            AOPConstant(query, query.getDictionary().createValue(buf)),
             AOPVariable(query, "$cc")
         )
 val targetIdx = LOPTriple.getIndex(paramsiop, listOf("j", "$cc"))

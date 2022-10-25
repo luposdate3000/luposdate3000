@@ -57,7 +57,6 @@ if (enableCompile) {
         "./launcher.main.kts",
         "--compileAll",
         "--releaseMode=Enable",
-        "--inlineMode=Enable",
         "--compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream",
     )
         .directory(File("."))
@@ -84,8 +83,7 @@ if (enableMeasuerments) {
                         "./launcher.main.kts",
                         "--run",
                         "--releaseMode=Enable",
-                        "--inlineMode=Enable",
-                        "--mainClass=Benchmark_Fig5",
+                        "--mainClass=Launch_Benchmark_Fig5",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
@@ -109,9 +107,7 @@ if (enableMeasuerments) {
                         "./launcher.main.kts",
                         "--run",
                         "--releaseMode=Enable",
-                        "--inlineMode=Enable",
-                        "--proguardMode=On",
-                        "--mainClass=Benchmark_Fig5",
+                        "--mainClass=Launch_Benchmark_Fig5",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
