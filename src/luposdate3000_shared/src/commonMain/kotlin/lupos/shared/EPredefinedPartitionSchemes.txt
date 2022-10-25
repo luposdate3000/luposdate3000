@@ -1,3 +1,4 @@
+BenchmarkFig5
 PartitionByIDTwiceAllCollations
 PartitionByKeyAllCollations
 Simple

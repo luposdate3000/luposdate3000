@@ -136,6 +136,9 @@ public object Luposdate3000Config {
     public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
 //    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
 
+@JvmField
+public var defaultPartitionCount:Int=4
+
     @JvmField
     public var mergeLocalOperatorgraphs: Boolean = true
 

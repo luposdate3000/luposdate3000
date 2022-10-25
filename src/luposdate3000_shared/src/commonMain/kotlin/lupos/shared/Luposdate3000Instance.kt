@@ -125,4 +125,6 @@ public class Luposdate3000Instance {
     public var mergeLocalOperatorgraphs: Boolean = Luposdate3000Config.mergeLocalOperatorgraphs
 
     @JvmField public var tryLocalExecution: Boolean = Luposdate3000Config.tryLocalExecution
+@JvmField
+public var defaultPartitionCount:Int=Luposdate3000Config.defaultPartitionCount
 }

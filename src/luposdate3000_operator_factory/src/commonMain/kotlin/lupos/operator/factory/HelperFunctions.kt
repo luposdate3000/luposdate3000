@@ -63,7 +63,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     }
 
     public fun getNextChildID(): Int {
-return globalCtr2++
+        return globalCtr2++
         for (i in 0 until id2off.size + 1) {
             if (!id2off.contains(i+1000)) {
                 return i + 1000

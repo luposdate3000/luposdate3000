@@ -58,25 +58,25 @@ public class Visualizer : ILogger {
         for ((k, v) in graphs) {
             if (relevantQueryIDs.contains(k)) {
                 File("graph$k.dot").withOutputStream { out ->
-if(false){
-                    val devicesUsed = v.subgraphs.keys.map { it.split("_")[1].toInt() }
-                    for ((a, b) in connections) {
-                        if (devicesUsed.contains(a) && devicesUsed.contains(b)) {
-                            v.addEdge("clusterdevice_$a", "clusterdevice_$b")
+                    if (false) {
+                        val devicesUsed = v.subgraphs.keys.map { it.split("_")[1].toInt() }
+                        for ((a, b) in connections) {
+                            if (devicesUsed.contains(a) && devicesUsed.contains(b)) {
+                                v.addEdge("clusterdevice_$a", "clusterdevice_$b")
+                            }
                         }
                     }
-}
                     out.println(v.toDotString())
 
-if(false){
-                    out.println("graph G2 {")
-                    for ((a, b) in connections) {
-                        out.println("  node" + a + " -- node" + b + ";")
+                    if (false) {
+                        out.println("graph G2 {")
+                        for ((a, b) in connections) {
+                            out.println("  node" + a + " -- node" + b + ";")
+                        }
+                        out.println("  overlap = scale;")
+                        out.println("  splines = true;")
+                        out.println("}")
                     }
-                    out.println("  overlap = scale;")
-                    out.println("  splines = true;")
-                    out.println("}")
-}
                 }
             }
         }
