@@ -168,6 +168,7 @@ export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz
     tar -xzf barton.mods.rdf.tar.gz
     rm barton.mods.rdf.tar.gz
+    apt install raptor2-utils
     for f in $(find mods_rdf_xml -type f)
     do
         rapper -o ntriples $f >> barton.nt
