@@ -57,6 +57,8 @@ partition:String,
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
 if(true){
         val partitions =partition.toInt()
+Luposdate3000Config.initialThreads = partitions
+Luposdate3000Config.maxThreads = partitions
         Luposdate3000Config.defaultPartitionCount = partitions
         Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.BenchmarkFig5
 Luposdate3000Config.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread

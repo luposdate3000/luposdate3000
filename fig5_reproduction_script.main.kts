@@ -36,8 +36,8 @@ val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space a
 val minimumTime = 1.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
 val outputCountList = listOf(1048576) // number of result rows
-val joinCountList = listOf(2) // number of consekutive executed joins
-val joinList = listOf<Int>(32) // number of raw rows joining together (same number for each input, which comes directly from the store)
+val joinCountList = listOf(3) // number of consekutive executed joins
+val joinList = listOf<Int>(16) // number of raw rows joining together (same number for each input, which comes directly from the store)
 val trashList = listOf<Int>() // for simulating low selectivities -> put not joinable trash-rows in between
 val partitionList=listOf(1,2,4,8,16)
 //
