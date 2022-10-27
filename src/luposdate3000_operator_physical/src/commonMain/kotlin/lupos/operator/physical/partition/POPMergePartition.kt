@@ -132,6 +132,7 @@ public class POPMergePartition public constructor(
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 Parallel.launch {
+var resultrowDebug=0;
                     try {
                         val childEval2: IteratorBundle?
                         childEval2 = children[0].evaluate(Partition(parent, partitionVariable!!, p, partitionCount))
@@ -149,6 +150,7 @@ public class POPMergePartition public constructor(
                                         childIterator.close()
                                         break@loop
                                     }
+resultrowDebug++
                                     val tmp = childIterator.next()
                                     if (tmp == DictionaryValueHelper.nullValue) {
                                         break@loop
@@ -173,6 +175,7 @@ public class POPMergePartition public constructor(
                                         break@loop
                                     }
                                     val tmp = variableMapping[0].next()
+resultrowDebug++
                                     if (tmp == DictionaryValueHelper.nullValue) {
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
@@ -184,7 +187,7 @@ public class POPMergePartition public constructor(
                                             try {
                                                 ringbuffer[ringbufferWriteHead[p] + variableIdx + ringbufferStart[p]] = variableMapping[variableIdx].next()
                                             } catch (e: Throwable) {
-                                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:186"/*SOURCE_FILE_END*/)
+                                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:189"/*SOURCE_FILE_END*/)
                                                 for (variableIdx2 in 0 until variables.size) {
                                                     variableMapping[variableIdx2].close()
                                                 }
@@ -218,6 +221,7 @@ public class POPMergePartition public constructor(
                                     break@loop
                                 }
                                 val tmp = child.next()
+resultrowDebug++
                                 if (tmp == -1) {
                                     break@loop
                                 } else {
@@ -230,9 +234,10 @@ public class POPMergePartition public constructor(
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:232"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:236"/*SOURCE_FILE_END*/)
                         error = e
                     }
+println("thread $p produced $resultrowDebug rows")
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()
                 }

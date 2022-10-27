@@ -33,12 +33,13 @@ var myStartOffset=0
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
-val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
+val minimumTime = 1.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
-val outputCountList = listOf(512) // number of result rows
-val joinCountList = listOf(16) // number of consekutive executed joins
-val joinList = listOf<Int>() // number of raw rows joining together (same number for each input, which comes directly from the store)
-val trashList = listOf(128) // for simulating low selectivities -> put not joinable trash-rows in between
+val outputCountList = listOf(1048576) // number of result rows
+val joinCountList = listOf(2) // number of consekutive executed joins
+val joinList = listOf<Int>(32) // number of raw rows joining together (same number for each input, which comes directly from the store)
+val trashList = listOf<Int>() // for simulating low selectivities -> put not joinable trash-rows in between
+val partitionList=listOf(1,2,4,8,16)
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
@@ -76,6 +77,7 @@ if (enableMeasuerments) {
         for (join_count in joinCountList) {
             for (join in joinList) {
                 try {
+println(output_count / (join.toDouble().pow(1 + join_count.toDouble())))
                     val count2 = (output_count / (join.toDouble().pow(1 + join_count.toDouble()))).toInt()
                     if (count2 == 0) {
                         continue
@@ -83,6 +85,7 @@ if (enableMeasuerments) {
 myStartOffset-=5
 if(myStartOffset<=0){
                     generateTriples(tmpFolder, count2, 0, join, join_count)
+for(partition in partitionList){
                     ProcessBuilder(
                         "./launcher.main.kts",
                         "--run",
@@ -93,6 +96,7 @@ if(myStartOffset<=0){
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=0",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=$join",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:partition=$partition",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                     )
                         .directory(File("."))
@@ -100,6 +104,7 @@ if(myStartOffset<=0){
                         .redirectError(Redirect.INHERIT)
                         .start()
                         .waitFor()
+}
 }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -110,6 +115,7 @@ if(myStartOffset<=0){
 myStartOffset-=5
 if(myStartOffset<=0){
                     generateTriples(tmpFolder, output_count, trash, 1, join_count)
+for(partition in partitionList){
                     ProcessBuilder(
                         "./launcher.main.kts",
                         "--run",
@@ -120,6 +126,7 @@ if(myStartOffset<=0){
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=$trash",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=1",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:partition=$partition",
                         "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                     )
                         .directory(File("."))
@@ -127,6 +134,7 @@ if(myStartOffset<=0){
                         .redirectError(Redirect.INHERIT)
                         .start()
                         .waitFor()
+}
 }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -193,40 +201,22 @@ File(folderName + "/intermediate.n3.dictionary").delete()
     var outIntermediateTriplesStatCounter = 0
     var idMapping = mutableMapOf<String, Int>()
     var idMappingCounter = 0
-    fun writeToDict(s: String): Int {
-        if (idMapping[s] != null) {
-            return idMapping[s]!!
-        }
-        val tmp: ByteArray
-        if (s.startsWith("_:")) {
-            dictCounterBnode++
-            tmp = s.encodeToByteArray()
-        } else {
-            dictCounterIri++
-            tmp = s.substring(1, s.length - 1).encodeToByteArray()
-        }
-        idMapping[s] = idMappingCounter++
-        return idMapping[s]!!
-    }
 
     fun appendTriple(s: String, p: String, o: String) {
-        val si = writeToDict(s)
-        val pi = writeToDict(p)
-        val oi = writeToDict(o)
         outN3.println("$s $p $o .")
         outIntermediateTriplesStatCounter++
     }
     for (i in 0 until count) {
-        for (c in 0 until join_count + 1) {
-            val cc = 'a' + c
-            for (j in 0 until join_block) {
-                appendTriple("_:$i", "<$cc>", "_:$j")
+        for (j in 0 until join_block) {
+            for (c in 0 until join_count+1) {
+                val cc = 'a' + c
+                appendTriple("_:$i", "<$cc>", "$j")
             }
         }
-        for (c in 0 until join_count + 1) {
-            val cc = 'a' + c
-            for (j in 0 until trash_block) {
-                appendTriple("_:${cc}_${i}_$j", "<$cc>", "_:$j")
+        for (j in 0 until trash_block) {
+            for (c in 0 until join_count+1) {
+                val cc = 'a' + c
+                appendTriple("_:${cc}_${i}_$j", "<$cc>", "$j")
             }
         }
     }

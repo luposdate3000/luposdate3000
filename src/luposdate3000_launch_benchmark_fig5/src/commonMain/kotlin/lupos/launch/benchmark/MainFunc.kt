@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.benchmark.fig5
+package lupos.launch.benchmark_fig5
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPConstant
@@ -44,6 +44,7 @@ internal fun mainFunc(
     trash: String,
     join: String,
     join_count: String,
+partition:String,
 ): Unit  {
     val datasourceFiles = datasource_files
     val minimumTime = minimum_time.toDouble()
@@ -54,14 +55,13 @@ internal fun mainFunc(
     val timer = DateHelperRelative.markNow()
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-    val allpartitions = listOf(1, 2, 4, 8, 16)
-    val partitionTimes = DoubleArray(allpartitions.size)
-    for (partitionC in allpartitions.indices) {
-        val partitions = allpartitions[partitionC]
+if(true){
+        val partitions =partition.toInt()
         Luposdate3000Config.defaultPartitionCount = partitions
         Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.BenchmarkFig5
 Luposdate3000Config.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         val instance = LuposdateEndpoint.initialize()
+instance.joinOrderByTopology=false
         LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
         val variables = mutableListOf("j", "a")
         val query = Query(instance)
@@ -100,6 +100,8 @@ Luposdate3000Config.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         if (partitions > 1) {
             op = POPMergePartition(query, variables, "j", partitions, 1, op)
         }
+//        println("generatedOperatorgraph"+LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance,"select * where{?j <a> ?a. ?j <b> ?b. ?j <c> ?c.}").toString())
+//        println("generatedOperatorgraph"+LuposdateEndpoint.evaluateSparqlToResultB(instance,"select * where{?j <a> ?a. ?j <b> ?b. ?j <c> ?c.}").toString())
         val node = op
         println("------------------------------")
         println(node.toString())
@@ -124,7 +126,6 @@ Luposdate3000Config.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
                 break
             }
         }
-        partitionTimes[partitionC] = counter / time
         println("${_trash}_${_join}_${joincount}_$partitions,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,$_trash,$_join,$joincount,$partitions")
     }
 }

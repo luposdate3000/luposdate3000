@@ -91,5 +91,17 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--join_count' is missing on the arguments list")
     }
-    mainFunc(datasource_files, minimum_time, number_of_triples, trash, join, join_count)
+    flag = false
+    var partition: String = ""
+    for (a in args) {
+        if (a.startsWith("--partition=")) {
+            partition = a.substring(12)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--partition' is missing on the arguments list")
+    }
+    mainFunc(datasource_files, minimum_time, number_of_triples, trash, join, join_count, partition)
 }
