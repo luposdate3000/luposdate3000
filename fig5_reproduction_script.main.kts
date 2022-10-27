@@ -35,16 +35,16 @@ var myStartOffset=0
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
 val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
-val outputCountList = listOf(512, 2048, 8192, 32768) // number of result rows
-val joinCountList = listOf(1, 2, 4, 8, 16) // number of consekutive executed joins
-val joinList = listOf(2, 4, 8, 16, 32, 64) // number of raw rows joining together (same number for each input, which comes directly from the store)
-val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for simulating low selectivities -> put not joinable trash-rows in between
+val outputCountList = listOf(512) // number of result rows
+val joinCountList = listOf(16) // number of consekutive executed joins
+val joinList = listOf<Int>() // number of raw rows joining together (same number for each input, which comes directly from the store)
+val trashList = listOf(128) // for simulating low selectivities -> put not joinable trash-rows in between
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
 val enableCompile = false
-val enableMeasuerments = false
-val enableGrapic = true
+val enableMeasuerments = true
+val enableGrapic = false
 val producePNG = false // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ if (enableGrapic) {
     }
 }
 // remove temorary folders
-File(tmpFolder).deleteRecursively()
+//File(tmpFolder).deleteRecursively()
 // helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     File(folderName).mkdirs()
@@ -449,3 +449,49 @@ fun extractData(filename: String, output_count: String) {
 fun doubleToString(d: Double): String {
     return DecimalFormat("#.##").format(d)
 }
+
+
+
+
+
+
+/*
+_:0 <a> _:0 .
+_:0 <b> _:0 .
+_:0 <c> _:0 .
+_:0 <d> _:0 .
+_:0 <e> _:0 .
+_:0 <f> _:0 .
+_:0 <g> _:0 .
+_:0 <h> _:0 .
+_:0 <i> _:0 .
+_:a_0_0 <a> _:0 .
+_:a_0_1 <a> _:1 .
+_:a_0_2 <a> _:2 .
+_:a_0_3 <a> _:3 .
+_:a_0_4 <a> _:4 .
+_:a_0_5 <a> _:5 .
+_:a_0_6 <a> _:6 .
+_:a_0_7 <a> _:7 .
+_:a_0_8 <a> _:8 .
+_:a_0_9 <a> _:9 .
+_:a_0_10 <a> _:10 .
+_:a_0_11 <a> _:11 .
+_:a_0_12 <a> _:12 .
+_:a_0_13 <a> _:13 .
+_:a_0_14 <a> _:14 .
+_:a_0_15 <a> _:15 .
+_:a_0_16 <a> _:16 .
+_:a_0_17 <a> _:17 .
+_:a_0_18 <a> _:18 .
+_:a_0_19 <a> _:19 .
+_:a_0_20 <a> _:20 .
+_:a_0_21 <a> _:21 .
+_:a_0_22 <a> _:22 .
+_:a_0_23 <a> _:23 .
+_:a_0_24 <a> _:24 .
+_:a_0_25 <a> _:25 .
+_:a_0_26 <a> _:26 .
+_:a_0_27 <a> _:27 .
+
+*/
