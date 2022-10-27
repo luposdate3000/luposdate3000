@@ -27,6 +27,8 @@ import java.text.DecimalFormat
 import kotlin.math.log2
 import kotlin.math.pow
 
+var myStartOffset=0
+
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,9 +43,9 @@ val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for si
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
 val enableCompile = false
-val enableMeasuerments = true
-val enableGrapic = false
-val producePNG = true // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
+val enableMeasuerments = false
+val enableGrapic = true
+val producePNG = false // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +80,8 @@ if (enableMeasuerments) {
                     if (count2 == 0) {
                         continue
                     }
+myStartOffset-=5
+if(myStartOffset<=0){
                     generateTriples(tmpFolder, count2, 0, join, join_count)
                     ProcessBuilder(
                         "./launcher.main.kts",
@@ -96,12 +100,15 @@ if (enableMeasuerments) {
                         .redirectError(Redirect.INHERIT)
                         .start()
                         .waitFor()
+}
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
             for (trash in trashList) {
                 try {
+myStartOffset-=5
+if(myStartOffset<=0){
                     generateTriples(tmpFolder, output_count, trash, 1, join_count)
                     ProcessBuilder(
                         "./launcher.main.kts",
@@ -120,6 +127,7 @@ if (enableMeasuerments) {
                         .redirectError(Redirect.INHERIT)
                         .start()
                         .waitFor()
+}
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -136,7 +144,7 @@ if (enableGrapic) {
                 out.println("set terminal png size 1920,1080")
                 out.println("set output 'fig5_$output_count.png'")
             } else {
-                out.println("set terminal epslatex size 20cm,8cm")
+                out.println("set terminal tikz size 13cm,8cm")
                 out.println("set output 'fig5_$output_count.tex'")
             }
             out.println("set xlabel \"mergejoins\"")
@@ -172,6 +180,14 @@ File(tmpFolder).deleteRecursively()
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
+File(folderName + "/intermediate.n3.ops.triples").delete()
+File(folderName + "/intermediate.n3.pos.triples").delete()
+File(folderName + "/intermediate.n3.sop.triples").delete()
+File(folderName + "/intermediate.n3.osp.triples").delete()
+File(folderName + "/intermediate.n3.pso.triples").delete()
+File(folderName + "/intermediate.n3.spo.triples").delete()
+File(folderName + "/intermediate.n3.stat").delete()
+File(folderName + "/intermediate.n3.dictionary").delete()
     var dictCounterBnode = 0
     var dictCounterIri = 0
     var outIntermediateTriplesStatCounter = 0
