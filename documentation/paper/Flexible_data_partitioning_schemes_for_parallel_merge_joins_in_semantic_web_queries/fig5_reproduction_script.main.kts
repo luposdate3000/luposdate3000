@@ -43,10 +43,10 @@ val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for si
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
-val enableMeasuerments = true
+val enableCompile = false
+val enableMeasuerments = false
 val enableGrapic = true
-val producePNG = true // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
+val producePNG = false // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,11 +144,15 @@ if (enableGrapic) {
                 out.println("set terminal png size 1920,1080")
                 out.println("set output 'fig5_$output_count.png'")
             } else {
-                out.println("set terminal epslatex size 20cm,8cm")
-                out.println("set output 'fig5_$output_count.tex'")
+                out.println("set terminal tikz size 10cm,5cm")
+                out.println("set output 'figure_optimal_partitions_for_${output_count}_results.tex'")
             }
+            out.println("set lmargin at screen 0.0;")
+            out.println("set rmargin at screen 1.0;")
+            out.println("set bmargin at screen 0.0;")
+            out.println("set tmargin at screen 1.0;")
             out.println("set xlabel \"mergejoins\"")
-            out.println("set ylabel \"selectivity\" offset 4,0,0")
+            out.println("set ylabel \"selectivity\"")
             out.println("set cblabel \"optimal partitions\"")
             out.println("set style textbox opaque noborder")
             out.println("set datafile separator ','")
@@ -156,15 +160,15 @@ if (enableGrapic) {
             out.println("set yrange [-0.5:17.5]")
             out.println("unset xtics")
             out.println("set xtics format \" \"")
-            out.println("set xtics (${File(File(resultFolder), "plot.XLabels").readText()})")
+            out.println("set xtics (${File(File(resultFolder), "plot${output_count}.XLabels").readText()})")
             out.println("unset ytics")
             out.println("set ytics format \" \"")
-            out.println("set ytics (${File(File(resultFolder), "plot.YLabels").readText()})")
+            out.println("set ytics (${File(File(resultFolder), "plot${output_count}.YLabels").readText()})")
             out.println("set palette model RGB maxcolors 5")
             out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
             out.println("set logscale cb 2")
             out.println("set cbrange [0.75:24]")
-            out.println("plot 'plot.map' matrix with image notitle, 'plot.csv' u 1:2:3 w labels notitle")
+            out.println("plot 'plot${output_count}.map' matrix with image notitle, 'plot${output_count}.csv' u 1:2:3 w labels notitle")
         }
         ProcessBuilder("gnuplot", File(File(resultFolder), "fig5_$output_count.gnuplot").getAbsolutePath())
             .directory(File(resultFolder))
@@ -380,7 +384,7 @@ fun extractData(filename: String, output_count: String) {
     }
     println("-------------------")
     var i = 0
-    File(File(resultFolder), "plot.XLabels").printWriter().use { out ->
+    File(File(resultFolder), "plot${output_count}.XLabels").printWriter().use { out ->
         for (joincount in data_joincount.sorted()) {
             if (i > 0) {
                 out.print(",")
@@ -389,7 +393,7 @@ fun extractData(filename: String, output_count: String) {
             i++
         }
     }
-    File(File(resultFolder), "plot.YLabels").printWriter().use { out ->
+    File(File(resultFolder), "plot${output_count}.YLabels").printWriter().use { out ->
         i = 0
         for (trash_or_join in data_trash_or_join.sorted()) {
             println(trash_or_join)
@@ -410,8 +414,8 @@ fun extractData(filename: String, output_count: String) {
         }
     }
     i = 0
-    File(File(resultFolder), "plot.map").printWriter().use { outMap ->
-        File(File(resultFolder), "plot.csv").printWriter().use { outCsv ->
+    File(File(resultFolder), "plot${output_count}.map").printWriter().use { outMap ->
+        File(File(resultFolder), "plot${output_count}.csv").printWriter().use { outCsv ->
             for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
                 row = ""
                 var j = 0

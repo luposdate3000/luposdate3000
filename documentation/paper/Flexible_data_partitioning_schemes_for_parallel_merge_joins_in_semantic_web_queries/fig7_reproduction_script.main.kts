@@ -45,7 +45,7 @@ val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders 
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
+val enableCompile = false
 val enableMeasuerments = true
 val enableGrapic = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,6 @@ if (enableCompile) {
         "./launcher.main.kts",
         "--compileAll",
         "--releaseMode=Enable",
-        "--inlineMode=Enable",
     )
         .directory(File("."))
         .redirectOutput(Redirect.INHERIT)
@@ -273,28 +272,26 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
                 "./launcher.main.kts",
                 "--run",
                 "--releaseMode=Enable",
-                "--inlineMode=Enable",
-                "--proguardMode=On",
-                "--mainClass=Endpoint",
-                "--endpointMode=Java_Sockets",
+                "--mainClass=Launch_Endpoint",
+                "--Network_Wrapper=Java_Sockets",
                 "--partitionMode=Threads",
                 "--dryMode=Enable",
                 "--threadCount=$partitionCount",
-                "--processUrls=$hostname:$port",
+                "--processUrlsQuery=$hostname:$port",
+                "--processUrlsStore=$hostname:$port",
             )
         } else {
             ProcessBuilder(
                 "./launcher.main.kts",
                 "--run",
                 "--releaseMode=Enable",
-                "--inlineMode=Enable",
-                "--proguardMode=On",
-                "--mainClass=Endpoint",
-                "--endpointMode=Java_Sockets",
+                "--mainClass=Launch_Endpoint",
+                "--Network_Wrapper=Java_Sockets",
                 "--partitionMode=None",
                 "--dryMode=Enable",
                 "--threadCount=$partitionCount",
-                "--processUrls=$hostname:$port",
+                "--processUrlsQuery=$hostname:$port",
+                "--processUrlsStore=$hostname:$port",
             )
         }
             .directory(File("."))
@@ -316,7 +313,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         }
         val p = ProcessBuilder(cmd).directory(File("."))
         val env = p.environment()
-        env.putAll(env2)
+        env.putAll(env2) 
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
@@ -402,14 +399,13 @@ class DatabaseHandleJena() : DatabaseHandle() {
             "--run",
             "--jenaWrapper=On",
             "--releaseMode=Enable",
-            "--inlineMode=Enable",
-            "--proguardMode=On",
-            "--mainClass=Endpoint",
-            "--endpointMode=Java_Sockets",
+            "--mainClass=Launch_Endpoint",
+            "--Network_Wrapper=Java_Sockets",
             "--partitionMode=None",
             "--dryMode=Enable",
             "--threadCount=1",
-            "--processUrls=$hostname:$port",
+            "--processUrlsQuery=$hostname:$port",
+            "--processUrlsStore=$hostname:$port",
         )
             .directory(File("."))
             .redirectError(Redirect.INHERIT)
