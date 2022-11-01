@@ -137,7 +137,7 @@ public object Luposdate3000Config {
 //    public var predefinedPartitionScheme: EPredefinedPartitionSchemes = EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
 
     @JvmField
-    public var defaultPartitionCount: Int = 4
+    public var defaultPartitionCount: Int = Platform.getEnv("LUPOS_THREAD_COUNT","4")!!.toInt()
 
     @JvmField
     public var mergeLocalOperatorgraphs: Boolean = true

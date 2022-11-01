@@ -274,7 +274,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
                 "--releaseMode=Enable",
                 "--mainClass=Launch_Endpoint",
                 "--Network_Wrapper=Java_Sockets",
-                "--partitionMode=Threads",
+                "--partitionMode=Thread",
                 "--dryMode=Enable",
                 "--threadCount=$partitionCount",
                 "--processUrlsQuery=$hostname:$port",
@@ -395,17 +395,16 @@ class DatabaseHandleJena() : DatabaseHandle() {
     override fun getName(): String = "Jena"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         val p_launcher = ProcessBuilder(
-            "./launcher.main.kts",
-            "--run",
-            "--jenaWrapper=On",
-            "--releaseMode=Enable",
-            "--mainClass=Launch_Endpoint",
-            "--Network_Wrapper=Java_Sockets",
-            "--partitionMode=None",
-            "--dryMode=Enable",
-            "--threadCount=1",
-            "--processUrlsQuery=$hostname:$port",
-            "--processUrlsStore=$hostname:$port",
+                "./launcher.main.kts",
+                "--run",
+                "--releaseMode=Enable",
+                "--mainClass=Launch_Endpoint",
+                "--Network_Wrapper=Java_Sockets",
+                "--partitionMode=None",
+                "--dryMode=Enable",
+                "--threadCount=1",
+                "--processUrlsQuery=$hostname:$port",
+                "--processUrlsStore=$hostname:$port",
         )
             .directory(File("."))
             .redirectError(Redirect.INHERIT)
@@ -758,12 +757,27 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         File("$tmpFolder/virtuoso.ini").printWriter().use { out ->
             File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
-                out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$tmpFolder/").replace("$tmpFolder/virtuoso.log", "/dev/stdout"))
+                out.println(line
+.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$tmpFolder/")
+.replace("$tmpFolder/virtuoso.log", "/dev/stdout")
+)
             }
         }
         File("$tmpFolder/init").printWriter().use { out ->
+            out.println("GRANT SPARQL_SPONGE TO \"SPARQL\";")
+out.println("DB.DBA.TTLP_MT(file_to_string_output('${File(import_file_name).getAbsolutePath()}'),'','http://benchmark');")
             out.println("GRANT SPARQL_LOAD_SERVICE_DATA to \"SPARQL\";")
             out.println("GRANT SPARQL_UPDATE to \"SPARQL\";")
+            out.println("GRANT EXECUTE ON DB.DBA.SPARUL_LOAD_SERVICE_DATA TO \"SPARQL\";")
+            out.println("GRANT EXECUTE ON DB.DBA.SPARQL_SD_PROBE TO \"SPARQL\";")
+            out.println("grant execute on DB.DBA.EXEC_AS to \"SPARQL\";")
+//            out.println("grant execute on DB.DBA.RDF_QUAD to SPARQL_UPDATE;")
+            out.println("grant execute on DB.DBA.SPARUL_LOAD TO \"SPARQL\";")
+            out.println("grant execute on DB.DBA.SPARQL_SPONGE  TO \"SPARQL\";")
+            out.println("grant execute on DB.DBA.RDF_SPONGE_UP_1  TO \"SPARQL\";")
+            out.println("grant execute on DB.DBA.SPARQL_SELECT  TO \"SPARQL\";")
+            out.println("SPARQL CREATE GRAPH <http://benchmark> ;")
+            out.println("DB.DBA.RDF_DEFAULT_USER_PERMS_SET ('nobody', 3);")
         }
         val p = ProcessBuilder(
             "${virtuosoBasePath}bin/virtuoso-t",
@@ -773,6 +787,15 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         )
             .directory(File("."))
         processInstance = p.start()
+ val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
         var inputline = inputreader.readLine()
@@ -798,7 +821,6 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
-                importData(import_file_name)
                 action()
                 break
             }
@@ -808,6 +830,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         inputreader.close()
         inputstream.close()
         inputThread.stop()
+        errorThread.stop()
     }
 
     override fun runQuery(query: String) {
@@ -825,25 +848,6 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
-        }
-    }
-
-    fun importData(file: String) {
-        val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode("LOAD <file://${File(file).getAbsolutePath()}> into GRAPH <http://benchmark>")}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
-        val u = URL("http://$hostname:8890/sparql/")
-        val conn = u.openConnection() as HttpURLConnection
-        conn.setDoOutput(true)
-        conn.setRequestMethod("POST")
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-        conn.setRequestProperty("Content-Length", "${encodedData.size}")
-        conn.connect()
-        val os = conn.getOutputStream()
-        os.write(encodedData)
-        val response = conn.inputStream.bufferedReader().readText()
-        println(response)
-        val code = conn.getResponseCode()
-        if (code != 200) {
-            throw Exception("import failed with response code $code")
         }
     }
 }
