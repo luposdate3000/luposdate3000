@@ -46,7 +46,7 @@ val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders 
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
 val enableCompile = false
-val enableMeasuerments = true
+val enableMeasuerments = false
 val enableGrapic = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
@@ -115,8 +115,8 @@ if (enableGrapic) {
     for (i in 0 until resultRowsArray.size) {
         val f = "$resultFolder/graph_${resultRowsArray[i]}"
         File(f + ".plot").printWriter().use { out ->
-            out.println("set terminal png size 1920,1080")
-            out.println("set output '$f.png'")
+            out.println("set terminal tikz size 1920,1080")
+            out.println("set output '$f.tex'")
             out.println("set datafile separator ','")
             out.println("set notitle")
             out.println("set logscale y")
@@ -142,6 +142,8 @@ if (enableGrapic) {
 File(tmpFolder).deleteRecursively()
 // helper functions
 fun execute(result_rows: Int, trash: Int) {
+File(tmpFolder).deleteRecursively()
+File(tmpFolder).mkdirs()
     val triples = generateData(result_rows, 10, 1, trash, tmpFolder)
     for (databaseIdx in 0 until allDatabases.size) {
         val database = allDatabases[databaseIdx]
