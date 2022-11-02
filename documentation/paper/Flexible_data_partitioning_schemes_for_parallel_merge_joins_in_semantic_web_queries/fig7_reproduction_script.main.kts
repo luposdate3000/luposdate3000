@@ -46,7 +46,7 @@ val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders 
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
 val enableCompile = false
-val enableMeasuerments = false
+val enableMeasuerments = true
 val enableGrapic = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +67,11 @@ val allDatabases = listOf(
     databaseHandleLuposdate3000_4,
     databaseHandleLuposdate3000_8,
     databaseHandleLuposdate3000_16,
-    databaseHandleJena,
-    databaseHandleBlazegraph,
-    databaseHandleLuposdateMemory,
-    databaseHandleLuposdateRDF3X,
-    databaseHandleVirtuoso,
+//    databaseHandleJena,
+ //   databaseHandleBlazegraph,
+ //   databaseHandleLuposdateMemory,
+ //   databaseHandleLuposdateRDF3X,
+ //   databaseHandleVirtuoso,
 )
 val resultRowsArray = arrayOf(128, 32768)
 var allDatabasePrintWriters = arrayOf<Array<PrintWriter>>()
@@ -347,7 +347,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
@@ -461,7 +461,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
@@ -547,7 +547,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
@@ -635,7 +635,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
@@ -726,7 +726,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
@@ -828,7 +828,7 @@ out.println("DB.DBA.TTLP_MT(file_to_string_output('${File(import_file_name).getA
             }
             inputline = inputreader.readLine()
         }
-        processInstance!!.destroy()
+        processInstance!!.destroyforcibly()
         inputreader.close()
         inputstream.close()
         inputThread.stop()
