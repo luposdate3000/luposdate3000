@@ -370,23 +370,23 @@ public class TripleStoreManagerImpl public constructor(
         }
         when (instance.predefinedPartitionScheme) {
             EPredefinedPartitionSchemesExt.BenchmarkFig5 -> {
-if(partitionCount==1){
-                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
-  .addIndex { it.simple(EIndexPatternExt.PSO) }
+                if (partitionCount == 1) {
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
+                        .addIndex { it.simple(EIndexPatternExt.PSO) }
 //                    .addIndex { it.simple(EIndexPatternExt.SPO) }
 //                    .addIndex { it.simple(EIndexPatternExt.SOP) }
 //                    .addIndex { it.simple(EIndexPatternExt.POS) }
 //                    .addIndex { it.simple(EIndexPatternExt.OSP) }
 //                    .addIndex { it.simple(EIndexPatternExt.OPS) }
-}else{
-                defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) }
+                } else {
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = partitionCount, partitionColumn = 1) }
 //                    .addIndex { it.simple(EIndexPatternExt.SPO) }
 //                    .addIndex { it.simple(EIndexPatternExt.SOP) }
 //                    .addIndex { it.simple(EIndexPatternExt.POS) }
 //                    .addIndex { it.simple(EIndexPatternExt.OSP) }
 //                    .addIndex { it.simple(EIndexPatternExt.OPS) }
-}
+                }
             }
             EPredefinedPartitionSchemesExt.Simple -> {
                 defaultTripleStoreLayout = TripleStoreDescriptionFactory(instance)
@@ -466,7 +466,7 @@ if(partitionCount==1){
         val factory = TripleStoreDescriptionFactory(instance)
         action(factory)
         defaultTripleStoreLayout = factory
-println("updateDefaultTripleStoreLayout")
+        println("updateDefaultTripleStoreLayout")
     }
 
     @Suppress("NOTHING_TO_INLINE")

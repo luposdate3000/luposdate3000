@@ -132,7 +132,7 @@ public class POPMergePartition public constructor(
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 Parallel.launch {
-var resultrowDebug=0;
+                    var resultrowDebug = 0
                     try {
                         val childEval2: IteratorBundle?
                         childEval2 = children[0].evaluate(Partition(parent, partitionVariable!!, p, partitionCount))
@@ -150,7 +150,7 @@ var resultrowDebug=0;
                                         childIterator.close()
                                         break@loop
                                     }
-resultrowDebug++
+                                    resultrowDebug++
                                     val tmp = childIterator.next()
                                     if (tmp == DictionaryValueHelper.nullValue) {
                                         break@loop
@@ -175,7 +175,7 @@ resultrowDebug++
                                         break@loop
                                     }
                                     val tmp = variableMapping[0].next()
-resultrowDebug++
+                                    resultrowDebug++
                                     if (tmp == DictionaryValueHelper.nullValue) {
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
@@ -221,7 +221,7 @@ resultrowDebug++
                                     break@loop
                                 }
                                 val tmp = child.next()
-resultrowDebug++
+                                resultrowDebug++
                                 if (tmp == -1) {
                                     break@loop
                                 } else {
@@ -237,7 +237,7 @@ resultrowDebug++
                         e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:236"/*SOURCE_FILE_END*/)
                         error = e
                     }
-println("thread $p produced $resultrowDebug rows")
+                    println("thread $p produced $resultrowDebug rows")
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()
                 }

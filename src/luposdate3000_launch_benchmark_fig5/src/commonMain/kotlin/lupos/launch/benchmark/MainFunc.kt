@@ -15,26 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.benchmark_fig5
-import lupos.result_format.EQueryResultToStreamExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.shared.EIndexPatternExt
 import lupos.operator.base.Query
-import lupos.shared.EPartitionModeExt
-import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.result_format.EQueryResultToStreamExt
 import lupos.shared.DateHelperRelative
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.Luposdate3000Config
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.Luposdate3000Config
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(
@@ -44,8 +43,8 @@ internal fun mainFunc(
     trash: String,
     join: String,
     join_count: String,
-partition:String,
-): Unit  {
+    partition: String,
+) {
     val datasourceFiles = datasource_files
     val minimumTime = minimum_time.toDouble()
     val numberOfTriples = number_of_triples.toLong()
@@ -55,15 +54,15 @@ partition:String,
     val timer = DateHelperRelative.markNow()
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-if(true){
-        val partitions =partition.toInt()
-Luposdate3000Config.initialThreads = partitions
-Luposdate3000Config.maxThreads = partitions
+    if (true) {
+        val partitions = partition.toInt()
+        Luposdate3000Config.initialThreads = partitions
+        Luposdate3000Config.maxThreads = partitions
         Luposdate3000Config.defaultPartitionCount = partitions
         Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.BenchmarkFig5
-Luposdate3000Config.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        Luposdate3000Config.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
         val instance = LuposdateEndpoint.initialize()
-instance.joinOrderByTopology=false
+        instance.joinOrderByTopology = false
         LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
         val variables = mutableListOf("j", "a")
         val query = Query(instance)
@@ -108,9 +107,9 @@ instance.joinOrderByTopology=false
         println("------------------------------")
         println(node.toString())
         val writer = MyPrintWriter(false)
-        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer,EQueryResultToStreamExt.EMPTY_STREAM)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, EQueryResultToStreamExt.EMPTY_STREAM)
         val timerFirst = DateHelperRelative.markNow()
-        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer,EQueryResultToStreamExt.EMPTY_STREAM)
+        LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, EQueryResultToStreamExt.EMPTY_STREAM)
         val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
 //        val groupSize = 100
         val groupSize = 1 + (1.0 / timeFirst).toInt()
@@ -121,7 +120,7 @@ instance.joinOrderByTopology=false
         while (true) {
             counter += groupSize
             for (i in 0 until groupSize) {
-                LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer,EQueryResultToStreamExt.EMPTY_STREAM)
+                LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, writer, EQueryResultToStreamExt.EMPTY_STREAM)
             }
             time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {
