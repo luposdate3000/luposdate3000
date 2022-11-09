@@ -21,13 +21,13 @@ import lupos.operator.base.iterator.RowIteratorReduced
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalReduced {
-    public operator fun invoke(child: IteratorBundle, columnCount: Int): IteratorBundle {
+    public operator fun invoke(child: IteratorBundle, columns:List<String>): IteratorBundle {
         return when {
-            columnCount == 1 -> {
-                val reduced = ColumnIteratorReduced(child.columns.values.first())
-                IteratorBundle(mapOf(child.columns.keys.first() to reduced))
+            columns.size==1 -> {
+                val reduced = ColumnIteratorReduced(child.columns[columns.first()]!!)
+                IteratorBundle(mapOf(columns.first() to reduced))
             }
-            columnCount > 0 -> {
+            columns.size > 0 -> {
                 val reduced = RowIteratorReduced(child.rows)
                 IteratorBundle(reduced)
             }

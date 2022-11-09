@@ -8,7 +8,7 @@ $cmd \
 src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/topology/Uniform16DB.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributedWithQueryHops.json \
-operator-distribution-test-queries.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000.json \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_routing.json \
@@ -18,6 +18,7 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_executi
 operator-distribution-test.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json
 #src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json
+#operator-distribution-test-queries.json 
 
 for f in *.dot
 do

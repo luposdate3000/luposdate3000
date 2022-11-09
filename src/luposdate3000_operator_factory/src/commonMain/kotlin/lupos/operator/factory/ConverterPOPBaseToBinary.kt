@@ -914,7 +914,7 @@ public object ConverterPOPBaseToBinary {
                     data,
                     mapping,
                     { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
-                    op.projectedVariables.size,
+                    op.projectedVariables.toList(),
                 )
             },
         )

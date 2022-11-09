@@ -16,6 +16,7 @@
  */
 package lupos.operator.logical.multiinput
 
+import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -26,8 +27,10 @@ import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public class LOPJoinTopology public constructor(query: IQuery, childs: Array<IOPBase>) : LOPBase(query, EOperatorIDExt.LOPJoinTopologyID, "LOPJoinTopology", childs, ESortPriorityExt.JOIN) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = TODO("not implemented")
-    override fun equals(other: Any?): Boolean = TODO("not implemented")
+    override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition)
+    override fun equals(other: Any?): Boolean = other is LOPJoinTopology && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPJoinTopology(query, children.map { it.cloneOP() }.toTypedArray())
-    override /*suspend*/ fun calculateHistogram(): HistogramResult = TODO("not implemented")
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
+        return LOPJoin_Helper.mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), false)
+    }
 }

@@ -329,7 +329,11 @@ public object ConverterBinaryToPOPJson {
                         o += 4
                     }
                 }
-                "{\"type\":\"LOPJoinTopology\",\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}]}"
+                "{\"type\":\"LOPJoinTopology\","+
+                "\"keys\":[${keys.map { "{\"key\":$it}" }.joinToString()}],"+
+                "\"projectedVariables\":[${projectedVariables.map { "\"$it\"" }.joinToString()}],"+
+                "\"projectedVariablesChilds\":[${projectedVariablesChilds.map {it2->it2.map{ "\"$it\"" }.toString()}.joinToString()}]"+
+                "}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -421,7 +425,13 @@ public object ConverterBinaryToPOPJson {
                     pList.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPSort.p[$i]" })))
                     o += 4
                 }
-                "{\"type\":\"POPSort\",\"child\":$child}"
+                "{\"type\":\"POPSort\","+
+"\"child\":$child,"+
+"\"sortOrder\":$sortOrder,"+
+"\"spList\":[${spList.map { "\"$it\"" }.joinToString()}],"+
+"\"pList\":[${pList.map { "\"$it\"" }.joinToString()}],"+
+"\"sbList\":[${sbList.map { "\"$it\"" }.joinToString()}],"+
+"}"
             },
         )
         assignOperatorPhysicalDecode(
@@ -444,7 +454,14 @@ public object ConverterBinaryToPOPJson {
             { query, data, off ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }))
                 val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
-                "{\"type\":\"POPReduced\",\"child\":$child}"
+ val variables=mutableListOf<String>()
+for (i in 0 until size) {
+                    variables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12 + i * 4, { "POPReduced.variables[$i]" })))
+                }
+                "{\"type\":\"POPReduced\","+
+"\"child\":$child,"+
+"\"variables\":[${variables.map { "\"$it\"" }.joinToString()}],"+
+"}"
             },
         )
         assignOperatorPhysicalDecode(
