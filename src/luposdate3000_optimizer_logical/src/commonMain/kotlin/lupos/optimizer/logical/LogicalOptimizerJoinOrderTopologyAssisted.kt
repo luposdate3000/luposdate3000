@@ -16,6 +16,7 @@
  */
 package lupos.optimizer.logical
 
+import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
@@ -29,7 +30,7 @@ import lupos.shared.SortHelper
 import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.IOPBase
 
-public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query, internal val capture: Boolean) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrderTopologyAssisted") {
+public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrderTopologyAssisted") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
@@ -149,7 +150,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query, internal va
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:151"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:152"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }
@@ -203,19 +204,10 @@ allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val originalProvided = node.getProvidedVariableNames()
             try {
-                if (capture) {
-                    val allChilds2 = findAllJoinsInChildren(node)
-                    val backup = allChilds2.toTypedArray()
-                    res = internalOptimize(node, allChilds2, onChange)
-                    val jo = mutableListOf<Int>()
-                    calculateJoinOrderTree(backup, res, jo)
-                    query.machineLearningOptimizerOrder2 = jo
-                } else {
                     val allChilds2 = findAllJoinsInChildren(node)
                     res = internalOptimize(node, allChilds2, onChange)
-                }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:222"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:209"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }
