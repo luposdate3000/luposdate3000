@@ -34,7 +34,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     public constructor(instance: Luposdate3000Instance) : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true, instance), UUID_Counter.getNextUUID(), instance)
 
     @JvmField
-    public var optimizer: EOptimizer = EOptimizerExt.Default
+    public var optimizer: EOptimizer = instance.optimizer
 
     @JvmField
     public var machineLearningAbort: Boolean = false

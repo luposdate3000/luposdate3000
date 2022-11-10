@@ -23,9 +23,11 @@ public object EOptimizerExt {
     public const val MachineLearningLarge: EOptimizer = 1 // 0x00000001
     public const val MachineLearningLargePredict: EOptimizer = 2 // 0x00000002
     public const val MachineLearningSmall: EOptimizer = 3 // 0x00000003
-    public const val values_size: Int = 4
-    public const val values_mask: Int = 3 // 0x00000003
-    public const val values_mask_inversed: Int = 2147483644 // 0x7ffffffc
+    public const val TopologyAssisted: EOptimizer = 4 // 0x00000004
+    public const val TopologyOnly: EOptimizer = 5 // 0x00000005
+    public const val values_size: Int = 6
+    public const val values_mask: Int = 7 // 0x00000007
+    public const val values_mask_inversed: Int = 2147483640 // 0x7ffffff8
 
     @JvmField
     public val names: Array<String> = arrayOf(
@@ -33,5 +35,7 @@ public object EOptimizerExt {
         "MachineLearningLarge",
         "MachineLearningLargePredict",
         "MachineLearningSmall",
+        "TopologyAssisted",
+        "TopologyOnly",
     )
 }

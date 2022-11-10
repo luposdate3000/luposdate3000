@@ -93,10 +93,8 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
             LogicalOptimizerExists(query) //
         ),
         arrayOf(
-            if (query.instance.joinOrderByTopology) {
-                LogicalOptimizerJoinOrderTopology(query)
-            } else {
                 when (query.optimizer) {
+EOptimizerExt.TopologyOnly->LogicalOptimizerJoinOrderTopology(query)
                     EOptimizerExt.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
                     EOptimizerExt.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
                     EOptimizerExt.Default -> LogicalOptimizerJoinOrder(query, false)
@@ -106,7 +104,6 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
                     }
                     else -> TODO()
                 }
-            }
         ),
         arrayOf(
 // put the filters between the joins

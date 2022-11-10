@@ -62,7 +62,6 @@ internal fun mainFunc(
         Luposdate3000Config.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.BenchmarkFig5
         Luposdate3000Config.LUPOS_PARTITION_MODE = EPartitionModeExt.Thread
         val instance = LuposdateEndpoint.initialize()
-        instance.joinOrderByTopology = false
         LuposdateEndpoint.importTripleFile(instance, datasourceFiles)
         val variables = mutableListOf("j", "a")
         val query = Query(instance)

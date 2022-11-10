@@ -16,6 +16,8 @@
  */
 package lupos.shared
 
+import lupos.shared.EOptimizerExt
+import lupos.shared.EOptimizer
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.IDictionaryCache
@@ -104,9 +106,6 @@ public class Luposdate3000Instance {
     public var enableJoinOrderOnDynamicProgrammingNoCluster: Boolean = Luposdate3000Config.enableJoinOrderOnDynamicProgrammingNoCluster
 
     @JvmField
-    public var joinOrderByTopology: Boolean = Luposdate3000Config.joinOrderByTopology
-
-    @JvmField
     public var useDictionaryInlineEncoding: Boolean = Luposdate3000Config.useDictionaryInlineEncoding
 
     @JvmField
@@ -128,4 +127,6 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var defaultPartitionCount: Int = Luposdate3000Config.defaultPartitionCount
+@JvmField
+    public var optimizer:EOptimizer=Luposdate3000Config.optimizer
 }

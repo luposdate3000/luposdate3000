@@ -2,3 +2,5 @@ MachineLearningLarge
 MachineLearningLargePredict
 MachineLearningSmall
 Default
+TopologyOnly
+TopologyAssisted
