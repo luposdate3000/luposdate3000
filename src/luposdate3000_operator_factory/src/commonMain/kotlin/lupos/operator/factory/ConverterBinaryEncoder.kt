@@ -534,12 +534,12 @@ public object ConverterBinaryEncoder {
 
     public fun encodePOPReduced(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, projectedVariables: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 12+4*projectedVariables.size, true)
+        ByteArrayWrapperExt.setSize(data, off + 12 + 4 * projectedVariables.size, true)
         val child = childf(off + 4)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPReducedID, { "operatorID" })
         ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPReduced.child" })
         ByteArrayWrapperExt.writeInt4(data, off + 8, projectedVariables.size, { "POPReduced.variables.size" })
-for (i in 0 until projectedVariables.size) {
+        for (i in 0 until projectedVariables.size) {
             ByteArrayWrapperExt.writeInt4(data, off + 12 + 4 * i, ConverterString.encodeString(projectedVariables[i], data, mapping), { "POPReduced.variables[$i]" })
         }
         return off

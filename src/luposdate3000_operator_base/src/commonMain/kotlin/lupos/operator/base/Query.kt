@@ -18,7 +18,6 @@ package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
 import lupos.shared.EOptimizer
-import lupos.shared.EOptimizerExt
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.MyLock

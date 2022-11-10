@@ -353,8 +353,8 @@ public object ConverterBinaryToIteratorBundle {
             { query, data, off, operatorMap ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" }), operatorMap)
                 val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
- val variables=mutableListOf<String>()
-for (i in 0 until size) {
+                val variables = mutableListOf<String>()
+                for (i in 0 until size) {
                     variables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12 + i * 4, { "POPReduced.variables[$i]" })))
                 }
                 EvalReduced(child, variables)

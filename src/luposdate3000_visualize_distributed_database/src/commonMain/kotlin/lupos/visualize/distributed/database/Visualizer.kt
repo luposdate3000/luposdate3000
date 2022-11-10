@@ -1,12 +1,12 @@
 package lupos.visualize.distributed.database
 
+import lupos.shared.IMyInputStream
+import lupos.shared.MyInputStreamFromByteArray
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.MyInputStreamFromByteArray
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_Abstract
-import lupos.shared.IMyInputStream
 import lupos.simulator_db.luposdate3000.PendingWork
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import simora.ILogger
 import simora.IPayload
 import simora.SimulationRun
@@ -25,33 +25,33 @@ public class Visualizer : ILogger {
     override fun onReceiveNetworkPackage(address: Int, pck: IPayload) {}
 
     override fun onReceivePackage(address: Int, pck: IPayload) {
-fun decodeVariablesInPackage(input: IMyInputStream):List<String>{
-val variables = mutableListOf<String>()
-        val cnt = input.readInt()
-        for (i in 0 until cnt) {
-            val len = input.readInt()
-            val buf = ByteArray(len)
-            input.read(buf, len)
-            val name = buf.decodeToString()
-            variables.add(name)
+        fun decodeVariablesInPackage(input: IMyInputStream): List<String> {
+            val variables = mutableListOf<String>()
+            val cnt = input.readInt()
+            for (i in 0 until cnt) {
+                val len = input.readInt()
+                val buf = ByteArray(len)
+                input.read(buf, len)
+                val name = buf.decodeToString()
+                variables.add(name)
+            }
+            return variables
         }
-return variables
-}
-fun decodeVariablesInPackage(data:ByteArrayWrapper):List<String>{
-return decodeVariablesInPackage(MyInputStreamFromByteArray(data))
-}
+        fun decodeVariablesInPackage(data: ByteArrayWrapper): List<String> {
+            return decodeVariablesInPackage(MyInputStreamFromByteArray(data))
+        }
         when (pck) {
             is Package_Luposdate3000_Abstract -> {
                 when (pck.path) {
                     "simulator-intermediate-result" -> {
-val variables=decodeVariablesInPackage(pck.data)
+                        val variables = decodeVariablesInPackage(pck.data)
                         val dep = pck.params["key"]!!.toInt()
                         val g_query = graphs.getOrPut(pck.queryID, { DotGraph() })
                         val path = mutableListOf<Int>()
                         path.addAll(pck.getAllHops())
                         path.add(address)
                         for (i in 0 until path.size - 1) {
-                            g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i + 1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)} "+variables.toString()))
+                            g_query.edges.add(DotEdge("msg${path[i]}at$dep", "msg${path[i + 1]}at$dep").setLabel("${ByteArrayWrapperExt.getSize(pck.data)} " + variables.toString()))
                         }
                         for (i in 0 until path.size) {
                             val g_device = g_query.subgraphs.getOrPut("device_${path[i]}", { DotGraph() })

@@ -16,8 +16,6 @@
  */
 package lupos.shared
 
-import lupos.shared.EOptimizerExt
-import lupos.shared.EOptimizer
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.IDictionaryCache
@@ -127,6 +125,7 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var defaultPartitionCount: Int = Luposdate3000Config.defaultPartitionCount
-@JvmField
-    public var optimizer:EOptimizer=Luposdate3000Config.optimizer
+
+    @JvmField
+    public var optimizer: EOptimizer = Luposdate3000Config.optimizer
 }

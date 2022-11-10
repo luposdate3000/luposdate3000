@@ -16,11 +16,11 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.noinput.POPNothing
 import lupos.shared.ESortTypeExt
@@ -163,12 +163,12 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
         if (allChilds2.size > 2) {
             var result: IOPBase? = null
             if (result == null) {
-                    val allChilds3 = clusterizeChildren(allChilds2)
-                    val allChilds4 = mutableListOf<IOPBase>()
-                    for (child in allChilds3) {
-allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
-                    }
-                    result = applyOptimisation(allChilds4, node)
+                val allChilds3 = clusterizeChildren(allChilds2)
+                val allChilds4 = mutableListOf<IOPBase>()
+                for (child in allChilds3) {
+                    allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
+                }
+                result = applyOptimisation(allChilds4, node)
             }
             if (result != res) {
                 onChange()
@@ -204,8 +204,8 @@ allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val originalProvided = node.getProvidedVariableNames()
             try {
-                    val allChilds2 = findAllJoinsInChildren(node)
-                    res = internalOptimize(node, allChilds2, onChange)
+                val allChilds2 = findAllJoinsInChildren(node)
+                res = internalOptimize(node, allChilds2, onChange)
             } catch (e: EmptyResultException) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:209"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)

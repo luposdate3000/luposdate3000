@@ -595,8 +595,8 @@ public object ConverterBinaryToBinary {
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPReduced.child" })
                 val size = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPReduced.variables.size" })
- val variables=mutableListOf<String>()
-for (i in 0 until size) {
+                val variables = mutableListOf<String>()
+                for (i in 0 until size) {
                     variables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12 + i * 4, { "POPReduced.variables[$i]" })))
                 }
                 ConverterBinaryEncoder.encodePOPReduced(

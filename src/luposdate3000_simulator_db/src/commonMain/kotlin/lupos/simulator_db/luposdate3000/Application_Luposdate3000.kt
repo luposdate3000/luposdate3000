@@ -16,9 +16,6 @@
  */
 
 package lupos.simulator_db.luposdate3000
-import lupos.shared.EOptimizerExt
-import lupos.shared.EOptimizer
-import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
@@ -51,6 +48,7 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
 import lupos.shared.EOperatorIDExt
+import lupos.shared.EOptimizerExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.EQueryDistributionModeExt
@@ -123,7 +121,7 @@ public class Application_Luposdate3000 public constructor(
             throw InvalidInputException()
         }
         router = parent
-instance.optimizer =EOptimizerExt.names.indexOf(config.getOrDefault("optimizer", EOptimizerExt.names[EOptimizerExt.TopologyOnly]))
+        instance.optimizer = EOptimizerExt.names.indexOf(config.getOrDefault("optimizer", EOptimizerExt.names[EOptimizerExt.TopologyOnly]))
         instance.inSimulator = true
         instance.enableJoinOrderOnHistogram = false
         instance.tryLocalExecution = tryLocalExecution

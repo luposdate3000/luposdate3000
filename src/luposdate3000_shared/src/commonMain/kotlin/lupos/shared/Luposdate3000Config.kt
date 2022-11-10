@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-import lupos.shared.EOptimizerExt
-import lupos.shared.EOptimizer
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
@@ -144,6 +142,7 @@ public object Luposdate3000Config {
     public var mergeLocalOperatorgraphs: Boolean = true
 
     @JvmField public var tryLocalExecution: Boolean = true
-@JvmField
-    public var optimizer:EOptimizer=EOptimizerExt.Default
+
+    @JvmField
+    public var optimizer: EOptimizer = EOptimizerExt.Default
 }
