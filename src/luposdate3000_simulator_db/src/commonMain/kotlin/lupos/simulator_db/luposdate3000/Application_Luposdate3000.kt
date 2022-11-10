@@ -775,6 +775,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
             val inputs = keys.map { key ->
+println("using ${queryID to key}")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
                 myPendingWorkData.remove(queryID to key)
                 input
@@ -861,6 +862,7 @@ public class Application_Luposdate3000 public constructor(
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
                         }
                         if (flag) {
+println("verified existence of ${w.queryID} -> ${w.dependencies} for dataid ${w.dataID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -920,7 +922,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:922"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:924"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -946,7 +948,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:948"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:950"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

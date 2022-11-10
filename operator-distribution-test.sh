@@ -13,6 +13,20 @@ for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/rout
 do
 for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json
 do
+echo $cmd \
+src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json \
+$topology \
+$programDistribution \
+src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json \
+$dataDistribution \
+src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_routing.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/multicast/luposdate3000MulticastEnabled.json \
+$routing \
+src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_disabled.json \
+$optimizer \
+operator-distribution-test.json
+
 $cmd \
 src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json \
 $topology \
@@ -26,6 +40,7 @@ $routing \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_disabled.json \
 $optimizer \
 operator-distribution-test.json
+
 done
 done
 done

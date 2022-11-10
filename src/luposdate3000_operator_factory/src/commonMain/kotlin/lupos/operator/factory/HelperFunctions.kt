@@ -31,11 +31,21 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
     public val key_send2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
-    public val key_rec2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
+    public val _key_rec2id: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val key_send2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val key_rec2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2parent: MutableMap<Int, MutableSet<Int>> = mutableMapOf<Int, MutableSet<Int>>()
     private var operatorMap: Array<BinaryToHelperMap?> = Array(0) { null }
+
+internal fun key_rec2idPut(k:Int,v:Int){
+if(_key_rec2id[k]!=null){
+TODO("conflicting key")
+}
+_key_rec2id[k]=v
+}
+internal fun key_rec2idGet(k:Int)=_key_rec2id[k]
+internal fun key_rec2idKeys()=_key_rec2id.keys
+internal fun key_rec2idKeyAndValues()=_key_rec2id
 
     public fun addChildToBinary(newOff: Int, newID: Int) {
         var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
@@ -73,7 +83,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     }
     public fun getNextKey(): Int {
         return globalCtr++
-        val keys = (key_send2id.keys + key_rec2id.keys).toSet()
+        val keys = (key_send2id.keys + key_rec2idKeys()).toSet()
         for (i in 0 until keys.size + 1) {
             if (!keys.contains(i+1000)) {
                 return i + 1000
@@ -85,7 +95,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public fun getDependenciesForID1(id: Int): Map<Int, Int> {
         val keys = mutableSetOf<Int>()
         val res = mutableMapOf<Int, Int>()
-        for ((key, i) in key_rec2id) {
+        for ((key, i) in key_rec2idKeyAndValues()) {
             if (i == id) {
                 keys.add(key)
             }
@@ -99,7 +109,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     }
     public fun getDependenciesForID2(id: Int): Set<Int> {
         val keys = mutableSetOf<Int>()
-        for ((key, i) in key_rec2id) {
+        for ((key, i) in key_rec2idKeyAndValues()) {
             if (i == id) {
                 keys.add(key)
             }
@@ -208,7 +218,8 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     o += 4 * projectedVariablesCount2
                 }
                 for (key in keys) {
-                    key_rec2id[key] = currentID
+println("require $key for $currentID")
+                    key_rec2idPut(key, currentID)
                     key_rec2off[key] = parentOff
                 }
             },
@@ -222,7 +233,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMulti.key[$i]" }))
                 }
                 for (key in keys) {
-                    key_rec2id[key] = currentID
+                    key_rec2idPut(key, currentID)
                     key_rec2off[key] = parentOff
                 }
             },
@@ -231,7 +242,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
             EOperatorIDExt.POPDistributedReceiveSingleID,
             { data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
-                key_rec2id[key] = currentID
+                key_rec2idPut(key, currentID)
                 key_rec2off[key] = parentOff
             },
         )
@@ -239,7 +250,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
             EOperatorIDExt.POPDistributedReceiveSingleCountID,
             { data, off ->
                 val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
-                key_rec2id[key] = currentID
+                key_rec2idPut(key, currentID)
                 key_rec2off[key] = parentOff
             },
         )
@@ -252,7 +263,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     keys.add(ByteArrayWrapperExt.readInt4(data, off + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" }))
                 }
                 for (key in keys) {
-                    key_rec2id[key] = currentID
+                    key_rec2idPut(key, currentID)
                     key_rec2off[key] = parentOff
                 }
             },
@@ -268,7 +279,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     o += 4
                 }
                 for (key in keys) {
-                    key_rec2id[key] = currentID
+                    key_rec2idPut(key, currentID)
                     key_rec2off[key] = parentOff
                 }
             },
@@ -464,7 +475,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }))
             },
         )
-
+println("HelperFunctions.kt start")
         when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
             0x1 -> {
                 val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
@@ -515,7 +526,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     keys.add(key)
                 }
             }
-            for ((key, i) in key_rec2id) {
+            for ((key, i) in key_rec2idKeyAndValues()) {
                 if (keys.contains(key)) {
                     res.add(i)
                 }
@@ -538,7 +549,8 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
             id2host.getOrPut(id, { mutableSetOf() })
         }
 //        for ((k, i) in key_send2id) {
-//            println("key $k query $queryID : $i -> ${key_rec2id[k]} ... key : send -> rec")
+//            println("key $k query $queryID : $i -> ${key_rec2idGet(k)} ... key : send -> rec")
 //        }
+println("HelperFunctions.kt end")
     }
 }

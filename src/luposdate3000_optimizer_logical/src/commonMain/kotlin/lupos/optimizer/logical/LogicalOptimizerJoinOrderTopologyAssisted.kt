@@ -120,26 +120,22 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
             nodes.size > 2 -> {
                 var result = LogicalOptimizerJoinOrderStore(nodes, root)
                 if (result != null) {
-                    println("optimized using LogicalOptimizerJoinOrderStore")
                     return result
                 }
                 try {
                     if (query.getInstance().enableJoinOrderOnDynamicProgramming) {
                         result = LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming(nodes, root)
-                        println("optimized using LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming")
                         return result
                     }
                 } catch (e: Throwable) {}
                 try {
                     if (query.getInstance().enableJoinOrderOnHistogram) {
                         result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-                        println("optimized using LogicalOptimizerJoinOrderCostBasedOnHistogram")
                         return result
                     }
                 } catch (e: Throwable) {}
                 result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
                 if (result != null) {
-                    println("optimized using LogicalOptimizerJoinOrderCostBasedOnVariable")
                     return result
                 }
                 SanityCheck.checkUnreachable()
@@ -150,7 +146,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:152"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:148"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
                 return nodes[0]
             }
         }
@@ -211,7 +207,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 val allChilds2 = findAllJoinsInChildren(node)
                 res = internalOptimize(node, allChilds2, onChange)
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:213"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:209"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }
