@@ -46,7 +46,6 @@ public class QueryResultToXMLStream : IResultFormat {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            resultWriter.println("QueryResultToXMLStream.writeAllRows(${List(variables.size) { rowBuf[it] }.joinToString()})")
             resultWriter.print("  <result>\n")
             for (variableIndex in variables.indices) {
                 dictionary.getValue(buffer, rowBuf[variableIndex])

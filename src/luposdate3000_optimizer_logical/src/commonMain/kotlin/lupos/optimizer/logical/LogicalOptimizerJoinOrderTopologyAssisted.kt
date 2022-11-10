@@ -166,7 +166,11 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 val allChilds3 = clusterizeChildren(allChilds2)
                 val allChilds4 = mutableListOf<IOPBase>()
                 for (child in allChilds3) {
-                    allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
+                    when (child.size) {
+                        0 -> {}
+                        1 -> allChilds4.add(child[0])
+                        else -> allChilds4.add(LOPJoinTopology(node.query, child.toTypedArray()))
+                    }
                 }
                 result = applyOptimisation(allChilds4, node)
             }
@@ -207,7 +211,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 val allChilds2 = findAllJoinsInChildren(node)
                 res = internalOptimize(node, allChilds2, onChange)
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:209"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:213"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }
