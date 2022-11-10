@@ -1,4 +1,9 @@
 {
+    "applications": {
+        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+"optimizer": "TopologyAssisted",
+        },
+    },
     "logging": {
         "lupos.visualize.distributed.database.Visualizer": {
             "enabled": true,

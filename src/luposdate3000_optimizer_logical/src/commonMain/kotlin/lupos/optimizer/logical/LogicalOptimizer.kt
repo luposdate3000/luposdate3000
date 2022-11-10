@@ -95,6 +95,7 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
         arrayOf(
                 when (query.optimizer) {
 EOptimizerExt.TopologyOnly->LogicalOptimizerJoinOrderTopology(query)
+EOptimizerExt.TopologyAssisted->LogicalOptimizerJoinOrderTopologyAssisted(query)
                     EOptimizerExt.MachineLearningLarge -> LogicalOptimizerJoinOrderML2(query)
                     EOptimizerExt.MachineLearningSmall -> LogicalOptimizerJoinOrderML(query)
                     EOptimizerExt.Default -> LogicalOptimizerJoinOrder(query, false)

@@ -123,7 +123,7 @@ public class Application_Luposdate3000 public constructor(
             throw InvalidInputException()
         }
         router = parent
-instance.optimizer =EOptimizerExt.TopologyOnly
+instance.optimizer =EOptimizerExt.names.indexOf(config.getOrDefault("optimizer", EOptimizerExt.names[EOptimizerExt.TopologyOnly]))
         instance.inSimulator = true
         instance.enableJoinOrderOnHistogram = false
         instance.tryLocalExecution = tryLocalExecution
