@@ -25,7 +25,7 @@ private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> U
 
 public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
     public companion object {
-        internal var globalCtr = 1000
+        internal var globalCtr = 0
     public fun getNextChildID(): Int {
 //getNextChildID and getNextKey are mixed up somewhere
         return globalCtr++
