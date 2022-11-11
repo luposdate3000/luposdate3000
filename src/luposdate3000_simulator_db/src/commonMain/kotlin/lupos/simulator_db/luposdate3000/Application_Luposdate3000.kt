@@ -405,9 +405,9 @@ public class Application_Luposdate3000 public constructor(
                                     }
                                     for ((operatorOff, keys2) in operatorOffToKeys) {
                                         if (keys2.size > 1) {
-                                            val childID = handler.getNextChildID()
+                                            val childID = HelperMetadata.getNextChildID()
                                             var childOff = -1
-                                            val newKey = handler.getNextKey()
+                                            val newKey = HelperMetadata.getNextKey()
                                             val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
                                             val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                             when (oldType) {
@@ -458,7 +458,6 @@ public class Application_Luposdate3000 public constructor(
                                                             o += 4
                                                         }
                                                     }
-
                                                     val theNewParentKeys = mutableListOf<Int>()
                                                     val theNewParentProjectedVariables = oldParentProjectedVariables.toMutableList()
                                                     val theNewParentChildProjectedVariables = mutableListOf<MutableList<String>>()
@@ -501,7 +500,6 @@ public class Application_Luposdate3000 public constructor(
                                                             )
                                                         }
                                                     )
-
                                                     val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
                                                     o = oldOperatorOff
                                                     o += 4
@@ -775,7 +773,6 @@ public class Application_Luposdate3000 public constructor(
                 }
             }
             val inputs = keys.map { key ->
-println("using ${queryID to key}")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
                 myPendingWorkData.remove(queryID to key)
                 input
@@ -862,7 +859,6 @@ println("using ${queryID to key}")
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
                         }
                         if (flag) {
-println("verified existence of ${w.queryID} -> ${w.dependencies} for dataid ${w.dataID}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -922,7 +918,7 @@ println("verified existence of ${w.queryID} -> ${w.dependencies} for dataid ${w.
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:924"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:920"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -948,7 +944,7 @@ println("verified existence of ${w.queryID} -> ${w.dependencies} for dataid ${w.
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:950"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:946"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

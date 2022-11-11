@@ -24,9 +24,16 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> Unit
 
 public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
-    internal companion object {
+    public companion object {
         internal var globalCtr = 1000
-        internal var globalCtr2 = 1000
+    public fun getNextChildID(): Int {
+//getNextChildID and getNextKey are mixed up somewhere
+        return globalCtr++
+    }
+    public fun getNextKey(): Int {
+//getNextChildID and getNextKey are mixed up somewhere
+        return globalCtr++
+    }
     }
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
@@ -72,25 +79,6 @@ internal fun key_rec2idKeyAndValues()=_key_rec2id
         }
     }
 
-    public fun getNextChildID(): Int {
-        return globalCtr2++
-        for (i in 0 until id2off.size + 1) {
-            if (!id2off.contains(i+1000)) {
-                return i + 1000
-            }
-        }
-        TODO()
-    }
-    public fun getNextKey(): Int {
-        return globalCtr++
-        val keys = (key_send2id.keys + key_rec2idKeys()).toSet()
-        for (i in 0 until keys.size + 1) {
-            if (!keys.contains(i+1000)) {
-                return i + 1000
-            }
-        }
-        TODO()
-    }
 
     public fun getDependenciesForID1(id: Int): Map<Int, Int> {
         val keys = mutableSetOf<Int>()
@@ -218,7 +206,6 @@ internal fun key_rec2idKeyAndValues()=_key_rec2id
                     o += 4 * projectedVariablesCount2
                 }
                 for (key in keys) {
-println("require $key for $currentID")
                     key_rec2idPut(key, currentID)
                     key_rec2off[key] = parentOff
                 }
@@ -475,7 +462,6 @@ println("require $key for $currentID")
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }))
             },
         )
-println("HelperFunctions.kt start")
         when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
             0x1 -> {
                 val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
@@ -551,6 +537,5 @@ println("HelperFunctions.kt start")
 //        for ((k, i) in key_send2id) {
 //            println("key $k query $queryID : $i -> ${key_rec2idGet(k)} ... key : send -> rec")
 //        }
-println("HelperFunctions.kt end")
     }
 }
