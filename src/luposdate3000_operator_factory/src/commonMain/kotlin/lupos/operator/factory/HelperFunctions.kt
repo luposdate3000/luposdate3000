@@ -26,14 +26,14 @@ private typealias BinaryToHelperMap = (data: ByteArrayWrapper, offset: Int) -> U
 public class HelperMetadata(internal val data: ByteArrayWrapper, internal val queryID: Int) {
     public companion object {
         internal var globalCtr = 0
-    public fun getNextChildID(): Int {
-//getNextChildID and getNextKey are mixed up somewhere
-        return globalCtr++
-    }
-    public fun getNextKey(): Int {
-//getNextChildID and getNextKey are mixed up somewhere
-        return globalCtr++
-    }
+        public fun getNextChildID(): Int {
+// getNextChildID and getNextKey are mixed up somewhere
+            return globalCtr++
+        }
+        public fun getNextKey(): Int {
+// getNextChildID and getNextKey are mixed up somewhere
+            return globalCtr++
+        }
     }
     public val id2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2host: MutableMap<Int, MutableSet<String>> = mutableMapOf<Int, MutableSet<String>>()
@@ -44,15 +44,15 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public val id2parent: MutableMap<Int, MutableSet<Int>> = mutableMapOf<Int, MutableSet<Int>>()
     private var operatorMap: Array<BinaryToHelperMap?> = Array(0) { null }
 
-internal fun key_rec2idPut(k:Int,v:Int){
-if(_key_rec2id[k]!=null){
-TODO("conflicting key")
-}
-_key_rec2id[k]=v
-}
-internal fun key_rec2idGet(k:Int)=_key_rec2id[k]
-internal fun key_rec2idKeys()=_key_rec2id.keys
-internal fun key_rec2idKeyAndValues()=_key_rec2id
+    internal fun key_rec2idPut(k: Int, v: Int) {
+        if (_key_rec2id[k] != null) {
+            TODO("conflicting key")
+        }
+        _key_rec2id[k] = v
+    }
+    internal fun key_rec2idGet(k: Int) = _key_rec2id[k]
+    internal fun key_rec2idKeys() = _key_rec2id.keys
+    internal fun key_rec2idKeyAndValues() = _key_rec2id
 
     public fun addChildToBinary(newOff: Int, newID: Int) {
         var off = ByteArrayWrapperExt.readInt4(data, 0, { "OPBase.handler" })
@@ -78,7 +78,6 @@ internal fun key_rec2idKeyAndValues()=_key_rec2id
             i++
         }
     }
-
 
     public fun getDependenciesForID1(id: Int): Map<Int, Int> {
         val keys = mutableSetOf<Int>()
@@ -367,7 +366,7 @@ internal fun key_rec2idKeyAndValues()=_key_rec2id
         assignOperatorPhysicalDecode(
             EOperatorIDExt.POPLimitID,
             { data, off ->
-                parentOff = off - 4
+                parentOff = off + 4
                 val child = decodeHelper(data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPLimit.child" }))
             },
         )

@@ -5,7 +5,8 @@ cmd=$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Co
 
 for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/*16DB.json
 do
-for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S_all_collations.json
+#for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S_all_collations.json
+for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S_all_collations.json
 do
 for programDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributed*
 do

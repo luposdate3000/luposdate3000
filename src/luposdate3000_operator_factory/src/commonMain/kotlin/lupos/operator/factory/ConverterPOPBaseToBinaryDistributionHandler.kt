@@ -32,7 +32,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
         internal var global_keys = 0
     }
 
-    internal fun getNextKey()=HelperMetadata.getNextKey()
+    internal fun getNextKey() = HelperMetadata.getNextKey()
 
     // for optimization
     internal val idToHost = mutableMapOf<Int, MutableSet<String>>()/*ID->(hostname)*/
@@ -54,7 +54,7 @@ public class ConverterPOPBaseToBinaryDistributionHandler {
         keyLocationDest[id] = off
     }
 
-    internal fun getNextChildID()=HelperMetadata.getNextChildID()
+    internal fun getNextChildID() = HelperMetadata.getNextChildID()
 
     internal fun getParentsForID(childID: Int): Set<Int> {
         var res = mutableSetOf<Int>()

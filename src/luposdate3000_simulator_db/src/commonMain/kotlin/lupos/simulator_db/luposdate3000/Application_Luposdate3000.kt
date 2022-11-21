@@ -32,6 +32,7 @@ import lupos.operator.factory.BinaryToOPBaseMap
 import lupos.operator.factory.ConverterBinaryEncoder
 import lupos.operator.factory.ConverterBinaryToBinary
 import lupos.operator.factory.ConverterBinaryToIteratorBundle
+import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
 import lupos.operator.physical.multiinput.EvalJoinHashMap
@@ -274,7 +275,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:276"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:277"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -332,7 +333,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:334"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:335"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -581,6 +582,7 @@ public class Application_Luposdate3000 public constructor(
                                                     }
                                                 }
                                                 else -> {
+                                                    println("{\"id\":$id,\"keys\":$keys,\"json\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
                                                     TODO("unknown type $oldType")
                                                 }
                                             }
@@ -917,7 +919,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:919"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:921"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -943,7 +945,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:945"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:947"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
