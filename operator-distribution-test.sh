@@ -1,4 +1,4 @@
-./gradlew assemble --offline
+./gradlew assemble --offline  -q > /dev/null 2>&1
 
 rm -rf *.svg *.dot simulator_output
 cmd=$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Config | grep ^exec | sed "s/exec :: //g")
