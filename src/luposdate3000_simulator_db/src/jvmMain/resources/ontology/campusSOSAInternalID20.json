@@ -1,0 +1,61 @@
+{
+    "applications": {
+        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSAInternalID": {},
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
+                    "enabled": true,
+                    "fileName": "src/luposdate3000_simulator_db/src/jvmMain/resources/ontologySOSA.n3",
+                    "sendStartClockInSec": 10,
+                },
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {},
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {},
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
+                    "maxSamples": 100,
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 150,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 60,
+        },
+    },
+    "rootRouter": "Fog",
+}

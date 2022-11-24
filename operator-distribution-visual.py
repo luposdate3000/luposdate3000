@@ -8,6 +8,8 @@ headlineHelper["distributed"] = "additionalHops"
 headlineHelper["routing_AllShortestPath"] = "routing"
 headlineHelper["operator-distribution-test-optimizer-topology-assisted"] = "distribution algorithm"
 headlineHelper["_by_id_S_all_collations"] = "partitioning"
+headlineHelper["campusSOSAInternalID"] = "data scale"
+headlineHelper["_distribution_centralized"] = "distribution location"
 header = {}
 for folder, subs, files in os.walk("simulator_output"):
     parts = folder.split("/")
