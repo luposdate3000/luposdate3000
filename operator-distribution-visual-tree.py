@@ -16,8 +16,8 @@ with open("operator-distribution-visual.csv") as f:
                 data[key] = [row]
 
 
-def buildTree(v,depth,diagramData):
-    scoreTotal=0
+def buildTree(v, depth, diagramData):
+    scoreTotal = 0
     scores = [{} for i in range(len(header))]
     indices = [header.index('data scale'), header.index('topology'), header.index('additionalHops'), header.index('partitioning'), header.index('distribution location'), header.index('distribution algorithm')]
     idx2 = 0
@@ -25,8 +25,8 @@ def buildTree(v,depth,diagramData):
         idx = 0
         for x in i:
             if idx in indices:
-                score=int(i[header.index('package size aggregated (Bytes)')])
-                scoreTotal=scoreTotal+score
+                score = int(i[header.index('package size aggregated (Bytes)')])
+                scoreTotal = scoreTotal + score
                 if x in scores[idx]:
                     scores[idx][x] = scores[idx][x] + score
                 else:
@@ -45,24 +45,24 @@ def buildTree(v,depth,diagramData):
             if maxScoreL is None or maxScoreL < y:
                 maxScoreL = y
         if minScoreL is not None:
-         if abs(minScoreL-maxScoreL)>maxScoreL*0.05:
-          for x, y in scores[i].items():
-            if minScore is None or minScore > y:
-                minScore = y
-                col = i
-            if maxScore is None or maxScore < y:
-                maxScore = y
-    if col==-1:
-     res=["x",scoreTotal]
-     d=depth
-     for x in scores:
-      if len(x)>1:
-       res=["x",scoreTotal,res]
-       while len(diagramData)<=d:
-         diagramData.append([])
-       diagramData[d].append((scoreTotal,""))
-       d=d+1
-     return res
+            if abs(minScoreL - maxScoreL) > maxScoreL * 0.05:
+                for x, y in scores[i].items():
+                    if minScore is None or minScore > y:
+                        minScore = y
+                        col = i
+                    if maxScore is None or maxScore < y:
+                        maxScore = y
+    if col == -1:
+        res = ["x", scoreTotal]
+        d = depth
+        for x in scores:
+            if len(x) > 1:
+                res = ["x", scoreTotal, res]
+                while len(diagramData) <= d:
+                    diagramData.append([])
+                diagramData[d].append((scoreTotal, ""))
+                d = d + 1
+        return res
     subtrees = {}
     for i in v:
         key = i[col]
@@ -70,49 +70,50 @@ def buildTree(v,depth,diagramData):
             subtrees[key].append(i)
         else:
             subtrees[key] = [i]
-    res = [header[col],0]
+    res = [header[col], 0]
     for k, v in subtrees.items():
         if len(v) > 1:
-            v2 = buildTree(v,depth+1,diagramData)
-            ll=v2[1]
+            v2 = buildTree(v, depth + 1, diagramData)
+            ll = v2[1]
         else:
             v2 = int(v[0][header.index('package size aggregated (Bytes)')])
-            ll=v2
-        while len(diagramData)<=depth:
-         diagramData.append([])
-        diagramData[depth].append((ll,k))
-        res.append([k,ll, v2])
+            ll = v2
+        while len(diagramData) <= depth:
+            diagramData.append([])
+        diagramData[depth].append((ll, k))
+        res.append([k, ll, v2])
     summit = 0
     for x in res[2:]:
-            summit = summit + x[1]
+        summit = summit + x[1]
     res[1] = summit
     return res
 
 
 for k, v in data.items():
-    scale=2
+    scale = 2
     print(k)
     v.sort(key=lambda x: int(x[header.index("package size aggregated (Bytes)")]))
-    diagramData=[]
-    v2 = buildTree(v,1,diagramData)
-    print("{\"\":"+str(v2).replace("'","\"")+"}")
+    diagramData = []
+    v2 = buildTree(v, 1, diagramData)
+    print("{\"\":" + str(v2).replace("'", "\"") + "}")
     print(diagramData)
-    ringidx=0
+    ringidx = 0
     for ring in diagramData:
-     sum=0
-     for entry in ring:
-      sum=sum+entry[0]
-     lastposition=0
-     for entry in ring:
-      currentposition=lastposition+entry[0]
-      angle1=360.0*lastposition/sum
-      angle2=360.0*currentposition/sum
-      innerradius=ringidx*scale
-      outerradius=(ringidx+1)*scale
-      middleradius=(innerradius+outerradius)/2.0
-      print("\draw[draw=black,thick] ("+str(angle1)+":"+str(innerradius)+")--("+str(angle1)+":"+str(outerradius)+") arc("+str(angle1)+":"+str(angle2)+":"+str(outerradius)+")--("+str(angle2)+":"+str(innerradius)+") arc("+str(angle2)+":"+str(angle1)+":"+str(innerradius)+");")
-      if angle2-angle1>5:
-       print("\draw[decoration={text along path,text={"+entry[1]+"},text align={center}},decorate] ("+str(angle1)+":"+str(middleradius)+") arc ("+str(angle1)+":"+str(angle2)+":"+str(middleradius)+");")
-      lastposition=currentposition
-     ringidx=ringidx+1
+        sum = 0
+        for entry in ring:
+            sum = sum + entry[0]
+        lastposition = 0
+        for entry in ring:
+            currentposition = lastposition + entry[0]
+            angle1 = 360.0 * lastposition / sum
+            angle2 = 360.0 * currentposition / sum
+            innerradius = ringidx * scale
+            outerradius = (ringidx + 1) * scale
+            middleradius = (innerradius + outerradius) / 2.0
+            print("\draw[draw=black,thick] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
+                  ":" + str(innerradius) + ");")
+            if angle2 - angle1 > 5:
+                print("\draw[decoration={text along path,text={" + entry[1] + "},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
+            lastposition = currentposition
+        ringidx = ringidx + 1
 print(header)
