@@ -88,15 +88,19 @@ def buildTree(v, depth, diagramData):
     res[1] = summit
     return res
 
-
+print("\\documentclass{article}")
+print("\\usepackage{float}")
+print("\\usepackage{tikz}")
+print("\\usetikzlibrary{decorations.text}")
+print("\\begin{document}")
+print("\\tiny")
 for k, v in data.items():
+    print("\\begin{figure}")
+    print("\\begin{tikzpicture}")
     scale = 2
-    print(k)
     v.sort(key=lambda x: int(x[header.index("package size aggregated (Bytes)")]))
     diagramData = []
     v2 = buildTree(v, 1, diagramData)
-    print("{\"\":" + str(v2).replace("'", "\"") + "}")
-    print(diagramData)
     ringidx = 0
     for ring in diagramData:
         sum = 0
@@ -110,10 +114,14 @@ for k, v in data.items():
             innerradius = ringidx * scale
             outerradius = (ringidx + 1) * scale
             middleradius = (innerradius + outerradius) / 2.0
-            print("\draw[draw=black,thick] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
+            if entry[1]!="":
+             print("\draw[draw=black,thick] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
                   ":" + str(innerradius) + ");")
-            if angle2 - angle1 > 5:
+             if angle2 - angle1 > 5:
                 print("\draw[decoration={text along path,text={" + entry[1] + "},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
             lastposition = currentposition
         ringidx = ringidx + 1
-print(header)
+    print("\\end{tikzpicture}")
+    print("\\caption{k}")
+    print("\\end{figure}")
+print("\\end{document}")
