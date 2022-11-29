@@ -1,6 +1,9 @@
 #!/usr/bin/env -S python3 -OO -u
 import os
 
+minPercentageDifference=0.1
+cmPerRing = 1
+
 header = None
 data = {}
 with open("operator-distribution-visual.csv") as f:
@@ -45,7 +48,7 @@ def buildTree(v, depth, diagramData):
             if maxScoreL is None or maxScoreL < y:
                 maxScoreL = y
         if minScoreL is not None:
-            if abs(minScoreL - maxScoreL) > maxScoreL * 0.05:
+            if abs(minScoreL - maxScoreL) > maxScoreL * minPercentageDifference:
                 for x, y in scores[i].items():
                     if minScore is None or minScore > y:
                         minScore = y
@@ -71,6 +74,7 @@ def buildTree(v, depth, diagramData):
         else:
             subtrees[key] = [i]
     res = [header[col], 0]
+    changedDiagram=[]
     for k, v in subtrees.items():
         if len(v) > 1:
             v2 = buildTree(v, depth + 1, diagramData)
@@ -78,13 +82,17 @@ def buildTree(v, depth, diagramData):
         else:
             v2 = int(v[0][header.index('package size aggregated (Bytes)')])
             ll = v2
-        while len(diagramData) <= depth:
-            diagramData.append([])
-        diagramData[depth].append((ll, k))
+        changedDiagram.append((ll, k))
         res.append([k, ll, v2])
     summit = 0
     for x in res[2:]:
         summit = summit + x[1]
+    for x in res[2:]:
+        x[0]=x[0]+" ${"+str(round(100.0*x[1]/summit))+"\\%}$"
+    while len(diagramData) <= depth:
+      diagramData.append([])
+    for c in changedDiagram:
+     diagramData[depth].append((c[0],c[1]+" ${"+str(round(100.0*c[0]/summit))+"\\%}$"))
     res[1] = summit
     return res
 
@@ -97,7 +105,6 @@ print("\\tiny")
 for k, v in data.items():
     print("\\begin{figure}")
     print("\\begin{tikzpicture}")
-    scale = 2
     v.sort(key=lambda x: int(x[header.index("package size aggregated (Bytes)")]))
     diagramData = []
     v2 = buildTree(v, 1, diagramData)
@@ -111,17 +118,18 @@ for k, v in data.items():
             currentposition = lastposition + entry[0]
             angle1 = 360.0 * lastposition / sum
             angle2 = 360.0 * currentposition / sum
-            innerradius = ringidx * scale
-            outerradius = (ringidx + 1) * scale
+            innerradius = ringidx * cmPerRing
+            outerradius = (ringidx + 1) * cmPerRing
             middleradius = (innerradius + outerradius) / 2.0
             if entry[1]!="":
              print("\draw[draw=black,thick] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
                   ":" + str(innerradius) + ");")
-             if angle2 - angle1 > 5:
-                print("\draw[decoration={text along path,text={" + entry[1] + "},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
+             if angle2 - angle1 > 20:
+                print("\draw[decoration={text along path,text={" + entry[1] +"},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
             lastposition = currentposition
         ringidx = ringidx + 1
+    print("\\node at (0, 0) {"+k+"};")
     print("\\end{tikzpicture}")
-    print("\\caption{k}")
+    print("\\caption{"+k+"}")
     print("\\end{figure}")
 print("\\end{document}")

@@ -65,4 +65,11 @@ for folder, subs, files in os.walk("simulator_output"):
                     row = []
                     for h in headLine:
                         row.append(myvalues[h])
-                    print(",".join(row))
+                    row2=[]
+                    for x in row:
+                     try:
+                      y=float(x)
+                      row2.append(y)
+                     except:
+                      row2.append(x)
+                    print(",".join([str(x) for x in row2]).replace(".0,",","))
