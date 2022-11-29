@@ -78,10 +78,6 @@ replace("campusSOSAInternalID20","100").
 replace("campusSOSAInternalID10","50").
 replace("campusSOSAInternalID","5").
 replace("distributedWithQueryHops","hops").
-replace("Uniform16DB","Uniform").
-replace("Ring16DB","Ring").
-replace("Random16DB","Random").
-replace("Full16DB","Full").
 replace("_by_key","key").
 replace("_by_id_S_all_collations","subject").
 replace("operator-distribution-test-optimizer-default","default").

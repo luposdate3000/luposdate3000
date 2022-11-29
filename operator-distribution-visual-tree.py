@@ -1,8 +1,10 @@
 #!/usr/bin/env -S python3 -OO -u
 import os
 
-minPercentageDifference=0.1
+minPercentageDifference=0.05
 cmPerRing = 1
+headersToRank=['data scale','topology','additionalHops','partitioning','distribution location','distribution algorithm']
+legend=[set() for i in range(len(headersToRank))]
 
 header = None
 data = {}
@@ -11,23 +13,40 @@ with open("operator-distribution-visual.csv") as f:
         row = line.strip().split(",")
         if header is None:
             header = row
+            indicesToRank = [header.index(x) for x in headersToRank]
         elif row[header.index("topology")] == "Random16DB":
             key = row[header.index("phase")]
             if key in data:
                 data[key].append(row)
             else:
                 data[key] = [row]
+            for i in range(len(indicesToRank)):
+             legend[i].add(row[indicesToRank[i]])
 
+legendColors=["pattern color=green","pattern color=blue","pattern color=cyan","pattern color=yellow","pattern color=orange","pattern color=red","pattern color=magenta","pattern color=purple","pattern color=pink"] # https://qiita.com/stu345/items/af6c38fa109a21d92e73
+legendColorIndex=0
+legendStyle=["pattern=north west lines","pattern=north east lines","pattern=crosshatch","pattern=horizontal lines","pattern=vertical lines","pattern=grid","pattern=crosshatch"] # https://www.tikz.dev/library-patterns
+for i in range(len(legend)):
+ if len(legend[i])<=1:
+  legend[i]=None
+ else:
+  t={}
+  j=0
+  for x in legend[i]:
+   t[x]=(legendColors[legendColorIndex],legendStyle[j])
+   j=j+1
+  legendColorIndex=legendColorIndex+1
+  legend[i]=t
 
 def buildTree(v, depth, diagramData):
     scoreTotal = 0
     scores = [{} for i in range(len(header))]
-    indices = [header.index('data scale'), header.index('topology'), header.index('additionalHops'), header.index('partitioning'), header.index('distribution location'), header.index('distribution algorithm')]
+    indicesToRank = [header.index(x) for x in headersToRank]
     idx2 = 0
     for i in v:
         idx = 0
         for x in i:
-            if idx in indices:
+            if idx in indicesToRank:
                 score = int(i[header.index('package size aggregated (Bytes)')])
                 scoreTotal = scoreTotal + score
                 if x in scores[idx]:
@@ -99,7 +118,7 @@ def buildTree(v, depth, diagramData):
 print("\\documentclass{article}")
 print("\\usepackage{float}")
 print("\\usepackage{tikz}")
-print("\\usetikzlibrary{decorations.text}")
+print("\\usetikzlibrary{decorations.text,patterns}")
 print("\\begin{document}")
 print("\\tiny")
 for k, v in data.items():
@@ -132,4 +151,18 @@ for k, v in data.items():
     print("\\end{tikzpicture}")
     print("\\caption{"+k+"}")
     print("\\end{figure}")
+
+print("\\begin{figure}")
+print("\\begin{tikzpicture}")
+pos=0
+posincrement=0.5
+for l in legend:
+ if l is not None:
+  for k,v in l.items():
+   print("\\draw["+",".join(v)+"] (0,"+str(pos)+") rectangle (2,"+str(pos+posincrement)+") node[pos=.5] {"+k+"};")
+   pos=pos+posincrement
+print("\\end{tikzpicture}")
+print("\\caption{legend}")
+print("\\end{figure}")
 print("\\end{document}")
+print(legend)
