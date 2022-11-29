@@ -72,4 +72,20 @@ for folder, subs, files in os.walk("simulator_output"):
                       row2.append(y)
                      except:
                       row2.append(x)
-                    print(",".join([str(x) for x in row2]).replace(".0,",","))
+                    print(",".join([str(x) for x in row2]).
+replace(".0,",",").
+replace("campusSOSAInternalID20","100").
+replace("campusSOSAInternalID10","50").
+replace("campusSOSAInternalID","5").
+replace("distributedWithQueryHops","hops").
+replace("Uniform16DB","Uniform").
+replace("Ring16DB","Ring").
+replace("Random16DB","Random").
+replace("Full16DB","Full").
+replace("_by_key","key").
+replace("_by_id_S_all_collations","subject").
+replace("operator-distribution-test-optimizer-default","default").
+replace("operator-distribution-test-optimizer-topology-assisted","assisted").
+replace("_distribution_centralized","centralized").
+replace("_distribution_routing","routing")
+)
