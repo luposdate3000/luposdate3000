@@ -128,4 +128,6 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var optimizer: EOptimizer = Luposdate3000Config.optimizer
+@JvmField
+    public var timeout:Long=Luposdate3000Config.timeout
 }
