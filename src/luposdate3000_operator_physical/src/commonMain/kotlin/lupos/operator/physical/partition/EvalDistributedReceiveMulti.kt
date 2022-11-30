@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
-
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IMyInputStream
@@ -28,8 +28,9 @@ public object EvalDistributedReceiveMulti {
     internal var debugCounter = 0
     public operator fun invoke(
         inputs: Array<IMyInputStream>,
-        outputs: Array<IMyOutputStream?>,
+        outputs: Array<IMyOutputStream?>, timeoutInMs: Long,
     ): IteratorBundle {
+val startTime = DateHelperRelative.markNow()
         val variables = mutableListOf<String>()
         val connectionsIn = Array<IMyInputStream?>(inputs.size) { null }
         val connectionsMapping = Array<IntArray?>(inputs.size) { null }
@@ -56,7 +57,7 @@ public object EvalDistributedReceiveMulti {
             if (k == 0) {
                 buffer = DictionaryValueTypeArray(inputs.size * variables.size)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:58"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:59"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()
@@ -76,6 +77,9 @@ public object EvalDistributedReceiveMulti {
         iterator.buf = DictionaryValueTypeArray(variables.size)
         val debugID = debugCounter++
         iterator.next = {
+if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                TODO("timeout")
+            }
             var res = -1
             if (openConnections > 0) {
                 res = 0

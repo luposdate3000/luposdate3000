@@ -729,7 +729,7 @@ instance.timeout=60000
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
             myPendingWorkData.remove(queryID to key)
-            EvalDistributedReceiveSingle(input, null)
+            EvalDistributedReceiveSingle(input, null,instance.timeout)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
@@ -749,7 +749,7 @@ instance.timeout=60000
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMulti(inputs, outputs)
+            EvalDistributedReceiveMulti(inputs, outputs,instance.timeout)
         }
         assignOP(EOperatorIDExt.LOPJoinTopologyID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
@@ -780,7 +780,7 @@ instance.timeout=60000
                 input
             }.toTypedArray()
 
-            val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null) }.toMutableList()
+            val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null,instance.timeout) }.toMutableList()
             while (inputIterators.size> 1) {
                 val child0 = inputIterators.removeFirst()
                 val child1 = inputIterators.removeFirst()
@@ -843,7 +843,7 @@ instance.timeout=60000
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut)
+            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut,instance.timeout)
         }
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }

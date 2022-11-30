@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.partition
 
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IMyInputStream
@@ -30,8 +31,9 @@ public object EvalDistributedReceiveMultiOrdered {
         inputs: Array<IMyInputStream>,
         outputs: Array<IMyOutputStream?>,
         orderedBy: List<String>,
-        variablesOut: List<String>,
+        variablesOut: List<String>, timeoutInMs: Long,
     ): IteratorBundle {
+val startTime = DateHelperRelative.markNow()
         val variables = mutableListOf<String>()
         variables.addAll(variablesOut)
         for (i in 0 until orderedBy.size) {
@@ -51,7 +53,7 @@ public object EvalDistributedReceiveMultiOrdered {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:53"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:55"/*SOURCE_FILE_END*/ },
                 { cnt == variables.size },
                 { "$cnt vs ${variables.size}" }
             )
@@ -61,7 +63,7 @@ public object EvalDistributedReceiveMultiOrdered {
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:63"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:65"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {
@@ -85,6 +87,9 @@ public object EvalDistributedReceiveMultiOrdered {
         val debugID = debugCounter++
         iterator.buf = DictionaryValueTypeArray(variables.size)
         iterator.next = {
+if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                TODO("timeout")
+            }
             var res = -1
             for (ii in 0 until openInputs.size) {
                 if (openInputs[ii] != null) { // looking for first non null input
@@ -112,7 +117,7 @@ public object EvalDistributedReceiveMultiOrdered {
                         buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
                     }
                     SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:114"/*SOURCE_FILE_END*/ },
+                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:119"/*SOURCE_FILE_END*/ },
                         {
                             if (buffer[off] != DictionaryValueHelper.nullValue) {
                                 for (idx in 0 until orderedBy.size) {
