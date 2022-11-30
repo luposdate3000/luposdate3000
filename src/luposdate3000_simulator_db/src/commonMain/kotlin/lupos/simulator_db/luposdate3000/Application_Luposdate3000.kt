@@ -881,7 +881,7 @@ instance.timeout=60000
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
+//println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {

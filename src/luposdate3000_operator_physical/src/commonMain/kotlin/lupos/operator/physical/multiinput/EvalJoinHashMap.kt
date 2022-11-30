@@ -95,6 +95,9 @@ val startTime = DateHelperRelative.markNow()
                 0
             }
             loopB@ while (true) {
+if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                TODO("timeout")
+            }
                 nextKey = DictionaryValueTypeArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
@@ -186,7 +189,7 @@ if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < ti
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:188"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:191"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
                                             nextKey = null
                                             break@loopA
                                         }
@@ -236,7 +239,7 @@ if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < ti
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:238"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
+                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:241"/*SOURCE_FILE_END*/ }, { tmp2 != DictionaryValueHelper.nullValue })
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }

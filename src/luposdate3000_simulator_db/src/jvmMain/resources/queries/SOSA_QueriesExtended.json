@@ -1,0 +1,74 @@
+{
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
+                    {
+                        "label": "Q1",
+                        "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+                    },
+                    {
+                        "label":
+                        "Q2",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT DISTINCT ?area WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n}",
+                    },
+                    {
+                        "label":
+                        "Q3",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(DISTINCT ?spotInArea) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 9 .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n}",
+                    },
+                    {
+                        "label":
+                        "Q4",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?Observation) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 6 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n}",
+                    },
+                    {
+                        "label":
+                        "Q5",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (MAX(?resultTime) AS ?latestDate) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 7 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?resultTime .\n}",
+                    },
+                    {
+                        "label":
+                        "Q6",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+                    },
+                    {
+                        "label":
+                        "Q7",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?area ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area ?area .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n    FILTER (?area IN (9, 8, 2))\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+                    },
+                    {
+                        "label":
+                        "Q8",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?ParkingSlotLocation) AS ?count ) WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult \"false\"^^xsd:boolean .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+                    },
+                    {
+                        "label":
+                        "Q9",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT COUNT(*) WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n}",
+                    },
+                    {
+                        "label":
+                        "Q10",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT COUNT(*) WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?Observation2 sosa:hasSimpleResult ?isOccupied .\n ?Observation2 sosa:madeBySensor ?Sensor .\n ?Observation2 sosa:observedProperty ?ParkingSlotLocation .\n ?Observation2 sosa:phenomenonTime ?sampleTime .\n ?Observation2 sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation2 .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n FILTER(?Observation != ?Observation2) .\n}",
+                    },
+                    {
+                        "label":
+                        "Q11",
+                        "query":
+                        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT COUNT(*) WHERE {\n ?Observation a sosa:Observation .\n ?Observation sosa:hasFeatureOfInterest parking:AvailableParkingSpaces .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Observation sosa:usedProcedure parking:SensorOnEachSlot .\n ?Observation ssn:wasOriginatedBy parking:CarMovement .\n ?Sensor sosa:madeObservation ?Observation .\n parking:AvailableParkingSpaces a sosa:FeatureOfInterest .\n parking:CarMovement a ssn:Stimulus .\n parking:SensorOnEachSlot a sosa:Procedure .\n parking:AvailableParkingSpaces ssn:hasProperty ?ParkingSlotLocation .\n parking:CarMovement ssn:isProxyFor ?ParkingSlotLocation .\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?ParkingSlotLocation ssn:isPropertyOf parking:AvailableParkingSpaces .\n ?Sensor a sosa:Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n ?Sensor ssn:detects parking:CarMovement .\n ?Sensor ssn:implements parking:SensorOnEachSlot .\n}",
+                    },
+                ],
+            },
+        },
+    },
+}
