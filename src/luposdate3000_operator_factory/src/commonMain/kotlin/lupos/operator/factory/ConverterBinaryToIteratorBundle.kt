@@ -286,7 +286,7 @@ public object ConverterBinaryToIteratorBundle {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 17 + 4 * i, { "POPJoinHashMap.variables[$i]" })))
                 }
                 val optional = ByteArrayWrapperExt.readInt1(data, off + 12, { "POPJoinHashMap.optional" }) == 1
-                EvalJoinHashMap(query, child0, child1, optional, projectedVariables)
+                EvalJoinHashMap(query, child0, child1, optional, projectedVariables,query.getInstance().timeout)
             },
         )
         assignOperatorPhysicalDecode(

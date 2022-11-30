@@ -797,7 +797,7 @@ instance.timeout=60000
                         finalSet.add(x)
                     }
                 }
-                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList()))
+                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList(),query.getInstance().timeout))
                 childProjectedVariables.add(finalSet.toMutableList())
             }
 
@@ -881,6 +881,7 @@ instance.timeout=60000
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
+println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {
@@ -920,7 +921,7 @@ instance.timeout=60000
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:922"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:923"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -946,7 +947,7 @@ instance.timeout=60000
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:948"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:949"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
