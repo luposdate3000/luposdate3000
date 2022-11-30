@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.operator.physical.partition
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.IMyOutputStream
 import lupos.shared.myPrintStackTrace
@@ -22,7 +23,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalDistributedSendSingle {
     internal var debugCounter = 0
-    public operator fun invoke(connectionOut: IMyOutputStream, child: IteratorBundle) {
+    public operator fun invoke(connectionOut: IMyOutputStream, child: IteratorBundle, timeoutInMs: Long) {
         val variables = child.names
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         connectionOut.writeInt(variables.size)
@@ -34,7 +35,11 @@ public object EvalDistributedSendSingle {
         var flag = true
         val debugID = debugCounter++
         val debugBuf = List(variables.size) { DictionaryValueHelper.nullValue }.toMutableList()
+        val startTime = DateHelperRelative.markNow()
         while (flag) {
+            if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                TODO("timeout")
+            }
             for (j in 0 until variables.size) {
                 val buf = columns[j].next()
                 flag = flag && buf != DictionaryValueHelper.nullValue

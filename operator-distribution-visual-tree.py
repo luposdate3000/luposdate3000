@@ -2,9 +2,11 @@
 import os
 
 minPercentageDifference=0.05
-cmPerRing = 1
+cmPerRing = 0.5
+posincrement=0.5
 headersToRank=['data scale','topology','additionalHops','partitioning','distribution location','distribution algorithm']
 legend=[set() for i in range(len(headersToRank))]
+legendGroup=[None for i in range(len(headersToRank))]
 
 header = None
 data = {}
@@ -26,17 +28,21 @@ with open("operator-distribution-visual.csv") as f:
 legendColors=["pattern color=green","pattern color=blue","pattern color=cyan","pattern color=yellow","pattern color=orange","pattern color=red","pattern color=magenta","pattern color=purple","pattern color=pink"] # https://qiita.com/stu345/items/af6c38fa109a21d92e73
 legendColorIndex=0
 legendStyle=["pattern=north west lines","pattern=north east lines","pattern=crosshatch","pattern=horizontal lines","pattern=vertical lines","pattern=grid","pattern=crosshatch"] # https://www.tikz.dev/library-patterns
+k=0
 for i in range(len(legend)):
  if len(legend[i])<=1:
   legend[i]=None
  else:
+  legendGroup[i]=[legendColors[legendColorIndex],k,0,headersToRank[i]]
   t={}
   j=0
   for x in legend[i]:
    t[x]=(legendColors[legendColorIndex],legendStyle[j])
    j=j+1
+   k=k+posincrement
   legendColorIndex=legendColorIndex+1
   legend[i]=t
+  legendGroup[i][2]=k
 
 def buildTree(v, depth, diagramData):
     scoreTotal = 0
@@ -111,7 +117,7 @@ def buildTree(v, depth, diagramData):
     while len(diagramData) <= depth:
       diagramData.append([])
     for c in changedDiagram:
-     diagramData[depth].append((c[0],c[1]+" ${"+str(round(100.0*c[0]/summit))+"\\%}$"))
+     diagramData[depth].append((c[0],(header[col],c[1],"${"+str(round(100.0*c[0]/summit))+"\\%}$")))
     res[1] = summit
     return res
 
@@ -121,8 +127,8 @@ print("\\usepackage{tikz}")
 print("\\usetikzlibrary{decorations.text,patterns}")
 print("\\begin{document}")
 print("\\tiny")
+print("\\begin{figure}")
 for k, v in data.items():
-    print("\\begin{figure}")
     print("\\begin{tikzpicture}")
     v.sort(key=lambda x: int(x[header.index("package size aggregated (Bytes)")]))
     diagramData = []
@@ -141,28 +147,29 @@ for k, v in data.items():
             outerradius = (ringidx + 1) * cmPerRing
             middleradius = (innerradius + outerradius) / 2.0
             if entry[1]!="":
-             print("\draw[draw=black,thick] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
+             style=",".join(legend[headersToRank.index(entry[1][0])][entry[1][1]])
+             print("\draw["+style+"] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
                   ":" + str(innerradius) + ");")
              if angle2 - angle1 > 20:
-                print("\draw[decoration={text along path,text={" + entry[1] +"},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
+                print("\draw[decoration={text along path,text={" + str(entry[1][2]) +"},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
             lastposition = currentposition
         ringidx = ringidx + 1
     print("\\node at (0, 0) {"+k+"};")
     print("\\end{tikzpicture}")
-    print("\\caption{"+k+"}")
-    print("\\end{figure}")
 
-print("\\begin{figure}")
 print("\\begin{tikzpicture}")
 pos=0
-posincrement=0.5
 for l in legend:
  if l is not None:
   for k,v in l.items():
    print("\\draw["+",".join(v)+"] (0,"+str(pos)+") rectangle (2,"+str(pos+posincrement)+") node[pos=.5] {"+k+"};")
    pos=pos+posincrement
+for l in legendGroup:
+ if l is not None:
+  print("\\draw["+l[0].replace("pattern color","fill")+"] (2,"+str(l[1])+") rectangle (6,"+str(l[2])+") node[pos=.5] {"+l[3]+"};")
 print("\\end{tikzpicture}")
 print("\\caption{legend}")
 print("\\end{figure}")
 print("\\end{document}")
 print(legend)
+print(legendGroup)

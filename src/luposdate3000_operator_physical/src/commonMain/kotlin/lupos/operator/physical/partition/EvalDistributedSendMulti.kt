@@ -16,12 +16,13 @@
  */
 package lupos.operator.physical.partition
 
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalDistributedSendMulti {
-    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String) {
+    public operator fun invoke(data: Array<IMyOutputStream?>, child: IteratorBundle, partitionVariable: String, timeoutInMs: Long) {
         val partitionCount = data.size
         val projectedVariables = child.names
         val variables = Array(projectedVariables.size) { "" }
@@ -49,7 +50,11 @@ public object EvalDistributedSendMulti {
         }
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         var buf = columns[0].next()
+        val startTime = DateHelperRelative.markNow()
         while (buf != DictionaryValueHelper.nullValue) {
+            if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                TODO("timeout")
+            }
             val idx = DictionaryValueHelper.toInt(buf % partitionCount)
             val connectionOut = data[idx]
             connectionOut!!.writeDictionaryValueType(buf)

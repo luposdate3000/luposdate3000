@@ -13,10 +13,10 @@ do
 for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_AllShortestPath.json
 #for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_AllShortestPath.json src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json
 do
-for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json
+for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
 do
 #for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json
-for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
+for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json
 do
 for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution*
 do
