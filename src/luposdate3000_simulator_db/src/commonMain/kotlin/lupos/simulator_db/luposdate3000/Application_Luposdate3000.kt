@@ -143,7 +143,7 @@ public class Application_Luposdate3000 public constructor(
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
         instance.maxThreads = ((2.0).pow(ceil(log2(instance.LUPOS_PROCESS_URLS_ALL.size.toDouble())))).toInt()
         instance = LuposdateEndpoint.initializeB(instance)
-instance.timeout=60000
+instance.timeout=600000
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
         if (enableSharedMemoryDictionaryCheat) {

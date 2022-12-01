@@ -30,10 +30,12 @@ public class Visualizer : ILogger {
             val cnt = input.readInt()
             for (i in 0 until cnt) {
                 val len = input.readInt()
+if(len>0){
                 val buf = ByteArray(len)
                 input.read(buf, len)
                 val name = buf.decodeToString()
                 variables.add(name)
+}
             }
             return variables
         }

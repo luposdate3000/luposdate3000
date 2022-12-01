@@ -38,7 +38,7 @@ $cmd \
 $sosa \
 $topology \
 $programDistribution \
-src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_Queries.json \
+src/luposdate3000_simulator_db/src/jvmMain/resources/queries/SOSA_QueriesExtended.json \
 $dataDistribution \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000.json \
 $joindistributionlocation \

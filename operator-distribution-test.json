@@ -7,6 +7,9 @@
         "simora.LoggerMeasure": {
             "enabled": false,
         },
+        "simora.LoggerMeasureFlush": {
+            "enabled": true,
+        },
         "simora.LoggerStdout": {
             "enabled": false,
         },
