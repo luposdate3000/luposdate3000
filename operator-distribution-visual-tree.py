@@ -114,11 +114,11 @@ def buildTree(v, depth, diagramData):
     for x in res[2:]:
         summit = summit + x[1]
     for x in res[2:]:
-        x[0]=x[0]+" ${"+str(round(100.0*x[1]/summit))+"\\%}$"
+        x[0]=x[0]+str(round(100.0*x[1]/summit))
     while len(diagramData) <= depth:
       diagramData.append([])
     for c in changedDiagram:
-     diagramData[depth].append((c[0],(header[col],c[1],"${"+str(round(100.0*c[0]/summit))+"\\%}$")))
+     diagramData[depth].append((c[0],(header[col],c[1],str(round(100.0*c[0]/summit)))))
     res[1] = summit
     return res
 
