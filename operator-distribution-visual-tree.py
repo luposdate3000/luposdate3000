@@ -16,7 +16,8 @@ with open("operator-distribution-visual.csv") as f:
         if header is None:
             header = row
             indicesToRank = [header.index(x) for x in headersToRank]
-        elif row[header.index("topology")] == "Random16DB":
+        elif row[header.index("phase")]!="phase":
+         if row[header.index("topology")] == "Random16DB":
             key = row[header.index("phase")]
             if key in data:
                 data[key].append(row)
@@ -124,6 +125,7 @@ def buildTree(v, depth, diagramData):
 print("\\documentclass{article}")
 print("\\usepackage{float}")
 print("\\usepackage{tikz}")
+print("\\usepackage[margin=0.5in]{geometry}")
 print("\\usetikzlibrary{decorations.text,patterns}")
 print("\\begin{document}")
 print("\\tiny")

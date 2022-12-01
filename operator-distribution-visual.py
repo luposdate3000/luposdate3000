@@ -4,6 +4,7 @@ import os
 foldernames = []
 headlineHelper = {}
 headlineHelper["Full16DB"] = "topology"
+headlineHelper["Random16DB"] = "topology"
 headlineHelper["distributed"] = "additionalHops"
 headlineHelper["routing_AllShortestPath"] = "routing"
 headlineHelper["operator-distribution-test-optimizer-topology-assisted"] = "distribution algorithm"
@@ -82,6 +83,7 @@ replace("_by_key","key").
 replace("_by_id_S_all_collations","subject").
 replace("operator-distribution-test-optimizer-default","default").
 replace("operator-distribution-test-optimizer-topology-assisted","assisted").
+replace("operator-distribution-test-optimizer-topology-only","topology").
 replace("_distribution_centralized","centralized").
 replace("_distribution_routing","routing")
 )
