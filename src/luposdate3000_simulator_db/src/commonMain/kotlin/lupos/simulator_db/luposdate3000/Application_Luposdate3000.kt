@@ -35,7 +35,6 @@ import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
-import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.physical.multiinput.EvalJoinMergeFromUnsortedData
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -277,7 +276,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:279"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:278"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -335,7 +334,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:337"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:336"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -414,6 +413,30 @@ public class Application_Luposdate3000 public constructor(
                                             val oldOperatorOff = ByteArrayWrapperExt.readInt4(pck.data, operatorOff, { "" })
                                             val oldType = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff, { "operatorID" })
                                             when (oldType) {
+EOperatorIDExt.POPDistributedReceiveMultiCountID -> {
+                                                    childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingleCount(
+                                                        pck.data,
+                                                        mutableMapOf(),
+                                                        newKey,
+                                                        { _ ->
+                                                            ConverterBinaryEncoder.encodePOPDistributedReceiveMultiCount(pck.data, mutableMapOf(), keys2.toList())
+                                                        }
+                                                    )
+                                                    val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiCount.size" })
+                                                    val newKeys = mutableSetOf<Int>(newKey)
+                                                    for (i in 0 until len) {
+                                                        val local_key = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 8 + 4 * i, { "POPDistributedReceiveMultiCount.key[$i]" })
+                                                        if (!keys2.contains(local_key)) {
+                                                            newKeys.add(local_key)
+                                                        }
+                                                    }
+                                                    ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 4, newKeys.size, { "POPDistributedReceiveMultiCount.size" })
+                                                    var i = 0
+                                                    for (k in newKeys) {
+                                                        ByteArrayWrapperExt.writeInt4(pck.data, oldOperatorOff + 8 + 4 * i, k, { "POPDistributedReceiveMultiCount.key[$i]" })
+                                                        i++
+                                                    }
+                                                }
                                                 EOperatorIDExt.POPDistributedReceiveMultiID -> {
                                                     childOff = ConverterBinaryEncoder.encodePOPDistributedSendSingle(
                                                         pck.data,
@@ -585,7 +608,7 @@ public class Application_Luposdate3000 public constructor(
                                                 }
                                                 else -> {
                                                     println("{\"id\":$id,\"keys\":$keys,\"json\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
-                                                    TODO("unknown type $oldType")
+                                                    TODO("unknown type $oldType -> ${EOperatorIDExt.names[oldType]}")
                                                 }
                                             }
                                             handler.addChildToBinary(childOff, childID)
@@ -883,7 +906,7 @@ public class Application_Luposdate3000 public constructor(
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-// println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
+ //println("json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {
@@ -923,7 +946,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:925"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:948"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -949,7 +972,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:951"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:974"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

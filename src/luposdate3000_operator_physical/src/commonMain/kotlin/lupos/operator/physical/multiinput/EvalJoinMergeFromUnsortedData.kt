@@ -18,10 +18,10 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
+import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.ColumnIteratorChildIterator
-import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
@@ -32,8 +32,8 @@ public object EvalJoinMergeFromUnsortedData {
     private fun myComparator(array: Array<MutableList<DictionaryValueTypeArray>>, i: Long, j: Long, sortOrder: IntArray): Int {
         val a = i / bufferArrayLen
         val b = i - a * bufferArrayLen
-        val c = i / bufferArrayLen
-        val d = i - c * bufferArrayLen
+        val c = j / bufferArrayLen
+        val d = j - c * bufferArrayLen
         for (col in sortOrder) {
             if (array[col][a.toInt()][b.toInt()] <array[col][c.toInt()][d.toInt()]) {
                 return -1
@@ -44,11 +44,7 @@ public object EvalJoinMergeFromUnsortedData {
         }
         return 0
     }
-    private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, sortOrder: IntArray) {
-        var len = 0L
-        for (x in array[0]) {
-            len += x.size
-        }
+    private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, sortOrder: IntArray, len: Long) {
         quickSort(array, 0L, len, sortOrder)
     }
 
@@ -67,9 +63,9 @@ public object EvalJoinMergeFromUnsortedData {
         var right = r
         val pivot = (left + right) / 2 // 4) Pivot Point
         while (left <= right) {
-            while (myComparator(array,left, pivot,sortOrder)<0) left++ // 5) Find the elements on left that should be on right
+            while (myComparator(array, left, pivot, sortOrder) <0) left++ // 5) Find the elements on left that should be on right
 
-            while (myComparator(array,right, pivot,sortOrder)>0) right-- // 6) Find the elements on right that should be on left
+            while (myComparator(array, right, pivot, sortOrder)> 0) right-- // 6) Find the elements on right that should be on left
 
             // 7) Swap elements, and move left and right indices
             if (left <= right) {
@@ -86,11 +82,11 @@ public object EvalJoinMergeFromUnsortedData {
         val y = b - x * bufferArrayLen
         val z = c / bufferArrayLen
         val w = c - z * bufferArrayLen
-for(col in 0 until a.size){ 
-        val temp = a[col][x.toInt()][y.toInt()]
-        a[col][x.toInt()][y.toInt()] = a[col][z.toInt()][w.toInt()]
-        a[col][z.toInt()][w.toInt()] = temp
-}
+        for (col in 0 until a.size) {
+            val temp = a[col][x.toInt()][y.toInt()]
+            a[col][x.toInt()][y.toInt()] = a[col][z.toInt()][w.toInt()]
+            a[col][z.toInt()][w.toInt()] = temp
+        }
     }
 
     public operator fun invoke(
@@ -106,8 +102,11 @@ for(col in 0 until a.size){
                 joinColumns.add(name)
             }
         }
+if(joinColumns.size==0){
+return EvalJoinCartesianProduct(query,child0,child1,false)
+}
         val child0Buf = Array(child0.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
-        val child0BufLen = Array(child0.columns.size) { mutableListOf<Int>() }
+        val child0BufLen = Array(child0.columns.size) { mutableListOf<Long>() }
         val child0Names = child0.columns.keys.toTypedArray()
         for (i in 0 until child0Names.size) {
             val iter = child0.columns[child0Names[i]]!!
@@ -117,27 +116,27 @@ for(col in 0 until a.size){
             var next = iter.next()
             while (true) {
                 if (idx == bufferArrayLen) {
-                    child0BufLen[i].add(bufferArrayLen)
+                    child0BufLen[i].add(bufferArrayLen.toLong())
                     d = DictionaryValueTypeArray(bufferArrayLen)
                     child0Buf[i].add(d)
                     idx = 0
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
-                    child0BufLen[i].add(idx)
+                    child0BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-        quickSort(child0Buf,joinColumns.map{child0Names.indexOf(it)}.toIntArray())
-        val child0Iterators=mutableMapOf<String,ColumnIterator>()
-        for(i in 0 until child0Names.size){
-child0Iterators[child0Names[i]]=ColumnIteratorMultiIterator(child0Buf[i].mapIndexed{idx,it->ColumnIteratorMultiValue(it,child0BufLen[i][idx])})
-}
+        quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum() - 1)
+        val child0Iterators = mutableMapOf<String, ColumnIterator>()
+        for (i in 0 until child0Names.size) {
+            child0Iterators[child0Names[i]] = ColumnIteratorMultiIterator(child0Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child0BufLen[i][idx].toInt()) })
+        }
 
- val child1Buf = Array(child1.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
-        val child1BufLen = Array(child1.columns.size) { mutableListOf<Int>() }
+        val child1Buf = Array(child1.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
+        val child1BufLen = Array(child1.columns.size) { mutableListOf<Long>() }
         val child1Names = child1.columns.keys.toTypedArray()
         for (i in 0 until child1Names.size) {
             val iter = child1.columns[child1Names[i]]!!
@@ -147,25 +146,37 @@ child0Iterators[child0Names[i]]=ColumnIteratorMultiIterator(child0Buf[i].mapInde
             var next = iter.next()
             while (true) {
                 if (idx == bufferArrayLen) {
-                    child1BufLen[i].add(bufferArrayLen)
+                    child1BufLen[i].add(bufferArrayLen.toLong())
                     d = DictionaryValueTypeArray(bufferArrayLen)
                     child1Buf[i].add(d)
                     idx = 0
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
-                    child1BufLen[i].add(idx)
+                    child1BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-        quickSort(child1Buf,joinColumns.map{child1Names.indexOf(it)}.toIntArray())
-        val child1Iterators=mutableMapOf<String,ColumnIterator>()
-        for(i in 0 until child1Names.size){
-child1Iterators[child1Names[i]]=ColumnIteratorMultiIterator(child1Buf[i].mapIndexed{idx,it->ColumnIteratorMultiValue(it,child1BufLen[i][idx])})
-}        
-
+        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[0].sum() - 1)
+        val child1Iterators = mutableMapOf<String, ColumnIterator>()
+        for (i in 0 until child1Names.size) {
+            child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })
+        }
+for ((k,v) in child0.columns){
+v.close()
+}
+for ((k,v) in child1.columns){
+v.close()
+}
+if(child0BufLen[0].sum()==0L || child1BufLen[0].sum()==0L){
+val outMap = mutableMapOf<String, ColumnIterator>()
+for(name in projectedVariables){
+outMap[name]=ColumnIteratorEmpty()
+}
+return IteratorBundle(outMap)
+}
         // setup columns
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()
@@ -198,8 +209,8 @@ child1Iterators[child1Names[i]]=ColumnIteratorMultiIterator(child1Buf[i].mapInde
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1Iterators[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:200"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:201"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:213"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:214"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
