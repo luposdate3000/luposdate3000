@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.partition
 
+import lupos.shared.DateHelperRelative
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IMyInputStream
-import lupos.shared.DateHelperRelative
 import lupos.shared.IMyOutputStream
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
@@ -28,9 +28,10 @@ public object EvalDistributedReceiveSingle {
     internal var debugCounter = 0
     public operator fun invoke(
         input: IMyInputStream,
-        output: IMyOutputStream?, timeoutInMs: Long,
+        output: IMyOutputStream?,
+        timeoutInMs: Long,
     ): IteratorBundle {
-val startTime = DateHelperRelative.markNow()
+        val startTime = DateHelperRelative.markNow()
         val variables = mutableListOf<String>()
         val cnt = input.readInt()
         for (i in 0 until cnt) {
@@ -46,7 +47,7 @@ val startTime = DateHelperRelative.markNow()
         var closed = false
         val debugID = debugCounter++
         iterator.next = {
-if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+            if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
                 TODO("timeout")
             }
             var res = -1

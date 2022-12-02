@@ -4,9 +4,10 @@ import os
 minPercentageDifference=0.05
 cmPerRing = 0.5
 posincrement=0.5
-headersToRank=['data scale','topology','additionalHops','partitioning','distribution location','distribution algorithm']
+headersToRank=['data scale','additionalHops','partitioning','distribution location','distribution algorithm']
 legend=[set() for i in range(len(headersToRank))]
 legendGroup=[None for i in range(len(headersToRank))]
+
 
 header = None
 data = {}
@@ -17,7 +18,7 @@ with open("operator-distribution-visual.csv") as f:
             header = row
             indicesToRank = [header.index(x) for x in headersToRank]
         elif row[header.index("phase")]!="phase":
-         if row[header.index("topology")] == "Random16DB":
+         if row[header.index("topology")] == "Random16DB" and row[header.index("distribution algorithm")] != "topology":
             key = row[header.index("phase")]
             if key in data:
                 data[key].append(row)
@@ -45,10 +46,46 @@ for i in range(len(legend)):
   legend[i]=t
   legendGroup[i][2]=k
 
+indicesToRank = [header.index(x) for x in headersToRank]
+def sortFunction(a,b):
+ for i in indicesToRank:
+  if a[i]<b[i]:
+   return -1
+  elif a[i]>b[i]:
+   return +1
+ return 0
+#data.sort(key=sortFunction)
+
+enumeratedKeys=[]
+def findMissing(params=[]):
+ if len(params)==len(headersToRank):
+  enumeratedKeys.append(params)
+ else:
+  if legend[len(params)] is not None:
+   for x in legend[len(params)]:
+    findMissing(params+[x])
+  else:
+   findMissing(params+[None])
+findMissing()
+for k,v in data.items():
+ for d in enumeratedKeys:
+  found=False
+  for x in v:
+   f=True
+   for i in range(len(headersToRank)):
+    f=f and (x[indicesToRank[i]]==d[i])
+   if f:
+    found=True
+    break
+  if not found:
+   print("missing",[k]+d)
+  else:
+   print("found",[k]+d)
+exit(1)
+
 def buildTree(v, depth, diagramData):
     scoreTotal = 0
     scores = [{} for i in range(len(header))]
-    indicesToRank = [header.index(x) for x in headersToRank]
     idx2 = 0
     for i in v:
         idx = 0

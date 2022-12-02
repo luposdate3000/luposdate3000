@@ -273,7 +273,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         res = Pair(countPrimary_, distinctPrimary_)
                     }
                     1 -> {
-                        val iterator = NodeInner.iterator1(node, filter, lock, 1, nodeManager,query.getInstance().timeout)
+                        val iterator = NodeInner.iterator1(node, filter, lock, 1, nodeManager, query.getInstance().timeout)
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
@@ -293,7 +293,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        val iterator = NodeInner.iterator2(node, filter, lock, nodeManager,query.getInstance().timeout)
+                        val iterator = NodeInner.iterator2(node, filter, lock, nodeManager, query.getInstance().timeout)
                         var count = 0
                         while (iterator.next() != DictionaryValueHelper.nullValue) {
                             count++
@@ -351,7 +351,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
         if (node != null) {
             if (filter.size == 3) {
                 var count = 0
-                val it = NodeInner.iterator3(node, filter, lock, nodeManager,query.getInstance().timeout)
+                val it = NodeInner.iterator3(node, filter, lock, nodeManager, query.getInstance().timeout)
                 while (it.next() != DictionaryValueHelper.nullValue) {
                     count++
                 }
@@ -359,25 +359,25 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    val it = NodeInner.iterator2(node, filter, lock, nodeManager,query.getInstance().timeout)
+                    val it = NodeInner.iterator2(node, filter, lock, nodeManager, query.getInstance().timeout)
                     while (it.next() != DictionaryValueHelper.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, nodeManager,query.getInstance().timeout)
+                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, nodeManager, query.getInstance().timeout)
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1, nodeManager,query.getInstance().timeout)
+                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1, nodeManager, query.getInstance().timeout)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager,query.getInstance().timeout)
+                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager, query.getInstance().timeout)
                     }
                 } else if (projection[1] != "_") {
-                    columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager,query.getInstance().timeout)
+                    columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager, query.getInstance().timeout)
                 } else {
                     var count = 0
-                    val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager,query.getInstance().timeout)
+                    val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager, query.getInstance().timeout)
                     while (it.next() != DictionaryValueHelper.nullValue) {
                         count++
                     }
@@ -386,22 +386,22 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
             } else {
                 SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:386"/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager,query.getInstance().timeout)
+                    columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager, query.getInstance().timeout)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager,query.getInstance().timeout)
+                        columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager, query.getInstance().timeout)
                         if (projection[2] != "_") {
-                            columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager,query.getInstance().timeout)
+                            columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager, query.getInstance().timeout)
                         }
                     } else if (projection[2] != "_") {
-                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager,query.getInstance().timeout)
+                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager, query.getInstance().timeout)
                     }
                 } else if (projection[1] != "_") {
-                    columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager,query.getInstance().timeout)
+                    columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager, query.getInstance().timeout)
                     if (projection[2] != "_") {
-                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager,query.getInstance().timeout)
+                        columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager, query.getInstance().timeout)
                     }
                 } else if (projection[2] != "_") {
-                    columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager,query.getInstance().timeout)
+                    columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager, query.getInstance().timeout)
                 } else {
                     res = IteratorBundle(countPrimary_)
                 }

@@ -36,6 +36,7 @@ import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
 import lupos.operator.physical.multiinput.EvalJoinHashMap
+import lupos.operator.physical.multiinput.EvalJoinMergeFromUnsortedData
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -143,7 +144,7 @@ public class Application_Luposdate3000 public constructor(
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
         instance.maxThreads = ((2.0).pow(ceil(log2(instance.LUPOS_PROCESS_URLS_ALL.size.toDouble())))).toInt()
         instance = LuposdateEndpoint.initializeB(instance)
-instance.timeout=600000
+        instance.timeout = 600000
         rootAddress = instance.LUPOS_PROCESS_URLS_STORE[0]
         rootAddressInt = rootAddress.toInt()
         if (enableSharedMemoryDictionaryCheat) {
@@ -276,7 +277,7 @@ instance.timeout=600000
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:278"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:279"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -334,7 +335,7 @@ instance.timeout=600000
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:336"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:337"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -707,7 +708,7 @@ instance.timeout=600000
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
             val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
-            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child,instance.timeout) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
@@ -723,13 +724,13 @@ instance.timeout=600000
             for (key in keys) {
             }
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!) }
-            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name,instance.timeout) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]!!)
             myPendingWorkData.remove(queryID to key)
-            EvalDistributedReceiveSingle(input, null,instance.timeout)
+            EvalDistributedReceiveSingle(input, null, instance.timeout)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
@@ -749,7 +750,7 @@ instance.timeout=600000
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMulti(inputs, outputs,instance.timeout)
+            EvalDistributedReceiveMulti(inputs, outputs, instance.timeout)
         }
         assignOP(EOperatorIDExt.LOPJoinTopologyID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
@@ -780,7 +781,7 @@ instance.timeout=600000
                 input
             }.toTypedArray()
 
-            val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null,instance.timeout) }.toMutableList()
+            val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null, instance.timeout) }.toMutableList()
             while (inputIterators.size> 1) {
                 val child0 = inputIterators.removeFirst()
                 val child1 = inputIterators.removeFirst()
@@ -797,7 +798,8 @@ instance.timeout=600000
                         finalSet.add(x)
                     }
                 }
-                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList(),query.getInstance().timeout))
+//                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout))
+                inputIterators.add(EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList()))
                 childProjectedVariables.add(finalSet.toMutableList())
             }
 
@@ -843,7 +845,7 @@ instance.timeout=600000
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
-            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut,instance.timeout)
+            EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut, instance.timeout)
         }
         return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2)
     }
@@ -881,7 +883,7 @@ instance.timeout=600000
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-//println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
+// println("{\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":"+ConverterBinaryToPOPJson.decode(query as Query, w.data)+"}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID == -1) {
                                 if (w.expectedResult != null) {
@@ -921,7 +923,7 @@ instance.timeout=600000
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:923"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:925"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -947,7 +949,7 @@ instance.timeout=600000
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:949"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:951"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

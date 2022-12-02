@@ -131,7 +131,7 @@ public object RestEndpoint {
             val container = query.container as QueryMappingContainer
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
-            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(container.outputStreams[key]!!, child,query.getInstance().timeout) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(container.outputStreams[key]!!, child, query.getInstance().timeout) })
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val container = query.container as QueryMappingContainer
@@ -146,7 +146,7 @@ public object RestEndpoint {
             val name = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 12, { "POPDistributedSendMulti.name" }))
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
             val out = Array<IMyOutputStream?>(keys.size) { container.outputStreams[keys[it]]!! }
-            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name,query.getInstance().timeout) })
+            EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name, query.getInstance().timeout) })
         }
 
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleID) { query, data, off, _ ->
@@ -154,7 +154,7 @@ public object RestEndpoint {
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val host = query.keyToHostMap[key]!!
             val conn = comm.openConnection(host, "/distributed/query/execute", mapOf("key" to "$key", "transactionID" to "${query.getTransactionID()}", "dictionaryURL" to query.getDictionaryUrl()!!), query.getTransactionID().toInt())
-            EvalDistributedReceiveSingle(conn.first, conn.second,query.getInstance().timeout)
+            EvalDistributedReceiveSingle(conn.first, conn.second, query.getInstance().timeout)
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveSingleCountID) { query, data, off, _ ->
             val comm = instance.communicationHandler!!
@@ -180,7 +180,7 @@ public object RestEndpoint {
             }
             val inputs = inputsList.toTypedArray()
             val outputs = outputsList.toTypedArray()
-            EvalDistributedReceiveMulti(inputs, outputs,query.getInstance().timeout)
+            EvalDistributedReceiveMulti(inputs, outputs, query.getInstance().timeout)
         }
         assignOperatorPhysicalDecode(EOperatorIDExt.POPDistributedReceiveMultiCountID) { query, data, off, _ ->
             var keys = mutableListOf<Int>()
@@ -234,7 +234,7 @@ public object RestEndpoint {
                 }
                 val inputs = inputsList.toTypedArray()
                 val outputs = outputsList.toTypedArray()
-                EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut,query.getInstance().timeout)
+                EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut, query.getInstance().timeout)
             },
         )
         paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) { params, _, connectionOutMy ->

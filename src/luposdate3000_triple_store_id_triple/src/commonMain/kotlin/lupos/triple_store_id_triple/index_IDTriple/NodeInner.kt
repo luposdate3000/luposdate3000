@@ -99,7 +99,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(_node: BufferManagerPageWrapper, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager,timeout:Long): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(_node: BufferManagerPageWrapper, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -108,7 +108,7 @@ internal object NodeInner {
                 /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:107"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
-                    iterator = NodeLeaf.iterator(it, nodeid, lock, component, nodeManager,timeout)
+                    iterator = NodeLeaf.iterator(it, nodeid, lock, component, nodeManager, timeout)
                 },
                 {
                     node = it
@@ -163,7 +163,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager,timeout:Long): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -179,7 +179,7 @@ internal object NodeInner {
                         /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:178"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator3(node, it, prefix, lock, nodeManager,timeout)
+                            iterator = NodeLeaf.iterator3(node, it, prefix, lock, nodeManager, timeout)
                         },
                         {
                             node = it
@@ -197,7 +197,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager,timeout:Long): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -213,7 +213,7 @@ internal object NodeInner {
                         /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:212"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator2(node, it, prefix, lock, nodeManager,timeout)
+                            iterator = NodeLeaf.iterator2(node, it, prefix, lock, nodeManager, timeout)
                         },
                         {
                             node = it
@@ -231,7 +231,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager,timeout:Long): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -247,7 +247,7 @@ internal object NodeInner {
                         /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:246"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator1(node, it, prefix, lock, component, nodeManager,timeout)
+                            iterator = NodeLeaf.iterator1(node, it, prefix, lock, component, nodeManager, timeout)
                         },
                         {
                             node = it

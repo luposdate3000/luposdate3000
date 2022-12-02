@@ -145,6 +145,7 @@ public object Luposdate3000Config {
 
     @JvmField
     public var optimizer: EOptimizer = EOptimizerExt.Default
-@JvmField
-    public var timeout:Long=10
+
+    @JvmField
+    public var timeout: Long = 10
 }

@@ -23,8 +23,9 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock, @JvmField val nodeManager: NodeManager,val timeoutInMs:Long) : ColumnIterator() {
-val startTime = DateHelperRelative.markNow()
+internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock, @JvmField val nodeManager: NodeManager, val timeoutInMs: Long) : ColumnIterator() {
+    val startTime = DateHelperRelative.markNow()
+
     @JvmField
     var remaining = 0
 
@@ -49,12 +50,12 @@ val startTime = DateHelperRelative.markNow()
 /* "__init" was never called*/
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:51"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:52"/*SOURCE_FILE_END*/, nodeid)
             }
         } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:56"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:57"/*SOURCE_FILE_END*/, nodeid)
             }
             lock.readUnlock()
         }
@@ -65,20 +66,20 @@ val startTime = DateHelperRelative.markNow()
     }
 
     /*suspend*/ internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
-if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
-                TODO("timeoutInMs")
-            }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:70"/*SOURCE_FILE_END*/ }, { remaining > 0 })
+        if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+            TODO("timeoutInMs")
+        }
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:71"/*SOURCE_FILE_END*/ }, { remaining > 0 })
         remaining--
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             val nextnodeid = NodeShared.getNextNode(node)
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:76"/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:77"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextnodeid
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:79"/*SOURCE_FILE_END*/, nodeid) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:80"/*SOURCE_FILE_END*/ }, { node != it })
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:80"/*SOURCE_FILE_END*/, nodeid) {
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:81"/*SOURCE_FILE_END*/ }, { node != it })
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
@@ -87,6 +88,6 @@ if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < ti
                 setDone()
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:89"/*SOURCE_FILE_END*/ }, { remaining > 0 || label == 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:90"/*SOURCE_FILE_END*/ }, { remaining > 0 || label == 0 })
     }
 }

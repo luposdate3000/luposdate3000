@@ -68,7 +68,7 @@ public class POPDistributedSendMulti public constructor(
         for ((k, v) in partitionedBy) {
             partition = Partition(partition, k, v, -1)
         }
-        EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable,query.getInstance().timeout)
+        EvalDistributedSendMulti(data, children[0].evaluate(partition), partitionVariable, query.getInstance().timeout)
     }
 
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? = TODO()

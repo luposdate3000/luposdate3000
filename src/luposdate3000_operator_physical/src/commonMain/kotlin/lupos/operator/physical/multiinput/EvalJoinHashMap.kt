@@ -36,9 +36,9 @@ public object EvalJoinHashMap {
         childB: IteratorBundle,
         optional: Boolean,
         projectedVariables: List<String>,
-timeoutInMs:Long,
+        timeoutInMs: Long,
     ): IteratorBundle {
-val startTime = DateHelperRelative.markNow()
+        val startTime = DateHelperRelative.markNow()
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(childA.columns.keys.toList(), childB.columns.keys.toList())
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinHashMap.kt:43"/*SOURCE_FILE_END*/ }, { columns[0].size != 0 })
@@ -95,9 +95,9 @@ val startTime = DateHelperRelative.markNow()
                 0
             }
             loopB@ while (true) {
-if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
-                TODO("timeout")
-            }
+                if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                    TODO("timeout")
+                }
                 nextKey = DictionaryValueTypeArray(columnsINBJ.size) { DictionaryValueHelper.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
@@ -169,9 +169,9 @@ if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < ti
                 }
 
                 override /*suspend*/ fun next(): DictionaryValueType {
-if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
-                TODO("timeout")
-            }
+                    if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
+                        TODO("timeout")
+                    }
                     return ColumnIteratorChildIteratorExt.nextHelper(
                         query,
                         this,
