@@ -18,7 +18,7 @@ with open("operator-distribution-visual.csv") as f:
             header = row
             indicesToRank = [header.index(x) for x in headersToRank]
         elif row[header.index("phase")]!="phase":
-         if row[header.index("topology")] == "Random16DB" and row[header.index("distribution algorithm")] != "topology":
+         if ("topology" not in header or row[header.index("topology")] == "Random16DB") and row[header.index("distribution algorithm")] != "topology":
             key = row[header.index("phase")]
             if key in data:
                 data[key].append(row)
@@ -81,7 +81,7 @@ for k,v in data.items():
    print("missing",[k]+d)
   else:
    print("found",[k]+d)
-exit(1)
+#exit(1)
 
 def buildTree(v, depth, diagramData):
     scoreTotal = 0
