@@ -3,8 +3,9 @@ import os
 
 minPercentageDifference=0.05
 cmPerRing = 0.5
-posincrement=0.5
-headersToRank=['data scale','additionalHops','partitioning','distribution location','distribution algorithm']
+spacePerRing = 0.05
+posincrement=-0.5
+headersToRank=['data scale','additionalHops','partitioning','distribution algorithm']
 legend=[set() for i in range(len(headersToRank))]
 legendGroup=[None for i in range(len(headersToRank))]
 
@@ -26,6 +27,13 @@ with open("operator-distribution-visual.csv") as f:
                 data[key] = [row]
             for i in range(len(indicesToRank)):
              legend[i].add(row[indicesToRank[i]])
+for i in range(len(legend)):
+ x=sorted(legend[i])
+ if "5" in x and "50" in x:
+  x=sorted([int(y) for y in legend[i]])
+ if "assisted" in x and "default" in x:
+  x=["default","assisted"]
+ legend[i]=[str(y) for y in x]
 
 legendColors=["pattern color=green","pattern color=blue","pattern color=cyan","pattern color=yellow","pattern color=orange","pattern color=red","pattern color=magenta","pattern color=purple","pattern color=pink"] # https://qiita.com/stu345/items/af6c38fa109a21d92e73
 legendColorIndex=0
@@ -173,6 +181,8 @@ for k, v in data.items():
     diagramData = []
     v2 = buildTree(v, 1, diagramData)
     ringidx = 0
+    lastRingSeparators=[]
+    currentRingSeparators=[]
     for ring in diagramData:
         sum = 0
         for entry in ring:
@@ -182,9 +192,15 @@ for k, v in data.items():
             currentposition = lastposition + entry[0]
             angle1 = 360.0 * lastposition / sum
             angle2 = 360.0 * currentposition / sum
-            innerradius = ringidx * cmPerRing
+            innerradius = ringidx * cmPerRing+spacePerRing
             outerradius = (ringidx + 1) * cmPerRing
             middleradius = (innerradius + outerradius) / 2.0
+            currentRingSeparators.append(angle1)
+            currentRingSeparators.append(angle2)
+            if angle1 in lastRingSeparators:
+             angle1=angle1+1
+            if angle2 in lastRingSeparators:
+             angle2=angle2-1
             if entry[1]!="":
              style=",".join(legend[headersToRank.index(entry[1][0])][entry[1][1]])
              print("\draw["+style+"] (" + str(angle1) + ":" + str(innerradius) + ")--(" + str(angle1) + ":" + str(outerradius) + ") arc(" + str(angle1) + ":" + str(angle2) + ":" + str(outerradius) + ")--(" + str(angle2) + ":" + str(innerradius) + ") arc(" + str(angle2) + ":" + str(angle1) +
@@ -192,8 +208,9 @@ for k, v in data.items():
              if angle2 - angle1 > 20:
                 print("\draw[decoration={text along path,text={" + str(entry[1][2]) +"},text align={center}},decorate] (" + str(angle1) + ":" + str(middleradius) + ") arc (" + str(angle1) + ":" + str(angle2) + ":" + str(middleradius) + ");")
             lastposition = currentposition
+        lastRingSeparators.extend(currentRingSeparators)
         ringidx = ringidx + 1
-    print("\\node at (0, 0) {"+k+"};")
+    print("\\node at (0, 0) {"+k.replace("initialization","init")+"};")
     print("\\end{tikzpicture}")
 
 print("\\begin{tikzpicture}")
@@ -201,11 +218,19 @@ pos=0
 for l in legend:
  if l is not None:
   for k,v in l.items():
-   print("\\draw["+",".join(v)+"] (0,"+str(pos)+") rectangle (2,"+str(pos+posincrement)+") node[pos=.5] {"+k+"};")
+   txt=k
+   txt=txt.replace("hops","yes")
+   txt=txt.replace("distributed","no")
+   txt=txt.replace("assisted","yes")
+   txt=txt.replace("default","no")
+   print("\\draw["+",".join(v)+"] (0,"+str(pos)+") rectangle (2,"+str(pos+posincrement)+") node[pos=.5] {"+txt+"};")
    pos=pos+posincrement
 for l in legendGroup:
  if l is not None:
-  print("\\draw["+l[0].replace("pattern color","fill")+"] (2,"+str(l[1])+") rectangle (6,"+str(l[2])+") node[pos=.5] {"+l[3]+"};")
+  txt=l[3]
+  txt=txt.replace("distribution algorithm","routing assisted")
+  txt=txt.replace("additionalHops","database without storage")
+  print("\\draw["+l[0].replace("pattern color","fill")+"] (2,"+str(l[1])+") rectangle (6,"+str(l[2])+") node[pos=.5] {"+txt+"};")
 print("\\end{tikzpicture}")
 print("\\caption{legend}")
 print("\\end{figure}")
