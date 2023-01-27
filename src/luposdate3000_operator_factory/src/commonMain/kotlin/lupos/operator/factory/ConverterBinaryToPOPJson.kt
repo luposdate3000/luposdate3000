@@ -63,7 +63,6 @@ public object ConverterBinaryToPOPJson {
                 0x1 -> {
                     val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
                     var o = 9
-                    val res = mutableListOf<Pair<List<String>, String>>()
                     for (i in 0 until childCount) {
                         val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }))
                         o += 4
@@ -74,9 +73,8 @@ public object ConverterBinaryToPOPJson {
                             list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
                             o += 4
                         }
-                        res.add(list to child)
+                        result[-1 - i] = "{\"columns\": $list,\"child\":$child}"
                     }
-                    result[-1] = "{\"columns\":[${res.map { "\"${it.first}\"" }.toTypedArray().joinToString()}],\"childs\":[${res.map { it.second }.toTypedArray().joinToString()}]}"
                 }
                 0x2 -> {
                     /*there is no query root here*/
@@ -97,7 +95,7 @@ public object ConverterBinaryToPOPJson {
             }
             return "{${result.map { (k, v) -> "\"$k\":$v" }.joinToString()}}"
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:99"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToPOPJson.kt:97"/*SOURCE_FILE_END*/)
         }
         TODO("unreachable")
     }

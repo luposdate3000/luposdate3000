@@ -18,13 +18,13 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalJoinMergeFromUnsortedData {
 
@@ -102,9 +102,9 @@ public object EvalJoinMergeFromUnsortedData {
                 joinColumns.add(name)
             }
         }
-if(joinColumns.size==0){
-return EvalJoinCartesianProduct(query,child0,child1,false)
-}
+        if (joinColumns.size == 0) {
+            return EvalJoinCartesianProduct(query, child0, child1, false)
+        }
         val child0Buf = Array(child0.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
         val child0BufLen = Array(child0.columns.size) { mutableListOf<Long>() }
         val child0Names = child0.columns.keys.toTypedArray()
@@ -164,19 +164,19 @@ return EvalJoinCartesianProduct(query,child0,child1,false)
         for (i in 0 until child1Names.size) {
             child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })
         }
-for ((k,v) in child0.columns){
-v.close()
-}
-for ((k,v) in child1.columns){
-v.close()
-}
-if(child0BufLen[0].sum()==0L || child1BufLen[0].sum()==0L){
-val outMap = mutableMapOf<String, ColumnIterator>()
-for(name in projectedVariables){
-outMap[name]=ColumnIteratorEmpty()
-}
-return IteratorBundle(outMap)
-}
+        for ((k, v) in child0.columns) {
+            v.close()
+        }
+        for ((k, v) in child1.columns) {
+            v.close()
+        }
+        if (child0BufLen[0].sum() == 0L || child1BufLen[0].sum() == 0L) {
+            val outMap = mutableMapOf<String, ColumnIterator>()
+            for (name in projectedVariables) {
+                outMap[name] = ColumnIteratorEmpty()
+            }
+            return IteratorBundle(outMap)
+        }
         // setup columns
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()

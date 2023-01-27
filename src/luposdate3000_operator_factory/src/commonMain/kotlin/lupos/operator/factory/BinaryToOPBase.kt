@@ -23,12 +23,12 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public object BinaryToOPBase {
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?>): IteratorBundleRoot {
-        return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap)
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?>,compoundPartial:Boolean): IteratorBundleRoot {
+        return ConverterBinaryToIteratorBundle.decode(query, data, dataID, operatorMap,compoundPartial)
     }
 
-    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int): IteratorBundleRoot {
-        return ConverterBinaryToIteratorBundle.decode(query, data, dataID)
+    public fun convertToIteratorBundle(query: Query, data: ByteArrayWrapper, dataID: Int,compoundPartial:Boolean): IteratorBundleRoot {
+        return ConverterBinaryToIteratorBundle.decode(query, data, dataID,compoundPartial=compoundPartial)
     }
 
     public fun convertToByteArray(op: IOPBase, distributed: Boolean, splitEverything: Boolean): ByteArrayWrapper {

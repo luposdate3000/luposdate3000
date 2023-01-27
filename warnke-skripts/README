@@ -1,0 +1,2 @@
+#running a specific testclass
+./gradlew :src:luposdate3000_code_gen_test_00:jvmTest --tests lupos.code_gen_test_00.MOVESILENT -i

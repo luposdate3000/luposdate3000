@@ -42,6 +42,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
     public val key_send2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val key_rec2off: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     public val id2parent: MutableMap<Int, MutableSet<Int>> = mutableMapOf<Int, MutableSet<Int>>()
+    public var lastRootOperator: Int = -1
     private var operatorMap: Array<BinaryToHelperMap?> = Array(0) { null }
 
     internal fun key_rec2idPut(k: Int, v: Int) {
@@ -476,6 +477,7 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
                     val size = ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i].size" })
                     o += 4 + size * 4
                 }
+                lastRootOperator = -childCount
             }
             0x2 -> {
                 /*there is no query root here*/

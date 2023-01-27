@@ -32,6 +32,7 @@ public class PendingWork(
     public val expectedResult: MemoryTable?,
     public val verifyAction: () -> Unit,
     public val query: IQuery,
+    public val lastRootOperator: Int,
 ) {
     internal companion object {
         public var pendingWorkCounter: Int = 0

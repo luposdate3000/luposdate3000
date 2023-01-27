@@ -83,9 +83,9 @@ public object ConverterBinaryToIteratorBundle {
         defaultOperatorMap[operatorID] = operator
     }
 
-    public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap): IteratorBundleRoot {
+    public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap,compoundPartial:Boolean): IteratorBundleRoot {
         try {
-            if (dataID == -1) {
+            if (dataID <0) {
                 when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
                     0x1 -> {
                         val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
@@ -101,7 +101,13 @@ public object ConverterBinaryToIteratorBundle {
                                 list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
                                 o += 4
                             }
+if(compoundPartial){
+if(-1-i==dataID){
+return IteratorBundleRoot(query, arrayOf(list to child))
+}
+}else{
                             res.add(list to child)
+}
                         }
                         return IteratorBundleRoot(query, res.toTypedArray())
                     }
@@ -125,7 +131,7 @@ public object ConverterBinaryToIteratorBundle {
             }
             TODO("dataID $dataID not found")
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:127"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:133"/*SOURCE_FILE_END*/)
         }
         TODO("unreachable")
     }
