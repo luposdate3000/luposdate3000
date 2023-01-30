@@ -28,7 +28,7 @@ public abstract class ColumnIterator {
     }
 
     public open /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
-        for (i in 0 until skipCount) {
+        for (i in 1 until skipCount) {
             next()
         }
         return next()
