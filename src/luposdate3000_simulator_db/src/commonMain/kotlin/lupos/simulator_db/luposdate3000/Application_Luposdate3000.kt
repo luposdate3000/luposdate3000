@@ -853,6 +853,9 @@ println()
                     }
                 }
 val x=EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
+//val x=EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
+
+
 println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
                 inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
@@ -1023,7 +1026,7 @@ println()
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1025"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1028"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1049,7 +1052,7 @@ println()
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1051"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1054"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

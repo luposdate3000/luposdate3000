@@ -29,31 +29,29 @@ import lupos.shared.operator.iterator.IteratorBundle
 public object EvalJoinMergeFromUnsortedData {
 
     private val bufferArrayLen = 1000000
-    private fun myComparator(array: Array<MutableList<DictionaryValueTypeArray>>, i: Long, j: Long, sortOrder: IntArray): Int {
+    private fun myComparator(array: Array<MutableList<DictionaryValueTypeArray>>, i: Long, j: DictionaryValueTypeArray, sortOrder: IntArray): Int {
         val a = i / bufferArrayLen
         val b = i - a * bufferArrayLen
-        val c = j / bufferArrayLen
-        val d = j - c * bufferArrayLen
         for (col in sortOrder) {
-            if (array[col][a.toInt()][b.toInt()] <array[col][c.toInt()][d.toInt()]) {
+            if (array[col][a.toInt()][b.toInt()] <j[col]) {
                 return -1
             }
-            if (array[col][a.toInt()][b.toInt()]> array[col][c.toInt()][d.toInt()]) {
+            if (array[col][a.toInt()][b.toInt()]> j[col]) {
                 return 1
             }
         }
         return 0
     }
     private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, sortOrder: IntArray, len: Long) {
-        quickSort(array, 0L, len, sortOrder)
+        quickSort(array, 0L, len-1, sortOrder)
     }
 
     private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, left: Long, right: Long, sortOrder: IntArray) {
         val index = partition(array, left, right, sortOrder)
-        if (left < index - 1) { // 2) Sorting left half
+        if (left < index - 1) { 
             quickSort(array, left, index - 1, sortOrder)
         }
-        if (index < right) { // 3) Sorting right half
+        if (index < right) { 
             quickSort(array, index, right, sortOrder)
         }
     }
@@ -61,13 +59,16 @@ public object EvalJoinMergeFromUnsortedData {
     private fun partition(array: Array<MutableList<DictionaryValueTypeArray>>, l: Long, r: Long, sortOrder: IntArray): Long {
         var left = l
         var right = r
-        val pivot = (left + right) / 2 // 4) Pivot Point
+        val pivot = DictionaryValueTypeArray(array.size){
+val i=(left + right) / 2 
+  val a = i / bufferArrayLen
+        val b = i - a * bufferArrayLen
+array[it][a.toInt()][b.toInt()]
+}
+
         while (left <= right) {
-            while (myComparator(array, left, pivot, sortOrder) <0) left++ // 5) Find the elements on left that should be on right
-
-            while (myComparator(array, right, pivot, sortOrder)> 0) right-- // 6) Find the elements on right that should be on left
-
-            // 7) Swap elements, and move left and right indices
+            while (myComparator(array, left, pivot, sortOrder) <0) left++ 
+            while (myComparator(array, right, pivot, sortOrder)> 0) right-- 
             if (left <= right) {
                 swapArray(array, left, right)
                 left++
@@ -89,6 +90,19 @@ public object EvalJoinMergeFromUnsortedData {
         }
     }
 
+internal fun logData(data:Array<MutableList<DictionaryValueTypeArray>>,len:Long){
+println(">>> $len rows >>>")
+for (i in 0 until len+1){
+        val a = i / bufferArrayLen
+        val b = i - a * bufferArrayLen
+        for(c in data){
+print("${c[a.toInt()][b.toInt()]},")
+}
+println(" .... $a $b >> $i")
+}
+println("<<< <<<")
+}
+
     public operator fun invoke(
         query: IQuery,
         child0: IteratorBundle,
@@ -105,6 +119,9 @@ public object EvalJoinMergeFromUnsortedData {
         if (joinColumns.size == 0) {
             return EvalJoinCartesianProduct(query, child0, child1, false)
         }
+
+
+
         val child0Buf = Array(child0.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
         val child0BufLen = Array(child0.columns.size) { mutableListOf<Long>() }
         val child0Names = child0.columns.keys.toTypedArray()
@@ -129,11 +146,20 @@ public object EvalJoinMergeFromUnsortedData {
                 next = iter.next()
             }
         }
-        quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum() - 1)
+println("before sorting :: C0 ${child0BufLen[0].sum()}")
+logData(child0Buf,child0BufLen[0].sum() )
+        quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum() )
+println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
+logData(child0Buf,child0BufLen[0].sum() )
         val child0Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child0Names.size) {
             child0Iterators[child0Names[i]] = ColumnIteratorMultiIterator(child0Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child0BufLen[i][idx].toInt()) })
         }
+        for ((k, v) in child0.columns) {
+            v.close()
+        }
+
+
 
         val child1Buf = Array(child1.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
         val child1BufLen = Array(child1.columns.size) { mutableListOf<Long>() }
@@ -159,17 +185,23 @@ public object EvalJoinMergeFromUnsortedData {
                 next = iter.next()
             }
         }
-        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[0].sum() - 1)
+println("before sorting :: C1 ${child1BufLen[0].sum()}")
+logData(child1Buf,child1BufLen[0].sum() )
+        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[1].sum() )
+println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
+logData(child1Buf,child1BufLen[0].sum() )
         val child1Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child1Names.size) {
             child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })
         }
-        for ((k, v) in child0.columns) {
-            v.close()
-        }
         for ((k, v) in child1.columns) {
             v.close()
         }
+
+
+
+
+
         if (child0BufLen[0].sum() == 0L || child1BufLen[0].sum() == 0L) {
             val outMap = mutableMapOf<String, ColumnIterator>()
             for (name in projectedVariables) {
@@ -209,8 +241,8 @@ public object EvalJoinMergeFromUnsortedData {
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1Iterators[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:211"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:212"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:243"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:244"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
