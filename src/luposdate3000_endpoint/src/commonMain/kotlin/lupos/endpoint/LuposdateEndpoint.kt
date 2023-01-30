@@ -359,6 +359,7 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, q: Query, query: String, logOperatorGraph: Boolean): IOPBase {
         try {
+println("evaluateSparqlToOperatorgraphB")
             SanityCheck.println { "----------String Query" }
             SanityCheck.println { query }
             SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -372,14 +373,23 @@ public object LuposdateEndpoint {
             SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(q)
             val lopNode: IOPBase = visitor.visit(astNode)
+println()
+println("----------Logical Operator Graph")
+println(lopNode)
             SanityCheck.println { lopNode }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
             SanityCheck.println { lopNode2 }
+println()
+println("----------Logical Operator Graph")
+println(lopNode2)
             SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(q)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.println { popNode }
+println()
+println("----------Physical Operator Graph")
+println(popNode)
             if (logOperatorGraph) {
                 println("----------")
                 println(query)
@@ -393,7 +403,7 @@ public object LuposdateEndpoint {
             return popNode
         } catch (e: Throwable) {
             println(query)
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:395"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:405"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -487,7 +497,7 @@ public object LuposdateEndpoint {
                 timeoutInMs
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:489"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:499"/*SOURCE_FILE_END*/)
         }
     }
 

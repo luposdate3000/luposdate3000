@@ -27,9 +27,22 @@ import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public class LOPJoinTopology public constructor(query: IQuery, childs: Array<IOPBase>) : LOPBase(query, EOperatorIDExt.LOPJoinTopologyID, "LOPJoinTopology", childs, ESortPriorityExt.JOIN) {
+@JvmField public var projectedVariables: List<String>? =null
+
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition)
     override fun equals(other: Any?): Boolean = other is LOPJoinTopology && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun cloneOP(): IOPBase = LOPJoinTopology(query, children.map { it.cloneOP() }.toTypedArray())
+    override fun cloneOP(): IOPBase {
+val res= LOPJoinTopology(query, children.map { it.cloneOP() }.toTypedArray())
+res.projectedVariables=projectedVariables
+return res
+}
+override fun getProvidedVariableNames(): List<String>{
+return if(projectedVariables==null){
+                 super.getProvidedVariableNames()
+}else{
+projectedVariables!!
+}
+}
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return LOPJoin_Helper.mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), false)
     }

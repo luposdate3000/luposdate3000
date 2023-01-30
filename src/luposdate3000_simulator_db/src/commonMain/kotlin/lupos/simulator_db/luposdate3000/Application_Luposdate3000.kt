@@ -651,8 +651,10 @@ public class Application_Luposdate3000 public constructor(
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         changed = true
-
-        //println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
+println()
+println()
+println()
+        println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
 //        println()
   //      println(handler)
     //    println(handler._key_rec2id)
@@ -830,6 +832,9 @@ public class Application_Luposdate3000 public constructor(
                 input
             }.toTypedArray()
 
+println()
+println()
+println()
             val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null, instance.timeout) }.toMutableList()
             while (inputIterators.size> 1) {
                 val child0 = inputIterators.removeFirst()
@@ -847,10 +852,14 @@ public class Application_Luposdate3000 public constructor(
                         finalSet.add(x)
                     }
                 }
-//                inputIterators.add(EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout))
-                inputIterators.add(EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList()))
+val x=EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
+println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
+                inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
             }
+println()
+println()
+println()
 
             inputIterators[0]
         }
@@ -936,6 +945,7 @@ public class Application_Luposdate3000 public constructor(
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
+println()
                             println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID <0) {
@@ -1013,7 +1023,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1015"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1025"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1039,7 +1049,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1041"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1051"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

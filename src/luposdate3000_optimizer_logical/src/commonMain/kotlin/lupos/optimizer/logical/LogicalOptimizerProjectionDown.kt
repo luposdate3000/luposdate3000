@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-
+import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
@@ -285,7 +285,13 @@ public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query,
                             onChange()
                         }
                     }
+is LOPJoinTopology->{
+child.projectedVariables=variables
+res=child
+onChange()
+}
                     else -> {
+
                     }
                 }
             }
