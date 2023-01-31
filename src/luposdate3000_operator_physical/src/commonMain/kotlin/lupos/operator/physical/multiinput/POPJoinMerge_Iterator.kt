@@ -35,7 +35,7 @@ internal class POPJoinMerge_Iterator(
     @JvmField internal val columnsOUT1: List<ColumnIteratorChildIterator>,
     @JvmField internal val columnsOUTJ: List<ColumnIteratorChildIterator>,
     @JvmField internal val key0: DictionaryValueTypeArray,
-    @JvmField internal val key1: DictionaryValueTypeArray
+    @JvmField internal val key1: DictionaryValueTypeArray,
 ) : ColumnIteratorChildIterator(query) {
     @JvmField
     internal val data0 = Array(columnsINO0.size) { DictionaryValueTypeArray(100) }

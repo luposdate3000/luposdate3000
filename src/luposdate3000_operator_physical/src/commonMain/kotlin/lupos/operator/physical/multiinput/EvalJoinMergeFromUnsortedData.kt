@@ -204,7 +204,7 @@ val child0Sorted = IteratorBundle(child0Iterators)
 val child1Sorted = IteratorBundle(child1Iterators)
 
 
-return EvalJoinMerge(query,child0Sorted,child1Sorted,projectedVariables)
+return EvalJoinMerge(query,child0Sorted,child1Sorted,projectedVariables,joinColumns)
 //return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
 
 /*

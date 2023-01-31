@@ -353,9 +353,18 @@ public object ConverterBinaryToPOPJson {
                 val child0 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPJoinMerge.child0" }))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" }))
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMerge.variables.size" })
+var o=off+16
                 var projectedVariables = mutableListOf<String>()
                 for (i in 0 until l) {
-                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * i, { "POPJoinMerge.variables[$i]" })))
+                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
+o+=4
+                }
+val l2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables.size" })
+o+=4
+                var joinVariableOrder = mutableListOf<String>()
+                for (i in 0 until l2) {
+                    joinVariableOrder.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
+o+=4
                 }
                 "{\"type\":\"POPJoinMerge\",\"childs\":[$child0, $child1]}"
             },

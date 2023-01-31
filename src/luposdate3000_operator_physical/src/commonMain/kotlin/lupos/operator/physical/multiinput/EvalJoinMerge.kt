@@ -28,6 +28,7 @@ public object EvalJoinMerge {
         child0: IteratorBundle,
         child1: IteratorBundle,
         projectedVariables: List<String>,
+        joinVariableOrder: List<String>,
     ): IteratorBundle {
         // setup columns
         val columnsINO0 = mutableListOf<ColumnIterator>()
@@ -41,16 +42,18 @@ public object EvalJoinMerge {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(child1.columns.keys)
+for(name in joinVariableOrder){
+                    columnsINJ0.add( child0.columns[name]!!)
+                    columnsINJ1.add( child1.columns[name]!!)
+if (projectedVariables.contains(name)) {
+                    outIterators.add(Pair(name, 0))
+                }
+}
         for (name in child0.columns.keys) {
             if (tmp.contains(name)) {
-                if (projectedVariables.contains(name)) {
-                    outIterators.add(Pair(name, 0))
-                    columnsINJ0.add(0, child0.columns[name]!!)
-                    columnsINJ1.add(0, child1.columns[name]!!)
-                } else {
-                    columnsINJ0.add(child0.columns[name]!!)
-                    columnsINJ1.add(child1.columns[name]!!)
-                }
+if(!joinVariableOrder.contains(name)){
+TODO("error")
+}
                 tmp.remove(name)
             } else {
                 outIterators.add(Pair(name, 1))
@@ -61,8 +64,8 @@ public object EvalJoinMerge {
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1.columns[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:63"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:64"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:66"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:67"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))

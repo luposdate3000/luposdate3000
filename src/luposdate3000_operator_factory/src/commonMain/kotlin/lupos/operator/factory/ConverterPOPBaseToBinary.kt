@@ -824,7 +824,7 @@ op.projectedVariables!!
                     mapping,
                     { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
                     { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
-                    op.projectedVariables,
+                    op.projectedVariables,op.joinVariableOrder,
                 )
             },
         )

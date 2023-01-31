@@ -963,7 +963,7 @@ public object XMLElementToOPBase {
             POPJoinCartesianProduct(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
         }
         operatorMap["POPJoinMerge"] = { query, node, mapping, recursionFunc ->
-            POPJoinMerge(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
+            POPJoinMerge(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean(), node.attributes["joinVariableOrder"]!!.split("?"))
         }
         operatorMap["POPJoinMergeOptional"] = { query, node, mapping, recursionFunc ->
             POPJoinMergeOptional(query, createProjectedVariables(node), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc), node.attributes["optional"]!!.toBoolean())
