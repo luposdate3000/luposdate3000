@@ -25,7 +25,7 @@ import lupos.shared.PartitionHelper
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
-
+import kotlin.jvm.JvmField
 public class LOPJoinTopology public constructor(query: IQuery, childs: Array<IOPBase>) : LOPBase(query, EOperatorIDExt.LOPJoinTopologyID, "LOPJoinTopology", childs, ESortPriorityExt.JOIN) {
 @JvmField public var projectedVariables: List<String>? =null
 
