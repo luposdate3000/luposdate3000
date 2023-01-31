@@ -860,7 +860,6 @@ public class Application_Luposdate3000 public constructor(
 // EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
                 }
 
-// println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
                 inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
             }
@@ -953,9 +952,9 @@ public class Application_Luposdate3000 public constructor(
                                 queryCache.remove(w.queryID)
                             }
 // println()
-                            // println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
-                            val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
+                             println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
+                            val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                                 if (w.expectedResult != null) {
                                     val buf = MyPrintWriter(false)
                                     var result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
@@ -1017,12 +1016,24 @@ public class Application_Luposdate3000 public constructor(
                                     }
                                 }
                             } else {
+
+
+
+
+
+
+                            val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                                 for (nodes in iteratorBundle.nodes) {
                                     val iter = nodes.second.rows
                                     do {
                                         val res = iter.next()
                                     } while (res != -1)
                                 }
+
+
+
+
+
                             }
                             break
                         }
