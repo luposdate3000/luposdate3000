@@ -653,10 +653,10 @@ public class Application_Luposdate3000 public constructor(
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         changed = true
-println()
-println()
-println()
-        println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
+//println()
+//println()
+//println()
+        //println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
 //        println()
   //      println(handler)
     //    println(handler._key_rec2id)
@@ -834,9 +834,9 @@ println()
                 input
             }.toTypedArray()
 
-println()
-println()
-println()
+//println()
+//println()
+//println()
             val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null, instance.timeout) }.toMutableList()
             while (inputIterators.size> 1) {
                 val child0 = inputIterators.removeFirst()
@@ -862,13 +862,13 @@ EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
 //EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
 }
 
-println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
+//println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
                 inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
             }
-println()
-println()
-println()
+//println()
+//println()
+//println()
 
             inputIterators[0]
         }
@@ -954,8 +954,8 @@ println()
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-println()
-                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
+//println()
+                            //println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID <0) {
                                 if (w.expectedResult != null) {
