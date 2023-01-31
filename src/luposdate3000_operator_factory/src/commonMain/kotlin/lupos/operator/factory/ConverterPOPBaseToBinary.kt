@@ -174,6 +174,9 @@ public object ConverterPOPBaseToBinary {
                                             val newReveice = ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(data, mutableMapOf(), keys2)
                                             ByteArrayWrapperExt.writeInt4(data, handler.key_rec2off[key0]!!, newReveice, { "operatorID" })
                                         }
+EOperatorIDExt.LOPJoinTopologyID ->{
+continue@loop
+}
                                         else -> TODO("unknown type $type2")
                                     }
                                     ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })

@@ -190,7 +190,7 @@ public object EvalJoinMergeFromUnsortedData {
         }
         //println("before sorting :: C1 ${child1BufLen[0].sum()}")
         //logData(child1Buf, child1BufLen[0].sum())
-        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[1].sum())
+        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[0].sum())
         //println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
         //logData(child1Buf, child1BufLen[0].sum())
         val child1Iterators = mutableMapOf<String, ColumnIterator>()
