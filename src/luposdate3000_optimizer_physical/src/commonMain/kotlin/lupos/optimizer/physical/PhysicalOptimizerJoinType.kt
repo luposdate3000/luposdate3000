@@ -124,34 +124,34 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                                 break
                             }
                         }
-val joinVariableOrder=Array<String>(columns[0].size){""}
-var ii=0
-for(x in node.getMySortPriority().map { it.variableName }){
-if(!columns[0].contains(x)){
-flag=false
-break
-}
-joinVariableOrder[ii]=x
-ii+=1
-if(ii>=columns[0].size){
-break
-}
-}
-if(ii<columns[0].size){
-flag=false
-}
+                        val joinVariableOrder = Array<String>(columns[0].size) { "" }
+                        var ii = 0
+                        for (x in node.getMySortPriority().map { it.variableName }) {
+                            if (!columns[0].contains(x)) {
+                                flag = false
+                                break
+                            }
+                            joinVariableOrder[ii] = x
+                            ii += 1
+                            if (ii >= columns[0].size) {
+                                break
+                            }
+                        }
+                        if (ii <columns[0].size) {
+                            flag = false
+                        }
                         if (flag) {
                             res = if (childA.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                                 if (node.optional) {
                                     embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
                                 } else {
-                                    embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false,joinVariableOrder.toList()) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
                                 }
                             } else {
                                 if (node.optional) {
                                     embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
                                 } else {
-                                    embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false,joinVariableOrder.toList()) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
                                 }
                             }
                         }

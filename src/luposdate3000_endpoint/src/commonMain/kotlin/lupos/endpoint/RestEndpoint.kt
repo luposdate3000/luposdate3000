@@ -445,7 +445,7 @@ public object RestEndpoint {
                         query.keyToHostMap[key2] = h
                     }
                 }
-                val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap,false)
+                val iter = BinaryToOPBase.convertToIteratorBundle(query, binary, -1, localOperatorMap, false)
                 LuposdateEndpoint.evaluateIteratorBundleToResultA(instance, iter, connectionOutMy, evaluator)
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to "$key"), query.getTransactionID().toInt())
             } catch (e: Throwable) {
@@ -657,7 +657,7 @@ public object RestEndpoint {
                     query.setDictionary(remoteDictionary)
                     query.setDictionaryUrl(dictionaryURL)
 // evaluate
-                    val node = BinaryToOPBase.convertToIteratorBundle(query, queryContainer.data, queryContainer.dataID, localOperatorMap,false)
+                    val node = BinaryToOPBase.convertToIteratorBundle(query, queryContainer.data, queryContainer.dataID, localOperatorMap, false)
                     for (n in node.nodes) {
                         n.second.rows.next()
                     }

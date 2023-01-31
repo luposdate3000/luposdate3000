@@ -450,24 +450,25 @@ public object ConverterBinaryToBinary {
                 val child1 = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" })
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMerge.variables.size" })
                 var projectedVariables = mutableListOf<String>()
-var o=off+16
+                var o = off + 16
                 for (i in 0 until l) {
                     projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
-o+=4
+                    o += 4
                 }
-val l2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables.size" })
-o+=4
+                val l2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables.size" })
+                o += 4
                 var joinVariableOrder = mutableListOf<String>()
                 for (i in 0 until l2) {
                     joinVariableOrder.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
-o+=4
+                    o += 4
                 }
                 ConverterBinaryEncoder.encodePOPJoinMerge(
                     dataOut,
                     mapping,
                     { parentOffOff -> recodeHelper(query, child0, data, dataOut, mapping, parentOffOff) },
                     { parentOffOff -> recodeHelper(query, child1, data, dataOut, mapping, parentOffOff) },
-                    projectedVariables,joinVariableOrder,
+                    projectedVariables,
+                    joinVariableOrder,
                 )
             },
         )

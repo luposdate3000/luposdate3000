@@ -174,9 +174,9 @@ public object ConverterPOPBaseToBinary {
                                             val newReveice = ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(data, mutableMapOf(), keys2)
                                             ByteArrayWrapperExt.writeInt4(data, handler.key_rec2off[key0]!!, newReveice, { "operatorID" })
                                         }
-EOperatorIDExt.LOPJoinTopologyID ->{
-continue@loop
-}
+                                        EOperatorIDExt.LOPJoinTopologyID -> {
+                                            continue@loop
+                                        }
                                         else -> TODO("unknown type $type2")
                                     }
                                     ByteArrayWrapperExt.writeInt4(data, off0, -1, { "invalid opertor type" })
@@ -738,11 +738,11 @@ continue@loop
                 val currentID = handler.currentID
                 var keys = IntArray(op.children.size) { handler.getNextKey() }
                 val off = ByteArrayWrapperExt.getSize(data)
-val projectedVariables = if(op.projectedVariables==null){
-                 op.getProvidedVariableNames() 
-}else{
-op.projectedVariables!!
-}
+                val projectedVariables = if (op.projectedVariables == null) {
+                    op.getProvidedVariableNames()
+                } else {
+                    op.projectedVariables!!
+                }
                 val projectedVariablesChild = op.children.map { it.getProvidedVariableNames() }
 
                 val finalEndOff = off + 4 + 4 + 4 + 4 * projectedVariables.size + 4 * op.children.size + 4 * op.children.size + 4 * projectedVariablesChild.map { it.size }.sum() + 12 * op.children.size
@@ -827,7 +827,8 @@ op.projectedVariables!!
                     mapping,
                     { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
                     { parentOffOff -> convertToByteArrayHelper(op.children[1], data, mapping, distributed, handler, parentOffOff) },
-                    op.projectedVariables,op.joinVariableOrder,
+                    op.projectedVariables,
+                    op.joinVariableOrder,
                 )
             },
         )

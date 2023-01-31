@@ -95,7 +95,7 @@ internal fun mainFunc(
             variables.add("$cc")
             val v = mutableListOf<String>()
             v.addAll(variables)
-            op = POPJoinMerge(query, v, op, op2, false,listOf("j"))
+            op = POPJoinMerge(query, v, op, op2, false, listOf("j"))
         }
         if (partitions > 1) {
             op = POPMergePartition(query, variables, "j", partitions, 1, op)

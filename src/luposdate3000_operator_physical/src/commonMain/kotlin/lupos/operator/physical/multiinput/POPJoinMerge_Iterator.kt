@@ -62,7 +62,6 @@ internal class POPJoinMerge_Iterator(
     @JvmField
     internal var localCloseI = 0
 
-
     @JvmField
     internal var sipbufSkip = IntArray(1)
 
@@ -120,10 +119,8 @@ internal class POPJoinMerge_Iterator(
             query,
             this,
             {
-
-
-                            var skipO0 = 0
-                            var skipO1 = 0
+                var skipO0 = 0
+                var skipO1 = 0
                 if (key0[0] != DictionaryValueHelper.nullValue && key1[0] != DictionaryValueHelper.nullValue) {
                     loop@ while (true) {
                         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:128"/*SOURCE_FILE_END*/ }, { columnsINJ0.isNotEmpty() })
@@ -266,7 +263,7 @@ internal class POPJoinMerge_Iterator(
                                     if (enableSIP) {
                                         data0[localNextI][localNextCounta] = columnsINO0[localNextI].skipSIP(skipO0)
                                     } else {
-                                        for (i in 0 until skipO0+1) {
+                                        for (i in 0 until skipO0 + 1) {
                                             data0[localNextI][localNextCounta] = columnsINO0[localNextI].next()
                                         }
                                     }
@@ -312,7 +309,7 @@ internal class POPJoinMerge_Iterator(
                                     if (enableSIP) {
                                         data1[localNextI][localNextCountb] = columnsINO1[localNextI].skipSIP(skipO1)
                                     } else {
-                                        for (i in 0 until skipO1+1) {
+                                        for (i in 0 until skipO1 + 1) {
                                             data1[localNextI][localNextCountb] = columnsINO1[localNextI].next()
                                         }
                                     }

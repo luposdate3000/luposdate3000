@@ -146,11 +146,11 @@ public object EvalJoinMergeFromUnsortedData {
                 next = iter.next()
             }
         }
-        //println("before sorting :: C0 ${child0BufLen[0].sum()}")
-        //logData(child0Buf, child0BufLen[0].sum())
+        // println("before sorting :: C0 ${child0BufLen[0].sum()}")
+        // logData(child0Buf, child0BufLen[0].sum())
         quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum())
-        //println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
-        //logData(child0Buf, child0BufLen[0].sum())
+        // println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
+        // logData(child0Buf, child0BufLen[0].sum())
         val child0Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child0Names.size) {
             child0Iterators[child0Names[i]] = ColumnIteratorMultiIterator(child0Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child0BufLen[i][idx].toInt()) })
@@ -188,11 +188,11 @@ public object EvalJoinMergeFromUnsortedData {
                 next = iter.next()
             }
         }
-        //println("before sorting :: C1 ${child1BufLen[0].sum()}")
-        //logData(child1Buf, child1BufLen[0].sum())
+        // println("before sorting :: C1 ${child1BufLen[0].sum()}")
+        // logData(child1Buf, child1BufLen[0].sum())
         quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[0].sum())
-        //println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
-        //logData(child1Buf, child1BufLen[0].sum())
+        // println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
+        // logData(child1Buf, child1BufLen[0].sum())
         val child1Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child1Names.size) {
             child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })

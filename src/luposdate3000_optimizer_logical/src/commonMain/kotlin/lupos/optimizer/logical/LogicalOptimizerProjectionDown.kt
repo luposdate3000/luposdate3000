@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.logical
-import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion
 import lupos.operator.logical.noinput.LOPTriple
@@ -285,13 +285,12 @@ public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query,
                             onChange()
                         }
                     }
-is LOPJoinTopology->{
-child.projectedVariables=variables
-res=child
-onChange()
-}
+                    is LOPJoinTopology -> {
+                        child.projectedVariables = variables
+                        res = child
+                        onChange()
+                    }
                     else -> {
-
                     }
                 }
             }

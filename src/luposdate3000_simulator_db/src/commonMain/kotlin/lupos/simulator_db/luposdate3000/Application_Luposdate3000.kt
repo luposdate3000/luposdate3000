@@ -18,14 +18,12 @@
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
-import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.IPOPLimit
-import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -37,6 +35,7 @@ import lupos.operator.factory.ConverterBinaryToIteratorBundle
 import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
+import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
 import lupos.operator.physical.multiinput.EvalJoinMergeFromUnsortedData
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
@@ -228,10 +227,9 @@ public class Application_Luposdate3000 public constructor(
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
 
-
 //        println("queryString")
-  //      println(queryString)
-    //    println()
+        //      println(queryString)
+        //    println()
         val q = Query(instance)
         val machineLearningOptimizerOrder = pck.attributes["machineLearningOptimizerOrder"]
         if (machineLearningOptimizerOrder != null) {
@@ -653,20 +651,20 @@ public class Application_Luposdate3000 public constructor(
         }
 // 5. send packets further down the network - or store them locally, if this device is the destination
         changed = true
-//println()
-//println()
-//println()
-        //println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
+// println()
+// println()
+// println()
+        // println("beginningjson::::: {\"w.queryID\":${pck.queryID},\"data\":" + ConverterBinaryToPOPJson.decode(pck.query as Query, pck.data) + "}")
 //        println()
-  //      println(handler)
-    //    println(handler._key_rec2id)
-      //  println()
+        //      println(handler)
+        //    println(handler._key_rec2id)
+        //  println()
 //        for ((k, v) in target2id) {
-  //          for (x in v) {
-    //            println("beginning dependencies:: for $x = ${handler.getDependenciesForID2(x).toSet()}")
-      //      }
-     //   }
-     //   println()
+        //          for (x in v) {
+        //            println("beginning dependencies:: for $x = ${handler.getDependenciesForID2(x).toSet()}")
+        //      }
+        //   }
+        //   println()
         loop6@while (changed) {
             changed = false
             val filter2 = target2id[ownAdress]
@@ -834,9 +832,9 @@ public class Application_Luposdate3000 public constructor(
                 input
             }.toTypedArray()
 
-//println()
-//println()
-//println()
+// println()
+// println()
+// println()
             val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null, instance.timeout) }.toMutableList()
             while (inputIterators.size> 1) {
                 val child0 = inputIterators.removeFirst()
@@ -854,21 +852,21 @@ public class Application_Luposdate3000 public constructor(
                         finalSet.add(x)
                     }
                 }
-var isCartesian=projected0.intersect(projected1).size==0
-val x=if(isCartesian){
-EvalJoinCartesianProduct(query, child0, child1, false)
-}else{
-EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
-//EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
-}
+                var isCartesian = projected0.intersect(projected1).size == 0
+                val x = if (isCartesian) {
+                    EvalJoinCartesianProduct(query, child0, child1, false)
+                } else {
+                    EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
+// EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
+                }
 
-//println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
+// println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
                 inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
             }
-//println()
-//println()
-//println()
+// println()
+// println()
+// println()
 
             inputIterators[0]
         }
@@ -907,7 +905,7 @@ EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
                 o += 4
             }
             val inputs = keys.map { key ->
-              //  println("searching for ${queryID to key}, but there is ${myPendingWorkData.keys}")
+                //  println("searching for ${queryID to key}, but there is ${myPendingWorkData.keys}")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
                 myPendingWorkData.remove(queryID to key)
                 input
@@ -915,7 +913,7 @@ EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut, instance.timeout)
         }
-        return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2,true)
+        return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2, true)
     }
 
     private fun doWork() {
@@ -927,13 +925,13 @@ EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
                     changed = false
                     for (w in myPendingWork) {
                         var flag = w.dataID >= -1 || myPendingWorkData.keys.contains(w.queryID to (w.dataID))
-//println("initial flag : ${flag} ${w.dataID >= -1} ${myPendingWorkData.keys.contains(w.queryID to (w.dataID))} ${w.dataID} ${w.lastRootOperator}")
+// println("initial flag : ${flag} ${w.dataID >= -1} ${myPendingWorkData.keys.contains(w.queryID to (w.dataID))} ${w.dataID} ${w.lastRootOperator}")
                         for (k in w.dependencies) {
                             flag = flag && myPendingWorkData.keys.contains(w.queryID to k)
                         }
-//println("flag after deps ${flag} ${w.dependencies} ${myPendingWorkData.keys}")
+// println("flag after deps ${flag} ${w.dependencies} ${myPendingWorkData.keys}")
                         if (flag) {
-                            //println("checked the dependencies ... ${w.dependencies}")
+                            // println("checked the dependencies ... ${w.dependencies}")
                             myPendingWork.remove(w)
                             logger.costumData(w)
                             changed = true
@@ -954,8 +952,8 @@ EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
                             if (w.dataID == -1) {
                                 queryCache.remove(w.queryID)
                             }
-//println()
-                            //println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
+// println()
+                            // println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
                             if (w.dataID <0) {
                                 if (w.expectedResult != null) {

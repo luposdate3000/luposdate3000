@@ -83,7 +83,7 @@ public object ConverterBinaryToIteratorBundle {
         defaultOperatorMap[operatorID] = operator
     }
 
-    public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap,compoundPartial:Boolean): IteratorBundleRoot {
+    public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap, compoundPartial: Boolean): IteratorBundleRoot {
         try {
             if (dataID <0) {
                 when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
@@ -101,13 +101,13 @@ public object ConverterBinaryToIteratorBundle {
                                 list.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.columnProjectionOrder[$i][$j]" })))
                                 o += 4
                             }
-if(compoundPartial){
-if(-1-i==dataID){
-return IteratorBundleRoot(query, arrayOf(list to child))
-}
-}else{
-                            res.add(list to child)
-}
+                            if (compoundPartial) {
+                                if (-1 - i == dataID) {
+                                    return IteratorBundleRoot(query, arrayOf(list to child))
+                                }
+                            } else {
+                                res.add(list to child)
+                            }
                         }
                         return IteratorBundleRoot(query, res.toTypedArray())
                     }
@@ -267,19 +267,19 @@ return IteratorBundleRoot(query, arrayOf(list to child))
                 val child1 = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPJoinMerge.child1" }), operatorMap)
                 val l = ByteArrayWrapperExt.readInt4(data, off + 12, { "POPJoinMerge.variables.size" })
                 var projectedVariables = mutableListOf<String>()
-var o=off + 16
+                var o = off + 16
                 for (i in 0 until l) {
-                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o , { "POPJoinMerge.variables[$i]" })))
-o+=4
+                    projectedVariables.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
+                    o += 4
                 }
-val l2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables.size" })
-var joinVariableOrder= mutableListOf<String>()
-o+=4
-for (i in 0 until l2) {
-                   joinVariableOrder.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o , { "POPJoinMerge.variables[$i]" })))
-o+=4
+                val l2 = ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables.size" })
+                var joinVariableOrder = mutableListOf<String>()
+                o += 4
+                for (i in 0 until l2) {
+                    joinVariableOrder.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPJoinMerge.variables[$i]" })))
+                    o += 4
                 }
-                EvalJoinMerge(query, child0, child1, projectedVariables,joinVariableOrder)
+                EvalJoinMerge(query, child0, child1, projectedVariables, joinVariableOrder)
             },
         )
         assignOperatorPhysicalDecode(

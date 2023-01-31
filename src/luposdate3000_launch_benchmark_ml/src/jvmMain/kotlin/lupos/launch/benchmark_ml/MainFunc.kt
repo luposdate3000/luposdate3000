@@ -121,7 +121,7 @@ internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: 
             is POPJoinMerge -> {
                 val a = addCounters(node.children[0])
                 val b = addCounters(node.children[1])
-                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false,node.joinVariableOrder))
+                POPCounter(node.getQuery(), node.getProvidedVariableNames(), POPJoinMerge(node.getQuery(), node.getProvidedVariableNames(), a, b, false, node.joinVariableOrder))
             }
             is POPProjection -> {
                 POPProjection(node.getQuery(), node.getProvidedVariableNames(), addCounters(node.children[0]))

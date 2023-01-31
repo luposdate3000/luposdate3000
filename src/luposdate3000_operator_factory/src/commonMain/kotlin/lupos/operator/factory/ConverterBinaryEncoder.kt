@@ -301,7 +301,7 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPJoinMerge(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>,joinVariableOrder: List<String>): Int {
+    public fun encodePOPJoinMerge(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, child0f: (Int) -> Int, child1f: (Int) -> Int, projectedVariables: List<String>, joinVariableOrder: List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * projectedVariables.size, true)
         val child0 = child0f(off + 4)
@@ -317,8 +317,8 @@ public object ConverterBinaryEncoder {
             o += 4
             i++
         }
-ByteArrayWrapperExt.writeInt4(data, o, joinVariableOrder.size, { "POPJoinMerge.variables.size" })
-i = 0
+        ByteArrayWrapperExt.writeInt4(data, o, joinVariableOrder.size, { "POPJoinMerge.variables.size" })
+        i = 0
         for (s in joinVariableOrder) {
             ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(s, data, mapping), { "POPJoinMerge.variables[$i]" })
             o += 4
