@@ -18,12 +18,14 @@
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
+import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.IPOPLimit
+import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
@@ -281,7 +283,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:283"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:285"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -345,7 +347,7 @@ public class Application_Luposdate3000 public constructor(
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:347"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:349"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -852,9 +854,13 @@ println()
                         finalSet.add(x)
                     }
                 }
-val x=EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
-//val x=EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
-
+var isCartesian=projected0.intersect(projected1).size==0
+val x=if(isCartesian){
+EvalJoinCartesianProduct(query, child0, child1, false)
+}else{
+EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
+//EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
+}
 
 println("joining ... ${projected0} + ${projected1} -> ${finalSet} ... ${child0} + ${child1} -> ${x}")
                 inputIterators.add(x)
@@ -1026,7 +1032,7 @@ println()
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1028"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1034"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1052,7 +1058,7 @@ println()
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1054"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1060"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

@@ -117,7 +117,7 @@ println("<<< <<<")
             }
         }
         if (joinColumns.size == 0) {
-            return EvalJoinCartesianProduct(query, child0, child1, false)
+TODO("this requires at least one join column")
         }
 
 
@@ -200,7 +200,15 @@ logData(child1Buf,child1BufLen[0].sum() )
 
 
 
+val child0Sorted = IteratorBundle(child0Iterators)
+val child1Sorted = IteratorBundle(child1Iterators)
 
+
+return EvalJoinMerge(query,child0Sorted,child1Sorted,projectedVariables)
+//return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
+
+/*
+xxxxx
 
         if (child0BufLen[0].sum() == 0L || child1BufLen[0].sum() == 0L) {
             val outMap = mutableMapOf<String, ColumnIterator>()
@@ -209,6 +217,12 @@ logData(child1Buf,child1BufLen[0].sum() )
             }
             return IteratorBundle(outMap)
         }
+
+
+
+
+
+
         // setup columns
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()
@@ -241,8 +255,8 @@ logData(child1Buf,child1BufLen[0].sum() )
             outIterators.add(Pair(name, 2))
             columnsINO1.add(child1Iterators[name]!!)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:243"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:244"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:257"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
+        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:258"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
@@ -288,5 +302,6 @@ logData(child1Buf,child1BufLen[0].sum() )
             key1[i] = columnsINJ1[i].next()
         }
         return res
+*/
     }
 }
