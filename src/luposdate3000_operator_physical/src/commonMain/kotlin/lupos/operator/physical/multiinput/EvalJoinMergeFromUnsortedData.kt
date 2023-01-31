@@ -18,13 +18,10 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
-import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalJoinMergeFromUnsortedData {
 
@@ -43,15 +40,15 @@ public object EvalJoinMergeFromUnsortedData {
         return 0
     }
     private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, sortOrder: IntArray, len: Long) {
-        quickSort(array, 0L, len-1, sortOrder)
+        quickSort(array, 0L, len - 1, sortOrder)
     }
 
     private fun quickSort(array: Array<MutableList<DictionaryValueTypeArray>>, left: Long, right: Long, sortOrder: IntArray) {
         val index = partition(array, left, right, sortOrder)
-        if (left < index - 1) { 
+        if (left < index - 1) {
             quickSort(array, left, index - 1, sortOrder)
         }
-        if (index < right) { 
+        if (index < right) {
             quickSort(array, index, right, sortOrder)
         }
     }
@@ -59,16 +56,16 @@ public object EvalJoinMergeFromUnsortedData {
     private fun partition(array: Array<MutableList<DictionaryValueTypeArray>>, l: Long, r: Long, sortOrder: IntArray): Long {
         var left = l
         var right = r
-        val pivot = DictionaryValueTypeArray(array.size){
-val i=(left + right) / 2 
-  val a = i / bufferArrayLen
-        val b = i - a * bufferArrayLen
-array[it][a.toInt()][b.toInt()]
-}
+        val pivot = DictionaryValueTypeArray(array.size) {
+            val i = (left + right) / 2
+            val a = i / bufferArrayLen
+            val b = i - a * bufferArrayLen
+            array[it][a.toInt()][b.toInt()]
+        }
 
         while (left <= right) {
-            while (myComparator(array, left, pivot, sortOrder) <0) left++ 
-            while (myComparator(array, right, pivot, sortOrder)> 0) right-- 
+            while (myComparator(array, left, pivot, sortOrder) <0) left++
+            while (myComparator(array, right, pivot, sortOrder)> 0) right--
             if (left <= right) {
                 swapArray(array, left, right)
                 left++
@@ -90,18 +87,18 @@ array[it][a.toInt()][b.toInt()]
         }
     }
 
-internal fun logData(data:Array<MutableList<DictionaryValueTypeArray>>,len:Long){
-println(">>> $len rows >>>")
-for (i in 0 until len+1){
-        val a = i / bufferArrayLen
-        val b = i - a * bufferArrayLen
-        for(c in data){
-print("${c[a.toInt()][b.toInt()]},")
-}
-println(" .... $a $b >> $i")
-}
-println("<<< <<<")
-}
+    internal fun logData(data: Array<MutableList<DictionaryValueTypeArray>>, len: Long) {
+        println(">>> $len rows >>>")
+        for (i in 0 until len + 1) {
+            val a = i / bufferArrayLen
+            val b = i - a * bufferArrayLen
+            for (c in data) {
+                print("${c[a.toInt()][b.toInt()]},")
+            }
+            println(" .... $a $b >> $i")
+        }
+        println("<<< <<<")
+    }
 
     public operator fun invoke(
         query: IQuery,
@@ -117,10 +114,8 @@ println("<<< <<<")
             }
         }
         if (joinColumns.size == 0) {
-TODO("this requires at least one join column")
+            TODO("this requires at least one join column")
         }
-
-
 
         val child0Buf = Array(child0.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
         val child0BufLen = Array(child0.columns.size) { mutableListOf<Long>() }
@@ -140,17 +135,22 @@ TODO("this requires at least one join column")
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
+// val debugCopy= DictionaryValueTypeArray(idx)
+// for(i in 0 until idx){ 
+// debugCopy[i]=d[i]
+// }
+// child0Buf[i][child0Buf[i].size-1]=debugCopy
                     child0BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-println("before sorting :: C0 ${child0BufLen[0].sum()}")
-logData(child0Buf,child0BufLen[0].sum() )
-        quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum() )
-println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
-logData(child0Buf,child0BufLen[0].sum() )
+        println("before sorting :: C0 ${child0BufLen[0].sum()}")
+        logData(child0Buf, child0BufLen[0].sum())
+        quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum())
+        println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
+        logData(child0Buf, child0BufLen[0].sum())
         val child0Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child0Names.size) {
             child0Iterators[child0Names[i]] = ColumnIteratorMultiIterator(child0Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child0BufLen[i][idx].toInt()) })
@@ -158,8 +158,6 @@ logData(child0Buf,child0BufLen[0].sum() )
         for ((k, v) in child0.columns) {
             v.close()
         }
-
-
 
         val child1Buf = Array(child1.columns.size) { mutableListOf<DictionaryValueTypeArray>() }
         val child1BufLen = Array(child1.columns.size) { mutableListOf<Long>() }
@@ -179,17 +177,22 @@ logData(child0Buf,child0BufLen[0].sum() )
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
+// val debugCopy= DictionaryValueTypeArray(idx)
+// for(i in 0 until idx){
+// debugCopy[i]=d[i]
+// }
+// child1Buf[i][child1Buf[i].size-1]=debugCopy
                     child1BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-println("before sorting :: C1 ${child1BufLen[0].sum()}")
-logData(child1Buf,child1BufLen[0].sum() )
-        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[1].sum() )
-println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
-logData(child1Buf,child1BufLen[0].sum() )
+        println("before sorting :: C1 ${child1BufLen[0].sum()}")
+        logData(child1Buf, child1BufLen[0].sum())
+        quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[1].sum())
+        println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
+        logData(child1Buf, child1BufLen[0].sum())
         val child1Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child1Names.size) {
             child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })
@@ -198,14 +201,11 @@ logData(child1Buf,child1BufLen[0].sum() )
             v.close()
         }
 
+        val child0Sorted = IteratorBundle(child0Iterators)
+        val child1Sorted = IteratorBundle(child1Iterators)
 
-
-val child0Sorted = IteratorBundle(child0Iterators)
-val child1Sorted = IteratorBundle(child1Iterators)
-
-
-return EvalJoinMerge(query,child0Sorted,child1Sorted,projectedVariables,joinColumns)
-//return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
+        return EvalJoinMerge(query, child0Sorted, child1Sorted, projectedVariables, joinColumns)
+// return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
 
 /*
 xxxxx

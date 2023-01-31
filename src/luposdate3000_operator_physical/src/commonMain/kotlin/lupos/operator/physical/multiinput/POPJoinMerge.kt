@@ -36,7 +36,7 @@ public class POPJoinMerge public constructor(
     childA: IOPBase,
     childB: IOPBase,
     @JvmField public val optional: Boolean,
-@JvmField public val joinVariableOrder: List<String>,
+    @JvmField public val joinVariableOrder: List<String>,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriorityExt.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -57,9 +57,9 @@ public class POPJoinMerge public constructor(
 
     override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement = super.toXMLElement(partial, partition).addAttribute("optional", "" + optional).addAttribute("joinVariableOrder", joinVariableOrder.joinToString("?"))
-    override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional,joinVariableOrder)
+    override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional, joinVariableOrder)
     override fun equals(other: Any?): Boolean = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMerge(query, children[0].evaluate(parent), children[1].evaluate(parent), projectedVariables,joinVariableOrder,)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalJoinMerge(query, children[0].evaluate(parent), children[1].evaluate(parent), projectedVariables, joinVariableOrder,)
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): POPBase? {
         val tmp1 = (children[0] as POPBase).toLocalOperatorGraph(parent, onFoundLimit, onFoundSort)
         if (tmp1 == null) {
@@ -69,6 +69,6 @@ public class POPJoinMerge public constructor(
         if (tmp2 == null) {
             return null
         }
-        return POPJoinMerge(query, projectedVariables, tmp1, tmp2, optional,joinVariableOrder)
+        return POPJoinMerge(query, projectedVariables, tmp1, tmp2, optional, joinVariableOrder)
     }
 }

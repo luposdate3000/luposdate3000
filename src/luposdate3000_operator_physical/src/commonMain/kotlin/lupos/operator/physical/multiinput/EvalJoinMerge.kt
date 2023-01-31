@@ -42,18 +42,18 @@ public object EvalJoinMerge {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(child1.columns.keys)
-for(name in joinVariableOrder){
-                    columnsINJ0.add( child0.columns[name]!!)
-                    columnsINJ1.add( child1.columns[name]!!)
-if (projectedVariables.contains(name)) {
-                    outIterators.add(Pair(name, 0))
-                }
-}
+        for (name in joinVariableOrder) {
+            columnsINJ0.add(child0.columns[name]!!)
+            columnsINJ1.add(child1.columns[name]!!)
+            if (projectedVariables.contains(name)) {
+                outIterators.add(Pair(name, 0))
+            }
+        }
         for (name in child0.columns.keys) {
             if (tmp.contains(name)) {
-if(!joinVariableOrder.contains(name)){
-TODO("error")
-}
+                if (!joinVariableOrder.contains(name)) {
+                    TODO("error")
+                }
                 tmp.remove(name)
             } else {
                 outIterators.add(Pair(name, 1))
