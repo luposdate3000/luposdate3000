@@ -42,7 +42,7 @@ cat tmp/blacklist1 \
 
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
-timeout2 -t 600 ./gradlew --offline build > x
+timeout 600s ./gradlew --offline build > x
 cp x backupX$i
 pkill java -9
 sleep 5
