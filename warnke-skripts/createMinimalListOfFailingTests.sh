@@ -16,9 +16,9 @@ i=$((i+1))
 
 #blacklisting some random tests -->>
 cat resources/tests/all \
- | grep -v -F -f resources/tests/timeout \
- | grep -v -F -f resources/tests/passed \
- | grep -v -F -f resources/tests/failed  \
+ | grep -w -v -F -f resources/tests/timeout \
+ | grep -w -v -F -f resources/tests/passed \
+ | grep -w -v -F -f resources/tests/failed  \
  > tmp/blacklist1
 truncate -s0 resources/tests/blacklist
 grep -v -F -f tmp/blacklist1 resources/tests/all > resources/tests/blacklist

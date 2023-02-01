@@ -957,7 +957,8 @@ public class Application_Luposdate3000 public constructor(
                                 queryCache.remove(w.queryID)
                             }
 // println()
-                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
+//                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
+//                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
                                 val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first
                                 if (w.expectedResult != null) {
@@ -1028,6 +1029,21 @@ public class Application_Luposdate3000 public constructor(
                                         val res = iter.next()
                                     } while (res != -1)
                                 }
+                                val inputSizes = usedInputs.values.map { ByteArrayWrapperExt.getSize((it as ByteArrayWrapper)) }
+                                val outputSizes = packagesToSent.map { ByteArrayWrapperExt.getSize(it.buffer) }
+
+                                var inputBytes = inputSizes.sum()
+                                var outputBytes = outputSizes.sum()
+
+                                if (inputBytes <outputBytes && usedInputs.size > 0) {
+                                    println()
+                                    println()
+                                    println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
+                                    println("my address: $ownAdress -> targets: ${packagesToSent.map{it.target}}")
+                                    println()
+                                    println()
+                                }
+
                                 for (p in packagesToSent) {
                                     p.sendTheData()
                                 }
@@ -1038,7 +1054,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1040"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1056"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1064,7 +1080,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1066"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1082"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

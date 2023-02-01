@@ -33,6 +33,19 @@ import lupos.triple_store_manager.POPTripleStoreIterator
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+        return optimize(node, parent, null, onChange)
+/*
+return when(node){
+is LOPJoinTopology->{
+//TODO XXX Mein marker hier
+}
+else{
+optimize(node,parent,null,onChange)
+}
+}
+*/
+    }
+    internal fun optimize(node: IOPBase, parent: IOPBase?, parentparent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             when (node) {
