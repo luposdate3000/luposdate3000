@@ -28,7 +28,7 @@ internal class CommunicationHandler_Luposdate3000(val instance: Luposdate3000Ins
     }
 
     override fun openConnection(targetHost: String, path: String, params: Map<String, String>, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {
-        return Pair(InputStreamCrashAll(targetHost.toInt(), path, params), OutputStreamToPackage(queryID, targetHost.toInt(), path, params, router))
+        return Pair(InputStreamCrashAll(targetHost.toInt(), path, params), OutputStreamToPackage(queryID, targetHost.toInt(), path, params, router, true))
     }
 
     override fun openConnection(targetHost: String, header: String, queryID: Int): Pair<IMyInputStream, IMyOutputStream> {

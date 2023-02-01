@@ -24,12 +24,20 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import simora.applications.IApplicationStack_Middleware
 
 // import kotlin.io.println as kotlinprintln
-internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware) : IMyOutputStream {
+internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware, val shouldSendImmediately: Boolean) : IMyOutputStream {
     val buffer = ByteArrayWrapper()
+    var isClosed = false
     override fun flush() {}
+    fun sendTheData() {
+        router.send(target, Package_Luposdate3000_Abstract(queryID, path, params, buffer))
+    }
     override fun close() {
-        if (ByteArrayWrapperExt.getSize(buffer) > 0) {
-            router.send(target, Package_Luposdate3000_Abstract(queryID, path, params, buffer))
+        if (isClosed) {
+            TODO("double close")
+        }
+        isClosed = true
+        if (ByteArrayWrapperExt.getSize(buffer) > 0 && shouldSendImmediately) {
+            sendTheData()
         }
     }
 

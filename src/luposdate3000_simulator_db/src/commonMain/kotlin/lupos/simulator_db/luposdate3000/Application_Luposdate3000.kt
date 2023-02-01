@@ -749,7 +749,9 @@ public class Application_Luposdate3000 public constructor(
         }
     }
 
-    private fun localConvertToIteratorBundle(query2: Query, data2: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>): IteratorBundleRoot {
+    private fun localConvertToIteratorBundle(query2: Query, data2: ByteArrayWrapper, dataID: Int, queryID: Int, destinations: Map<Int, Int>, shouldSendImmediately: Boolean): Triple<IteratorBundleRoot, Map<Pair<Int, Int>, Any>, List<OutputStreamToPackage>> {
+        val usedResources = mutableMapOf<Pair<Int, Int>, Any>()
+        val packagesToSent = mutableListOf<OutputStreamToPackage>()
         val operatorMap2 = ConverterBinaryToIteratorBundle.defaultOperatorMap
         fun assignOP(idx: Int, action: BinaryToOPBaseMap) {
             operatorMap2[idx] = action
@@ -758,13 +760,15 @@ public class Application_Luposdate3000 public constructor(
         assignOP(EOperatorIDExt.POPDistributedSendSingleID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingle.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingle.child" }), operatorMap)
-            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
+            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!, shouldSendImmediately)
+            packagesToSent.add(out)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingle(out, child, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendSingleCountID) { query, data, off, operatorMap ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedSendSingleCount.key" })
             val child = ConverterBinaryToIteratorBundle.decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPDistributedSendSingleCount.child" }), operatorMap)
-            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!)
+            val out = OutputStreamToPackage(queryID, destinations[key]!!, "simulator-intermediate-result", mapOf("key" to "$key", "query" to "$queryID"), router!!, shouldSendImmediately)
+            packagesToSent.add(out)
             EvalDistributedSendWrapper(child, { EvalDistributedSendSingleCount(out, child) })
         }
         assignOP(EOperatorIDExt.POPDistributedSendMultiID) { query, data, off, operatorMap ->
@@ -774,19 +778,20 @@ public class Application_Luposdate3000 public constructor(
             val keys = IntArray(count) { ByteArrayWrapperExt.readInt4(data, off + 16 + 4 * it, { "POPDistributedSendMulti.key[$it]" }) }
             for (key in keys) {
             }
-            val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!) }
+            val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!, shouldSendImmediately) }
+            packagesToSent.addAll(out as Array<OutputStreamToPackage>)
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingle.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-            myPendingWorkData.remove(queryID to key)
+            usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
             EvalDistributedReceiveSingle(input, null, instance.timeout)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleCountID) { _, data, off, _ ->
             val key = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPDistributedReceiveSingleCount.key" })
             val input = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-            myPendingWorkData.remove(queryID to key)
+            usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
             EvalDistributedReceiveSingleCount(input, null)
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveMultiID) { _, data, off, _ ->
@@ -797,7 +802,7 @@ public class Application_Luposdate3000 public constructor(
             }
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-                myPendingWorkData.remove(queryID to key)
+                usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
@@ -828,7 +833,7 @@ public class Application_Luposdate3000 public constructor(
             }
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-                myPendingWorkData.remove(queryID to key)
+                usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
                 input
             }.toTypedArray()
 
@@ -877,7 +882,7 @@ public class Application_Luposdate3000 public constructor(
             }
             val inputs = keys.map { key ->
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-                myPendingWorkData.remove(queryID to key)
+                usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
@@ -906,13 +911,13 @@ public class Application_Luposdate3000 public constructor(
             val inputs = keys.map { key ->
                 //  println("searching for ${queryID to key}, but there is ${myPendingWorkData.keys}")
                 val input: IMyInputStream = MyInputStreamFromByteArray(myPendingWorkData[queryID to key]as ByteArrayWrapper)
-                myPendingWorkData.remove(queryID to key)
+                usedResources[queryID to key] = myPendingWorkData.remove(queryID to key)!!
                 input
             }.toTypedArray()
             val outputs = Array<IMyOutputStream?>(inputs.size) { null }
             EvalDistributedReceiveMultiOrdered(inputs, outputs, orderedBy, variablesOut, instance.timeout)
         }
-        return ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2, true)
+        return Triple(ConverterBinaryToIteratorBundle.decode(query2, data2, dataID, operatorMap2, true), usedResources, packagesToSent)
     }
 
     private fun doWork() {
@@ -954,7 +959,7 @@ public class Application_Luposdate3000 public constructor(
 // println()
                             println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
-                                val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
+                                val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first
                                 if (w.expectedResult != null) {
                                     val buf = MyPrintWriter(false)
                                     var result = (LuposdateEndpoint.evaluateIteratorBundleToResultE(instance, iteratorBundle, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
@@ -1016,12 +1021,15 @@ public class Application_Luposdate3000 public constructor(
                                     }
                                 }
                             } else {
-                                val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations)
+                                val (iteratorBundle, usedInputs, packagesToSent) = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, false)
                                 for (nodes in iteratorBundle.nodes) {
                                     val iter = nodes.second.rows
                                     do {
                                         val res = iter.next()
                                     } while (res != -1)
+                                }
+                                for (p in packagesToSent) {
+                                    p.sendTheData()
                                 }
                             }
                             break
@@ -1030,7 +1038,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1043"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1040"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1056,7 +1064,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1069"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1066"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
