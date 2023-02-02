@@ -779,7 +779,7 @@ public class Application_Luposdate3000 public constructor(
             for (key in keys) {
             }
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!, shouldSendImmediately) }
-            packagesToSent.addAll(out as Array<OutputStreamToPackage>)
+            packagesToSent.addAll(out.map{it as OutputStreamToPackage})
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
